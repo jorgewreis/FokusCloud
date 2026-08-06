@@ -41,7 +41,7 @@
 
   function accountView() {
     const isRegister = state.account === "register";
-    return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div><p>${isRegister ? "O administrador será responsável pela assinatura e pelos acessos da empresa." : "Use os dados da sua empresa para continuar."}</p><form id="account-form">${isRegister ? '<label>Nome da empresa<input required name="company" placeholder="Sua empresa ou cartório"></label><label>Nome do administrador<input required name="name" placeholder="Nome completo"></label>' : ""}<label>E-mail profissional<input required type="email" name="email" placeholder="voce@empresa.com.br"></label><label>Senha<input required type="password" name="password" minlength="6" placeholder="Mínimo de 6 caracteres"></label><button class="btn btn-green">Continuar <span>→</span></button></form><small>Protótipo visual: nenhum dado será salvo nesta etapa.</small></div>`;
+    return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div><p>${isRegister ? "Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você volta para escolher a assinatura." : "Entre com CPF e senha para continuar a assinatura de uma empresa já cadastrada."}</p><div class="review-actions"><a class="btn btn-green" href="/auth/cadastro.html">Cadastrar empresa <span>→</span></a><a class="btn btn-outline" href="/admin">Entrar no painel</a></div><small>O cadastro, a confirmação de e-mail e a sessão são realizados com dados persistidos e protegidos.</small></div>`;
   }
   function selectionView() {
     let options =
@@ -93,7 +93,7 @@
       state.cycle === "annual"
         ? `<p class="review-saving">Desconto total de <b>25%</b></p>`
         : "";
-    return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><button class="btn btn-green" data-confirm>Confirmar interesse <span>→</span></button></div><small class="payment-note">O checkout do Mercado Pago será conectado aqui. Esta confirmação ainda não cria cobrança nem acesso.</small></div>`;
+    return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><a class="btn btn-green" href="/admin/assinaturas">Continuar para checkout <span>→</span></a></div><small class="payment-note">O checkout seguro é criado no painel após a validação da empresa e do e-mail.</small></div>`;
   }
   function bind() {
     root.querySelectorAll("[data-account]").forEach(
@@ -159,10 +159,6 @@
     root.querySelector("[data-back]")?.addEventListener("click", () => {
       state.step = 2;
       render();
-    });
-    root.querySelector("[data-confirm]")?.addEventListener("click", () => {
-      root.querySelector(".review-card").innerHTML =
-        `<p class="eyebrow dark">Pedido registrado</p><h2>Seu pedido está pronto para a próxima etapa.</h2><p>Quando a integração estiver ativa, você seguirá para o checkout seguro do Mercado Pago e o acesso será liberado após a confirmação do pagamento.</p><a class="btn btn-green" href="${catalog.back}">Voltar ao produto <span>→</span></a>`;
     });
   }
   function render() {

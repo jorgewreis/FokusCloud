@@ -5,6 +5,13 @@
 
 # Dependencies and generated files
 node_modules/
+vendor/
+public/hot
+public/storage
+storage/*.key
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
 dist/
 build/
 coverage/

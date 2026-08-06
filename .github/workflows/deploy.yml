@@ -1,4 +1,4 @@
-name: Deploy website to Hostinger
+name: Deploy Fokus Cloud Laravel
 
 "on":
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Publish static site
+    name: Publish Laravel application
     runs-on: ubuntu-latest
     environment: production
     env:
@@ -46,7 +46,7 @@ jobs:
           chmod 600 ~/.ssh/known_hosts
           ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" exit
 
-      - name: Sync website files
+      - name: Sync application source
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
@@ -63,8 +63,19 @@ jobs:
             --exclude '.env' \
             --exclude '.env.*' \
             --exclude 'node_modules/' \
+            --exclude 'vendor/' \
+            --exclude 'storage/' \
             -e "ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p $DEPLOY_PORT" \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+
+      - name: Install and migrate on server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "set -eu; cd '$DEPLOY_PATH'; test -f .env; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader; php artisan migrate --force; php artisan db:seed --class=Database\\Seeders\\DatabaseSeeder --force; php artisan optimize; mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs; chmod -R ug+rwX storage bootstrap/cache"
 
       - name: Purge Cloudflare cache
         if: ${{ env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ZONE_ID != '' }}

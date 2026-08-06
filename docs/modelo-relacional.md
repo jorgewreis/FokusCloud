@@ -1,0 +1,155 @@
+# Modelo relacional multiempresa
+
+## Convenções
+
+Este modelo é a referência para MySQL/Percona Server 8.4 com InnoDB. A conta
+da pessoa é global; dados operacionais, comerciais e de auditoria pertencem a
+uma única empresa.
+
+Todo cadastro usa ID textual, imutável e exclusivo no formato abaixo:
+
+```text
+XXX-ULID_DE_26_CARACTERES
+EMP-01J8K2M3N4P5Q6R7S8T9V0WXYZ
+```
+
+O campo é `CHAR(30) CHARACTER SET ascii COLLATE ascii_bin`, chave primária,
+com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
+
+| Prefixo | Entidade |
+| --- | --- |
+| EMP | Empresa |
+| USR | Usuário global |
+| VNC | Vínculo usuário-empresa |
+| PFL | Perfil |
+| PRD | Produto |
+| PLN | Plano |
+| MOD | Módulo |
+| ASS | Assinatura |
+| ITM | Item contratado |
+| CNV | Convite ou aceite de vínculo |
+| TKN | Token temporário |
+| AUD | Auditoria |
+| SUP | Acesso temporário de suporte |
+
+## Entidades e escopo
+
+### Globais
+
+| Entidade | Chave | Regras |
+| --- | --- | --- |
+| `users` | USR | CPF e e-mail normalizados e únicos; credenciais e status da conta. |
+| `roles` | PFL | Catálogo fixo: `admin`, `gestor`, `usuario`. |
+| `products` | PRD | Catálogo de produtos. |
+| `plans` | PLN | Catálogo imutável por produto. |
+| `modules` | MOD | Catálogo imutável por produto. |
+| `security_tokens` | TKN | Confirmação, recuperação e criação de senha. |
+
+Os aceites legais ficam vinculados à conta global, com versão e data dos
+Termos de Uso e da Política de Privacidade.
+
+### Exclusivas da empresa
+
+Todas as entidades abaixo possuem `company_id NOT NULL`:
+
+| Entidade | Chave | Finalidade |
+| --- | --- | --- |
+| `companies` | EMP | Fronteira de isolamento; CPF/CNPJ e nome imutáveis. |
+| `company_memberships` | VNC | Usuário, empresa, perfil e status do vínculo. |
+| `company_invitations` | CNV | Criação de senha e aceite de vínculo. |
+| `subscriptions` | ASS | Assinatura de empresa por produto. |
+| `subscription_items` | ITM | Snapshot de módulo, quantidade, preço e condições. |
+| `audit_events` | AUD | Histórico estruturado e mascarado. |
+| `support_accesses` | SUP | Acesso temporário e justificado da Fokus. |
+| Cadastros operacionais futuros | Prefixo próprio | Dados de Law, Lead e outros produtos. |
+
+## Relacionamentos e restrições
+
+```text
+users ──< company_memberships >── companies
+roles ────────────────────────────┘
+
+companies ──< subscriptions >── products
+subscriptions ──< subscription_items >── modules
+```
+
+- Um usuário pode possuir vínculos com várias empresas.
+- Uma empresa possui um único vínculo ativo com perfil `admin`.
+- Uma empresa possui no máximo uma assinatura não encerrada por produto.
+- Itens de assinatura são snapshots e não mudam com o catálogo atual.
+- FKs usam `ON DELETE RESTRICT`; nunca há exclusão em cascata automática.
+- Tabelas filhas empresariais possuem chave única auxiliar `(company_id, id)`.
+  FKs compostas `(company_id, parent_id)` garantem que pai e filho pertençam à
+  mesma empresa.
+
+## Pseudo-DDL de referência
+
+```sql
+CREATE TABLE companies (
+  id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+  document_type ENUM('cpf', 'cnpj') NOT NULL,
+  document_number VARCHAR(14) CHARACTER SET ascii NOT NULL,
+  legal_name VARCHAR(255) NOT NULL,
+  status ENUM('pendente', 'ativa', 'suspensa', 'encerrando', 'encerrada') NOT NULL,
+  version INT UNSIGNED NOT NULL DEFAULT 1,
+  created_at DATETIME(6) NOT NULL,
+  created_by VARCHAR(30) CHARACTER SET ascii NULL,
+  updated_at DATETIME(6) NOT NULL,
+  updated_by VARCHAR(30) CHARACTER SET ascii NULL,
+  deleted_at DATETIME(6) NULL,
+  deleted_by VARCHAR(30) CHARACTER SET ascii NULL,
+  UNIQUE KEY uq_company_document (document_type, document_number)
+) ENGINE=InnoDB;
+
+CREATE TABLE company_memberships (
+  id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+  company_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  user_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  role_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  status ENUM('pendente', 'ativo', 'suspenso', 'removido') NOT NULL,
+  version INT UNSIGNED NOT NULL DEFAULT 1,
+  created_at DATETIME(6) NOT NULL,
+  created_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  updated_at DATETIME(6) NOT NULL,
+  updated_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  deleted_at DATETIME(6) NULL,
+  deleted_by VARCHAR(30) CHARACTER SET ascii NULL,
+  UNIQUE KEY uq_membership_company_user (company_id, user_id),
+  UNIQUE KEY uq_membership_company_id (company_id, id),
+  CONSTRAINT fk_membership_company FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE RESTRICT,
+  CONSTRAINT fk_membership_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
+  CONSTRAINT fk_membership_role FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+```
+
+Como MySQL não possui índice parcial nativo, a migration futura deve garantir
+um admin ativo por empresa por coluna gerada ou tabela de controle com chave
+única `company_id`, além da transação de transferência.
+
+```sql
+CREATE TABLE subscriptions (
+  id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+  company_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  product_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  status ENUM('pendente', 'ativa', 'suspensa', 'encerrada') NOT NULL,
+  version INT UNSIGNED NOT NULL DEFAULT 1,
+  created_at DATETIME(6) NOT NULL,
+  created_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  updated_at DATETIME(6) NOT NULL,
+  updated_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  deleted_at DATETIME(6) NULL,
+  deleted_by VARCHAR(30) CHARACTER SET ascii NULL,
+  UNIQUE KEY uq_subscription_company_id (company_id, id),
+  CONSTRAINT fk_subscription_company FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE RESTRICT,
+  CONSTRAINT fk_subscription_product FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+```
+
+A unicidade de assinatura não encerrada por empresa e produto é condicional e
+deve usar a mesma estratégia de unicidade condicional prevista para admin.
+
+## Metadados e concorrência
+
+Todo cadastro empresarial armazena `created_at`, `created_by`, `updated_at`,
+`updated_by`, `deleted_at`, `deleted_by`, `status` e `version`. Atualizações
+exigem a versão atual; conflitos impedem a gravação e exigem revisão.

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Entrar | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/">Fokus<span>Cloud</span></a>
+        <p>ACESSO À PLATAFORMA</p>
+        <h1>Entre na sua conta.</h1>
+        <form id="login-form">
+          <label>CPF<input name="cpf" inputmode="numeric" autocomplete="username" required /></label>
+          <label>Senha<input name="password" type="password" autocomplete="current-password" required /></label>
+          <button class="btn btn-green" type="submit">Entrar <span>→</span></button>
+        </form>
+        <p id="feedback" role="status"></p>
+        <a href="/auth/cadastro.html">Criar empresa e conta de administrador</a>
+      </section>
+    </main>
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      document.querySelector('#login-form').onsubmit = async (event) => {
+        event.preventDefault();
+        const feedback = document.querySelector('#feedback');
+        try {
+          const data = await FokusApi.request('/auth/login', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(event.currentTarget))) });
+          if (!data.user.email_verified) location.href = '/auth/verificar-email.html';
+          else if (data.companies.length > 1) location.href = '/admin/empresas.html';
+          else location.href = '/admin/assinaturas.html';
+        } catch (error) { feedback.textContent = error.message; }
+      };
+    </script>
+  </body>
+</html>
