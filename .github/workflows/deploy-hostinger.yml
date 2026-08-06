@@ -1,6 +1,6 @@
 name: Deploy website to Hostinger
 
-on:
+"on":
   push:
     branches:
       - main
