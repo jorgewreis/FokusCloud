@@ -1,0 +1,23 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated files
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Local editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Credentials and deployment keys
+*.pem
+*.key
+id_ed25519
+id_rsa
