@@ -44,7 +44,7 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" exit
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" exit
 
       - name: Sync website files
         env:
@@ -55,7 +55,7 @@ jobs:
         run: |
           test -n "$DEPLOY_USER"
           test -n "$DEPLOY_PATH"
-          ssh -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$DEPLOY_PATH'"
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$DEPLOY_PATH'"
           rsync -rlDzvc --delete-delay \
             --exclude '.git/' \
             --exclude '.github/' \
@@ -63,7 +63,7 @@ jobs:
             --exclude '.env' \
             --exclude '.env.*' \
             --exclude 'node_modules/' \
-            -e "ssh -p $DEPLOY_PORT" \
+            -e "ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p $DEPLOY_PORT" \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
 
       - name: Purge Cloudflare cache
