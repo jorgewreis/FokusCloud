@@ -20,7 +20,7 @@
           <button class="btn btn-green" type="submit">Entrar <span>→</span></button>
         </form>
         <p id="feedback" role="status"></p>
-        <a href="/auth/cadastro.html">Criar empresa e conta de administrador</a>
+        <a href="/cadastro">Criar empresa e conta de administrador</a>
       </section>
     </main>
     <script src="/assets/js/api-client.js"></script>
@@ -30,9 +30,9 @@
         const feedback = document.querySelector('#feedback');
         try {
           const data = await FokusApi.request('/auth/login', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(event.currentTarget))) });
-          if (!data.user.email_verified) location.href = '/auth/verificar-email.html';
-          else if (data.companies.length > 1) location.href = '/admin/empresas.html';
-          else location.href = '/admin/assinaturas.html';
+          if (!data.user.email_verified) location.href = '/verificar-email';
+          else if (data.companies.length > 1) location.href = '/admin/empresas';
+          else location.href = '/admin/assinaturas';
         } catch (error) { feedback.textContent = error.message; }
       };
     </script>

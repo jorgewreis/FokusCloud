@@ -41,7 +41,7 @@
 
   function accountView() {
     const isRegister = state.account === "register";
-    return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div><p>${isRegister ? "Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você volta para escolher a assinatura." : "Entre com CPF e senha para continuar a assinatura de uma empresa já cadastrada."}</p><div class="review-actions"><a class="btn btn-green" href="/auth/cadastro.html">Cadastrar empresa <span>→</span></a><a class="btn btn-outline" href="/admin">Entrar no painel</a></div><small>O cadastro, a confirmação de e-mail e a sessão são realizados com dados persistidos e protegidos.</small></div>`;
+    return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div><p>${isRegister ? "Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você volta para escolher a assinatura." : "Entre com CPF e senha para continuar a assinatura de uma empresa já cadastrada."}</p><div class="review-actions"><a class="btn btn-green" href="/cadastro">Cadastrar empresa <span>→</span></a><a class="btn btn-outline" href="/admin">Entrar no painel</a></div><small>O cadastro, a confirmação de e-mail e a sessão são realizados com dados persistidos e protegidos.</small></div>`;
   }
   function selectionView() {
     let options =
