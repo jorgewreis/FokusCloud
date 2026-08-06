@@ -1,0 +1,70 @@
+/* BADGES */
+.badge {
+    /* size */
+    width: fit-content;
+    height: 22px;
+
+    /* space */
+    padding: 0 0.5rem;
+
+    /* flex custom */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    /* theme */
+    border-radius: var(--border-radius-200);
+}
+
+.badge-navy {
+    /* theme */
+    background-color: var(--color-white-900);
+    color: var(--color-white-400);
+}
+
+    .badge-text {
+        /* font */
+        font-family: var(--font-badge);
+        font-style: normal;
+        font-size: 10px;
+        font-weight: 400;
+        text-transform: lowercase;
+    }
+
+/* BUTTONS */
+.btn {
+    /* size */
+    width: fit-content;
+    height: 40px;
+
+    /* space */
+    padding: 0 1rem;
+
+    /* flex custom */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+
+    /* theme */
+    background-color: var(--color-white-900);
+    border-radius: var(--border-radius-200);
+
+    /* font */
+    font-family: var(--font-text);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-white-400);
+
+    /* movie */
+    transition: background 0.4s ease-in-out;
+}
+    .btn:hover {
+        /* theme */
+        background-color: var(--color-white-800);
+            
+        /* movie */
+        transition: background 0.2s ease-in-out;
+    }
