@@ -60,7 +60,7 @@ class CompanyUserController extends Controller
                 'id' => PrefixedUlid::make('CNV'), 'company_id' => $companyId, 'membership_id' => $id,
                 'created_by' => $actor->id, 'expires_at' => now()->addDay(), 'created_at' => now(), 'updated_at' => now(),
             ]);
-            $auth->sendToken($user, $existing ? 'membership_acceptance' : 'password_creation', $existing ? '/auth/aceitar-vinculo.html' : '/auth/criar-senha.html', ['membership_id' => $id]);
+            $auth->sendToken($user, $existing ? 'membership_acceptance' : 'password_creation', $existing ? '/aceitar-vinculo' : '/criar-senha', ['membership_id' => $id]);
             return $id;
         });
         return response()->json(['message' => 'Convite enviado para o e-mail informado.', 'membership_id' => $membership], 201);
@@ -101,7 +101,7 @@ class CompanyUserController extends Controller
             ->whereNotNull('users.email_verified_at')->select('membership.*', 'users.email', 'users.id as user_id')->first();
         abort_unless($target, 422, 'O novo administrador deve estar ativo, vinculado e ter e-mail confirmado.');
         abort_if($target->active_admin_company_id, 422, 'Esta pessoa já é administradora.');
-        $auth->sendToken(User::findOrFail($target->user_id), 'admin_transfer', '/auth/aceitar-transferencia.html', [
+        $auth->sendToken(User::findOrFail($target->user_id), 'admin_transfer', '/aceitar-transferencia', [
             'company_id' => $companyId, 'from_membership_id' => $request->attributes->get('active_membership')->id,
             'to_membership_id' => $target->id, 'keep_previous_access' => $data['keep_previous_access'],
         ]);

@@ -1,1 +1,42 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Confirmar e-mail | Fokus Cloud</title><link rel="stylesheet" href="/src/assets/css/reset.css"><link rel="stylesheet" href="/src/assets/css/style.css"><link rel="stylesheet" href="/src/assets/css/subscription.css"></head><body class="subscription-page"><main class="checkout-wrap"><section class="auth-card"><a class="brand" href="/">Fokus<span>Cloud</span></a><p>CONFIRMAÇÃO DE E-MAIL</p><h1>Confirme seu e-mail.</h1><p id="message">Enviamos um link de confirmação. Abra sua caixa de entrada para continuar.</p><button id="resend" class="btn btn-outline" type="button">Reenviar link</button></section></main><script src="/assets/js/api-client.js"></script><script>const token=new URLSearchParams(location.search).get('token'),message=document.querySelector('#message');if(token)FokusApi.request('/auth/verify-email',{method:'POST',body:JSON.stringify({token})}).then(()=>{message.textContent='E-mail confirmado. Você já pode escolher sua assinatura.'}).catch(e=>message.textContent=e.message);document.querySelector('#resend').onclick=()=>FokusApi.request('/auth/resend-verification',{method:'POST'}).then(()=>message.textContent='Novo link enviado.').catch(e=>message.textContent=e.message);</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Confirmar e-mail | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/">Fokus<span>Cloud</span></a>
+        <p>CONFIRMAÇÃO DE E-MAIL</p>
+        <h1>Confirme seu e-mail.</h1>
+        <p id="message">Enviamos um link de confirmação. Abra sua caixa de entrada para continuar.</p>
+        <button id="resend" class="btn btn-outline" type="button">Reenviar link</button>
+      </section>
+    </main>
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      const token = new URLSearchParams(location.search).get('token');
+      const message = document.querySelector('#message');
+      const resend = document.querySelector('#resend');
+
+      if (token) {
+        FokusApi.request('/auth/verify-email', { method: 'POST', body: { token } })
+          .then(() => {
+            message.textContent = 'E-mail confirmado. Redirecionando para a assinatura...';
+            resend.hidden = true;
+            setTimeout(() => { location.href = '/admin/assinaturas'; }, 900);
+          })
+          .catch((error) => { message.textContent = error.message; });
+      }
+
+      resend.onclick = () => FokusApi.request('/auth/resend-verification', { method: 'POST' })
+        .then(() => { message.textContent = 'Novo link enviado.'; })
+        .catch((error) => { message.textContent = error.message; });
+    </script>
+  </body>
+</html>

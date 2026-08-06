@@ -69,7 +69,7 @@ class AuthController extends Controller
             return [$user, $companyId];
         });
 
-        $this->sendToken($user, 'email_verification', '/auth/verificar-email.html');
+        $this->sendToken($user, 'email_verification', '/verificar-email');
         Auth::login($user);
         $request->session()->regenerate();
         $request->session()->put('active_company_id', $company);
@@ -120,12 +120,16 @@ class AuthController extends Controller
         $user = User::findOrFail($token->user_id);
         $user->forceFill(['email_verified_at' => now(), 'status' => 'ativa'])->save();
         DB::table('companies')->where('created_by', $user->id)->where('status', 'pendente')->update(['status' => 'ativa', 'updated_at' => now()]);
+        Auth::login($user);
+        $request->session()->regenerate();
+        $companyId = DB::table('company_memberships')->where('user_id', $user->id)->where('status', 'ativo')->value('company_id');
+        if ($companyId) $request->session()->put('active_company_id', $companyId);
         return response()->json(['message' => 'E-mail confirmado com sucesso.']);
     }
 
     public function resendVerification(Request $request)
     {
-        $this->sendToken($request->user(), 'email_verification', '/auth/verificar-email.html');
+        $this->sendToken($request->user(), 'email_verification', '/verificar-email');
         return response()->json(['message' => 'Enviamos um novo link de confirmação.']);
     }
 
@@ -134,7 +138,7 @@ class AuthController extends Controller
         $data = $request->validate(['cpf' => ['required', 'string']]);
         $user = User::where('cpf', preg_replace('/\D/', '', $data['cpf']))->first();
         if ($user && $user->email_verified_at) {
-            $this->sendToken($user, 'password_reset', '/auth/criar-senha.html');
+            $this->sendToken($user, 'password_reset', '/criar-senha');
         }
         // Do not reveal whether a CPF exists.
         return response()->json(['message' => 'Se houver uma conta elegível, enviamos as instruções para o e-mail confirmado.']);
