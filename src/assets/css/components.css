@@ -97,6 +97,17 @@
   transition: background 0.2s ease-in-out;
 }
 
+.btn-white {
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-white-000);
+  color: var(--navy);
+}
+
+.btn-white:hover {
+  background-color: var(--color-gray-100);
+}
+
 .btn-outline {
   border: 2px solid #ffffff70;
   color: #fff;

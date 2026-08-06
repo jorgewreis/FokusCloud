@@ -2,6 +2,31 @@
   background: #eff8f3;
   min-height: 100vh;
 }
+@media (max-width: 600px) {
+  .subscription-page .site-header {
+    justify-content: center;
+  }
+  .subscription-page .site-header nav,
+  .subscription-page .site-header .header-actions {
+    display: none;
+  }
+  .subscription-page footer {
+    justify-content: center;
+  }
+  .subscription-page footer > p,
+  .subscription-page footer > .footer-email {
+    display: none;
+  }
+}
+@media (min-width: 601px) and (max-width: 999px) {
+  .subscription-page .site-header nav {
+    display: flex;
+  }
+  .subscription-page .site-header .header-actions,
+  .subscription-page footer > .footer-email {
+    display: none;
+  }
+}
 .checkout-wrap {
   max-width: 1100px;
   margin: 0 auto;
