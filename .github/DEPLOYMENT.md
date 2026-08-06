@@ -1,6 +1,6 @@
 # Deploy de produção
 
-O workflow `deploy-hostinger.yml` publica o site estático quando há um push na
+O workflow `deploy.yml` publica o site estático quando há um push na
 branch `main` ou quando é executado manualmente pela aba **Actions**.
 
 Configure os secrets no ambiente GitHub `production`:
