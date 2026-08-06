@@ -134,15 +134,62 @@
   font-weight: bold;
   color: #557069;
 }
-.auth-card input {
+.auth-card input:not([type="checkbox"]),
+.auth-card select {
   display: block;
   width: 100%;
   margin-top: 6px;
   border: 1px solid #cce0d5;
   border-radius: 6px;
   padding: 11px;
+  background-color: #fff;
   color: var(--ink);
   font: 14px var(--font);
+}
+.auth-card select {
+  appearance: none;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, #557069 50%), linear-gradient(135deg, #557069 50%, transparent 50%);
+  background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 38px;
+}
+.auth-card input:not([type="checkbox"]):focus,
+.auth-card select:focus {
+  outline: 0;
+  border-color: #138752;
+  box-shadow: 0 0 0 3px rgba(19, 135, 82, 0.14);
+}
+.auth-card input[aria-invalid="true"] {
+  border-color: #c73838;
+}
+.auth-card .field-error {
+  display: none;
+  margin-top: 5px;
+  color: #b42318;
+  font-size: 11px;
+  font-weight: 600;
+}
+.auth-card .field-error.is-visible {
+  display: block;
+}
+.auth-card .consent-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: #557069;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.auth-card .consent-field input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  margin: 1px 0 0;
+  accent-color: #138752;
 }
 .auth-card small,
 .payment-note {

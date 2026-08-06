@@ -1,3 +1,144 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Criar empresa | Fokus Cloud</title><link rel="stylesheet" href="/src/assets/css/reset.css"><link rel="stylesheet" href="/src/assets/css/style.css"><link rel="stylesheet" href="/src/assets/css/subscription.css"></head>
-<body class="subscription-page"><main class="checkout-wrap"><section class="auth-card"><a class="brand" href="/">Fokus<span>Cloud</span></a><p>CADASTRO INICIAL</p><h1>Crie sua empresa.</h1><form id="register-form"><label>Tipo de documento<select name="document_type" id="document-type"><option value="cnpj">CNPJ</option><option value="cpf">CPF</option></select></label><label>CPF ou CNPJ<input name="document_number" inputmode="numeric" required></label><label id="company-name-label">Razão social<input name="legal_name" required></label><label>Nome completo do administrador<input name="name" required></label><label>CPF do administrador<input name="cpf" inputmode="numeric" required></label><label>E-mail profissional<input name="email" type="email" required></label><label>Senha<input name="password" type="password" minlength="12" required></label><label><input type="checkbox" name="terms" required> Li e aceito os Termos de Uso.</label><label><input type="checkbox" name="privacy" required> Li e aceito a Política de Privacidade.</label><button class="btn btn-green" type="submit">Criar conta <span>→</span></button></form><p id="feedback" role="status"></p></section></main><script src="/assets/js/api-client.js"></script><script>const type=document.querySelector('#document-type'), label=document.querySelector('#company-name-label');type.onchange=()=>label.firstChild.textContent=type.value==='cpf'?'Nome completo':'Razão social';document.querySelector('#register-form').onsubmit=async e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.currentTarget));try{await FokusApi.request('/auth/register-company',{method:'POST',body:JSON.stringify({...v,terms_version:'1.0',privacy_version:'1.0'})});location.href='/verificar-email'}catch(err){document.querySelector('#feedback').textContent=err.message}};</script></body></html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Criar empresa | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css?v=9e3c7ad1" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/">Fokus<span>Cloud</span></a>
+        <p>CADASTRO INICIAL</p>
+        <h1>Crie sua empresa.</h1>
+        <form id="register-form">
+          <label>
+            Tipo de documento
+            <select name="document_type" id="document-type">
+              <option value="cnpj">CNPJ</option>
+              <option value="cpf">CPF</option>
+            </select>
+          </label>
+          <label>
+            CPF ou CNPJ
+            <input id="company-document" name="document_number" inputmode="numeric" required aria-describedby="company-document-error" />
+            <span id="company-document-error" class="field-error" role="alert"></span>
+          </label>
+          <label id="company-name-label">
+            Razão social
+            <input name="legal_name" required />
+          </label>
+          <label>
+            Nome completo do administrador
+            <input name="name" required />
+          </label>
+          <label>
+            CPF do administrador
+            <input id="admin-cpf" name="cpf" inputmode="numeric" required aria-describedby="admin-cpf-error" />
+            <span id="admin-cpf-error" class="field-error" role="alert"></span>
+          </label>
+          <label>
+            E-mail profissional
+            <input name="email" type="email" required />
+          </label>
+          <label>
+            Senha
+            <input name="password" type="password" minlength="12" required />
+          </label>
+          <label class="consent-field">
+            <input type="checkbox" name="terms" required />
+            <span>Li e aceito os Termos de Uso.</span>
+          </label>
+          <label class="consent-field">
+            <input type="checkbox" name="privacy" required />
+            <span>Li e aceito a Política de Privacidade.</span>
+          </label>
+          <button class="btn btn-green" type="submit">Criar conta <span>→</span></button>
+        </form>
+        <p id="feedback" role="status"></p>
+      </section>
+    </main>
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      const type = document.querySelector('#document-type');
+      const companyNameLabel = document.querySelector('#company-name-label');
+      const companyDocument = document.querySelector('#company-document');
+      const adminCpf = document.querySelector('#admin-cpf');
+      const form = document.querySelector('#register-form');
+      const feedback = document.querySelector('#feedback');
+
+      const digits = (value) => value.replace(/\D/g, '');
+      const repeatedDigits = (value) => /^(\d)\1+$/.test(value);
+      const validCpf = (value) => {
+        const cpf = digits(value);
+        if (cpf.length !== 11 || repeatedDigits(cpf)) return false;
+        const digit = (length) => {
+          const sum = cpf.slice(0, length).split('').reduce((total, number, index) => total + Number(number) * (length + 1 - index), 0);
+          const remainder = (sum * 10) % 11;
+          return remainder === 10 ? 0 : remainder;
+        };
+        return digit(9) === Number(cpf[9]) && digit(10) === Number(cpf[10]);
+      };
+      const validCnpj = (value) => {
+        const cnpj = digits(value);
+        if (cnpj.length !== 14 || repeatedDigits(cnpj)) return false;
+        const digit = (length) => {
+          let factor = length === 12 ? 5 : 6;
+          const sum = cnpj.slice(0, length).split('').reduce((total, number) => {
+            const result = total + Number(number) * factor;
+            factor = factor === 2 ? 9 : factor - 1;
+            return result;
+          }, 0);
+          const remainder = sum % 11;
+          return remainder < 2 ? 0 : 11 - remainder;
+        };
+        return digit(12) === Number(cnpj[12]) && digit(13) === Number(cnpj[13]);
+      };
+      const validateDocument = (input, documentType, errorId) => {
+        const error = document.querySelector(errorId);
+        const value = digits(input.value);
+        const valid = documentType === 'cnpj' ? validCnpj(value) : validCpf(value);
+        if (!value || valid) {
+          input.value = value;
+          input.removeAttribute('aria-invalid');
+          error.textContent = '';
+          error.classList.remove('is-visible');
+          return true;
+        }
+        input.value = '';
+        input.setAttribute('aria-invalid', 'true');
+        error.textContent = `${documentType.toUpperCase()} inválido. Confira os dígitos e informe novamente.`;
+        error.classList.add('is-visible');
+        return false;
+      };
+
+      type.onchange = () => {
+        companyNameLabel.firstChild.textContent = type.value === 'cpf' ? 'Nome completo' : 'Razão social';
+        companyDocument.value = '';
+        companyDocument.removeAttribute('aria-invalid');
+        document.querySelector('#company-document-error').classList.remove('is-visible');
+      };
+      companyDocument.onblur = () => validateDocument(companyDocument, type.value, '#company-document-error');
+      adminCpf.onblur = () => validateDocument(adminCpf, 'cpf', '#admin-cpf-error');
+      form.onsubmit = async (event) => {
+        event.preventDefault();
+        const companyValid = validateDocument(companyDocument, type.value, '#company-document-error');
+        const cpfValid = validateDocument(adminCpf, 'cpf', '#admin-cpf-error');
+        if (!companyValid || !cpfValid) return;
+        const values = Object.fromEntries(new FormData(event.currentTarget));
+        try {
+          await FokusApi.request('/auth/register-company', {
+            method: 'POST',
+            body: { ...values, terms_version: '1.0', privacy_version: '1.0' },
+          });
+          location.href = '/verificar-email';
+        } catch (error) {
+          feedback.textContent = error.message;
+        }
+      };
+    </script>
+  </body>
+</html>
