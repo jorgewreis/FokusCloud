@@ -13,6 +13,7 @@ Route::prefix('api')->group(base_path('routes/api.php'));
 Route::get('/api/csrf-token', fn () => response()->json(['token' => csrf_token()]));
 
 Route::get('/admin', fn () => response()->file(public_path('admin/index.html')));
+Route::get('/admin/painel', fn () => response()->file(public_path('admin/painel.html')));
 Route::get('/cadastro', fn () => response()->file(public_path('auth/cadastro.html')));
 Route::get('/verificar-email', fn () => response()->file(public_path('auth/verificar-email.html')));
 Route::get('/criar-senha', fn () => response()->file(public_path('auth/criar-senha.html')));

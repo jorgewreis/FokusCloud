@@ -29,7 +29,7 @@
           .then(() => {
             message.textContent = 'E-mail confirmado. Redirecionando para a assinatura...';
             resend.hidden = true;
-            setTimeout(() => { location.href = '/admin/assinaturas'; }, 900);
+            setTimeout(() => { location.href = '/admin/painel'; }, 900);
           })
           .catch((error) => { message.textContent = error.message; });
       }

@@ -89,7 +89,9 @@ class AuthController extends Controller
         $user->forceFill(['failed_login_attempts' => 0, 'login_attempt_window_started_at' => null, 'locked_until' => null])->save();
         Auth::login($user);
         $request->session()->regenerate();
-        return response()->json(['user' => $this->userPayload($user), 'companies' => $this->companiesFor($user)]);
+        $companies = $this->companiesFor($user);
+        if (count($companies) === 1) $request->session()->put('active_company_id', $companies[0]->id);
+        return response()->json(['user' => $this->userPayload($user), 'companies' => $companies]);
     }
 
     public function logout(Request $request)

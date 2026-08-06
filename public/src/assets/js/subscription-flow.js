@@ -41,7 +41,10 @@
 
   function accountView() {
     const isRegister = state.account === "register";
-    return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div><p>${isRegister ? "Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você volta para escolher a assinatura." : "Entre com CPF e senha para continuar a assinatura de uma empresa já cadastrada."}</p><div class="review-actions"><a class="btn btn-green" href="/cadastro">Cadastrar empresa <span>→</span></a><a class="btn btn-outline" href="/admin">Entrar no painel</a></div><small>O cadastro, a confirmação de e-mail e a sessão são realizados com dados persistidos e protegidos.</small></div>`;
+    const content = isRegister
+      ? `<p>Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você volta para escolher a assinatura.</p><div class="review-actions"><a class="btn btn-green" href="/cadastro">Cadastrar empresa <span>→</span></a><a class="btn btn-outline" href="/admin">Ir para o painel</a></div><small>O cadastro, a confirmação de e-mail e a sessão são realizados com dados persistidos e protegidos.</small>`
+      : `<p>Entre com CPF e senha para assinar este produto usando uma empresa já cadastrada.</p><form id="subscription-login-form"><label>CPF<input name="cpf" inputmode="numeric" autocomplete="username" required></label><label>Senha<input name="password" type="password" autocomplete="current-password" required></label><button class="btn btn-green" type="submit">Entrar e continuar <span>→</span></button></form><p id="account-feedback" role="status"></p><small>Se sua conta possuir mais de uma empresa, você escolherá qual delas será usada antes de continuar.</small>`;
+    return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div>${content}</div>`;
   }
   function selectionView() {
     let options =
@@ -109,6 +112,28 @@
         event.preventDefault();
         state.step = 2;
         render();
+      };
+    const loginForm = root.querySelector("#subscription-login-form");
+    if (loginForm)
+      loginForm.onsubmit = async (event) => {
+        event.preventDefault();
+        const feedback = root.querySelector("#account-feedback");
+        try {
+          const data = await FokusApi.request("/auth/login", {
+            method: "POST",
+            body: Object.fromEntries(new FormData(event.currentTarget)),
+          });
+          if (!data.user.email_verified) {
+            location.href = "/verificar-email";
+          } else if (data.companies.length > 1) {
+            location.href = "/admin/empresas";
+          } else {
+            state.step = 2;
+            render();
+          }
+        } catch (error) {
+          feedback.textContent = error.message;
+        }
       };
     root.querySelectorAll("[data-mode]").forEach(
       (button) =>
