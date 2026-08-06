@@ -63,6 +63,7 @@ return new class extends Migration {
             $table->char('created_by', 30)->charset('ascii');
             $table->char('updated_by', 30)->charset('ascii');
             $table->timestamps();
+            $table->unique(['company_id', 'id']);
             $table->foreign('company_id')->references('id')->on('companies')->restrictOnDelete();
             $table->foreign('product_id')->references('id')->on('products')->restrictOnDelete();
         });
