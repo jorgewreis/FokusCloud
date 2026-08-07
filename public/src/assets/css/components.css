@@ -120,7 +120,8 @@
 }
 
 .btn-header-admin,
-.btn-header-backoffice {
+.btn-header-backoffice,
+.btn-header-account {
   padding: 0 11px;
   background: transparent;
   border: 1px solid #ffffff42;
@@ -132,25 +133,49 @@
 }
 
 .btn-header-admin:hover,
-.btn-header-backoffice:hover {
+.btn-header-backoffice:hover,
+.btn-header-account:hover {
   background: transparent;
   border-color: var(--green);
   color: var(--green);
 }
 
-.header-user {
-  display: inline-flex;
-  align-items: center;
-  height: 32px;
-  padding: 0 28px 0 11px;
+.header-account-menu { position: relative; }
+
+.btn-header-account { display: inline-flex; align-items: center; gap: 7px; }
+
+.header-account-options {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 152px;
+  padding: 6px;
   border: 1px solid #ffffff42;
-  border-radius: 5px;
+  border-radius: 7px;
+  background: #153a2a;
+  box-shadow: 0 12px 24px #001c1059;
+}
+
+.header-account-options a,
+.header-account-options button {
+  display: block;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 4px;
   background: transparent;
   color: #d7e8f1;
-  font-family: var(--font);
-  font-size: 11px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
   font-weight: 700;
-  white-space: nowrap;
+  text-align: left;
+  text-decoration: none;
+}
+
+.header-account-options a:hover,
+.header-account-options button:hover { background: #24553f; color: #fff; }
 }
 
 .btn-header-cta {
@@ -176,7 +201,7 @@
   .btn-header-admin,
   .btn-header-backoffice,
   .btn-header-cta,
-  .header-user {
+  .header-account-menu {
     display: none;
   }
 }

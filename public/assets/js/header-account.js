@@ -24,14 +24,10 @@
           button.style.display = name ? "none" : "";
         });
         userMenus.forEach((menu) => {
-          menu.replaceChildren(
-            new Option(name || "Conta", ""),
-            new Option("Meu painel", "/portal"),
-            new Option("Sair", "logout"),
-          );
-          menu.selectedIndex = 0;
+          const label = menu.querySelector("[data-header-user-name]");
+          if (label) label.textContent = name || "Conta";
           menu.hidden = !name;
-          menu.style.display = name ? "inline-flex" : "none";
+          menu.style.display = name ? "block" : "none";
         });
         contactButtons.forEach((button) => {
           button.hidden = Boolean(name);
@@ -42,12 +38,20 @@
   };
 
   userMenus.forEach((menu) => {
-    menu.onchange = async () => {
-      const action = menu.value;
-      menu.selectedIndex = 0;
-      if (action === "/portal") return window.location.assign(action);
-      if (action !== "logout") return;
-      menu.disabled = true;
+    const toggle = menu.querySelector("[data-header-user-toggle]");
+    const options = menu.querySelector("[data-header-user-options]");
+    const logout = menu.querySelector("[data-header-user-logout]");
+    toggle?.addEventListener("click", () => {
+      const open = options?.hidden;
+      userMenus.forEach((other) => {
+        const otherOptions = other.querySelector("[data-header-user-options]");
+        if (otherOptions) otherOptions.hidden = true;
+      });
+      if (options) options.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(Boolean(open)));
+    });
+    logout?.addEventListener("click", async () => {
+      logout.disabled = true;
       try {
         const csrfResponse = await fetch("/api/csrf-token", { credentials: "same-origin" });
         const { token } = await csrfResponse.json();
@@ -55,9 +59,19 @@
         if (!response.ok) throw new Error("Não foi possível encerrar a sessão.");
         window.location.assign("/");
       } catch (_) {
-        menu.disabled = false;
+        logout.disabled = false;
       }
-    };
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest("[data-header-user]")) return;
+    userMenus.forEach((menu) => {
+      const options = menu.querySelector("[data-header-user-options]");
+      const toggle = menu.querySelector("[data-header-user-toggle]");
+      if (options) options.hidden = true;
+      toggle?.setAttribute("aria-expanded", "false");
+    });
   });
 
   adminButtons.forEach((button) => {
