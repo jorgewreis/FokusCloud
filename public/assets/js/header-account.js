@@ -58,4 +58,5 @@
 
   syncAccount();
   window.addEventListener("pageshow", syncAccount);
+  window.addEventListener("focus", syncAccount);
 })();

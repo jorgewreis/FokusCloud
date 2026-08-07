@@ -77,7 +77,7 @@
     const isRegister = state.account === "register";
     const content = isRegister
       ? `<p>Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você retorna para concluir esta assinatura.</p><form id="subscription-register-form"><label>Tipo de documento<select name="document_type" id="subscription-document-type"><option value="cnpj">CNPJ</option><option value="cpf">CPF</option></select></label><label>CPF ou CNPJ<input name="document_number" id="subscription-company-document" inputmode="numeric" required><span class="field-error" id="subscription-company-document-error" role="alert"></span></label><label><span id="subscription-company-name-label">Razão social</span><input name="legal_name" required></label><label>Nome completo do administrador<input name="name" autocomplete="name" required></label><label>CPF do administrador<input name="cpf" id="subscription-admin-cpf" inputmode="numeric" autocomplete="username" required><span class="field-error" id="subscription-admin-cpf-error" role="alert"></span></label><label>E-mail profissional<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="password" type="password" autocomplete="new-password" minlength="12" required></label><label class="consent-field"><input type="checkbox" name="terms" required><span>Li e aceito os Termos de Uso.</span></label><label class="consent-field"><input type="checkbox" name="privacy" required><span>Li e aceito a Política de Privacidade.</span></label><button class="btn btn-green" type="submit">Criar conta e continuar <span>→</span></button></form><p id="account-feedback" role="status"></p><small>Já tem conta? Use a aba <b>Entrar</b> para continuar com uma empresa existente.</small>`
-      : `<p>Entre com CPF e senha para assinar este produto usando uma empresa já cadastrada.</p><form id="subscription-login-form"><label>CPF<input name="cpf" inputmode="numeric" autocomplete="username" required></label><label>Senha<input name="password" type="password" autocomplete="current-password" required></label><button class="btn btn-green" type="submit">Entrar e continuar <span>→</span></button></form><p id="account-feedback" role="status"></p><small>Se sua conta possuir mais de uma empresa, você escolherá qual delas será usada antes de continuar.</small>`;
+      : `<p>Entre com CPF e senha para assinar este produto usando uma empresa já cadastrada.</p><form id="subscription-login-form"><label>CPF<input id="subscription-login-cpf" name="cpf" inputmode="numeric" autocomplete="username" required><span class="field-error" id="subscription-login-cpf-error" role="alert"></span></label><label>Senha<input name="password" type="password" autocomplete="current-password" required></label><button class="btn btn-green" type="submit">Entrar e continuar <span>→</span></button></form><p id="account-feedback" role="status"></p><small>Se sua conta possuir mais de uma empresa, você escolherá qual delas será usada antes de continuar.</small>`;
     return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div>${content}</div>`;
   }
   function selectionView() {
@@ -197,10 +197,31 @@
       };
     }
     const loginForm = root.querySelector("#subscription-login-form");
-    if (loginForm)
+    if (loginForm) {
+      const loginCpf = root.querySelector("#subscription-login-cpf");
+      const loginCpfError = root.querySelector("#subscription-login-cpf-error");
+      const validateLoginCpf = () => {
+        const value = digits(loginCpf.value);
+        if (validCpf(value)) {
+          loginCpf.value = value;
+          loginCpf.removeAttribute("aria-invalid");
+          loginCpfError.textContent = "";
+          loginCpfError.classList.remove("is-visible");
+          return true;
+        }
+        loginCpf.value = "";
+        loginCpf.setAttribute("aria-invalid", "true");
+        loginCpfError.textContent = "CPF inválido. Confira os dígitos e informe novamente.";
+        loginCpfError.classList.add("is-visible");
+        return false;
+      };
+      loginCpf.onblur = () => {
+        if (loginCpf.value.trim()) validateLoginCpf();
+      };
       loginForm.onsubmit = async (event) => {
         event.preventDefault();
         const feedback = root.querySelector("#account-feedback");
+        if (!validateLoginCpf()) return;
         try {
           const data = await FokusApi.request("/auth/login", {
             method: "POST",
@@ -220,6 +241,7 @@
           feedback.textContent = error.message;
         }
       };
+    }
     root.querySelectorAll("[data-mode]").forEach(
       (button) =>
         (button.onclick = () => {
