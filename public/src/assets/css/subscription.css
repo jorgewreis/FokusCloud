@@ -150,7 +150,7 @@
 .login-actions {
   display: flex;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 20px;
 }
 
 .login-actions .btn {

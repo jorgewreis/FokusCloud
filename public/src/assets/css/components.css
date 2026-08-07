@@ -194,6 +194,8 @@ textarea {
   margin-bottom: 26px;
 }
 
+.auth-card .card-heading { margin-top: 50px; }
+
 .card-heading .card-description { margin-top: 3px; }
 
 .auth-card .card-title {
