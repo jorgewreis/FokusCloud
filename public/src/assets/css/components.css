@@ -198,7 +198,7 @@ textarea {
 
 .form-field {
   display: grid;
-  gap: 8px;
+  gap: 2px;
 }
 
 .form-field > .form-label {
