@@ -63,4 +63,5 @@
   syncAccount();
   window.addEventListener("pageshow", syncAccount);
   window.addEventListener("focus", syncAccount);
+  window.addEventListener("fokus:session-changed", syncAccount);
 })();

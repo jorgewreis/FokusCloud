@@ -227,6 +227,7 @@
             method: "POST",
             body: Object.fromEntries(new FormData(event.currentTarget)),
           });
+          window.dispatchEvent(new Event("fokus:session-changed"));
           if (!data.user.email_verified) {
             location.href = "/verificar-email";
           } else if (!data.companies.length) {
