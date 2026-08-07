@@ -1,5 +1,6 @@
 (() => {
   const userMenus = document.querySelectorAll("[data-header-user]");
+  const clientAccessButtons = document.querySelectorAll("[data-header-client-access]");
   const contactButtons = document.querySelectorAll("[data-header-contact]");
 
   if (!userMenus.length) return;
@@ -21,7 +22,7 @@
       if (visible && element.hidden) element.hidden = false;
       if (visible) element.style.display = "";
       requestAnimationFrame(() => element.classList.toggle("is-visible", visible));
-      if (!visible && element.matches("[data-header-user]")) {
+      if (!visible) {
         window.setTimeout(() => {
           if (!element.classList.contains("is-visible")) element.hidden = true;
         }, 700);
@@ -44,9 +45,14 @@
           if (accountDocument) accountDocument.textContent = maskedCpf(data?.user?.cpf);
         });
         toggleVisibility(userMenus, Boolean(name));
+        toggleVisibility(clientAccessButtons, !name);
         toggleVisibility(contactButtons, !name);
       })
-      .catch(() => {});
+      .catch(() => {
+        toggleVisibility(userMenus, false);
+        toggleVisibility(clientAccessButtons, true);
+        toggleVisibility(contactButtons, true);
+      });
   };
 
   userMenus.forEach((menu) => {

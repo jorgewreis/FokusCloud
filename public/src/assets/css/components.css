@@ -276,6 +276,7 @@ textarea {
 /* ========================================================================== */
 
 .btn-header-backoffice,
+.btn-header-client-access,
 .btn-header-account {
   /* appearance */
   border: 1px solid #ffffff42;
@@ -290,6 +291,7 @@ textarea {
 }
 
 [data-header-contact],
+[data-header-client-access],
 [data-header-user] {
   /* appearance */
   opacity: 0;
@@ -301,6 +303,7 @@ textarea {
 }
 
 [data-header-contact].is-visible,
+[data-header-client-access].is-visible,
 [data-header-user].is-visible {
   opacity: 1;
   visibility: visible;
@@ -309,6 +312,7 @@ textarea {
 }
 
 .btn-header-backoffice:hover,
+.btn-header-client-access:hover,
 .btn-header-account:hover {
   border-color: var(--green);
   background: transparent;
@@ -494,6 +498,7 @@ footer,
 
 @media (max-width: 999px) {
   .btn-header-backoffice,
+  .btn-header-client-access,
   .btn-header-cta,
   .header-account-menu { display: none; }
 }
