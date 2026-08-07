@@ -37,7 +37,7 @@
   margin-bottom: 15px;
 }
 .product-hero h1 {
-  font: 800 clamp(42px, 5vw, 72px)/1.04 var(--display);
+  font: 800 clamp(42px, 5vw, 72px)/1.04 var(--font-title);
   letter-spacing: -3.6px;
 }
 .product-hero h1 em {
@@ -70,7 +70,7 @@
   font-weight: bold;
 }
 .product-summary h2 {
-  font: 700 26px/1.2 var(--display);
+  font: 700 26px/1.2 var(--font-title);
   letter-spacing: -1px;
   margin: 12px 0;
 }
@@ -109,7 +109,7 @@
 }
 .section-intro h2,
 .plans-head h2 {
-  font: 800 clamp(32px, 3.7vw, 50px)/1.1 var(--display);
+  font: 800 clamp(32px, 3.7vw, 50px)/1.1 var(--font-title);
   letter-spacing: -2.4px;
   margin: 12px 0 18px;
 }
@@ -132,11 +132,11 @@
   background: #fff;
 }
 .module-number {
-  font: bold 11px var(--font);
+  font: bold 11px var(--font-text);
   color: #129558;
 }
 .module h3 {
-  font: 700 19px var(--display);
+  font: 700 19px var(--font-title);
   letter-spacing: -0.5px;
   margin: 18px 0 9px;
 }
@@ -184,7 +184,7 @@
   color: #dffce9;
 }
 .model-card h3 {
-  font: 700 29px var(--display);
+  font: 700 29px var(--font-title);
   letter-spacing: -1.2px;
   margin: 17px 0 8px;
 }
@@ -230,11 +230,11 @@
 }
 .steps span {
   color: #16975a;
-  font: bold 12px var(--font);
+  font: bold 12px var(--font-text);
   padding-top: 3px;
 }
 .steps h3 {
-  font: 700 18px var(--display);
+  font: 700 18px var(--font-title);
   margin-bottom: 6px;
 }
 .steps p {
@@ -252,7 +252,7 @@
   gap: 50px;
 }
 .product-cta h2 {
-  font: 800 clamp(31px, 3.8vw, 50px)/1.1 var(--display);
+  font: 800 clamp(31px, 3.8vw, 50px)/1.1 var(--font-title);
   letter-spacing: -2.5px;
 }
 .product-cta p {

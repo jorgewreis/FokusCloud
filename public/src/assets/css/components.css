@@ -50,7 +50,7 @@ textarea {
 
 .badge-text {
   /* typography */
-  font-family: var(--font);
+  font-family: var(--font-text);
   font-size: 10px;
   font-weight: 600;
   line-height: 1;
@@ -167,7 +167,7 @@ textarea {
 .section-title,
 .card-title {
   color: var(--ink);
-  font-family: var(--display);
+  font-family: var(--font-title);
   font-size: clamp(27px, 4vw, 36px);
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -197,7 +197,7 @@ textarea {
 .card-heading .card-description { margin-top: 3px; }
 
 .auth-card .card-title {
-  font-family: var(--font);
+  font-family: var(--font-text);
   font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -267,7 +267,7 @@ textarea {
   color: var(--ink);
 
   /* typography */
-  font: 14px var(--font);
+  font: 14px var(--font-text);
   line-height: 1.35;
 
   /* motion */
@@ -388,7 +388,7 @@ textarea {
   color: #d7e8f1;
 
   /* typography */
-  font-family: var(--font);
+  font-family: var(--font-text);
   font-size: 11px;
   font-weight: 700;
 }
@@ -563,7 +563,7 @@ textarea {
   color: var(--green);
 
   /* typography */
-  font-family: var(--font);
+  font-family: var(--font-text);
   font-size: 13px;
   font-weight: 700;
 }

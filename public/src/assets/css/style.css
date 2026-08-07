@@ -10,7 +10,7 @@ html {
   scroll-padding-top: 78px;
 }
 body {
-  font-family: var(--font);
+  font-family: var(--font-text);
   color: var(--ink);
   background: var(--cream);
   line-height: 1.55;
@@ -88,7 +88,7 @@ body {
 }
 .hero h1,
 h2 {
-  font: 800 clamp(37px, 4.2vw, 62px)/1.1 var(--display);
+  font: 800 clamp(37px, 4.2vw, 62px)/1.1 var(--font-title);
   letter-spacing: -2.8px;
 }
 .hero h1 em,
@@ -194,7 +194,7 @@ h2 em {
 }
 .chart-card strong {
   display: block;
-  font: 800 25px var(--display);
+  font: 800 25px var(--font-title);
   color: #153e54;
   margin: 8px 0;
 }
@@ -470,7 +470,7 @@ h2 em {
   font-weight: bold;
 }
 .product-card h3 {
-  font: 800 35px var(--display);
+  font: 800 35px var(--font-title);
   letter-spacing: -1.5px;
   margin: 2px 0 12px;
 }
@@ -549,7 +549,7 @@ h2 em {
 }
 .law-graphic:after {
   content: "§";
-  font: bold 65px Georgia;
+  font: bold 65px var(--font-title);
   color: #46cf80;
   position: absolute;
   right: 25px;
@@ -557,7 +557,7 @@ h2 em {
 }
 .lead-graphic:after {
   content: "⌂";
-  font: bold 70px var(--font);
+  font: bold 70px var(--font-text);
   color: #0e8256;
   position: absolute;
   right: 25px;
@@ -591,7 +591,7 @@ h2 em {
   font-weight: bold;
 }
 .benefit-grid h3 {
-  font: 700 19px var(--display);
+  font: 700 19px var(--font-title);
   margin: 17px 0 9px;
 }
 .benefit-grid p {
@@ -635,7 +635,7 @@ h2 em {
   border-bottom: 1px solid #416279;
   background: transparent;
   color: white;
-  font: 14px var(--font);
+  font: 14px var(--font-text);
   padding: 11px 0 9px;
   outline: none;
 }
@@ -821,7 +821,7 @@ footer a:hover {
   gap: 2px;
 }
 .hero-facts b {
-  font: 700 14px var(--display);
+  font: 700 14px var(--font-title);
   color: var(--green);
 }
 .hero-facts span {
@@ -851,10 +851,10 @@ footer a:hover {
 }
 .capability-list span {
   color: #16975a;
-  font: bold 12px var(--font);
+  font: bold 12px var(--font-text);
 }
 .capability-list h3 {
-  font: 700 18px var(--display);
+  font: 700 18px var(--font-title);
   letter-spacing: -0.5px;
   margin-bottom: 5px;
 }
@@ -876,7 +876,7 @@ footer a:hover {
   background: #f9fffb;
 }
 .portfolio-note span {
-  font: 700 14px var(--display);
+  font: 700 14px var(--font-title);
   color: #167b4e;
 }
 .portfolio-note p {
@@ -1031,7 +1031,7 @@ footer a:hover {
   font-weight: bold;
 }
 .subscription-steps h3 {
-  font: 700 18px var(--display);
+  font: 700 18px var(--font-title);
   letter-spacing: -0.5px;
   margin: 26px 0 10px;
 }
@@ -1054,7 +1054,7 @@ footer a:hover {
   border-bottom: 1px solid var(--line);
 }
 .questions-list h3 {
-  font: 700 17px var(--display);
+  font: 700 17px var(--font-title);
   letter-spacing: -0.4px;
   margin-bottom: 6px;
 }

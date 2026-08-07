@@ -54,7 +54,7 @@
   text-transform: uppercase;
 }
 .checkout-head h1 {
-  font: 800 clamp(36px, 5vw, 62px)/1 var(--display);
+  font: 800 clamp(36px, 5vw, 62px)/1 var(--font-title);
   letter-spacing: -3px;
 }
 .checkout-steps {
@@ -122,7 +122,7 @@
   border: 0;
   background: transparent;
   padding: 12px 14px;
-  font: 700 13px var(--font);
+  font: 700 13px var(--font-text);
   color: var(--text);
   cursor: pointer;
 }
@@ -204,7 +204,7 @@
 }
 .selector h2,
 .review-card h2 {
-  font: 800 31px var(--display);
+  font: 800 31px var(--font-title);
   letter-spacing: -1.4px;
 }
 .cycle {
@@ -245,7 +245,7 @@
 }
 .module-choice b,
 .choice-card b {
-  font: 700 14px var(--display);
+  font: 700 14px var(--font-title);
 }
 .module-choice small,
 .choice-card span {
@@ -284,11 +284,11 @@
   font-size: 11px;
 }
 .selection-footer strong {
-  font: 800 24px var(--display);
+  font: 800 24px var(--font-title);
   letter-spacing: -1px;
 }
 .selection-footer em {
-  font: 400 12px var(--font);
+  font: 400 12px var(--font-text);
   color: var(--text);
 }
 .selection-footer button:disabled {
@@ -300,7 +300,7 @@
 /* ========================================================================== */
 
 .review-card h3 {
-  font: 700 16px var(--display);
+  font: 700 16px var(--font-title);
   margin: 28px 0 10px;
 }
 .review-grid {
@@ -355,7 +355,7 @@
 }
 
 .admin-list-item h2 {
-  font: 700 16px var(--display);
+  font: 700 16px var(--font-title);
 }
 
 .admin-list-item p,
@@ -446,7 +446,7 @@
   gap: 10px;
 }
 .usage-controls > p {
-  font: 700 13px var(--display);
+  font: 700 13px var(--font-title);
   color: var(--ink);
 }
 .usage-control {
@@ -475,7 +475,7 @@
   background: #fff;
   padding: 9px;
   color: var(--ink);
-  font: 12px var(--font);
+  font: 12px var(--font-text);
 }
 @media (max-width: 700px) {
   .usage-control {
