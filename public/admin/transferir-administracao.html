@@ -11,7 +11,7 @@
   <body class="subscription-page">
     <main class="checkout-wrap">
       <section class="auth-card">
-        <a class="brand" href="/admin/usuarios">Fokus<span>Cloud</span></a>
+        <a class="brand" href="/portal/usuarios">Fokus<span>Cloud</span></a>
         <p>ADMINISTRAÇÃO DA EMPRESA</p>
         <h1>Transferir administração</h1>
         <p>O novo administrador deve possuir vínculo ativo e e-mail confirmado. A confirmação será enviada por e-mail.</p>
@@ -32,18 +32,18 @@
       const message = document.querySelector('#message');
       (async () => {
         try {
-          const users = await FokusApi.request('/admin/users');
+          const users = await FokusApi.request('/portal/users');
           document.querySelector('#membership').innerHTML = users.filter((user) => user.role !== 'admin' && user.status === 'ativo' && user.email_verified_at).map((user) => `<option value="${user.id}">${user.name} — ${user.role}</option>`).join('');
-          const history = await FokusApi.request('/admin/audit-history');
+          const history = await FokusApi.request('/portal/audit-history');
           document.querySelector('#history').innerHTML = history.length ? history.map((entry) => `<article class="admin-list-item"><p><b>${entry.operation}</b> em ${new Date(entry.created_at).toLocaleString('pt-BR')}</p><p>${entry.after_masked || entry.before_masked || ''}</p></article>`).join('') : '<p>Nenhum evento de administração registrado.</p>';
-        } catch (_) { location.assign('/admin'); }
+        } catch (_) { location.assign('/acesso'); }
       })();
       form.onsubmit = async (event) => {
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
         data.keep_previous_access = Boolean(form.elements.keep_previous_access.checked);
         try {
-          const response = await FokusApi.request('/admin/transfer-admin', { method: 'POST', body: data });
+          const response = await FokusApi.request('/portal/transfer-admin', { method: 'POST', body: data });
           message.textContent = response.message;
           form.reset();
         } catch (error) { message.textContent = error.message; }

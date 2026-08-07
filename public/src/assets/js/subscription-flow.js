@@ -130,7 +130,7 @@
       state.cycle === "annual"
         ? `<p class="review-saving">Desconto total de <b>25%</b></p>`
         : "";
-    return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><button class="btn btn-green" type="button" data-checkout>Continuar para checkout <span>→</span></button></div><p id="checkout-feedback" role="status"></p><small class="payment-note">O checkout seguro é criado após a validação da empresa e do e-mail.</small></div>`;
+    return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><label>Cupom de desconto (opcional)<input id="voucher-code" maxlength="64" autocomplete="off"></label><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><button class="btn btn-green" type="button" data-checkout>Continuar para checkout <span>→</span></button></div><p id="checkout-feedback" role="status"></p><small class="payment-note">O checkout seguro é criado após a validação da empresa e do e-mail.</small></div>`;
   }
   function bind() {
     root.querySelectorAll("[data-account]").forEach(
@@ -260,7 +260,7 @@
           } else if (!data.companies.length) {
             feedback.textContent = "Sua conta não possui uma empresa ativa. Solicite o vínculo ao administrador da empresa.";
           } else if (data.companies.length > 1) {
-            location.assign(`/admin/empresas?retorno=${encodeURIComponent(subscriptionPath())}`);
+            location.assign(`/portal/empresas?retorno=${encodeURIComponent(subscriptionPath())}`);
           } else {
             state.step = 2;
             render();
@@ -338,6 +338,7 @@
               cycle: state.cycle,
               selection_mode: state.mode,
               plan_code: state.plan,
+              voucher_code: root.querySelector("#voucher-code")?.value.trim() || undefined,
             },
           });
           location.assign(response.checkout_url);
@@ -378,7 +379,7 @@
       if (!account.companies.length) {
         state.step = 1;
       } else if (account.companies.length > 1 && !account.active_company_id) {
-        location.assign(`/admin/empresas?retorno=${encodeURIComponent(subscriptionPath())}`);
+        location.assign(`/portal/empresas?retorno=${encodeURIComponent(subscriptionPath())}`);
         return;
       } else {
         if (!account.active_company_id) {

@@ -11,7 +11,7 @@
   <body class="subscription-page">
     <main class="checkout-wrap">
       <section class="auth-card">
-        <a class="brand" href="/admin/painel">Fokus<span>Cloud</span></a>
+        <a class="brand" href="/portal">Fokus<span>Cloud</span></a>
         <p>USUÁRIOS DA EMPRESA</p>
         <h1>Convide e administre acessos</h1>
         <form id="invite-form">
@@ -22,7 +22,7 @@
           <button class="btn btn-green" type="submit">Enviar convite</button>
         </form>
         <p id="message" role="status"></p>
-        <div class="review-actions"><a class="btn btn-outline" href="/admin/transferir-administracao">Transferir administração</a></div>
+        <div class="review-actions"><a class="btn btn-outline" href="/portal/transferir-administracao">Transferir administração</a></div>
         <div id="users" class="admin-list"></div>
       </section>
     </main>
@@ -44,21 +44,21 @@
       const maskCpf = (value) => `${value.slice(0, 3)}.***.***-${value.slice(-2)}`;
       async function load() {
         try {
-          const users = await FokusApi.request('/admin/users');
+          const users = await FokusApi.request('/portal/users');
           list.innerHTML = users.map((user) => `<article class="admin-list-item"><h2>${user.name}</h2><p>${maskCpf(user.cpf)} · ${user.email} · ${user.role} · <b>${user.status}</b></p>${user.role === 'admin' ? '' : `<div class="review-actions"><button class="btn btn-white" data-action="gestor" data-id="${user.id}" data-version="${user.version}">Gestor</button><button class="btn btn-white" data-action="usuario" data-id="${user.id}" data-version="${user.version}">Usuário</button>${user.status === 'removido' ? `<button class="btn btn-white" data-action="restore" data-id="${user.id}" data-version="${user.version}">Restaurar</button>` : `<button class="btn btn-outline" data-action="${user.status === 'suspenso' ? 'ativo' : 'suspenso'}" data-id="${user.id}" data-version="${user.version}">${user.status === 'suspenso' ? 'Reativar' : 'Suspender'}</button><button class="btn btn-outline" data-action="removido" data-id="${user.id}" data-version="${user.version}">Remover</button>`}</div>`}</article>`).join('');
           list.querySelectorAll('[data-action]').forEach((button) => button.onclick = async () => {
             const action = button.dataset.action;
             try {
               const response = action === 'restore'
-                ? await FokusApi.request(`/admin/users/${button.dataset.id}/restore`, { method: 'POST', body: { version: Number(button.dataset.version) } })
-                : await FokusApi.request(`/admin/users/${button.dataset.id}`, { method: 'PATCH', body: action === 'gestor' || action === 'usuario' ? { role: action, version: Number(button.dataset.version) } : { status: action, version: Number(button.dataset.version) } });
+                ? await FokusApi.request(`/portal/users/${button.dataset.id}/restore`, { method: 'POST', body: { version: Number(button.dataset.version) } })
+                : await FokusApi.request(`/portal/users/${button.dataset.id}`, { method: 'PATCH', body: action === 'gestor' || action === 'usuario' ? { role: action, version: Number(button.dataset.version) } : { status: action, version: Number(button.dataset.version) } });
               message.textContent = response.message;
               load();
             } catch (error) { message.textContent = error.message; }
           });
         } catch (error) {
           message.textContent = error.message;
-          location.assign('/admin');
+          location.assign('/acesso');
         }
       }
       document.querySelector('#invite-form').onsubmit = async (event) => {
@@ -70,7 +70,7 @@
           return;
         }
         try {
-          const response = await FokusApi.request('/admin/users', { method: 'POST', body: data });
+          const response = await FokusApi.request('/portal/users', { method: 'POST', body: data });
           message.textContent = response.message;
           event.currentTarget.reset();
           load();

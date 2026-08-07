@@ -16,12 +16,12 @@
         <h1 id="welcome">Carregando seu painel...</h1>
         <p id="company"></p>
         <div id="dashboard-actions" class="review-actions" hidden>
-          <a class="btn btn-green" href="/admin/assinaturas">Assinaturas</a>
-          <a class="btn btn-outline" href="/admin/usuarios">Usuários</a>
-          <a class="btn btn-outline" href="/admin/perfil">Meu perfil</a>
+          <a class="btn btn-green" href="/portal/assinaturas">Assinaturas</a>
+          <a class="btn btn-outline" href="/portal/usuarios">Usuários</a>
+          <a class="btn btn-outline" href="/portal/perfil">Meu perfil</a>
         </div>
         <button id="logout" class="btn btn-outline" type="button" hidden>Sair</button>
-        <a id="login-again" class="btn btn-green" href="/admin" hidden>Entrar novamente</a>
+        <a id="login-again" class="btn btn-green" href="/acesso" hidden>Entrar novamente</a>
       </section>
     </main>
     <script src="/assets/js/api-client.js"></script>
@@ -34,7 +34,7 @@
             document.querySelector('#company').textContent = 'Abra o link enviado para o seu e-mail ou solicite um novo envio na página de confirmação.';
             return;
           }
-          if (data.companies.length > 1 && !data.active_company_id) return location.assign('/admin/empresas');
+          if (data.companies.length > 1 && !data.active_company_id) return location.assign('/portal/empresas');
           const active = data.companies.find((item) => item.id === data.active_company_id) || data.companies[0];
           if (!active) {
             document.querySelector('#welcome').textContent = 'Nenhuma empresa ativa foi encontrada.';
@@ -53,7 +53,7 @@
       })();
       document.querySelector('#logout').onclick = async () => {
         await FokusApi.request('/auth/logout', { method: 'POST' });
-        location.replace('/admin');
+        location.replace('/acesso');
       };
     </script>
   </body>

@@ -55,7 +55,7 @@ class AuthController extends Controller
         $companyId = $user->getAttribute('new_company_id');
         $this->sendToken($user, 'email_verification', '/verificar-email', [
             'company_id' => $companyId,
-            'return_to' => $data['return_to'] ?? '/admin/painel',
+            'return_to' => $data['return_to'] ?? '/portal',
         ]);
         $this->authenticateIntoSession($request, $user, $companyId);
 
@@ -82,7 +82,7 @@ class AuthController extends Controller
         if (! $user->email_verified_at) {
             $this->sendToken($user, 'email_verification', '/verificar-email', [
                 'company_id' => $companyId,
-                'return_to' => $data['return_to'] ?? '/admin/painel',
+                'return_to' => $data['return_to'] ?? '/portal',
             ]);
         }
         $request->session()->put('active_company_id', $companyId);
@@ -206,9 +206,9 @@ class AuthController extends Controller
         }
         $companyId = ! empty($payload['company_id']) ? $payload['company_id'] : $this->firstCompanyId($user);
         $this->authenticateIntoSession($request, $user, $companyId);
-        $returnTo = data_get($payload, 'return_to', '/admin/painel');
-        if (! in_array($returnTo, ['/admin/painel', '/assinaturas/fokus-law', '/assinaturas/fokus-lead'], true)) {
-            $returnTo = '/admin/painel';
+        $returnTo = data_get($payload, 'return_to', '/portal');
+        if (! in_array($returnTo, ['/portal', '/assinaturas/fokus-law', '/assinaturas/fokus-lead'], true)) {
+            $returnTo = '/portal';
         }
         return response()->json(['message' => 'E-mail confirmado com sucesso.', 'return_to' => $returnTo]);
     }
@@ -261,7 +261,7 @@ class AuthController extends Controller
         $user = User::findOrFail($token->user_id);
         $companyId = DB::table('company_memberships')->where('id', $membershipId)->value('company_id');
         $this->authenticateIntoSession($request, $user, $companyId);
-        return response()->json(['message' => 'Vínculo aceito. A empresa está disponível na sua conta.', 'return_to' => '/admin/painel']);
+        return response()->json(['message' => 'Vínculo aceito. A empresa está disponível na sua conta.', 'return_to' => '/portal']);
     }
 
     public function acceptAdminTransfer(Request $request)
@@ -343,7 +343,9 @@ class AuthController extends Controller
     private function validateDocuments(string $type, string $document, string $cpf): void
     {
         $this->validateCompanyDocument($type, $document);
-        abort_unless(BrazilianDocuments::cpf($cpf), 422, 'CPF inválido.');
+        if (! BrazilianDocuments::cpf($cpf)) {
+            throw ValidationException::withMessages(['cpf' => 'CPF inválido.']);
+        }
     }
 
     private function validateCompanyDocument(string $type, string $document): void

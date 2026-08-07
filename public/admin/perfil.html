@@ -11,7 +11,7 @@
   <body class="subscription-page">
     <main class="checkout-wrap">
       <section class="auth-card">
-        <a class="brand" href="/admin/painel">Fokus<span>Cloud</span></a>
+        <a class="brand" href="/portal">Fokus<span>Cloud</span></a>
         <p>MEU PERFIL</p>
         <h1>Dados da conta</h1>
         <form id="profile-form">
@@ -35,7 +35,7 @@
           const me = await FokusApi.request('/auth/me');
           form.elements.name.value = me.user.name;
           form.elements.email.placeholder = me.user.email;
-        } catch (_) { location.assign('/admin'); }
+        } catch (_) { location.assign('/acesso'); }
       })();
       form.onsubmit = async (event) => {
         event.preventDefault();

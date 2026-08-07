@@ -32,7 +32,7 @@ return new class extends Migration {
             $table->json('before_masked')->nullable();
             $table->json('after_masked')->nullable();
             $table->timestamp('expires_at');
-            $table->timestamp('created_at');
+            $table->dateTime('created_at');
             $table->index(['company_id', 'entity_type', 'entity_id']);
             $table->foreign('company_id')->references('id')->on('companies')->restrictOnDelete();
         });
@@ -42,8 +42,8 @@ return new class extends Migration {
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('support_user_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->text('reason');
-            $table->timestamp('starts_at');
-            $table->timestamp('ends_at');
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->restrictOnDelete();
         });

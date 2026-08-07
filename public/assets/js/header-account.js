@@ -60,6 +60,11 @@
     };
   });
 
+  adminButtons.forEach((button) => {
+    button.textContent = "Minha conta";
+    button.onclick = () => window.location.assign("/acesso");
+  });
+
   syncAccount();
   window.addEventListener("pageshow", syncAccount);
   window.addEventListener("focus", syncAccount);

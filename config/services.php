@@ -23,6 +23,10 @@ return [
         'webhook_secret' => env('MERCADO_PAGO_WEBHOOK_SECRET'),
     ],
 
+    'usage' => [
+        'ingestion_secret' => env('FOKUS_USAGE_INGESTION_SECRET'),
+    ],
+
     'resend' => [
         'key' => env('RESEND_API_KEY'),
     ],

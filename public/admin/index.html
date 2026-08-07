@@ -38,8 +38,8 @@
             feedback.textContent = 'Sua conta não possui uma empresa ativa. Solicite o vínculo ao administrador da empresa.';
             return;
           }
-          if (data.companies.length > 1) return location.assign('/admin/empresas');
-          location.assign('/admin/painel');
+          if (data.companies.length > 1) return location.assign('/portal/empresas');
+          location.assign('/portal');
         } catch (error) { feedback.textContent = error.message; }
       };
     </script>

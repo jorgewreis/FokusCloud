@@ -11,7 +11,7 @@
   <body class="subscription-page">
     <main class="checkout-wrap">
       <section class="auth-card">
-        <a class="brand" href="/admin/painel">Fokus<span>Cloud</span></a>
+        <a class="brand" href="/portal">Fokus<span>Cloud</span></a>
         <p>ASSINATURAS DA EMPRESA</p>
         <h1>Assinaturas e pagamentos</h1>
         <p id="message" role="status">Carregando suas assinaturas...</p>
@@ -36,11 +36,17 @@
           message.textContent = '';
           list.innerHTML = subscriptions.map((item) => {
             const total = item.payment ? Number(item.payment.amount).toLocaleString('pt-BR', { style: 'currency', currency: item.payment.currency || 'BRL' }) : '—';
-            return `<article class="admin-list-item"><h2>${item.product_name}</h2><p>Status da assinatura: <b>${item.status}</b></p><p>Pagamento: <b>${item.payment?.status || 'pendente'}</b> — ${total}</p><ul>${item.items.map((entry) => `<li>${entry.name} (${entry.quantity}x)</li>`).join('')}</ul></article>`;
+            const period = item.current_period_ends_at ? `<p>Vigência até: <b>${new Date(item.current_period_ends_at).toLocaleDateString('pt-BR')}</b></p>` : '';
+            const cancel = item.cancel_at ? `<p>Cancelamento agendado para ${new Date(item.cancel_at).toLocaleDateString('pt-BR')}.</p>` : `<button class="btn btn-outline" data-cancel="${item.id}">Cancelar ao fim do ciclo</button>`;
+            return `<article class="admin-list-item"><h2>${item.product_name}</h2><p>Status da assinatura: <b>${item.status}</b></p>${period}<p>Pagamento: <b>${item.payment?.status || 'pendente'}</b> — ${total}</p><ul>${item.items.map((entry) => `<li>${entry.name} (${entry.quantity}x)</li>`).join('')}</ul><div class="review-actions">${cancel}</div></article>`;
           }).join('');
+          document.querySelectorAll('[data-cancel]').forEach((button) => button.onclick = async () => {
+            if (!confirm('A assinatura permanecerá ativa até o fim do ciclo já pago. Deseja continuar?')) return;
+            try { const response = await FokusApi.request(`/subscriptions/${button.dataset.cancel}/change`, { method: 'POST', body: { type: 'cancelamento' } }); message.textContent = response.message; location.reload(); } catch (error) { message.textContent = error.message; }
+          });
         } catch (error) {
           message.textContent = error.message;
-          if (error.message.includes('sessão') || error.message.includes('Unauthenticated')) location.assign('/admin');
+          if (error.message.includes('sessão') || error.message.includes('Unauthenticated')) location.assign('/acesso');
         }
       })();
     </script>

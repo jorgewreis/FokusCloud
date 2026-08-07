@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // The API shares Laravel's encrypted, HttpOnly session cookie. Webhooks
         // are authenticated by their provider signature, not by a browser CSRF token.
-        $middleware->validateCsrfTokens(except: ['api/webhooks/mercado-pago']);
+        $middleware->validateCsrfTokens(except: ['api/webhooks/mercado-pago', 'api/integrations/usage']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

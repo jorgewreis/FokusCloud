@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
         $companyId = $request->attributes->get('active_company_id');
         $subscriptions = DB::table('subscriptions as subscription')->join('products as product', 'product.id', '=', 'subscription.product_id')
             ->where('subscription.company_id', $companyId)
-            ->select('subscription.id', 'subscription.status', 'subscription.created_at', 'product.code as product_code', 'product.name as product_name')
+            ->select('subscription.id', 'subscription.status', 'subscription.created_at', 'subscription.billing_cycle', 'subscription.current_period_ends_at', 'subscription.cancel_at', 'product.code as product_code', 'product.name as product_name')
             ->orderByDesc('subscription.created_at')->get();
         foreach ($subscriptions as $subscription) {
             $subscription->items = DB::table('subscription_items')->where('company_id', $companyId)->where('subscription_id', $subscription->id)
@@ -63,37 +63,43 @@ class SubscriptionController extends Controller
             'cycle' => ['required', Rule::in(['monthly', 'annual'])],
             'selection_mode' => ['required', Rule::in(['modules', 'plan'])],
             'plan_code' => ['nullable', 'string', 'max:64'],
+            'voucher_code' => ['nullable', 'string', 'max:64'],
         ]);
         $companyId = $request->attributes->get('active_company_id');
         $product = DB::table('products')->where('code', $data['product_code'])->where('active', true)->first();
         abort_unless($product, 404, 'Produto não encontrado.');
         $quoted = $this->quote($product, $data);
+        $voucher = ! empty($data['voucher_code']) ? $this->voucherFor($data['voucher_code'], $product->id, $companyId, array_column($data['items'], 'module_code')) : null;
+        if ($voucher) {
+            $discount = $voucher->discount_type === 'percentage' ? $quoted['amount'] * ((float) $voucher->discount_value / 100) : (float) $voucher->discount_value;
+            $quoted['discount_amount'] = round(min($quoted['amount'], $discount), 2);
+            $quoted['amount'] = round($quoted['amount'] - $quoted['discount_amount'], 2);
+        }
         $subscriptionId = PrefixedUlid::make('ASS');
         $paymentId = PrefixedUlid::make('PAG');
 
         try {
-            $response = Http::withToken($accessToken)->timeout(15)->post('https://api.mercadopago.com/checkout/preferences', [
+            $response = Http::withToken($accessToken)->timeout(15)->post('https://api.mercadopago.com/preapproval', [
                 'external_reference' => $paymentId,
-                'items' => [['title' => "Assinatura {$product->name}", 'quantity' => 1, 'currency_id' => 'BRL', 'unit_price' => $quoted['amount']]],
-                'back_urls' => [
-                    'success' => rtrim(config('app.url'), '/').'/admin/assinaturas?status=success',
-                    'failure' => rtrim(config('app.url'), '/').'/admin/assinaturas?status=failure',
-                    'pending' => rtrim(config('app.url'), '/').'/admin/assinaturas?status=pending',
-                ],
-                'auto_return' => 'approved',
+                'reason' => "Assinatura {$product->name}",
+                'payer_email' => $request->user()->email,
+                'auto_recurring' => ['frequency' => $data['cycle'] === 'annual' ? 12 : 1, 'frequency_type' => 'months', 'transaction_amount' => $quoted['amount'], 'currency_id' => 'BRL'],
+                'back_url' => rtrim(config('app.url'), '/').'/portal/assinaturas',
                 'notification_url' => rtrim(config('app.url'), '/').'/api/webhooks/mercado-pago',
             ])->throw()->json();
         } catch (\Throwable) {
             return response()->json(['message' => 'Não foi possível iniciar o checkout. Nenhuma assinatura foi criada; tente novamente.'], 502);
         }
 
-        DB::transaction(function () use ($companyId, $product, $quoted, $request, $subscriptionId, $paymentId, $response) {
+        DB::transaction(function () use ($companyId, $product, $quoted, $request, $subscriptionId, $paymentId, $response, $voucher) {
             $existing = DB::table('subscriptions')->where('company_id', $companyId)->where('product_id', $product->id)
                 ->whereIn('status', ['pendente', 'ativa', 'suspensa'])->lockForUpdate()->first();
             abort_if($existing, 409, 'Já existe uma assinatura não encerrada para este produto.');
             DB::table('subscriptions')->insert([
                 'id' => $subscriptionId, 'company_id' => $companyId, 'product_id' => $product->id, 'status' => 'pendente',
-                'open_company_product' => $companyId.'-'.$product->id, 'version' => 1,
+                'open_company_product' => $companyId.'-'.$product->id, 'version' => 1, 'billing_cycle' => $data['cycle'],
+                'current_period_starts_at' => now(), 'current_period_ends_at' => $data['cycle'] === 'annual' ? now()->addYear() : now()->addMonth(),
+                'provider_subscription_id' => $response['id'] ?? null,
                 'created_by' => $request->user()->id, 'updated_by' => $request->user()->id, 'created_at' => now(), 'updated_at' => now(),
             ]);
             foreach ($quoted['items'] as $item) {
@@ -107,18 +113,52 @@ class SubscriptionController extends Controller
             }
             DB::table('payments')->insert([
                 'id' => $paymentId, 'company_id' => $companyId, 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount'],
-                'currency' => 'BRL', 'status' => 'pendente', 'provider_payload' => json_encode(['preference_id' => $response['id'] ?? null]),
+                'currency' => 'BRL', 'status' => 'pendente', 'provider_payload' => json_encode(['preapproval_id' => $response['id'] ?? null]),
                 'created_by' => $request->user()->id, 'updated_by' => $request->user()->id,
                 'created_at' => now(), 'updated_at' => now(),
             ]);
+            if ($voucher) DB::table('voucher_redemptions')->insert(['id' => PrefixedUlid::make('VRD'), 'voucher_id' => $voucher->id, 'company_id' => $companyId, 'subscription_id' => $subscriptionId, 'discount_amount' => $quoted['discount_amount'], 'created_at' => now()]);
         });
 
-        return response()->json(['checkout_url' => $response['init_point'], 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount']], 201);
+        return response()->json(['checkout_url' => $response['init_point'] ?? null, 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount']], 201);
+    }
+
+    public function change(Request $request, string $subscription)
+    {
+        $membership = $request->attributes->get('active_membership');
+        abort_unless($membership->role === 'admin', 403, 'Apenas o administrador pode alterar a assinatura.');
+        $data = $request->validate([
+            'type' => ['required', Rule::in(['upgrade', 'downgrade', 'cancelamento'])],
+            'items' => ['nullable', 'array'],
+            'reason' => ['nullable', 'string', 'max:1000'],
+        ]);
+        $companyId = $request->attributes->get('active_company_id');
+        $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->whereIn('status', ['ativa', 'suspensa'])->first();
+        abort_unless($current, 404, 'Assinatura ativa não encontrada.');
+        $effectiveAt = $data['type'] === 'upgrade' ? now() : ($current->current_period_ends_at ?: now());
+        $status = $data['type'] === 'upgrade' ? 'pendente_pagamento' : 'agendada';
+        DB::table('subscription_changes')->insert([
+            'id' => PrefixedUlid::make('SCH'), 'company_id' => $companyId, 'subscription_id' => $current->id,
+            'type' => $data['type'], 'status' => $status, 'effective_at' => $effectiveAt,
+            'items_snapshot' => isset($data['items']) ? json_encode($data['items']) : null, 'reason' => $data['reason'] ?? null,
+            'requested_by_user_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now(),
+        ]);
+        if ($data['type'] === 'cancelamento') DB::table('subscriptions')->where('id', $current->id)->update(['cancel_at' => $effectiveAt, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+        return response()->json(['message' => $data['type'] === 'upgrade' ? 'Upgrade criado e aguardando a cobrança proporcional.' : 'Alteração programada para o fim do ciclo.', 'effective_at' => $effectiveAt]);
     }
 
     public function webhook(Request $request)
     {
         $this->assertWebhookSignature($request);
+        if (in_array((string) $request->input('type'), ['subscription_preapproval', 'preapproval'], true)) {
+            $providerId = (string) data_get($request->all(), 'data.id');
+            if ($providerId) {
+                $remote = Http::withToken(config('services.mercado_pago.access_token'))->timeout(15)->get("https://api.mercadopago.com/preapproval/{$providerId}")->throw()->json();
+                $status = ($remote['status'] ?? '') === 'authorized' ? 'ativa' : (($remote['status'] ?? '') === 'cancelled' ? 'encerrada' : 'pendente');
+                DB::table('subscriptions')->where('provider_subscription_id', $providerId)->update(['status' => $status, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+            }
+            return response()->noContent();
+        }
         $providerPaymentId = data_get($request->all(), 'data.id');
         if (! $providerPaymentId) {
             return response()->noContent();
@@ -183,6 +223,21 @@ class SubscriptionController extends Controller
         }
         $amount = $data['cycle'] === 'annual' ? $monthly * 9 : $monthly;
         return ['items' => $items, 'amount' => round($amount, 2)];
+    }
+
+    private function voucherFor(string $code, string $productId, string $companyId, array $moduleCodes): ?object
+    {
+        $voucher = DB::table('vouchers')->where('code', strtoupper($code))->where('status', 'ativa')->first();
+        abort_unless($voucher, 422, 'Voucher inválido ou indisponível.');
+        abort_if(($voucher->starts_at && now()->lt($voucher->starts_at)) || ($voucher->ends_at && now()->gt($voucher->ends_at)), 422, 'Voucher fora do período de validade.');
+        abort_if($voucher->product_id && $voucher->product_id !== $productId, 422, 'Voucher não é elegível para este produto.');
+        $eligibleModules = $voucher->module_codes ? json_decode($voucher->module_codes, true) : [];
+        abort_if($eligibleModules && ! array_intersect($eligibleModules, $moduleCodes), 422, 'Voucher não é elegível para os módulos selecionados.');
+        $total = DB::table('voucher_redemptions')->where('voucher_id', $voucher->id)->count();
+        $companyTotal = DB::table('voucher_redemptions')->where('voucher_id', $voucher->id)->where('company_id', $companyId)->count();
+        abort_if($voucher->redemption_limit && $total >= $voucher->redemption_limit, 422, 'Voucher atingiu o limite de uso.');
+        abort_if($voucher->redemption_limit_per_company && $companyTotal >= $voucher->redemption_limit_per_company, 422, 'Voucher já atingiu o limite para esta empresa.');
+        return $voucher;
     }
 
     private function sameModules(array $actual, array $expected): bool

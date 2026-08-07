@@ -3,7 +3,11 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CompanyUserController;
 use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\PlatformAuthController;
+use App\Http\Controllers\Api\BackofficeController;
+use App\Http\Controllers\Api\UsageSnapshotController;
 use App\Http\Middleware\EnsureCompanyContext;
+use App\Http\Middleware\EnsurePlatformAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register-company', [AuthController::class, 'registerCompany']);
@@ -15,6 +19,12 @@ Route::post('/auth/set-password', [AuthController::class, 'setPassword']);
 Route::post('/auth/accept-membership', [AuthController::class, 'acceptMembership']);
 Route::post('/auth/accept-admin-transfer', [AuthController::class, 'acceptAdminTransfer']);
 Route::post('/webhooks/mercado-pago', [SubscriptionController::class, 'webhook']);
+Route::post('/integrations/usage', [UsageSnapshotController::class, 'store'])->middleware('throttle:60,1');
+
+Route::prefix('backoffice/auth')->group(function () {
+    Route::post('/login', [PlatformAuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('/verify-mfa', [PlatformAuthController::class, 'verifyMfa'])->middleware('throttle:5,1');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/auth/me', [AuthController::class, 'me']);
@@ -25,9 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware(EnsureCompanyContext::class)->group(function () {
         Route::get('/subscriptions', [SubscriptionController::class, 'index']);
         Route::post('/subscriptions/checkout', [SubscriptionController::class, 'checkout']);
+        Route::post('/subscriptions/{subscription}/change', [SubscriptionController::class, 'change']);
     });
 
-    Route::middleware(EnsureCompanyContext::class)->prefix('admin')->group(function () {
+    Route::middleware(EnsureCompanyContext::class)->prefix('portal')->group(function () {
         Route::get('/users', [CompanyUserController::class, 'index']);
         Route::post('/users', [CompanyUserController::class, 'store']);
         Route::patch('/users/{membership}', [CompanyUserController::class, 'update']);
@@ -35,4 +46,18 @@ Route::middleware('auth')->group(function () {
         Route::post('/transfer-admin', [CompanyUserController::class, 'transferAdmin']);
         Route::get('/audit-history', [CompanyUserController::class, 'auditHistory']);
     });
+});
+
+Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(function () {
+    Route::get('/auth/me', [PlatformAuthController::class, 'me']);
+    Route::post('/auth/logout', [PlatformAuthController::class, 'logout']);
+    Route::get('/dashboard', [BackofficeController::class, 'dashboard']);
+    Route::get('/companies', [BackofficeController::class, 'companies']);
+    Route::get('/companies/{company}', [BackofficeController::class, 'company']);
+    Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription']);
+    Route::get('/vouchers', [BackofficeController::class, 'vouchers']);
+    Route::post('/vouchers', [BackofficeController::class, 'createVoucher']);
+    Route::post('/admins', [BackofficeController::class, 'createAdmin']);
+    Route::post('/users/{user}/force-password-reset', [BackofficeController::class, 'forcePasswordReset']);
+    Route::get('/audit', [BackofficeController::class, 'audit']);
 });
