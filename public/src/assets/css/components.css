@@ -414,6 +414,12 @@ textarea {
   color: var(--green);
 }
 
+.header-account-menu {
+  /* position */
+  position: relative;
+  flex: 0 0 184px;
+}
+
 .btn-header-account {
   /* size */
   width: 184px;
