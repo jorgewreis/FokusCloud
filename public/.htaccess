@@ -5,9 +5,8 @@
 
     RewriteEngine On
 
-    # The customer portal has static assets in public/portal, but its canonical
-    # URLs are handled by Laravel. Match them before Apache rejects the physical
-    # directory listing with HTTP 403.
+    # Keep canonical portal URLs on Laravel, including during deployments where
+    # a legacy public/portal directory may still exist momentarily.
     RewriteRule ^portal/?$ index.php [L]
     RewriteRule ^portal/(painel|perfil|empresas|usuarios|assinaturas|transferir-administracao)/?$ index.php [L]
 

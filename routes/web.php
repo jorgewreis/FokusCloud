@@ -13,8 +13,8 @@ Route::prefix('api')->group(base_path('routes/api.php'));
 Route::get('/api/csrf-token', fn () => response()->json(['token' => csrf_token()]));
 
 Route::get('/acesso', fn () => response()->file(public_path('admin/index.html')));
-Route::get('/portal', fn () => response()->file(public_path('portal/painel.html')));
-Route::get('/portal/painel', fn () => response()->file(public_path('portal/painel.html')));
+Route::get('/portal', fn () => response()->file(public_path('views/portal-painel.html')));
+Route::get('/portal/painel', fn () => response()->file(public_path('views/portal-painel.html')));
 Route::get('/portal/perfil', fn () => response()->file(public_path('admin/perfil.html')));
 Route::get('/cadastro', fn () => response()->file(public_path('auth/cadastro.html')));
 Route::get('/verificar-email', fn () => response()->file(public_path('auth/verificar-email.html')));
