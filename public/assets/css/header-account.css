@@ -1,0 +1,72 @@
+/* ========================================================================== */
+/* HEADER ACCOUNT: COMPACT TWO-LINE TRIGGER                                   */
+/* ========================================================================== */
+
+.header-account-menu {
+  position: relative;
+}
+
+.header-account-menu .btn-header-account {
+  /* size */
+  width: 184px;
+  min-width: 184px;
+  min-height: 40px;
+
+  /* space */
+  padding: 6px 11px;
+
+  /* layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* appearance */
+  border: 1px solid #ffffff54;
+  border-radius: 6px;
+  background: #ffffff0a;
+  color: #f4fbf7;
+  text-align: left;
+}
+
+.header-account-menu .header-account-copy {
+  /* layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+}
+
+.header-account-menu .header-account-copy strong,
+.header-account-menu .header-account-copy small {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-account-menu .header-account-copy strong {
+  color: #f5fbf7;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.header-account-menu .header-account-copy small {
+  color: #a8cabc;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  line-height: 1.1;
+}
+
+.header-account-menu .btn-header-account:hover,
+.header-account-menu.is-open .btn-header-account {
+  border-color: #73c69a;
+  background: #ffffff14;
+  box-shadow: 0 0 0 3px #73c69a1a;
+  color: #f5fbf7;
+}
