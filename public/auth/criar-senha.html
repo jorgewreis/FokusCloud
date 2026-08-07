@@ -6,19 +6,23 @@
     <title>Definir senha | Fokus Cloud</title>
     <link rel="stylesheet" href="/src/assets/css/reset.css" />
     <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css" />
   </head>
   <body>
     <main class="checkout-wrap">
       <section class="auth-card">
         <a class="brand" href="/">Fokus<span>Cloud</span></a>
-        <h1>Defina sua senha</h1>
-        <p>Escolha uma senha com pelo menos 12 caracteres para concluir o acesso.</p>
+        <div class="card-heading">
+          <p class="section-kicker">Definição de senha</p>
+          <h1 class="card-title">Defina sua senha.</h1>
+          <p class="card-description">Escolha uma senha com pelo menos 12 caracteres para concluir o acesso.</p>
+        </div>
         <form id="form">
-          <label class="form-field"><span class="form-label">Nova senha</span><input name="password" type="password" minlength="12" required /></label>
-          <label class="form-field"><span class="form-label">Confirme a senha</span><input name="password_confirmation" type="password" minlength="12" required /></label>
-          <button class="btn btn-green">Salvar senha</button>
+          <label class="form-field"><span class="form-label">Nova senha</span><input class="field-size-md" name="password" type="password" minlength="12" required /></label>
+          <label class="form-field"><span class="form-label">Confirme a senha</span><input class="field-size-md" name="password_confirmation" type="password" minlength="12" required /></label>
         </form>
-        <p id="message" role="status"></p>
+        <div class="login-actions"><button class="btn btn-green" form="form" type="submit">Salvar senha</button></div>
+        <p id="message" class="form-message" role="status"></p>
       </section>
     </main>
     <script src="/assets/js/api-client.js"></script>

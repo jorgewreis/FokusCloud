@@ -12,14 +12,16 @@
     <main class="checkout-wrap">
       <section class="auth-card">
         <a class="brand" href="/acesso">Fokus<span>Cloud</span></a>
-        <p>RECUPERAÇÃO DE ACESSO</p>
-        <h1>Redefina sua senha.</h1>
-        <p>Informe seu CPF. Se houver uma conta elegível, enviaremos um link ao e-mail já confirmado.</p>
+        <div class="card-heading">
+          <p class="section-kicker">Recuperação de acesso</p>
+          <h1 class="card-title">Redefina sua senha.</h1>
+          <p class="card-description">Informe seu CPF. Se houver uma conta elegível, enviaremos um link ao e-mail já confirmado.</p>
+        </div>
         <form id="reset-form">
-          <label class="form-field"><span class="form-label">CPF</span><input name="cpf" inputmode="numeric" autocomplete="username" required /></label>
-          <button class="btn btn-green" type="submit">Enviar instruções</button>
+          <label class="form-field"><span class="form-label">CPF</span><input class="field-size-md" name="cpf" inputmode="numeric" autocomplete="username" required /></label>
         </form>
-        <p id="message" role="status"></p>
+        <div class="login-actions"><button class="btn btn-green" form="reset-form" type="submit">Enviar instruções</button></div>
+        <p id="message" class="form-message" role="status"></p>
       </section>
     </main>
     <script src="/assets/js/api-client.js"></script>

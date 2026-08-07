@@ -6,47 +6,50 @@
     <title>Criar empresa | Fokus Cloud</title>
     <link rel="stylesheet" href="/src/assets/css/reset.css" />
     <link rel="stylesheet" href="/src/assets/css/style.css" />
-    <link rel="stylesheet" href="/src/assets/css/subscription.css?v=9e3c7ad1" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css?v=20260807-16" />
   </head>
   <body class="subscription-page">
     <main class="checkout-wrap">
       <section class="auth-card">
         <a class="brand" href="/">Fokus<span>Cloud</span></a>
-        <p>CADASTRO INICIAL</p>
-        <h1>Crie sua empresa.</h1>
+        <div class="card-heading">
+          <p class="section-kicker">Cadastro inicial</p>
+          <h1 class="card-title">Crie sua empresa.</h1>
+          <p class="card-description">Informe os dados da empresa e do administrador responsável.</p>
+        </div>
         <form id="register-form">
           <label class="form-field">
             <span class="form-label">Tipo de documento</span>
-            <select name="document_type" id="document-type">
+            <select class="field-size-md" name="document_type" id="document-type">
               <option value="cnpj">CNPJ</option>
               <option value="cpf">CPF</option>
             </select>
           </label>
           <label class="form-field">
             <span class="form-label">CPF ou CNPJ</span>
-            <input id="company-document" name="document_number" inputmode="numeric" required aria-describedby="company-document-error" />
+            <input class="field-size-md" id="company-document" name="document_number" inputmode="numeric" required aria-describedby="company-document-error" />
             <span id="company-document-error" class="field-error" role="alert"></span>
           </label>
           <label class="form-field" id="company-name-label">
             <span class="form-label" id="company-name-label-text">Razão social</span>
-            <input name="legal_name" required />
+            <input class="field-size-md" name="legal_name" required />
           </label>
           <label class="form-field">
             <span class="form-label">Nome completo do administrador</span>
-            <input name="name" required />
+            <input class="field-size-md" name="name" required />
           </label>
           <label class="form-field">
             <span class="form-label">CPF do administrador</span>
-            <input id="admin-cpf" name="cpf" inputmode="numeric" required aria-describedby="admin-cpf-error" />
+            <input class="field-size-md" id="admin-cpf" name="cpf" inputmode="numeric" required aria-describedby="admin-cpf-error" />
             <span id="admin-cpf-error" class="field-error" role="alert"></span>
           </label>
           <label class="form-field">
             <span class="form-label">E-mail profissional</span>
-            <input name="email" type="email" required />
+            <input class="field-size-md" name="email" type="email" required />
           </label>
           <label class="form-field">
             <span class="form-label">Senha</span>
-            <input name="password" type="password" minlength="12" required />
+            <input class="field-size-md" name="password" type="password" minlength="12" required />
           </label>
           <label class="consent-field">
             <input type="checkbox" name="terms" required />
@@ -56,9 +59,9 @@
             <input type="checkbox" name="privacy" required />
             <span>Li e aceito a Política de Privacidade.</span>
           </label>
-          <button class="btn btn-green" type="submit">Criar conta</button>
         </form>
-        <p id="feedback" role="status"></p>
+        <div class="login-actions"><button class="btn btn-green" form="register-form" type="submit">Criar conta</button></div>
+        <p id="feedback" class="form-message" role="status"></p>
       </section>
     </main>
     <script src="/assets/js/api-client.js"></script>
