@@ -562,6 +562,76 @@ textarea {
   color: #f5fbf7;
 }
 
+/* ========================================================================== */
+/* COMPONENTS: BACKOFFICE ACCESS MODAL                                        */
+/* ========================================================================== */
+
+.access-modal {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.access-modal[hidden] { display: none; }
+
+.access-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 26, 44, 0.68);
+  backdrop-filter: blur(4px);
+}
+
+.access-modal-card {
+  position: relative;
+  width: min(100%, 440px);
+  padding: 32px;
+  border: 1px solid #d8e9df;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(6, 26, 44, 0.28);
+}
+
+.access-modal-close {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #557069;
+  font: 500 20px/1 var(--font-text);
+  cursor: pointer;
+}
+
+.access-modal-close:hover { background: #eff8f3; color: #138752; }
+
+.access-modal-card .card-heading { margin-bottom: 26px; }
+
+.access-modal-card form {
+  display: grid;
+  gap: 18px;
+}
+
+.access-modal-card .form-field {
+  font-size: 11px;
+  font-weight: 400;
+  color: #557069;
+}
+
+.access-modal-card .login-actions { margin-top: 40px; }
+
+.access-modal-card .form-message { margin: 16px 0 0; }
+
+@media (max-width: 520px) {
+  .access-modal { padding: 16px; }
+  .access-modal-card { padding: 28px 23px 23px; }
+}
+
 .btn-header-cta {
   /* size */
   min-height: auto;
