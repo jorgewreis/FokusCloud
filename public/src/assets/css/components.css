@@ -1,3 +1,5 @@
+@import url("https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-straight/css/uicons-bold-straight.css");
+
 /* BADGES */
 .badge {
   /* size */
@@ -160,26 +162,79 @@
 
 .header-account-menu { position: relative; }
 
-.btn-header-account { display: inline-flex; align-items: center; gap: 7px; }
+.btn-header-account {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+  min-width: 190px;
+  min-height: 44px;
+  padding: 6px 10px 6px 13px;
+  border-color: #ffffff54;
+  border-radius: 8px;
+  background: #ffffff0a;
+  color: #f4fbf7;
+  text-align: left;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header-account-copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.header-account-copy strong,
+.header-account-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-account-copy strong {
+  color: #f5fbf7;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.header-account-copy small {
+  color: #a8cabc;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  line-height: 1.15;
+}
+
+.header-account-chevron {
+  flex: 0 0 auto;
+  color: #b8d8c9;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.header-account-menu.is-open .header-account-chevron { transform: rotate(180deg); }
 
 .header-account-options {
   position: absolute;
   z-index: 20;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 152px;
+  min-width: 190px;
   padding: 6px;
-  border: 1px solid #ffffff42;
-  border-radius: 7px;
-  background: #153a2a;
-  box-shadow: 0 12px 24px #001c1059;
+  border: 1px solid #ffffff38;
+  border-radius: 8px;
+  background: #123525;
+  box-shadow: 0 14px 28px #001c1066;
 }
 
 .header-account-options a,
 .header-account-options button {
   display: block;
   width: 100%;
-  padding: 9px 10px;
+  padding: 10px 11px;
   border: 0;
   border-radius: 4px;
   background: transparent;
@@ -194,6 +249,17 @@
 
 .header-account-options a:hover,
 .header-account-options button:hover { background: #24553f; color: #fff; }
+
+.btn-header-account:hover,
+.header-account-menu.is-open .btn-header-account {
+  background: #ffffff14;
+  border-color: #73c69a;
+  box-shadow: 0 0 0 3px #73c69a1a;
+  color: #f5fbf7;
+}
+
+.btn-header-account:hover .header-account-chevron,
+.header-account-menu.is-open .header-account-chevron { color: #89d6aa; }
 
 @keyframes chrome-reveal {
   from { opacity: 0; }

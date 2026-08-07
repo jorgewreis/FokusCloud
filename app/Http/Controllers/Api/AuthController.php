@@ -414,7 +414,7 @@ class AuthController extends Controller
 
     private function userPayload(User $user): array
     {
-        return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'email_verified' => (bool) $user->email_verified_at, 'status' => $user->status];
+        return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'cpf' => $user->cpf, 'email_verified' => (bool) $user->email_verified_at, 'status' => $user->status];
     }
 
     private function firstCompanyId(User $user): ?string

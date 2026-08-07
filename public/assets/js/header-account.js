@@ -1,14 +1,19 @@
 (() => {
-  const adminButtons = document.querySelectorAll("[data-header-admin]");
   const userMenus = document.querySelectorAll("[data-header-user]");
   const contactButtons = document.querySelectorAll("[data-header-contact]");
 
-  if (!adminButtons.length || !userMenus.length) return;
+  if (!userMenus.length) return;
 
   const displayName = (name) => {
     const parts = (name || "").trim().split(/\s+/).filter(Boolean);
     if (parts.length < 2) return parts[0] || "";
     return `${parts[0]} ${parts[parts.length - 1]}`;
+  };
+
+  const maskedCpf = (cpf) => {
+    const digits = String(cpf || "").replace(/\D/g, "");
+    if (digits.length !== 11) return "Conta Fokus Cloud";
+    return `CPF •••.•••.***-${digits.slice(-2)}`;
   };
 
   const toggleVisibility = (elements, visible) => {
@@ -32,10 +37,11 @@
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
         const name = displayName(data?.user?.name);
-        toggleVisibility(adminButtons, !name);
         userMenus.forEach((menu) => {
           const label = menu.querySelector("[data-header-user-name]");
+          const accountDocument = menu.querySelector("[data-header-user-document]");
           if (label) label.textContent = name || "Conta";
+          if (accountDocument) accountDocument.textContent = maskedCpf(data?.user?.cpf);
         });
         toggleVisibility(userMenus, Boolean(name));
         toggleVisibility(contactButtons, !name);
@@ -51,9 +57,11 @@
       const open = options?.hidden;
       userMenus.forEach((other) => {
         const otherOptions = other.querySelector("[data-header-user-options]");
+        other.classList.remove("is-open");
         if (otherOptions) otherOptions.hidden = true;
       });
       if (options) options.hidden = !open;
+      menu.classList.toggle("is-open", Boolean(open));
       toggle.setAttribute("aria-expanded", String(Boolean(open)));
     });
     logout?.addEventListener("click", async () => {
@@ -75,14 +83,10 @@
     userMenus.forEach((menu) => {
       const options = menu.querySelector("[data-header-user-options]");
       const toggle = menu.querySelector("[data-header-user-toggle]");
+      menu.classList.remove("is-open");
       if (options) options.hidden = true;
       toggle?.setAttribute("aria-expanded", "false");
     });
-  });
-
-  adminButtons.forEach((button) => {
-    button.textContent = "Minha conta";
-    button.onclick = () => window.location.assign("/acesso");
   });
 
   syncAccount();
