@@ -150,11 +150,10 @@
 .login-actions {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .login-actions .btn {
-  flex: 0 0 auto;
   justify-content: center;
 }
 
@@ -170,7 +169,7 @@
   margin-top: 15px;
   color: #557069;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .auth-recovery-link:hover { color: #138752; }
@@ -178,9 +177,11 @@
   display: grid;
   gap: 8px;
   font-size: 11px;
-  font-weight: bold;
+  font-weight: 400;
   color: #557069;
 }
+
+.auth-card label > span { margin-left: 12px; }
 .auth-card small,
 .payment-note {
   display: block;
