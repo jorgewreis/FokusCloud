@@ -1,149 +1,305 @@
 @import url("https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-straight/css/uicons-bold-straight.css");
 
-/* BADGES */
+/* ========================================================================== */
+/* COMPONENTS: BASE INTERACTION                                                */
+/* ========================================================================== */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+/* ========================================================================== */
+/* COMPONENTS: BADGES                                                         */
+/* ========================================================================== */
+
 .badge {
   /* size */
-  width: fit-content;
-  height: 22px;
+  min-height: 22px;
 
   /* space */
   padding: 0 0.5rem;
 
-  /* flex custom */
-  display: flex;
-  flex-direction: row;
+  /* layout */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  /* theme */
+  /* appearance */
   border-radius: var(--border-radius-200);
 }
 
 .badge-navy {
-  /* theme */
+  /* appearance */
   background-color: var(--color-white-900);
   color: var(--color-white-400);
 }
 
 .badge-text {
-  /* font */
-  font-family: var(--font-badge);
-  font-style: normal;
+  /* typography */
+  font-family: var(--font);
   font-size: 10px;
-  font-weight: 400;
+  font-weight: 600;
+  line-height: 1;
   text-transform: lowercase;
 }
 
-/* BUTTONS */
+/* ========================================================================== */
+/* COMPONENTS: BUTTONS                                                        */
+/* ========================================================================== */
+
 .btn {
   /* size */
   width: fit-content;
-  height: 40px;
+  min-height: 40px;
 
   /* space */
   padding: 0 1rem;
 
-  /* flex custom */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  /* layout */
+  display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 0.65rem;
 
-  /* theme */
-  background-color: var(--color-white-900);
+  /* appearance */
   border: 0;
   border-radius: var(--border-radius-200);
-
-  /* font */
-  font-family: var(--font-text);
-  font-size: 14px;
-  font-weight: 500;
+  background-color: var(--color-white-900);
   color: var(--color-white-400);
   cursor: pointer;
 
-  /* movie */
-  transition: background 0.4s ease-in-out;
+  /* typography */
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+
+  /* motion */
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover { background-color: var(--color-white-800); }
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .btn[hidden],
-.header-user[hidden] {
-  display: none !important;
-}
+.header-user[hidden] { display: none !important; }
 
-.btn-sm {
-  height: 32px;
-}
-
-.btn-lg {
-  height: 48px;
-}
-.btn:hover {
-  /* theme */
-  background-color: var(--color-white-800);
-
-  /* movie */
-  transition: background 0.2s ease-in-out;
-}
-
-.btn:focus-visible {
-  outline: 2px solid var(--green);
-  outline-offset: 3px;
-}
+.btn-sm { min-height: 32px; }
+.btn-lg { min-height: 48px; }
 
 .btn-green {
-  /* theme */
+  /* appearance */
   background-color: var(--color-green-500);
   color: var(--navy);
 }
-.btn-green:hover {
-  background-color: var(--color-green-700);
 
-  /* movie */
-  transition: background 0.2s ease-in-out;
-}
+.btn-green:hover { background-color: var(--color-green-700); }
 
 .btn-white {
+  /* position */
   position: relative;
   z-index: 1;
+
+  /* appearance */
   background-color: var(--color-white-000);
   color: var(--navy);
 }
 
-.btn-white:hover {
-  background-color: var(--color-gray-100);
-}
+.btn-white:hover { background-color: var(--color-gray-100); }
 
 .btn-outline {
+  /* appearance */
   border: 2px solid #ffffff70;
-  color: #fff;
   background: transparent;
+  color: #fff;
 }
 
-.btn-header-admin,
+.btn-outline:hover { background: #ffffff14; }
+
+.btn span { font-size: 18px; }
+
+/* ========================================================================== */
+/* COMPONENTS: FORM CONTROLS                                                  */
+/* ========================================================================== */
+
+.form-field {
+  /* layout */
+  display: grid;
+  gap: 6px;
+
+  /* typography */
+  color: #557069;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.form-control,
+.auth-card input:not([type="checkbox"]),
+.auth-card select,
+.auth-card textarea {
+  /* size */
+  display: block;
+  width: 100%;
+  min-height: 42px;
+
+  /* space */
+  padding: 10px 11px;
+
+  /* appearance */
+  border: 1px solid #cce0d5;
+  border-radius: 6px;
+  background-color: #fff;
+  color: var(--ink);
+
+  /* typography */
+  font: 14px var(--font);
+  line-height: 1.35;
+
+  /* motion */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control::placeholder,
+.auth-card input::placeholder,
+.auth-card textarea::placeholder { color: #789087; }
+
+.form-control:focus,
+.auth-card input:not([type="checkbox"]):focus,
+.auth-card select:focus,
+.auth-card textarea:focus {
+  border-color: #138752;
+  box-shadow: 0 0 0 3px rgba(19, 135, 82, 0.14);
+  outline: 0;
+}
+
+.form-control[aria-invalid="true"],
+.auth-card input[aria-invalid="true"] { border-color: #c73838; }
+
+.form-control:disabled,
+.auth-card input:disabled,
+.auth-card select:disabled,
+.auth-card textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.form-select,
+.auth-card select {
+  /* appearance */
+  appearance: none;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, #557069 50%), linear-gradient(135deg, #557069 50%, transparent 50%);
+  background-position: calc(100% - 17px) 50%, calc(100% - 12px) 50%;
+  background-repeat: no-repeat;
+  background-size: 5px 5px, 5px 5px;
+
+  /* space */
+  padding-right: 38px;
+}
+
+.form-range {
+  /* size */
+  width: 100%;
+  height: 5px;
+
+  /* appearance */
+  accent-color: #138752;
+  cursor: pointer;
+}
+
+.field-error {
+  /* typography */
+  color: #b42318;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.auth-card .field-error { display: none; margin-top: 5px; }
+.auth-card .field-error.is-visible { display: block; }
+
+.consent-field,
+.auth-card .consent-field {
+  /* layout */
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  /* typography */
+  color: #557069;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+
+  /* interaction */
+  cursor: pointer;
+}
+
+.consent-field input[type="checkbox"],
+.auth-card .consent-field input[type="checkbox"] {
+  /* size */
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  /* space */
+  margin: 1px 0 0;
+
+  /* appearance */
+  accent-color: #138752;
+}
+
+/* ========================================================================== */
+/* COMPONENTS: HEADER ACTIONS AND ACCOUNT MENU                                */
+/* ========================================================================== */
+
 .btn-header-backoffice,
 .btn-header-account {
-  padding: 0 11px;
-  background: transparent;
+  /* appearance */
   border: 1px solid #ffffff42;
   border-radius: 5px;
+  background: transparent;
+  color: #d7e8f1;
+
+  /* typography */
   font-family: var(--font);
   font-size: 11px;
   font-weight: 700;
-  color: #d7e8f1;
 }
 
-[data-header-admin],
 [data-header-contact],
 [data-header-user] {
+  /* appearance */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+
+  /* motion */
   transition: opacity 0.7s ease, visibility 0s linear 0.7s;
 }
 
-[data-header-admin].is-visible,
 [data-header-contact].is-visible,
 [data-header-user].is-visible {
   opacity: 1;
@@ -152,33 +308,39 @@
   transition: opacity 0.7s ease;
 }
 
-.btn-header-admin:hover,
 .btn-header-backoffice:hover,
 .btn-header-account:hover {
-  background: transparent;
   border-color: var(--green);
+  background: transparent;
   color: var(--green);
 }
 
 .header-account-menu { position: relative; }
 
 .btn-header-account {
+  /* size */
+  min-width: 190px;
+  min-height: 44px;
+
+  /* space */
+  padding: 6px 10px 6px 13px;
+
+  /* layout */
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 13px;
-  min-width: 190px;
-  min-height: 44px;
-  padding: 6px 10px 6px 13px;
+
+  /* appearance */
   border-color: #ffffff54;
   border-radius: 8px;
   background: #ffffff0a;
   color: #f4fbf7;
   text-align: left;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .header-account-copy {
+  /* layout */
   display: grid;
   min-width: 0;
   gap: 2px;
@@ -218,12 +380,19 @@
 .header-account-menu.is-open .header-account-chevron { transform: rotate(180deg); }
 
 .header-account-options {
+  /* position */
   position: absolute;
   z-index: 20;
   top: calc(100% + 8px);
   right: 0;
+
+  /* size */
   min-width: 190px;
+
+  /* space */
   padding: 6px;
+
+  /* appearance */
   border: 1px solid #ffffff38;
   border-radius: 8px;
   background: #123525;
@@ -232,14 +401,23 @@
 
 .header-account-options a,
 .header-account-options button {
-  display: block;
+  /* size */
   width: 100%;
+
+  /* space */
   padding: 10px 11px;
+
+  /* layout */
+  display: block;
+
+  /* appearance */
   border: 0;
   border-radius: 4px;
   background: transparent;
   color: #d7e8f1;
   cursor: pointer;
+
+  /* typography */
   font: inherit;
   font-size: 12px;
   font-weight: 700;
@@ -252,14 +430,47 @@
 
 .btn-header-account:hover,
 .header-account-menu.is-open .btn-header-account {
-  background: #ffffff14;
   border-color: #73c69a;
+  background: #ffffff14;
   box-shadow: 0 0 0 3px #73c69a1a;
   color: #f5fbf7;
 }
 
 .btn-header-account:hover .header-account-chevron,
 .header-account-menu.is-open .header-account-chevron { color: #89d6aa; }
+
+.btn-header-cta {
+  /* size */
+  min-height: auto;
+
+  /* space */
+  padding: 0;
+
+  /* appearance */
+  background: transparent;
+  color: var(--green);
+
+  /* typography */
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-header-cta:hover { background: transparent; }
+.btn.btn-header-cta span { font-size: 16px; margin-left: 7px; }
+
+/* ========================================================================== */
+/* COMPONENTS: CONTEXTUAL ACTIONS                                             */
+/* ========================================================================== */
+
+.contact .btn { margin-top: 10px; justify-self: start; }
+.model-card .btn { width: 100%; justify-content: center; }
+.model-card.featured .btn { background: var(--green); }
+.review-actions .btn-outline { border-color: #b8d2c3; color: var(--ink); }
+
+/* ========================================================================== */
+/* COMPONENTS: MOTION AND RESPONSIVENESS                                      */
+/* ========================================================================== */
 
 @keyframes chrome-reveal {
   from { opacity: 0; }
@@ -271,62 +482,15 @@ footer,
 .product-footer { animation: chrome-reveal 0.7s ease both; }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-header-admin],
   [data-header-contact],
   [data-header-user],
   .site-header,
   footer,
   .product-footer { animation: none; transition: none; }
 }
-}
-
-.btn-header-cta {
-  height: auto;
-  padding: 0;
-  background: transparent;
-  font-family: var(--font);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--green);
-}
-
-.btn-header-cta:hover {
-  background: transparent;
-}
-
-.btn.btn-header-cta span {
-  font-size: 16px;
-  margin-left: 7px;
-}
 
 @media (max-width: 999px) {
-  .btn-header-admin,
   .btn-header-backoffice,
   .btn-header-cta,
-  .header-account-menu {
-    display: none;
-  }
-}
-
-.btn span {
-  font-size: 18px;
-}
-
-.contact .btn {
-  margin-top: 10px;
-  justify-self: start;
-}
-
-.model-card .btn {
-  width: 100%;
-  justify-content: center;
-}
-
-.model-card.featured .btn {
-  background: var(--green);
-}
-
-.review-actions .btn-outline {
-  color: var(--ink);
-  border-color: #b8d2c3;
+  .header-account-menu { display: none; }
 }

@@ -1,7 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
+/* ========================================================================== */
+/* FOUNDATION: DESIGN TOKENS                                                   */
+/* ========================================================================== */
+
 :root {
-  /* COLOR BLUE */
+  /* colors: blue */
   --color-blue-100: #e6f7fa;
   --color-blue-200: #b3e5f2;
   --color-blue-300: #80d4eb;
@@ -12,7 +16,7 @@
   --color-blue-800: #004d4d;
   --color-blue-900: #1c2431;
 
-  /* COLOR PINK */
+  /* colors: pink */
   --color-pink-100: #ffe6ef;
   --color-pink-200: #ffb3ce;
   --color-pink-300: #ff80ad;
@@ -23,7 +27,7 @@
   --color-pink-800: #8c0033;
   --color-pink-900: #660025;
 
-  /* COLOR GOLD */
+  /* colors: gold */
   --color-gold-100: #fff8e6;
   --color-gold-200: #ffeeb3;
   --color-gold-300: #ffe380;
@@ -34,7 +38,7 @@
   --color-gold-800: #8c6a00;
   --color-gold-900: #664d00;
 
-  /* COLOR PURPLE */
+  /* colors: purple */
   --color-purple-100: #f0ebf9;
   --color-purple-200: #d8c7ef;
   --color-purple-300: #c1a3e4;
@@ -45,7 +49,7 @@
   --color-purple-800: #371f63;
   --color-purple-900: #281749;
 
-  /* COLOR GREEN */
+  /* colors: green */
   --color-green-100: #e6fff3;
   --color-green-200: #b3ffdc;
   --color-green-300: #80ffc6;
@@ -56,7 +60,7 @@
   --color-green-800: #00864d;
   --color-green-900: #00663b;
 
-  /* COLOR MONO */
+  /* colors: mono */
   --color-white-000: #ffffff;
   --color-white-100: #fffffff0;
   --color-white-200: #ffffffe0;
@@ -89,7 +93,7 @@
 
   --bg-page: var(--color-blue-900);
 
-  /* FOKUS CLOUD */
+  /* brand colors */
   --navy: #082b47;
   --navy-2: #041e35;
   --green: #51e88e;
@@ -99,13 +103,13 @@
   --line: #d5e8df;
   --cream: #fbfdfb;
 
-  /* FONT */
+  /* typography */
   --font-text: "Noto Sans", sans-serif;
   --font-title: "Google Sans", sans-serif;
   --font: "DM Sans", sans-serif;
   --display: "Manrope", sans-serif;
 
-  /* BORDER RADIUS */
+  /* shape */
   --border-radius-100: 2px;
   --border-radius-200: 4px;
   --border-radius-300: 8px;

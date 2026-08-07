@@ -1,6 +1,10 @@
 @import url("header.css");
 @import url("components.css");
 
+/* ========================================================================== */
+/* MARKETING: DOCUMENT AND SITE CHROME                                        */
+/* ========================================================================== */
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 78px;
@@ -44,6 +48,10 @@ body {
 .site-header nav a:hover {
   color: var(--green);
 }
+/* ========================================================================== */
+/* MARKETING: HERO                                                            */
+/* ========================================================================== */
+
 .hero {
   min-height: 690px;
   padding: 178px clamp(24px, 7vw, 118px) 152px;
@@ -300,6 +308,10 @@ h2 em {
   border-radius: 50% 50% 0 0/60% 60% 0 0;
   transform: rotate(-3deg);
 }
+/* ========================================================================== */
+/* MARKETING: INTRODUCTION                                                    */
+/* ========================================================================== */
+
 .intro {
   padding: 88px clamp(24px, 12vw, 190px) 104px;
   display: flex;
@@ -403,6 +415,10 @@ h2 em {
   transform: rotate(58deg);
   background: #83e7ac;
 }
+/* ========================================================================== */
+/* MARKETING: SOLUTIONS                                                       */
+/* ========================================================================== */
+
 .solutions {
   padding: 90px clamp(24px, 7vw, 118px);
   background: #f0faf4;
@@ -547,6 +563,10 @@ h2 em {
   right: 25px;
   bottom: 15px;
 }
+/* ========================================================================== */
+/* MARKETING: BENEFITS AND CONTACT                                            */
+/* ========================================================================== */
+
 .benefits {
   text-align: center;
   padding: 95px clamp(24px, 7vw, 118px);
@@ -627,6 +647,10 @@ h2 em {
 .contact textarea::placeholder {
   color: #7793a2;
 }
+/* ========================================================================== */
+/* MARKETING: FOOTER                                                          */
+/* ========================================================================== */
+
 footer {
   background: #061a2c;
   color: #9bb2c0;
@@ -647,6 +671,10 @@ footer div {
 footer a:hover {
   color: var(--green);
 }
+/* ========================================================================== */
+/* MARKETING: RESPONSIVE RULES                                                */
+/* ========================================================================== */
+
 @media (max-width: 600px) {
   .site-header {
     justify-content: center;
@@ -758,6 +786,10 @@ footer a:hover {
     letter-spacing: -2px;
   }
 }
+/* ========================================================================== */
+/* MARKETING: SUPPLEMENTARY SECTIONS                                          */
+/* ========================================================================== */
+
 .contact-options {
   display: grid;
   gap: 7px;
