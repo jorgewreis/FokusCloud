@@ -1,10 +1,9 @@
 (() => {
   const adminButtons = document.querySelectorAll("[data-header-admin]");
-  const userLabels = document.querySelectorAll("[data-header-user]");
+  const userMenus = document.querySelectorAll("[data-header-user]");
   const contactButtons = document.querySelectorAll("[data-header-contact]");
-  const logoutButtons = document.querySelectorAll("[data-header-logout]");
 
-  if (!adminButtons.length || !userLabels.length) return;
+  if (!adminButtons.length || !userMenus.length) return;
 
   const displayName = (name) => {
     const parts = (name || "").trim().split(/\s+/).filter(Boolean);
@@ -24,38 +23,39 @@
           button.hidden = Boolean(name);
           button.style.display = name ? "none" : "";
         });
-        userLabels.forEach((label) => {
-          label.textContent = name;
-          label.hidden = !name;
-          label.style.display = name ? "flex" : "none";
+        userMenus.forEach((menu) => {
+          menu.replaceChildren(
+            new Option(name || "Conta", ""),
+            new Option("Meu painel", "/portal"),
+            new Option("Sair", "logout"),
+          );
+          menu.selectedIndex = 0;
+          menu.hidden = !name;
+          menu.style.display = name ? "inline-flex" : "none";
         });
         contactButtons.forEach((button) => {
           button.hidden = Boolean(name);
           button.style.display = name ? "none" : "";
         });
-        logoutButtons.forEach((button) => {
-          button.hidden = !name;
-          button.style.display = name ? "flex" : "none";
-        });
       })
       .catch(() => {});
   };
 
-  logoutButtons.forEach((button) => {
-    button.onclick = async () => {
-      button.disabled = true;
+  userMenus.forEach((menu) => {
+    menu.onchange = async () => {
+      const action = menu.value;
+      menu.selectedIndex = 0;
+      if (action === "/portal") return window.location.assign(action);
+      if (action !== "logout") return;
+      menu.disabled = true;
       try {
         const csrfResponse = await fetch("/api/csrf-token", { credentials: "same-origin" });
         const { token } = await csrfResponse.json();
-        const response = await fetch("/api/auth/logout", {
-          method: "POST",
-          credentials: "same-origin",
-          headers: { Accept: "application/json", "X-CSRF-TOKEN": token },
-        });
+        const response = await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin", headers: { Accept: "application/json", "X-CSRF-TOKEN": token } });
         if (!response.ok) throw new Error("Não foi possível encerrar a sessão.");
         window.location.assign("/");
       } catch (_) {
-        button.disabled = false;
+        menu.disabled = false;
       }
     };
   });

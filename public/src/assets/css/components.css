@@ -137,12 +137,13 @@
 }
 
 .header-user {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  padding: 0 11px;
+  height: 32px;
+  padding: 0 28px 0 11px;
   border: 1px solid #ffffff42;
   border-radius: 5px;
+  background: transparent;
   color: #d7e8f1;
   font-family: var(--font);
   font-size: 11px;
