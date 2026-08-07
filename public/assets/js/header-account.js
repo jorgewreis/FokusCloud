@@ -22,16 +22,20 @@
         const name = displayName(data?.user?.name);
         adminButtons.forEach((button) => {
           button.hidden = Boolean(name);
+          button.style.display = name ? "none" : "";
         });
         userLabels.forEach((label) => {
           label.textContent = name;
           label.hidden = !name;
+          label.style.display = name ? "flex" : "none";
         });
         contactButtons.forEach((button) => {
           button.hidden = Boolean(name);
+          button.style.display = name ? "none" : "";
         });
         logoutButtons.forEach((button) => {
           button.hidden = !name;
+          button.style.display = name ? "flex" : "none";
         });
       })
       .catch(() => {});
