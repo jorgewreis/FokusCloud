@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # The customer portal has static assets in public/portal, but its canonical
+    # URLs are handled by Laravel. Match them before Apache rejects the physical
+    # directory listing with HTTP 403.
+    RewriteRule ^portal/?$ index.php [L]
+    RewriteRule ^portal/(painel|perfil|empresas|usuarios|assinaturas|transferir-administracao)/?$ index.php [L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
