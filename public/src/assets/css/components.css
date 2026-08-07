@@ -196,6 +196,16 @@ textarea {
 
 .card-heading .card-description { margin-top: 3px; }
 
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field > .form-label {
+  display: block;
+  margin-left: 12px;
+}
+
 .auth-card .card-title {
   margin-top: 30px;
   font-family: var(--font-text);

@@ -173,15 +173,12 @@
 }
 
 .auth-recovery-link:hover { color: #138752; }
-.auth-card label {
-  display: grid;
-  gap: 8px;
+.auth-card .form-field {
   font-size: 11px;
   font-weight: 400;
   color: #557069;
 }
 
-.auth-card label > span { margin-left: 12px; }
 .auth-card small,
 .payment-note {
   display: block;

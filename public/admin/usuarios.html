@@ -15,10 +15,10 @@
         <p>USUÁRIOS DA EMPRESA</p>
         <h1>Convide e administre acessos</h1>
         <form id="invite-form">
-          <label>Nome completo<input name="name" autocomplete="name" required /></label>
-          <label>CPF<input name="cpf" inputmode="numeric" required /></label>
-          <label>E-mail<input name="email" type="email" autocomplete="email" required /></label>
-          <label>Perfil<select name="role"><option value="usuario">Usuário</option><option value="gestor">Gestor</option></select></label>
+          <label class="form-field"><span class="form-label">Nome completo</span><input name="name" autocomplete="name" required /></label>
+          <label class="form-field"><span class="form-label">CPF</span><input name="cpf" inputmode="numeric" required /></label>
+          <label class="form-field"><span class="form-label">E-mail</span><input name="email" type="email" autocomplete="email" required /></label>
+          <label class="form-field"><span class="form-label">Perfil</span><select name="role"><option value="usuario">Usuário</option><option value="gestor">Gestor</option></select></label>
           <button class="btn btn-green" type="submit">Enviar convite</button>
         </form>
         <p id="message" role="status"></p>

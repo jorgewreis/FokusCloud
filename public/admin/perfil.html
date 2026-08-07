@@ -15,11 +15,11 @@
         <p>MEU PERFIL</p>
         <h1>Dados da conta</h1>
         <form id="profile-form">
-          <label>Nome completo<input id="name" name="name" autocomplete="name" required /></label>
-          <label>Novo e-mail<input id="email" name="email" type="email" autocomplete="email" /></label>
-          <label>Nova senha<input name="password" type="password" minlength="12" autocomplete="new-password" /></label>
-          <label>Confirme a nova senha<input name="password_confirmation" type="password" minlength="12" autocomplete="new-password" /></label>
-          <label>Senha atual<input name="current_password" type="password" autocomplete="current-password" /></label>
+          <label class="form-field"><span class="form-label">Nome completo</span><input id="name" name="name" autocomplete="name" required /></label>
+          <label class="form-field"><span class="form-label">Novo e-mail</span><input id="email" name="email" type="email" autocomplete="email" /></label>
+          <label class="form-field"><span class="form-label">Nova senha</span><input name="password" type="password" minlength="12" autocomplete="new-password" /></label>
+          <label class="form-field"><span class="form-label">Confirme a nova senha</span><input name="password_confirmation" type="password" minlength="12" autocomplete="new-password" /></label>
+          <label class="form-field"><span class="form-label">Senha atual</span><input name="current_password" type="password" autocomplete="current-password" /></label>
           <button class="btn btn-green" type="submit">Salvar alterações</button>
         </form>
         <p id="message" role="status"></p>

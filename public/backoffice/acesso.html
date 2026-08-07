@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Acesso interno | Fokus Cloud</title>
     <link rel="stylesheet" href="/src/assets/css/reset.css" />
-    <link rel="stylesheet" href="/src/assets/css/style.css?v=20260807-21" />
-    <link rel="stylesheet" href="/src/assets/css/subscription.css?v=20260807-15" />
+    <link rel="stylesheet" href="/src/assets/css/style.css?v=20260807-22" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css?v=20260807-16" />
   </head>
   <body class="subscription-page">
     <main class="checkout-wrap">
@@ -20,12 +20,12 @@
         </div>
 
         <form id="login">
-          <label>
-            <span>E-mail interno</span>
+          <label class="form-field">
+            <span class="form-label">E-mail interno</span>
             <input class="field-size-md" name="email" type="email" autocomplete="username" required />
           </label>
-          <label>
-            <span>Senha</span>
+          <label class="form-field">
+            <span class="form-label">Senha</span>
             <input class="field-size-md" name="password" type="password" autocomplete="current-password" required />
           </label>
           <div class="login-actions">
@@ -35,8 +35,8 @@
 
         <form id="mfa" hidden>
           <p class="card-subtitle">Informe o código de seis dígitos enviado ao seu e-mail.</p>
-          <label>
-            <span>Código</span>
+          <label class="form-field">
+            <span class="form-label">Código</span>
             <input class="field-size-sm" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required />
           </label>
           <div class="login-actions">

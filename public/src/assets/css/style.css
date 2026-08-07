@@ -1,5 +1,5 @@
 @import url("header.css");
-@import url("components.css?v=20260807-21");
+@import url("components.css?v=20260807-22");
 
 /* ========================================================================== */
 /* MARKETING: DOCUMENT AND SITE CHROME                                        */
@@ -622,10 +622,10 @@ h2 em {
   display: grid;
   gap: 14px;
 }
-.contact label {
+.contact .form-field {
   font-size: 11px;
   color: #a8c1cd;
-  font-weight: bold;
+  font-weight: 400;
 }
 .contact input,
 .contact textarea {

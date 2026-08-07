@@ -15,37 +15,37 @@
         <p>CADASTRO INICIAL</p>
         <h1>Crie sua empresa.</h1>
         <form id="register-form">
-          <label>
-            Tipo de documento
+          <label class="form-field">
+            <span class="form-label">Tipo de documento</span>
             <select name="document_type" id="document-type">
               <option value="cnpj">CNPJ</option>
               <option value="cpf">CPF</option>
             </select>
           </label>
-          <label>
-            CPF ou CNPJ
+          <label class="form-field">
+            <span class="form-label">CPF ou CNPJ</span>
             <input id="company-document" name="document_number" inputmode="numeric" required aria-describedby="company-document-error" />
             <span id="company-document-error" class="field-error" role="alert"></span>
           </label>
-          <label id="company-name-label">
-            Razão social
+          <label class="form-field" id="company-name-label">
+            <span class="form-label" id="company-name-label-text">Razão social</span>
             <input name="legal_name" required />
           </label>
-          <label>
-            Nome completo do administrador
+          <label class="form-field">
+            <span class="form-label">Nome completo do administrador</span>
             <input name="name" required />
           </label>
-          <label>
-            CPF do administrador
+          <label class="form-field">
+            <span class="form-label">CPF do administrador</span>
             <input id="admin-cpf" name="cpf" inputmode="numeric" required aria-describedby="admin-cpf-error" />
             <span id="admin-cpf-error" class="field-error" role="alert"></span>
           </label>
-          <label>
-            E-mail profissional
+          <label class="form-field">
+            <span class="form-label">E-mail profissional</span>
             <input name="email" type="email" required />
           </label>
-          <label>
-            Senha
+          <label class="form-field">
+            <span class="form-label">Senha</span>
             <input name="password" type="password" minlength="12" required />
           </label>
           <label class="consent-field">
@@ -64,7 +64,7 @@
     <script src="/assets/js/api-client.js"></script>
     <script>
       const type = document.querySelector('#document-type');
-      const companyNameLabel = document.querySelector('#company-name-label');
+      const companyNameLabel = document.querySelector('#company-name-label-text');
       const companyDocument = document.querySelector('#company-document');
       const adminCpf = document.querySelector('#admin-cpf');
       const form = document.querySelector('#register-form');
@@ -116,7 +116,7 @@
       };
 
       type.onchange = () => {
-        companyNameLabel.firstChild.textContent = type.value === 'cpf' ? 'Nome completo' : 'Razão social';
+        companyNameLabel.textContent = type.value === 'cpf' ? 'Nome completo' : 'Razão social';
         companyDocument.value = '';
         companyDocument.removeAttribute('aria-invalid');
         document.querySelector('#company-document-error').classList.remove('is-visible');
