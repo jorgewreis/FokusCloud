@@ -130,7 +130,7 @@
       state.cycle === "annual"
         ? `<p class="review-saving">Desconto total de <b>25%</b></p>`
         : "";
-    return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><a class="btn btn-green" href="/admin/assinaturas">Continuar para checkout <span>→</span></a></div><small class="payment-note">O checkout seguro é criado no painel após a validação da empresa e do e-mail.</small></div>`;
+    return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><button class="btn btn-green" type="button" data-checkout>Continuar para checkout <span>→</span></button></div><p id="checkout-feedback" role="status"></p><small class="payment-note">O checkout seguro é criado após a validação da empresa e do e-mail.</small></div>`;
   }
   function bind() {
     root.querySelectorAll("[data-account]").forEach(
@@ -292,6 +292,29 @@
       state.step = 2;
       render();
     });
+    const checkoutButton = root.querySelector("[data-checkout]");
+    if (checkoutButton) {
+      checkoutButton.onclick = async () => {
+        const feedback = root.querySelector("#checkout-feedback");
+        checkoutButton.disabled = true;
+        try {
+          const response = await FokusApi.request("/subscriptions/checkout", {
+            method: "POST",
+            body: {
+              product_code: document.body.dataset.product,
+              items: state.items.map((moduleCode) => ({ module_code: moduleCode, quantity: 1 })),
+              cycle: state.cycle,
+            },
+          });
+          location.assign(response.checkout_url);
+        } catch (error) {
+          feedback.textContent = error.message === "Unauthenticated."
+            ? "Sua sessão expirou. Entre novamente para continuar."
+            : error.message;
+          checkoutButton.disabled = false;
+        }
+      };
+    }
   }
   function render() {
     const steps = ["Conta", "Assinatura", "Revisão"]

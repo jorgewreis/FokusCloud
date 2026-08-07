@@ -73,9 +73,7 @@ class AuthController extends Controller
         $this->sendToken($user, 'email_verification', '/verificar-email', [
             'return_to' => $data['return_to'] ?? '/admin/painel',
         ]);
-        Auth::login($user);
-        $request->session()->regenerate();
-        $request->session()->put('active_company_id', $company);
+        $this->authenticateIntoSession($request, $user, $company);
 
         return response()->json(['message' => 'Cadastro criado. Confirme seu e-mail antes de escolher a assinatura.', 'company_id' => $company], 201);
     }
@@ -90,11 +88,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'CPF ou senha inválidos.'], 422);
         }
         $user->forceFill(['failed_login_attempts' => 0, 'login_attempt_window_started_at' => null, 'locked_until' => null])->save();
-        Auth::login($user);
-        $request->session()->regenerate();
         $companies = $this->companiesFor($user);
-        if (count($companies) === 1) $request->session()->put('active_company_id', $companies[0]->id);
-        return response()->json(['user' => $this->userPayload($user), 'companies' => $companies]);
+        $companyId = count($companies) === 1 ? $companies[0]->id : null;
+        $this->authenticateIntoSession($request, $user, $companyId);
+        return response()->json(['user' => $this->userPayload($user), 'companies' => $companies, 'active_company_id' => $companyId]);
     }
 
     public function logout(Request $request)
@@ -125,10 +122,8 @@ class AuthController extends Controller
         $user = User::findOrFail($token->user_id);
         $user->forceFill(['email_verified_at' => now(), 'status' => 'ativa'])->save();
         DB::table('companies')->where('created_by', $user->id)->where('status', 'pendente')->update(['status' => 'ativa', 'updated_at' => now()]);
-        Auth::login($user);
-        $request->session()->regenerate();
         $companyId = DB::table('company_memberships')->where('user_id', $user->id)->where('status', 'ativo')->value('company_id');
-        if ($companyId) $request->session()->put('active_company_id', $companyId);
+        $this->authenticateIntoSession($request, $user, $companyId);
         $payload = $token->payload ? json_decode($token->payload, true) : [];
         $returnTo = data_get($payload, 'return_to', '/admin/painel');
         if (! in_array($returnTo, ['/admin/painel', '/assinaturas/fokus-law', '/assinaturas/fokus-lead'], true)) {
@@ -245,6 +240,17 @@ class AuthController extends Controller
     private function userPayload(User $user): array
     {
         return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'email_verified' => (bool) $user->email_verified_at, 'status' => $user->status];
+    }
+
+    private function authenticateIntoSession(Request $request, User $user, ?string $companyId = null): void
+    {
+        $request->session()->regenerate();
+        Auth::guard('web')->login($user);
+        $request->session()->forget('active_company_id');
+        if ($companyId) {
+            $request->session()->put('active_company_id', $companyId);
+        }
+        $request->session()->save();
     }
 
     private function recordFailedLogin(User $user): void
