@@ -9,6 +9,7 @@
     items: [],
     plan: null,
     account: "register",
+    pendingCompany: null,
     usage: {
       oficios: 2500,
       partes: 5000,
@@ -32,9 +33,8 @@
       );
     }, 0);
   const monthly = () =>
-    state.items.reduce((sum, id) => sum + moduleById(id)[3], 0) *
-      (state.mode === "plan" ? 0.9 : 1) +
-    usageFee();
+    (state.items.reduce((sum, id) => sum + moduleById(id)[3], 0) + usageFee()) *
+    (state.mode === "plan" ? 0.9 : 1);
   const annual = () => monthly() * 9;
   const period = () => (state.cycle === "annual" ? "ano" : "mês");
   const amount = () => (state.cycle === "annual" ? annual() : monthly());
@@ -179,20 +179,35 @@
         const companyValid = validateDocument(companyDocument, documentType.value, "#subscription-company-document-error");
         const cpfValid = validateDocument(adminCpf, "cpf", "#subscription-admin-cpf-error");
         if (!companyValid || !cpfValid) return;
+        let values;
         try {
-          const values = Object.fromEntries(new FormData(registerForm));
+          values = Object.fromEntries(new FormData(registerForm));
+          const payload = {
+            ...values,
+            terms_version: "1.0",
+            privacy_version: "1.0",
+            return_to: subscriptionPath(),
+          };
           await FokusApi.request("/auth/register-company", {
             method: "POST",
-            body: {
-              ...values,
-              terms_version: "1.0",
-              privacy_version: "1.0",
-              return_to: subscriptionPath(),
-            },
+            body: payload,
           });
           location.assign("/verificar-email");
         } catch (error) {
-          feedback.textContent = error.message;
+          if (error.message.includes("já possui conta")) {
+            state.pendingCompany = {
+              document_type: documentType.value,
+              document_number: companyDocument.value,
+              legal_name: values.legal_name,
+              terms_version: "1.0",
+              privacy_version: "1.0",
+              return_to: subscriptionPath(),
+            };
+            state.account = "login";
+            render();
+          } else {
+            feedback.textContent = error.message;
+          }
         }
       };
     }
@@ -228,7 +243,19 @@
             body: Object.fromEntries(new FormData(event.currentTarget)),
           });
           window.dispatchEvent(new Event("fokus:session-changed"));
-          if (!data.user.email_verified) {
+          if (state.pendingCompany) {
+            await FokusApi.request("/auth/register-company-for-current-user", {
+              method: "POST",
+              body: state.pendingCompany,
+            });
+            state.pendingCompany = null;
+            if (!data.user.email_verified) {
+              location.assign("/verificar-email");
+              return;
+            }
+            state.step = 2;
+            render();
+          } else if (!data.user.email_verified) {
             location.href = "/verificar-email";
           } else if (!data.companies.length) {
             feedback.textContent = "Sua conta não possui uma empresa ativa. Solicite o vínculo ao administrador da empresa.";
@@ -303,8 +330,14 @@
             method: "POST",
             body: {
               product_code: document.body.dataset.product,
-              items: state.items.map((moduleCode) => ({ module_code: moduleCode, quantity: 1 })),
+              items: state.items.map((moduleCode) => ({
+                module_code: moduleCode,
+                quantity: 1,
+                usage_limit: state.usage[moduleCode],
+              })),
               cycle: state.cycle,
+              selection_mode: state.mode,
+              plan_code: state.plan,
             },
           });
           location.assign(response.checkout_url);

@@ -37,6 +37,10 @@ CPF já exista, o usuário deve aceitar o novo vínculo antes da ativação.
 5. Encerramento de empresa ou conta global é solicitado pelo interessado e
    validado pelo suporte antes de iniciar a retenção.
 
+A rotina diária elimina tokens e convites expirados após 90 dias e vínculos
+removidos após 90 dias. Eventos de auditoria são criados com expiração de 180
+dias, cobrindo os 90 dias adicionais após o período de restauração.
+
 Remover uma pessoa de uma empresa remove apenas o vínculo empresarial. A conta
 global e seus vínculos com outras empresas permanecem inalterados.
 
@@ -56,7 +60,8 @@ contexto é auditada.
 - CPF e e-mail são normalizados e únicos na conta global.
 - A senha possui no mínimo 12 caracteres e bloqueia senhas comuns ou vazadas.
 - Cinco falhas de login em 15 minutos bloqueiam a conta por 30 minutos e
-  geram evento de segurança.
+  bloqueiam a conta por 30 minutos; no próximo login válido o bloqueio é
+  removido e os contadores são reiniciados.
 - Confirmação de e-mail, recuperação, criação de senha e aceite de vínculo usam
   links temporários válidos por 24 horas.
 - Conta global: `pendente`, `ativa`, `bloqueada` ou `desativada`.

@@ -122,9 +122,9 @@ CREATE TABLE company_memberships (
 ) ENGINE=InnoDB;
 ```
 
-Como MySQL não possui índice parcial nativo, a migration futura deve garantir
-um admin ativo por empresa por coluna gerada ou tabela de controle com chave
-única `company_id`, além da transação de transferência.
+Como MySQL não possui índice parcial nativo, a migration usa a coluna auxiliar
+`active_admin_company_id`, única e nula para vínculos não administrativos. A
+transferência atualiza os dois vínculos em uma única transação.
 
 ```sql
 CREATE TABLE subscriptions (
@@ -146,7 +146,8 @@ CREATE TABLE subscriptions (
 ```
 
 A unicidade de assinatura não encerrada por empresa e produto é condicional e
-deve usar a mesma estratégia de unicidade condicional prevista para admin.
+usa `open_company_product`, preenchida apenas nos estados não encerrados, e
+índice único. O webhook atualiza pagamento e assinatura de forma idempotente.
 
 ## Metadados e concorrência
 

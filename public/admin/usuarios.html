@@ -1,1 +1,82 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Usuários | Fokus Cloud</title><link rel="stylesheet" href="/src/assets/css/reset.css"><link rel="stylesheet" href="/src/assets/css/style.css"></head><body><main class="checkout-wrap"><section class="auth-card"><a class="brand" href="/admin">Fokus<span>Cloud</span></a><h1>Usuários da empresa</h1><form id="invite"><label>Nome completo<input name="name" required></label><label>CPF<input name="cpf" required></label><label>E-mail<input type="email" name="email" required></label><label>Perfil<select name="role"><option value="usuario">Usuário</option><option value="gestor">Gestor</option></select></label><button class="btn btn-green">Enviar convite</button></form><p id="message" role="status"></p><div id="list"></div></section></main><script src="/assets/js/api-client.js"></script><script>async function load(){try{const users=await FokusApi.request('/admin/users');list.innerHTML=users.map(u=>`<p><b>${u.name}</b> — ${u.role} — ${u.status}</p>`).join('')}catch(e){location='/admin'}}invite.onsubmit=async e=>{e.preventDefault();try{const r=await FokusApi.request('/admin/users',{method:'POST',body:Object.fromEntries(new FormData(e.target))});message.textContent=r.message;e.target.reset();load()}catch(e){message.textContent=e.message}};load()</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Usuários | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/admin/painel">Fokus<span>Cloud</span></a>
+        <p>USUÁRIOS DA EMPRESA</p>
+        <h1>Convide e administre acessos</h1>
+        <form id="invite-form">
+          <label>Nome completo<input name="name" autocomplete="name" required /></label>
+          <label>CPF<input name="cpf" inputmode="numeric" required /></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" required /></label>
+          <label>Perfil<select name="role"><option value="usuario">Usuário</option><option value="gestor">Gestor</option></select></label>
+          <button class="btn btn-green" type="submit">Enviar convite</button>
+        </form>
+        <p id="message" role="status"></p>
+        <div class="review-actions"><a class="btn btn-outline" href="/admin/transferir-administracao">Transferir administração</a></div>
+        <div id="users" class="admin-list"></div>
+      </section>
+    </main>
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      const message = document.querySelector('#message');
+      const list = document.querySelector('#users');
+      const digits = (value) => value.replace(/\D/g, '');
+      const validCpf = (value) => {
+        const cpf = digits(value);
+        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+        const check = (length) => {
+          const total = cpf.slice(0, length).split('').reduce((sum, digit, index) => sum + Number(digit) * (length + 1 - index), 0);
+          const digit = (total * 10) % 11;
+          return digit === 10 ? 0 : digit;
+        };
+        return check(9) === Number(cpf[9]) && check(10) === Number(cpf[10]);
+      };
+      const maskCpf = (value) => `${value.slice(0, 3)}.***.***-${value.slice(-2)}`;
+      async function load() {
+        try {
+          const users = await FokusApi.request('/admin/users');
+          list.innerHTML = users.map((user) => `<article class="admin-list-item"><h2>${user.name}</h2><p>${maskCpf(user.cpf)} · ${user.email} · ${user.role} · <b>${user.status}</b></p>${user.role === 'admin' ? '' : `<div class="review-actions"><button class="btn btn-white" data-action="gestor" data-id="${user.id}" data-version="${user.version}">Gestor</button><button class="btn btn-white" data-action="usuario" data-id="${user.id}" data-version="${user.version}">Usuário</button>${user.status === 'removido' ? `<button class="btn btn-white" data-action="restore" data-id="${user.id}" data-version="${user.version}">Restaurar</button>` : `<button class="btn btn-outline" data-action="${user.status === 'suspenso' ? 'ativo' : 'suspenso'}" data-id="${user.id}" data-version="${user.version}">${user.status === 'suspenso' ? 'Reativar' : 'Suspender'}</button><button class="btn btn-outline" data-action="removido" data-id="${user.id}" data-version="${user.version}">Remover</button>`}</div>`}</article>`).join('');
+          list.querySelectorAll('[data-action]').forEach((button) => button.onclick = async () => {
+            const action = button.dataset.action;
+            try {
+              const response = action === 'restore'
+                ? await FokusApi.request(`/admin/users/${button.dataset.id}/restore`, { method: 'POST', body: { version: Number(button.dataset.version) } })
+                : await FokusApi.request(`/admin/users/${button.dataset.id}`, { method: 'PATCH', body: action === 'gestor' || action === 'usuario' ? { role: action, version: Number(button.dataset.version) } : { status: action, version: Number(button.dataset.version) } });
+              message.textContent = response.message;
+              load();
+            } catch (error) { message.textContent = error.message; }
+          });
+        } catch (error) {
+          message.textContent = error.message;
+          location.assign('/admin');
+        }
+      }
+      document.querySelector('#invite-form').onsubmit = async (event) => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget));
+        if (!validCpf(data.cpf)) {
+          event.currentTarget.elements.cpf.value = '';
+          message.textContent = 'CPF inválido. Informe novamente.';
+          return;
+        }
+        try {
+          const response = await FokusApi.request('/admin/users', { method: 'POST', body: data });
+          message.textContent = response.message;
+          event.currentTarget.reset();
+          load();
+        } catch (error) { message.textContent = error.message; }
+      };
+      load();
+    </script>
+  </body>
+</html>

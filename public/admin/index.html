@@ -20,6 +20,7 @@
           <button class="btn btn-green" type="submit">Entrar <span>→</span></button>
         </form>
         <p id="feedback" role="status"></p>
+        <a href="/recuperar-senha">Esqueci minha senha</a>
         <a href="/cadastro">Criar empresa e conta de administrador</a>
       </section>
     </main>
@@ -29,7 +30,9 @@
         event.preventDefault();
         const feedback = document.querySelector('#feedback');
         try {
-          const data = await FokusApi.request('/auth/login', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(event.currentTarget))) });
+          const values = Object.fromEntries(new FormData(event.currentTarget));
+          values.cpf = values.cpf.replace(/\D/g, '');
+          const data = await FokusApi.request('/auth/login', { method: 'POST', body: values });
           if (!data.user.email_verified) return location.assign('/verificar-email');
           if (!data.companies.length) {
             feedback.textContent = 'Sua conta não possui uma empresa ativa. Solicite o vínculo ao administrador da empresa.';

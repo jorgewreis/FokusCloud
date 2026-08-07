@@ -89,3 +89,8 @@ assinatura, sem exigir novo login.
   uma assinatura não encerrada para o mesmo produto.
 - Módulos, quantidade, preço e condições contratadas permanecem como snapshot
   na assinatura da empresa.
+- O valor exibido na revisão é recalculado no servidor a partir do catálogo,
+  ciclo, plano, módulos e limites selecionados; valores vindos do navegador não
+  são aceitos como preço.
+- A assinatura e o pagamento só são persistidos depois que o checkout do
+  provedor é criado. A confirmação depende do webhook assinado e idempotente.

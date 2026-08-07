@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recuperar senha | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/admin">Fokus<span>Cloud</span></a>
+        <p>RECUPERAÇÃO DE ACESSO</p>
+        <h1>Redefina sua senha.</h1>
+        <p>Informe seu CPF. Se houver uma conta elegível, enviaremos um link ao e-mail já confirmado.</p>
+        <form id="reset-form">
+          <label>CPF<input name="cpf" inputmode="numeric" autocomplete="username" required /></label>
+          <button class="btn btn-green" type="submit">Enviar instruções</button>
+        </form>
+        <p id="message" role="status"></p>
+      </section>
+    </main>
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      document.querySelector('#reset-form').onsubmit = async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const cpf = form.elements.cpf.value.replace(/\D/g, '');
+        try {
+          const response = await FokusApi.request('/auth/request-password-reset', { method: 'POST', body: { cpf } });
+          document.querySelector('#message').textContent = response.message;
+          form.reset();
+        } catch (error) { document.querySelector('#message').textContent = error.message; }
+      };
+    </script>
+  </body>
+</html>

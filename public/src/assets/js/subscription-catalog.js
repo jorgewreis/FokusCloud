@@ -1,10 +1,41 @@
-window.FokusCatalog={
- law:{name:'Fokus Law Criminal',back:'./fokus-law.html',modules:[['oficios','Gestão de Ofícios','Cadastro, cancelamento, acompanhamento, consultas e relatórios.',4.9,{label:'Ofícios expedidos para acompanhamento e consulta',options:[2500,5000,10000,20000,50000],step:2}],['partes','Gestão de Partes','Clientes, partes, policiais, advogados e instituições.',9.9],['processos','Gestão de Processos e Movimentações','Cadastro, cancelamento, acompanhamento, consultas e relatórios.',4.9],['cartas-exp','Cartas Expedidas','Registro e controle de cartas expedidas.',4.9],['cartas-rec','Cartas Recebidas','Registro e acompanhamento de cartas recebidas.',4.9],['editais','Editais','Organização e consulta de editais.',4.9],['guias','Guias','Emissão, controle e acompanhamento de guias.',9.9],['audiencias','Audiências','Agenda e acompanhamento de audiências.',14.9],['monitoramento','Monitoramento Eletrônico','Acompanhamento de rotinas de monitoramento.',4.9],['medidas','Medidas Protetivas','Gestão e acompanhamento de medidas protetivas.',9.9]],plans:[['Inicial',['oficios','partes','processos']],['Profissional',['oficios','partes','processos','cartas-exp','cartas-rec','editais','guias']],['Premium',['oficios','partes','processos','cartas-exp','cartas-rec','editais','guias','audiencias','monitoramento','medidas']]]},
- lead:{name:'Fokus Lead One',back:'./fokus-lead.html',modules:[['pessoas','Gestão de Pessoas','Clientes, corretores, coordenadores, leads e interessados.',4.9],['empreendimentos','Gestão de Empreendimentos','Organização de empreendimentos e suas informações.',4.9],['imoveis','Gestão de Imóveis','Cadastro e acompanhamento da carteira de imóveis.',4.9],['funil','Funil de Vendas','Acompanhamento visual das oportunidades comerciais.',4.9],['relatorios','Emissão de Relatórios de Transações','Leitura de vendas e locações em relatórios.',9.9],['whatsapp','Integração com WhatsApp','Conexão da comunicação comercial ao CRM.',9.9],['website','Integração com Website','Captação de oportunidades a partir do site.',14.9]],plans:[['Start',['pessoas','imoveis']],['Growth',['pessoas','imoveis','funil','empreendimentos','website']],['Scale',['pessoas','empreendimentos','imoveis','funil','relatorios','whatsapp','website']]]}
+window.FokusCatalog = {
+  law: {
+    name: "Fokus Law Criminal",
+    back: "/produtos/fokus-law",
+    modules: [
+      ["oficios", "Gestão de Ofícios", "Cadastro, cancelamento, acompanhamento, consultas e relatórios.", 4.9, { label: "Ofícios expedidos para acompanhamento e consulta", summary: "ofícios expedidos", options: [2500, 5000, 10000, 20000, 50000], step: 2 }],
+      ["partes", "Gestão de Partes", "Clientes, partes, policiais, advogados e instituições.", 9.9, { label: "Partes cadastradas para acompanhamento e consulta", summary: "partes cadastradas", options: [5000, 10000, 20000, 50000, 100000], step: 4 }],
+      ["processos", "Gestão de Processos e Movimentações", "Cadastro, cancelamento, acompanhamento, consultas e relatórios.", 4.9],
+      ["cartas-exp", "Cartas Expedidas", "Registro e controle de cartas expedidas.", 4.9],
+      ["cartas-rec", "Cartas Recebidas", "Registro e acompanhamento de cartas recebidas.", 4.9],
+      ["editais", "Editais", "Organização e consulta de editais.", 4.9],
+      ["guias", "Guias", "Emissão, controle e acompanhamento de guias.", 9.9],
+      ["audiencias", "Audiências", "Agenda e acompanhamento de audiências.", 14.9],
+      ["monitoramento", "Monitoramento Eletrônico", "Acompanhamento de rotinas de monitoramento.", 4.9],
+      ["medidas", "Medidas Protetivas", "Gestão e acompanhamento de medidas protetivas.", 9.9],
+    ],
+    plans: [
+      ["Inicial", ["oficios", "partes", "processos"]],
+      ["Profissional", ["oficios", "partes", "processos", "cartas-exp", "cartas-rec", "editais", "guias"]],
+      ["Premium", ["oficios", "partes", "processos", "cartas-exp", "cartas-rec", "editais", "guias", "audiencias", "monitoramento", "medidas"]],
+    ],
+  },
+  lead: {
+    name: "Fokus Lead One",
+    back: "/produtos/fokus-lead",
+    modules: [
+      ["pessoas", "Gestão de Pessoas", "Clientes, corretores, coordenadores, leads e interessados.", 4.9, { label: "Cadastros de pessoas", summary: "pessoas cadastradas", options: [50, 250, 1000, 5000, 10000], step: 4 }],
+      ["empreendimentos", "Gestão de Empreendimentos", "Organização de empreendimentos e suas informações.", 4.9, { label: "Empreendimentos cadastrados", summary: "empreendimentos cadastrados", options: [20, 50, 100, 500, 1000], step: 4 }],
+      ["imoveis", "Gestão de Imóveis", "Cadastro e acompanhamento da carteira de imóveis.", 4.9, { label: "Imóveis cadastrados", summary: "imóveis cadastrados", options: [200, 500, 1000, 5000, 10000], step: 4 }],
+      ["funil", "Funil de Vendas", "Acompanhamento visual das oportunidades comerciais.", 4.9],
+      ["relatorios", "Emissão de Relatórios de Transações", "Leitura de vendas e locações em relatórios.", 9.9, { label: "Transações em relatórios", summary: "transações em relatórios", options: [500, 1000, 2000, 5000, 10000], step: 4 }],
+      ["whatsapp", "Integração com WhatsApp", "Conexão da comunicação comercial ao CRM.", 9.9],
+      ["website", "Integração com Website", "Captação de oportunidades a partir do site.", 14.9],
+    ],
+    plans: [
+      ["Start", ["pessoas", "imoveis"]],
+      ["Growth", ["pessoas", "imoveis", "funil", "empreendimentos", "website"]],
+      ["Scale", ["pessoas", "empreendimentos", "imoveis", "funil", "relatorios", "whatsapp", "website"]],
+    ],
+  },
 };
-window.FokusCatalog.law.modules.find(module=>module[0]==='oficios')[4]={label:'Ofícios expedidos para acompanhamento e consulta',summary:'ofícios expedidos',options:[2500,5000,10000,20000,50000],step:2};
-window.FokusCatalog.law.modules.find(module=>module[0]==='partes')[4]={label:'Partes cadastradas para acompanhamento e consulta',summary:'partes cadastradas',options:[5000,10000,20000,50000,100000],step:4};
-window.FokusCatalog.lead.modules.find(module=>module[0]==='pessoas')[4]={label:'Cadastros de pessoas',summary:'pessoas cadastradas',options:[50,250,1000,5000,10000],step:4};
-window.FokusCatalog.lead.modules.find(module=>module[0]==='empreendimentos')[4]={label:'Empreendimentos cadastrados',summary:'empreendimentos cadastrados',options:[20,50,100,500,1000],step:4};
-window.FokusCatalog.lead.modules.find(module=>module[0]==='imoveis')[4]={label:'Imóveis cadastrados',summary:'imóveis cadastrados',options:[200,500,1000,5000,10000],step:4};
-window.FokusCatalog.lead.modules.find(module=>module[0]==='relatorios')[4]={label:'Transações em relatórios',summary:'transações em relatórios',options:[500,1000,2000,5000,10000],step:4};

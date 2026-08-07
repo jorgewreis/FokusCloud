@@ -343,6 +343,29 @@
   gap: 10px;
   margin-top: 28px;
 }
+
+.admin-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.admin-list-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.admin-list-item h2 {
+  font: 700 16px var(--display);
+}
+
+.admin-list-item p,
+.admin-list-item li {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+}
 @media (max-width: 700px) {
   .checkout-wrap {
     padding-top: 118px;

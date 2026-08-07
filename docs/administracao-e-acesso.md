@@ -98,3 +98,14 @@ o destinatário deve aceitar o vínculo antes da ativação.
 
 Remover alguém de uma empresa afeta somente seu vínculo com ela. A conta global
 e acessos a outras empresas permanecem inalterados.
+
+Um vínculo removido pode ser restaurado pelo admin em até 30 dias. Depois disso
+ele entra na rotina de eliminação física, sem afetar a conta global do usuário.
+Suspender impede o acesso até que o admin o reative; não apaga o histórico.
+
+## Telas e autorização
+
+As rotas de usuários, transferência e histórico exigem empresa ativa e perfil
+`admin`. O histórico exibe eventos mascarados de vínculos e transferências para
+o administrador atual. Gestor e usuário não recebem a lista de pessoas da
+empresa nem podem alterar vínculos.

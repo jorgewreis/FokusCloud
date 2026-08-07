@@ -20,8 +20,10 @@ nesta etapa.
 O login usa CPF e senha. A senha deve ter pelo menos 12 caracteres e não pode
 constar em listas de senhas comuns ou comprovadamente vazadas.
 
-Senhas nunca devem ser armazenadas em texto puro. A implementação futura deve
-usar algoritmo de hash de senha apropriado e resistente a força bruta.
+Senhas nunca são armazenadas em texto puro. A aplicação usa o hash de senha
+do Laravel, uma lista local de senhas comuns e a API Have I Been Pwned pelo
+método *k-anonymity*: apenas os cinco primeiros caracteres do hash SHA-1 são
+consultados; a senha, seu hash completo e o CPF não saem da aplicação.
 
 ## Confirmação e recuperação
 
@@ -52,7 +54,7 @@ Transferências de administração e alterações de acesso devem gerar registro
 de auditoria imutáveis. O histórico precisa identificar os envolvidos, o
 momento da ação, a decisão sobre o antigo admin e o resultado da confirmação.
 
-## Critérios para a implementação futura
+## Controles implementados
 
 - Aplicar unicidade e o limite de um admin por empresa no banco de dados.
 - Executar criação de empresa, usuário e vínculo inicial em transação única.
@@ -63,3 +65,7 @@ momento da ação, a decisão sobre o antigo admin e o resultado da confirmaçã
 - Aplicar `company_id` obrigatório, relações compostas e contexto de empresa
   obtido de sessão assinada, conforme [Modelo relacional](modelo-relacional.md)
   e [Isolamento e governança](isolamento-e-governanca-de-dados.md).
+- Registrar eventos de criação, alteração, remoção, restauração e transferência
+  de vínculos em auditoria mascarada, com retenção de 180 dias.
+- Invalidar tokens anteriores da mesma finalidade ao reenviar um link e marcar
+  o token aceito em transação, impedindo reutilização concorrente.

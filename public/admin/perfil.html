@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meu perfil | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/admin/painel">Fokus<span>Cloud</span></a>
+        <p>MEU PERFIL</p>
+        <h1>Dados da conta</h1>
+        <form id="profile-form">
+          <label>Nome completo<input id="name" name="name" autocomplete="name" required /></label>
+          <label>Novo e-mail<input id="email" name="email" type="email" autocomplete="email" /></label>
+          <label>Nova senha<input name="password" type="password" minlength="12" autocomplete="new-password" /></label>
+          <label>Confirme a nova senha<input name="password_confirmation" type="password" minlength="12" autocomplete="new-password" /></label>
+          <label>Senha atual<input name="current_password" type="password" autocomplete="current-password" /></label>
+          <button class="btn btn-green" type="submit">Salvar alterações</button>
+        </form>
+        <p id="message" role="status"></p>
+        <small>O CPF só pode ser alterado pelo suporte. A troca de e-mail só vale após a confirmação no novo endereço.</small>
+      </section>
+    </main>
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      const form = document.querySelector('#profile-form');
+      const message = document.querySelector('#message');
+      (async () => {
+        try {
+          const me = await FokusApi.request('/auth/me');
+          form.elements.name.value = me.user.name;
+          form.elements.email.placeholder = me.user.email;
+        } catch (_) { location.assign('/admin'); }
+      })();
+      form.onsubmit = async (event) => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form));
+        if (!data.email) delete data.email;
+        if (!data.password) { delete data.password; delete data.password_confirmation; }
+        try {
+          const response = await FokusApi.request('/auth/profile', { method: 'PATCH', body: data });
+          message.textContent = response.message;
+          form.elements.password.value = '';
+          form.elements.password_confirmation.value = '';
+          form.elements.current_password.value = '';
+        } catch (error) { message.textContent = error.message; }
+      };
+    </script>
+  </body>
+</html>

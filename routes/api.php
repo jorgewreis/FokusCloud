@@ -18,14 +18,21 @@ Route::post('/webhooks/mercado-pago', [SubscriptionController::class, 'webhook']
 
 Route::middleware('auth')->group(function () {
     Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::patch('/auth/profile', [AuthController::class, 'updateProfile']);
+    Route::post('/auth/register-company-for-current-user', [AuthController::class, 'registerCompanyForCurrentUser']);
     Route::post('/auth/select-company', [AuthController::class, 'selectCompany']);
     Route::post('/auth/resend-verification', [AuthController::class, 'resendVerification']);
-    Route::post('/subscriptions/checkout', [SubscriptionController::class, 'checkout'])->middleware(EnsureCompanyContext::class);
+    Route::middleware(EnsureCompanyContext::class)->group(function () {
+        Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+        Route::post('/subscriptions/checkout', [SubscriptionController::class, 'checkout']);
+    });
 
     Route::middleware(EnsureCompanyContext::class)->prefix('admin')->group(function () {
         Route::get('/users', [CompanyUserController::class, 'index']);
         Route::post('/users', [CompanyUserController::class, 'store']);
         Route::patch('/users/{membership}', [CompanyUserController::class, 'update']);
+        Route::post('/users/{membership}/restore', [CompanyUserController::class, 'restore']);
         Route::post('/transfer-admin', [CompanyUserController::class, 'transferAdmin']);
+        Route::get('/audit-history', [CompanyUserController::class, 'auditHistory']);
     });
 });
