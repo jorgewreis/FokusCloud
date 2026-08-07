@@ -332,5 +332,34 @@
     root.innerHTML = `<div class="checkout-head"><a href="${catalog.back}">← Voltar para ${catalog.name}</a><p>Assinatura independente</p><h1>${catalog.name}</h1><div class="checkout-steps">${steps}</div></div><div class="checkout-body">${content}</div>`;
     bind();
   }
-  render();
+
+  async function initialize() {
+    root.innerHTML = `<div class="auth-card"><p>Preparando sua assinatura...</p></div>`;
+    try {
+      const account = await FokusApi.request("/auth/me");
+      if (!account.user.email_verified) {
+        location.assign("/verificar-email");
+        return;
+      }
+      if (!account.companies.length) {
+        state.step = 1;
+      } else if (account.companies.length > 1 && !account.active_company_id) {
+        location.assign(`/admin/empresas?retorno=${encodeURIComponent(subscriptionPath())}`);
+        return;
+      } else {
+        if (!account.active_company_id) {
+          await FokusApi.request("/auth/select-company", {
+            method: "POST",
+            body: { company_id: account.companies[0].id },
+          });
+        }
+        state.step = 2;
+      }
+    } catch (_) {
+      state.step = 1;
+    }
+    render();
+  }
+
+  initialize();
 })();
