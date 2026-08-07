@@ -27,6 +27,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:12'],
             'terms_version' => ['required', 'string', 'max:64'],
             'privacy_version' => ['required', 'string', 'max:64'],
+            'return_to' => ['nullable', Rule::in(['/assinaturas/fokus-law', '/assinaturas/fokus-lead'])],
         ]);
 
         $document = preg_replace('/\D/', '', $data['document_number']);
@@ -69,7 +70,9 @@ class AuthController extends Controller
             return [$user, $companyId];
         });
 
-        $this->sendToken($user, 'email_verification', '/verificar-email');
+        $this->sendToken($user, 'email_verification', '/verificar-email', [
+            'return_to' => $data['return_to'] ?? '/admin/painel',
+        ]);
         Auth::login($user);
         $request->session()->regenerate();
         $request->session()->put('active_company_id', $company);
@@ -126,7 +129,13 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $companyId = DB::table('company_memberships')->where('user_id', $user->id)->where('status', 'ativo')->value('company_id');
         if ($companyId) $request->session()->put('active_company_id', $companyId);
-        return response()->json(['message' => 'E-mail confirmado com sucesso.']);
+        $payload = $token->payload ? json_decode($token->payload, true) : [];
+        $returnTo = data_get($payload, 'return_to', '/admin/painel');
+        if (! in_array($returnTo, ['/admin/painel', '/assinaturas/fokus-law', '/assinaturas/fokus-lead'], true)) {
+            $returnTo = '/admin/painel';
+        }
+
+        return response()->json(['message' => 'E-mail confirmado com sucesso.', 'return_to' => $returnTo]);
     }
 
     public function resendVerification(Request $request)
@@ -213,7 +222,7 @@ class AuthController extends Controller
         $plain = Str::random(64);
         DB::table('security_tokens')->insert([
             'id' => PrefixedUlid::make('TKN'), 'user_id' => $user->id, 'purpose' => $purpose,
-            'token_hash' => hash('sha256', $plain), 'payload' => $payload ?: null,
+            'token_hash' => hash('sha256', $plain), 'payload' => $payload ? json_encode($payload) : null,
             'expires_at' => now()->addDay(), 'created_at' => now(), 'updated_at' => now(),
         ]);
         $url = rtrim(config('app.url'), '/').$path.'?token='.$plain;

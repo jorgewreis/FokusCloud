@@ -13,13 +13,14 @@
       <section class="auth-card">
         <a class="brand" href="/">Fokus<span>Cloud</span></a>
         <p>PAINEL ADMINISTRATIVO</p>
-        <h1 id="welcome">Carregando sua empresa...</h1>
+        <h1 id="welcome">Carregando seu painel...</h1>
         <p id="company"></p>
         <div class="review-actions">
           <a class="btn btn-green" href="/admin/assinaturas">Assinaturas</a>
           <a class="btn btn-outline" href="/admin/usuarios">Usuários</a>
         </div>
         <button id="logout" class="btn btn-outline" type="button">Sair</button>
+        <a id="login-again" class="btn btn-green" href="/admin" hidden>Entrar novamente</a>
       </section>
     </main>
     <script src="/assets/js/api-client.js"></script>
@@ -27,13 +28,25 @@
       (async () => {
         try {
           const data = await FokusApi.request('/auth/me');
-          if (!data.user.email_verified) return location.replace('/verificar-email');
-          if (data.companies.length > 1 && !data.active_company_id) return location.replace('/admin/empresas');
+          if (!data.user.email_verified) {
+            document.querySelector('#welcome').textContent = 'Confirme seu e-mail para liberar o painel.';
+            document.querySelector('#company').textContent = 'Abra o link enviado para o seu e-mail ou solicite um novo envio na página de confirmação.';
+            return;
+          }
+          if (data.companies.length > 1 && !data.active_company_id) return location.assign('/admin/empresas');
           const active = data.companies.find((item) => item.id === data.active_company_id) || data.companies[0];
-          if (!active) return location.replace('/admin');
+          if (!active) {
+            document.querySelector('#welcome').textContent = 'Nenhuma empresa ativa foi encontrada.';
+            document.querySelector('#company').textContent = 'Peça ao administrador da empresa para enviar ou reativar seu vínculo.';
+            return;
+          }
           document.querySelector('#welcome').textContent = `Olá, ${data.user.name}.`;
           document.querySelector('#company').textContent = `${active.name} — perfil ${active.role}.`;
-        } catch (_) { location.replace('/admin'); }
+        } catch (error) {
+          document.querySelector('#welcome').textContent = 'Sua sessão não está disponível.';
+          document.querySelector('#company').textContent = error.message || 'Entre novamente para continuar.';
+          document.querySelector('#login-again').hidden = false;
+        }
       })();
       document.querySelector('#logout').onclick = async () => {
         await FokusApi.request('/auth/logout', { method: 'POST' });

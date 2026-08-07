@@ -26,10 +26,10 @@
 
       if (token) {
         FokusApi.request('/auth/verify-email', { method: 'POST', body: { token } })
-          .then(() => {
-            message.textContent = 'E-mail confirmado. Redirecionando para a assinatura...';
+          .then((data) => {
+            message.textContent = 'E-mail confirmado. Redirecionando para continuar...';
             resend.hidden = true;
-            setTimeout(() => { location.href = '/admin/painel'; }, 900);
+            setTimeout(() => { location.assign(data.return_to || '/admin/painel'); }, 900);
           })
           .catch((error) => { message.textContent = error.message; });
       }

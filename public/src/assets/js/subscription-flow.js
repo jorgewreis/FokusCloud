@@ -38,11 +38,45 @@
   const annual = () => monthly() * 9;
   const period = () => (state.cycle === "annual" ? "ano" : "mês");
   const amount = () => (state.cycle === "annual" ? annual() : monthly());
+  const subscriptionPath = () =>
+    document.body.dataset.product === "lead"
+      ? "/assinaturas/fokus-lead"
+      : "/assinaturas/fokus-law";
+  const digits = (value) => value.replace(/\D/g, "");
+  const repeatedDigits = (value) => /^(\d)\1+$/.test(value);
+  const validCpf = (value) => {
+    const cpf = digits(value);
+    if (cpf.length !== 11 || repeatedDigits(cpf)) return false;
+    const digit = (length) => {
+      const sum = cpf
+        .slice(0, length)
+        .split("")
+        .reduce((total, number, index) => total + Number(number) * (length + 1 - index), 0);
+      const remainder = (sum * 10) % 11;
+      return remainder === 10 ? 0 : remainder;
+    };
+    return digit(9) === Number(cpf[9]) && digit(10) === Number(cpf[10]);
+  };
+  const validCnpj = (value) => {
+    const cnpj = digits(value);
+    if (cnpj.length !== 14 || repeatedDigits(cnpj)) return false;
+    const digit = (length) => {
+      let factor = length === 12 ? 5 : 6;
+      const sum = cnpj.slice(0, length).split("").reduce((total, number) => {
+        const result = total + Number(number) * factor;
+        factor = factor === 2 ? 9 : factor - 1;
+        return result;
+      }, 0);
+      const remainder = sum % 11;
+      return remainder < 2 ? 0 : 11 - remainder;
+    };
+    return digit(12) === Number(cnpj[12]) && digit(13) === Number(cnpj[13]);
+  };
 
   function accountView() {
     const isRegister = state.account === "register";
     const content = isRegister
-      ? `<p>Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você volta para escolher a assinatura.</p><div class="review-actions"><a class="btn btn-green" href="/cadastro">Cadastrar empresa <span>→</span></a><a class="btn btn-outline" href="/admin">Ir para o painel</a></div><small>O cadastro, a confirmação de e-mail e a sessão são realizados com dados persistidos e protegidos.</small>`
+      ? `<p>Cadastre a empresa e o administrador responsável. Após confirmar o e-mail, você retorna para concluir esta assinatura.</p><form id="subscription-register-form"><label>Tipo de documento<select name="document_type" id="subscription-document-type"><option value="cnpj">CNPJ</option><option value="cpf">CPF</option></select></label><label>CPF ou CNPJ<input name="document_number" id="subscription-company-document" inputmode="numeric" required><span class="field-error" id="subscription-company-document-error" role="alert"></span></label><label><span id="subscription-company-name-label">Razão social</span><input name="legal_name" required></label><label>Nome completo do administrador<input name="name" autocomplete="name" required></label><label>CPF do administrador<input name="cpf" id="subscription-admin-cpf" inputmode="numeric" autocomplete="username" required><span class="field-error" id="subscription-admin-cpf-error" role="alert"></span></label><label>E-mail profissional<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="password" type="password" autocomplete="new-password" minlength="12" required></label><label class="consent-field"><input type="checkbox" name="terms" required><span>Li e aceito os Termos de Uso.</span></label><label class="consent-field"><input type="checkbox" name="privacy" required><span>Li e aceito a Política de Privacidade.</span></label><button class="btn btn-green" type="submit">Criar conta e continuar <span>→</span></button></form><p id="account-feedback" role="status"></p><small>Já tem conta? Use a aba <b>Entrar</b> para continuar com uma empresa existente.</small>`
       : `<p>Entre com CPF e senha para assinar este produto usando uma empresa já cadastrada.</p><form id="subscription-login-form"><label>CPF<input name="cpf" inputmode="numeric" autocomplete="username" required></label><label>Senha<input name="password" type="password" autocomplete="current-password" required></label><button class="btn btn-green" type="submit">Entrar e continuar <span>→</span></button></form><p id="account-feedback" role="status"></p><small>Se sua conta possuir mais de uma empresa, você escolherá qual delas será usada antes de continuar.</small>`;
     return `<div class="auth-card"><div class="tabs"><button data-account="register" class="${isRegister ? "selected" : ""}">Criar conta da empresa</button><button data-account="login" class="${!isRegister ? "selected" : ""}">Entrar</button></div>${content}</div>`;
   }
@@ -106,13 +140,62 @@
           render();
         }),
     );
-    const form = root.querySelector("#account-form");
-    if (form)
-      form.onsubmit = (event) => {
-        event.preventDefault();
-        state.step = 2;
-        render();
+    const registerForm = root.querySelector("#subscription-register-form");
+    if (registerForm) {
+      const documentType = root.querySelector("#subscription-document-type");
+      const companyDocument = root.querySelector("#subscription-company-document");
+      const adminCpf = root.querySelector("#subscription-admin-cpf");
+      const companyNameLabel = root.querySelector("#subscription-company-name-label");
+      const feedback = root.querySelector("#account-feedback");
+      const validateDocument = (input, type, errorSelector) => {
+        const error = root.querySelector(errorSelector);
+        const value = digits(input.value);
+        const valid = type === "cnpj" ? validCnpj(value) : validCpf(value);
+        if (!value || valid) {
+          input.value = value;
+          input.removeAttribute("aria-invalid");
+          error.textContent = "";
+          error.classList.remove("is-visible");
+          return true;
+        }
+        input.value = "";
+        input.setAttribute("aria-invalid", "true");
+        error.textContent = `${type.toUpperCase()} inválido. Confira os dígitos e informe novamente.`;
+        error.classList.add("is-visible");
+        return false;
       };
+      documentType.onchange = () => {
+        companyNameLabel.textContent = documentType.value === "cpf" ? "Nome completo" : "Razão social";
+        companyDocument.value = "";
+        companyDocument.removeAttribute("aria-invalid");
+        root.querySelector("#subscription-company-document-error").classList.remove("is-visible");
+      };
+      companyDocument.onblur = () =>
+        validateDocument(companyDocument, documentType.value, "#subscription-company-document-error");
+      adminCpf.onblur = () =>
+        validateDocument(adminCpf, "cpf", "#subscription-admin-cpf-error");
+      registerForm.onsubmit = async (event) => {
+        event.preventDefault();
+        const companyValid = validateDocument(companyDocument, documentType.value, "#subscription-company-document-error");
+        const cpfValid = validateDocument(adminCpf, "cpf", "#subscription-admin-cpf-error");
+        if (!companyValid || !cpfValid) return;
+        try {
+          const values = Object.fromEntries(new FormData(registerForm));
+          await FokusApi.request("/auth/register-company", {
+            method: "POST",
+            body: {
+              ...values,
+              terms_version: "1.0",
+              privacy_version: "1.0",
+              return_to: subscriptionPath(),
+            },
+          });
+          location.assign("/verificar-email");
+        } catch (error) {
+          feedback.textContent = error.message;
+        }
+      };
+    }
     const loginForm = root.querySelector("#subscription-login-form");
     if (loginForm)
       loginForm.onsubmit = async (event) => {
@@ -125,8 +208,10 @@
           });
           if (!data.user.email_verified) {
             location.href = "/verificar-email";
+          } else if (!data.companies.length) {
+            feedback.textContent = "Sua conta não possui uma empresa ativa. Solicite o vínculo ao administrador da empresa.";
           } else if (data.companies.length > 1) {
-            location.href = "/admin/empresas";
+            location.assign(`/admin/empresas?retorno=${encodeURIComponent(subscriptionPath())}`);
           } else {
             state.step = 2;
             render();
