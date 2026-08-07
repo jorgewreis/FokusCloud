@@ -11,6 +11,19 @@
     return `${parts[0]} ${parts[parts.length - 1]}`;
   };
 
+  const toggleVisibility = (elements, visible) => {
+    elements.forEach((element) => {
+      if (visible && element.hidden) element.hidden = false;
+      if (visible) element.style.display = "";
+      requestAnimationFrame(() => element.classList.toggle("is-visible", visible));
+      if (!visible && element.matches("[data-header-user]")) {
+        window.setTimeout(() => {
+          if (!element.classList.contains("is-visible")) element.hidden = true;
+        }, 700);
+      }
+    });
+  };
+
   const syncAccount = () => {
     fetch("/api/auth/me", {
       credentials: "same-origin",
@@ -19,20 +32,13 @@
       .then((response) => (response.ok ? response.json() : null))
       .then((data) => {
         const name = displayName(data?.user?.name);
-        adminButtons.forEach((button) => {
-          button.hidden = Boolean(name);
-          button.style.display = name ? "none" : "";
-        });
+        toggleVisibility(adminButtons, !name);
         userMenus.forEach((menu) => {
           const label = menu.querySelector("[data-header-user-name]");
           if (label) label.textContent = name || "Conta";
-          menu.hidden = !name;
-          menu.style.display = name ? "block" : "none";
         });
-        contactButtons.forEach((button) => {
-          button.hidden = Boolean(name);
-          button.style.display = name ? "none" : "";
-        });
+        toggleVisibility(userMenus, Boolean(name));
+        toggleVisibility(contactButtons, !name);
       })
       .catch(() => {});
   };
