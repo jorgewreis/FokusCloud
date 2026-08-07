@@ -98,18 +98,40 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $data = $request->validate(['cpf' => ['required', 'string'], 'password' => ['required', 'string']]);
-        $cpf = BrazilianDocuments::digits($data['cpf']);
-        if (! BrazilianDocuments::cpf($cpf)) {
-            throw ValidationException::withMessages(['cpf' => 'CPF inválido.']);
+        $data = $request->validate([
+            'document' => ['nullable', 'string', 'required_without:cpf'],
+            'cpf' => ['nullable', 'string', 'required_without:document'],
+            'password' => ['required', 'string'],
+        ]);
+        $document = BrazilianDocuments::digits($data['document'] ?? $data['cpf'] ?? '');
+        $companyId = null;
+
+        if (BrazilianDocuments::cpf($document)) {
+            $user = User::where('cpf', $document)->first();
+        } elseif (BrazilianDocuments::cnpj($document)) {
+            $companyLogin = DB::table('companies as company')
+                ->join('company_memberships as membership', 'membership.company_id', '=', 'company.id')
+                ->join('roles as role', 'role.id', '=', 'membership.role_id')
+                ->where('company.document_type', 'cnpj')
+                ->where('company.document_number', $document)
+                ->where('company.status', 'ativa')
+                ->whereNull('company.deleted_at')
+                ->where('membership.status', 'ativo')
+                ->whereNull('membership.deleted_at')
+                ->where('role.code', 'admin')
+                ->select('membership.user_id', 'company.id as company_id')
+                ->first();
+            $user = $companyLogin ? User::find($companyLogin->user_id) : null;
+            $companyId = $companyLogin?->company_id;
+        } else {
+            throw ValidationException::withMessages(['document' => 'Informe um CPF ou CNPJ válido.']);
         }
 
-        $user = User::where('cpf', $cpf)->first();
         if (! $user || $user->status === 'desativada' || ($user->locked_until && $user->locked_until->isFuture()) || ! Hash::check($data['password'], $user->password)) {
             if ($user) {
                 $this->recordFailedLogin($user);
             }
-            return response()->json(['message' => 'CPF ou senha inválidos.'], 422);
+            return response()->json(['message' => 'CPF/CNPJ ou senha inválidos.'], 422);
         }
 
         $user->forceFill([
@@ -119,7 +141,7 @@ class AuthController extends Controller
             'status' => $user->status === 'bloqueada' ? 'ativa' : $user->status,
         ])->save();
         $companies = $this->companiesFor($user);
-        $companyId = count($companies) === 1 ? $companies[0]->id : null;
+        $companyId ??= count($companies) === 1 ? $companies[0]->id : null;
         $this->authenticateIntoSession($request, $user, $companyId);
 
         return response()->json(['user' => $this->userPayload($user), 'companies' => $companies, 'active_company_id' => $companyId]);

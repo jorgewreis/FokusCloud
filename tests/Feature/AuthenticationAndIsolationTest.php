@@ -57,6 +57,19 @@ class AuthenticationAndIsolationTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $user->id, 'status' => 'bloqueada']);
     }
 
+    public function test_company_admin_can_log_in_with_a_cnpj(): void
+    {
+        $this->postJson('/api/auth/register-company', $this->registration())->assertCreated();
+        $user = User::where('cpf', '11144477735')->firstOrFail();
+        $user->forceFill(['email_verified_at' => now(), 'status' => 'ativa'])->save();
+        DB::table('companies')->update(['status' => 'ativa']);
+
+        $this->postJson('/api/auth/login', [
+            'document' => '11.222.333/0001-81',
+            'password' => 'SenhaSegura!2026',
+        ])->assertOk()->assertJsonPath('user.id', $user->id)->assertJsonPath('active_company_id', DB::table('companies')->value('id'));
+    }
+
     public function test_user_cannot_select_another_company_without_membership(): void
     {
         $user = User::create([
