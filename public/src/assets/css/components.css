@@ -577,6 +577,9 @@ textarea {
 
 .access-modal[hidden] { display: none; }
 
+.access-modal form[hidden],
+.auth-card form[hidden] { display: none !important; }
+
 .access-modal-backdrop {
   position: absolute;
   inset: 0;
@@ -623,9 +626,23 @@ textarea {
   color: #557069;
 }
 
-.access-modal-card .login-actions { margin-top: 40px; }
+.access-modal-card .login-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 40px;
+}
 
 .access-modal-card .form-message { margin: 16px 0 0; }
+
+.access-modal-card .auth-recovery-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: #557069;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.access-modal-card .auth-recovery-link:hover { color: #138752; }
 
 @media (max-width: 520px) {
   .access-modal { padding: 16px; }

@@ -33,6 +33,12 @@ class BackofficeSecurityTest extends TestCase
         $this->assertDatabaseHas('platform_login_challenges', ['platform_admin_id' => $admin->id]);
     }
 
+    public function test_access_routes_open_the_corresponding_modal_on_the_home_page(): void
+    {
+        $this->get('/acesso')->assertRedirect('/?acesso=cliente');
+        $this->get('/backoffice/acesso')->assertRedirect('/?acesso=administrativo');
+    }
+
     public function test_usage_integration_requires_shared_secret(): void
     {
         $this->postJson('/api/integrations/usage', [])->assertUnauthorized();

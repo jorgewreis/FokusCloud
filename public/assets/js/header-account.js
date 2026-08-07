@@ -31,8 +31,124 @@
     });
   };
 
+  const setupClientAccess = () => {
+    if (!clientAccessButtons.length) return null;
+
+    document.body.insertAdjacentHTML("beforeend", `
+      <div class="access-modal" data-client-modal hidden>
+        <div class="access-modal-backdrop" data-client-modal-close></div>
+        <section class="access-modal-card" role="dialog" aria-modal="true" aria-labelledby="client-modal-title">
+          <button class="access-modal-close" data-client-modal-close type="button" aria-label="Fechar acesso à conta">×</button>
+          <div class="card-heading">
+            <p class="section-kicker">Acesso à plataforma</p>
+            <h2 class="card-title" id="client-modal-title">Entre na sua conta.</h2>
+            <p class="card-description">Use seu CPF ou CNPJ e sua senha para continuar.</p>
+          </div>
+          <form data-client-login>
+            <label class="form-field"><span class="form-label" data-client-document-label>CPF ou CNPJ</span><input class="form-control field-size-md" data-client-document name="document" inputmode="numeric" autocomplete="username" maxlength="18" required></label>
+            <label class="form-field"><span class="form-label">Senha</span><input class="form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
+            <div class="login-actions"><button class="btn btn-green" type="submit">Entrar</button><a class="btn btn-outline" href="/cadastro">Criar conta</a></div>
+          </form>
+          <p class="form-message" data-client-message role="status"></p>
+          <a class="auth-recovery-link" href="/recuperar-senha">Esqueci minha senha</a>
+        </section>
+      </div>
+    `);
+
+    const modal = document.querySelector("[data-client-modal]");
+    const login = modal.querySelector("[data-client-login]");
+    const documentInput = modal.querySelector("[data-client-document]");
+    const documentLabel = modal.querySelector("[data-client-document-label]");
+    const message = modal.querySelector("[data-client-message]");
+    let opener = null;
+    let csrfToken = null;
+
+    const digits = (value) => String(value || "").replace(/\D/g, "").slice(0, 14);
+    const validCpf = (value) => value.length === 11 && !/^(\d)\1+$/.test(value) && [9, 10].every((length) => {
+      const total = [...value.slice(0, length)].reduce((sum, digit, index) => sum + Number(digit) * (length + 1 - index), 0);
+      return (total * 10) % 11 % 10 === Number(value[length]);
+    });
+    const validCnpj = (value) => value.length === 14 && !/^(\d)\1+$/.test(value) && [[12, 5], [13, 6]].every(([length, factor]) => {
+      const total = [...value.slice(0, length)].reduce((sum, digit) => {
+        const result = sum + Number(digit) * factor;
+        factor = factor === 2 ? 9 : factor - 1;
+        return result;
+      }, 0);
+      return (total % 11 < 2 ? 0 : 11 - total % 11) === Number(value[length]);
+    });
+    const updateDocument = (format = false) => {
+      const value = digits(documentInput.value);
+      const type = validCpf(value) ? "CPF" : validCnpj(value) ? "CNPJ" : "CPF ou CNPJ";
+      documentLabel.textContent = type;
+      documentInput.value = format && type !== "CPF ou CNPJ"
+        ? (type === "CPF" ? value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") : value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"))
+        : value;
+    };
+    const request = async (path, body) => {
+      if (!csrfToken) {
+        const response = await fetch("/api/csrf-token", { credentials: "same-origin" });
+        csrfToken = (await response.json()).token;
+      }
+      const response = await fetch(`/api${path}`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { Accept: "application/json", "Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken },
+        body: JSON.stringify(body),
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload?.message || "Não foi possível concluir a solicitação.");
+      return payload;
+    };
+    const showMessage = (text, type = "") => {
+      message.textContent = text;
+      message.classList.toggle("is-error", type === "error");
+      message.classList.toggle("is-success", type === "success");
+    };
+    const close = () => {
+      modal.hidden = true;
+      document.body.style.overflow = "";
+      login.reset();
+      updateDocument();
+      showMessage("");
+      opener?.focus();
+    };
+    const open = (button) => {
+      opener = button;
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+      documentInput.focus();
+    };
+
+    clientAccessButtons.forEach((button) => button.addEventListener("click", (event) => {
+      event.preventDefault();
+      open(button);
+    }));
+    modal.querySelectorAll("[data-client-modal-close]").forEach((button) => button.addEventListener("click", close));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) close();
+    });
+    documentInput.addEventListener("input", () => updateDocument());
+    documentInput.addEventListener("blur", () => updateDocument(true));
+    login.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      try {
+        updateDocument(true);
+        const data = Object.fromEntries(new FormData(login));
+        data.document = digits(data.document);
+        const result = await request("/auth/login", data);
+        if (!result.user.email_verified) return window.location.assign("/verificar-email");
+        if (!result.companies.length) return showMessage("Sua conta não possui uma empresa ativa. Solicite o vínculo ao administrador da empresa.", "error");
+        window.location.assign(result.companies.length > 1 ? "/portal/empresas" : "/portal");
+      } catch (error) {
+        showMessage(error.message, "error");
+      }
+    });
+
+    return open;
+  };
+
   const setupBackofficeAccess = () => {
-    if (!backofficeAccessButtons.length) return;
+    if (!backofficeAccessButtons.length) return null;
 
     document.body.insertAdjacentHTML("beforeend", `
       <div class="access-modal" data-backoffice-modal hidden>
@@ -49,7 +165,7 @@
             <label class="form-field"><span class="form-label">Senha</span><input class="form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
             <div class="login-actions"><button class="btn btn-green" type="submit">Continuar</button></div>
           </form>
-          <form data-backoffice-mfa hidden>
+          <form data-backoffice-mfa hidden aria-hidden="true">
             <div class="card-heading">
               <p class="section-kicker">Código enviado</p>
               <p class="card-description">Informe o código de seis dígitos enviado ao seu e-mail para concluir o acesso.</p>
@@ -94,6 +210,7 @@
     const reset = () => {
       login.hidden = false;
       mfa.hidden = true;
+      mfa.setAttribute("aria-hidden", "true");
       login.reset();
       mfa.reset();
       showMessage("");
@@ -130,6 +247,7 @@
         if (!response.mfa_required) throw new Error("Não foi possível iniciar a verificação por código.");
         login.hidden = true;
         mfa.hidden = false;
+        mfa.setAttribute("aria-hidden", "false");
         showMessage("");
         mfa.elements.code.focus();
       } catch (error) {
@@ -146,6 +264,8 @@
         showMessage(error.message, "error");
       }
     });
+
+    return open;
   };
 
   const syncAccount = () => {
@@ -213,7 +333,19 @@
     });
   });
 
-  setupBackofficeAccess();
+  const openClientAccess = setupClientAccess();
+  const openBackofficeAccess = setupBackofficeAccess();
+    const accessTarget = new URLSearchParams(window.location.search).get("acesso");
+  if (accessTarget === "cliente" || accessTarget === "administrativo") {
+    const opener = accessTarget === "cliente" ? clientAccessButtons[0] : backofficeAccessButtons[0];
+    const open = accessTarget === "cliente" ? openClientAccess : openBackofficeAccess;
+    if (open && opener) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("acesso");
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+      window.requestAnimationFrame(() => open(opener));
+    }
+  }
   syncAccount();
   window.addEventListener("pageshow", syncAccount);
   window.addEventListener("focus", syncAccount);

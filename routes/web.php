@@ -12,7 +12,7 @@ Route::prefix('api')->group(base_path('routes/api.php'));
 
 Route::get('/api/csrf-token', fn () => response()->json(['token' => csrf_token()]));
 
-Route::get('/acesso', fn () => response()->file(public_path('admin/index.html')));
+Route::get('/acesso', fn () => redirect('/?acesso=cliente'));
 Route::get('/portal', fn () => response()->file(public_path('views/portal-painel.html')));
 Route::get('/portal/painel', fn () => response()->file(public_path('views/portal-painel.html')));
 Route::get('/portal/perfil', fn () => response()->file(public_path('admin/perfil.html')));
@@ -26,7 +26,7 @@ Route::get('/portal/empresas', fn () => response()->file(public_path('admin/empr
 Route::get('/portal/usuarios', fn () => response()->file(public_path('admin/usuarios.html')));
 Route::get('/portal/assinaturas', fn () => response()->file(public_path('admin/assinaturas.html')));
 Route::get('/portal/transferir-administracao', fn () => response()->file(public_path('admin/transferir-administracao.html')));
-Route::get('/backoffice/acesso', fn () => response()->file(public_path('backoffice/acesso.html')));
+Route::get('/backoffice/acesso', fn () => redirect('/?acesso=administrativo'));
 Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|assinaturas|vouchers|auditoria');
 Route::get('/produtos/fokus-law', fn () => response()->file(public_path('src/pages/fokus-law.html')));
 Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('src/pages/fokus-lead.html')));

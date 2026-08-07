@@ -33,7 +33,7 @@
           </div>
         </form>
 
-        <form id="mfa" hidden>
+        <form id="mfa" hidden aria-hidden="true">
           <div class="card-heading">
             <p class="section-kicker">Código enviado</p>
             <p class="card-description">Informe o código de seis dígitos enviado ao seu e-mail para concluir o acesso.</p>
@@ -73,6 +73,7 @@
           if (!response.mfa_required) throw new Error('Não foi possível iniciar a verificação por código.');
           login.hidden = true;
           mfa.hidden = false;
+          mfa.setAttribute('aria-hidden', 'false');
           showMessage('', 'success');
           mfa.elements.code.focus();
         } catch (error) {
