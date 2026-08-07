@@ -253,5 +253,5 @@ body.dashboard-page {
 @media (max-width: 520px) {
   .dashboard-top { align-items: flex-start; flex-direction: column; }
   .metric-grid { grid-template-columns: 1fr; }
-  .dashboard-toolbar > * { flex: 1 1 100%; }
+  .dashboard-toolbar > :is(input, select) { flex: 1 1 100%; }
 }

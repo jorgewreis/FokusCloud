@@ -205,6 +205,25 @@ textarea {
   opacity: 0.65;
 }
 
+/* ========================================================================== */
+/* COMPONENTS: CONTROL SIZES                                                  */
+/* ========================================================================== */
+
+:is(input, select).field-size-xs,
+:is(.auth-card input, .auth-card select).field-size-xs { width: min(100%, 10rem); }
+
+:is(input, select).field-size-sm,
+:is(.auth-card input, .auth-card select).field-size-sm { width: min(100%, 14rem); }
+
+:is(input, select).field-size-md,
+:is(.auth-card input, .auth-card select).field-size-md { width: min(100%, 18rem); }
+
+:is(input, select).field-size-lg,
+:is(.auth-card input, .auth-card select).field-size-lg { width: min(100%, 24rem); }
+
+:is(input, select).field-size-xl,
+:is(.auth-card input, .auth-card select).field-size-xl { width: min(100%, 30rem); }
+
 .form-select,
 .auth-card select {
   /* appearance */
@@ -471,7 +490,7 @@ textarea {
 /* ========================================================================== */
 
 .contact .btn { margin-top: 10px; justify-self: start; }
-.model-card .btn { width: 100%; justify-content: center; }
+.model-card .btn { justify-content: center; }
 .model-card.featured .btn { background: var(--green); }
 .review-actions .btn-outline { border-color: #b8d2c3; color: var(--ink); }
 
