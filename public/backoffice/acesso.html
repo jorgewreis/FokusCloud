@@ -34,7 +34,10 @@
         </form>
 
         <form id="mfa" hidden>
-          <p class="card-subtitle">Informe o código de seis dígitos enviado ao seu e-mail.</p>
+          <div class="card-heading">
+            <p class="section-kicker">Código enviado</p>
+            <p class="card-description">Informe o código de seis dígitos enviado ao seu e-mail para concluir o acesso.</p>
+          </div>
           <label class="form-field">
             <span class="form-label">Código</span>
             <input class="field-size-sm" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required />
@@ -63,13 +66,15 @@
       login.onsubmit = async (event) => {
         event.preventDefault();
         try {
-          await FokusApi.request('/backoffice/auth/login', {
+          const response = await FokusApi.request('/backoffice/auth/login', {
             method: 'POST',
             body: Object.fromEntries(new FormData(login)),
           });
+          if (!response.mfa_required) throw new Error('Não foi possível iniciar a verificação por código.');
           login.hidden = true;
           mfa.hidden = false;
-          showMessage('Código enviado.', 'success');
+          showMessage('', 'success');
+          mfa.elements.code.focus();
         } catch (error) {
           showMessage(error.message, 'error');
         }

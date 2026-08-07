@@ -22,14 +22,24 @@ class PlatformAuthController extends Controller
             $audit->record($admin?->id, 'backoffice.login_failed', request: $request);
             return response()->json(['message' => 'Credenciais internas inválidas.'], 422);
         }
+
         $code = (string) random_int(100000, 999999);
         DB::table('platform_login_challenges')->where('platform_admin_id', $admin->id)->whereNull('used_at')->update(['used_at' => now(), 'updated_at' => now()]);
+
+        try {
+            Mail::raw("Seu código de acesso ao backoffice Fokus Cloud é: {$code}. Ele expira em 10 minutos.", fn ($mail) => $mail->to($admin->email)->subject('Fokus Cloud: código de acesso interno'));
+        } catch (\Throwable) {
+            $request->session()->forget('platform_pending_admin_id');
+            $audit->record($admin->id, 'backoffice.mfa_delivery_failed', request: $request);
+
+            return response()->json(['message' => 'Não foi possível enviar o código de acesso. Tente novamente em alguns minutos.'], 503);
+        }
+
         DB::table('platform_login_challenges')->insert([
             'id' => PrefixedUlid::make('MFA'), 'platform_admin_id' => $admin->id, 'code_hash' => hash('sha256', $code),
             'expires_at' => now()->addMinutes(10), 'created_at' => now(), 'updated_at' => now(),
         ]);
         $request->session()->put('platform_pending_admin_id', $admin->id);
-        Mail::raw("Seu código de acesso ao backoffice Fokus Cloud é: {$code}. Ele expira em 10 minutos.", fn ($mail) => $mail->to($admin->email)->subject('Fokus Cloud: código de acesso interno'));
         $audit->record($admin->id, 'backoffice.mfa_requested', request: $request);
         return response()->json(['mfa_required' => true, 'message' => 'Enviamos um código de acesso ao seu e-mail.']);
     }
