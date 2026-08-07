@@ -1,1 +1,92 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Acesso interno | Fokus Cloud</title><link rel="stylesheet" href="/src/assets/css/reset.css"><link rel="stylesheet" href="/src/assets/css/style.css"><link rel="stylesheet" href="/src/assets/css/subscription.css"></head><body class="subscription-page"><main class="checkout-wrap"><section class="auth-card"><a class="brand" href="/">Fokus<span>Cloud</span></a><div class="card-heading"><p class="section-kicker">Acesso restrito</p><h1 class="card-title">Backoffice</h1><p class="card-description">Use exclusivamente suas credenciais internas da Fokus Cloud.</p></div><form id="login"><label>E-mail interno<input name="email" type="email" autocomplete="username" required></label><label>Senha<input name="password" type="password" autocomplete="current-password" required></label><button class="btn btn-green">Continuar</button></form><form id="mfa" hidden><p class="card-subtitle">Informe o código de seis dígitos enviado ao seu e-mail.</p><label>Código<input name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label><button class="btn btn-green">Validar acesso</button></form><p id="message" class="form-message" role="status"></p></section></main><script src="/assets/js/api-client.js"></script><script>const message=document.querySelector('#message'),login=document.querySelector('#login'),mfa=document.querySelector('#mfa');login.onsubmit=async e=>{e.preventDefault();try{await FokusApi.request('/backoffice/auth/login',{method:'POST',body:Object.fromEntries(new FormData(login))});login.hidden=true;mfa.hidden=false;message.textContent='Código enviado.'}catch(error){message.textContent=error.message;message.classList.add('is-error')}};mfa.onsubmit=async e=>{e.preventDefault();try{await FokusApi.request('/backoffice/auth/verify-mfa',{method:'POST',body:Object.fromEntries(new FormData(mfa))});location='/backoffice'}catch(error){message.textContent=error.message;message.classList.add('is-error')}};</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acesso interno | Fokus Cloud</title>
+    <link rel="stylesheet" href="/src/assets/css/reset.css" />
+    <link rel="stylesheet" href="/src/assets/css/style.css?v=20260807-20" />
+    <link rel="stylesheet" href="/src/assets/css/subscription.css?v=20260807-15" />
+  </head>
+  <body class="subscription-page">
+    <main class="checkout-wrap">
+      <section class="auth-card">
+        <a class="brand" href="/">Fokus<span>Cloud</span></a>
+
+        <div class="card-heading">
+          <p class="section-kicker">Acesso restrito</p>
+          <h1 class="card-title">Backoffice</h1>
+          <p class="card-description">Use exclusivamente suas credenciais internas da Fokus Cloud.</p>
+        </div>
+
+        <form id="login">
+          <label>
+            <span>E-mail interno</span>
+            <input class="field-size-md" name="email" type="email" autocomplete="username" required />
+          </label>
+          <label>
+            <span>Senha</span>
+            <input class="field-size-md" name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <div class="login-actions">
+            <button class="btn btn-green" type="submit">Continuar</button>
+          </div>
+        </form>
+
+        <form id="mfa" hidden>
+          <p class="card-subtitle">Informe o código de seis dígitos enviado ao seu e-mail.</p>
+          <label>
+            <span>Código</span>
+            <input class="field-size-sm" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required />
+          </label>
+          <div class="login-actions">
+            <button class="btn btn-green" type="submit">Validar acesso</button>
+          </div>
+        </form>
+
+        <p id="message" class="form-message" role="status"></p>
+      </section>
+    </main>
+
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+      const message = document.querySelector('#message');
+      const login = document.querySelector('#login');
+      const mfa = document.querySelector('#mfa');
+
+      const showMessage = (text, type) => {
+        message.textContent = text;
+        message.classList.toggle('is-error', type === 'error');
+        message.classList.toggle('is-success', type === 'success');
+      };
+
+      login.onsubmit = async (event) => {
+        event.preventDefault();
+        try {
+          await FokusApi.request('/backoffice/auth/login', {
+            method: 'POST',
+            body: Object.fromEntries(new FormData(login)),
+          });
+          login.hidden = true;
+          mfa.hidden = false;
+          showMessage('Código enviado.', 'success');
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      };
+
+      mfa.onsubmit = async (event) => {
+        event.preventDefault();
+        try {
+          await FokusApi.request('/backoffice/auth/verify-mfa', {
+            method: 'POST',
+            body: Object.fromEntries(new FormData(mfa)),
+          });
+          location = '/backoffice';
+        } catch (error) {
+          showMessage(error.message, 'error');
+        }
+      };
+    </script>
+  </body>
+</html>
