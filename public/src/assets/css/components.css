@@ -196,6 +196,14 @@ textarea {
 
 .card-heading .card-description { margin-top: 3px; }
 
+.auth-card .card-title {
+  font-family: var(--font);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
 .form-message,
 .page-message {
   display: none;
