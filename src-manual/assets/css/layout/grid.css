@@ -1,0 +1,20 @@
+/* DISPLAY */
+
+.d-flex {
+    display: flex;
+}
+
+.d-none {
+    display: none;
+}
+
+/* ROW */
+.row {
+    flex-direction: row;
+}
+
+
+/* COLUMN */
+.col {
+    flex-direction: column;
+}

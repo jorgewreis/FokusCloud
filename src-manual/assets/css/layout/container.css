@@ -1,0 +1,22 @@
+.container {
+    width: 1200px;
+    max-width: calc(100% - 48px);
+    margin-inline: auto;
+}
+
+.container-small {
+    width: 720px;
+    max-width: calc(100% - 48px);
+    margin-inline: auto;
+}
+
+.container-wide {
+    width: 1440px;
+    max-width: calc(100% - 48px);
+    margin-inline: auto;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-inline: 24px;
+}

@@ -1,0 +1,11 @@
+.table-color {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.table-cell {
+    width: 45px;
+    height: 30px;
+    border-radius: 0px;
+}

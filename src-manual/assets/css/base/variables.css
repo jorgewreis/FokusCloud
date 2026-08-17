@@ -1,0 +1,125 @@
+:root{
+
+    /* DEFINIÇÃO DE CORES */
+
+        /* WHITE */
+        --COLOR-WHITE-000: #FFFFFF;
+        --COLOR-WHITE-100: #FFFFFFE4;
+        --COLOR-WHITE-200: #FFFFFFCA;
+        --COLOR-WHITE-300: #FFFFFFAF;
+        --COLOR-WHITE-400: #FFFFFF95;
+        --COLOR-WHITE-500: #FFFFFF7A;
+        --COLOR-WHITE-600: #FFFFFF60;
+        --COLOR-WHITE-700: #FFFFFF45;
+        --COLOR-WHITE-800: #FFFFFF2B;
+        --COLOR-WHITE-900: #FFFFFF10;
+
+        /* BLACK */
+        --COLOR-BLACK-000: #000000;
+        --COLOR-BLACK-100: #000000E4;
+        --COLOR-BLACK-200: #000000CA;
+        --COLOR-BLACK-300: #000000AF;
+        --COLOR-BLACK-400: #00000095;
+        --COLOR-BLACK-500: #0000007A;
+        --COLOR-BLACK-600: #00000060;
+        --COLOR-BLACK-700: #00000045;
+        --COLOR-BLACK-800: #0000002B;
+        --COLOR-BLACK-900: #00000010;
+
+        /* YELLOW */
+        --COLOR-YELLOW-000: #EEEAD4;
+        --COLOR-YELLOW-100: #F1E6AA;
+        --COLOR-YELLOW-200: #F5E27F;
+        --COLOR-YELLOW-300: #F8DF55;
+        --COLOR-YELLOW-400: #FCDB2A;
+        --COLOR-YELLOW-500: #FFD700;
+        --COLOR-YELLOW-600: #C8AA07;
+        --COLOR-YELLOW-700: #927D0D;
+        --COLOR-YELLOW-800: #5B4F14;
+        --COLOR-YELLOW-900: #24221A;
+
+        /* GREEN */
+        --COLOR-GREEN-000: #E4FFF0;
+        --COLOR-GREEN-100: #B6FAD5;
+        --COLOR-GREEN-200: #89F5B9;
+        --COLOR-GREEN-300: #5BF09E;
+        --COLOR-GREEN-400: #2EEB82;
+        --COLOR-GREEN-500: #00E667;
+        --COLOR-GREEN-600: #06B755;
+        --COLOR-GREEN-700: #0C8844;
+        --COLOR-GREEN-800: #125832;
+        --COLOR-GREEN-900: #182920;
+
+        /* BLUE */
+        --COLOR-BLUE-000: #DFF0FF;
+        --COLOR-BLUE-100: #B2E6FF;
+        --COLOR-BLUE-200: #86DCFF;
+        --COLOR-BLUE-300: #59D3FF;
+        --COLOR-BLUE-400: #2DC9FF;
+        --COLOR-BLUE-500: #00BFFF;
+        --COLOR-BLUE-600: #0395C8;
+        --COLOR-BLUE-700: #056B91;
+        --COLOR-BLUE-800: #084059;
+        --COLOR-BLUE-900: #0A1622;
+
+        /* CYAN */
+        --COLOR-CYAN-000: #F1FDFD;
+        --COLOR-CYAN-100: #C1FDFD;
+        --COLOR-CYAN-200: #91FEFE;
+        --COLOR-CYAN-300: #60FEFE;
+        --COLOR-CYAN-400: #30FFFF;
+        --COLOR-CYAN-500: #00FFFF;
+        --COLOR-CYAN-600: #08CACA;
+        --COLOR-CYAN-700: #0F9595;
+        --COLOR-CYAN-800: #176060;
+        --COLOR-CYAN-900: #1E2B2B;
+
+        /* PURPLE */
+        --COLOR-PURPLE-000: #ECE6F1;
+        --COLOR-PURPLE-100: #CBB8DA;
+        --COLOR-PURPLE-200: #AA8AC4;
+        --COLOR-PURPLE-300: #885CAD;
+        --COLOR-PURPLE-400: #672E97;
+        --COLOR-PURPLE-500: #460080;
+        --COLOR-PURPLE-600: #3C0569;
+        --COLOR-PURPLE-700: #320B53;
+        --COLOR-PURPLE-800: #28103C;
+        --COLOR-PURPLE-900: #1E1525;
+
+        /* RED */
+        --COLOR-RED-000: #E4D5D8;
+        --COLOR-RED-100: #E2AEB9;
+        --COLOR-RED-200: #E1889A;
+        --COLOR-RED-300: #DF617A;
+        --COLOR-RED-400: #DE3B5B;
+        --COLOR-RED-500: #DC143C;
+        --COLOR-RED-600: #AD1231;
+        --COLOR-RED-700: #7E0F25;
+        --COLOR-RED-800: #4E0D1A;
+        --COLOR-RED-900: #1F0A0E;
+
+        /* ORANGE */
+        --COLOR-ORANGE-000: #F3E8DE;
+        --COLOR-ORANGE-100: #F5D2B2;
+        --COLOR-ORANGE-200: #F8BC85;
+        --COLOR-ORANGE-300: #FAA759;
+        --COLOR-ORANGE-400: #FD912C;
+        --COLOR-ORANGE-500: #FF7B00;
+        --COLOR-ORANGE-600: #C86203;
+        --COLOR-ORANGE-700: #914907;
+        --COLOR-ORANGE-800: #59300A;
+        --COLOR-ORANGE-900: #22170D;
+
+        /* GRAY */
+        --COLOR-GRAY-000: #EEEEEE;
+        --COLOR-GRAY-100: #D8D8D8;
+        --COLOR-GRAY-200: #C2C2C2;
+        --COLOR-GRAY-300: #ACACAC;
+        --COLOR-GRAY-400: #969696;
+        --COLOR-GRAY-500: #808080;
+        --COLOR-GRAY-600: #686868;
+        --COLOR-GRAY-700: #505050;
+        --COLOR-GRAY-800: #383838;
+        --COLOR-GRAY-900: #202020;
+
+}

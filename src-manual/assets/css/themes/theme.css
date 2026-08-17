@@ -1,0 +1,64 @@
+
+/* THEMES */
+
+    /* DATA-THEME */
+        /* LIGHT */
+        :root,
+        [data-theme="light"] {
+            --THEME-BACKGROUND: var(--COLOR-GRAY-000);
+            --THEME-SURFACE: var(--COLOR-WHITE-000);
+            --THEME-SURFACE-ALT: var(--COLOR-GRAY-100);
+            --THEME-BORDER: var(--COLOR-GRAY-300);
+            --THEME-TEXT: var(--COLOR-GRAY-900);
+            --THEME-TEXT-MUTED: var(--COLOR-GRAY-600);
+            --THEME-SHADOW: var(--COLOR-BLACK-800);
+            --THEME-OVERLAY: var(--COLOR-BLACK-500);
+        }
+
+        /* DARK */
+        [data-theme="dark"] {
+            --THEME-BACKGROUND: var(--COLOR-GRAY-900);
+            --THEME-SURFACE: var(--COLOR-GRAY-800);
+            --THEME-SURFACE-ALT: var(--COLOR-GRAY-700);
+            --THEME-BORDER: var(--COLOR-GRAY-600);
+            --THEME-TEXT: var(--COLOR-GRAY-000);
+            --THEME-TEXT-MUTED: var(--COLOR-GRAY-300);
+            --THEME-SHADOW: var(--COLOR-BLACK-400);
+            --THEME-OVERLAY: var(--COLOR-BLACK-200);
+        }
+
+        
+    /* DATA-ROLE */
+    
+        /* USER - BLUE */
+        :root,
+        [data-role="user"] {
+            --ROLE-COLOR-000: var(--COLOR-BLUE-000);
+            --ROLE-COLOR-100: var(--COLOR-BLUE-100);
+            --ROLE-COLOR-200: var(--COLOR-BLUE-200);
+            --ROLE-COLOR-300: var(--COLOR-BLUE-300);
+            --ROLE-COLOR-400: var(--COLOR-BLUE-400);
+            --ROLE-COLOR-500: var(--COLOR-BLUE-500);
+            --ROLE-COLOR-600: var(--COLOR-BLUE-600);
+            --ROLE-COLOR-700: var(--COLOR-BLUE-700);
+            --ROLE-COLOR-800: var(--COLOR-BLUE-800);
+            --ROLE-COLOR-900: var(--COLOR-BLUE-900);
+            --ROLE-CONTRAST: var(--COLOR-WHITE-000);
+        }
+
+
+
+        /* ADMIN - ORANGE */
+        [data-role="admin"] {
+            --ROLE-COLOR-000: var(--COLOR-ORANGE-000);
+            --ROLE-COLOR-100: var(--COLOR-ORANGE-100);
+            --ROLE-COLOR-200: var(--COLOR-ORANGE-200);
+            --ROLE-COLOR-300: var(--COLOR-ORANGE-300);
+            --ROLE-COLOR-400: var(--COLOR-ORANGE-400);
+            --ROLE-COLOR-500: var(--COLOR-ORANGE-500);
+            --ROLE-COLOR-600: var(--COLOR-ORANGE-600);
+            --ROLE-COLOR-700: var(--COLOR-ORANGE-700);
+            --ROLE-COLOR-800: var(--COLOR-ORANGE-800);
+            --ROLE-COLOR-900: var(--COLOR-ORANGE-900);
+            --ROLE-CONTRAST: var(--COLOR-WHITE-000);
+        }
