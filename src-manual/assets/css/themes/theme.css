@@ -1,9 +1,38 @@
-
 /* THEMES */
+
+    /* DEFAULT */
+    :root {
+        --THEME-BACKGROUND: var(--COLOR-GRAY-000);
+        --THEME-SURFACE: var(--COLOR-WHITE-000);
+        --THEME-SURFACE-ALT: var(--COLOR-GRAY-100);
+        --THEME-BORDER: var(--COLOR-GRAY-300);
+        --THEME-TEXT: var(--COLOR-GRAY-900);
+        --THEME-TEXT-MUTED: var(--COLOR-GRAY-600);
+        --THEME-SHADOW: var(--COLOR-BLACK-800);
+        --THEME-OVERLAY: var(--COLOR-BLACK-500);
+
+        --ROLE-COLOR-000: var(--COLOR-BLUE-000);
+        --ROLE-COLOR-100: var(--COLOR-BLUE-100);
+        --ROLE-COLOR-200: var(--COLOR-BLUE-200);
+        --ROLE-COLOR-300: var(--COLOR-BLUE-300);
+        --ROLE-COLOR-400: var(--COLOR-BLUE-400);
+        --ROLE-COLOR-500: var(--COLOR-BLUE-500);
+        --ROLE-COLOR-600: var(--COLOR-BLUE-600);
+        --ROLE-COLOR-700: var(--COLOR-BLUE-700);
+        --ROLE-COLOR-800: var(--COLOR-BLUE-800);
+        --ROLE-COLOR-900: var(--COLOR-BLUE-900);
+        --ROLE-CONTRAST: var(--COLOR-WHITE-000);
+    }
+
+    html,
+    body {
+        background-color: var(--THEME-BACKGROUND);
+        color: var(--THEME-TEXT);
+    }
+
 
     /* DATA-THEME */
         /* LIGHT */
-        :root,
         [data-theme="light"] {
             --THEME-BACKGROUND: var(--COLOR-GRAY-000);
             --THEME-SURFACE: var(--COLOR-WHITE-000);
@@ -27,12 +56,15 @@
             --THEME-OVERLAY: var(--COLOR-BLACK-200);
         }
 
-        
-    /* DATA-ROLE */
-    
-        /* USER - BLUE */
+
+    /* DATA-THEME + DATA-ROLE */
+        /* LIGHT + USER - BLUE */
         :root,
-        [data-role="user"] {
+        [data-theme="light"][data-role="user"] {
+            --THEME-BACKGROUND: var(--COLOR-BLUE-000);
+            --THEME-SURFACE: var(--COLOR-WHITE-000);
+            --THEME-SURFACE-ALT: var(--COLOR-BLUE-100);
+            --THEME-BORDER: var(--COLOR-BLUE-300);
             --ROLE-COLOR-000: var(--COLOR-BLUE-000);
             --ROLE-COLOR-100: var(--COLOR-BLUE-100);
             --ROLE-COLOR-200: var(--COLOR-BLUE-200);
@@ -46,10 +78,31 @@
             --ROLE-CONTRAST: var(--COLOR-WHITE-000);
         }
 
+        /* DARK + USER - BLUE */
+        [data-theme="dark"][data-role="user"] {
+            --THEME-BACKGROUND: var(--COLOR-BLUE-900);
+            --THEME-SURFACE: var(--COLOR-BLUE-800);
+            --THEME-SURFACE-ALT: var(--COLOR-BLUE-700);
+            --THEME-BORDER: var(--COLOR-BLUE-600);
+            --ROLE-COLOR-000: var(--COLOR-BLUE-900);
+            --ROLE-COLOR-100: var(--COLOR-BLUE-800);
+            --ROLE-COLOR-200: var(--COLOR-BLUE-700);
+            --ROLE-COLOR-300: var(--COLOR-BLUE-600);
+            --ROLE-COLOR-400: var(--COLOR-BLUE-500);
+            --ROLE-COLOR-500: var(--COLOR-BLUE-400);
+            --ROLE-COLOR-600: var(--COLOR-BLUE-300);
+            --ROLE-COLOR-700: var(--COLOR-BLUE-200);
+            --ROLE-COLOR-800: var(--COLOR-BLUE-100);
+            --ROLE-COLOR-900: var(--COLOR-BLUE-000);
+            --ROLE-CONTRAST: var(--COLOR-BLACK-000);
+        }
 
-
-        /* ADMIN - ORANGE */
-        [data-role="admin"] {
+        /* LIGHT + ADMIN - ORANGE */
+        [data-theme="light"][data-role="admin"] {
+            --THEME-BACKGROUND: var(--COLOR-ORANGE-000);
+            --THEME-SURFACE: var(--COLOR-WHITE-000);
+            --THEME-SURFACE-ALT: var(--COLOR-ORANGE-100);
+            --THEME-BORDER: var(--COLOR-ORANGE-300);
             --ROLE-COLOR-000: var(--COLOR-ORANGE-000);
             --ROLE-COLOR-100: var(--COLOR-ORANGE-100);
             --ROLE-COLOR-200: var(--COLOR-ORANGE-200);
@@ -61,4 +114,23 @@
             --ROLE-COLOR-800: var(--COLOR-ORANGE-800);
             --ROLE-COLOR-900: var(--COLOR-ORANGE-900);
             --ROLE-CONTRAST: var(--COLOR-WHITE-000);
+        }
+
+        /* DARK + ADMIN - ORANGE */
+        [data-theme="dark"][data-role="admin"] {
+            --THEME-BACKGROUND: var(--COLOR-ORANGE-900);
+            --THEME-SURFACE: var(--COLOR-ORANGE-800);
+            --THEME-SURFACE-ALT: var(--COLOR-ORANGE-700);
+            --THEME-BORDER: var(--COLOR-ORANGE-600);
+            --ROLE-COLOR-000: var(--COLOR-ORANGE-900);
+            --ROLE-COLOR-100: var(--COLOR-ORANGE-800);
+            --ROLE-COLOR-200: var(--COLOR-ORANGE-700);
+            --ROLE-COLOR-300: var(--COLOR-ORANGE-600);
+            --ROLE-COLOR-400: var(--COLOR-ORANGE-500);
+            --ROLE-COLOR-500: var(--COLOR-ORANGE-400);
+            --ROLE-COLOR-600: var(--COLOR-ORANGE-300);
+            --ROLE-COLOR-700: var(--COLOR-ORANGE-200);
+            --ROLE-COLOR-800: var(--COLOR-ORANGE-100);
+            --ROLE-COLOR-900: var(--COLOR-ORANGE-000);
+            --ROLE-CONTRAST: var(--COLOR-BLACK-000);
         }

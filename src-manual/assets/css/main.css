@@ -25,7 +25,3 @@
 
 @import url("pages/login.css");
 @import url("pages/dashboard.css");
-
-body {
-    background-color: var(--ROLE-COLOR-000);
-}
