@@ -5,8 +5,116 @@
     /* FONTE - BEBAS NEUE */
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-    /* FONT - LATO REGULAR */
-    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+    /* FONT - INTER */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    
+
+/* TYPOGRAPHY */
+
+    /* DISPLAY */
+    .display-1 {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 700;
+        font-size: 5rem;
+        text-transform: uppercase;
+        line-height: 70px;
+    }
+    .display-2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 700;
+        font-size: 4.5rem;
+        text-transform: uppercase;
+        line-height: 65px;
+    }
+    .display-3 {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 700;
+        font-size: 4rem;
+        text-transform: uppercase;
+        line-height: 60px;
+    }
+    .display-4 {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 700;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        line-height: 55px;
+    }
+    .display-5 {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 700;
+        font-size: 3rem;
+        text-transform: uppercase;
+        line-height: 45px;
+    }
+    .display-6 {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 700;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        line-height: 35px;
+    }
+
+    /* HEADINGS */
+    h1 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 48px;
+    }
+    h2 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 32px;
+    }
+    h3 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+    }
+    h4 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+    }
+    h5 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+    /* BODOY TEXT */
+    span, 
+    .body, 
+    .text {        
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+    }
+
+    /* SUBTITLES */
+    .subtitle-1 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    .subtitle-2 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: var(--theme-text-muted);
+    }
+
+    /* CAPTION */
+    .caption-1 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-size: 0.7rem;
+    }
+    .caption-2 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-size: 0.5rem;
+    }
     
 /* MARGIN */
     /* MARGIN TOTAL */
