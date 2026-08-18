@@ -5,62 +5,9 @@
     /* FONTE - BEBAS NEUE */
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-    /* FONTE - OPEN SANS */
-    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+    /* FONT - LATO REGULAR */
+    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
     
-    
-    /* TAMANHOS */
-    h1 {
-        font-size: 2rem;
-        font-weight: 700;
-    }
-        h1.system {
-            font-family: "Poppins", sans-serif;
-            font-size: 28px;            
-        }
-        h1.system.b {
-            color: var(--ROLE-COLOR-500);
-        }
-        span.system.s {
-            position: absolute;
-            right: 10px;
-            bottom: -15px;
-
-            font-family: "Poppins", sans-serif;
-            font-size: 13px;
-
-            /* filters */
-            opacity: 0.7;
-        }
-    h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-        h2.title {
-            color: var(--ROLE-COLOR-700);
-        }
-    h3 {
-        font-size: 1rem;
-        font-weight: 500;
-    }
-        h3.title {
-            color: var(--ROLE-COLOR-700);
-            font-weight: 600;
-        }
-    h4 {
-        font-size: 0.9rem;
-        font-weight: 400;
-    }
-        h4.title {
-            color: var(--ROLE-COLOR-700);
-            font-weight: 600;
-        }
-        h4.subtitle {
-            color: var(--ROLE-COLOR-700);
-            opacity: 0.8;
-        }
-
-
 /* MARGIN */
     /* MARGIN TOTAL */
     .m-0 {
