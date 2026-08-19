@@ -1,0 +1,21 @@
+/* STACK */
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.stack-xs {
+    gap: var(--space-1);
+}
+.stack-sm {
+    gap: var(--space-2);
+}
+.stack-md {
+    gap: var(--space-3);
+}
+.stack-lg {
+    gap: var(--space-4);
+}
+.stack-xl {
+    gap: var(--space-5);
+}
