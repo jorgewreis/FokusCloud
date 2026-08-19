@@ -8,7 +8,7 @@
     left: 10px;
 
     /* size */
-    width: 300px;
+    width: 80px;
     height: calc(100% - 20px);
 
     /* space */
@@ -18,7 +18,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    align-items: space-between;
+    align-items: stretch;
     justify-content: flex-start;
 
     /* theme */
@@ -27,70 +27,108 @@
     background-color: var(--theme-sidebar);
 
     /* animation */
-    transition: width 1s ease-in-out;
+    transition:
+        width 300ms ease,
+        box-shadow 300ms ease,
+        background-color 300ms ease;
+    will-change: width;
 }
-    .sidebar.single {
-        width: 80px;
+
+.sidebar.single {
+    width: 80px;
+}
+
+.sidebar.expanded {
+    width: 300px;
+}
+
+.sidebar div {
+    /* size */
+    width: 100%;
+
+    /* flex-custom */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.sidebar .side-button {
+    /* size */
+    width: calc(100% - 20px);
+    height: 40px;
+
+    /* space */
+    margin: 5px 10px;
+    padding: 4px 8px;
+    gap: 10px;
+
+    /* flex custom */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+
+    /* theme */
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.sidebar .side-button:focus {
+    outline: none;
+}
+
+.sidebar .side-button:focus-visible {
+    box-shadow: 0 0 0 2px var(--role-color-300);
+}
+
+.sidebar .side-button.active {
+    background-color: var(--theme-surface);
+    box-shadow: 0 4px 10px var(--theme-shadow);
+}
+
+.sidebar .side-button img {
+    /* size */
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
+.sidebar .side-button.active img {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
+.sidebar .side-button .single-button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+    max-width: 0;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+        max-width 300ms ease,
+        opacity 200ms ease,
+        transform 300ms ease;
+}
+
+.sidebar.expanded .side-button .single-button {
+    max-width: 180px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .sidebar .side-button .single-button {
+        transition-duration: 300ms !important;
     }
-
-    .sidebar div {
-        /* size */
-        width: 100%;
-
-        /* flex-custom */
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        align-items: flex-start;
-        justify-content: center;
-    }
-
-        .sidebar .side-button {
-            /* size */
-            width: calc(100% - 20px);
-            height: 40px;
-
-            /* space */
-            margin: 5px 10px;
-            padding: 4px 8px;
-            gap: 10px;
-
-            /* flex custom */
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-items: center;
-            justify-content: flex-start;
-
-            /* theme */
-            border-radius: 6px;
-        }
-            .sidebar .side-button.active {
-                background-color: var(--theme-surface);
-                box-shadow: 0 4px 10px var(--theme-shadow);
-            }
-        .sidebar .side-button img {
-            /* size */
-            width: 24px;
-            height: 24px;
-
-            filter: grayscale(1);
-            opacity: 0.5;
-        }
-            .sidebar .side-button.active img {
-                filter: grayscale(0);
-                opacity: 1;
-            }
-        .sidebar .side-button .single-button {
-            display: none;
-        }
-        .sidebar.expanded .side-button .single-button {
-            /* flex custom */
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-
-            /* text */
-            
-        }
+}

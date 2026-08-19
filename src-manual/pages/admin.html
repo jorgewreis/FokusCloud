@@ -14,18 +14,43 @@
 
         <div class="container-page">
 
-            <div class="sidebar expanded">
-                <div class="top"></div>
+            <div class="sidebar single" id="sidebar">
+                <div class="top">
+                    <button class="side-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
+                        <img src="./../assets/icons/Sidebar-Collapes--Streamline-Ultimate.png" alt="">
+                    </button>
+                </div>
                 <div class="content"></div>
                 <div class="bottom">
                     <div class="line-hr-single"></div>
-                    <div class="side-button active">
+                    <div class="side-button">
                         <img src="./../assets/icons/Cog--Streamline-Flex.png">
                         <span class="single-button text-subtitle-sm text-muted">Admin Settings</span>
                     </div>
                 </div>
             </div>
         </div>
+
+    <script>
+        function sidebarHide() {
+            let sidebar = document.querySelector(".sidebar");
+            let icon = document.querySelector("#sidebar-expand img");
+            let button = document.querySelector("#sidebar-expand");
+            let isSingle = sidebar.classList.contains("single");
+
+            if (isSingle) {
+                sidebar.classList.replace("single", "expanded");
+                icon.setAttribute("src", "./../assets/icons/Sidebar-Expand--Streamline-Ultimate.png");
+                button.setAttribute("aria-expanded", "true");
+            } else {
+                sidebar.classList.replace("expanded", "single");
+                icon.setAttribute("src", "./../assets/icons/Sidebar-Collapes--Streamline-Ultimate.png");
+                button.setAttribute("aria-expanded", "false");
+            }
+        }
+
+        document.querySelector("#sidebar-expand").addEventListener("click", sidebarHide);
+    </script>
         
     </body>
 </html>
