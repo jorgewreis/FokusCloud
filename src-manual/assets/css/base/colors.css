@@ -117,11 +117,4 @@
     --color-gray-900: #202020;
     --color-gray-950: #101010;
 
-    /* SEMANTIC TEXT COLORS */
-    --text-color-primary: var(--role-color-400);
-    --text-color-muted: var(--theme-text-muted);
-    --text-color-success: var(--color-green-700);
-    --text-color-danger: var(--color-red-600);
-    --text-color-warning: var(--color-yellow-700);
-    --text-color-info: var(--color-blue-700);
 }

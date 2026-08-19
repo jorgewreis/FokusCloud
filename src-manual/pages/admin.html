@@ -16,18 +16,55 @@
 
             <div class="sidebar single" id="sidebar">
                 <div class="top">
-                    <button class="side-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
+                    <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
                         <img src="./../assets/icons/Sidebar-Collapes--Streamline-Ultimate.png" alt="">
                     </button>
+                    <div class="line-hr-single"></div>
                 </div>
-                <div class="content"></div>
+
+                <nav class="content sidebar-nav" aria-label="Navegação administrativa">
+                    <button class="sidebar-button active" type="button" data-sidebar-item="platform-dashboard">
+                        <img src="./../assets/icons/Layout-Dashboard-1--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Painel geral</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="companies">
+                        <img src="./../assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Empresas</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="subscription-plans">
+                        <img src="./../assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Planos</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="subscriptions">
+                        <img src="./../assets/icons/Seo-Search--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Assinaturas</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="vouchers">
+                        <img src="./../assets/icons/Tickets--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Vouchers</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="platform-users">
+                        <img src="./../assets/icons/Multiple-Actions-Setting--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Admins</span>
+                    </button>
+                </nav>
+
                 <div class="bottom">
                     <div class="line-hr-single"></div>
-                    <div class="side-button">
-                        <img src="./../assets/icons/Cog--Streamline-Flex.png">
-                        <span class="single-button text-subtitle-sm text-muted">Admin Settings</span>
+                    <div class="sidebar-button">
+                        <img src="./../assets/icons/Cog--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm text-muted">Configurações</span>
+                    </div>
+                    <div class="sidebar-button">
+                        <img src="./../assets/icons/Settings-User--Streamline-Ultimate.png">
+                        <div class="d-flex col">
+                            <span class="sidebar-button-label text-caption text-muted">Administrador logado</span>
+                            <span class="sidebar-button-label text-subtitle-sm text-primary">Jorge Reis</span>
+                        </div>
+                        <img class="mini-icon" src="./../assets/icons/Download-Square-3--Streamline-Ultimate.png">
                     </div>
                 </div>
+
             </div>
         </div>
 

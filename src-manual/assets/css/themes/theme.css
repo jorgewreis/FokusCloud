@@ -12,6 +12,12 @@
         --theme-text-muted: var(--color-gray-700);
         --theme-shadow: var(--color-black-950);
         --theme-overlay: var(--color-black-600);
+        --text-color-primary: var(--role-color-400);
+        --text-color-muted: var(--theme-text-muted);
+        --text-color-success: var(--color-green-700);
+        --text-color-danger: var(--color-red-600);
+        --text-color-warning: var(--color-yellow-700);
+        --text-color-info: var(--color-blue-700);
 
         --role-color-050: var(--color-blue-050);
         --role-color-100: var(--color-blue-100);
@@ -47,6 +53,11 @@
             --theme-text-muted: var(--color-gray-700);
             --theme-shadow: var(--color-black-950);
             --theme-overlay: var(--color-black-600);
+            --text-color-muted: var(--theme-text-muted);
+            --text-color-success: var(--color-green-700);
+            --text-color-danger: var(--color-red-600);
+            --text-color-warning: var(--color-yellow-700);
+            --text-color-info: var(--color-blue-700);
         }
 
         /* DARK */
@@ -61,6 +72,11 @@
             --theme-text-muted: var(--color-gray-400);
             --theme-shadow: var(--color-black-200);
             --theme-overlay: var(--color-black-300);
+            --text-color-muted: var(--theme-text-muted);
+            --text-color-success: var(--color-green-400);
+            --text-color-danger: var(--color-red-400);
+            --text-color-warning: var(--color-yellow-400);
+            --text-color-info: var(--color-blue-300);
         }
 
 
@@ -79,6 +95,7 @@
             --role-color-800: var(--color-blue-800);
             --role-color-900: var(--color-blue-900);
             --role-contrast: var(--color-white-050);
+            --text-color-primary: var(--role-color-400);
         }
 
         /* ADMIN - ORANGE */
@@ -94,4 +111,5 @@
             --role-color-800: var(--color-orange-800);
             --role-color-900: var(--color-orange-900);
             --role-contrast: var(--color-white-050);
+            --text-color-primary: var(--role-color-400);
         }
