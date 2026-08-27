@@ -12,12 +12,13 @@
     </head>
     <body>
 
-        <div class="container-page">
+        <div class="container-page single">
 
             <div class="sidebar single" id="sidebar">
                 <div class="top">
                     <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
                         <img src="./../assets/icons/Sidebar-Collapes--Streamline-Ultimate.png" alt="">
+                        <span class="sidebar-button-label title">Fokus<strong>Admin</strong></span>
                     </button>
                     <div class="line-hr-single"></div>
                 </div>
@@ -66,6 +67,10 @@
                 </div>
 
             </div>
+
+            <!-- PAGE CONTENT -->
+            <div class="container-content" id="page-content">
+            </div>
         </div>
 
     <script>
@@ -74,12 +79,15 @@
             let icon = document.querySelector("#sidebar-expand img");
             let button = document.querySelector("#sidebar-expand");
             let isSingle = sidebar.classList.contains("single");
+            let container = document.querySelector(".container-page");
 
             if (isSingle) {
                 sidebar.classList.replace("single", "expanded");
+                container.classList.replace("single", "expanded");
                 icon.setAttribute("src", "./../assets/icons/Sidebar-Expand--Streamline-Ultimate.png");
                 button.setAttribute("aria-expanded", "true");
             } else {
+                container.classList.replace("expanded", "single");
                 sidebar.classList.replace("expanded", "single");
                 icon.setAttribute("src", "./../assets/icons/Sidebar-Collapes--Streamline-Ultimate.png");
                 button.setAttribute("aria-expanded", "false");
@@ -87,6 +95,44 @@
         }
 
         document.querySelector("#sidebar-expand").addEventListener("click", sidebarHide);
+    </script>
+
+    <script>
+        const pageContent = document.querySelector("#page-content");
+        const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
+        const pagePath = "./admin-pages";
+
+        async function loadSidebarPage(pageName) {
+            pageContent.innerHTML = '<div class="text-body text-muted">Carregando...</div>';
+
+            try {
+                const response = await fetch(`${pagePath}/${pageName}.html`);
+
+                if (!response.ok) {
+                    throw new Error(`Pagina nao encontrada: ${pageName}`);
+                }
+
+                pageContent.innerHTML = await response.text();
+
+                sidebarButtons.forEach((button) => {
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.sidebarItem === pageName
+                    );
+                });
+            } catch (error) {
+                pageContent.innerHTML = '<div class="text-body text-danger">Nao foi possivel carregar esta pagina.</div>';
+                console.error(error);
+            }
+        }
+
+        sidebarButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                loadSidebarPage(button.dataset.sidebarItem);
+            });
+        });
+
+        loadSidebarPage("platform-dashboard");
     </script>
         
     </body>

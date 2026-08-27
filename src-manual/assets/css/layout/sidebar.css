@@ -158,6 +158,16 @@
     color: var(--role-color-050);
 }
 
+.sidebar.expanded .sidebar-button-label.title {
+    font-size: 26px;
+    font-weight: 600;
+    display: inline-block;
+}
+    .sidebar.expanded .sidebar-button-label.title strong {
+        font-weight: 600 !important;
+        color: var(--role-color-500) !important;
+    }
+
 @media (prefers-reduced-motion: reduce) {
     .sidebar,
     .sidebar .sidebar-button .sidebar-button-label,
