@@ -1,0 +1,75 @@
+/* WIDTH */
+.w-fit {
+    width: fit-content;
+}
+.w-auto {
+    width: auto;
+}
+.w-min {
+    width: min-content;
+}
+.w-max {
+    width: max-content;
+}
+.w-1 {
+    width: 50px;
+}
+.w-2 {
+    width: 100px;
+}
+.w-3 {
+    width: 150px;
+}
+.w-4 {
+    width: 200px;
+}
+.w-5 {
+    width: 250px;
+}
+.w-6 {
+    width: 300px;
+}
+.w-7 {
+    width: 350px;
+}
+.w-8 {
+    width: 400px;
+}
+.w-9 {
+    width: 500px;
+}
+.w-full {
+    width: 100%;
+}
+.max-w-full {
+    max-width: 100%;
+}
+.min-w-0 {
+    min-width: 0;
+}
+
+/* HEIGHT */
+.h-full {
+    height: 100%;
+}
+.h-screen {
+    min-height: 100vh;
+}
+
+/* OVERFLOW */
+.overflow-hidden {
+    overflow: hidden;
+}
+.overflow-auto {
+    overflow: auto;
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+    .w-6,
+    .w-7,
+    .w-8,
+    .w-9 {
+        width: 100%;
+    }
+}

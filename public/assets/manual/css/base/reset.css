@@ -1,0 +1,86 @@
+
+/* Reset CSS - Base styles to normalize browser differences
+	 Inspired by modern resets (Meyer, Normalize) with sensible defaults */
+
+/* Box sizing and root defaults */
+:root {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* Remove default body margin, set sensible defaults */
+html, body {
+	height: 100%;
+}
+
+body {
+	line-height: 1.5;
+	-webkit-text-size-adjust: 100%;
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	color: #111;
+	background: #fff;
+}
+
+/* Improve media defaults */
+img, picture, video, canvas, svg {
+	display: block;
+	max-width: 100%;
+}
+
+/* Make inputs inherit font */
+input, button, textarea, select {
+	font: inherit;
+}
+
+/* Remove built-in form typography styles in Safari */
+button { background: none; border: none; }
+
+/* Remove list styles */
+ol, ul { list-style: none; }
+
+/* Links */
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Headings: keep weight and margins manageable */
+h1, h2, h3, h4, h5, h6 {
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+/* Tables */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Remove default focus outline but keep accessible focus styles available */
+:focus {
+	outline: 2px solid Highlight; /* fallback accessible outline */
+	outline-offset: 2px;
+}
+
+/* Utility defaults */
+.sr-only {
+	position: absolute !important;
+	width: 1px; height: 1px;
+	padding: 0; margin: -1px;
+	overflow: hidden; clip: rect(0 0 0 0);
+	white-space: nowrap; border: 0;
+}
+
+/* Preserve legacy form element appearance where useful */
+::-webkit-search-decoration, ::-webkit-search-cancel-button,
+::-webkit-search-results-button, ::-webkit-search-results-decoration {
+	-webkit-appearance: none;
+}
+
+/* End of reset */

@@ -1,0 +1,8 @@
+/* DIVIDER */
+.line-hr-single,
+.hr {
+    width: 100%;
+    margin: var(--space-4) 0;
+    box-sizing: border-box;
+    border-bottom: 2px solid var(--theme-background);
+}

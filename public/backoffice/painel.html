@@ -1,14 +1,163 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Backoffice | Fokus Cloud</title><link rel="stylesheet" href="/src/assets/css/reset.css"><link rel="stylesheet" href="/src/assets/css/dashboard.css"></head><body class="dashboard-page"><div class="dashboard-shell"><aside class="dashboard-side"><a class="brand" href="/backoffice">Fokus<span>Cloud</span></a><nav><a href="/backoffice" data-page="painel">Visão geral</a><a href="/backoffice/empresas" data-page="empresas">Empresas</a><a href="/backoffice/assinaturas" data-page="assinaturas">Assinaturas</a><a href="/backoffice/vouchers" data-page="vouchers">Vouchers</a><a href="/backoffice/auditoria" data-page="auditoria">Auditoria</a></nav><button id="logout" class="dashboard-button secondary">Sair</button></aside><main class="dashboard-main"><header class="dashboard-top"><div><p>BACKOFFICE FOKUS CLOUD</p><h1 id="title">Visão geral</h1></div><p id="admin"></p></header><div id="content"><p class="dashboard-empty">Carregando...</p></div></main></div><script src="/assets/js/api-client.js"></script><script>
-const content=document.querySelector('#content'), page=location.pathname.split('/').pop()==='backoffice'?'painel':location.pathname.split('/').pop();
-const escape=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const api=(path,options)=>FokusApi.request('/backoffice'+path,options);
-function table(headers,rows){return rows.length?`<table class="dashboard-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`:'<p class="dashboard-empty">Nenhum registro encontrado.</p>'}
-async function dashboard(){const d=await api('/dashboard');return `<section class="metric-grid">${[['Empresas',d.companies],['Assinaturas ativas',d.active_subscriptions],['Mudanças agendadas',d.scheduled_changes],['Métricas recentes',d.recent_usage]].map(([l,v])=>`<article class="metric-card"><span>${l}</span><strong>${v}</strong></article>`).join('')}</section><section class="dashboard-panel"><h2>Governança operacional</h2><p>Use este ambiente apenas para administrar a plataforma, empresas, assinaturas e atendimentos com ticket registrado.</p><h2>Novo superadministrador</h2><form id="platform-admin" class="dashboard-toolbar"><input name="name" placeholder="Nome" required><input name="email" type="email" placeholder="E-mail" required><input name="password" type="password" minlength="12" placeholder="Senha inicial" required><input name="password_confirmation" type="password" minlength="12" placeholder="Confirmar senha" required><button class="dashboard-button">Criar acesso</button></form><p id="admin-message"></p></section>`}
-async function companies(){const data=await api('/companies');return `<section class="dashboard-panel"><div class="dashboard-toolbar"><input id="search" placeholder="Empresa ou documento"><button class="dashboard-button" id="search-button">Buscar</button></div><div id="company-list">${companyTable(data)}</div></section>`}
-function companyTable(rows){return table(['Empresa','Administrador','Status','Assinaturas'],rows.map(x=>`<tr><td><button class="dashboard-button secondary company" data-id="${x.id}">${escape(x.legal_name)}</button><br><small>${escape(x.document_number)}</small></td><td>${escape(x.admin_name||'—')}<br><small>${escape(x.admin_email||'')}</small></td><td>${escape(x.status)}</td><td>${x.active_subscriptions}</td></tr>`))}
-async function subscriptions(){const data=await api('/companies');const all=[];for(const c of data){const detail=await api('/companies/'+c.id);detail.subscriptions.forEach(s=>all.push({...s,company:c.legal_name}))}return `<section class="dashboard-panel">${table(['Empresa','Produto','Status','Vigência','Ação'],all.map(s=>`<tr><td>${escape(s.company)}</td><td>${escape(s.product_name)}</td><td>${escape(s.status)}</td><td>${s.current_period_ends_at?new Date(s.current_period_ends_at).toLocaleDateString('pt-BR'):'—'}</td><td><button class="dashboard-button secondary action" data-id="${s.id}" data-action="suspensao">Suspender</button> <button class="dashboard-button danger action" data-id="${s.id}" data-action="cancelamento">Cancelar</button></td></tr>`))}</section>`}
-async function vouchers(){const rows=await api('/vouchers');return `<section class="dashboard-panel"><h2>Novo voucher</h2><form id="voucher" class="dashboard-toolbar"><input name="code" placeholder="CÓDIGO" required><select name="discount_type"><option value="percentage">Percentual</option><option value="fixed">Valor fixo</option></select><input name="discount_value" type="number" min="0.01" step="0.01" placeholder="Valor" required><input name="redemption_limit" type="number" min="1" placeholder="Limite total"><button class="dashboard-button">Criar</button></form><p id="voucher-message"></p><h2>Vouchers existentes</h2>${table(['Código','Desconto','Status','Validade'],rows.map(v=>`<tr><td>${escape(v.code)}</td><td>${escape(v.discount_value)} ${v.discount_type==='percentage'?'%':'R$'}</td><td>${escape(v.status)}</td><td>${v.ends_at?new Date(v.ends_at).toLocaleDateString('pt-BR'):'Sem expiração'}</td></tr>`))}</section>`}
-async function audit(){const rows=await api('/audit');return `<section class="dashboard-panel">${table(['Data','Ação','Entidade','Motivo/Ticket'],rows.map(a=>`<tr><td>${new Date(a.created_at).toLocaleString('pt-BR')}</td><td>${escape(a.action)}</td><td>${escape(a.entity_type||'—')} ${escape(a.entity_id||'')}</td><td>${escape(a.reason||'—')} ${a.support_ticket?`(${escape(a.support_ticket)})`:''}</td></tr>`))}</section>`}
-async function render(){try{const me=await api('/auth/me');admin.textContent=me.admin.name;document.querySelector(`[data-page="${page}"]`)?.classList.add('active');title.textContent=({painel:'Visão geral',empresas:'Empresas',assinaturas:'Assinaturas',vouchers:'Vouchers',auditoria:'Auditoria'})[page]||'Backoffice';content.innerHTML=await ({painel:dashboard,empresas:companies,assinaturas:subscriptions,vouchers:vouchers,auditoria:audit}[page]||dashboard)();bind()}catch(e){location='/backoffice/acesso'}}
-function bind(){document.querySelector('#search-button')?.addEventListener('click',async()=>{const data=await api('/companies?q='+encodeURIComponent(document.querySelector('#search').value));document.querySelector('#company-list').innerHTML=companyTable(data)});document.querySelector('#voucher')?.addEventListener('submit',async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));if(!d.redemption_limit)delete d.redemption_limit;try{await api('/vouchers',{method:'POST',body:d});render()}catch(x){document.querySelector('#voucher-message').textContent=x.message}});document.querySelector('#platform-admin')?.addEventListener('submit',async e=>{e.preventDefault();try{await api('/admins',{method:'POST',body:Object.fromEntries(new FormData(e.target))});document.querySelector('#admin-message').textContent='Acesso criado e notificado.';e.target.reset()}catch(x){document.querySelector('#admin-message').textContent=x.message}});document.querySelectorAll('.action').forEach(b=>b.onclick=async()=>{const reason=prompt('Motivo obrigatório da ação:');if(!reason)return;await api('/subscriptions/'+b.dataset.id,{method:'PATCH',body:{action:b.dataset.action,reason}});render()});document.querySelectorAll('.company').forEach(b=>b.onclick=async()=>{const d=await api('/companies/'+b.dataset.id);alert(`${d.company.legal_name}\nAssinaturas: ${d.subscriptions.length}\nMétricas: ${d.usage.length}`)})}logout.onclick=async()=>{await api('/auth/logout',{method:'POST'});location='/backoffice/acesso'};render();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light" data-role="admin">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- IMPORT CSS -->
+        <link rel="stylesheet" href="/assets/manual/css/main.css">
+    </head>
+    <body>
+
+        <div class="container-page single">
+
+            <div class="sidebar single" id="sidebar">
+                <div class="top">
+                    <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
+                        <img src="/assets/manual/icons/Sidebar-Collapes--Streamline-Ultimate.png" alt="">
+                        <span class="sidebar-button-label title">Fokus<strong>Admin</strong></span>
+                    </button>
+                    <div class="line-hr-single"></div>
+                </div>
+
+                <nav class="content sidebar-nav" aria-label="Navegação administrativa">
+                    <button class="sidebar-button active" type="button" data-sidebar-item="platform-dashboard">
+                        <img src="/assets/manual/icons/Layout-Dashboard-1--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Painel geral</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="companies">
+                        <img src="/assets/manual/icons/Small-Office-Tall-Building--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Empresas</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="subscription-plans">
+                        <img src="/assets/manual/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Planos</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="subscriptions">
+                        <img src="/assets/manual/icons/Seo-Search--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Assinaturas</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="vouchers">
+                        <img src="/assets/manual/icons/Tickets--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Vouchers</span>
+                    </button>
+                    <button class="sidebar-button" type="button" data-sidebar-item="platform-users">
+                        <img src="/assets/manual/icons/Multiple-Actions-Setting--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm">Admins</span>
+                    </button>
+                </nav>
+
+                <div class="bottom">
+                    <div class="line-hr-single"></div>
+                    <div class="sidebar-button">
+                        <img src="/assets/manual/icons/Cog--Streamline-Ultimate.png">
+                        <span class="sidebar-button-label text-subtitle-sm text-muted">Configurações</span>
+                    </div>
+                    <div class="sidebar-button">
+                        <img src="/assets/manual/icons/Settings-User--Streamline-Ultimate.png">
+                        <div class="d-flex col">
+                            <span class="sidebar-button-label text-caption text-muted">Administrador logado</span>
+                            <span class="sidebar-button-label text-subtitle-sm text-primary" id="admin-name">Jorge Reis</span>
+                        </div>
+                        <img class="mini-icon" id="logout" src="/assets/manual/icons/Download-Square-3--Streamline-Ultimate.png">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PAGE CONTENT -->
+            <div class="container-content" id="page-content">
+            </div>
+        </div>
+
+    <script src="/assets/js/api-client.js"></script>
+    <script>
+        function sidebarHide() {
+            let sidebar = document.querySelector(".sidebar");
+            let icon = document.querySelector("#sidebar-expand img");
+            let button = document.querySelector("#sidebar-expand");
+            let isSingle = sidebar.classList.contains("single");
+            let container = document.querySelector(".container-page");
+
+            if (isSingle) {
+                sidebar.classList.replace("single", "expanded");
+                container.classList.replace("single", "expanded");
+                icon.setAttribute("src", "/assets/manual/icons/Sidebar-Expand--Streamline-Ultimate.png");
+                button.setAttribute("aria-expanded", "true");
+            } else {
+                container.classList.replace("expanded", "single");
+                sidebar.classList.replace("expanded", "single");
+                icon.setAttribute("src", "/assets/manual/icons/Sidebar-Collapes--Streamline-Ultimate.png");
+                button.setAttribute("aria-expanded", "false");
+            }
+        }
+
+        document.querySelector("#sidebar-expand").addEventListener("click", sidebarHide);
+    </script>
+
+    <script>
+        const pageContent = document.querySelector("#page-content");
+        const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
+        const pagePath = "/backoffice/admin-pages";
+
+        async function loadSidebarPage(pageName) {
+            pageContent.innerHTML = '<div class="text-body text-muted">Carregando...</div>';
+
+            try {
+                const response = await fetch(`${pagePath}/${pageName}.html`);
+
+                if (!response.ok) {
+                    throw new Error(`Pagina nao encontrada: ${pageName}`);
+                }
+
+                pageContent.innerHTML = await response.text();
+
+                sidebarButtons.forEach((button) => {
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.sidebarItem === pageName
+                    );
+                });
+            } catch (error) {
+                pageContent.innerHTML = "";
+                sidebarButtons.forEach((button) => {
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.sidebarItem === pageName
+                    );
+                });
+                console.error(error);
+            }
+        }
+
+        sidebarButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                loadSidebarPage(button.dataset.sidebarItem);
+            });
+        });
+
+        async function hydrateAdmin() {
+            try {
+                const response = await FokusApi.request("/backoffice/auth/me");
+                if (response?.admin?.name) {
+                    document.querySelector("#admin-name").textContent = response.admin.name;
+                }
+            } catch (error) {
+                location.replace("/backoffice/acesso");
+            }
+        }
+
+        document.querySelector("#logout").addEventListener("click", async () => {
+            await FokusApi.request("/backoffice/auth/logout", { method: "POST" });
+            location.replace("/backoffice/acesso");
+        });
+
+        hydrateAdmin();
+        loadSidebarPage("platform-dashboard");
+    </script>
+        
+    </body>
+</html>

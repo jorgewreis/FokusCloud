@@ -1,0 +1,115 @@
+/* THEMES */
+
+    /* DEFAULT */
+    :root {
+        --theme-background: var(--color-gray-100);
+        --theme-sidebar: var(--color-gray-050);
+        --theme-surface: var(--color-white-050);
+        --theme-surface-alt: var(--color-white-400);
+        --theme-border: var(--role-color-300);
+        --theme-border-alt: var(--color-gray-200);
+        --theme-text: var(--color-gray-950);
+        --theme-text-muted: var(--color-gray-700);
+        --theme-shadow: var(--color-black-950);
+        --theme-overlay: var(--color-black-600);
+        --text-color-primary: var(--role-color-400);
+        --text-color-muted: var(--theme-text-muted);
+        --text-color-success: var(--color-green-700);
+        --text-color-danger: var(--color-red-600);
+        --text-color-warning: var(--color-yellow-700);
+        --text-color-info: var(--color-blue-700);
+
+        --role-color-050: var(--color-blue-050);
+        --role-color-100: var(--color-blue-100);
+        --role-color-200: var(--color-blue-200);
+        --role-color-300: var(--color-blue-300);
+        --role-color-400: var(--color-blue-400);
+        --role-color-500: var(--color-blue-500);
+        --role-color-600: var(--color-blue-600);
+        --role-color-700: var(--color-blue-700);
+        --role-color-800: var(--color-blue-800);
+        --role-color-900: var(--color-blue-900);
+        --role-contrast: var(--color-white-050);
+    }
+
+    html,
+    body {
+        background-color: var(--theme-background);
+        color: var(--theme-text);
+    }
+
+
+    /* DATA-THEME */
+        /* LIGHT */
+        :root,
+        [data-theme="light"] {
+            --theme-background: var(--color-gray-100);
+            --theme-sidebar: var(--color-gray-050);
+            --theme-surface: var(--color-white-050);
+            --theme-surface-alt: var(--color-white-400);
+            --theme-border: var(--role-color-300);
+            --theme-border-alt: var(--color-gray-200);
+            --theme-text: var(--color-gray-950);
+            --theme-text-muted: var(--color-gray-700);
+            --theme-shadow: var(--color-black-950);
+            --theme-overlay: var(--color-black-600);
+            --text-color-muted: var(--theme-text-muted);
+            --text-color-success: var(--color-green-700);
+            --text-color-danger: var(--color-red-600);
+            --text-color-warning: var(--color-yellow-700);
+            --text-color-info: var(--color-blue-700);
+        }
+
+        /* DARK */
+        [data-theme="dark"] {
+            --theme-background: var(--color-gray-900);
+            --theme-sidebar: var(--color-gray-950);
+            --theme-surface: var(--color-black-050);
+            --theme-surface-alt: var(--role-color-700);
+            --theme-border: var(--role-color-600);
+            --theme-border-alt: var(--role-color-700);
+            --theme-text: var(--color-gray-100);
+            --theme-text-muted: var(--color-gray-400);
+            --theme-shadow: var(--color-black-200);
+            --theme-overlay: var(--color-black-300);
+            --text-color-muted: var(--theme-text-muted);
+            --text-color-success: var(--color-green-400);
+            --text-color-danger: var(--color-red-400);
+            --text-color-warning: var(--color-yellow-400);
+            --text-color-info: var(--color-blue-300);
+        }
+
+
+    /* DATA-ROLE */
+        /* USER - BLUE */
+        :root,
+        [data-role="user"] {
+            --role-color-050: var(--color-blue-050);
+            --role-color-100: var(--color-blue-100);
+            --role-color-200: var(--color-blue-200);
+            --role-color-300: var(--color-blue-300);
+            --role-color-400: var(--color-blue-400);
+            --role-color-500: var(--color-blue-500);
+            --role-color-600: var(--color-blue-600);
+            --role-color-700: var(--color-blue-700);
+            --role-color-800: var(--color-blue-800);
+            --role-color-900: var(--color-blue-900);
+            --role-contrast: var(--color-white-050);
+            --text-color-primary: var(--role-color-400);
+        }
+
+        /* ADMIN - ORANGE */
+        [data-role="admin"] {
+            --role-color-050: var(--color-orange-050);
+            --role-color-100: var(--color-orange-100);
+            --role-color-200: var(--color-orange-200);
+            --role-color-300: var(--color-orange-300);
+            --role-color-400: var(--color-orange-400);
+            --role-color-500: var(--color-orange-500);
+            --role-color-600: var(--color-orange-600);
+            --role-color-700: var(--color-orange-700);
+            --role-color-800: var(--color-orange-800);
+            --role-color-900: var(--color-orange-900);
+            --role-contrast: var(--color-white-050);
+            --text-color-primary: var(--role-color-400);
+        }

@@ -1,0 +1,76 @@
+/* CONTAINERS */
+
+.container-page {
+    /* position */
+    position: static;
+    overflow: hidden;
+
+    /* size */
+    width: 100vw;
+    height: 100vh;
+
+    /* flex custom */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.container-mockup {
+    /* position */
+    position: static;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    /* size */
+    width: 100vw;
+    height: 100vh;
+
+    /* flex custom */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.container-content{
+    /* position */
+    position: fixed;
+    overflow: hidden;
+    top: 10px;
+
+    /* size */
+    height: calc(100% - 20px);
+
+    /* space */
+    padding: 10px;
+
+    /* flex custom */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+
+    /* theme */
+    border-radius: 8px;
+    box-shadow: 0 10px 25px var(--theme-shadow);
+    background-color: var(--theme-sidebar);
+
+    /* animation */
+    transition:
+        left 300ms ease,
+        width 300ms ease;
+    will-change: left, width;
+}
+
+    .container-page.single .container-content {
+        width: calc(100% - 110px);
+        left: 100px;
+    }
+    .container-page.expanded .container-content {
+        width: calc(100% - 330px);
+        left: 320px;
+    }

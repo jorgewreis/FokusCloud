@@ -1,0 +1,59 @@
+:root {
+    /* SPACING */
+    --space-0: 0;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+    --space-6: 40px;
+
+    /* BREAKPOINTS */
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1200px;
+
+    /* FONT FAMILIES */
+    --font-body: "Poppins", sans-serif;
+    --font-display: "Bebas Neue", sans-serif;
+    --font-ui: "Inter", "Poppins", sans-serif;
+
+    /* FONT WEIGHTS */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* FONT SIZES */
+    --font-size-display-1: 5rem;
+    --font-size-display-2: 4.5rem;
+    --font-size-display-3: 4rem;
+    --font-size-display-4: 3.5rem;
+    --font-size-display-5: 3rem;
+    --font-size-display-6: 2.5rem;
+    --font-size-heading-1: 3rem;
+    --font-size-heading-2: 2rem;
+    --font-size-heading-3: 1.5rem;
+    --font-size-heading-4: 1.125rem;
+    --font-size-heading-5: 1rem;
+    --font-size-heading-6: 0.875rem;
+    --font-size-body: 0.75rem;
+    --font-size-subtitle: 1rem;
+    --font-size-subtitle-sm: 0.8rem;
+    --font-size-caption: 0.7rem;
+    --font-size-caption-sm: 0.5rem;
+    --font-size-overline: 0.6875rem;
+
+    /* LINE HEIGHTS */
+    --line-height-display-1: 4.375rem;
+    --line-height-display-2: 4.0625rem;
+    --line-height-display-3: 3.75rem;
+    --line-height-display-4: 3.4375rem;
+    --line-height-display-5: 2.8125rem;
+    --line-height-display-6: 2.1875rem;
+    --line-height-heading: 1.2;
+    --line-height-body: 1.5;
+    --line-height-caption: 1.35;
+    --line-height-overline: 1.2;
+}
