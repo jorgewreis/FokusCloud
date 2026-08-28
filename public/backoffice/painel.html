@@ -12,12 +12,12 @@
     </head>
     <body>
 
-        <div class="container-page single">
+        <div class="container-page expanded">
 
-            <div class="sidebar single" id="sidebar">
+            <div class="sidebar expanded" id="sidebar">
                 <div class="top">
                     <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
-                        <img src="/assets/manual/icons/Sidebar-Collapes--Streamline-Ultimate.png" alt="">
+                        <img src="/assets/manual/icons/Sidebar-Expand--Streamline-Ultimate.png" alt="">
                         <span class="sidebar-button-label title">Fokus<strong>Admin</strong></span>
                     </button>
                     <div class="line-hr-single"></div>
@@ -102,6 +102,20 @@
         const pageContent = document.querySelector("#page-content");
         const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
         const pagePath = "/backoffice/admin-pages";
+        const routePageMap = {
+            painel: "platform-dashboard",
+            empresas: "companies",
+            assinaturas: "subscriptions",
+            vouchers: "vouchers",
+        };
+
+        function runPageScripts(container) {
+            container.querySelectorAll("script").forEach((script) => {
+                const nextScript = document.createElement("script");
+                nextScript.textContent = script.textContent;
+                script.replaceWith(nextScript);
+            });
+        }
 
         async function loadSidebarPage(pageName) {
             pageContent.innerHTML = '<div class="text-body text-muted">Carregando...</div>';
@@ -114,6 +128,7 @@
                 }
 
                 pageContent.innerHTML = await response.text();
+                runPageScripts(pageContent);
 
                 sidebarButtons.forEach((button) => {
                     button.classList.toggle(
@@ -156,7 +171,7 @@
         });
 
         hydrateAdmin();
-        loadSidebarPage("platform-dashboard");
+        loadSidebarPage(routePageMap[location.pathname.split("/").filter(Boolean).pop()] || "platform-dashboard");
     </script>
         
     </body>

@@ -41,8 +41,8 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | `users` | USR | CPF e e-mail normalizados e únicos; credenciais e status da conta. |
 | `roles` | PFL | Catálogo fixo: `admin`, `gestor`, `usuario`. |
 | `products` | PRD | Catálogo de produtos. |
-| `plans` | PLN | Catálogo imutável por produto. |
-| `modules` | MOD | Catálogo imutável por produto. |
+| `plans` | PLN | Catálogo comercial de planos por produto e linha. |
+| `modules` | MOD | Catálogo comercial de funcionalidades por produto. |
 | `security_tokens` | TKN | Confirmação, recuperação e criação de senha. |
 
 Os aceites legais ficam vinculados à conta global, com versão e data dos
@@ -71,12 +71,14 @@ roles ────────────────────────�
 
 companies ──< subscriptions >── products
 subscriptions ──< subscription_items >── modules
+plans ──< plan_modules >── modules
 ```
 
 - Um usuário pode possuir vínculos com várias empresas.
 - Uma empresa possui um único vínculo ativo com perfil `admin`.
 - Uma empresa possui no máximo uma assinatura não encerrada por produto.
 - Itens de assinatura são snapshots e não mudam com o catálogo atual.
+- A composição publicada de um plano é formada por `plan_modules`; uma funcionalidade pode estar em vários planos do mesmo produto.
 - FKs usam `ON DELETE RESTRICT`; nunca há exclusão em cascata automática.
 - Tabelas filhas empresariais possuem chave única auxiliar `(company_id, id)`.
   FKs compostas `(company_id, parent_id)` garantem que pai e filho pertençam à

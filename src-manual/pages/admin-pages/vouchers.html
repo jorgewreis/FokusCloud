@@ -1,4 +1,287 @@
-<section class="col gap-3">
-    <h1 class="text-heading-1">Vouchers</h1>
-    <p class="text-body text-muted">Crie e acompanhe vouchers promocionais.</p>
-</section>
+<div class="voucher-page d-flex col">
+
+    <div class="col gap-3 mb-3">
+        <h1 class="text-display-4">Vouchers</h1>
+        <p class="text-heading-5 text-muted">Crie e acompanhe vouchers promocionais.</p>
+    </div>
+
+    <hr style="width: calc(100% - 35px);">
+
+    <form class="form-panel" id="voucher-form">
+        <div class="col">
+            <div class="form-line">
+                <div class="form-field w-8">
+                <label for="voucher-name">Nome do voucher</label>
+                <input id="voucher-name" name="name" type="text" autocomplete="off" required>
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-code">Código</label>
+                <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" required>
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-status">Status</label>
+                <select id="voucher-status" name="status" required>
+                    <option value="active" selected>Ativo</option>
+                    <option value="paused">Pausado</option>
+                    <option value="expired">Expirado</option>
+                    <option value="cancelled">Cancelado</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-7">
+                <label for="voucher-system">Sistema</label>
+                <select id="voucher-system" name="system" required>
+                    <option value="" selected disabled>Selecione aqui</option>
+                    <option value="fokus-law">Fokus Cloud Law - Jurídico</option>
+                    <option value="fokus-lead">Fokus Cloud Lead - Imobiliário</option>
+                    <option value="fokus-cloud">Fokus Cloud - Todos</option>
+                </select>
+                </div>
+
+                <div class="form-field w-5">
+                <label for="voucher-plans">Planos aplicáveis</label>
+                <select id="voucher-plans" name="plans" required>
+                    <option value="" selected disabled>Selecione aqui</option>
+                    <option value="starter" data-price="149.90">Starter</option>
+                    <option value="professional" data-price="299.90">Professional</option>
+                    <option value="enterprise" data-price="499.90">Enterprise</option>
+                </select>
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-base-value">Valor da assinatura</label>
+                <input id="voucher-base-value" name="base_value" type="number" min="0" step="0.01" placeholder="R$ 0,00" readonly required>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-7">
+                <label for="voucher-discount-type">Tipo de desconto</label>
+                <select id="voucher-discount-type" name="discount_type" required>
+                    <option value="" selected disabled>Selecione aqui</option>
+                    <option value="trial">Assinatura Trial Free</option>
+                    <option value="percentage">Desconto percentual</option>
+                    <option value="fixed">Desconto por valor fixo</option>
+                </select>
+                </div>
+
+                <div class="form-field w-2">
+                <label for="voucher-discount-percent">Desconto %</label>
+                <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
+                </div>
+
+                <div class="form-field w-3">
+                <label for="voucher-discount-value">Desconto R$</label>
+                <input id="voucher-discount-value" name="discount_value" type="number" min="0" step="0.01" placeholder="R$ 0,00">
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-duration">Duração do benefício</label>
+                <select id="voucher-duration" name="duration" required>
+                    <option value="" selected disabled>Selecione aqui</option>
+                    <option value="d7">7 dias</option>
+                    <option value="m1">1 mês</option>
+                    <option value="m3">3 meses</option>
+                    <option value="m6">6 meses</option>
+                    <option value="a1">1 ano</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-4">
+                <label for="voucher-start-date">Data inicial</label>
+                <input id="voucher-start-date" name="starts_at" type="date" required>
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-end-date">Data final</label>
+                <input id="voucher-end-date" name="ends_at" type="date" readonly required>
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-total">Quantidade total</label>
+                <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
+                </div>
+
+                <div class="form-field w-4">
+                <label for="voucher-company-limit">Limite por empresa</label>
+                <input id="voucher-company-limit" name="company_limit" type="number" min="1" step="1" value="1" required>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-6">
+                <label for="voucher-origin">Campanha/origem</label>
+                <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
+                </div>
+
+                <div class="form-field w-8">
+                <label for="voucher-notes">Observações internas</label>
+                <textarea id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="submit" type="submit">Cadastrar voucher</button>
+            <button class="button button-secondary" type="reset">Limpar</button>
+        </div>
+    </form>
+
+    <div class="table-panel">
+        <table class="data-table" aria-label="Vouchers cadastrados">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Voucher</th>
+                    <th>Sistema</th>
+                    <th>Desconto</th>
+                    <th>Uso</th>
+                    <th>Validade</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ONEYEAR10</td>
+                    <td>Lançamento anual FokusLaw</td>
+                    <td>Fokus Cloud Law</td>
+                    <td>10% | R$ 49,90</td>
+                    <td>12 / 100</td>
+                    <td>27/08/2026 até 27/08/2027</td>
+                    <td><span class="status-pill status-active">Ativo</span></td>
+                </tr>
+                <tr>
+                    <td>LEAD30</td>
+                    <td>Campanha imobiliária</td>
+                    <td>Fokus Cloud Lead</td>
+                    <td>30% | R$ 89,97</td>
+                    <td>8 / 50</td>
+                    <td>01/09/2026 até 01/12/2026</td>
+                    <td><span class="status-pill status-paused">Pausado</span></td>
+                </tr>
+                <tr>
+                    <td>TRIAL7</td>
+                    <td>Trial de ativação</td>
+                    <td>Fokus Cloud</td>
+                    <td>100% | R$ 299,90</td>
+                    <td>25 / 25</td>
+                    <td>01/07/2026 até 08/07/2026</td>
+                    <td><span class="status-pill status-expired">Expirado</span></td>
+                </tr>
+                <tr>
+                    <td>OLDLAW</td>
+                    <td>Campanha encerrada</td>
+                    <td>Fokus Cloud Law</td>
+                    <td>15% | R$ 44,98</td>
+                    <td>3 / 30</td>
+                    <td>01/06/2026 até 01/09/2026</td>
+                    <td><span class="status-pill status-cancelled">Cancelado</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    (() => {
+        const form = document.querySelector("#voucher-form");
+        const plans = document.querySelector("#voucher-plans");
+        const baseValue = document.querySelector("#voucher-base-value");
+        const discountType = document.querySelector("#voucher-discount-type");
+        const discountPercent = document.querySelector("#voucher-discount-percent");
+        const discountValue = document.querySelector("#voucher-discount-value");
+        const duration = document.querySelector("#voucher-duration");
+        const startDate = document.querySelector("#voucher-start-date");
+        const endDate = document.querySelector("#voucher-end-date");
+
+        const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
+        const toMoney = (value) => Number(value || 0).toFixed(2);
+        const toDateValue = (date) => date.toISOString().slice(0, 10);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        startDate.min = toDateValue(today);
+
+        function updateBaseValueFromPlan() {
+            const selectedPlan = plans.options[plans.selectedIndex];
+            baseValue.value = selectedPlan?.dataset.price || "";
+            syncDiscount("percent");
+        }
+
+        function syncDiscount(source) {
+            const base = toNumber(baseValue.value);
+
+            if (discountType.value === "trial") {
+                discountPercent.value = "100.00";
+                discountValue.value = base ? toMoney(base) : "";
+                discountPercent.disabled = true;
+                discountValue.disabled = true;
+                return;
+            }
+
+            discountPercent.disabled = false;
+            discountValue.disabled = false;
+
+            if (!base) {
+                if (source === "percent") discountValue.value = "";
+                if (source === "value") discountPercent.value = "";
+                return;
+            }
+
+            if (source === "value") {
+                const value = Math.min(toNumber(discountValue.value), base);
+                discountValue.value = value ? toMoney(value) : "";
+                discountPercent.value = value ? toMoney((value / base) * 100) : "";
+                return;
+            }
+
+            const percent = Math.min(toNumber(discountPercent.value), 100);
+            discountPercent.value = percent ? toMoney(percent) : "";
+            discountValue.value = percent ? toMoney(base * (percent / 100)) : "";
+        }
+
+        function calculateEndDate() {
+            if (!startDate.value || !duration.value) return;
+
+            const currentStart = new Date(`${startDate.value}T00:00:00`);
+
+            if (currentStart < today) {
+                startDate.value = toDateValue(today);
+            }
+
+            const calculatedEnd = new Date(`${startDate.value}T00:00:00`);
+            const durationMap = {
+                d7: () => calculatedEnd.setDate(calculatedEnd.getDate() + 7),
+                m1: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 1),
+                m3: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 3),
+                m6: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 6),
+                a1: () => calculatedEnd.setFullYear(calculatedEnd.getFullYear() + 1),
+            };
+
+            durationMap[duration.value]?.();
+            endDate.value = toDateValue(calculatedEnd);
+        }
+
+        discountType.addEventListener("change", () => syncDiscount("percent"));
+        plans.addEventListener("change", updateBaseValueFromPlan);
+        discountPercent.addEventListener("input", () => syncDiscount("percent"));
+        discountValue.addEventListener("input", () => syncDiscount("value"));
+        duration.addEventListener("change", calculateEndDate);
+        startDate.addEventListener("change", calculateEndDate);
+
+        form.addEventListener("reset", () => {
+            setTimeout(() => {
+                startDate.min = toDateValue(today);
+                endDate.value = "";
+                syncDiscount("percent");
+            });
+        });
+    })();
+</script>

@@ -1,5 +1,5 @@
 (() => {
-  const catalog = window.FokusCatalog[document.body.dataset.product];
+  let catalog;
   const money = (value) =>
     value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   const state = {
@@ -91,11 +91,10 @@
             .join("")
         : catalog.plans
             .map((plan) => {
-              const monthlyPlan =
-                plan[1].reduce((sum, id) => sum + moduleById(id)[3], 0) * 0.9;
+              const monthlyPlan = plan[3];
               const planAmount =
-                state.cycle === "annual" ? monthlyPlan * 9 : monthlyPlan;
-              return `<label class="choice-card ${state.plan === plan[0] ? "selected" : ""}"><input type="radio" name="plan" value="${plan[0]}" ${state.plan === plan[0] ? "checked" : ""}><b>${plan[0]}</b><span>${plan[1].map((id) => moduleById(id)[1]).join(" · ")}</span><strong>${money(planAmount)}/${period()}</strong></label>`;
+                state.cycle === "annual" ? plan[4] : monthlyPlan;
+              return `<label class="choice-card ${state.plan === plan[2] ? "selected" : ""}"><input type="radio" name="plan" value="${plan[2]}" ${state.plan === plan[2] ? "checked" : ""}><b>${plan[0]}</b><span>${plan[1].map((id) => moduleById(id)[1]).join(" · ")}</span><strong>${money(planAmount)}/${period()}</strong></label>`;
             })
             .join("");
     const limits = state.items
@@ -299,9 +298,7 @@
       (input) =>
         (input.onchange = () => {
           state.plan = input.value;
-          state.items = catalog.plans.find(
-            (plan) => plan[0] === input.value,
-          )[1];
+          state.items = catalog.plans.find((plan) => plan[2] === input.value)[1];
           render();
         }),
     );
@@ -371,6 +368,7 @@
   async function initialize() {
     root.innerHTML = `<div class="auth-card"><p>Preparando sua assinatura...</p></div>`;
     try {
+      catalog = await window.FokusCatalogReady;
       const account = await FokusApi.request("/auth/me");
       if (!account.user.email_verified) {
         location.assign("/verificar-email");
@@ -391,7 +389,8 @@
         state.step = 2;
       }
     } catch (_) {
-      state.step = 1;
+      root.innerHTML = `<div class="auth-card"><p>Não foi possível carregar o catálogo real. Tente novamente mais tarde.</p></div>`;
+      return;
     }
     render();
   }

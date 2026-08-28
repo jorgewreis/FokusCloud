@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\PlatformAdmin;
 use App\Services\PlatformAudit;
+use App\Services\CatalogPricing;
 use App\Services\PrefixedUlid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,48 @@ class BackofficeController extends Controller
         ]);
     }
 
+    public function catalog(Request $request)
+    {
+        $products = DB::table('products')->where('active', true)->orderBy('name')->get();
+        $plans = DB::table('plans as plan')
+            ->join('products as product', 'product.id', '=', 'plan.product_id')
+            ->leftJoin('plan_modules as plan_module', 'plan_module.plan_id', '=', 'plan.id')
+            ->leftJoin('modules as module', 'module.id', '=', 'plan_module.module_id')
+            ->where('product.active', true)
+            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured')
+            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as monthly_amount'))
+            ->orderBy('plan.product_id')
+            ->orderBy('plan.display_order')
+            ->get();
+        $modules = DB::table('modules')->whereIn('product_id', $products->pluck('id'))->orderBy('name')->get();
+
+        return response()->json([
+            'products' => $products->map(fn ($product) => [
+                'id' => $product->id,
+                'code' => $product->code,
+                'name' => $product->name,
+                'plans' => $plans->where('product_id', $product->id)->values()->map(fn ($plan) => [
+                    'id' => $plan->id,
+                    'code' => $plan->code,
+                    'name' => $plan->name,
+                    'full_name' => $product->name.($plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '')).' - '.$plan->name,
+                    'segment' => $plan->segment,
+                    'status' => $plan->status,
+                    'display_order' => $plan->display_order,
+                    'featured' => (bool) $plan->featured,
+                    'monthly_amount' => CatalogPricing::suggestedMonthly((float) $plan->monthly_amount),
+                    'annual_amount' => CatalogPricing::annualFromMonthly(CatalogPricing::suggestedMonthly((float) $plan->monthly_amount)),
+                    'modules' => DB::table('plan_modules as plan_module')
+                        ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
+                        ->where('plan_module.plan_id', $plan->id)
+                        ->orderBy('module.name')
+                        ->get(['module.id', 'module.code', 'module.name', 'module.context_code', 'module.variant_code', 'module.status', 'module.price_is_estimate'])
+                        ->map(fn ($module) => [...(array) $module, 'price_is_estimate' => (bool) $module->price_is_estimate]),
+                ]),
+            ])->values(),
+        ]);
+    }
+
     public function changeSubscription(Request $request, string $subscription, PlatformAudit $audit)
     {
         $data = $request->validate(['action' => ['required', Rule::in(['suspensao', 'reativacao', 'cancelamento'])], 'reason' => ['required', 'string', 'max:1000']]);
@@ -71,7 +114,20 @@ class BackofficeController extends Controller
 
     public function vouchers(Request $request)
     {
-        return response()->json(DB::table('vouchers')->orderByDesc('created_at')->limit(100)->get());
+        $rows = DB::table('vouchers as voucher')
+            ->leftJoin('products as product', 'product.id', '=', 'voucher.product_id')
+            ->leftJoin('plans as plan', 'plan.id', '=', 'voucher.plan_id')
+            ->leftJoin('voucher_redemptions as redemption', 'redemption.voucher_id', '=', 'voucher.id')
+            ->groupBy('voucher.id', 'voucher.code', 'voucher.name', 'voucher.discount_type', 'voucher.discount_value', 'voucher.product_id', 'voucher.plan_id', 'voucher.base_amount', 'voucher.benefit_duration', 'voucher.module_codes', 'voucher.redemption_limit', 'voucher.redemption_limit_per_company', 'voucher.starts_at', 'voucher.ends_at', 'voucher.status', 'voucher.origin', 'voucher.notes', 'voucher.created_by_platform_admin_id', 'voucher.created_at', 'voucher.updated_at', 'product.name', 'plan.name')
+            ->select('voucher.*', 'product.name as product_name', 'plan.name as plan_name', DB::raw('count(redemption.id) as redemptions_count'))
+            ->orderByDesc('voucher.created_at')
+            ->limit(100)
+            ->get();
+
+        return response()->json($rows->map(function ($voucher) {
+            $voucher->computed_status = $voucher->ends_at && now()->gt(\Illuminate\Support\Carbon::parse($voucher->ends_at)) ? 'expirada' : $voucher->status;
+            return $voucher;
+        }));
     }
 
     public function createAdmin(Request $request, PlatformAudit $audit)
@@ -85,10 +141,30 @@ class BackofficeController extends Controller
 
     public function createVoucher(Request $request, PlatformAudit $audit)
     {
-        $data = $request->validate(['code' => ['required', 'string', 'max:64', 'alpha_dash', 'unique:vouchers,code'], 'discount_type' => ['required', Rule::in(['percentage', 'fixed'])], 'discount_value' => ['required', 'numeric', 'gt:0'], 'product_id' => ['nullable', 'string', 'size:30'], 'module_codes' => ['nullable', 'array'], 'redemption_limit' => ['nullable', 'integer', 'min:1'], 'redemption_limit_per_company' => ['nullable', 'integer', 'min:1'], 'starts_at' => ['nullable', 'date'], 'ends_at' => ['nullable', 'date', 'after:starts_at']]);
+        $data = $request->validate([
+            'name' => ['nullable', 'string', 'max:120'],
+            'code' => ['required', 'string', 'max:64', 'alpha_dash', 'unique:vouchers,code'],
+            'discount_type' => ['required', Rule::in(['percentage', 'fixed'])],
+            'discount_value' => ['required', 'numeric', 'gt:0'],
+            'product_id' => ['nullable', 'string', 'size:30', 'exists:products,id'],
+            'plan_id' => ['nullable', 'string', 'size:30', 'exists:plans,id'],
+            'base_amount' => ['nullable', 'numeric', 'min:0'],
+            'benefit_duration' => ['nullable', Rule::in(['d7', 'm1', 'm3', 'm6', 'a1'])],
+            'module_codes' => ['nullable', 'array'],
+            'redemption_limit' => ['nullable', 'integer', 'min:1'],
+            'redemption_limit_per_company' => ['nullable', 'integer', 'min:1'],
+            'starts_at' => ['nullable', 'date', 'after_or_equal:today'],
+            'ends_at' => ['nullable', 'date', 'after:starts_at'],
+            'status' => ['nullable', Rule::in(['ativa', 'suspensa', 'encerrada'])],
+            'origin' => ['nullable', 'string', 'max:120'],
+            'notes' => ['nullable', 'string', 'max:2000'],
+        ]);
         if ($data['discount_type'] === 'percentage') abort_if($data['discount_value'] > 100, 422, 'O percentual não pode exceder 100%.');
+        if (! empty($data['plan_id']) && ! empty($data['product_id'])) {
+            abort_unless(DB::table('plans')->where('id', $data['plan_id'])->where('product_id', $data['product_id'])->exists(), 422, 'O plano selecionado não pertence ao sistema informado.');
+        }
         $id = PrefixedUlid::make('VCH');
-        DB::table('vouchers')->insert([...$data, 'id' => $id, 'code' => strtoupper($data['code']), 'module_codes' => isset($data['module_codes']) ? json_encode($data['module_codes']) : null, 'status' => 'ativa', 'created_by_platform_admin_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now()]);
+        DB::table('vouchers')->insert([...$data, 'id' => $id, 'code' => strtoupper($data['code']), 'module_codes' => isset($data['module_codes']) ? json_encode($data['module_codes']) : null, 'status' => $data['status'] ?? 'ativa', 'created_by_platform_admin_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now()]);
         $audit->record($request->user()->id, 'backoffice.voucher_created', 'voucher', $id, reason: 'Criação de voucher', request: $request);
         return response()->json(['id' => $id, 'message' => 'Voucher criado.'], 201);
     }

@@ -20,6 +20,7 @@ Route::post('/auth/accept-membership', [AuthController::class, 'acceptMembership
 Route::post('/auth/accept-admin-transfer', [AuthController::class, 'acceptAdminTransfer']);
 Route::post('/webhooks/mercado-pago', [SubscriptionController::class, 'webhook']);
 Route::post('/integrations/usage', [UsageSnapshotController::class, 'store'])->middleware('throttle:60,1');
+Route::get('/catalog/{product}', [SubscriptionController::class, 'publicCatalog']);
 
 Route::prefix('backoffice/auth')->group(function () {
     Route::post('/login', [PlatformAuthController::class, 'login'])->middleware('throttle:5,1');
@@ -52,6 +53,7 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::get('/auth/me', [PlatformAuthController::class, 'me']);
     Route::post('/auth/logout', [PlatformAuthController::class, 'logout']);
     Route::get('/dashboard', [BackofficeController::class, 'dashboard']);
+    Route::get('/catalog', [BackofficeController::class, 'catalog']);
     Route::get('/companies', [BackofficeController::class, 'companies']);
     Route::get('/companies/{company}', [BackofficeController::class, 'company']);
     Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription']);

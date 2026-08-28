@@ -1,0 +1,376 @@
+<div class="voucher-page d-flex col">
+
+    <div class="col gap-3 mb-3">
+        <h1 class="text-display-4">Vouchers</h1>
+        <p class="text-heading-5 text-muted">Crie e acompanhe vouchers promocionais.</p>
+    </div>
+
+    <hr style="width: calc(100% - 35px);">
+
+    <form class="form-panel" id="voucher-form">
+        <div class="col">
+            <div class="form-line">
+                <div class="form-field w-6">
+                    <label for="voucher-name">Nome do voucher</label>
+                    <input id="voucher-name" name="name" type="text" autocomplete="off" required>
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-code">Código</label>
+                    <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" required>
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-status">Status</label>
+                    <select id="voucher-status" name="status" required>
+                        <option value="ativa" selected>Ativo</option>
+                        <option value="suspensa">Pausado</option>
+                        <option value="encerrada">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-5">
+                    <label for="voucher-system">Sistema</label>
+                    <select id="voucher-system" name="product_id" required>
+                        <option value="" selected disabled>Carregando...</option>
+                    </select>
+                </div>
+
+                <div class="form-field w-5">
+                    <label for="voucher-plans">Planos aplicáveis</label>
+                    <select id="voucher-plans" name="plan_id" required disabled>
+                        <option value="" selected disabled>Selecione um sistema</option>
+                    </select>
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-base-value">Valor da assinatura</label>
+                    <input id="voucher-base-value" name="base_amount" type="number" min="0" step="0.01" placeholder="R$ 0,00" readonly required>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-5">
+                    <label for="voucher-discount-type">Tipo de desconto</label>
+                    <select id="voucher-discount-type" name="discount_mode" required>
+                        <option value="" selected disabled>Selecione aqui</option>
+                        <option value="trial">Assinatura Trial Free</option>
+                        <option value="percentage">Desconto percentual</option>
+                        <option value="fixed">Desconto por valor fixo</option>
+                    </select>
+                </div>
+
+                <div class="form-field w-3">
+                    <label for="voucher-discount-percent">Desconto %</label>
+                    <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
+                </div>
+
+                <div class="form-field w-3">
+                    <label for="voucher-discount-value">Desconto R$</label>
+                    <input id="voucher-discount-value" name="discount_value_display" type="number" min="0" step="0.01" placeholder="R$ 0,00">
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-duration">Duração do benefício</label>
+                    <select id="voucher-duration" name="benefit_duration" required>
+                        <option value="" selected disabled>Selecione aqui</option>
+                        <option value="d7">7 dias</option>
+                        <option value="m1">1 mês</option>
+                        <option value="m3">3 meses</option>
+                        <option value="m6">6 meses</option>
+                        <option value="a1">1 ano</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-4">
+                    <label for="voucher-start-date">Data inicial</label>
+                    <input id="voucher-start-date" name="starts_at" type="date" required>
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-end-date">Data final</label>
+                    <input id="voucher-end-date" name="ends_at" type="date" readonly required>
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-total">Quantidade total</label>
+                    <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
+                </div>
+
+                <div class="form-field w-4">
+                    <label for="voucher-company-limit">Limite por empresa</label>
+                    <input id="voucher-company-limit" name="redemption_limit_per_company" type="number" min="1" step="1" value="1" required>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-6">
+                    <label for="voucher-origin">Campanha/origem</label>
+                    <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
+                </div>
+
+                <div class="form-field w-8">
+                    <label for="voucher-notes">Observações internas</label>
+                    <textarea id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="submit" type="submit">Cadastrar voucher</button>
+            <button class="button button-secondary" type="reset">Limpar</button>
+        </div>
+
+        <p class="form-help" id="voucher-message" role="status"></p>
+    </form>
+
+    <div class="table-panel">
+        <table class="data-table" aria-label="Vouchers cadastrados">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Voucher</th>
+                    <th>Sistema</th>
+                    <th>Desconto</th>
+                    <th>Uso</th>
+                    <th>Validade</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="voucher-list">
+                <tr>
+                    <td colspan="7">Carregando vouchers...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    (() => {
+        const form = document.querySelector("#voucher-form");
+        const products = document.querySelector("#voucher-system");
+        const plans = document.querySelector("#voucher-plans");
+        const baseValue = document.querySelector("#voucher-base-value");
+        const discountType = document.querySelector("#voucher-discount-type");
+        const discountPercent = document.querySelector("#voucher-discount-percent");
+        const discountValue = document.querySelector("#voucher-discount-value");
+        const duration = document.querySelector("#voucher-duration");
+        const startDate = document.querySelector("#voucher-start-date");
+        const endDate = document.querySelector("#voucher-end-date");
+        const voucherList = document.querySelector("#voucher-list");
+        const message = document.querySelector("#voucher-message");
+        let catalog = [];
+
+        const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
+        const toMoney = (value) => Number(value || 0).toFixed(2);
+        const toDateValue = (date) => date.toISOString().slice(0, 10);
+        const formatMoney = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        const formatDate = (value) => value ? new Date(value).toLocaleDateString("pt-BR") : "-";
+        const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        startDate.min = toDateValue(today);
+
+        function setMessage(text, type = "") {
+            message.textContent = text;
+            message.classList.toggle("text-danger", type === "danger");
+            message.classList.toggle("text-success", type === "success");
+        }
+
+        function statusMeta(status) {
+            const normalized = status === "expirada" ? "expired" : status === "suspensa" ? "paused" : status === "encerrada" ? "cancelled" : "active";
+            return {
+                active: ["Ativo", "status-active"],
+                paused: ["Pausado", "status-paused"],
+                expired: ["Expirado", "status-expired"],
+                cancelled: ["Cancelado", "status-cancelled"],
+            }[normalized];
+        }
+
+        function updatePlans() {
+            const selectedProduct = catalog.find((product) => product.id === products.value);
+            plans.innerHTML = '<option value="" selected disabled>Selecione aqui</option>';
+            baseValue.value = "";
+
+            if (!selectedProduct) {
+                plans.disabled = true;
+                return;
+            }
+
+            selectedProduct.plans.forEach((plan) => {
+                const option = document.createElement("option");
+                option.value = plan.id;
+                option.dataset.price = plan.monthly_amount;
+                option.textContent = plan.name;
+                plans.appendChild(option);
+            });
+
+            plans.disabled = !selectedProduct.plans.length;
+        }
+
+        function updateBaseValueFromPlan() {
+            const selectedPlan = plans.options[plans.selectedIndex];
+            baseValue.value = selectedPlan?.dataset.price || "";
+            syncDiscount("percent");
+        }
+
+        function syncDiscount(source) {
+            const base = toNumber(baseValue.value);
+
+            if (discountType.value === "trial") {
+                discountPercent.value = "100.00";
+                discountValue.value = base ? toMoney(base) : "";
+                discountPercent.disabled = true;
+                discountValue.disabled = true;
+                return;
+            }
+
+            discountPercent.disabled = false;
+            discountValue.disabled = false;
+
+            if (!base) {
+                if (source === "percent") discountValue.value = "";
+                if (source === "value") discountPercent.value = "";
+                return;
+            }
+
+            if (source === "value") {
+                const value = Math.min(toNumber(discountValue.value), base);
+                discountValue.value = value ? toMoney(value) : "";
+                discountPercent.value = value ? toMoney((value / base) * 100) : "";
+                return;
+            }
+
+            const percent = Math.min(toNumber(discountPercent.value), 100);
+            discountPercent.value = percent ? toMoney(percent) : "";
+            discountValue.value = percent ? toMoney(base * (percent / 100)) : "";
+        }
+
+        function calculateEndDate() {
+            if (!startDate.value || !duration.value) return;
+
+            const currentStart = new Date(`${startDate.value}T00:00:00`);
+
+            if (currentStart < today) {
+                startDate.value = toDateValue(today);
+            }
+
+            const calculatedEnd = new Date(`${startDate.value}T00:00:00`);
+            const durationMap = {
+                d7: () => calculatedEnd.setDate(calculatedEnd.getDate() + 7),
+                m1: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 1),
+                m3: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 3),
+                m6: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 6),
+                a1: () => calculatedEnd.setFullYear(calculatedEnd.getFullYear() + 1),
+            };
+
+            durationMap[duration.value]?.();
+            endDate.value = toDateValue(calculatedEnd);
+        }
+
+        async function loadCatalog() {
+            const data = await FokusApi.request("/backoffice/catalog");
+            catalog = data.products || [];
+            products.innerHTML = '<option value="" selected disabled>Selecione aqui</option>';
+            catalog.forEach((product) => {
+                const option = document.createElement("option");
+                option.value = product.id;
+                option.textContent = product.name;
+                products.appendChild(option);
+            });
+        }
+
+        async function loadVouchers() {
+            const rows = await FokusApi.request("/backoffice/vouchers");
+            if (!rows.length) {
+                voucherList.innerHTML = '<tr><td colspan="7">Nenhum voucher cadastrado.</td></tr>';
+                return;
+            }
+
+            voucherList.innerHTML = rows.map((voucher) => {
+                const [statusLabel, statusClass] = statusMeta(voucher.computed_status || voucher.status);
+                const discount = voucher.discount_type === "percentage"
+                    ? `${Number(voucher.discount_value).toLocaleString("pt-BR")}% | ${formatMoney((Number(voucher.base_amount || 0) * Number(voucher.discount_value || 0)) / 100)}`
+                    : `${formatMoney(voucher.discount_value)}`;
+                const used = `${voucher.redemptions_count || 0} / ${voucher.redemption_limit || "-"}`;
+                const validity = `${formatDate(voucher.starts_at)} até ${formatDate(voucher.ends_at)}`;
+
+                return `<tr>
+                    <td>${escapeHtml(voucher.code)}</td>
+                    <td>${escapeHtml(voucher.name || voucher.code)}</td>
+                    <td>${escapeHtml(voucher.product_name || "-")}</td>
+                    <td>${escapeHtml(discount)}</td>
+                    <td>${escapeHtml(used)}</td>
+                    <td>${escapeHtml(validity)}</td>
+                    <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
+                </tr>`;
+            }).join("");
+        }
+
+        async function submitVoucher(event) {
+            event.preventDefault();
+            const values = Object.fromEntries(new FormData(form));
+            const discountMode = values.discount_mode;
+            const payload = {
+                name: values.name,
+                code: values.code,
+                status: values.status,
+                product_id: values.product_id,
+                plan_id: values.plan_id,
+                base_amount: values.base_amount,
+                benefit_duration: values.benefit_duration,
+                starts_at: values.starts_at,
+                ends_at: values.ends_at,
+                redemption_limit: values.redemption_limit,
+                redemption_limit_per_company: values.redemption_limit_per_company,
+                origin: values.origin,
+                notes: values.notes,
+                discount_type: discountMode === "fixed" ? "fixed" : "percentage",
+                discount_value: discountMode === "fixed" ? discountValue.value : discountPercent.value,
+            };
+
+            try {
+                setMessage("Salvando voucher...");
+                await FokusApi.request("/backoffice/vouchers", { method: "POST", body: payload });
+                form.reset();
+                plans.disabled = true;
+                plans.innerHTML = '<option value="" selected disabled>Selecione um sistema</option>';
+                baseValue.value = "";
+                endDate.value = "";
+                syncDiscount("percent");
+                await loadVouchers();
+                setMessage("Voucher cadastrado.", "success");
+            } catch (error) {
+                setMessage(error.message, "danger");
+            }
+        }
+
+        products.addEventListener("change", updatePlans);
+        plans.addEventListener("change", updateBaseValueFromPlan);
+        discountType.addEventListener("change", () => syncDiscount("percent"));
+        discountPercent.addEventListener("input", () => syncDiscount("percent"));
+        discountValue.addEventListener("input", () => syncDiscount("value"));
+        duration.addEventListener("change", calculateEndDate);
+        startDate.addEventListener("change", calculateEndDate);
+        form.addEventListener("submit", submitVoucher);
+        form.addEventListener("reset", () => {
+            setTimeout(() => {
+                startDate.min = toDateValue(today);
+                endDate.value = "";
+                syncDiscount("percent");
+                setMessage("");
+            });
+        });
+
+        Promise.all([loadCatalog(), loadVouchers()]).catch((error) => {
+            setMessage(error.message, "danger");
+        });
+    })();
+</script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\PrefixedUlid;
+use App\Services\CatalogPricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -20,18 +21,59 @@ class SubscriptionController extends Controller
         'relatorios' => ['options' => [500, 1000, 2000, 5000, 10000], 'step' => 4],
     ];
 
-    private const PLANS = [
-        'law' => [
-            'Inicial' => ['oficios', 'partes', 'processos'],
-            'Profissional' => ['oficios', 'partes', 'processos', 'cartas-exp', 'cartas-rec', 'editais', 'guias'],
-            'Premium' => ['oficios', 'partes', 'processos', 'cartas-exp', 'cartas-rec', 'editais', 'guias', 'audiencias', 'monitoramento', 'medidas'],
-        ],
-        'lead' => [
-            'Start' => ['pessoas', 'imoveis'],
-            'Growth' => ['pessoas', 'imoveis', 'funil', 'empreendimentos', 'website'],
-            'Scale' => ['pessoas', 'empreendimentos', 'imoveis', 'funil', 'relatorios', 'whatsapp', 'website'],
-        ],
-    ];
+    public function catalog(Request $request, string $productCode)
+    {
+        $product = DB::table('products')->where('code', $productCode)->where('active', true)->first();
+        abort_unless($product, 404, 'Produto não encontrado.');
+
+        $modules = DB::table('modules')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('name')->get();
+        $plans = DB::table('plans')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('display_order')->orderBy('name')->get();
+        $planModules = DB::table('plan_modules as plan_module')
+            ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
+            ->whereIn('plan_module.plan_id', $plans->pluck('id'))
+            ->where('module.status', 'ativo')
+            ->get(['plan_module.plan_id', 'module.code']);
+        $catalogName = $product->code === 'lead' ? 'Fokus Cloud Lead' : $product->name;
+
+        return response()->json([
+            'name' => $catalogName,
+            'back' => $product->code === 'lead' ? '/produtos/fokus-lead' : '/produtos/fokus-law',
+            'modules' => $modules->map(fn ($module) => [$module->code, $module->name, '', (float) $module->monthly_price, self::USAGE[$module->code] ?? null])->values(),
+            'plans' => $plans->map(function ($plan) use ($planModules, $catalogName) {
+                $lineName = $plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '');
+                $monthly = DB::table('plan_modules as plan_module')
+                    ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
+                    ->where('plan_module.plan_id', $plan->id)
+                    ->sum('module.monthly_price');
+                $suggestedMonthly = CatalogPricing::suggestedMonthly((float) $monthly);
+                return [$catalogName.$lineName.' - '.$plan->name, $planModules->where('plan_id', $plan->id)->pluck('code')->values()->all(), $plan->code, $suggestedMonthly, CatalogPricing::annualFromMonthly($suggestedMonthly)];
+            })->values(),
+        ]);
+    }
+
+    public function publicCatalog(Request $request, string $productCode)
+    {
+        $product = DB::table('products')->where('code', $productCode)->where('active', true)->first();
+        abort_unless($product, 404, 'Produto não encontrado.');
+        $modules = DB::table('modules')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('name')->get();
+        $plans = DB::table('plans')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('display_order')->orderBy('name')->get();
+        $planModules = DB::table('plan_modules as plan_module')
+            ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
+            ->whereIn('plan_module.plan_id', $plans->pluck('id'))
+            ->where('module.status', 'ativo')
+            ->get(['plan_module.plan_id', 'module.code']);
+        $catalogName = $product->code === 'lead' ? 'Fokus Cloud Lead' : $product->name;
+
+        return response()->json([
+            'name' => $catalogName,
+            'back' => $product->code === 'lead' ? '/produtos/fokus-lead' : '/produtos/fokus-law',
+            'modules' => $modules->map(fn ($module) => [$module->code, $module->name, '', (float) $module->monthly_price, self::USAGE[$module->code] ?? null])->values(),
+            'plans' => $plans->map(function ($plan) use ($planModules, $catalogName) {
+                $lineName = $plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '');
+                return [$catalogName.$lineName.' - '.$plan->name, $planModules->where('plan_id', $plan->id)->pluck('code')->values()->all(), $plan->code];
+            })->values(),
+        ]);
+    }
 
     public function index(Request $request)
     {
@@ -195,8 +237,10 @@ class SubscriptionController extends Controller
         $codes = array_column($data['items'], 'module_code');
         abort_if(count($codes) !== count(array_unique($codes)), 422, 'Um módulo só pode ser informado uma vez.');
         if ($data['selection_mode'] === 'plan') {
-            $plan = self::PLANS[$product->code][$data['plan_code'] ?? ''] ?? null;
-            abort_unless($plan && $this->sameModules($codes, $plan), 422, 'Os módulos não correspondem ao plano informado.');
+            $plan = DB::table('plans')->where('product_id', $product->id)->where('code', $data['plan_code'] ?? '')->where('status', 'ativo')->first();
+            abort_unless($plan, 422, 'Plano não encontrado ou indisponível.');
+            $planModules = DB::table('plan_modules as plan_module')->join('modules as module', 'module.id', '=', 'plan_module.module_id')->where('plan_module.plan_id', $plan->id)->where('module.status', 'ativo')->pluck('module.code')->all();
+            abort_unless($this->sameModules($codes, $planModules), 422, 'Os módulos não correspondem ao plano informado.');
         }
         $modules = DB::table('modules')->where('product_id', $product->id)->whereIn('code', $codes)->get()->keyBy('code');
         abort_unless($modules->count() === count($codes), 422, 'Módulo inválido para este produto.');
@@ -216,13 +260,13 @@ class SubscriptionController extends Controller
             $items[] = ['module' => $module, 'quantity' => $requested['quantity'], 'unit_price' => $data['cycle'] === 'annual' ? $unit * 9 : $unit, 'conditions' => ['cycle' => $data['cycle'], 'usage_limit' => $usageLimit, 'selection_mode' => $data['selection_mode'], 'plan_code' => $data['plan_code'] ?? null]];
         }
         if ($data['selection_mode'] === 'plan') {
-            $monthly *= 0.9;
+            $monthly = CatalogPricing::suggestedMonthly($monthly);
             foreach ($items as &$item) {
                 $item['unit_price'] *= 0.9;
             }
         }
-        $amount = $data['cycle'] === 'annual' ? $monthly * 9 : $monthly;
-        return ['items' => $items, 'amount' => round($amount, 2)];
+        $amount = $data['cycle'] === 'annual' ? CatalogPricing::annualFromMonthly($monthly) : round($monthly, 2);
+        return ['items' => $items, 'amount' => $amount];
     }
 
     private function voucherFor(string $code, string $productId, string $companyId, array $moduleCodes): ?object

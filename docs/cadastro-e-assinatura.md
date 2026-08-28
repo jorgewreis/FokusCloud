@@ -67,6 +67,10 @@ assinatura fica bloqueada. Depois da confirmação, o sistema cria ou mantém a
 sessão autenticada e direciona o administrador automaticamente à escolha da
 assinatura, sem exigir novo login.
 
+A escolha deve carregar exclusivamente a versão publicada e comercializável do
+catálogo. O cliente pode selecionar um plano sugerido, ajustar limites
+permitidos ou montar uma oferta personalizada com funcionalidades compatíveis.
+
 ## Estados do fluxo
 
 | Estado | Resultado |
