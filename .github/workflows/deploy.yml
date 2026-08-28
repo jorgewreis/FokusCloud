@@ -75,7 +75,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "set -eu; cd '$DEPLOY_PATH'; test -f .env; mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs; chmod -R ug+rwX storage bootstrap/cache; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader; php artisan migrate --force --no-interaction; php artisan db:seed --force --no-interaction; php artisan optimize"
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "set -eu; cd '$DEPLOY_PATH'; test -f .env; mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs; chmod -R ug+rwX storage bootstrap/cache; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader; php artisan migrate --force --no-interaction; php artisan optimize"
 
       - name: Purge Cloudflare cache
         if: ${{ env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ZONE_ID != '' }}
