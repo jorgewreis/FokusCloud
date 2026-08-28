@@ -469,11 +469,11 @@
             try {
                 const response = await api.request("/backoffice/plans");
                 const rows = normalizePlanRows(response);
-                renderPlans(rows.length ? rows : fallbackPlans);
+                renderPlans(rows.length ? rows : (standalone ? fallbackPlans : []));
             } catch (error) {
-                renderPlans(fallbackPlans);
+                renderPlans(standalone ? fallbackPlans : []);
                 if (!standalone) {
-                    setMessage(error.message, "danger");
+                    setMessage(error.message || "Não foi possível carregar os planos.", "danger");
                 }
             }
         }
