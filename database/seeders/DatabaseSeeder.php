@@ -115,16 +115,22 @@ class DatabaseSeeder extends Seeder
 
         foreach ($plans as $productCode => $items) {
             $productId = DB::table('products')->where('code', $productCode)->value('id');
-            DB::table('plans')->where('product_id', $productId)->delete();
             foreach ($items as $code => [$name, $segment, $moduleCodes]) {
-                $this->upsertCatalog('plans', ['product_id' => $productId, 'code' => $code], ['name' => $name], 'PLN');
-                $planId = DB::table('plans')->where('product_id', $productId)->where('code', $code)->value('id');
-                DB::table('plans')->where('id', $planId)->update([
-                    'segment' => $segment,
-                    'status' => 'rascunho',
-                    'display_order' => array_search($code, array_keys($items), true),
-                    'updated_at' => now(),
-                ]);
+                $plan = DB::table('plans')->where('product_id', $productId)->where('code', $code)->first(['id']);
+                if (! $plan) {
+                    $this->upsertCatalog('plans', ['product_id' => $productId, 'code' => $code], ['name' => $name], 'PLN');
+                    $planId = DB::table('plans')->where('product_id', $productId)->where('code', $code)->value('id');
+                    DB::table('plans')->where('id', $planId)->update([
+                        'segment' => $segment,
+                        'status' => 'inativo',
+                        'publication_state' => 'rascunho',
+                        'display_order' => array_search($code, array_keys($items), true),
+                        'updated_at' => now(),
+                    ]);
+                } else {
+                    $planId = $plan->id;
+                }
+
                 $moduleIds = DB::table('modules')->where('product_id', $productId)->whereIn('code', $moduleCodes)->pluck('id');
                 foreach ($moduleIds as $moduleId) {
                     DB::table('plan_modules')->updateOrInsert(
