@@ -218,6 +218,7 @@
             const digits = String(value ?? "").replace(/\D/g, "");
             return digits ? (Number(digits) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "";
         };
+        const formatMoneyValue = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         const parseInputMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
         let codeSuffix = "";
         const makeSuffix = () => {
@@ -242,7 +243,7 @@
             const amount = selectedPlan?.value === "__all__"
                 ? null
                 : selectedPlan?.dataset[duration.value === "a1" ? "annual" : "monthly"];
-            baseValue.value = amount ? formatInputMoney(amount) : "";
+            baseValue.value = amount ? formatMoneyValue(amount) : "";
             const allPlans = plans.value === "__all__";
             discountType.querySelector('option[value="trial"]').disabled = allPlans;
             discountType.querySelector('option[value="fixed"]').disabled = allPlans;
@@ -263,7 +264,7 @@
 
             if (discountType.value === "trial") {
                 discountPercent.value = "100.00";
-                discountValue.value = base ? formatInputMoney(base) : "";
+                discountValue.value = base ? formatMoneyValue(base) : "";
                 discountPercent.disabled = true;
                 discountValue.disabled = true;
                 return;
@@ -280,14 +281,14 @@
 
             if (source === "value") {
                 const value = Math.min(parseInputMoney(discountValue.value), base);
-                discountValue.value = value ? formatInputMoney(value) : "";
+                discountValue.value = value ? formatMoneyValue(value) : "";
                 discountPercent.value = value ? toMoney((value / base) * 100) : "";
                 return;
             }
 
             const percent = Math.min(toNumber(discountPercent.value), 100);
             discountPercent.value = percent ? toMoney(percent) : "";
-            discountValue.value = percent ? formatInputMoney(base * (percent / 100)) : "";
+            discountValue.value = percent ? formatMoneyValue(base * (percent / 100)) : "";
         }
 
         name.addEventListener("input", () => { code.value = name.value ? normalizeCode(name.value) : ""; });
