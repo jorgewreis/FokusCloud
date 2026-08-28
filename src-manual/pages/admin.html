@@ -103,6 +103,7 @@
         const pageContent = document.querySelector("#page-content");
         const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
         const pagePath = "./admin-pages";
+        const pageVersion = "20260828-3";
 
         function runPageScripts(container) {
             container.querySelectorAll("script").forEach((script) => {
@@ -116,7 +117,7 @@
             pageContent.innerHTML = '<div class="text-body text-muted">Carregando...</div>';
 
             try {
-                const response = await fetch(`${pagePath}/${pageName}.html`);
+                const response = await fetch(`${pagePath}/${pageName}.html?v=${pageVersion}`);
 
                 if (!response.ok) {
                     throw new Error(`Pagina nao encontrada: ${pageName}`);
