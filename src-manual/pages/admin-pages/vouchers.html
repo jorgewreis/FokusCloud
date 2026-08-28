@@ -219,9 +219,18 @@
             return digits ? (Number(digits) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "";
         };
         const parseInputMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
-        const normalizeCode = (value) => String(value || "")
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 48);
+        let codeSuffix = "";
+        const makeSuffix = () => {
+            const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            return Array.from({ length: 2 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("");
+        };
+        const normalizeCode = (value) => {
+            const normalized = String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+            const words = normalized.split(/[^A-Z0-9]+/).filter(Boolean);
+            let prefix = words.map((word) => word.slice(0, 3)).join("").slice(0, 6);
+            prefix = (prefix + normalized.replace(/[^A-Z0-9]/g, "")).slice(0, 6).padEnd(6, "X");
+            return prefix + (codeSuffix || (codeSuffix = makeSuffix()));
+        };
         const toDateValue = (date) => date.toISOString().slice(0, 10);
 
         const today = new Date();
@@ -278,7 +287,7 @@
             discountValue.value = percent ? formatInputMoney(base * (percent / 100)) : "";
         }
 
-        name.addEventListener("input", () => { code.value = normalizeCode(name.value); });
+        name.addEventListener("input", () => { code.value = name.value ? normalizeCode(name.value) : ""; });
 
         function updateValidityWindow() {
             if (!startDate.value) return;
@@ -300,6 +309,7 @@
             setTimeout(() => {
                 startDate.min = toDateValue(today);
                 endDate.min = "";
+                codeSuffix = "";
                 endDate.value = "";
                 const allPlans = plans.value === "__all__";
                 discountType.querySelector('option[value="trial"]').disabled = allPlans;

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class BackofficeController extends Controller
@@ -143,7 +144,7 @@ class BackofficeController extends Controller
     {
         $data = $request->validate([
             'name' => ['nullable', 'string', 'max:120'],
-            'code' => ['required', 'string', 'max:64', 'alpha_dash', 'unique:vouchers,code'],
+            'code' => ['nullable', 'string', 'max:64', 'alpha_num', 'unique:vouchers,code'],
             'discount_type' => ['required', Rule::in(['percentage', 'fixed'])],
             'discount_value' => ['required', 'numeric', 'gt:0'],
             'product_id' => ['nullable', 'string', 'size:30', 'exists:products,id'],
@@ -159,6 +160,7 @@ class BackofficeController extends Controller
             'origin' => ['nullable', 'string', 'max:120'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ]);
+        $data['code'] = $data['code'] ?: $this->generateVoucherCode($data['name'] ?? 'VOUCHER');
         if ($data['discount_type'] === 'percentage') abort_if($data['discount_value'] > 100, 422, 'O percentual não pode exceder 100%.');
         if (! empty($data['plan_id']) && ! empty($data['product_id'])) {
             abort_unless(DB::table('plans')->where('id', $data['plan_id'])->where('product_id', $data['product_id'])->exists(), 422, 'O plano selecionado não pertence ao sistema informado.');
@@ -166,7 +168,32 @@ class BackofficeController extends Controller
         $id = PrefixedUlid::make('VCH');
         DB::table('vouchers')->insert([...$data, 'id' => $id, 'code' => strtoupper($data['code']), 'module_codes' => isset($data['module_codes']) ? json_encode($data['module_codes']) : null, 'status' => $data['status'] ?? 'ativa', 'created_by_platform_admin_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now()]);
         $audit->record($request->user()->id, 'backoffice.voucher_created', 'voucher', $id, reason: 'Criação de voucher', request: $request);
-        return response()->json(['id' => $id, 'message' => 'Voucher criado.'], 201);
+        return response()->json(['id' => $id, 'code' => $data['code'], 'message' => 'Voucher criado.'], 201);
+    }
+
+    private function generateVoucherCode(string $name): string
+    {
+        $normalized = Str::upper(Str::ascii($name));
+        $words = preg_split('/[^A-Z0-9]+/', $normalized, -1, PREG_SPLIT_NO_EMPTY) ?: ['VOUCHER'];
+        $prefix = '';
+
+        foreach ($words as $word) {
+            $prefix .= substr($word, 0, min(3, 6 - strlen($prefix)));
+            if (strlen($prefix) >= 6) break;
+        }
+
+        $prefix = substr($prefix . preg_replace('/[^A-Z0-9]/', '', $normalized), 0, 6);
+        $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+        do {
+            $suffix = '';
+            for ($index = 0; $index < 2; $index++) {
+                $suffix .= $alphabet[random_int(0, strlen($alphabet) - 1)];
+            }
+            $code = str_pad($prefix, 6, 'X') . $suffix;
+        } while (DB::table('vouchers')->where('code', $code)->exists());
+
+        return $code;
     }
 
     public function updateVoucherStatus(Request $request, string $voucher, PlatformAudit $audit)
