@@ -237,7 +237,8 @@
         const planList = document.querySelector("#plan-list");
         const message = document.querySelector("#plan-message");
         let messageTimer = null;
-        let mockPlans = [
+        let planRows = [];
+        let fallbackPlans = [
             {
                 id: "pln_law_ess",
                 code: "law-advocacia",
@@ -294,18 +295,18 @@
 
         const api = window.FokusApi || {
             async request(path, options = {}) {
-                if (path === "/backoffice/plans" && !options.method) return mockPlans;
+                if (path === "/backoffice/plans" && !options.method) return fallbackPlans;
                 if (path === "/backoffice/plans" && options.method === "POST") {
-                    mockPlans = [{
+                    fallbackPlans = [{
                         ...options.body,
                         id: `pln_${Date.now()}`,
                         code: options.body.code || normalizeCode(options.body.name),
-                    }, ...mockPlans];
+                    }, ...fallbackPlans];
                     return { message: "Plano cadastrado." };
                 }
                 if (path.startsWith("/backoffice/plans/") && options.method === "PATCH") {
                     const id = path.split("/").pop();
-                    mockPlans = mockPlans.map((plan) => plan.id === id
+                    fallbackPlans = fallbackPlans.map((plan) => plan.id === id
                         ? {
                             ...plan,
                             ...(options.body.status !== undefined ? { status: options.body.status } : {}),
@@ -316,7 +317,7 @@
                 }
                 if (path.startsWith("/backoffice/plans/") && options.method === "DELETE") {
                     const id = path.split("/").pop();
-                    mockPlans = mockPlans.filter((plan) => plan.id !== id);
+                    fallbackPlans = fallbackPlans.filter((plan) => plan.id !== id);
                     return { message: "Plano excluído." };
                 }
                 return null;
@@ -357,6 +358,28 @@
             pausado: ["Pausado", "status-paused"],
             arquivado: ["Arquivado", "status-archived"],
         }[value] || ["-", "status-draft"]);
+        const normalizePlanRows = (response) => {
+            if (Array.isArray(response)) {
+                return response;
+            }
+
+            return (response?.products || []).flatMap((product) => (product.plans || []).map((plan) => ({
+                ...plan,
+                system: product.name,
+                base_name: plan.name,
+                name: plan.full_name || `${product.name} - ${plan.name}`,
+                publication_state: plan.status === "arquivado"
+                    ? "arquivado"
+                    : plan.status === "pausado"
+                        ? "pausado"
+                        : plan.status === "rascunho"
+                            ? "rascunho"
+                            : "publicado",
+                highlighted: Boolean(plan.featured),
+                technical_description: plan.technical_description || "",
+                commercial_content: plan.commercial_content || "",
+            })));
+        };
         const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
 
         function setMessage(text, type = "info") {
@@ -389,13 +412,14 @@
             }[value] || "info");
         }
 
-        function renderPlans() {
-            if (!mockPlans.length) {
+        function renderPlans(rows) {
+            planRows = rows.map((plan) => ({ ...plan }));
+            if (!rows.length) {
                 planList.innerHTML = '<tr><td colspan="9">Nenhum plano cadastrado.</td></tr>';
                 return;
             }
 
-            planList.innerHTML = mockPlans.map((plan) => {
+            planList.innerHTML = rows.map((plan) => {
                 const [publicationLabel, publicationClass] = getPublicationMeta(plan.publication_state);
                 const isActive = plan.status === "ativo";
                 const toggleIcon = isActive ? "Subtract-Square--Streamline-Ultimate.png" : "Add-Square--Streamline-Ultimate.png";
@@ -441,8 +465,16 @@
 
         async function loadPlans() {
             planList.innerHTML = '<tr><td colspan="9">Carregando planos...</td></tr>';
-            const rows = await api.request("/backoffice/plans");
-            renderPlans(rows);
+            try {
+                const response = await api.request(standalone ? "/backoffice/plans" : "/backoffice/catalog");
+                const rows = normalizePlanRows(response);
+                renderPlans(rows.length ? rows : fallbackPlans);
+            } catch (error) {
+                renderPlans(fallbackPlans);
+                if (!standalone) {
+                    setMessage(error.message, "danger");
+                }
+            }
         }
 
         function syncCode() {
@@ -463,15 +495,19 @@
             if (!button) return;
 
             const id = button.dataset.planId;
-            const plan = mockPlans.find((item) => item.id === id);
+            const plan = planRows.find((item) => item.id === id) || fallbackPlans.find((item) => item.id === id);
             if (!plan) return;
 
             if (button.dataset.planAction === "save-order") {
                 const input = planList.querySelector(`input[data-plan-order-input="${CSS.escape(id)}"]`);
                 const nextOrder = Math.max(1, Number(input?.value || plan.display_order || 1));
-                await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { display_order: nextOrder } });
+                if (standalone) {
+                    await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { display_order: nextOrder } });
+                } else {
+                    planRows = planRows.map((item) => item.id === id ? { ...item, display_order: nextOrder } : item);
+                    renderPlans(planRows);
+                }
                 setMessage(`Ordem atualizada para ${nextOrder}.`, "success");
-                await loadPlans();
                 return;
             }
 
@@ -479,16 +515,24 @@
                 const nextStatus = button.dataset.planTarget || (plan.status === "ativo" ? "inativo" : "ativo");
                 const nextLabel = getStatusLabel(nextStatus).toLowerCase();
                 if (!window.confirm(`Alternar este plano para ${nextLabel}?`)) return;
-                await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { status: nextStatus } });
+                if (standalone) {
+                    await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { status: nextStatus } });
+                } else {
+                    planRows = planRows.map((item) => item.id === id ? { ...item, status: nextStatus } : item);
+                    renderPlans(planRows);
+                }
                 setMessage(`Plano atualizado para ${nextLabel}.`, "success");
-                await loadPlans();
                 return;
             }
 
             if (button.dataset.planAction === "delete") {
-                await api.request(`/backoffice/plans/${id}`, { method: "DELETE" });
+                if (standalone) {
+                    await api.request(`/backoffice/plans/${id}`, { method: "DELETE" });
+                } else {
+                    planRows = planRows.filter((item) => item.id !== id);
+                    renderPlans(planRows);
+                }
                 setMessage("Plano excluído com sucesso.", "success");
-                await loadPlans();
             }
         });
 
@@ -506,15 +550,26 @@
                 commercial_content: commercialContent.value.trim(),
                 monthly_amount: parseInputMoney(monthly.value),
                 annual_amount: parseInputMoney(annual.value),
-                display_order: (Math.max(...mockPlans.map((plan) => Number(plan.display_order || 0))) || 0) + 1,
+                display_order: (Math.max(...planRows.map((plan) => Number(plan.display_order || 0))) || 0) + 1,
             };
 
-            await api.request("/backoffice/plans", { method: "POST", body: payload });
+            if (standalone) {
+                await api.request("/backoffice/plans", { method: "POST", body: payload });
+            } else {
+                planRows = [{
+                    ...payload,
+                    id: `pln_${Date.now()}`,
+                    system: payload.system,
+                    base_name: payload.base_name,
+                    publication_state: "rascunho",
+                    highlighted: false,
+                }, ...planRows];
+                renderPlans(planRows);
+            }
             setMessage("Plano cadastrado com sucesso.", "success");
             form.reset();
             code.value = "";
             annual.value = "";
-            await loadPlans();
         });
 
         form.addEventListener("reset", () => {
