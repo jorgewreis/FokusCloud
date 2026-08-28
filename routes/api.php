@@ -54,6 +54,10 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::post('/auth/logout', [PlatformAuthController::class, 'logout']);
     Route::get('/dashboard', [BackofficeController::class, 'dashboard']);
     Route::get('/catalog', [BackofficeController::class, 'catalog']);
+    Route::get('/plans', [BackofficeController::class, 'plans']);
+    Route::post('/plans', [BackofficeController::class, 'createPlan']);
+    Route::patch('/plans/{plan}', [BackofficeController::class, 'updatePlan']);
+    Route::delete('/plans/{plan}', [BackofficeController::class, 'deletePlan']);
     Route::get('/companies', [BackofficeController::class, 'companies']);
     Route::get('/companies/{company}', [BackofficeController::class, 'company']);
     Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription']);

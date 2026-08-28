@@ -467,7 +467,7 @@
         async function loadPlans() {
             planList.innerHTML = '<tr><td colspan="9">Carregando planos...</td></tr>';
             try {
-                const response = await api.request(standalone ? "/backoffice/plans" : "/backoffice/catalog");
+                const response = await api.request("/backoffice/plans");
                 const rows = normalizePlanRows(response);
                 renderPlans(rows.length ? rows : fallbackPlans);
             } catch (error) {
@@ -505,8 +505,8 @@
                 if (standalone) {
                     await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { display_order: nextOrder } });
                 } else {
-                    planRows = planRows.map((item) => item.id === id ? { ...item, display_order: nextOrder } : item);
-                    renderPlans(planRows);
+                    await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { display_order: nextOrder } });
+                    await loadPlans();
                 }
                 setMessage(`Ordem atualizada para ${nextOrder}.`, "success");
                 return;
@@ -522,10 +522,8 @@
                 if (standalone) {
                     await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { status: nextStatus, publication_state: nextPublicationState } });
                 } else {
-                    planRows = planRows.map((item) => item.id === id
-                        ? { ...item, status: nextStatus, publication_state: nextPublicationState }
-                        : item);
-                    renderPlans(planRows);
+                    await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { status: nextStatus, publication_state: nextPublicationState } });
+                    await loadPlans();
                 }
                 setMessage(`Plano atualizado para ${nextLabel}.`, "success");
                 return;
@@ -535,8 +533,8 @@
                 if (standalone) {
                     await api.request(`/backoffice/plans/${id}`, { method: "DELETE" });
                 } else {
-                    planRows = planRows.filter((item) => item.id !== id);
-                    renderPlans(planRows);
+                    await api.request(`/backoffice/plans/${id}`, { method: "DELETE" });
+                    await loadPlans();
                 }
                 setMessage("Plano excluído com sucesso.", "success");
             }
@@ -562,20 +560,17 @@
             if (standalone) {
                 await api.request("/backoffice/plans", { method: "POST", body: payload });
             } else {
-                planRows = [{
-                    ...payload,
-                    id: `pln_${Date.now()}`,
-                    system: payload.system,
-                    base_name: payload.base_name,
-                    publication_state: "rascunho",
-                    highlighted: false,
-                }, ...planRows];
-                renderPlans(planRows);
+                await api.request("/backoffice/plans", { method: "POST", body: payload });
             }
             setMessage("Plano cadastrado com sucesso.", "success");
             form.reset();
             code.value = "";
             annual.value = "";
+            if (!standalone) {
+                await loadPlans();
+            } else {
+                await loadPlans();
+            }
         });
 
         form.addEventListener("reset", () => {

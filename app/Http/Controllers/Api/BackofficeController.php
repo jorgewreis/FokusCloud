@@ -59,16 +59,7 @@ class BackofficeController extends Controller
     public function catalog(Request $request)
     {
         $products = DB::table('products')->where('active', true)->orderBy('name')->get();
-        $plans = DB::table('plans as plan')
-            ->join('products as product', 'product.id', '=', 'plan.product_id')
-            ->leftJoin('plan_modules as plan_module', 'plan_module.plan_id', '=', 'plan.id')
-            ->leftJoin('modules as module', 'module.id', '=', 'plan_module.module_id')
-            ->where('product.active', true)
-            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured')
-            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as monthly_amount'))
-            ->orderBy('plan.product_id')
-            ->orderBy('plan.display_order')
-            ->get();
+        $plans = $this->catalogPlanRows();
         $modules = DB::table('modules')->whereIn('product_id', $products->pluck('id'))->orderBy('name')->get();
 
         return response()->json([
@@ -80,7 +71,7 @@ class BackofficeController extends Controller
                     'id' => $plan->id,
                     'code' => $plan->code,
                     'name' => $plan->name,
-                    'full_name' => $product->name.($plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '')).' - '.$plan->name,
+                    'full_name' => $plan->full_name,
                     'segment' => $plan->segment,
                     'status' => $plan->status,
                     'display_order' => $plan->display_order,
@@ -96,6 +87,127 @@ class BackofficeController extends Controller
                 ]),
             ])->values(),
         ]);
+    }
+
+    public function plans(Request $request)
+    {
+        return response()->json($this->managementPlanRows());
+    }
+
+    public function createPlan(Request $request, PlatformAudit $audit)
+    {
+        $data = $request->validate([
+            'product_id' => ['nullable', 'string', 'size:30'],
+            'system' => ['nullable', 'string', 'max:120'],
+            'code' => ['required', 'string', 'max:64'],
+            'name' => ['required', 'string', 'max:120'],
+            'base_name' => ['nullable', 'string', 'max:120'],
+            'segment' => ['nullable', 'string', 'max:16'],
+            'status' => ['nullable', 'string', 'max:32'],
+            'publication_state' => ['nullable', 'string', 'max:32'],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'featured' => ['nullable', 'boolean'],
+        ]);
+
+        $productId = $data['product_id'] ?? null;
+        if (! $productId && ! empty($data['system'])) {
+            $productId = DB::table('products')->where('id', $data['system'])->orWhere('name', $data['system'])->value('id');
+        }
+        abort_unless($productId, 422, 'O sistema selecionado não está disponível no catálogo.');
+        abort_unless(DB::table('products')->where('id', $productId)->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
+
+        $normalizedCode = Str::lower(trim((string) $data['code']));
+        abort_if($normalizedCode === '', 422, 'O código do plano é obrigatório.');
+        abort_if(DB::table('plans')->where('product_id', $productId)->where('code', $normalizedCode)->exists(), 422, 'Já existe um plano com este código no sistema selecionado.');
+
+        $status = $this->normalizePlanStatus($data['publication_state'] ?? $data['status'] ?? 'rascunho');
+        $displayOrder = (int) ($data['display_order'] ?? ((int) DB::table('plans')->where('product_id', $productId)->max('display_order') + 1));
+
+        $id = PrefixedUlid::make('PLN');
+        DB::table('plans')->insert([
+            'id' => $id,
+            'product_id' => $productId,
+            'code' => $normalizedCode,
+            'name' => trim((string) ($data['base_name'] ?? $data['name'])),
+            'segment' => $data['segment'] ?? null,
+            'status' => $status,
+            'display_order' => $displayOrder,
+            'featured' => (bool) ($data['featured'] ?? false),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $audit->record($request->user()->id, 'backoffice.plan_created', 'plan', $id, reason: 'Criação de plano', request: $request);
+
+        return response()->json([
+            'id' => $id,
+            'message' => 'Plano criado.',
+        ], 201);
+    }
+
+    public function updatePlan(Request $request, string $plan, PlatformAudit $audit)
+    {
+        $data = $request->validate([
+            'product_id' => ['nullable', 'string', 'size:30'],
+            'system' => ['nullable', 'string', 'max:120'],
+            'code' => ['nullable', 'string', 'max:64'],
+            'name' => ['nullable', 'string', 'max:120'],
+            'base_name' => ['nullable', 'string', 'max:120'],
+            'segment' => ['nullable', 'string', 'max:16'],
+            'status' => ['nullable', 'string', 'max:32'],
+            'publication_state' => ['nullable', 'string', 'max:32'],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'featured' => ['nullable', 'boolean'],
+        ]);
+
+        $current = DB::table('plans')->where('id', $plan)->first();
+        abort_unless($current, 404, 'Plano não encontrado.');
+
+        $productId = $data['product_id'] ?? $current->product_id;
+        if (! empty($data['system'])) {
+            $productId = DB::table('products')->where('id', $data['system'])->orWhere('name', $data['system'])->value('id') ?: $productId;
+        }
+        abort_unless(DB::table('products')->where('id', $productId)->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
+
+        $code = isset($data['code']) ? Str::lower(trim((string) $data['code'])) : $current->code;
+        abort_if($code === '', 422, 'O código do plano é obrigatório.');
+        abort_if(
+            DB::table('plans')->where('product_id', $productId)->where('code', $code)->where('id', '!=', $plan)->exists(),
+            422,
+            'Já existe um plano com este código no sistema selecionado.',
+        );
+
+        $status = $this->normalizePlanStatus($data['publication_state'] ?? $data['status'] ?? $current->status);
+        $displayOrder = array_key_exists('display_order', $data) ? (int) $data['display_order'] : (int) $current->display_order;
+
+        DB::table('plans')->where('id', $plan)->update([
+            'product_id' => $productId,
+            'code' => $code,
+            'name' => trim((string) ($data['base_name'] ?? $data['name'] ?? $current->name)),
+            'segment' => array_key_exists('segment', $data) ? $data['segment'] : $current->segment,
+            'status' => $status,
+            'display_order' => $displayOrder,
+            'featured' => array_key_exists('featured', $data) ? (bool) $data['featured'] : (bool) $current->featured,
+            'updated_at' => now(),
+        ]);
+
+        $audit->record($request->user()->id, 'backoffice.plan_updated', 'plan', $plan, reason: 'Atualização de plano', request: $request);
+
+        return response()->json(['message' => 'Plano atualizado.']);
+    }
+
+    public function deletePlan(Request $request, string $plan, PlatformAudit $audit)
+    {
+        $current = DB::table('plans')->where('id', $plan)->first();
+        abort_unless($current, 404, 'Plano não encontrado.');
+
+        DB::transaction(function () use ($plan) {
+            DB::table('plans')->where('id', $plan)->delete();
+        });
+
+        $audit->record($request->user()->id, 'backoffice.plan_deleted', 'plan', $plan, reason: 'Exclusão de plano', request: $request);
+
+        return response()->json(['message' => 'Plano excluído.']);
     }
 
     public function changeSubscription(Request $request, string $subscription, PlatformAudit $audit)
@@ -129,6 +241,75 @@ class BackofficeController extends Controller
             $voucher->computed_status = $voucher->ends_at && now()->gt(\Illuminate\Support\Carbon::parse($voucher->ends_at)) ? 'expirada' : $voucher->status;
             return $voucher;
         }));
+    }
+
+    private function catalogPlanRows()
+    {
+        $plans = DB::table('plans as plan')
+            ->join('products as product', 'product.id', '=', 'plan.product_id')
+            ->leftJoin('plan_modules as plan_module', 'plan_module.plan_id', '=', 'plan.id')
+            ->leftJoin('modules as module', 'module.id', '=', 'plan_module.module_id')
+            ->where('product.active', true)
+            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured', 'product.name')
+            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured', 'product.name as product_name', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as monthly_amount'))
+            ->orderBy('plan.product_id')
+            ->orderBy('plan.display_order')
+            ->orderBy('plan.name')
+            ->get();
+
+        return $plans->map(fn ($plan) => (object) [
+            'id' => $plan->id,
+            'product_id' => $plan->product_id,
+            'product_name' => $plan->product_name,
+            'code' => $plan->code,
+            'name' => $plan->name,
+            'full_name' => $plan->product_name.($plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '')).' - '.$plan->name,
+            'segment' => $plan->segment,
+            'status' => $plan->status,
+            'display_order' => $plan->display_order,
+            'featured' => (bool) $plan->featured,
+            'monthly_amount' => CatalogPricing::suggestedMonthly((float) $plan->monthly_amount),
+            'annual_amount' => CatalogPricing::annualFromMonthly(CatalogPricing::suggestedMonthly((float) $plan->monthly_amount)),
+        ]);
+    }
+
+    private function managementPlanRows()
+    {
+        return $this->catalogPlanRows()->values()->map(fn ($plan) => [
+            'id' => $plan->id,
+            'product_id' => $plan->product_id,
+            'code' => $plan->code,
+            'name' => $plan->name,
+            'base_name' => $plan->name,
+            'system' => $plan->product_name,
+            'full_name' => $plan->full_name,
+            'segment' => $plan->segment,
+            'status' => $plan->status,
+            'publication_state' => $plan->status === 'ativo'
+                ? 'publicado'
+                : ($plan->status === 'pausado'
+                    ? 'pausado'
+                    : ($plan->status === 'arquivado'
+                        ? 'arquivado'
+                        : 'rascunho')),
+            'display_order' => $plan->display_order,
+            'featured' => (bool) $plan->featured,
+            'monthly_amount' => $plan->monthly_amount,
+            'annual_amount' => $plan->annual_amount,
+        ]);
+    }
+
+    private function normalizePlanStatus(?string $value): string
+    {
+        $status = Str::lower(trim((string) ($value ?? '')));
+
+        return match ($status) {
+            'ativo', 'active', 'publicado', 'published' => 'ativo',
+            'pausado', 'paused', 'inativo', 'inactive' => 'pausado',
+            'arquivado', 'archived' => 'arquivado',
+            'rascunho', 'draft', '' => 'rascunho',
+            default => 'rascunho',
+        };
     }
 
     public function createAdmin(Request $request, PlatformAudit $audit)
