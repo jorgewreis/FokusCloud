@@ -27,7 +27,7 @@ class SubscriptionController extends Controller
         abort_unless($product, 404, 'Produto não encontrado.');
 
         $modules = DB::table('modules')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('name')->get();
-        $plans = DB::table('plans')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('display_order')->orderBy('name')->get();
+        $plans = DB::table('plans')->where('product_id', $product->id)->where('status', 'ativo')->where('publication_state', 'publicado')->orderBy('display_order')->orderBy('name')->get();
         $planModules = DB::table('plan_modules as plan_module')
             ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
             ->whereIn('plan_module.plan_id', $plans->pluck('id'))
@@ -56,7 +56,7 @@ class SubscriptionController extends Controller
         $product = DB::table('products')->where('code', $productCode)->where('active', true)->first();
         abort_unless($product, 404, 'Produto não encontrado.');
         $modules = DB::table('modules')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('name')->get();
-        $plans = DB::table('plans')->where('product_id', $product->id)->where('status', 'ativo')->orderBy('display_order')->orderBy('name')->get();
+        $plans = DB::table('plans')->where('product_id', $product->id)->where('status', 'ativo')->where('publication_state', 'publicado')->orderBy('display_order')->orderBy('name')->get();
         $planModules = DB::table('plan_modules as plan_module')
             ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
             ->whereIn('plan_module.plan_id', $plans->pluck('id'))
@@ -237,7 +237,7 @@ class SubscriptionController extends Controller
         $codes = array_column($data['items'], 'module_code');
         abort_if(count($codes) !== count(array_unique($codes)), 422, 'Um módulo só pode ser informado uma vez.');
         if ($data['selection_mode'] === 'plan') {
-            $plan = DB::table('plans')->where('product_id', $product->id)->where('code', $data['plan_code'] ?? '')->where('status', 'ativo')->first();
+            $plan = DB::table('plans')->where('product_id', $product->id)->where('code', $data['plan_code'] ?? '')->where('status', 'ativo')->where('publication_state', 'publicado')->first();
             abort_unless($plan, 422, 'Plano não encontrado ou indisponível.');
             $planModules = DB::table('plan_modules as plan_module')->join('modules as module', 'module.id', '=', 'plan_module.module_id')->where('plan_module.plan_id', $plan->id)->where('module.status', 'ativo')->pluck('module.code')->all();
             abort_unless($this->sameModules($codes, $planModules), 422, 'Os módulos não correspondem ao plano informado.');

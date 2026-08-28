@@ -120,7 +120,8 @@ class BackofficeController extends Controller
         abort_if($normalizedCode === '', 422, 'O código do plano é obrigatório.');
         abort_if(DB::table('plans')->where('product_id', $productId)->where('code', $normalizedCode)->exists(), 422, 'Já existe um plano com este código no sistema selecionado.');
 
-        $status = $this->normalizePlanStatus($data['publication_state'] ?? $data['status'] ?? 'rascunho');
+        $status = $this->normalizePlanOperationalStatus($data['status'] ?? 'inativo');
+        $publicationState = $this->normalizePlanPublicationState($data['publication_state'] ?? 'rascunho');
         $displayOrder = (int) ($data['display_order'] ?? ((int) DB::table('plans')->where('product_id', $productId)->max('display_order') + 1));
 
         $id = PrefixedUlid::make('PLN');
@@ -131,6 +132,7 @@ class BackofficeController extends Controller
             'name' => trim((string) ($data['base_name'] ?? $data['name'])),
             'segment' => $data['segment'] ?? null,
             'status' => $status,
+            'publication_state' => $publicationState,
             'display_order' => $displayOrder,
             'featured' => (bool) ($data['featured'] ?? false),
             'created_at' => now(),
@@ -177,7 +179,8 @@ class BackofficeController extends Controller
             'Já existe um plano com este código no sistema selecionado.',
         );
 
-        $status = $this->normalizePlanStatus($data['publication_state'] ?? $data['status'] ?? $current->status);
+        $status = $this->normalizePlanOperationalStatus($data['status'] ?? $current->status);
+        $publicationState = $this->normalizePlanPublicationState($data['publication_state'] ?? $current->publication_state);
         $displayOrder = array_key_exists('display_order', $data) ? (int) $data['display_order'] : (int) $current->display_order;
 
         DB::table('plans')->where('id', $plan)->update([
@@ -186,6 +189,7 @@ class BackofficeController extends Controller
             'name' => trim((string) ($data['base_name'] ?? $data['name'] ?? $current->name)),
             'segment' => array_key_exists('segment', $data) ? $data['segment'] : $current->segment,
             'status' => $status,
+            'publication_state' => $publicationState,
             'display_order' => $displayOrder,
             'featured' => array_key_exists('featured', $data) ? (bool) $data['featured'] : (bool) $current->featured,
             'updated_at' => now(),
@@ -250,8 +254,8 @@ class BackofficeController extends Controller
             ->leftJoin('plan_modules as plan_module', 'plan_module.plan_id', '=', 'plan.id')
             ->leftJoin('modules as module', 'module.id', '=', 'plan_module.module_id')
             ->where('product.active', true)
-            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured', 'product.name')
-            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.display_order', 'plan.featured', 'product.name as product_name', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as monthly_amount'))
+            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.publication_state', 'plan.display_order', 'plan.featured', 'product.name')
+            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.publication_state', 'plan.display_order', 'plan.featured', 'product.name as product_name', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as monthly_amount'))
             ->orderBy('plan.product_id')
             ->orderBy('plan.display_order')
             ->orderBy('plan.name')
@@ -266,6 +270,7 @@ class BackofficeController extends Controller
             'full_name' => $plan->product_name.($plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '')).' - '.$plan->name,
             'segment' => $plan->segment,
             'status' => $plan->status,
+            'publication_state' => $plan->publication_state,
             'display_order' => $plan->display_order,
             'featured' => (bool) $plan->featured,
             'monthly_amount' => CatalogPricing::suggestedMonthly((float) $plan->monthly_amount),
@@ -285,13 +290,7 @@ class BackofficeController extends Controller
             'full_name' => $plan->full_name,
             'segment' => $plan->segment,
             'status' => $plan->status,
-            'publication_state' => $plan->status === 'ativo'
-                ? 'publicado'
-                : ($plan->status === 'pausado'
-                    ? 'pausado'
-                    : ($plan->status === 'arquivado'
-                        ? 'arquivado'
-                        : 'rascunho')),
+            'publication_state' => $plan->publication_state,
             'display_order' => $plan->display_order,
             'featured' => (bool) $plan->featured,
             'monthly_amount' => $plan->monthly_amount,
@@ -299,15 +298,24 @@ class BackofficeController extends Controller
         ]);
     }
 
-    private function normalizePlanStatus(?string $value): string
+    private function normalizePlanOperationalStatus(?string $value): string
     {
         $status = Str::lower(trim((string) ($value ?? '')));
 
         return match ($status) {
-            'ativo', 'active', 'publicado', 'published' => 'ativo',
-            'pausado', 'paused', 'inativo', 'inactive' => 'pausado',
+            'ativo', 'active' => 'ativo',
+            default => 'inativo',
+        };
+    }
+
+    private function normalizePlanPublicationState(?string $value): string
+    {
+        $state = Str::lower(trim((string) ($value ?? '')));
+
+        return match ($state) {
+            'publicado', 'published' => 'publicado',
+            'pausado', 'paused' => 'pausado',
             'arquivado', 'archived' => 'arquivado',
-            'rascunho', 'draft', '' => 'rascunho',
             default => 'rascunho',
         };
     }
