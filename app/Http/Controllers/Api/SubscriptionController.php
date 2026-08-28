@@ -45,8 +45,10 @@ class SubscriptionController extends Controller
                     ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
                     ->where('plan_module.plan_id', $plan->id)
                     ->sum('module.monthly_price');
-                $suggestedMonthly = CatalogPricing::suggestedMonthly((float) $monthly);
-                return [$catalogName.$lineName.' - '.$plan->name, $planModules->where('plan_id', $plan->id)->pluck('code')->values()->all(), $plan->code, $suggestedMonthly, CatalogPricing::annualFromMonthly($suggestedMonthly)];
+                $monthlyAmount = $plan->monthly_amount === null
+                    ? CatalogPricing::suggestedMonthly((float) $monthly)
+                    : (float) $plan->monthly_amount;
+                return [$catalogName.$lineName.' - '.$plan->name, $planModules->where('plan_id', $plan->id)->pluck('code')->values()->all(), $plan->code, $monthlyAmount, CatalogPricing::annualFromMonthly($monthlyAmount)];
             })->values(),
         ]);
     }
@@ -236,6 +238,7 @@ class SubscriptionController extends Controller
     {
         $codes = array_column($data['items'], 'module_code');
         abort_if(count($codes) !== count(array_unique($codes)), 422, 'Um módulo só pode ser informado uma vez.');
+        $plan = null;
         if ($data['selection_mode'] === 'plan') {
             $plan = DB::table('plans')->where('product_id', $product->id)->where('code', $data['plan_code'] ?? '')->where('status', 'ativo')->where('publication_state', 'publicado')->first();
             abort_unless($plan, 422, 'Plano não encontrado ou indisponível.');
@@ -257,10 +260,12 @@ class SubscriptionController extends Controller
             }
             $unit = (float) $module->monthly_price + ($usage ? array_search($usageLimit, $usage['options'], true) * $usage['step'] : 0);
             $monthly += $unit * $requested['quantity'];
-            $items[] = ['module' => $module, 'quantity' => $requested['quantity'], 'unit_price' => $data['cycle'] === 'annual' ? $unit * 9 : $unit, 'conditions' => ['cycle' => $data['cycle'], 'usage_limit' => $usageLimit, 'selection_mode' => $data['selection_mode'], 'plan_code' => $data['plan_code'] ?? null]];
+            $items[] = ['module' => $module, 'quantity' => $requested['quantity'], 'unit_price' => $data['cycle'] === 'annual' ? $unit * 10 : $unit, 'conditions' => ['cycle' => $data['cycle'], 'usage_limit' => $usageLimit, 'selection_mode' => $data['selection_mode'], 'plan_code' => $data['plan_code'] ?? null]];
         }
         if ($data['selection_mode'] === 'plan') {
-            $monthly = CatalogPricing::suggestedMonthly($monthly);
+            $monthly = $plan->monthly_amount === null
+                ? CatalogPricing::suggestedMonthly($monthly)
+                : (float) $plan->monthly_amount;
             foreach ($items as &$item) {
                 $item['unit_price'] *= 0.9;
             }

@@ -11,7 +11,7 @@ final class CatalogPricing
 
     public static function annualFromMonthly(float $monthly): float
     {
-        return self::commercialRound($monthly * 9);
+        return round($monthly * 10, 2);
     }
 
     private static function commercialRound(float $amount): float

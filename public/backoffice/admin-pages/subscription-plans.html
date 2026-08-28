@@ -248,7 +248,7 @@
                 technical_description: "Plano base para advocacia com composição técnica enxuta e foco em acompanhamento processual.",
                 commercial_content: "Oferta de entrada para escritórios que precisam centralizar processos, partes e agenda.",
                 monthly_amount: 94.9,
-                annual_amount: 849.9,
+                annual_amount: 949,
                 display_order: 1,
                 status: "ativo",
             },
@@ -261,7 +261,7 @@
                 technical_description: "Plano com maior amplitude comercial para captura, funil e acompanhamento de leads.",
                 commercial_content: "Oferta pensada para corretores que precisam de operação comercial mais madura.",
                 monthly_amount: 34.9,
-                annual_amount: 309.9,
+                annual_amount: 349,
                 display_order: 2,
                 status: "ativo",
             },
@@ -274,7 +274,7 @@
                 technical_description: "Plano com governança, colaboração e recursos de gestão de equipe.",
                 commercial_content: "Pacote comercial para imobiliárias e grupos de corretores com operação colaborativa.",
                 monthly_amount: 144.9,
-                annual_amount: 1299.9,
+                annual_amount: 1449,
                 display_order: 3,
                 status: "inativo",
             },
@@ -287,7 +287,7 @@
                 technical_description: "Plano arquivado e sem uso comercial ativo.",
                 commercial_content: "Versão anterior do catálogo, preservada para histórico.",
                 monthly_amount: 199.9,
-                annual_amount: 1799.9,
+                annual_amount: 1999,
                 display_order: 4,
                 status: "inativo",
             },
@@ -334,9 +334,7 @@
         const parseInputMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
         const toCents = (value) => Math.round(parseInputMoney(value) * 100);
         const calculateAnnualCents = (monthlyCents) => {
-            const grossCents = monthlyCents * 9;
-            const roundedDownCents = Math.floor(grossCents / 500) * 500;
-            return Math.max(0, roundedDownCents - 10);
+            return monthlyCents * 10;
         };
         const syncAnnual = () => {
             const monthlyCents = toCents(monthly.value);

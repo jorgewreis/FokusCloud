@@ -34,28 +34,29 @@ O arredondamento nunca pode aumentar o valor bruto calculado.
 
 ## Precos anuais sugeridos
 
-O ciclo anual utiliza o equivalente a nove mensalidades do plano. O valor
-resultante tambem passa pela mesma regra de arredondamento para baixo.
+O ciclo anual utiliza o equivalente a dez mensalidades do plano, o que
+representa economia equivalente a duas mensalidades em relacao ao ciclo mensal.
 
 | Plano | Calculo anual | Valor bruto anual | Preco anual sugerido |
 | --- | ---: | ---: | ---: |
-| Fokus Cloud Law - Advocacia | R$ 94,90 x 9 | R$ 854,10 | **R$ 849,90** |
-| Fokus Cloud Law - Cartorio Criminal | R$ 104,90 x 9 | R$ 944,10 | **R$ 939,90** |
-| Fokus Cloud Law - Cartorio Civel | R$ 84,90 x 9 | R$ 764,10 | **R$ 759,90** |
-| Fokus Cloud Law - Gestao de Audiencias | R$ 49,90 x 9 | R$ 449,10 | **R$ 444,90** |
-| Fokus Cloud Law - Gestao de Expedientes | R$ 59,90 x 9 | R$ 539,10 | **R$ 534,90** |
-| Fokus Cloud Lead One - Essencial | R$ 9,90 x 9 | R$ 89,10 | **R$ 84,90** |
-| Fokus Cloud Lead One - Profissional | R$ 34,90 x 9 | R$ 314,10 | **R$ 309,90** |
-| Fokus Cloud Lead One - Avancado | R$ 44,90 x 9 | R$ 404,10 | **R$ 399,90** |
-| Fokus Cloud Lead One - Premium | R$ 54,90 x 9 | R$ 494,10 | **R$ 489,90** |
-| Fokus Cloud Lead Team - Team Essencial | R$ 74,90 x 9 | R$ 674,10 | **R$ 669,90** |
-| Fokus Cloud Lead Team - Team Premium | R$ 144,90 x 9 | R$ 1.304,10 | **R$ 1.299,90** |
+| Fokus Cloud Law - Advocacia | R$ 94,90 x 10 | R$ 949,00 | **R$ 949,00** |
+| Fokus Cloud Law - Cartorio Criminal | R$ 104,90 x 10 | R$ 1.049,00 | **R$ 1.049,00** |
+| Fokus Cloud Law - Cartorio Civel | R$ 84,90 x 10 | R$ 849,00 | **R$ 849,00** |
+| Fokus Cloud Law - Gestao de Audiencias | R$ 49,90 x 10 | R$ 499,00 | **R$ 499,00** |
+| Fokus Cloud Law - Gestao de Expedientes | R$ 59,90 x 10 | R$ 599,00 | **R$ 599,00** |
+| Fokus Cloud Lead One - Essencial | R$ 9,90 x 10 | R$ 99,00 | **R$ 99,00** |
+| Fokus Cloud Lead One - Profissional | R$ 34,90 x 10 | R$ 349,00 | **R$ 349,00** |
+| Fokus Cloud Lead One - Avancado | R$ 44,90 x 10 | R$ 449,00 | **R$ 449,00** |
+| Fokus Cloud Lead One - Premium | R$ 54,90 x 10 | R$ 549,00 | **R$ 549,00** |
+| Fokus Cloud Lead Team - Team Essencial | R$ 74,90 x 10 | R$ 749,00 | **R$ 749,00** |
+| Fokus Cloud Lead Team - Team Premium | R$ 144,90 x 10 | R$ 1.449,00 | **R$ 1.449,00** |
 
 ## Observacao sobre o calculo anual
 
-Os valores anuais devem ser calculados sobre o mensal sugerido arredondado,
-mas a regra precisa ser implementada com uma funcao monetaria centralizada no
-backend. O frontend deve apenas exibir o valor retornado pela API.
+Os valores anuais devem ser calculados sobre o mensal sugerido, multiplicado
+por dez, com duas casas decimais. A regra precisa ser implementada com uma
+funcao monetaria centralizada no backend. O frontend deve apenas exibir o
+valor retornado pela API.
 
 Antes da publicacao, os valores dos modulos marcados como estimados devem ser
 validados comercialmente. A tabela nao deve liberar planos enquanto a versao

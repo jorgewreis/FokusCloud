@@ -35,7 +35,7 @@
   const monthly = () =>
     (state.items.reduce((sum, id) => sum + moduleById(id)[3], 0) + usageFee()) *
     (state.mode === "plan" ? 0.9 : 1);
-  const annual = () => monthly() * 9;
+  const annual = () => monthly() * 10;
   const period = () => (state.cycle === "annual" ? "ano" : "mês");
   const amount = () => (state.cycle === "annual" ? annual() : monthly());
   const subscriptionPath = () =>
@@ -86,7 +86,7 @@
         ? catalog.modules
             .map(
               (module) =>
-                `<label class="module-choice"><input type="checkbox" value="${module[0]}" ${state.items.includes(module[0]) ? "checked" : ""}><span><b>${module[1]}</b><small>${module[2]}</small></span><strong>${money(state.cycle === "annual" ? module[3] * 9 : module[3])}/${period()}</strong></label>`,
+                `<label class="module-choice"><input type="checkbox" value="${module[0]}" ${state.items.includes(module[0]) ? "checked" : ""}><span><b>${module[1]}</b><small>${module[2]}</small></span><strong>${money(state.cycle === "annual" ? module[3] * 10 : module[3])}/${period()}</strong></label>`,
             )
             .join("")
         : catalog.plans
@@ -111,7 +111,7 @@
       : "";
     const discountLabel =
       state.cycle === "annual"
-        ? "Desconto total de 25%"
+        ? "Economia equivalente a 2 mensalidades"
         : state.mode === "plan"
           ? "Desconto total de 10% no conjunto"
           : "Selecione ao menos um módulo";
@@ -127,7 +127,7 @@
       .join("");
     const annualNote =
       state.cycle === "annual"
-        ? `<p class="review-saving">Desconto total de <b>25%</b></p>`
+        ? `<p class="review-saving">Economia equivalente a <b>2 mensalidades</b></p>`
         : "";
     return `<div class="review-card"><p class="eyebrow dark">Revisão do pedido</p><h2>Quase pronto.</h2><div class="review-grid"><div><small>PRODUTO</small><b>${catalog.name}</b></div><div><small>MODELO</small><b>${state.mode === "plan" ? `Plano ${state.plan}` : "Módulos personalizados"}</b></div><div><small>COBRANÇA</small><b>${state.cycle === "annual" ? "Anual" : "Mensal"}</b></div><div><small>TOTAL</small><b>${money(amount())} / ${period()}</b></div></div>${annualNote}<h3>Itens incluídos</h3><ul>${items}</ul><label class="form-field"><span class="form-label">Cupom de desconto (opcional)</span><input id="voucher-code" maxlength="64" autocomplete="off"></label><div class="review-actions"><button class="btn btn-outline" data-back>Voltar</button><button class="btn btn-green" type="button" data-checkout>Continuar para checkout</button></div><p id="checkout-feedback" role="status"></p><small class="payment-note">O checkout seguro é criado após a validação da empresa e do e-mail.</small></div>`;
   }
