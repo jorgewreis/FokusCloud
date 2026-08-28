@@ -227,6 +227,36 @@ textarea:disabled,
     --notice-bg: color-mix(in srgb, var(--color-blue-600) 8%, var(--theme-surface));
 }
 
+.status-draft {
+    border: 1px solid var(--color-gray-200);
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+}
+
+.status-published {
+    border: 1px solid var(--color-blue-200);
+    background-color: var(--color-blue-050);
+    color: var(--color-blue-700);
+}
+
+.status-inactive {
+    border: 1px solid var(--color-gray-200);
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+}
+
+.status-featured {
+    border: 1px solid var(--color-amber-200);
+    background-color: var(--color-amber-050);
+    color: var(--color-amber-800);
+}
+
+.status-archived {
+    border: 1px solid var(--color-gray-200);
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+}
+
 .form-actions {
     display: flex;
     flex-wrap: wrap;
