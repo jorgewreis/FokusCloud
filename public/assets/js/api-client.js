@@ -15,7 +15,7 @@ window.FokusApi = (() => {
     let body = options.body;
     if (body && typeof body === 'object' && !(body instanceof FormData)) body = JSON.stringify(body);
     if (body && !headers['Content-Type'] && !(body instanceof FormData)) headers['Content-Type'] = 'application/json';
-    const response = await fetch(`/api${path}`, { ...options, body, method, headers, credentials: 'same-origin' });
+    const response = await fetch(`/api${path}`, { ...options, body, method, headers, credentials: 'same-origin', cache: 'no-store' });
     const payload = response.status === 204 ? null : await response.json();
     if (!response.ok) {
       const validationMessage = payload?.errors
