@@ -268,10 +268,16 @@
 
         function updateBaseValueFromPlan() {
             const selectedPlan = plans.options[plans.selectedIndex];
-            const amount = selectedPlan?.value === "__all__"
-                ? null
-                : selectedPlan?.dataset[duration.value === "a1" ? "annual" : "monthly"];
-            baseValue.value = amount ? formatMoneyValue(amount) : "";
+            const monthly = Number(selectedPlan?.dataset.monthly || 0);
+            const annual = Number(selectedPlan?.dataset.annual || 0);
+            const amount = selectedPlan?.value === "__all__" ? null : {
+                d7: monthly / 30 * 7,
+                m1: monthly,
+                m3: monthly * 3,
+                m6: monthly * 6,
+                a1: annual,
+            }[duration.value];
+            baseValue.value = amount ? formatMoneyValue(Number(amount).toFixed(2)) : "";
             updateDiscountAvailability();
             syncDiscount("percent");
         }

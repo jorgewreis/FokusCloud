@@ -216,6 +216,8 @@ class BackofficeController extends Controller
         $monthly = CatalogPricing::suggestedMonthly($monthly);
 
         return match ($duration) {
+            'd7' => round($monthly / 30 * 7, 2),
+            'm1' => $monthly,
             'm3' => round($monthly * 3, 2),
             'm6' => round($monthly * 6, 2),
             'a1' => CatalogPricing::annualFromMonthly($monthly),
