@@ -239,7 +239,10 @@
 
         function updateBaseValueFromPlan() {
             const selectedPlan = plans.options[plans.selectedIndex];
-            baseValue.value = selectedPlan?.dataset.price ? formatInputMoney(selectedPlan.dataset.price) : "";
+            const amount = selectedPlan?.value === "__all__"
+                ? null
+                : selectedPlan?.dataset[duration.value === "a1" ? "annual" : "monthly"];
+            baseValue.value = amount ? formatInputMoney(amount) : "";
             const allPlans = plans.value === "__all__";
             discountType.querySelector('option[value="trial"]').disabled = allPlans;
             discountType.querySelector('option[value="fixed"]').disabled = allPlans;
@@ -302,6 +305,7 @@
             discountValue.value = formatInputMoney(discountValue.value);
             syncDiscount("value");
         });
+        duration.addEventListener("change", updateBaseValueFromPlan);
         startDate.addEventListener("change", updateValidityWindow);
         endDate.addEventListener("change", updateValidityWindow);
 

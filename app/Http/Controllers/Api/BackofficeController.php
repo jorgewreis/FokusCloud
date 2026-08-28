@@ -147,8 +147,8 @@ class BackofficeController extends Controller
             'code' => ['nullable', 'string', 'max:64', 'alpha_num', 'unique:vouchers,code'],
             'discount_type' => ['required', Rule::in(['percentage', 'fixed'])],
             'discount_value' => ['required', 'numeric', 'gt:0'],
-            'product_id' => ['nullable', 'string', 'size:30', 'exists:products,id'],
-            'plan_id' => ['nullable', 'string', 'size:30', 'exists:plans,id'],
+            'product_id' => ['nullable', 'string', 'size:30'],
+            'plan_id' => ['nullable', 'string', 'size:30'],
             'base_amount' => ['nullable', 'numeric', 'min:0'],
             'benefit_duration' => ['nullable', Rule::in(['d7', 'm1', 'm3', 'm6', 'a1'])],
             'module_codes' => ['nullable', 'array'],
@@ -162,8 +162,19 @@ class BackofficeController extends Controller
         ]);
         $data['code'] = $data['code'] ?: $this->generateVoucherCode($data['name'] ?? 'VOUCHER');
         if ($data['discount_type'] === 'percentage') abort_if($data['discount_value'] > 100, 422, 'O percentual não pode exceder 100%.');
+        if (! empty($data['product_id'])) {
+            abort_unless(DB::table('products')->where('id', $data['product_id'])->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
+        }
+        if (! empty($data['plan_id'])) {
+            abort_unless(DB::table('plans')->where('id', $data['plan_id'])->exists(), 422, 'O plano selecionado não existe no catálogo.');
+        }
         if (! empty($data['plan_id']) && ! empty($data['product_id'])) {
             abort_unless(DB::table('plans')->where('id', $data['plan_id'])->where('product_id', $data['product_id'])->exists(), 422, 'O plano selecionado não pertence ao sistema informado.');
+        }
+        if (! empty($data['plan_id'])) {
+            $data['base_amount'] = $this->voucherBaseAmount($data['plan_id'], $data['benefit_duration'] ?? null);
+        } else {
+            $data['base_amount'] = null;
         }
         $id = PrefixedUlid::make('VCH');
         DB::table('vouchers')->insert([...$data, 'id' => $id, 'code' => strtoupper($data['code']), 'module_codes' => isset($data['module_codes']) ? json_encode($data['module_codes']) : null, 'status' => $data['status'] ?? 'ativa', 'created_by_platform_admin_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now()]);
@@ -194,6 +205,22 @@ class BackofficeController extends Controller
         } while (DB::table('vouchers')->where('code', $code)->exists());
 
         return $code;
+    }
+
+    private function voucherBaseAmount(string $planId, ?string $duration): float
+    {
+        $monthly = (float) DB::table('plan_modules as plan_module')
+            ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
+            ->where('plan_module.plan_id', $planId)
+            ->sum('module.monthly_price');
+        $monthly = CatalogPricing::suggestedMonthly($monthly);
+
+        return match ($duration) {
+            'm3' => round($monthly * 3, 2),
+            'm6' => round($monthly * 6, 2),
+            'a1' => CatalogPricing::annualFromMonthly($monthly),
+            default => $monthly,
+        };
     }
 
     public function updateVoucherStatus(Request $request, string $voucher, PlatformAudit $audit)

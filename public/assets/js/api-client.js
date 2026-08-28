@@ -17,7 +17,12 @@ window.FokusApi = (() => {
     if (body && !headers['Content-Type'] && !(body instanceof FormData)) headers['Content-Type'] = 'application/json';
     const response = await fetch(`/api${path}`, { ...options, body, method, headers, credentials: 'same-origin' });
     const payload = response.status === 204 ? null : await response.json();
-    if (!response.ok) throw new Error(payload?.message || 'Não foi possível concluir a solicitação.');
+    if (!response.ok) {
+      const validationMessage = payload?.errors
+        ? Object.values(payload.errors).flat().find(Boolean)
+        : null;
+      throw new Error(validationMessage || payload?.message || 'Não foi possível concluir a solicitação.');
+    }
     return payload;
   }
 

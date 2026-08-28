@@ -96,7 +96,7 @@
                     <input id="voucher-end-date" name="ends_at" type="date" required>
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-total">Quantidade total</label>
                     <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
                 </div>
@@ -239,7 +239,8 @@
             selectedProduct.plans.forEach((plan) => {
                 const option = document.createElement("option");
                 option.value = plan.id;
-                option.dataset.price = plan.monthly_amount;
+                option.dataset.monthly = plan.monthly_amount;
+                option.dataset.annual = plan.annual_amount;
                 option.textContent = plan.name;
                 plans.appendChild(option);
             });
@@ -266,7 +267,10 @@
 
         function updateBaseValueFromPlan() {
             const selectedPlan = plans.options[plans.selectedIndex];
-            baseValue.value = selectedPlan?.dataset.price ? formatInputMoney(selectedPlan.dataset.price) : "";
+            const amount = selectedPlan?.value === "__all__"
+                ? null
+                : selectedPlan?.dataset[duration.value === "a1" ? "annual" : "monthly"];
+            baseValue.value = amount ? formatInputMoney(amount) : "";
             updateDiscountAvailability();
             syncDiscount("percent");
         }
@@ -424,6 +428,7 @@
             discountValue.setSelectionRange(cursorEnd, cursorEnd);
             syncDiscount("value");
         });
+        duration.addEventListener("change", updateBaseValueFromPlan);
         startDate.addEventListener("change", updateValidityWindow);
         endDate.addEventListener("change", updateValidityWindow);
         form.addEventListener("submit", submitVoucher);
