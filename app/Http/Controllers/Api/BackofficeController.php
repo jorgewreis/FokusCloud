@@ -110,8 +110,9 @@ class BackofficeController extends Controller
         ]);
 
         $productId = $data['product_id'] ?? null;
+        $systemSegment = null;
         if (! $productId && ! empty($data['system'])) {
-            $productId = DB::table('products')->where('id', $data['system'])->orWhere('name', $data['system'])->value('id');
+            [$productId, $systemSegment] = $this->resolvePlanSystem($data['system']);
         }
         abort_unless($productId, 422, 'O sistema selecionado não está disponível no catálogo.');
         abort_unless(DB::table('products')->where('id', $productId)->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
@@ -130,7 +131,7 @@ class BackofficeController extends Controller
             'product_id' => $productId,
             'code' => $normalizedCode,
             'name' => trim((string) ($data['base_name'] ?? $data['name'])),
-            'segment' => $data['segment'] ?? null,
+            'segment' => $data['segment'] ?? $systemSegment,
             'status' => $status,
             'publication_state' => $publicationState,
             'display_order' => $displayOrder,
@@ -166,8 +167,10 @@ class BackofficeController extends Controller
         abort_unless($current, 404, 'Plano não encontrado.');
 
         $productId = $data['product_id'] ?? $current->product_id;
+        $systemSegment = null;
         if (! empty($data['system'])) {
-            $productId = DB::table('products')->where('id', $data['system'])->orWhere('name', $data['system'])->value('id') ?: $productId;
+            [$resolvedProductId, $systemSegment] = $this->resolvePlanSystem($data['system']);
+            $productId = $resolvedProductId ?: $productId;
         }
         abort_unless(DB::table('products')->where('id', $productId)->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
 
@@ -187,7 +190,7 @@ class BackofficeController extends Controller
             'product_id' => $productId,
             'code' => $code,
             'name' => trim((string) ($data['base_name'] ?? $data['name'] ?? $current->name)),
-            'segment' => array_key_exists('segment', $data) ? $data['segment'] : $current->segment,
+            'segment' => array_key_exists('segment', $data) ? $data['segment'] : ($systemSegment ?? $current->segment),
             'status' => $status,
             'publication_state' => $publicationState,
             'display_order' => $displayOrder,
@@ -286,7 +289,7 @@ class BackofficeController extends Controller
             'code' => $plan->code,
             'name' => $plan->name,
             'base_name' => $plan->name,
-            'system' => $plan->product_name,
+            'system' => $this->planSystemLabel($plan->product_name, $plan->segment),
             'full_name' => $plan->full_name,
             'segment' => $plan->segment,
             'status' => $plan->status,
@@ -317,6 +320,34 @@ class BackofficeController extends Controller
             'pausado', 'paused' => 'pausado',
             'arquivado', 'archived' => 'arquivado',
             default => 'rascunho',
+        };
+    }
+
+    private function resolvePlanSystem(string $system): array
+    {
+        $system = trim($system);
+        $leadLines = [
+            'Fokus Cloud Lead One' => 'one',
+            'Fokus Cloud Lead Team' => 'team',
+        ];
+
+        if (isset($leadLines[$system])) {
+            return [DB::table('products')->where('name', 'Fokus Cloud Lead')->value('id'), $leadLines[$system]];
+        }
+
+        return [DB::table('products')->where('id', $system)->orWhere('name', $system)->value('id'), null];
+    }
+
+    private function planSystemLabel(string $productName, ?string $segment): string
+    {
+        if ($productName !== 'Fokus Cloud Lead') {
+            return $productName;
+        }
+
+        return match ($segment) {
+            'one' => 'Fokus Cloud Lead One',
+            'team' => 'Fokus Cloud Lead Team',
+            default => $productName,
         };
     }
 
