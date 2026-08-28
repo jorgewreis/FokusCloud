@@ -310,6 +310,7 @@
                         ? {
                             ...plan,
                             ...(options.body.status !== undefined ? { status: options.body.status } : {}),
+                            ...(options.body.publication_state !== undefined ? { publication_state: options.body.publication_state } : {}),
                             ...(options.body.display_order !== undefined ? { display_order: Number(options.body.display_order) } : {}),
                         }
                         : plan);
@@ -515,10 +516,15 @@
                 const nextStatus = button.dataset.planTarget || (plan.status === "ativo" ? "inativo" : "ativo");
                 const nextLabel = getStatusLabel(nextStatus).toLowerCase();
                 if (!window.confirm(`Alternar este plano para ${nextLabel}?`)) return;
+                const nextPublicationState = nextStatus === "ativo"
+                    ? (plan.publication_state === "rascunho" ? "publicado" : plan.publication_state || "publicado")
+                    : (plan.publication_state === "publicado" ? "pausado" : plan.publication_state || "pausado");
                 if (standalone) {
-                    await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { status: nextStatus } });
+                    await api.request(`/backoffice/plans/${id}`, { method: "PATCH", body: { status: nextStatus, publication_state: nextPublicationState } });
                 } else {
-                    planRows = planRows.map((item) => item.id === id ? { ...item, status: nextStatus } : item);
+                    planRows = planRows.map((item) => item.id === id
+                        ? { ...item, status: nextStatus, publication_state: nextPublicationState }
+                        : item);
                     renderPlans(planRows);
                 }
                 setMessage(`Plano atualizado para ${nextLabel}.`, "success");
