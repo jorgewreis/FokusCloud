@@ -110,6 +110,36 @@
             assinaturas: "subscriptions",
             vouchers: "vouchers",
         };
+        const nameParticles = new Set(["de", "da", "do", "das", "dos", "e"]);
+
+        function formatSidebarAdminName(fullName) {
+            const words = String(fullName || "").trim().split(/\s+/).filter(Boolean);
+
+            if (!words.length) {
+                return "";
+            }
+
+            const parts = [words[0]];
+
+            for (let index = 1; index < words.length; index += 1) {
+                const word = words[index];
+                const lower = word.toLowerCase();
+
+                if (nameParticles.has(lower)) {
+                    const next = words[index + 1];
+                    if (next && !nameParticles.has(next.toLowerCase())) {
+                        parts.push(`${word} ${next}`);
+                        break;
+                    }
+                    continue;
+                }
+
+                parts.push(word);
+                break;
+            }
+
+            return parts.join(" ").trim();
+        }
 
         function runPageScripts(container) {
             container.querySelectorAll("script").forEach((script) => {
@@ -160,7 +190,7 @@
             try {
                 const response = await FokusApi.request("/backoffice/auth/me");
                 if (response?.admin?.name) {
-                    document.querySelector("#admin-name").textContent = response.admin.name;
+                    document.querySelector("#admin-name").textContent = formatSidebarAdminName(response.admin.name);
                 }
             } catch (error) {
                 location.replace("/backoffice/acesso");

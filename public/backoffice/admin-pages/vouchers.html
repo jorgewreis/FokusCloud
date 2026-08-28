@@ -5,7 +5,7 @@
         <p class="text-heading-5 text-muted">Crie e acompanhe vouchers promocionais.</p>
     </div>
 
-    <hr style="width: calc(100% - 35px);">
+    <hr style="width: 100%;">
 
     <form class="form-panel" id="voucher-form">
         <div class="col">
@@ -15,12 +15,12 @@
                     <input id="voucher-name" name="name" type="text" autocomplete="off" required>
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-code">Código</label>
                     <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-status">Status</label>
                     <select id="voucher-status" name="status" required>
                         <option value="ativa" selected>Ativo</option>
@@ -38,21 +38,21 @@
                     </select>
                 </div>
 
-                <div class="form-field w-5">
+                <div class="form-field w-4">
                     <label for="voucher-plans">Planos aplicáveis</label>
                     <select id="voucher-plans" name="plan_id" required disabled>
                         <option value="" selected disabled>Selecione um sistema</option>
                     </select>
                 </div>
 
-                <div class="form-field w-4" id="voucher-base-field">
+                <div class="form-field w-3" id="voucher-base-field">
                     <label for="voucher-base-value">Valor da assinatura</label>
                     <input id="voucher-base-value" name="base_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
                 </div>
             </div>
 
             <div class="form-line">
-                <div class="form-field w-5">
+                <div class="form-field w-4">
                     <label for="voucher-discount-type">Tipo de desconto</label>
                     <select id="voucher-discount-type" name="discount_mode" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -67,12 +67,12 @@
                     <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
                 </div>
 
-                <div class="form-field w-3" id="voucher-discount-value-field">
+                <div class="form-field w-2" id="voucher-discount-value-field">
                     <label for="voucher-discount-value">Desconto R$</label>
                     <input id="voucher-discount-value" name="discount_value_display" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00">
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-duration">Duração do benefício após ativação</label>
                     <select id="voucher-duration" name="benefit_duration" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -86,12 +86,12 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-start-date">Início da validade do voucher</label>
                     <input id="voucher-start-date" name="starts_at" type="date" required>
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-end-date">Fim da validade do voucher</label>
                     <input id="voucher-end-date" name="ends_at" type="date" required>
                 </div>
@@ -101,14 +101,14 @@
                     <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-3">
                     <label for="voucher-company-limit">Limite por empresa</label>
                     <input id="voucher-company-limit" name="redemption_limit_per_company" type="number" min="1" step="1" value="1" required>
                 </div>
             </div>
 
             <div class="form-line">
-                <div class="form-field w-6">
+                <div class="form-field w-4">
                     <label for="voucher-origin">Campanha/origem</label>
                     <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
                 </div>
@@ -125,7 +125,7 @@
             <button class="button button-secondary" type="reset">Limpar</button>
         </div>
 
-        <p class="form-help" id="voucher-message" role="status"></p>
+        <div class="system-notice" id="voucher-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </form>
 
     <div class="table-panel">
@@ -170,6 +170,7 @@
         const message = document.querySelector("#voucher-message");
         let catalog = [];
         let codeSuffix = "";
+        let messageTimer = null;
 
         const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
         const toMoney = (value) => Number(value || 0).toFixed(2);
@@ -205,10 +206,20 @@
         today.setHours(0, 0, 0, 0);
         startDate.min = toDateValue(today);
 
-        function setMessage(text, type = "") {
-            message.textContent = text;
-            message.classList.toggle("text-danger", type === "danger");
-            message.classList.toggle("text-success", type === "success");
+        function setMessage(text, type = "info") {
+            clearTimeout(messageTimer);
+            message.textContent = text || "";
+            message.hidden = !text;
+            if (!text) {
+                message.removeAttribute("data-tone");
+                return;
+            }
+            message.dataset.tone = type || "info";
+            messageTimer = setTimeout(() => {
+                message.textContent = "";
+                message.hidden = true;
+                message.removeAttribute("data-tone");
+            }, 5000);
         }
 
         function statusMeta(status) {
