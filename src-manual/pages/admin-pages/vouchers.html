@@ -117,14 +117,6 @@
                     <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
-                    <label for="voucher-status">Status</label>
-                    <select id="voucher-status" name="status" required>
-                        <option value="ativa" selected>Ativo</option>
-                        <option value="suspensa">Pausado</option>
-                        <option value="encerrada">Cancelado</option>
-                    </select>
-                </div>
             </div>
 
             <div class="form-line">
@@ -153,7 +145,7 @@
                     <label for="voucher-discount-type">Tipo de desconto</label>
                     <select id="voucher-discount-type" name="discount_mode" required>
                         <option value="" selected disabled>Selecione aqui</option>
-                        <option value="trial">Assinatura Trial Free</option>
+                        <option value="trial_free">Assinatura gratuita</option>
                         <option value="percentage">Desconto percentual</option>
                         <option value="fixed">Desconto por valor fixo</option>
                     </select>
@@ -262,7 +254,7 @@
             if (!document.querySelector('link[data-voucher-standalone-css]')) {
                 const css = document.createElement("link");
                 css.rel = "stylesheet";
-                css.href = "./../../assets/css/main.css?v=20260828-8";
+                css.href = "./../../assets/css/main.css?v=20260828-12";
                 css.dataset.voucherStandaloneCss = "true";
                 document.head.appendChild(css);
             }
@@ -319,7 +311,7 @@
                 code: "TRIAL7",
                 name: "Trial de ativação",
                 product_name: "Fokus Cloud",
-                discount_type: "percentage",
+                discount_type: "trial_free",
                 discount_value: 100,
                 base_amount: 299.9,
                 redemptions_count: 25,
@@ -336,17 +328,17 @@
                     id: "prd_law",
                     name: "Fokus Cloud Law - Jurídico",
                     plans: [
-                        { id: "law_starter", name: "Starter", monthly_amount: 149.9, annual_amount: 1499 },
-                        { id: "law_professional", name: "Professional", monthly_amount: 299.9, annual_amount: 2999 },
-                        { id: "law_enterprise", name: "Enterprise", monthly_amount: 499, annual_amount: 4990 },
+                        { id: "law_starter", name: "Starter", monthly_amount: 149.9, annual_amount: 1344.9 },
+                        { id: "law_professional", name: "Professional", monthly_amount: 299.9, annual_amount: 2694.9 },
+                        { id: "law_enterprise", name: "Enterprise", monthly_amount: 499, annual_amount: 4489.9 },
                     ],
                 },
                 {
                     id: "prd_lead",
                     name: "Fokus Cloud Lead - Imobiliário",
                     plans: [
-                        { id: "lead_starter", name: "Starter", monthly_amount: 99.9, annual_amount: 999 },
-                        { id: "lead_professional", name: "Professional", monthly_amount: 299.9, annual_amount: 2999 },
+                        { id: "lead_starter", name: "Starter", monthly_amount: 99.9, annual_amount: 894.9 },
+                        { id: "lead_professional", name: "Professional", monthly_amount: 299.9, annual_amount: 2694.9 },
                     ],
                 },
             ],
@@ -461,7 +453,7 @@
                 option.value = plan.id;
                 option.dataset.monthly = plan.monthly_amount;
                 option.dataset.annual = plan.annual_amount;
-                option.textContent = plan.name;
+                option.textContent = plan.full_name || `${selectedProduct.name} - ${plan.name}`;
                 plans.appendChild(option);
             });
 
@@ -471,7 +463,7 @@
 
         function updateDiscountAvailability() {
             const allPlans = plans.value === "__all__";
-            discountType.querySelector('option[value="trial"]').disabled = allPlans;
+            discountType.querySelector('option[value="trial_free"]').disabled = allPlans;
             discountType.querySelector('option[value="fixed"]').disabled = allPlans;
             baseField.hidden = allPlans;
             discountValueField.hidden = allPlans;
@@ -504,7 +496,7 @@
         function syncDiscount(source) {
             const base = parseInputMoney(baseValue.value);
 
-            if (discountType.value === "trial") {
+            if (discountType.value === "trial_free") {
                 discountPercent.value = "100.00";
                 discountValue.value = base ? formatMoneyValue(base) : "";
                 discountPercent.disabled = true;
@@ -576,12 +568,20 @@
             }
 
             voucherList.innerHTML = rows.map((voucher) => {
-                const [statusLabel, statusClass] = statusMeta(voucher.computed_status || voucher.status);
-                const discount = voucher.discount_type === "percentage"
+                const currentStatus = voucher.computed_status || voucher.status;
+                const [statusLabel, statusClass] = statusMeta(currentStatus);
+                const discount = voucher.discount_type === "trial_free"
+                    ? `Assinatura gratuita | 100%`
+                    : voucher.discount_type === "percentage"
                     ? `${Number(voucher.discount_value).toLocaleString("pt-BR")}% | ${formatMoney((Number(voucher.base_amount || 0) * Number(voucher.discount_value || 0)) / 100)}`
                     : `${formatMoney(voucher.discount_value)}`;
                 const used = `${voucher.redemptions_count || 0} / ${voucher.redemption_limit || "-"}`;
                 const validity = `${formatDate(voucher.starts_at)} até ${formatDate(voucher.ends_at)}`;
+                const actionButton = currentStatus === "expired"
+                    ? ""
+                    : voucher.status === "suspensa"
+                        ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}Add-Square--Streamline-Ultimate.png" alt=""></button>`
+                        : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}Subtract-Square--Streamline-Ultimate.png" alt=""></button>`;
 
                 return `<tr>
                     <td>${escapeHtml(voucher.code)}</td>
@@ -592,9 +592,7 @@
                     <td>${escapeHtml(validity)}</td>
                     <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
                     <td class="voucher-actions">
-                        ${voucher.status === "suspensa"
-                            ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}Add-Square--Streamline-Ultimate.png" alt=""></button>`
-                            : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}Subtract-Square--Streamline-Ultimate.png" alt=""></button>`}
+                        ${actionButton}
                         <button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}Remove-Square-1--Streamline-Ultimate.png" alt=""></button>
                     </td>
                 </tr>`;
@@ -608,7 +606,7 @@
             const payload = {
                 name: values.name,
                 code: null,
-                status: values.status,
+                status: "ativa",
                 product_id: values.product_id,
                 plan_id: values.plan_id === "__all__" ? null : values.plan_id,
                 base_amount: values.plan_id === "__all__" ? null : parseInputMoney(values.base_amount),
@@ -619,8 +617,12 @@
                 redemption_limit_per_company: values.redemption_limit_per_company,
                 origin: values.origin,
                 notes: values.notes,
-                discount_type: discountMode === "fixed" ? "fixed" : "percentage",
-                discount_value: discountMode === "fixed" ? parseInputMoney(discountValue.value) : discountPercent.value,
+                discount_type: discountMode,
+                discount_value: discountMode === "trial_free"
+                    ? 100
+                    : discountMode === "fixed"
+                        ? parseInputMoney(discountValue.value)
+                        : discountPercent.value,
             };
 
             try {

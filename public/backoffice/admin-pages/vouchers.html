@@ -453,7 +453,7 @@
                 option.value = plan.id;
                 option.dataset.monthly = plan.monthly_amount;
                 option.dataset.annual = plan.annual_amount;
-                option.textContent = plan.name;
+                option.textContent = plan.full_name || `${selectedProduct.name} - ${plan.name}`;
                 plans.appendChild(option);
             });
 
