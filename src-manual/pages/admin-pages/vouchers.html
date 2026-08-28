@@ -17,7 +17,7 @@
 
                 <div class="form-field w-4">
                 <label for="voucher-code">Código</label>
-                <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" required>
+                <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
 
                 <div class="form-field w-4">
@@ -46,16 +46,18 @@
                 <label for="voucher-plans">Planos aplicáveis</label>
                 <select id="voucher-plans" name="plans" required>
                     <option value="" selected disabled>Selecione aqui</option>
+                    <option value="__all__">Todos</option>
                     <option value="starter" data-price="149.90">Starter</option>
                     <option value="professional" data-price="299.90">Professional</option>
                     <option value="enterprise" data-price="499.90">Enterprise</option>
                 </select>
                 </div>
 
-                <div class="form-field w-4">
-                <label for="voucher-base-value">Valor da assinatura</label>
-                <input id="voucher-base-value" name="base_value" type="number" min="0" step="0.01" placeholder="R$ 0,00" readonly required>
+                <div class="form-field w-4" id="voucher-base-field">
+                    <label for="voucher-base-value">Valor da assinatura</label>
+                    <input id="voucher-base-value" name="base_value" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
                 </div>
+
             </div>
 
             <div class="form-line">
@@ -74,13 +76,13 @@
                 <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" id="voucher-discount-value-field">
                 <label for="voucher-discount-value">Desconto R$</label>
-                <input id="voucher-discount-value" name="discount_value" type="number" min="0" step="0.01" placeholder="R$ 0,00">
+                <input id="voucher-discount-value" name="discount_value" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00">
                 </div>
 
                 <div class="form-field w-4">
-                <label for="voucher-duration">Duração do benefício</label>
+                <label for="voucher-duration">Duração do benefício após ativação</label>
                 <select id="voucher-duration" name="duration" required>
                     <option value="" selected disabled>Selecione aqui</option>
                     <option value="d7">7 dias</option>
@@ -94,13 +96,13 @@
 
             <div class="form-line">
                 <div class="form-field w-4">
-                <label for="voucher-start-date">Data inicial</label>
+                    <label for="voucher-start-date">Início da validade do voucher</label>
                 <input id="voucher-start-date" name="starts_at" type="date" required>
                 </div>
 
                 <div class="form-field w-4">
-                <label for="voucher-end-date">Data final</label>
-                <input id="voucher-end-date" name="ends_at" type="date" readonly required>
+                    <label for="voucher-end-date">Fim da validade do voucher</label>
+                    <input id="voucher-end-date" name="ends_at" type="date" required>
                 </div>
 
                 <div class="form-field w-4">
@@ -144,6 +146,7 @@
                     <th>Uso</th>
                     <th>Validade</th>
                     <th>Status</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -155,6 +158,7 @@
                     <td>12 / 100</td>
                     <td>27/08/2026 até 27/08/2027</td>
                     <td><span class="status-pill status-active">Ativo</span></td>
+                    <td class="voucher-actions"><button class="icon-button" type="button" title="Pausar voucher" aria-label="Pausar voucher"><img src="./../assets/icons/Subtract-Square--Streamline-Ultimate.png" alt=""></button><button class="icon-button icon-button-danger" type="button" title="Excluir voucher" aria-label="Excluir voucher"><img src="./../assets/icons/Remove-Square-1--Streamline-Ultimate.png" alt=""></button></td>
                 </tr>
                 <tr>
                     <td>LEAD30</td>
@@ -164,6 +168,7 @@
                     <td>8 / 50</td>
                     <td>01/09/2026 até 01/12/2026</td>
                     <td><span class="status-pill status-paused">Pausado</span></td>
+                    <td class="voucher-actions"><button class="icon-button" type="button" title="Reativar voucher" aria-label="Reativar voucher"><img src="./../assets/icons/Add-Square--Streamline-Ultimate.png" alt=""></button><button class="icon-button icon-button-danger" type="button" title="Excluir voucher" aria-label="Excluir voucher"><img src="./../assets/icons/Remove-Square-1--Streamline-Ultimate.png" alt=""></button></td>
                 </tr>
                 <tr>
                     <td>TRIAL7</td>
@@ -173,6 +178,7 @@
                     <td>25 / 25</td>
                     <td>01/07/2026 até 08/07/2026</td>
                     <td><span class="status-pill status-expired">Expirado</span></td>
+                    <td class="voucher-actions"><button class="icon-button icon-button-danger" type="button" title="Excluir voucher" aria-label="Excluir voucher"><img src="./../assets/icons/Remove-Square-1--Streamline-Ultimate.png" alt=""></button></td>
                 </tr>
                 <tr>
                     <td>OLDLAW</td>
@@ -182,6 +188,7 @@
                     <td>3 / 30</td>
                     <td>01/06/2026 até 01/09/2026</td>
                     <td><span class="status-pill status-cancelled">Cancelado</span></td>
+                    <td class="voucher-actions"><button class="icon-button" type="button" title="Reativar voucher" aria-label="Reativar voucher"><img src="./../assets/icons/Add-Square--Streamline-Ultimate.png" alt=""></button><button class="icon-button icon-button-danger" type="button" title="Excluir voucher" aria-label="Excluir voucher"><img src="./../assets/icons/Remove-Square-1--Streamline-Ultimate.png" alt=""></button></td>
                 </tr>
             </tbody>
         </table>
@@ -192,17 +199,29 @@
 <script>
     (() => {
         const form = document.querySelector("#voucher-form");
+        const name = document.querySelector("#voucher-name");
+        const code = document.querySelector("#voucher-code");
         const plans = document.querySelector("#voucher-plans");
         const baseValue = document.querySelector("#voucher-base-value");
         const discountType = document.querySelector("#voucher-discount-type");
         const discountPercent = document.querySelector("#voucher-discount-percent");
         const discountValue = document.querySelector("#voucher-discount-value");
+        const baseField = document.querySelector("#voucher-base-field");
+        const discountValueField = document.querySelector("#voucher-discount-value-field");
         const duration = document.querySelector("#voucher-duration");
         const startDate = document.querySelector("#voucher-start-date");
         const endDate = document.querySelector("#voucher-end-date");
 
         const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
         const toMoney = (value) => Number(value || 0).toFixed(2);
+        const formatInputMoney = (value) => {
+            const digits = String(value ?? "").replace(/\D/g, "");
+            return digits ? (Number(digits) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "";
+        };
+        const parseInputMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
+        const normalizeCode = (value) => String(value || "")
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 48);
         const toDateValue = (date) => date.toISOString().slice(0, 10);
 
         const today = new Date();
@@ -211,16 +230,28 @@
 
         function updateBaseValueFromPlan() {
             const selectedPlan = plans.options[plans.selectedIndex];
-            baseValue.value = selectedPlan?.dataset.price || "";
+            baseValue.value = selectedPlan?.dataset.price ? formatInputMoney(selectedPlan.dataset.price) : "";
+            const allPlans = plans.value === "__all__";
+            discountType.querySelector('option[value="trial"]').disabled = allPlans;
+            discountType.querySelector('option[value="fixed"]').disabled = allPlans;
+            baseField.hidden = allPlans;
+            discountValueField.hidden = allPlans;
+            baseValue.disabled = allPlans;
+            discountValue.disabled = allPlans;
+            if (allPlans) {
+                discountType.value = "percentage";
+                baseValue.value = "";
+                discountValue.value = "";
+            }
             syncDiscount("percent");
         }
 
         function syncDiscount(source) {
-            const base = toNumber(baseValue.value);
+            const base = parseInputMoney(baseValue.value);
 
             if (discountType.value === "trial") {
                 discountPercent.value = "100.00";
-                discountValue.value = base ? toMoney(base) : "";
+                discountValue.value = base ? formatInputMoney(base) : "";
                 discountPercent.disabled = true;
                 discountValue.disabled = true;
                 return;
@@ -236,50 +267,47 @@
             }
 
             if (source === "value") {
-                const value = Math.min(toNumber(discountValue.value), base);
-                discountValue.value = value ? toMoney(value) : "";
+                const value = Math.min(parseInputMoney(discountValue.value), base);
+                discountValue.value = value ? formatInputMoney(value) : "";
                 discountPercent.value = value ? toMoney((value / base) * 100) : "";
                 return;
             }
 
             const percent = Math.min(toNumber(discountPercent.value), 100);
             discountPercent.value = percent ? toMoney(percent) : "";
-            discountValue.value = percent ? toMoney(base * (percent / 100)) : "";
+            discountValue.value = percent ? formatInputMoney(base * (percent / 100)) : "";
         }
 
-        function calculateEndDate() {
-            if (!startDate.value || !duration.value) return;
+        name.addEventListener("input", () => { code.value = normalizeCode(name.value); });
 
-            const currentStart = new Date(`${startDate.value}T00:00:00`);
-
-            if (currentStart < today) {
-                startDate.value = toDateValue(today);
-            }
-
-            const calculatedEnd = new Date(`${startDate.value}T00:00:00`);
-            const durationMap = {
-                d7: () => calculatedEnd.setDate(calculatedEnd.getDate() + 7),
-                m1: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 1),
-                m3: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 3),
-                m6: () => calculatedEnd.setMonth(calculatedEnd.getMonth() + 6),
-                a1: () => calculatedEnd.setFullYear(calculatedEnd.getFullYear() + 1),
-            };
-
-            durationMap[duration.value]?.();
-            endDate.value = toDateValue(calculatedEnd);
+        function updateValidityWindow() {
+            if (!startDate.value) return;
+            endDate.min = startDate.value;
+            if (endDate.value && endDate.value < startDate.value) endDate.value = "";
         }
 
         discountType.addEventListener("change", () => syncDiscount("percent"));
         plans.addEventListener("change", updateBaseValueFromPlan);
         discountPercent.addEventListener("input", () => syncDiscount("percent"));
-        discountValue.addEventListener("input", () => syncDiscount("value"));
-        duration.addEventListener("change", calculateEndDate);
-        startDate.addEventListener("change", calculateEndDate);
+        discountValue.addEventListener("input", () => {
+            discountValue.value = formatInputMoney(discountValue.value);
+            syncDiscount("value");
+        });
+        startDate.addEventListener("change", updateValidityWindow);
+        endDate.addEventListener("change", updateValidityWindow);
 
         form.addEventListener("reset", () => {
             setTimeout(() => {
                 startDate.min = toDateValue(today);
+                endDate.min = "";
                 endDate.value = "";
+                const allPlans = plans.value === "__all__";
+                discountType.querySelector('option[value="trial"]').disabled = allPlans;
+                discountType.querySelector('option[value="fixed"]').disabled = allPlans;
+                baseField.hidden = allPlans;
+                discountValueField.hidden = allPlans;
+                baseValue.disabled = allPlans;
+                discountValue.disabled = allPlans;
                 syncDiscount("percent");
             });
         });

@@ -27,9 +27,13 @@ O desconto deve ser calculado sobre o preco vigente do plano no momento do resga
 
 O percentual deve estar entre 0 e 100. Valores monetarios devem usar BRL com duas casas decimais. O backend nunca deve confiar apenas no calculo feito pelo navegador.
 
-## Validade e status
+## Validade, beneficio e status
 
-O cadastro deve exigir data inicial igual ou posterior a hoje. A data final e calculada a partir da duracao do beneficio.
+O cadastro deve exigir inicio da validade igual ou posterior a hoje e fim da validade posterior ao inicio. A duracao do beneficio e informada separadamente.
+
+As datas inicial e final do cadastro representam somente a janela de validade do voucher, ou seja, o periodo em que o codigo pode ser resgatado. A duracao do beneficio comeca na ativacao pela empresa ou usuario e nao na data inicial do voucher.
+
+No resgate, `benefit_starts_at` recebe a data efetiva da ativacao e `benefit_ends_at` e calculada a partir de `benefit_duration`. Um trial anual ativado em 15/09/2026 termina em 15/09/2027, ainda que a validade do voucher termine antes ou depois.
 
 Status comerciais:
 

@@ -59,6 +59,8 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription']);
     Route::get('/vouchers', [BackofficeController::class, 'vouchers']);
     Route::post('/vouchers', [BackofficeController::class, 'createVoucher']);
+    Route::patch('/vouchers/{voucher}', [BackofficeController::class, 'updateVoucherStatus']);
+    Route::delete('/vouchers/{voucher}', [BackofficeController::class, 'deleteVoucher']);
     Route::post('/admins', [BackofficeController::class, 'createAdmin']);
     Route::post('/users/{user}/force-password-reset', [BackofficeController::class, 'forcePasswordReset']);
     Route::get('/audit', [BackofficeController::class, 'audit']);

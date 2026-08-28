@@ -169,6 +169,45 @@ class BackofficeController extends Controller
         return response()->json(['id' => $id, 'message' => 'Voucher criado.'], 201);
     }
 
+    public function updateVoucherStatus(Request $request, string $voucher, PlatformAudit $audit)
+    {
+        $data = $request->validate(['status' => ['required', Rule::in(['ativa', 'suspensa'])]]);
+        $current = DB::table('vouchers')->where('id', $voucher)->first();
+        abort_unless($current, 404, 'Voucher não encontrado.');
+
+        DB::table('vouchers')->where('id', $voucher)->update([
+            'status' => $data['status'],
+            'updated_at' => now(),
+        ]);
+
+        $audit->record(
+            $request->user()->id,
+            'backoffice.voucher_' . ($data['status'] === 'ativa' ? 'reactivated' : 'paused'),
+            'voucher',
+            $voucher,
+            reason: $data['status'] === 'ativa' ? 'Reativação de voucher' : 'Pausa de voucher',
+            request: $request,
+        );
+
+        return response()->json(['message' => 'Status do voucher atualizado.']);
+    }
+
+    public function deleteVoucher(Request $request, string $voucher, PlatformAudit $audit)
+    {
+        $current = DB::table('vouchers')->where('id', $voucher)->first();
+        abort_unless($current, 404, 'Voucher não encontrado.');
+        abort_if(
+            DB::table('voucher_redemptions')->where('voucher_id', $voucher)->exists(),
+            422,
+            'Vouchers com resgates não podem ser excluídos. Pause o voucher para impedir novos usos.',
+        );
+
+        DB::table('vouchers')->where('id', $voucher)->delete();
+        $audit->record($request->user()->id, 'backoffice.voucher_deleted', 'voucher', $voucher, reason: 'Exclusão de voucher', request: $request);
+
+        return response()->noContent();
+    }
+
     public function forcePasswordReset(Request $request, string $user, AuthController $auth, PlatformAudit $audit)
     {
         $data = $request->validate(['reason' => ['required', 'string', 'max:1000'], 'support_ticket' => ['required', 'string', 'max:100']]);
