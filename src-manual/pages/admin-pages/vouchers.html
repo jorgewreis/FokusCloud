@@ -1,3 +1,100 @@
+<style>
+    .voucher-page .form-panel,
+    .voucher-page .form-panel > .col {
+        width: 100%;
+    }
+
+    .voucher-page .form-line {
+        display: grid !important;
+        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+        align-items: end !important;
+        gap: 20px 24px !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin-top: 20px !important;
+    }
+
+    .voucher-page .form-line > .form-field {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .voucher-page .form-line > .w-1 {
+        grid-column: span 1 !important;
+    }
+
+    .voucher-page .form-line > .w-2 {
+        grid-column: span 2 !important;
+    }
+
+    .voucher-page .form-line > .w-3 {
+        grid-column: span 3 !important;
+    }
+
+    .voucher-page .form-line > .w-4 {
+        grid-column: span 4 !important;
+    }
+
+    .voucher-page .form-line > .w-5 {
+        grid-column: span 5 !important;
+    }
+
+    .voucher-page .form-line > .w-6 {
+        grid-column: span 6 !important;
+    }
+
+    .voucher-page .form-line > .w-7 {
+        grid-column: span 7 !important;
+    }
+
+    .voucher-page .form-line > .w-8 {
+        grid-column: span 8 !important;
+    }
+
+    .voucher-page .form-line > .w-9 {
+        grid-column: span 9 !important;
+    }
+
+    @media (max-width: 980px) {
+        .voucher-page .form-line {
+            grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        }
+
+        .voucher-page .form-line > .w-1,
+        .voucher-page .form-line > .w-2 {
+            grid-column: span 1 !important;
+        }
+
+        .voucher-page .form-line > .w-3,
+        .voucher-page .form-line > .w-4,
+        .voucher-page .form-line > .w-5,
+        .voucher-page .form-line > .w-6,
+        .voucher-page .form-line > .w-7,
+        .voucher-page .form-line > .w-8,
+        .voucher-page .form-line > .w-9 {
+            grid-column: span 3 !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .voucher-page .form-line {
+            grid-template-columns: 1fr !important;
+        }
+
+        .voucher-page .form-line > .w-1,
+        .voucher-page .form-line > .w-2,
+        .voucher-page .form-line > .w-3,
+        .voucher-page .form-line > .w-4,
+        .voucher-page .form-line > .w-5,
+        .voucher-page .form-line > .w-6,
+        .voucher-page .form-line > .w-7,
+        .voucher-page .form-line > .w-8,
+        .voucher-page .form-line > .w-9 {
+            grid-column: 1 / -1 !important;
+        }
+    }
+</style>
+
 <div class="voucher-page d-flex col">
 
     <div class="col gap-3 mb-3">
