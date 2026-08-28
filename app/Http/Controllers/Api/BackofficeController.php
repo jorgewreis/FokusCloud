@@ -76,8 +76,8 @@ class BackofficeController extends Controller
                     'status' => $plan->status,
                     'display_order' => $plan->display_order,
                     'featured' => (bool) $plan->featured,
-                    'monthly_amount' => CatalogPricing::suggestedMonthly((float) $plan->monthly_amount),
-                    'annual_amount' => CatalogPricing::annualFromMonthly(CatalogPricing::suggestedMonthly((float) $plan->monthly_amount)),
+                    'monthly_amount' => $plan->monthly_amount,
+                    'annual_amount' => $plan->annual_amount,
                     'modules' => DB::table('plan_modules as plan_module')
                         ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
                         ->where('plan_module.plan_id', $plan->id)
@@ -103,6 +103,7 @@ class BackofficeController extends Controller
             'name' => ['required', 'string', 'max:120'],
             'base_name' => ['nullable', 'string', 'max:120'],
             'segment' => ['nullable', 'string', 'max:16'],
+            'monthly_amount' => ['nullable', 'numeric', 'min:0'],
             'status' => ['nullable', 'string', 'max:32'],
             'publication_state' => ['nullable', 'string', 'max:32'],
             'display_order' => ['nullable', 'integer', 'min:0'],
@@ -131,6 +132,7 @@ class BackofficeController extends Controller
             'product_id' => $productId,
             'code' => $normalizedCode,
             'name' => trim((string) ($data['base_name'] ?? $data['name'])),
+            'monthly_amount' => $data['monthly_amount'] ?? null,
             'segment' => $data['segment'] ?? $systemSegment,
             'status' => $status,
             'publication_state' => $publicationState,
@@ -157,6 +159,7 @@ class BackofficeController extends Controller
             'name' => ['nullable', 'string', 'max:120'],
             'base_name' => ['nullable', 'string', 'max:120'],
             'segment' => ['nullable', 'string', 'max:16'],
+            'monthly_amount' => ['nullable', 'numeric', 'min:0'],
             'status' => ['nullable', 'string', 'max:32'],
             'publication_state' => ['nullable', 'string', 'max:32'],
             'display_order' => ['nullable', 'integer', 'min:0'],
@@ -190,6 +193,7 @@ class BackofficeController extends Controller
             'product_id' => $productId,
             'code' => $code,
             'name' => trim((string) ($data['base_name'] ?? $data['name'] ?? $current->name)),
+            'monthly_amount' => array_key_exists('monthly_amount', $data) ? $data['monthly_amount'] : $current->monthly_amount,
             'segment' => array_key_exists('segment', $data) ? $data['segment'] : ($systemSegment ?? $current->segment),
             'status' => $status,
             'publication_state' => $publicationState,
@@ -257,28 +261,34 @@ class BackofficeController extends Controller
             ->leftJoin('plan_modules as plan_module', 'plan_module.plan_id', '=', 'plan.id')
             ->leftJoin('modules as module', 'module.id', '=', 'plan_module.module_id')
             ->where('product.active', true)
-            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.publication_state', 'plan.display_order', 'plan.featured', 'product.name')
-            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.segment', 'plan.status', 'plan.publication_state', 'plan.display_order', 'plan.featured', 'product.name as product_name', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as monthly_amount'))
+            ->groupBy('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.monthly_amount', 'plan.segment', 'plan.status', 'plan.publication_state', 'plan.display_order', 'plan.featured', 'product.name')
+            ->select('plan.id', 'plan.product_id', 'plan.code', 'plan.name', 'plan.monthly_amount as configured_monthly_amount', 'plan.segment', 'plan.status', 'plan.publication_state', 'plan.display_order', 'plan.featured', 'product.name as product_name', DB::raw('round(coalesce(sum(module.monthly_price), 0), 2) as module_monthly_amount'))
             ->orderBy('plan.product_id')
             ->orderBy('plan.display_order')
             ->orderBy('plan.name')
             ->get();
 
-        return $plans->map(fn ($plan) => (object) [
-            'id' => $plan->id,
-            'product_id' => $plan->product_id,
-            'product_name' => $plan->product_name,
-            'code' => $plan->code,
-            'name' => $plan->name,
-            'full_name' => $plan->product_name.($plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '')).' - '.$plan->name,
-            'segment' => $plan->segment,
-            'status' => $plan->status,
-            'publication_state' => $plan->publication_state,
-            'display_order' => $plan->display_order,
-            'featured' => (bool) $plan->featured,
-            'monthly_amount' => CatalogPricing::suggestedMonthly((float) $plan->monthly_amount),
-            'annual_amount' => CatalogPricing::annualFromMonthly(CatalogPricing::suggestedMonthly((float) $plan->monthly_amount)),
-        ]);
+        return $plans->map(function ($plan) {
+            $monthlyAmount = $plan->configured_monthly_amount === null
+                ? CatalogPricing::suggestedMonthly((float) $plan->module_monthly_amount)
+                : (float) $plan->configured_monthly_amount;
+
+            return (object) [
+                'id' => $plan->id,
+                'product_id' => $plan->product_id,
+                'product_name' => $plan->product_name,
+                'code' => $plan->code,
+                'name' => $plan->name,
+                'full_name' => $plan->product_name.($plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '')).' - '.$plan->name,
+                'segment' => $plan->segment,
+                'status' => $plan->status,
+                'publication_state' => $plan->publication_state,
+                'display_order' => $plan->display_order,
+                'featured' => (bool) $plan->featured,
+                'monthly_amount' => $monthlyAmount,
+                'annual_amount' => CatalogPricing::annualFromMonthly($monthlyAmount),
+            ];
+        });
     }
 
     private function managementPlanRows()
@@ -429,11 +439,14 @@ class BackofficeController extends Controller
 
     private function voucherBaseAmount(string $planId, ?string $duration): float
     {
-        $monthly = (float) DB::table('plan_modules as plan_module')
+        $configuredMonthlyAmount = DB::table('plans')->where('id', $planId)->value('monthly_amount');
+        $moduleMonthlyAmount = (float) DB::table('plan_modules as plan_module')
             ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
             ->where('plan_module.plan_id', $planId)
             ->sum('module.monthly_price');
-        $monthly = CatalogPricing::suggestedMonthly($monthly);
+        $monthly = $configuredMonthlyAmount === null
+            ? CatalogPricing::suggestedMonthly($moduleMonthlyAmount)
+            : (float) $configuredMonthlyAmount;
 
         return match ($duration) {
             'd7' => round($monthly / 30 * 7, 2),
