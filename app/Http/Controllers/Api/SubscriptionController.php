@@ -115,7 +115,11 @@ class SubscriptionController extends Controller
         $quoted = $this->quote($product, $data);
         $voucher = ! empty($data['voucher_code']) ? $this->voucherFor($data['voucher_code'], $product->id, $companyId, array_column($data['items'], 'module_code')) : null;
         if ($voucher) {
-            $discount = $voucher->discount_type === 'percentage' ? $quoted['amount'] * ((float) $voucher->discount_value / 100) : (float) $voucher->discount_value;
+            $discount = match ($voucher->discount_type) {
+                'trial_free' => $quoted['amount'],
+                'percentage' => $quoted['amount'] * ((float) $voucher->discount_value / 100),
+                default => (float) $voucher->discount_value,
+            };
             $quoted['discount_amount'] = round(min($quoted['amount'], $discount), 2);
             $quoted['amount'] = round($quoted['amount'] - $quoted['discount_amount'], 2);
         }

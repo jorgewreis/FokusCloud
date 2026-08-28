@@ -375,7 +375,7 @@ class BackofficeController extends Controller
         $data = $request->validate([
             'name' => ['nullable', 'string', 'max:120'],
             'code' => ['nullable', 'string', 'max:64', 'alpha_num', 'unique:vouchers,code'],
-            'discount_type' => ['required', Rule::in(['percentage', 'fixed'])],
+            'discount_type' => ['required', Rule::in(['trial_free', 'percentage', 'fixed'])],
             'discount_value' => ['required', 'numeric', 'gt:0'],
             'product_id' => ['nullable', 'string', 'size:30'],
             'plan_id' => ['nullable', 'string', 'size:30'],
