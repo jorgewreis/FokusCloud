@@ -107,17 +107,17 @@
     <form class="form-panel" id="voucher-form">
         <div class="col">
             <div class="form-line">
-                <div class="form-field w-6">
+                <div class="form-field w-6" style="width: 100%; min-width: 0; grid-column: span 6;">
                     <label for="voucher-name">Nome do voucher</label>
                     <input id="voucher-name" name="name" type="text" autocomplete="off" required>
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-code">Código</label>
                     <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-status">Status</label>
                     <select id="voucher-status" name="status" required>
                         <option value="ativa" selected>Ativo</option>
@@ -128,28 +128,28 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-5">
+                <div class="form-field w-5" style="width: 100%; min-width: 0; grid-column: span 5;">
                     <label for="voucher-system">Sistema</label>
                     <select id="voucher-system" name="product_id" required>
                         <option value="" selected disabled>Carregando...</option>
                     </select>
                 </div>
 
-                <div class="form-field w-4">
+                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
                     <label for="voucher-plans">Planos aplicáveis</label>
                     <select id="voucher-plans" name="plan_id" required disabled>
                         <option value="" selected disabled>Selecione um sistema</option>
                     </select>
                 </div>
 
-                <div class="form-field w-3" id="voucher-base-field">
+                <div class="form-field w-3" id="voucher-base-field" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-base-value">Valor da assinatura</label>
                     <input id="voucher-base-value" name="base_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
                 </div>
             </div>
 
             <div class="form-line">
-                <div class="form-field w-4">
+                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
                     <label for="voucher-discount-type">Tipo de desconto</label>
                     <select id="voucher-discount-type" name="discount_mode" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -159,17 +159,17 @@
                     </select>
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-discount-percent">Desconto %</label>
                     <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
                 </div>
 
-                <div class="form-field w-2" id="voucher-discount-value-field">
+                <div class="form-field w-2" id="voucher-discount-value-field" style="width: 100%; min-width: 0; grid-column: span 2;">
                     <label for="voucher-discount-value">Desconto R$</label>
                     <input id="voucher-discount-value" name="discount_value_display" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00">
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-duration">Duração do benefício após ativação</label>
                     <select id="voucher-duration" name="benefit_duration" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -183,17 +183,17 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-start-date">Início da validade do voucher</label>
                     <input id="voucher-start-date" name="starts_at" type="date" required>
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-end-date">Fim da validade do voucher</label>
                     <input id="voucher-end-date" name="ends_at" type="date" required>
                 </div>
 
-                <div class="form-field w-3">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
                     <label for="voucher-total">Quantidade total</label>
                     <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
                 </div>
@@ -205,12 +205,12 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-4">
+                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
                     <label for="voucher-origin">Campanha/origem</label>
                     <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
                 </div>
 
-                <div class="form-field w-8">
+                <div class="form-field w-8" style="width: 100%; min-width: 0; grid-column: span 8;">
                     <label for="voucher-notes">Observações internas</label>
                     <textarea id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
                 </div>
