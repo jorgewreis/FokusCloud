@@ -8,9 +8,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- IMPORT CSS -->
-        <link rel="stylesheet" href="/assets/manual/css/base/typography.css?v=20260827">
-        <link rel="stylesheet" href="/assets/manual/css/components/form.css?v=20260827">
-        <link rel="stylesheet" href="/assets/manual/css/main.css?v=20260827">
+        <link rel="stylesheet" href="../assets/manual/css/base/typography.css?v=20260827">
+        <link rel="stylesheet" href="../assets/manual/css/components/form.css?v=20260827">
+        <link rel="stylesheet" href="../assets/manual/css/main.css?v=20260827">
     </head>
     <body>
 
@@ -19,7 +19,7 @@
             <div class="sidebar expanded" id="sidebar">
                 <div class="top">
                     <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
-                        <img src="/assets/manual/icons/Sidebar-Expand--Streamline-Ultimate.png" alt="">
+                        <img src="../assets/manual/icons/Sidebar-Expand--Streamline-Ultimate.png" alt="">
                         <span class="sidebar-button-label title">Fokus<strong>Admin</strong></span>
                     </button>
                     <div class="line-hr-single"></div>
@@ -27,27 +27,27 @@
 
                 <nav class="content sidebar-nav" aria-label="Navegação administrativa">
                     <button class="sidebar-button active" type="button" data-sidebar-item="platform-dashboard">
-                        <img src="/assets/manual/icons/Layout-Dashboard-1--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Layout-Dashboard-1--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Painel geral</span>
                     </button>
                     <button class="sidebar-button" type="button" data-sidebar-item="companies">
-                        <img src="/assets/manual/icons/Small-Office-Tall-Building--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Small-Office-Tall-Building--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Empresas</span>
                     </button>
                     <button class="sidebar-button" type="button" data-sidebar-item="subscription-plans">
-                        <img src="/assets/manual/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Planos</span>
                     </button>
                     <button class="sidebar-button" type="button" data-sidebar-item="subscriptions">
-                        <img src="/assets/manual/icons/Seo-Search--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Seo-Search--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Assinaturas</span>
                     </button>
                     <button class="sidebar-button" type="button" data-sidebar-item="vouchers">
-                        <img src="/assets/manual/icons/Tickets--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Tickets--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Vouchers</span>
                     </button>
                     <button class="sidebar-button" type="button" data-sidebar-item="platform-users">
-                        <img src="/assets/manual/icons/Multiple-Actions-Setting--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Multiple-Actions-Setting--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Admins</span>
                     </button>
                 </nav>
@@ -55,16 +55,16 @@
                 <div class="bottom">
                     <div class="line-hr-single"></div>
                     <div class="sidebar-button">
-                        <img src="/assets/manual/icons/Cog--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Cog--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm text-muted">Configurações</span>
                     </div>
                     <div class="sidebar-button">
-                        <img src="/assets/manual/icons/Settings-User--Streamline-Ultimate.png">
+                        <img src="../assets/manual/icons/Settings-User--Streamline-Ultimate.png">
                         <div class="d-flex col">
                             <span class="sidebar-button-label text-caption text-muted">Administrador logado</span>
                             <span class="sidebar-button-label text-subtitle-sm text-primary" id="admin-name">Jorge Reis</span>
                         </div>
-                        <img class="mini-icon" id="logout" src="/assets/manual/icons/Download-Square-3--Streamline-Ultimate.png">
+                        <img class="mini-icon" id="logout" src="../assets/manual/icons/Download-Square-3--Streamline-Ultimate.png">
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-    <script src="/assets/js/api-client.js"></script>
+    <script src="../assets/js/api-client.js"></script>
     <script>
         function sidebarHide() {
             let sidebar = document.querySelector(".sidebar");
@@ -87,12 +87,12 @@
             if (isSingle) {
                 sidebar.classList.replace("single", "expanded");
                 container.classList.replace("single", "expanded");
-                icon.setAttribute("src", "/assets/manual/icons/Sidebar-Expand--Streamline-Ultimate.png");
+                icon.setAttribute("src", "../assets/manual/icons/Sidebar-Expand--Streamline-Ultimate.png");
                 button.setAttribute("aria-expanded", "true");
             } else {
                 container.classList.replace("expanded", "single");
                 sidebar.classList.replace("expanded", "single");
-                icon.setAttribute("src", "/assets/manual/icons/Sidebar-Collapes--Streamline-Ultimate.png");
+                icon.setAttribute("src", "../assets/manual/icons/Sidebar-Collapes--Streamline-Ultimate.png");
                 button.setAttribute("aria-expanded", "false");
             }
         }
@@ -103,7 +103,7 @@
     <script>
         const pageContent = document.querySelector("#page-content");
         const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
-        const pagePath = "/backoffice/admin-pages";
+        const pagePath = "../backoffice/admin-pages";
         const routePageMap = {
             painel: "platform-dashboard",
             empresas: "companies",

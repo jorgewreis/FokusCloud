@@ -368,9 +368,9 @@
                     <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
                     <td class="voucher-actions">
                         ${voucher.status === "suspensa"
-                            ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="/assets/manual/icons/Add-Square--Streamline-Ultimate.png" alt=""></button>`
-                            : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="/assets/manual/icons/Subtract-Square--Streamline-Ultimate.png" alt=""></button>`}
-                        <button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="/assets/manual/icons/Remove-Square-1--Streamline-Ultimate.png" alt=""></button>
+                            ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="../assets/manual/icons/Add-Square--Streamline-Ultimate.png" alt=""></button>`
+                            : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="../assets/manual/icons/Subtract-Square--Streamline-Ultimate.png" alt=""></button>`}
+                        <button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="../assets/manual/icons/Remove-Square-1--Streamline-Ultimate.png" alt=""></button>
                     </td>
                 </tr>`;
             }).join("");
