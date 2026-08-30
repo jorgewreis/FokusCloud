@@ -20,6 +20,7 @@ Sobre essa base, produtos derivados podem evoluir por modulos independentes:
 
 - [Arquitetura da plataforma](platform/architecture.md): divisao entre Fokus Cloud, Fokus Law e Fokus Lead.
 - [Convencao de nomes e pastas](platform/naming-conventions.md): padrao oficial de arquivos, pastas, rotas e modulos.
+- [Diretrizes de documentacao e codificacao](platform/development-guidelines.md): regras para documentar, codificar, versionar tecnologias e validar alteracoes.
 - [Administracao e acesso](platform/access-and-administration.md): empresas, usuarios, vinculos, admin e transferencia de administracao.
 - [Cadastro e assinatura](platform/registration-and-subscription.md): criacao de empresa, usuario administrador, confirmacao de e-mail e escolha de assinatura.
 - [Modelo relacional](platform/relational-model.md): entidades centrais, chaves e restricoes.
