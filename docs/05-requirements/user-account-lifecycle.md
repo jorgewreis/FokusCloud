@@ -30,6 +30,9 @@ encerramento e transferencia de administracao.
 Antes da confirmacao do e-mail, o usuario pode apenas concluir o cadastro e
 confirmar a conta. O portal empresarial permanece bloqueado.
 
+Depois da confirmacao do e-mail, o usuario ainda deve aceitar os documentos
+obrigatorios vigentes antes de acessar o portal empresarial.
+
 ## Senha e recuperacao
 
 - A senha sera armazenada somente como hash Argon2id.

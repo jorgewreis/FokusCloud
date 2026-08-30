@@ -45,6 +45,10 @@ Avisos criticos, como alteracao de senha, alteracao de e-mail, ativacao ou
 remocao de MFA e encerramento de sessoes, poderao ser obrigatorios conforme a
 politica de seguranca e nao poderao ser completamente desativados.
 
+Termos de Uso e Politica de Privacidade vigentes devem ser aceitos antes do
+acesso ao portal, depois da confirmacao do e-mail. Alteracoes materiais exigem
+novo aceite; correcoes editoriais nao exigem.
+
 Eventos de novo login, novo dispositivo, alteracao de senha, alteracao de
 e-mail, ativacao ou remocao de MFA e encerramento de sessoes devem ser
 registrados. Tentativas invalidas serao registradas e notificadas conforme
