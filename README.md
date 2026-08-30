@@ -56,9 +56,10 @@ Fokus Cloud
 | `routes/` | Rotas web e API. |
 | `database/migrations/` | Estrutura de banco da plataforma. |
 | `database/seeders/` | Dados iniciais de catalogo, roles e produtos. |
-| `public/` | Interfaces HTML e assets publicados. |
+| `public/` | Entrada publica, interfaces HTML e assets publicados. |
 | `resources/` | Entradas de CSS/JS e views Laravel. |
 | `docs/` | Documentacao funcional, comercial e tecnica. |
+| `mockups/` | Prototipos e estudos visuais preservados. |
 | `.github/workflows/` | Automacao de deploy. |
 
 ## Execucao local
@@ -96,7 +97,7 @@ A prioridade arquitetural e manter o Fokus Cloud como plataforma comum e evoluir
 
 ## Documentacao
 
-A documentacao principal esta em [`docs/`](docs/README.md). O ponto de partida recomendado e [`docs/arquitetura-da-plataforma.md`](docs/arquitetura-da-plataforma.md).
+A documentacao principal esta em [`docs/`](docs/README.md). O ponto de partida recomendado e [`docs/platform/architecture.md`](docs/platform/architecture.md). Para novos arquivos, pastas e modulos, consulte [`docs/platform/naming-conventions.md`](docs/platform/naming-conventions.md).
 
 ## Licenca
 

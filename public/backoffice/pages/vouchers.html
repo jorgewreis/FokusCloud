@@ -1,0 +1,691 @@
+<style>
+    .voucher-page .form-panel,
+    .voucher-page .form-panel > .col {
+        width: 100%;
+    }
+
+    .voucher-page .form-line {
+        display: grid !important;
+        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+        align-items: end !important;
+        gap: 20px 24px !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin-top: 20px !important;
+    }
+
+    .voucher-page .form-line > .form-field {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .voucher-page .form-line > .w-1 {
+        grid-column: span 1 !important;
+    }
+
+    .voucher-page .form-line > .w-2 {
+        grid-column: span 2 !important;
+    }
+
+    .voucher-page .form-line > .w-3 {
+        grid-column: span 3 !important;
+    }
+
+    .voucher-page .form-line > .w-4 {
+        grid-column: span 4 !important;
+    }
+
+    .voucher-page .form-line > .w-5 {
+        grid-column: span 5 !important;
+    }
+
+    .voucher-page .form-line > .w-6 {
+        grid-column: span 6 !important;
+    }
+
+    .voucher-page .form-line > .w-7 {
+        grid-column: span 7 !important;
+    }
+
+    .voucher-page .form-line > .w-8 {
+        grid-column: span 8 !important;
+    }
+
+    .voucher-page .form-line > .w-9 {
+        grid-column: span 9 !important;
+    }
+
+    @media (max-width: 980px) {
+        .voucher-page .form-line {
+            grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        }
+
+        .voucher-page .form-line > .w-1,
+        .voucher-page .form-line > .w-2 {
+            grid-column: span 1 !important;
+        }
+
+        .voucher-page .form-line > .w-3,
+        .voucher-page .form-line > .w-4,
+        .voucher-page .form-line > .w-5,
+        .voucher-page .form-line > .w-6,
+        .voucher-page .form-line > .w-7,
+        .voucher-page .form-line > .w-8,
+        .voucher-page .form-line > .w-9 {
+            grid-column: span 3 !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .voucher-page .form-line {
+            grid-template-columns: 1fr !important;
+        }
+
+        .voucher-page .form-line > .w-1,
+        .voucher-page .form-line > .w-2,
+        .voucher-page .form-line > .w-3,
+        .voucher-page .form-line > .w-4,
+        .voucher-page .form-line > .w-5,
+        .voucher-page .form-line > .w-6,
+        .voucher-page .form-line > .w-7,
+        .voucher-page .form-line > .w-8,
+        .voucher-page .form-line > .w-9 {
+            grid-column: 1 / -1 !important;
+        }
+    }
+</style>
+
+<div class="voucher-page d-flex col">
+
+    <div class="col gap-3 mb-3">
+        <h1 class="text-display-4">Vouchers</h1>
+        <p class="text-heading-5 text-muted">Crie e acompanhe vouchers promocionais.</p>
+    </div>
+
+    <hr style="width: 100%;">
+
+    <form class="form-panel" id="voucher-form">
+        <div class="col">
+            <div class="form-line">
+                <div class="form-field w-6" style="width: 100%; min-width: 0; grid-column: span 6;">
+                    <label for="voucher-name">Nome do voucher</label>
+                    <input id="voucher-name" name="name" type="text" autocomplete="off" required>
+                </div>
+
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-code">Código</label>
+                    <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
+                </div>
+
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-5" style="width: 100%; min-width: 0; grid-column: span 5;">
+                    <label for="voucher-system">Sistema</label>
+                    <select id="voucher-system" name="product_id" required>
+                        <option value="" selected disabled>Carregando...</option>
+                    </select>
+                </div>
+
+                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                    <label for="voucher-plans">Planos aplicáveis</label>
+                    <select id="voucher-plans" name="plan_id" required disabled>
+                        <option value="" selected disabled>Selecione um sistema</option>
+                    </select>
+                </div>
+
+                <div class="form-field w-3" id="voucher-base-field" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-base-value">Valor da assinatura</label>
+                    <input id="voucher-base-value" name="base_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                    <label for="voucher-discount-type">Tipo de desconto</label>
+                    <select id="voucher-discount-type" name="discount_mode" required>
+                        <option value="" selected disabled>Selecione aqui</option>
+                        <option value="trial_free">Assinatura gratuita</option>
+                        <option value="percentage">Desconto percentual</option>
+                        <option value="fixed">Desconto por valor fixo</option>
+                    </select>
+                </div>
+
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-discount-percent">Desconto %</label>
+                    <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
+                </div>
+
+                <div class="form-field w-2" id="voucher-discount-value-field" style="width: 100%; min-width: 0; grid-column: span 2;">
+                    <label for="voucher-discount-value">Desconto R$</label>
+                    <input id="voucher-discount-value" name="discount_value_display" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00">
+                </div>
+
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-duration">Duração do benefício após ativação</label>
+                    <select id="voucher-duration" name="benefit_duration" required>
+                        <option value="" selected disabled>Selecione aqui</option>
+                        <option value="d7">7 dias</option>
+                        <option value="m1">1 mês</option>
+                        <option value="m3">3 meses</option>
+                        <option value="m6">6 meses</option>
+                        <option value="a1">1 ano</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-start-date">Início da validade do voucher</label>
+                    <input id="voucher-start-date" name="starts_at" type="date" required>
+                </div>
+
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-end-date">Fim da validade do voucher</label>
+                    <input id="voucher-end-date" name="ends_at" type="date" required>
+                </div>
+
+                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                    <label for="voucher-total">Quantidade total</label>
+                    <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
+                </div>
+
+                <div class="form-field w-3">
+                    <label for="voucher-company-limit">Limite por empresa</label>
+                    <input id="voucher-company-limit" name="redemption_limit_per_company" type="number" min="1" step="1" value="1" required>
+                </div>
+            </div>
+
+            <div class="form-line">
+                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                    <label for="voucher-origin">Campanha/origem</label>
+                    <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
+                </div>
+
+                <div class="form-field w-8" style="width: 100%; min-width: 0; grid-column: span 8;">
+                    <label for="voucher-notes">Observações internas</label>
+                    <textarea id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="submit" type="submit">Cadastrar voucher</button>
+            <button class="button button-secondary" type="reset">Limpar</button>
+        </div>
+
+        <div class="system-notice" id="voucher-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    </form>
+
+    <div class="table-panel">
+        <table class="data-table" aria-label="Vouchers cadastrados">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Voucher</th>
+                    <th>Sistema</th>
+                    <th>Desconto</th>
+                    <th>Uso</th>
+                    <th>Validade</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="voucher-list">
+                <tr>
+                    <td colspan="8">Carregando vouchers...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    (() => {
+        const standalone = !document.querySelector(".container-page");
+        const iconBasePath = "/backoffice/assets/icons/";
+
+        if (standalone) {
+            document.documentElement.dataset.theme ||= "light";
+            document.documentElement.dataset.role ||= "admin";
+            document.body.classList.add("container-content");
+
+            if (!document.querySelector('link[data-voucher-standalone-css]')) {
+                const css = document.createElement("link");
+                css.rel = "stylesheet";
+                css.href = "/backoffice/assets/css/main.css?v=20260828-20";
+                css.dataset.voucherStandaloneCss = "true";
+                document.head.appendChild(css);
+            }
+        }
+
+        const form = document.querySelector("#voucher-form");
+        const products = document.querySelector("#voucher-system");
+        const plans = document.querySelector("#voucher-plans");
+        const baseValue = document.querySelector("#voucher-base-value");
+        const discountType = document.querySelector("#voucher-discount-type");
+        const discountPercent = document.querySelector("#voucher-discount-percent");
+        const discountValue = document.querySelector("#voucher-discount-value");
+        const baseField = document.querySelector("#voucher-base-field");
+        const discountValueField = document.querySelector("#voucher-discount-value-field");
+        const duration = document.querySelector("#voucher-duration");
+        const startDate = document.querySelector("#voucher-start-date");
+        const endDate = document.querySelector("#voucher-end-date");
+        const voucherList = document.querySelector("#voucher-list");
+        const message = document.querySelector("#voucher-message");
+        let catalog = [];
+        let codeSuffix = "";
+        let messageTimer = null;
+        let mockVouchers = [
+            {
+                id: "vch_oneyear10",
+                code: "ONEYEAR10",
+                name: "Lançamento anual FokusLaw",
+                product_name: "Fokus Cloud Law",
+                discount_type: "percentage",
+                discount_value: 10,
+                base_amount: 499,
+                redemptions_count: 12,
+                redemption_limit: 100,
+                starts_at: "2026-08-27",
+                ends_at: "2027-08-27",
+                status: "ativa",
+            },
+            {
+                id: "vch_lead30",
+                code: "LEAD30",
+                name: "Campanha imobiliária",
+                product_name: "Fokus Cloud Lead",
+                discount_type: "percentage",
+                discount_value: 30,
+                base_amount: 299.9,
+                redemptions_count: 8,
+                redemption_limit: 50,
+                starts_at: "2026-09-01",
+                ends_at: "2026-12-01",
+                status: "suspensa",
+            },
+            {
+                id: "vch_trial7",
+                code: "TRIAL7",
+                name: "Trial de ativação",
+                product_name: "Fokus Cloud",
+                discount_type: "trial_free",
+                discount_value: 100,
+                base_amount: 299.9,
+                redemptions_count: 25,
+                redemption_limit: 25,
+                starts_at: "2026-07-01",
+                ends_at: "2026-07-08",
+                status: "ativa",
+                computed_status: "expirada",
+            },
+        ];
+        const mockCatalog = {
+            products: [
+                {
+                    id: "prd_law",
+                    name: "Fokus Cloud Law - Jurídico",
+                    plans: [
+                        { id: "law_starter", name: "Starter", monthly_amount: 149.9, annual_amount: 1344.9 },
+                        { id: "law_professional", name: "Professional", monthly_amount: 299.9, annual_amount: 2694.9 },
+                        { id: "law_enterprise", name: "Enterprise", monthly_amount: 499, annual_amount: 4489.9 },
+                    ],
+                },
+                {
+                    id: "prd_lead",
+                    name: "Fokus Cloud Lead - Imobiliário",
+                    plans: [
+                        { id: "lead_starter", name: "Starter", monthly_amount: 99.9, annual_amount: 894.9 },
+                        { id: "lead_professional", name: "Professional", monthly_amount: 299.9, annual_amount: 2694.9 },
+                    ],
+                },
+            ],
+        };
+        const api = window.FokusApi || {
+            async request(path, options = {}) {
+                if (path === "/backoffice/catalog") return mockCatalog;
+                if (path === "/backoffice/vouchers" && !options.method) return mockVouchers;
+                if (path === "/backoffice/vouchers" && options.method === "POST") {
+                    const product = mockCatalog.products.find((item) => item.id === options.body.product_id);
+                    mockVouchers = [{
+                        ...options.body,
+                        id: `vch_${Date.now()}`,
+                        code: normalizeCode(options.body.name),
+                        product_name: product?.name || "-",
+                        redemptions_count: 0,
+                    }, ...mockVouchers];
+                    return { message: "Voucher cadastrado." };
+                }
+                if (path.startsWith("/backoffice/vouchers/") && options.method === "PATCH") {
+                    const id = path.split("/").pop();
+                    mockVouchers = mockVouchers.map((voucher) => voucher.id === id ? { ...voucher, status: options.body.status } : voucher);
+                    return { message: "Status do voucher atualizado." };
+                }
+                if (path.startsWith("/backoffice/vouchers/") && options.method === "DELETE") {
+                    const id = path.split("/").pop();
+                    mockVouchers = mockVouchers.filter((voucher) => voucher.id !== id);
+                    return { message: "Voucher excluído." };
+                }
+                return null;
+            },
+        };
+
+        const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
+        const toMoney = (value) => Number(value || 0).toFixed(2);
+        const formatInputMoney = (value) => {
+            const digits = String(value ?? "").replace(/\D/g, "");
+            if (!digits) return "";
+            return (Number(digits) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        };
+        const formatMoneyValue = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        const parseInputMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
+        const makeSuffix = () => {
+            const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            if (window.crypto?.getRandomValues) {
+                const bytes = new Uint8Array(2);
+                window.crypto.getRandomValues(bytes);
+                return Array.from(bytes, (byte) => alphabet[byte % alphabet.length]).join("");
+            }
+            return Array.from({ length: 2 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("");
+        };
+        const normalizeCode = (value) => {
+            const normalized = String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+            const words = normalized.split(/[^A-Z0-9]+/).filter(Boolean);
+            let prefix = words.map((word) => word.slice(0, 3)).join("").slice(0, 6);
+            prefix = (prefix + normalized.replace(/[^A-Z0-9]/g, "")).slice(0, 6).padEnd(6, "X");
+            return prefix + (codeSuffix || (codeSuffix = makeSuffix()));
+        };
+        const toDateValue = (date) => date.toISOString().slice(0, 10);
+        const formatMoney = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        const formatDate = (value) => value ? new Date(value).toLocaleDateString("pt-BR") : "-";
+        const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        startDate.min = toDateValue(today);
+
+        function setMessage(text, type = "info") {
+            clearTimeout(messageTimer);
+            message.textContent = text || "";
+            message.hidden = !text;
+            if (!text) {
+                message.removeAttribute("data-tone");
+                return;
+            }
+            message.dataset.tone = type || "info";
+            messageTimer = setTimeout(() => {
+                message.textContent = "";
+                message.hidden = true;
+                message.removeAttribute("data-tone");
+            }, 5000);
+        }
+
+        function statusMeta(status) {
+            const normalized = status === "expirada" ? "expired" : status === "suspensa" ? "paused" : status === "encerrada" ? "cancelled" : "active";
+            return {
+                active: ["Ativo", "status-active"],
+                paused: ["Pausado", "status-paused"],
+                expired: ["Expirado", "status-expired"],
+                cancelled: ["Cancelado", "status-cancelled"],
+            }[normalized];
+        }
+
+        function updatePlans() {
+            const selectedProduct = catalog.find((product) => product.id === products.value);
+            plans.innerHTML = '<option value="" selected disabled>Selecione aqui</option>';
+            baseValue.value = "";
+
+            if (!selectedProduct) {
+                plans.disabled = true;
+                updateDiscountAvailability();
+                return;
+            }
+
+            const allOption = document.createElement("option");
+            allOption.value = "__all__";
+            allOption.textContent = "Todos";
+            plans.appendChild(allOption);
+
+            selectedProduct.plans.forEach((plan) => {
+                const option = document.createElement("option");
+                option.value = plan.id;
+                option.dataset.monthly = plan.monthly_amount;
+                option.dataset.annual = plan.annual_amount;
+                option.textContent = plan.full_name || `${selectedProduct.name} - ${plan.name}`;
+                plans.appendChild(option);
+            });
+
+            plans.disabled = !selectedProduct.plans.length;
+            updateDiscountAvailability();
+        }
+
+        function updateDiscountAvailability() {
+            const allPlans = plans.value === "__all__";
+            discountType.querySelector('option[value="trial_free"]').disabled = allPlans;
+            discountType.querySelector('option[value="fixed"]').disabled = allPlans;
+            baseField.hidden = allPlans;
+            discountValueField.hidden = allPlans;
+            baseValue.disabled = allPlans;
+            discountValue.disabled = allPlans;
+
+            if (allPlans) {
+                discountType.value = "percentage";
+                baseValue.value = "";
+                discountValue.value = "";
+            }
+        }
+
+        function updateBaseValueFromPlan() {
+            const selectedPlan = plans.options[plans.selectedIndex];
+            const monthly = Number(selectedPlan?.dataset.monthly || 0);
+            const annual = Number(selectedPlan?.dataset.annual || 0);
+            const amount = selectedPlan?.value === "__all__" ? null : {
+                d7: monthly / 30 * 7,
+                m1: monthly,
+                m3: monthly * 3,
+                m6: monthly * 6,
+                a1: annual,
+            }[duration.value];
+            baseValue.value = amount ? formatMoneyValue(Number(amount).toFixed(2)) : "";
+            updateDiscountAvailability();
+            syncDiscount("percent");
+        }
+
+        function syncDiscount(source) {
+            const base = parseInputMoney(baseValue.value);
+
+            if (discountType.value === "trial_free") {
+                discountPercent.value = "100.00";
+                discountValue.value = base ? formatMoneyValue(base) : "";
+                discountPercent.disabled = true;
+                discountValue.disabled = true;
+                return;
+            }
+
+            discountPercent.disabled = false;
+            discountValue.disabled = false;
+
+            if (!base) {
+                if (source === "percent") discountValue.value = "";
+                if (source === "value") discountPercent.value = "";
+                return;
+            }
+
+            if (source === "value") {
+                const value = Math.min(parseInputMoney(discountValue.value), base);
+                discountValue.value = value ? formatMoneyValue(value) : "";
+                discountPercent.value = value ? toMoney((value / base) * 100) : "";
+                return;
+            }
+
+            const percent = Math.min(toNumber(discountPercent.value), 100);
+            discountPercent.value = percent ? toMoney(percent) : "";
+            discountValue.value = percent ? formatMoneyValue(base * (percent / 100)) : "";
+        }
+
+        function generateCode() {
+            code.value = name.value ? normalizeCode(name.value) : "";
+        }
+
+        async function updateVoucher(voucherId, status) {
+            await api.request(`/backoffice/vouchers/${voucherId}`, { method: "PATCH", body: { status } });
+            await loadVouchers();
+            setMessage(status === "ativa" ? "Voucher reativado." : "Voucher pausado.", "success");
+        }
+
+        async function deleteVoucher(voucherId) {
+            if (!window.confirm("Excluir este voucher? Esta ação não pode ser desfeita.")) return;
+            await api.request(`/backoffice/vouchers/${voucherId}`, { method: "DELETE" });
+            await loadVouchers();
+            setMessage("Voucher excluído.", "success");
+        }
+
+        function updateValidityWindow() {
+            if (!startDate.value) return;
+            endDate.min = startDate.value;
+            if (endDate.value && endDate.value < startDate.value) endDate.value = "";
+        }
+
+        async function loadCatalog() {
+            const data = await api.request("/backoffice/catalog");
+            catalog = data.products || [];
+            products.innerHTML = '<option value="" selected disabled>Selecione aqui</option>';
+            catalog.forEach((product) => {
+                const option = document.createElement("option");
+                option.value = product.id;
+                option.textContent = product.name;
+                products.appendChild(option);
+            });
+        }
+
+        async function loadVouchers() {
+            const rows = await api.request("/backoffice/vouchers");
+            if (!rows.length) {
+                voucherList.innerHTML = '<tr><td colspan="8">Nenhum voucher cadastrado.</td></tr>';
+                return;
+            }
+
+            voucherList.innerHTML = rows.map((voucher) => {
+                const currentStatus = voucher.computed_status || voucher.status;
+                const [statusLabel, statusClass] = statusMeta(currentStatus);
+                const discount = voucher.discount_type === "trial_free"
+                    ? `Assinatura gratuita | 100%`
+                    : voucher.discount_type === "percentage"
+                    ? `${Number(voucher.discount_value).toLocaleString("pt-BR")}% | ${formatMoney((Number(voucher.base_amount || 0) * Number(voucher.discount_value || 0)) / 100)}`
+                    : `${formatMoney(voucher.discount_value)}`;
+                const used = `${voucher.redemptions_count || 0} / ${voucher.redemption_limit || "-"}`;
+                const validity = `${formatDate(voucher.starts_at)} até ${formatDate(voucher.ends_at)}`;
+                const actionButton = currentStatus === "expired"
+                    ? ""
+                    : voucher.status === "suspensa"
+                        ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}Add-Square--Streamline-Ultimate.png" alt=""></button>`
+                        : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}Subtract-Square--Streamline-Ultimate.png" alt=""></button>`;
+
+                return `<tr>
+                    <td>${escapeHtml(voucher.code)}</td>
+                    <td>${escapeHtml(voucher.name || voucher.code)}</td>
+                    <td>${escapeHtml(voucher.product_name || "-")}</td>
+                    <td>${escapeHtml(discount)}</td>
+                    <td>${escapeHtml(used)}</td>
+                    <td>${escapeHtml(validity)}</td>
+                    <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
+                    <td class="voucher-actions">
+                        ${actionButton}
+                        <button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}Remove-Square-1--Streamline-Ultimate.png" alt=""></button>
+                    </td>
+                </tr>`;
+            }).join("");
+        }
+
+        async function submitVoucher(event) {
+            event.preventDefault();
+            const values = Object.fromEntries(new FormData(form));
+            const discountMode = values.discount_mode;
+            const payload = {
+                name: values.name,
+                code: null,
+                status: "ativa",
+                product_id: values.product_id,
+                plan_id: values.plan_id === "__all__" ? null : values.plan_id,
+                base_amount: values.plan_id === "__all__" ? null : parseInputMoney(values.base_amount),
+                benefit_duration: values.benefit_duration,
+                starts_at: values.starts_at,
+                ends_at: values.ends_at,
+                redemption_limit: values.redemption_limit,
+                redemption_limit_per_company: values.redemption_limit_per_company,
+                origin: values.origin,
+                notes: values.notes,
+                discount_type: discountMode,
+                discount_value: discountMode === "trial_free"
+                    ? 100
+                    : discountMode === "fixed"
+                        ? parseInputMoney(discountValue.value)
+                        : discountPercent.value,
+            };
+
+            try {
+                setMessage("Salvando voucher...");
+                await api.request("/backoffice/vouchers", { method: "POST", body: payload });
+                form.reset();
+                plans.disabled = true;
+                plans.innerHTML = '<option value="" selected disabled>Selecione um sistema</option>';
+                codeSuffix = "";
+                baseValue.value = "";
+                endDate.value = "";
+                updateDiscountAvailability();
+                syncDiscount("percent");
+                await loadVouchers();
+                setMessage("Voucher cadastrado.", "success");
+            } catch (error) {
+                setMessage(error.message, "danger");
+            }
+        }
+
+        const name = document.querySelector("#voucher-name");
+        const code = document.querySelector("#voucher-code");
+        name.addEventListener("input", generateCode);
+        products.addEventListener("change", updatePlans);
+        plans.addEventListener("change", updateBaseValueFromPlan);
+        discountType.addEventListener("change", () => syncDiscount("percent"));
+        discountPercent.addEventListener("input", () => syncDiscount("percent"));
+        discountValue.addEventListener("input", () => {
+            const cursorEnd = discountValue.value.length;
+            discountValue.value = formatInputMoney(discountValue.value);
+            discountValue.setSelectionRange(cursorEnd, cursorEnd);
+            syncDiscount("value");
+        });
+        duration.addEventListener("change", updateBaseValueFromPlan);
+        startDate.addEventListener("change", updateValidityWindow);
+        endDate.addEventListener("change", updateValidityWindow);
+        form.addEventListener("submit", submitVoucher);
+        voucherList.addEventListener("click", async (event) => {
+            const button = event.target.closest("[data-voucher-action]");
+            if (!button) return;
+            try {
+                const action = button.dataset.voucherAction;
+                await (action === "delete"
+                    ? deleteVoucher(button.dataset.voucherId)
+                    : updateVoucher(button.dataset.voucherId, action === "pause" ? "suspensa" : "ativa"));
+            } catch (error) {
+                setMessage(error.message, "danger");
+            }
+        });
+        form.addEventListener("reset", () => {
+            setTimeout(() => {
+                startDate.min = toDateValue(today);
+                endDate.min = "";
+                codeSuffix = "";
+                endDate.value = "";
+                updateDiscountAvailability();
+                syncDiscount("percent");
+                setMessage("");
+            });
+        });
+
+        Promise.all([loadCatalog(), loadVouchers()]).catch((error) => {
+            setMessage(error.message, "danger");
+        });
+    })();
+</script>

@@ -13,25 +13,25 @@ Route::prefix('api')->group(base_path('routes/api.php'));
 Route::get('/api/csrf-token', fn () => response()->json(['token' => csrf_token()]));
 
 Route::get('/acesso', fn () => redirect('/?acesso=cliente'));
-Route::get('/portal', fn () => response()->file(public_path('views/portal-painel.html')));
-Route::get('/portal/painel', fn () => response()->file(public_path('views/portal-painel.html')));
-Route::get('/portal/perfil', fn () => response()->file(public_path('admin/perfil.html')));
+Route::get('/portal', fn () => response()->file(public_path('portal/dashboard.html')));
+Route::get('/portal/painel', fn () => response()->file(public_path('portal/dashboard.html')));
+Route::get('/portal/perfil', fn () => response()->file(public_path('portal/profile.html')));
 Route::get('/cadastro', fn () => response()->file(public_path('auth/cadastro.html')));
 Route::get('/verificar-email', fn () => response()->file(public_path('auth/verificar-email.html')));
 Route::get('/criar-senha', fn () => response()->file(public_path('auth/criar-senha.html')));
 Route::get('/recuperar-senha', fn () => response()->file(public_path('auth/recuperar-senha.html')));
 Route::get('/aceitar-vinculo', fn () => response()->file(public_path('auth/aceitar-vinculo.html')));
 Route::get('/aceitar-transferencia', fn () => response()->file(public_path('auth/aceitar-transferencia.html')));
-Route::get('/portal/empresas', fn () => response()->file(public_path('admin/empresas.html')));
-Route::get('/portal/usuarios', fn () => response()->file(public_path('admin/usuarios.html')));
-Route::get('/portal/assinaturas', fn () => response()->file(public_path('admin/assinaturas.html')));
-Route::get('/portal/transferir-administracao', fn () => response()->file(public_path('admin/transferir-administracao.html')));
+Route::get('/portal/empresas', fn () => response()->file(public_path('portal/companies.html')));
+Route::get('/portal/usuarios', fn () => response()->file(public_path('portal/users.html')));
+Route::get('/portal/assinaturas', fn () => response()->file(public_path('portal/subscriptions.html')));
+Route::get('/portal/transferir-administracao', fn () => response()->file(public_path('portal/admin-transfer.html')));
 Route::get('/backoffice/acesso', fn () => redirect('/?acesso=administrativo'));
 Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|assinaturas|vouchers|auditoria');
-Route::get('/produtos/fokus-law', fn () => response()->file(public_path('src/pages/fokus-law.html')));
-Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('src/pages/fokus-lead.html')));
-Route::get('/assinaturas/fokus-law', fn () => response()->file(public_path('src/pages/fokus-law-assinatura.html')));
-Route::get('/assinaturas/fokus-lead', fn () => response()->file(public_path('src/pages/fokus-lead-assinatura.html')));
+Route::get('/produtos/fokus-law', fn () => response()->file(public_path('products/fokus-law.html')));
+Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('products/fokus-lead.html')));
+Route::get('/assinaturas/fokus-law', fn () => response()->file(public_path('products/fokus-law-subscription.html')));
+Route::get('/assinaturas/fokus-lead', fn () => response()->file(public_path('products/fokus-lead-subscription.html')));
 
 // Development-server fallback. Production NGINX redirects these physical legacy paths before serving static files.
 Route::permanentRedirect('/index.html', '/');

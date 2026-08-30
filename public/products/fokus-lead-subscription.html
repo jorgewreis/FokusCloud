@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <base href="/products/" />
+    <title>Assinar Fokus Cloud Lead</title>
+    <link rel="stylesheet" href="/assets/css/reset.css" />
+    <link rel="stylesheet" href="/assets/css/style.css?v=20260807-26" />
+    <link rel="stylesheet" href="/assets/css/subscription.css" />
+  </head>
+  <body class="subscription-page" data-product="lead">
+    <header class="site-header">
+      <a class="brand" href="/">Fokus<span>Cloud</span>Lead</a>
+      <nav>
+        <a href="/#solucoes">Soluções</a
+        ><a href="/#sobre">Sobre nós</a
+        ><a href="/#contato">Contato</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-sm btn-header-backoffice" data-header-backoffice-access href="/backoffice/acesso">Acesso administrativo</a>
+        <a class="btn btn-sm btn-header-client-access" data-header-client-access href="/acesso" hidden>Minha conta</a>
+        <div class="header-account-menu" data-header-user hidden style="display: none"><button class="btn btn-sm btn-header-account" data-header-user-toggle type="button" aria-expanded="false" aria-label="Abrir menu da conta"><span class="header-account-copy"><strong data-header-user-name></strong><small data-header-user-document></small></span></button><div class="header-account-options" data-header-user-options role="menu" hidden><a href="/portal" role="menuitem">Meu painel</a><button data-header-user-logout type="button" role="menuitem">Sair</button></div></div>
+        <button
+          class="btn btn-header-cta"
+          data-header-contact
+          type="button"
+          onclick="
+            window.open(
+              'https://wa.me/5573998382911?text=Olá%2C%20gostaria%20de%20conhecer%20a%20Fokus%20Cloud.',
+              '_blank',
+              'noopener',
+            )
+          "
+        >
+          Vamos conversar
+        </button>
+      </div>
+    </header>
+    <main class="checkout-wrap" id="subscription-app"></main>
+    <footer>
+      <a class="brand" href="/">Fokus<span>Cloud</span></a>
+      <p>© 2026 Fokus Cloud. Todos os direitos reservados.</p>
+      <a class="footer-email" href="mailto:suporte@fokuscloud.com.br"
+        >suporte@fokuscloud.com.br</a
+      >
+    </footer>
+    <script src="/assets/js/api-client.js"></script>
+    <script src="../assets/js/subscription-catalog.js"></script>
+    <script src="/assets/js/header-account.js?v=20260807-14"></script>
+    <script src="../assets/js/subscription-flow.js?v=20260807-8"></script>
+  </body>
+</html>
