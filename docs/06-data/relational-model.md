@@ -46,6 +46,8 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | `plans` | PLN | Catálogo comercial de planos por produto e linha. |
 | `modules` | MOD | Catálogo comercial de funcionalidades por produto. |
 | `security_tokens` | TKN | Confirmação, recuperação e criação de senha. |
+| `user_sessions` | SES | Sessoes web e dispositivos autenticados. |
+| `mobile_refresh_tokens` | RFT | Refresh tokens moveis rotativos e revogaveis. |
 
 Os aceites legais ficam vinculados à conta global, com versão e data dos
 Termos de Uso e da Política de Privacidade.
@@ -77,6 +79,8 @@ companies ──< subscriptions >── products
 subscriptions ──< subscription_items >── modules
 plans ──< plan_modules >── modules
 companies ──< company_units ──< membership_units >── company_memberships
+users ──< user_sessions
+user_sessions ──< mobile_refresh_tokens
 ```
 
 - Um usuário pode possuir vínculos com várias empresas.

@@ -71,6 +71,8 @@ Toda rota protegida deve validar:
 - Estados pendentes, suspensos e removidos devem ser explicitamente representados.
 - A suspensao feita por gestor deve atingir apenas a unidade sob sua administracao.
 - Alteracoes de acesso devem invalidar ou reavaliar sessoes imediatamente.
+- O usuario pode encerrar a conta somente depois de deixar empresas e transferir administracao.
+- A transferencia de administracao exige aceite do novo responsavel e transacao unica.
 
 ## A complementar
 
