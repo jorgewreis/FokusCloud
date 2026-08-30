@@ -6,6 +6,12 @@ Este documento define o padrao oficial de nomenclatura do Fokus Cloud. A regra v
 
 O objetivo e manter o crescimento organizado desde o inicio, preservando a separacao entre plataforma base, produtos derivados e mockups.
 
+## Principio de decisao
+
+Ao escolher entre alternativas tecnicas, o projeto deve priorizar o que for melhor, mais correto e mais sustentavel para a arquitetura do Fokus Cloud, mesmo quando a opcao exigir mais trabalho no curto prazo.
+
+Facilidade de implementacao pode ser considerada, mas nao deve prevalecer sobre manutencao, clareza, seguranca, escalabilidade, isolamento de dados e consistencia entre a plataforma base e os produtos derivados.
+
 ## Regra principal
 
 | Contexto | Padrao |
