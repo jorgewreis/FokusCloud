@@ -25,6 +25,8 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | PRD | Produto |
 | PLN | Plano |
 | MOD | Módulo |
+| UNT | Unidade empresarial |
+| MVU | Vinculo usuario-unidade |
 | ASS | Assinatura |
 | ITM | Item contratado |
 | CNV | Convite ou aceite de vínculo |
@@ -56,6 +58,8 @@ Todas as entidades abaixo possuem `company_id NOT NULL`:
 | --- | --- | --- |
 | `companies` | EMP | Fronteira de isolamento; CPF/CNPJ e nome imutáveis. |
 | `company_memberships` | VNC | Usuário, empresa, perfil e status do vínculo. |
+| `company_units` | Unidade | Filiais, departamentos ou equipes operacionais da empresa. |
+| `membership_units` | Vinculo | Relacao entre um vinculo e uma ou mais unidades. |
 | `company_invitations` | CNV | Criação de senha e aceite de vínculo. |
 | `subscriptions` | ASS | Assinatura de empresa por produto. |
 | `subscription_items` | ITM | Snapshot de módulo, quantidade, preço e condições. |
@@ -72,6 +76,7 @@ roles ────────────────────────�
 companies ──< subscriptions >── products
 subscriptions ──< subscription_items >── modules
 plans ──< plan_modules >── modules
+companies ──< company_units ──< membership_units >── company_memberships
 ```
 
 - Um usuário pode possuir vínculos com várias empresas.
@@ -92,7 +97,7 @@ CREATE TABLE companies (
   document_type ENUM('cpf', 'cnpj') NOT NULL,
   document_number VARCHAR(14) CHARACTER SET ascii NOT NULL,
   legal_name VARCHAR(255) NOT NULL,
-  status ENUM('pendente', 'ativa', 'suspensa', 'encerrando', 'encerrada') NOT NULL,
+  status ENUM('pending', 'active', 'suspended', 'cancelled', 'closed') NOT NULL,
   version INT UNSIGNED NOT NULL DEFAULT 1,
   created_at DATETIME(6) NOT NULL,
   created_by VARCHAR(30) CHARACTER SET ascii NULL,
@@ -103,12 +108,29 @@ CREATE TABLE companies (
   UNIQUE KEY uq_company_document (document_type, document_number)
 ) ENGINE=InnoDB;
 
+CREATE TABLE company_units (
+  id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+  company_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  unit_type ENUM('headquarters', 'branch', 'department', 'team') NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  document_type ENUM('cpf', 'cnpj') NULL,
+  document_number VARCHAR(14) CHARACTER SET ascii NULL,
+  status ENUM('active', 'suspended', 'closed') NOT NULL DEFAULT 'active',
+  created_at DATETIME(6) NOT NULL,
+  created_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  updated_at DATETIME(6) NOT NULL,
+  updated_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  UNIQUE KEY uq_unit_company_id (company_id, id),
+  UNIQUE KEY uq_unit_company_document (company_id, document_type, document_number),
+  CONSTRAINT fk_unit_company FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
 CREATE TABLE company_memberships (
   id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
   company_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   user_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   role_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  status ENUM('pendente', 'ativo', 'suspenso', 'removido') NOT NULL,
+  status ENUM('pending', 'active', 'suspended', 'removed') NOT NULL,
   version INT UNSIGNED NOT NULL DEFAULT 1,
   created_at DATETIME(6) NOT NULL,
   created_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
@@ -121,6 +143,19 @@ CREATE TABLE company_memberships (
   CONSTRAINT fk_membership_company FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE RESTRICT,
   CONSTRAINT fk_membership_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
   CONSTRAINT fk_membership_role FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE TABLE membership_units (
+  membership_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  company_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  unit_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  created_at DATETIME(6) NOT NULL,
+  created_by VARCHAR(30) CHARACTER SET ascii NOT NULL,
+  PRIMARY KEY (membership_id, unit_id),
+  CONSTRAINT fk_membership_unit_membership FOREIGN KEY (company_id, membership_id)
+    REFERENCES company_memberships (company_id, id) ON DELETE RESTRICT,
+  CONSTRAINT fk_membership_unit_unit FOREIGN KEY (company_id, unit_id)
+    REFERENCES company_units (company_id, id) ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 ```
 

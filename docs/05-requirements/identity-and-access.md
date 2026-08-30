@@ -20,6 +20,8 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 - Recuperacao e criacao de senha.
 - Cadastro de empresa.
 - Vinculo entre usuario e empresa.
+- Cadastro de unidades, filiais, departamentos ou equipes.
+- Vinculo de usuarios a uma ou mais unidades.
 - Selecao de empresa ativa.
 - Perfis `admin`, `gestor` e `usuario`.
 - Permissoes atomicas com escopo por empresa, produto e modulo.
@@ -50,6 +52,10 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 | RF-IA-010 | Registrar eventos sensiveis de identidade e acesso. | Convites, alteracoes de perfil, transferencia e remocoes devem gerar trilha auditavel. |
 | RF-IA-011 | Avaliar autorizacao por permissao atomica e escopo. | Toda acao protegida deve validar autenticacao, vinculo, perfil, produto, plano e regra do recurso quando aplicavel. |
 | RF-IA-012 | Impedir autorizacao por interface ou por perfil amplo sem catalogo. | A decisao final deve ocorrer no servidor com permissao documentada. |
+| RF-IA-013 | Permitir que uma empresa possua varios produtos. | Cada produto deve possuir habilitacao e assinatura proprias dentro da empresa. |
+| RF-IA-014 | Permitir unidades internas com identificacao fiscal propria. | Uma filial pode ser unidade da matriz e manter CNPJ proprio sem criar outra empresa no Fokus Cloud. |
+| RF-IA-015 | Permitir vinculo do usuario a varias unidades. | O acesso deve respeitar as unidades associadas ao vinculo. |
+| RF-IA-016 | Aplicar alteracoes de acesso imediatamente. | Suspensoes, remocoes e mudancas de permissao devem reavaliar ou invalidar sessoes ativas. |
 
 ## Requisitos nao funcionais
 
@@ -61,12 +67,16 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 | RNF-IA-004 | Manutencao | Regras comuns de acesso devem ficar na plataforma base. | Produtos derivados devem consumir permissoes sem duplicar logica central. |
 | RNF-IA-005 | Auditoria | Eventos sensiveis devem ser rastreaveis. | Cada evento deve registrar ator, empresa, alvo, data e resultado. |
 | RNF-IA-006 | Evolucao | O modelo deve permitir permissoes por produto e modulo sem duplicar a autorizacao base. | Novas permissoes devem seguir o catalogo atomico e preservar o isolamento por empresa. |
+| RNF-IA-007 | Integridade | CPF e CNPJ nao podem identificar duas empresas ativas. | O banco deve impor unicidade do documento normalizado. |
+| RNF-IA-008 | Seguranca | O escopo de unidade nao pode ampliar o escopo do perfil. | Toda consulta de unidade deve validar empresa, vinculo e unidade associados. |
 
 ## Dados envolvidos
 
 - `users`
 - `companies`
-- `company_user`
+- `company_memberships`
+- `company_units`
+- `membership_units`
 - tabelas de convites ou tokens
 - tabelas de transferencia de administracao
 - tabela de auditoria

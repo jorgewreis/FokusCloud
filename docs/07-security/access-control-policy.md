@@ -13,7 +13,7 @@ Nenhum dado de empresa pode ser lido, alterado ou excluido sem validar usuario a
 | Perfil | Responsabilidade | Restricao principal |
 | --- | --- | --- |
 | `admin` | Administra empresa, usuarios, assinatura e transferencia de administracao. | Existe apenas um admin ativo por empresa. |
-| `gestor` | Opera modulos permitidos pelo produto. | Nao administra assinatura nem transfere administracao. |
+| `gestor` | Opera modulos permitidos pelo produto e administra usuarios da propria unidade. | Nao altera perfis, administra assinatura nem transfere administracao. |
 | `usuario` | Usa recursos operacionais permitidos. | Nao gerencia usuarios ou configuracoes sensiveis. |
 
 ## Status de vinculo
@@ -32,9 +32,10 @@ Nenhum dado de empresa pode ser lido, alterado ou excluido sem validar usuario a
 | Acessar portal da empresa | Sim | Sim | Sim |
 | Ver perfil e dados basicos da empresa | Sim | Sim | Sim |
 | Ver assinatura ativa | Sim | Nao | Nao |
-| Gerenciar usuarios | Sim | Nao | Nao |
+| Gerenciar usuarios | Sim | Apenas na propria unidade | Nao |
 | Alterar perfil de usuario | Sim | Nao | Nao |
-| Suspender usuario | Sim | Nao | Nao |
+| Suspender usuario | Sim, inclusive globalmente | Apenas na propria unidade | Nao |
+| Restaurar usuario | Sim, inclusive globalmente | Apenas na propria unidade | Nao |
 | Transferir administracao | Sim | Nao | Nao |
 | Acessar backoffice interno | Nao | Nao | Nao |
 | Usar modulo do produto contratado | Conforme plano | Conforme plano | Conforme plano |
@@ -60,7 +61,7 @@ O backoffice interno nao deve usar os perfis de empresa como autorizacao suficie
 - Usuario de uma empresa nao acessa dados de outra.
 - Usuario suspenso nao acessa portal.
 - Usuario removido nao recupera acesso sem restauracao formal.
-- Gestor nao altera usuarios.
+- Gestor nao altera perfis nem usuarios fora da propria unidade.
 - Usuario comum nao acessa administracao.
 - Empresa nao fica sem admin apos transferencia.
 - Empresa nao possui dois admins ativos apos transferencia.

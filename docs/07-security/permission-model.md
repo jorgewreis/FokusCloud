@@ -71,6 +71,7 @@ Regras:
 | --- | --- | --- |
 | `platform` | Operacao interna do Fokus Cloud. | Exige identidade interna separada e nao e concedido por perfil de empresa. |
 | `company` | Configuracoes e recursos comuns da empresa. | Exige vinculo ativo na empresa ativa. |
+| `unit` | Operacao de uma filial, departamento ou equipe. | Exige vinculo ativo associado a unidade ativa. |
 | `product` | Funcionalidades do Fokus Law ou Fokus Lead. | Exige plano, produto habilitado e permissao do perfil. |
 | `module` | Area especifica de um produto. | Exige produto habilitado e modulo liberado para a empresa. |
 | `record` | Registro individual ou conjunto de registros. | Exige verificacao adicional de propriedade, equipe ou regra de negocio. |
@@ -98,11 +99,11 @@ ingles e no singular. Os nomes exibidos na interface podem ser traduzidos.
 | `company.profile.view` | Sim | Sim | Sim | `company` |
 | `company.profile.update` | Sim | Nao | Nao | `company` |
 | `company.subscription.view` | Sim | Nao | Nao | `company` |
-| `identity.users.view` | Sim | Nao | Nao | `company` |
-| `identity.users.invite` | Sim | Nao | Nao | `company` |
+| `identity.users.view` | Sim | Unidade autorizada | Nao | `company`/`unit` |
+| `identity.users.invite` | Sim | Unidade autorizada | Nao | `company`/`unit` |
 | `identity.users.update-role` | Sim | Nao | Nao | `company` |
-| `identity.users.suspend` | Sim | Nao | Nao | `company` |
-| `identity.users.remove` | Sim | Nao | Nao | `company` |
+| `identity.users.suspend` | Sim | Unidade autorizada | Nao | `company`/`unit` |
+| `identity.users.remove` | Sim | Unidade autorizada | Nao | `company`/`unit` |
 | `identity.admin.transfer` | Sim | Nao | Nao | `company` |
 | `audit.events.view` | Sim | Nao | Nao | `company` |
 | `product.module.use` | Conforme produto e plano | Conforme produto e plano | Conforme produto e plano | `product`/`module` |
@@ -121,10 +122,11 @@ condicoes abaixo forem verdadeiras:
 3. Existe uma empresa ativa selecionada.
 4. Existe vinculo ativo entre usuario e empresa.
 5. O perfil do vinculo possui a permissao solicitada.
-6. O produto e o modulo estao habilitados para a empresa, quando aplicavel.
-7. O plano permite o recurso, quando aplicavel.
-8. A regra do registro permite a operacao, quando houver escopo de registro.
-9. Nao existe bloqueio por estado do recurso ou por regra de seguranca.
+6. A unidade ativa esta autorizada para o vinculo, quando aplicavel.
+7. O produto e o modulo estao habilitados para a empresa, quando aplicavel.
+8. O plano permite o recurso, quando aplicavel.
+9. A regra do registro permite a operacao, quando houver escopo de registro.
+10. Nao existe bloqueio por estado do recurso ou por regra de seguranca.
 
 Qualquer falha resulta em negacao. A aplicacao nao deve revelar ao usuario se
 a falha ocorreu por inexistencia do recurso ou por falta de permissao quando
@@ -138,9 +140,10 @@ As regras devem ser avaliadas nesta ordem:
 2. estado da conta;
 3. empresa ativa e vinculo;
 4. perfil e permissao;
-5. produto, modulo e plano;
-6. escopo do registro;
-7. regras de negocio e bloqueios explicitos.
+5. unidade e escopo organizacional;
+6. produto, modulo e plano;
+7. escopo do registro;
+8. regras de negocio e bloqueios explicitos.
 
 Uma negacao em qualquer etapa prevalece sobre uma concessao anterior. O
 codigo nao deve contornar essa ordem usando verificacoes isoladas em
@@ -197,6 +200,7 @@ desnecessarios.
 - Plano sem o recurso bloqueia o acesso mesmo com permissao de perfil.
 - Regra de registro pode negar uma operacao permitida no nivel do modulo.
 - Alteracao de perfil invalida ou atualiza o acesso conforme a politica de sessao.
+- Suspensao por gestor bloqueia somente o vinculo na unidade administrada.
 - Transferencia de admin nao cria dois administradores ativos.
 
 ## Dependencias
