@@ -22,6 +22,7 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 - Vinculo entre usuario e empresa.
 - Selecao de empresa ativa.
 - Perfis `admin`, `gestor` e `usuario`.
+- Permissoes atomicas com escopo por empresa, produto e modulo.
 - Transferencia de administracao.
 - Suspensao, remocao e restauracao de vinculos.
 - Auditoria de eventos sensiveis.
@@ -47,6 +48,8 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 | RF-IA-008 | Permitir transferencia formal de administracao. | A empresa nao pode ficar sem admin nem manter dois admins ativos apos a conclusao. |
 | RF-IA-009 | Permitir suspender, remover e restaurar vinculos. | A alteracao deve afetar apenas a empresa selecionada e preservar historico. |
 | RF-IA-010 | Registrar eventos sensiveis de identidade e acesso. | Convites, alteracoes de perfil, transferencia e remocoes devem gerar trilha auditavel. |
+| RF-IA-011 | Avaliar autorizacao por permissao atomica e escopo. | Toda acao protegida deve validar autenticacao, vinculo, perfil, produto, plano e regra do recurso quando aplicavel. |
+| RF-IA-012 | Impedir autorizacao por interface ou por perfil amplo sem catalogo. | A decisao final deve ocorrer no servidor com permissao documentada. |
 
 ## Requisitos nao funcionais
 
@@ -57,6 +60,7 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 | RNF-IA-003 | Privacidade | Dados pessoais devem ser minimizados e mascarados quando exibidos em historicos. | Historicos nao devem expor CPF integral sem necessidade. |
 | RNF-IA-004 | Manutencao | Regras comuns de acesso devem ficar na plataforma base. | Produtos derivados devem consumir permissoes sem duplicar logica central. |
 | RNF-IA-005 | Auditoria | Eventos sensiveis devem ser rastreaveis. | Cada evento deve registrar ator, empresa, alvo, data e resultado. |
+| RNF-IA-006 | Evolucao | O modelo deve permitir permissoes por produto e modulo sem duplicar a autorizacao base. | Novas permissoes devem seguir o catalogo atomico e preservar o isolamento por empresa. |
 
 ## Dados envolvidos
 
@@ -90,6 +94,7 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 
 - Modelo relacional em `docs/06-data/relational-model.md`.
 - Politica de controle de acesso em `docs/07-security/access-control-policy.md`.
+- Modelo de permissoes e perfis em `docs/07-security/permission-model.md`.
 - Fluxo arquitetural em `docs/03-architecture/identity-and-access-flow.md`.
 
 ## Perguntas em aberto

@@ -30,13 +30,17 @@ Nenhum dado de empresa pode ser lido, alterado ou excluido sem validar usuario a
 | Acao | Admin | Gestor | Usuario |
 | --- | --- | --- | --- |
 | Acessar portal da empresa | Sim | Sim | Sim |
-| Ver propria assinatura ativa | Sim | A definir | A definir |
+| Ver perfil e dados basicos da empresa | Sim | Sim | Sim |
+| Ver assinatura ativa | Sim | Nao | Nao |
 | Gerenciar usuarios | Sim | Nao | Nao |
 | Alterar perfil de usuario | Sim | Nao | Nao |
 | Suspender usuario | Sim | Nao | Nao |
 | Transferir administracao | Sim | Nao | Nao |
 | Acessar backoffice interno | Nao | Nao | Nao |
 | Usar modulo do produto contratado | Conforme plano | Conforme plano | Conforme plano |
+
+O catalogo atomico, os escopos, a ordem de avaliacao e os testes normativos
+estao definidos em [Modelo de permissoes e perfis](permission-model.md).
 
 ## Backoffice
 
