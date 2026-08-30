@@ -14,32 +14,34 @@ Sobre essa base, produtos derivados podem evoluir por modulos independentes:
 | Fokus Law | Sistema derivado para rotinas juridicas, cartorarias e de advocacia. |
 | Fokus Lead | Sistema derivado para rotinas imobiliarias, CRM, leads e automacoes comerciais. |
 
-## Documentos principais
+## Estrutura documental
 
-### Plataforma
+| Pasta | Finalidade |
+| --- | --- |
+| [`01-overview`](01-overview/README.md) | Visao executiva, contexto, glossario e mapa geral do projeto. |
+| [`02-governance`](02-governance/README.md) | Diretrizes, convencoes, decisoes, fluxo de perguntas e governanca documental. |
+| [`03-architecture`](03-architecture/README.md) | Arquitetura do sistema, fronteiras, modulos, portais e decisoes arquiteturais. |
+| [`04-products`](04-products/README.md) | Produtos derivados, linhas de produto, escopo modular e roadmap por produto. |
+| [`05-requirements`](05-requirements/README.md) | Requisitos funcionais, nao funcionais, regras de negocio e criterios de aceite. |
+| [`06-data`](06-data/README.md) | Modelo relacional, dicionario de dados, isolamento, migrations e seeds. |
+| [`07-security`](07-security/README.md) | Seguranca, privacidade, LGPD, ameacas, requisitos e controles. |
+| [`08-commercial`](08-commercial/README.md) | Catalogo comercial, planos, precos, vouchers, ofertas e assinatura. |
+| [`09-operations`](09-operations/README.md) | Ambientes, deploy, qualidade, testes, releases, monitoramento e operacao. |
 
-- [Arquitetura da plataforma](platform/architecture.md): divisao entre Fokus Cloud, Fokus Law e Fokus Lead.
-- [Convencao de nomes e pastas](platform/naming-conventions.md): padrao oficial de arquivos, pastas, rotas e modulos.
-- [Diretrizes de documentacao e codificacao](platform/development-guidelines.md): regras para documentar, codificar, versionar tecnologias e validar alteracoes.
-- [Administracao e acesso](platform/access-and-administration.md): empresas, usuarios, vinculos, admin e transferencia de administracao.
-- [Cadastro e assinatura](platform/registration-and-subscription.md): criacao de empresa, usuario administrador, confirmacao de e-mail e escolha de assinatura.
-- [Modelo relacional](platform/relational-model.md): entidades centrais, chaves e restricoes.
-- [Isolamento e governanca de dados](platform/data-isolation-and-governance.md): separacao por empresa, vinculo e permissao.
-- [Portais e governanca](platform/portals-and-governance.md): separacao entre portal do cliente e backoffice.
-- [Seguranca e dados](platform/security-and-data.md): protecao de dados, acesso e responsabilidades.
+## Documentos de partida
 
-### Comercial
-
-- [Catalogo comercial](commercial/catalog.md): sistemas, planos, funcionalidades, precos e estados.
-- [Arquitetura de ofertas](commercial/offer-architecture.md): linhas comerciais, nomes oficiais, codigos e regras de segmentacao.
-- [Matriz de planos](commercial/plans-and-features-matrix.md): composicao dos planos por produto e linha comercial.
-- [Catalogo de precos sugeridos](commercial/suggested-pricing.md): regra de arredondamento e valores mensais e anuais.
-- [Modelo de dados do catalogo](commercial/catalog-data-model.md): tabelas, relacionamentos e regras de integridade.
-- [API do catalogo](commercial/catalog-api.md): contratos de leitura e integracao com backoffice e catalogo publico.
-- [Vouchers](commercial/vouchers.md): cadastro, validade, descontos, limites, beneficios e resgates.
-- [Governanca comercial](commercial/commercial-governance.md): permissoes, auditoria, publicacao e versionamento.
-- [Migracao do catalogo legado](commercial/legacy-catalog-migration.md): substituicao de dados estaticos por dados reais do banco.
-- [Plano de evolucao do catalogo](commercial/catalog-evolution-plan.md): etapas para administracao, publicacao e precificacao.
+- [Visao do projeto](01-overview/project-overview.md)
+- [Diretrizes de documentacao e codificacao](02-governance/development-guidelines.md)
+- [Convencao de nomes e pastas](02-governance/naming-conventions.md)
+- [Padrao de documentacao](02-governance/documentation-standards.md)
+- [Diretrizes de perguntas e decisoes](02-governance/question-guidelines.md)
+- [Arquitetura do sistema](03-architecture/system-architecture.md)
+- [Catalogo de modulos](04-products/module-catalog.md)
+- [Template de requisitos de modulo](05-requirements/module-requirements-template.md)
+- [Modelo relacional](06-data/relational-model.md)
+- [Seguranca e dados](07-security/security-and-data.md)
+- [Catalogo comercial](08-commercial/catalog.md)
+- [Ambientes e deploy](09-operations/environments-and-deploy.md)
 
 ## Principios centrais
 

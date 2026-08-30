@@ -97,7 +97,7 @@ A prioridade arquitetural e manter o Fokus Cloud como plataforma comum e evoluir
 
 ## Documentacao
 
-A documentacao principal esta em [`docs/`](docs/README.md). O ponto de partida recomendado e [`docs/platform/architecture.md`](docs/platform/architecture.md). Para novos arquivos, pastas e modulos, consulte [`docs/platform/naming-conventions.md`](docs/platform/naming-conventions.md).
+A documentacao principal esta em [`docs/`](docs/README.md). O ponto de partida recomendado e [`docs/03-architecture/system-architecture.md`](docs/03-architecture/system-architecture.md). Para novos arquivos, pastas e modulos, consulte [`docs/02-governance/naming-conventions.md`](docs/02-governance/naming-conventions.md).
 
 ## Licenca
 

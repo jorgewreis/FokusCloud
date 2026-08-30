@@ -49,11 +49,18 @@ A pasta `docs` deve ser organizada por dominio:
 ```text
 docs/
   README.md
-  platform/
-  commercial/
+  01-overview/
+  02-governance/
+  03-architecture/
+  04-products/
+  05-requirements/
+  06-data/
+  07-security/
+  08-commercial/
+  09-operations/
 ```
 
-Use `platform` para regras comuns do Fokus Cloud. Use `commercial` para catalogo, planos, precos, vouchers, ofertas e governanca comercial.
+Use as pastas numeradas para manter ordem visual estavel. O numero define a ordem de leitura; o nome define o dominio documental.
 
 Novos produtos derivados poderao receber suas proprias pastas quando houver documentacao suficiente:
 

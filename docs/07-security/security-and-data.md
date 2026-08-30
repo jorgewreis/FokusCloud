@@ -63,8 +63,8 @@ momento da ação, a decisão sobre o antigo admin e o resultado da confirmaçã
 - Proteger rotas e dados pelo contexto da empresa ativa.
 - Usar MySQL/Percona 8.4 com InnoDB, IDs textuais prefixados e FKs restritivas.
 - Aplicar `company_id` obrigatório, relações compostas e contexto de empresa
-  obtido de sessão assinada, conforme [Modelo relacional](relational-model.md)
-  e [Isolamento e governança](data-isolation-and-governance.md).
+  obtido de sessão assinada, conforme [Modelo relacional](../06-data/relational-model.md)
+  e [Isolamento e governança](../06-data/data-isolation-and-governance.md).
 - Registrar eventos de criação, alteração, remoção, restauração e transferência
   de vínculos em auditoria mascarada, com retenção de 180 dias.
 - Invalidar tokens anteriores da mesma finalidade ao reenviar um link e marcar

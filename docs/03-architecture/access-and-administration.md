@@ -17,8 +17,8 @@ deve ser garantida no banco de dados, além das validações de interface.
 Os perfis são fixos: `admin`, `gestor` e `usuário`. Gestor e usuário atuam
 somente sobre dados operacionais liberados pelo produto. Apenas o admin altera
 usuários entre gestor e usuário; a promoção para admin usa a transferência
-formal. Consulte [Modelo relacional](relational-model.md) para as restrições
-de banco e [Isolamento e governança](data-isolation-and-governance.md) para
+formal. Consulte [Modelo relacional](../06-data/relational-model.md) para as restrições
+de banco e [Isolamento e governança](../06-data/data-isolation-and-governance.md) para
 o escopo de acesso.
 
 ## Login e empresa ativa

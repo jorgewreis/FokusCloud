@@ -6,9 +6,9 @@ Definir o fluxo que cria uma empresa, associa seu administrador inicial e só
 libera a escolha de assinatura após a confirmação do e-mail.
 
 As regras de acesso e transferência de administração estão em
-[Administração e acesso](access-and-administration.md). As regras de proteção de
-dados estão em [Segurança e dados](security-and-data.md). O modelo das tabelas
-e o isolamento por empresa estão em [Modelo relacional](relational-model.md).
+[Administração e acesso](../03-architecture/access-and-administration.md). As regras de proteção de
+dados estão em [Segurança e dados](../07-security/security-and-data.md). O modelo das tabelas
+e o isolamento por empresa estão em [Modelo relacional](../06-data/relational-model.md).
 
 ## Primeiro cadastro
 
