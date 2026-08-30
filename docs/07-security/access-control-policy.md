@@ -1,0 +1,62 @@
+# Politica de controle de acesso
+
+## Objetivo
+
+Definir regras de autorizacao para usuarios, empresas, vinculos e perfis no Fokus Cloud.
+
+## Principio central
+
+Nenhum dado de empresa pode ser lido, alterado ou excluido sem validar usuario autenticado, empresa ativa, vinculo ativo e permissao suficiente.
+
+## Perfis base
+
+| Perfil | Responsabilidade | Restricao principal |
+| --- | --- | --- |
+| `admin` | Administra empresa, usuarios, assinatura e transferencia de administracao. | Existe apenas um admin ativo por empresa. |
+| `gestor` | Opera modulos permitidos pelo produto. | Nao administra assinatura nem transfere administracao. |
+| `usuario` | Usa recursos operacionais permitidos. | Nao gerencia usuarios ou configuracoes sensiveis. |
+
+## Status de vinculo
+
+| Status | Permite acesso? | Uso |
+| --- | --- | --- |
+| `pending` | Nao | Convite criado e ainda nao aceito. |
+| `active` | Sim | Vinculo valido para a empresa. |
+| `suspended` | Nao | Acesso bloqueado temporariamente. |
+| `removed` | Nao | Vinculo removido, com historico preservado. |
+
+## Matriz inicial de permissoes
+
+| Acao | Admin | Gestor | Usuario |
+| --- | --- | --- | --- |
+| Acessar portal da empresa | Sim | Sim | Sim |
+| Ver propria assinatura ativa | Sim | A definir | A definir |
+| Gerenciar usuarios | Sim | Nao | Nao |
+| Alterar perfil de usuario | Sim | Nao | Nao |
+| Suspender usuario | Sim | Nao | Nao |
+| Transferir administracao | Sim | Nao | Nao |
+| Acessar backoffice interno | Nao | Nao | Nao |
+| Usar modulo do produto contratado | Conforme plano | Conforme plano | Conforme plano |
+
+## Backoffice
+
+O backoffice interno nao deve usar os perfis de empresa como autorizacao suficiente. Acesso administrativo interno precisa de regra propria, separada dos usuarios clientes.
+
+## Controles obrigatorios
+
+- Middleware de autenticacao.
+- Middleware ou camada equivalente para empresa ativa.
+- Verificacao de vinculo ativo.
+- Policies para recursos sensiveis.
+- Auditoria para eventos administrativos.
+- Mascaramento de dados pessoais em historicos quando nao houver necessidade operacional.
+
+## Testes minimos
+
+- Usuario de uma empresa nao acessa dados de outra.
+- Usuario suspenso nao acessa portal.
+- Usuario removido nao recupera acesso sem restauracao formal.
+- Gestor nao altera usuarios.
+- Usuario comum nao acessa administracao.
+- Empresa nao fica sem admin apos transferencia.
+- Empresa nao possui dois admins ativos apos transferencia.

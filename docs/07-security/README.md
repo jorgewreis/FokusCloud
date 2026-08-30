@@ -5,6 +5,7 @@ Esta pasta documenta seguranca, privacidade, protecao de dados, LGPD, ameacas e 
 ## Arquivos
 
 - [Seguranca e dados](security-and-data.md)
+- [Politica de controle de acesso](access-control-policy.md)
 - [Requisitos de seguranca](security-requirements.md)
 - [Privacidade e LGPD](privacy-and-lgpd.md)
 - [Modelo de ameacas](threat-model.md)

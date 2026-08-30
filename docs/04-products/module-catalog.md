@@ -4,8 +4,7 @@ Este arquivo lista os modulos previstos, em planejamento ou implementados.
 
 | Modulo | Produto | Status | Descricao |
 | --- | --- | --- | --- |
-| Identidade e acesso | Fokus Cloud | Em evolucao | Login, sessao, verificacao e recuperacao de senha. |
-| Empresas | Fokus Cloud | Em evolucao | Cadastro, empresa ativa e vinculos. |
+| Identidade, empresas, usuarios e permissoes | Fokus Cloud | Em definicao | Login, sessao, verificacao, recuperacao de senha, empresa ativa, vinculos e perfis. |
 | Catalogo comercial | Fokus Cloud | Em evolucao | Produtos, planos, precos, funcionalidades e vouchers. |
 | Backoffice | Fokus Cloud | Em evolucao | Administracao interna da plataforma. |
 | Modulos juridicos | Fokus Law | A definir | Modulos especificos do dominio juridico. |

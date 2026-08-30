@@ -6,6 +6,7 @@ Esta pasta concentra requisitos funcionais, nao funcionais, regras de negocio e 
 
 - [Requisitos funcionais](functional-requirements.md)
 - [Requisitos nao funcionais](non-functional-requirements.md)
+- [Requisitos do modulo identidade e acesso](identity-and-access.md)
 - [Template de requisitos de modulo](module-requirements-template.md)
 - [Regras de negocio](business-rules.md)
 
