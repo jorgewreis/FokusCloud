@@ -46,6 +46,9 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | `plans` | PLN | Catálogo comercial de planos por produto e linha. |
 | `modules` | MOD | Catálogo comercial de funcionalidades por produto. |
 | `security_tokens` | TKN | Confirmação, recuperação e criação de senha. |
+| `user_credentials` | CRD | Hash de senha e futuras credenciais de autenticacao. |
+| `user_preferences` | PRF | Idioma, fuso horario e preferencias da conta. |
+| `legal_acceptances` | ACE | Aceites versionados de termos e politicas. |
 | `user_sessions` | SES | Sessoes web e dispositivos autenticados. |
 | `mobile_refresh_tokens` | RFT | Refresh tokens moveis rotativos e revogaveis. |
 

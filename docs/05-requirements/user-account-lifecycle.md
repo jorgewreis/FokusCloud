@@ -98,9 +98,17 @@ e eliminacao do Fokus Cloud.
 A transferencia nao pode deixar a empresa sem administrador nem criar dois
 administradores ativos.
 
+## Preferencias e aceites
+
+Idioma e fuso horario ficam em estrutura propria de preferencias. O usuario
+podera escolher notificacoes de seguranca, respeitando avisos criticos
+obrigatorios. Aceites legais ficam em tabela propria, com documento, versao,
+data, IP e contexto; novo aceite sera exigido apenas em alteracoes materiais.
+
 ## Dependencias
 
 - [Requisitos de identidade e acesso](identity-and-access.md)
 - [Modelo relacional](../06-data/relational-model.md)
 - [Fluxo de identidade e acesso](../03-architecture/identity-and-access-flow.md)
 - [Modelo de permissoes e perfis](../07-security/permission-model.md)
+- [Politica de seguranca da conta](../07-security/account-security-policy.md)
