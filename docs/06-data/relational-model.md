@@ -85,6 +85,10 @@ user_sessions ──< mobile_refresh_tokens
 
 - Um usuário pode possuir vínculos com várias empresas.
 - Uma empresa possui um único vínculo ativo com perfil `admin`.
+- A unidade `headquarters` e criada automaticamente para cada empresa.
+- `admin` possui escopo empresarial e nao precisa de `membership_units`.
+- `gestor` e `usuario` sem unidades ativas ficam com vinculo `suspended`.
+- Adicionar unidade nao remove associacoes existentes; transferencia remove a anterior em transacao.
 - Uma empresa possui no máximo uma assinatura não encerrada por produto.
 - Itens de assinatura são snapshots e não mudam com o catálogo atual.
 - A composição publicada de um plano é formada por `plan_modules`; uma funcionalidade pode estar em vários planos do mesmo produto.

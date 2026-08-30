@@ -106,6 +106,7 @@ Definir a base de identidade e autorizacao do Fokus Cloud, garantindo que usuari
 - Politica de controle de acesso em `docs/07-security/access-control-policy.md`.
 - Modelo de permissoes e perfis em `docs/07-security/permission-model.md`.
 - Ciclo de vida da conta global em `docs/05-requirements/user-account-lifecycle.md`.
+- Modelo de empresas, unidades e vinculos em `docs/06-data/company-and-unit-model.md`.
 - Fluxo arquitetural em `docs/03-architecture/identity-and-access-flow.md`.
 
 ## Perguntas em aberto
