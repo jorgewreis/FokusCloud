@@ -1,7 +1,7 @@
 # Deploy de produção
 
-O workflow `deploy.yml` publica o site estático quando há um push na
-branch `main` ou quando é executado manualmente pela aba **Actions**.
+O workflow `deploy.yml` publica a aplicacao Laravel quando há um push na
+branch `main` ou quando e executado manualmente pela aba **Actions**.
 
 Configure os secrets no ambiente GitHub `production`:
 
@@ -21,3 +21,9 @@ Os secrets abaixo são opcionais e habilitam a limpeza do cache após o deploy:
 - `CLOUDFLARE_ZONE_ID`: identificador da zona Cloudflare.
 
 Nunca versione chaves privadas ou valores reais de secrets em `.env`.
+
+O deploy limpa caches gerados em `bootstrap/cache`, executa
+`composer install`, `php artisan migrate --force` e `php artisan optimize` no
+servidor. O diretorio `resources/views` deve existir mesmo quando a aplicacao
+servir HTML estatico por `public/`, pois o cache de views do Laravel valida
+esse caminho durante a otimizacao.
