@@ -2,7 +2,10 @@
 
 ## Objetivo
 
-Esta matriz organiza os 11 planos comerciais e suas funcionalidades por contexto de uso. Ela combina modulos existentes com modulos propostos e deve ser aprovada antes de alterar migrations, seeders ou registros no banco.
+Esta matriz organiza os planos comerciais e suas funcionalidades por contexto
+de uso. No Fokus Law, somente os quatro modulos principais sao comerciais;
+capacidades especificas sao variantes internas e devem ser aprovadas antes de
+alterar migrations, seeders ou registros no banco.
 
 O catalogo deve preferir um modulo tecnico unico com variantes de contexto, regras, permissoes e limites. Uma variante comercial nao significa automaticamente um novo modulo no banco.
 
@@ -17,26 +20,27 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 
 ## Fokus Cloud Law
 
+O catalogo Law comercializa exclusivamente `processos`, `contatos`,
+`expedicoes` e `tarefas`. As variantes abaixo representam contexto e capacidade
+do mesmo modulo tecnico, nao novos modulos comerciais.
+
 ### Modulos processuais e de relacionamento
 
 | Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `processos` | Gestao Processual - Advocacia | Existente | X |  |  |  |  |
-| `processos` | Gestao Processual - Cartorio Criminal | Existente |  | X |  |  |  |
-| `processos` | Gestao Processual - Cartorio Civel | Existente |  |  | X |  |  |
-| `processos` | Gestao Processual - Audiencias | Existente |  |  |  | X |  |
-| `processos` | Gestao Processual - Expedientes | Existente |  |  |  |  | X |
-| `partes` | Partes Processuais - Cartorios | Existente |  | X | X | X |  |
-| `partes` | Clientes e Partes - Advocacia | Existente | X |  |  |  |  |
+| `processos` | Gestao de Processos - Advocacia | Existente | X |  |  |  |  |
+| `processos` | Gestao de Processos - Cartorio Criminal | Existente |  | X |  |  |  |
+| `processos` | Gestao de Processos - Cartorio Civel | Existente |  |  | X |  |  |
+| `processos` | Gestao de Processos - Audiencias | Existente |  |  |  | X |  |
+| `processos` | Gestao de Processos - Expedientes | Existente |  |  |  |  | X |
+| `contatos` | Gestao de Contatos - Cartorios | Existente |  | X | X | X | X |
+| `contatos` | Gestao de Contatos - Advocacia | Existente | X |  |  |  |  |
 
-### Modulos de expedientes e documentos
+### Gestao de Expedicoes
 
-| Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `expedicoes` | Gestao de Expedicoes | Existente |  | X | X |  | X |
-| `custas` | Custas e Recolhimentos Civeis | Novo |  |  | X |  |  |
-| `documentos` | Documentos e Modelos | Novo | X |  |  |  | X |
-| `expedientes` | Central de Expedientes | Novo |  |  |  |  | X |
+| Modulo tecnico | Capacidades de contexto | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `expedicoes` | Oficios, mandados, cartas, editais, guias e atos ordinatorios |  | X | X |  | X |
 
 O plano Advocacia nao inclui expedicao institucional. Portanto, `expedicoes`
 nao faz parte da oferta sugerida de Advocacia e somente pode ser considerado em
@@ -63,45 +67,16 @@ de permissao, fluxo de aprovacao, controles e historico proprios. A matriz
 indica a disponibilidade do recurso; a quantidade de instancias deve ser
 configuravel conforme a unidade.
 
-### Modulos de prazos, agenda e tarefas
+### Gestao de Tarefas
 
-| Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `prazos` | Prazos e Intimacoes - Advocacia | Novo | X |  |  |  |  |
-| `prazos` | Prazos Processuais - Cartorio Civel | Novo |  |  | X |  |  |
-| `prazos` | Prazos de Expedientes | Novo |  |  |  |  | X |
-| `agenda` | Agenda e Compromissos - Advocacia | Novo | X |  |  |  |  |
-| `agenda` | Controle Interno de Audiencias | Novo |  | X | X | X |  |
-| `agenda` | Acesso Externo a Audiencias | Novo |  |  |  | X |  |
-| `agenda` | Agendamento de Audiencias - Advocacia | Novo | X |  |  |  |  |
-| `tarefas_fluxos` | Gestao de Tarefas - Advocacia | Novo | X |  |  |  |  |
-| `tarefas_fluxos` | Gestao de Tarefas - Expedientes | Novo |  |  |  |  | X |
+| Modulo tecnico | Capacidades de contexto | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `tarefas` | Tarefas, fluxos, receitas, prazos, alertas e pendencias | X | X | X | X | X |
 
-### Modulos especificos de Advocacia
-
-| Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `honorarios` | Controle de Honorarios | Novo | X |  |  |  |  |
-| `financeiro` | Gerenciamento Financeiro | Novo | X |  |  |  |  |
-| `assinatura` | Assinatura Digital | Novo | X |  |  |  | X |
-
-### Modulos especificos do fluxo criminal
-
-| Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `presos` | Controle de Presos | Novo |  | X |  |  |  |
-| `monitoramento` | Monitoramento Eletronico | Existente |  | X |  |  |  |
-| `medidas` | Medidas Protetivas | Existente |  | X |  |  |  |
-| `penas` | Penas Alternativas | Novo |  | X |  |  |  |
-
-### Modulos transversais do Law
-
-| Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `relatorios` | Relatorios Operacionais | Novo | X | X | X | X | X |
-| `relatorios` | Relatorios Juridicos | Novo | X |  | X |  |  |
-| `relatorios` | Relatorios Gerenciais | Novo |  |  |  |  |  |
-| `notificacoes` | Notificacoes Internas e de Prazos | Novo | X | X | X | X | X |
+As demais capacidades jurídicas, como custas, documentos, assinatura,
+honorários, financeiro, presos, monitoramento, medidas, penas, relatórios,
+notificações, prazos e agenda, pertencem ao contexto funcional dos quatro
+módulos e não devem ser cadastradas como módulos Law independentes.
 
 ## Fokus Cloud Lead One
 
@@ -145,34 +120,27 @@ A linha Team deve possuir recursos de colaboracao e governanca de equipes, alem 
 
 ## Composicao personalizada
 
-As funcionalidades abaixo podem ser contratadas individualmente ou combinadas, sem criar automaticamente um novo plano permanente:
-
-- Gestao de Prazos e Intimacoes;
-- Relatorios Gerenciais;
-- Gestao Processual;
-- Gestao de Partes;
-- Controle de Prazos;
-- Gestao de Tarefas;
-- Relatorios;
-- Notificacoes.
-
-A composicao personalizada deve respeitar sistema, contexto, dependencias, incompatibilidades, limites e permissoes. O nome da oferta deve ser gerado como `Sistema - Personalizada`.
+Uma composicao personalizada pode combinar apenas os quatro modulos Law,
+respeitando contexto, dependencias, limites e permissoes. Capacidades internas
+nao criam planos ou modulos comerciais permanentes.
 
 ## Regras de modelagem
 
-- `processos`, `partes`, `prazos`, `agenda`, `tarefas_fluxos`, `relatorios` e `notificacoes` devem ser modulos tecnicos reutilizaveis com variantes de contexto;
-- `processos` deve ser comercializado como Gestao Processual e exibido internamente como Processos;
+- `processos`, `contatos`, `expedicoes` e `tarefas` sao os unicos modulos tecnicos comerciais do Law;
+- `processos` deve ser comercializado como Gestao de Processos e exibido internamente como Processos;
+- `contatos` deve ser comercializado como Gestao de Contatos e exibido internamente como Contatos;
+- partes processuais, advogados, instituicoes, orgaos e destinatarios devem ser papeis ou classificacoes de contatos, nao modulos tecnicos separados;
 - `expedicoes` deve permitir varias instancias por unidade e setor, com tipos, numeracao e controles independentes;
 - oficios, mandados, cartas precatorias, cartas rogatorias, cartas de ordem, editais, guias de execucao e atos ordinatorios devem ser tipos do modulo `expedicoes`;
 - cartas expedidas nao devem possuir numeracao propria interna na v1 cartoraria, salvo evolucao futura por tipo;
 - cartas recebidas devem ser modeladas como classe de processo, nao como modulo tecnico separado de expediente na v1;
 - guias de execucao comum e penal devem ser tipos ou capacidades de `expedicoes`, com campos, fluxos e regras proprios quando necessario;
-- os nomes comerciais devem ser Gestao de Expedicoes e Gestao de Tarefas; nos menus internos, usar apenas Expedicoes e Tarefas;
+- os nomes comerciais devem ser Gestao de Contatos, Gestao de Expedicoes e Gestao de Tarefas; nos menus internos, usar apenas Contatos, Expedicoes e Tarefas;
 - `Gestao de Prazos e Intimacoes` e `Controle de Prazos` devem compartilhar o mesmo nucleo tecnico, salvo se houver regras de negocio realmente distintas;
 - `Relatorios` e `Relatorios Gerenciais` devem compartilhar o mesmo nucleo e variar por tipos de relatorio e permissao;
 - uma variante externa de Audiencias deve possuir permissao de consulta sem permitir alteracoes indevidas;
 - regras de prazo de Editais devem ser configuraveis por contexto `criminal` ou `civel`;
-- a variante de Partes para Advocacia deve priorizar clientes, enquanto a variante cartoraria deve priorizar partes processuais;
+- a variante de Contatos para Advocacia deve priorizar clientes e advogados, enquanto a variante cartoraria deve priorizar partes processuais, orgaos e destinatarios;
 - limites ajustados pelo cliente devem ser escolhidos entre opcoes cadastradas e recalcular o preco no backend.
 
 ## Pendencias antes da implementacao

@@ -29,7 +29,13 @@ Este arquivo deve descrever tabelas, colunas, tipos, obrigatoriedade e significa
 | law_cases | operational_priority | string | Nao | Prioridade operacional interna, sem substituir sigilo. |
 | law_cases | confidentiality_level | enum | Sim | Nivel de sigilo: `public_internal`, `unit_restricted`, `case_confidential` ou `enhanced_confidential`. |
 | law_cases | internal_tags | json | Nao | Tags informativas configuraveis da unidade. |
-| law_case_parties | role | enum | Sim | Papel processual: `author`, `defendant`, `victim`, `prosecutor`, `defense`, `witness`, `interested` ou `other`. |
+| law_contacts | contact_type | enum | Sim | Tipo do contato: pessoa, advogado, instituicao, orgao publico, unidade judicial, perito ou outro tipo permitido. |
+| law_contacts | document_number | string | Nao | Documento normalizado e protegido quando necessario. |
+| law_contact_addresses | address_type | enum | Sim | Tipo de endereco do contato. |
+| law_contact_channels | channel_type | enum | Sim | Tipo de canal: telefone, celular, e-mail, WhatsApp, site ou outro. |
+| law_case_contacts | case_role | enum | Sim | Papel do contato no processo: autor, reu, vitima, testemunha, advogado, defensor, promotor, representante, interessado, orgao de origem ou outro. |
+| law_expedition_contacts | expedition_role | enum | Sim | Papel do contato na expedicao: destinatario, orgao de destino, unidade externa, responsavel por recebimento, copia ou outro. |
+| law_task_contacts | task_contact_role | enum | Sim | Papel opcional do contato na tarefa como referencia ou envolvido externo. |
 | law_expedition_types | code | string | Sim | Codigo do tipo de expedicao, como `oficio`, `carta_precatoria`, `carta_rogatoria` ou `carta_de_ordem`. |
 | law_expedition_types | uses_internal_number | boolean | Sim | Indica se o tipo exige numeracao interna. |
 | law_expedition_instances | sector_code | string | Sim | Codigo do setor ou origem operacional da expedicao. |
@@ -57,4 +63,4 @@ Expandir conforme novas migrations forem criadas.
 O modelo detalhado das tabelas de Backoffice, Billing, alertas, reembolsos e
 conciliacao esta em [Modelo de dados do Backoffice e Billing](backoffice-and-billing-data-model.md).
 
-O modelo detalhado das tabelas do Fokus Law esta em [Modelo de dados do Fokus Law](fokus-law-data-model.md). O nucleo de expedicoes esta detalhado em [Modelo de dados das expedicoes Law](law-expeditions-data-model.md), e tarefas/fluxos estao em [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md).
+O modelo detalhado das tabelas do Fokus Law esta em [Modelo de dados do Fokus Law](fokus-law-data-model.md). O nucleo de contatos esta detalhado em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md), expedicoes em [Modelo de dados das expedicoes Law](law-expeditions-data-model.md), e tarefas/fluxos em [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md).

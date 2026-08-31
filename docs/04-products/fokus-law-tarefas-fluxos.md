@@ -13,6 +13,10 @@ Uma tarefa pode existir sem expedicao, gerar uma ou mais expedicoes, acompanhar
 uma expedicao ja criada ou ser criada a partir de uma expedicao que exija
 retorno, cumprimento ou conferencia.
 
+Tarefas podem referenciar contatos, mas o responsavel interno da tarefa continua
+sendo usuario ou vinculo da unidade. Contatos representam envolvidos externos,
+interessados ou referencias operacionais.
+
 ## Escopo da v1
 
 Faz parte do escopo:
@@ -20,6 +24,7 @@ Faz parte do escopo:
 - cadastrar tipos de tarefa permitidos pelo sistema;
 - habilitar receitas operacionais por empresa ou unidade;
 - vincular tarefas a processo, expedicao, prazo ou pendencia quando aplicavel;
+- vincular contatos como envolvidos externos ou referencias operacionais;
 - permitir que uma tarefa gere expedicao documental;
 - permitir que uma expedicao gere tarefa de retorno, cumprimento ou conferencia;
 - acompanhar responsavel, prioridade, status, prazo, alertas e historico;
@@ -34,7 +39,7 @@ Nao faz parte do escopo:
 
 ## Relacao com expedicoes
 
-O modulo `tarefas_fluxos` e independente do modulo `expedicoes`, mas pode
+O modulo `tarefas` e independente do modulo `expedicoes`, mas pode
 orquestrar sua criacao e acompanhamento.
 
 Vinculos permitidos:
@@ -83,3 +88,4 @@ permitido pelo sistema.
   conferencia.
 - Receitas operacionais controlam personalizacao por empresa ou unidade.
 - Sigilo processual restringe tarefas, expedicoes, prazos e alertas vinculados.
+- Contatos podem ser vinculados a tarefas sem substituir responsavel interno.

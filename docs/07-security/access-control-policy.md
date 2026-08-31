@@ -53,8 +53,8 @@ O backoffice interno nao deve usar os perfis de empresa como autorizacao suficie
 
 Na v1, o Backoffice nao acessa dados operacionais do Fokus Law. Ele pode tratar
 informacoes comerciais, assinatura, billing, vouchers, alertas tecnicos
-agregados e auditoria da plataforma, sem visualizar processos, partes,
-expedientes, prazos, pendencias ou conteudo sigiloso do cliente.
+agregados e auditoria da plataforma, sem visualizar processos, contatos,
+partes, expedientes, prazos, pendencias ou conteudo sigiloso do cliente.
 
 ## Controles obrigatorios
 

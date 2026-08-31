@@ -24,7 +24,7 @@ operacao diaria por meio de:
 - gestao de expedicoes;
 - tarefas e fluxos operacionais;
 - prazos e pendencias operacionais;
-- partes processuais reutilizaveis na unidade;
+- contatos, partes, advogados, instituicoes, enderecos e canais reutilizaveis;
 - indicadores gerenciais da unidade.
 
 A v1 deve privilegiar governanca operacional, rastreabilidade e reducao de
@@ -43,12 +43,16 @@ Cartorio Civel.
 
 Faz parte do escopo da v1:
 
-- gestao processual como modulo central, exibido internamente como Processos;
+- gestao de processos como modulo central, exibido internamente como Processos;
+- gestao de contatos, exibida internamente como Contatos;
 - cadastro e acompanhamento operacional de processos;
 - vinculacao obrigatoria de expedientes a processos quando o expediente for
   processual;
-- cadastro de partes vinculadas a processos e reutilizaveis entre processos da
-  mesma unidade;
+- cadastro de contatos reutilizaveis, incluindo partes, advogados,
+  instituicoes, orgaos, unidades externas, enderecos e canais;
+- vinculacao de contatos a processos com papel processual contextual;
+- vinculacao de contatos a expedicoes como destinatario, orgao de destino ou
+  referencia externa;
 - gestao de expedicoes com tipos configuraveis;
 - oficios como tipo de expedicao com numeracao por unidade, setor e ano;
 - mandados, cartas precatorias, cartas rogatorias, cartas de ordem, editais,
@@ -81,7 +85,7 @@ Nao faz parte da v1:
 - integracoes automaticas alem do Datajud;
 - substituicao integral de sistemas judiciais oficiais;
 - espelhamento completo de PJe, e-SAJ ou outros sistemas processuais;
-- cadastro pessoal amplo fora da finalidade processual/operacional;
+- CRM amplo ou agenda pessoal fora da finalidade processual/operacional;
 - edicao de dados comerciais, assinatura, plano ou cobranca dentro do produto.
 
 Itens fora de escopo podem ser documentados como evolucao futura, mas nao devem
@@ -91,9 +95,9 @@ ser tratados como requisito da v1.
 
 ### Processos
 
-Processos sao a entidade central obrigatoria do Fokus Law v1. Expedientes,
-partes, prazos, pendencias e indicadores devem se conectar ao processo sempre
-que houver relacao processual.
+Processos sao a entidade central obrigatoria do Fokus Law v1. Contatos,
+expedientes, partes, prazos, pendencias e indicadores devem se conectar ao
+processo sempre que houver relacao processual.
 
 Dados operacionais minimos:
 
@@ -115,7 +119,7 @@ Cartas recebidas devem ser tratadas como uma classe de processo. Elas nao devem
 ser modeladas como expediente separado nem como modulo autonomo de cartas
 recebidas.
 
-O nome comercial do modulo e Gestao Processual. No menu interno do sistema, o
+O nome comercial do modulo e Gestao de Processos. No menu interno do sistema, o
 rotulo deve ser `Processos`.
 
 Dados oficiais, como classe, assunto, orgao julgador, movimentacoes publicas e
@@ -126,25 +130,35 @@ Datajud nao deve sobrescrever dados operacionais internos.
 Tags informativas auxiliam filtros, filas e indicadores, mas nao substituem
 classe processual, prioridade, status ou sigilo.
 
-O controle de sigilo deve usar niveis, conforme detalhado em [Gestao processual do Fokus Law](fokus-law-gestao-processual.md), e deve restringir entidades filhas
+O controle de sigilo deve usar niveis, conforme detalhado em [Gestao de processos do Fokus Law](fokus-law-gestao-processual.md), e deve restringir entidades filhas
 do processo quando aplicavel.
 
 O detalhe do processo deve possuir linha do tempo com movimentacoes oficiais,
-tarefas, expedicoes, prazos, partes e auditoria relevante.
+tarefas, expedicoes, prazos, contatos, partes e auditoria relevante.
 
 Receitas operacionais podem sugerir tarefas ou expedicoes a partir de classe,
 assunto, tag, prioridade ou situacao operacional, sem executar acoes
 automaticamente quando nao houver regra habilitada e usuario autorizado.
 
-### Partes
+### Contatos
 
-Partes processuais devem ser vinculadas aos processos e reutilizaveis entre
-processos da mesma unidade.
+Gestao de Contatos organiza pessoas, advogados, instituicoes, orgaos, unidades
+externas, enderecos e canais de comunicacao reutilizaveis pela unidade.
 
-O cadastro de partes deve conter dados minimos para identificacao operacional e
-papel processual. O objetivo nao e criar um cadastro pessoal amplo, mas permitir
+O modulo deve aparecer comercialmente como Gestao de Contatos e, no menu
+interno, apenas como `Contatos`.
+
+O cadastro de contatos deve conter dados minimos para identificacao operacional.
+O objetivo nao e criar agenda de compromissos nem CRM amplo, mas permitir
 identificacao suficiente para execucao cartoraria, filtros, documentos,
 indicadores e historico.
+
+Partes processuais, advogados, testemunhas, destinatarios, orgaos de destino e
+representantes sao papeis assumidos pelo contato em vinculos especificos. O
+mesmo contato pode ser parte em um processo, testemunha em outro e destinatario
+de uma expedicao.
+
+O detalhamento do modulo esta em [Gestao de contatos do Fokus Law](fokus-law-contatos.md).
 
 ### Expedicoes
 
@@ -195,13 +209,15 @@ estao detalhadas em [Gestao de tarefas do Fokus Law](fokus-law-tarefas-fluxos.md
 
 Os nomes comerciais dos modulos devem ser:
 
-- Gestao Processual;
+- Gestao de Processos;
+- Gestao de Contatos;
 - Gestao de Expedicoes;
 - Gestao de Tarefas.
 
 No menu interno do sistema, os rotulos devem ser simples:
 
 - Processos;
+- Contatos;
 - Expedicoes;
 - Tarefas.
 
@@ -269,6 +285,7 @@ Processos sigilosos devem ser visiveis apenas para usuarios autorizados na
 unidade. A restricao deve se aplicar tambem a:
 
 - partes;
+- contatos vinculados;
 - expedientes;
 - prazos;
 - pendencias;
@@ -290,7 +307,7 @@ Eventos auditaveis minimos:
 - alteracao de sigilo;
 - criacao, edicao, cancelamento e mudanca de status de expedicao;
 - criacao, edicao, cancelamento e mudanca de status de prazo ou pendencia;
-- vinculacao e desvinculacao de partes;
+- vinculacao e desvinculacao de contatos/partes;
 - alteracao de permissoes na unidade;
 - acesso a processo sigiloso;
 - exportacao de dados, quando existir.
@@ -379,7 +396,8 @@ comuns ficam no Fokus Cloud; regras juridicas ficam no Fokus Law.
   Criminal e base reutilizavel para Civel.
 - Processos sao definidos como entidade central e como modulo comercial Gestao
   Processual.
-- Expedicoes, tarefas, prazos, pendencias e partes possuem papel claro.
+- Contatos, expedicoes, tarefas, prazos, pendencias e partes possuem papel
+  claro.
 - Cartas recebidas sao tratadas como classe de processo, nao como expediente.
 - Audiencias, Advocacia, financeiro/honorarios e geracao avancada de documentos
   ficam fora da v1.

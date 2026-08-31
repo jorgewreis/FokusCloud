@@ -1,4 +1,4 @@
-# Requisitos da gestao processual
+# Requisitos da gestao de processos
 
 ## Objetivo
 
@@ -16,23 +16,25 @@ Processual e cujo rotulo no menu interno deve ser Processos.
 | RF-GPR-005 | O sistema deve permitir tags informativas configuraveis. | Tags podem ser aplicadas e filtradas sem substituir classe, prioridade, sigilo ou status. |
 | RF-GPR-006 | O sistema deve controlar niveis de sigilo. | Processo pode ter nivel publico interno, restrito a unidade, sigiloso por autorizacao ou sigilo reforcado. |
 | RF-GPR-007 | O sistema deve integrar dados processuais basicos com Datajud. | Metadados oficiais sao sincronizados sem sobrescrever dados operacionais internos. |
-| RF-GPR-008 | O sistema deve vincular partes processuais reutilizaveis. | A mesma parte pode ser usada em mais de um processo da unidade com papel proprio por processo. |
-| RF-GPR-009 | O sistema deve exibir linha do tempo do processo. | A linha do tempo consolida movimentacoes, tarefas, expedicoes, prazos, partes e auditoria relevante. |
+| RF-GPR-008 | O sistema deve vincular contatos como partes processuais ou outros papeis. | O mesmo contato pode ser usado em mais de um processo da unidade com papel proprio por processo. |
+| RF-GPR-009 | O sistema deve exibir linha do tempo do processo. | A linha do tempo consolida movimentacoes, tarefas, expedicoes, prazos, contatos, partes e auditoria relevante. |
 | RF-GPR-010 | O sistema deve permitir sugestoes por receitas operacionais. | Classe, assunto, tag ou status podem sugerir tarefas/expedicoes sem execucao automatica indevida. |
 | RF-GPR-011 | O sistema deve tratar cartas recebidas como classe processual. | Carta recebida aparece em Processos e nao cria expedicao propria. |
 
 ## Regras de negocio
 
 - `processos` e o codigo tecnico do modulo.
-- Gestao Processual e o nome comercial.
+- Gestao de Processos e o nome comercial.
 - Processos e o rotulo do menu interno.
 - Dados oficiais sincronizados ficam separados dos dados operacionais internos.
 - Datajud prevalece apenas em metadados oficiais sincronizaveis.
 - Dados internos como responsavel, prioridade, tags, observacoes e status
   operacional nao podem ser sobrescritos por integracao externa.
 - Tags sao informativas e nao substituem sigilo, prioridade, classe ou status.
-- Niveis de sigilo devem ser avaliados antes de exibir partes, tarefas,
-  expedicoes, prazos, indicadores e exportacoes.
+- Niveis de sigilo devem ser avaliados antes de exibir contatos vinculados,
+  partes, tarefas, expedicoes, prazos, indicadores e exportacoes.
+- Partes processuais sao papeis contextuais de contatos e nao um cadastro
+  isolado no modelo alvo.
 - Receitas operacionais podem sugerir proximas acoes, mas execucoes dependem de
   regra habilitada e usuario autorizado.
 
@@ -41,7 +43,7 @@ Processual e cujo rotulo no menu interno deve ser Processos.
 - lista de processos;
 - detalhe do processo;
 - cadastro e edicao de processo;
-- partes do processo;
+- contatos e partes do processo;
 - tags e prioridades;
 - controle de sigilo;
 - linha do tempo;
@@ -52,7 +54,7 @@ Processual e cujo rotulo no menu interno deve ser Processos.
 
 ## Criterios de aceite
 
-- Gestao Processual aparece como nome comercial e Processos como rotulo interno.
+- Gestao de Processos aparece como nome comercial e Processos como rotulo interno.
 - Processo possui classe, assuntos/artigos, prioridade, sigilo, autuacao e
   distribuicao.
 - Status oficial e status operacional sao independentes.

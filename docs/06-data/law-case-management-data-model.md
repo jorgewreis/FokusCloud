@@ -1,8 +1,11 @@
-# Modelo de dados da gestao processual Law
+# Modelo de dados da gestao de processos Law
 
 ## Objetivo
 
-Definir o modelo conceitual alvo da Gestao Processual no Fokus Law.
+Definir o modelo conceitual alvo da Gestao de Processos no Fokus Law.
+
+Contatos, partes processuais e demais envolvidos reutilizaveis estao detalhados
+em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md).
 
 Este documento complementa o [Modelo de dados do Fokus Law](fokus-law-data-model.md).
 
@@ -68,13 +71,15 @@ registros relacionados:
 - tarefas;
 - expedicoes;
 - prazos e pendencias;
-- partes;
+- contatos e partes;
 - auditoria operacional relevante.
 
 ## Criterios de aceite
 
 - O modelo de processos diferencia status oficial e operacional.
 - `confidentiality_level` e o campo alvo para sigilo.
+- `law_case_contacts` deve ser usado no modelo alvo para vincular partes,
+  advogados, orgaos de origem e demais contatos ao processo.
 - `is_confidential` pode existir apenas como compatibilidade derivada quando
   necessario.
 - Tags permanecem informativas.

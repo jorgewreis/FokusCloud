@@ -1,12 +1,12 @@
-# Gestao processual do Fokus Law
+# Gestao de processos do Fokus Law
 
 ## Objetivo
 
-Gestao Processual e o nome comercial do modulo central do Fokus Law. No menu
+Gestao de Processos e o nome comercial do modulo central do Fokus Law. No menu
 interno do sistema, o modulo deve aparecer como `Processos`.
 
 O modulo organiza os processos da unidade juridica e serve como eixo para
-partes, tarefas, expedicoes, prazos, sigilo, historico e indicadores.
+contatos, partes, tarefas, expedicoes, prazos, sigilo, historico e indicadores.
 
 ## Escopo da v1
 
@@ -21,7 +21,7 @@ Faz parte do escopo:
 - situacao processual oficial;
 - situacao operacional interna;
 - integracao com Datajud;
-- partes processuais;
+- contatos com papel processual;
 - tags informativas;
 - linha do tempo do processo;
 - vinculos com tarefas, expedicoes, prazos e pendencias.
@@ -37,8 +37,8 @@ O modulo deve separar dados oficiais de dados operacionais internos.
 | --- | --- | --- |
 | Oficial/Datajud | classe, assunto, orgao julgador, movimentacoes publicas, situacao oficial | Pode ser sincronizado. |
 | Operacional interno | responsavel, prioridade, tags, observacoes, status de trabalho | Nao deve ser sobrescrito pelo Datajud. |
-| Sensivel | sigilo, partes, observacoes restritas, dados protegidos | Deve respeitar permissao e mascaramento. |
-| Relacional | partes, tarefas, expedicoes, prazos e pendencias | Deve permanecer vinculado ao processo. |
+| Sensivel | sigilo, contatos/partes, observacoes restritas, dados protegidos | Deve respeitar permissao e mascaramento. |
+| Relacional | contatos, partes, tarefas, expedicoes, prazos e pendencias | Deve permanecer vinculado ao processo. |
 
 ## Status oficial e status operacional
 
@@ -87,8 +87,8 @@ Niveis iniciais:
 - `case_confidential`: sigiloso com autorizacao especifica por processo;
 - `enhanced_confidential`: sigilo reforcado quando a regra da unidade exigir.
 
-Processos em nivel sigiloso devem restringir partes, tarefas, expedicoes,
-prazos, buscas, indicadores e exportacoes.
+Processos em nivel sigiloso devem restringir contatos vinculados, partes,
+tarefas, expedicoes, prazos, buscas, indicadores e exportacoes.
 
 ## Linha do tempo
 
@@ -98,7 +98,7 @@ A linha do tempo do processo deve consolidar:
 - tarefas criadas, concluidas ou canceladas;
 - expedicoes geradas, enviadas, retornadas ou encerradas;
 - prazos e pendencias;
-- alteracoes de partes;
+- alteracoes de contatos e papeis processuais;
 - mudancas de prioridade, tag ou sigilo;
 - eventos de auditoria relevantes.
 
@@ -110,7 +110,7 @@ automaticamente sem receita operacional habilitada e regra aprovada.
 
 ## Criterios de aceite
 
-- O nome comercial e Gestao Processual.
+- O nome comercial e Gestao de Processos.
 - O menu interno usa o rotulo Processos.
 - Dados oficiais e dados operacionais internos ficam separados.
 - Tags informativas nao substituem prioridade nem sigilo.

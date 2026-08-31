@@ -22,6 +22,8 @@ Faz parte do escopo:
 - controlar numeracao interna quando o tipo exigir;
 - permitir numero externo posterior quando o tipo aceitar;
 - acompanhar status, datas, responsavel, destino, assunto e historico;
+- usar contatos como destinatarios, orgaos de destino, unidades externas ou
+  responsaveis por recebimento;
 - vincular prazos, pendencias e alertas a expedicoes;
 - conectar expedicoes a tarefas e receitas operacionais;
 - herdar sigilo do processo vinculado.
@@ -35,6 +37,11 @@ Nao faz parte do escopo:
 
 Cartas recebidas continuam pertencendo ao modulo de processos como classe
 processual.
+
+Destinatarios e orgaos de destino devem ser selecionados preferencialmente da
+Gestao de Contatos, detalhada em [Gestao de contatos do Fokus Law](fokus-law-contatos.md).
+Quando necessario para preservar o historico documental, a expedicao deve
+guardar snapshot minimo do contato usado no envio.
 
 ## Tipos iniciais
 
@@ -114,7 +121,7 @@ Uma expedicao pode:
 - gerar tarefa posterior de retorno, cumprimento ou conferencia;
 - manter vinculo com uma ou varias tarefas sem duplicar dados.
 
-As regras de orquestracao ficam no modulo `tarefas_fluxos`, detalhado em
+As regras de orquestracao ficam no modulo `tarefas`, detalhado em
 [Gestao de tarefas do Fokus Law](fokus-law-tarefas-fluxos.md).
 
 ## Criterios de aceite
@@ -130,3 +137,5 @@ As regras de orquestracao ficam no modulo `tarefas_fluxos`, detalhado em
 - Cartas recebidas continuam como classe de processo.
 - Sigilo processual restringe listas, detalhes, prazos, alertas, indicadores e
   exportacoes de expedicoes.
+- Destinatarios e orgaos de destino podem ser reutilizados pelo modulo
+  Contatos.

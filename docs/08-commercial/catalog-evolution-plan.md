@@ -6,7 +6,7 @@
 2. Confirmar limites e opcoes de capacidade.
 3. Definir dependencias e incompatibilidades.
 4. Consolidar modulos equivalentes, evitando duplicar `Gestao de Prazos e Intimacoes` e `Controle de Prazos` sem necessidade.
-5. Definir variantes de `Audiencias`, `Partes` e `Processos`.
+5. Definir variantes de `Audiencias`, `Contatos` e `Processos`.
 6. Definir tipos e instancias de expedicao por setor, incluindo numeracao e permissoes.
 7. Definir receitas operacionais que conectam tarefas, expedicoes, prazos e alertas.
 8. Definir descontos mensal e anual.
@@ -24,7 +24,10 @@
 
 ## Fase 3: recriacao do catalogo inicial
 
-Como o projeto ainda nao possui vinculacoes comerciais publicas, os planos atuais podem ser removidos e substituidos pelos 11 novos planos. A operacao deve ocorrer em migration controlada e ser acompanhada de seeders idempotentes.
+Como o projeto ainda nao possui vinculacoes comerciais publicas, os planos Law
+atuais podem ser removidos e recriados com os quatro modulos comerciais. A
+operacao deve ocorrer em migration controlada e ser acompanhada de seeders
+idempotentes. Os planos Lead permanecem inalterados.
 
 Os codigos dos novos planos devem ser:
 

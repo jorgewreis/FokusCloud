@@ -8,6 +8,7 @@ com expedicoes no Fokus Law.
 Este documento complementa:
 
 - [Modelo de dados do Fokus Law](fokus-law-data-model.md);
+- [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md);
 - [Modelo de dados das expedicoes Law](law-expeditions-data-model.md).
 
 ## Principios
@@ -15,6 +16,8 @@ Este documento complementa:
 - Tarefas representam trabalho a cumprir.
 - Expedicoes representam documentos expedidos ou acompanhados.
 - Receitas operacionais conectam tarefa, expedicao, prazo e alerta.
+- Contatos podem ser referencias externas da tarefa, sem substituir o
+  responsavel interno.
 - Empresa e unidade personalizam apenas receitas e tipos permitidos pelo
   sistema.
 - Sigilo e herdado do processo relacionado.
@@ -26,6 +29,7 @@ Este documento complementa:
 | LTT | Tipo de tarefa Law |
 | LOR | Receita operacional Law |
 | LTE | Vinculo tarefa-expedicao Law |
+| LTV | Vinculo tarefa-contato Law |
 
 ## Entidades alvo
 
@@ -77,6 +81,21 @@ Campos principais:
 - `relation_type`, como `created`, `tracks`, `followup` ou `review`;
 - metadados de criacao.
 
+### `law_task_contacts`
+
+Relaciona tarefas a contatos externos ou interessados sem duplicar o cadastro.
+
+Campos principais:
+
+- `id`;
+- `company_id`;
+- `law_unit_id`;
+- `law_task_id`;
+- `law_contact_id`;
+- `task_contact_role`;
+- `status`;
+- metadados de criacao.
+
 ## Relacao com `law_tasks`
 
 `law_tasks` continua sendo a tabela operacional de prazos e pendencias da v1,
@@ -92,5 +111,6 @@ mas deve evoluir para aceitar:
 - Tarefas e expedicoes possuem dados proprios e nao duplicados.
 - Uma tarefa pode se relacionar a nenhuma, uma ou varias expedicoes.
 - Uma expedicao pode criar tarefa posterior por receita operacional.
+- Uma tarefa pode referenciar contatos sem alterar seu responsavel interno.
 - Receitas operacionais controlam personalizacao por empresa ou unidade.
 - O modelo preserva `company_id`, `law_unit_id`, FKs compostas e `ON DELETE RESTRICT`.

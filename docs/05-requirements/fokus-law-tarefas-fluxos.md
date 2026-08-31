@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Definir requisitos do modulo `tarefas_fluxos`, cujo nome comercial deve ser
+Definir requisitos do modulo `tarefas`, cujo nome comercial deve ser
 Gestao de Tarefas e cujo rotulo no menu interno deve ser Tarefas.
 
 ## Requisitos funcionais
@@ -17,16 +17,20 @@ Gestao de Tarefas e cujo rotulo no menu interno deve ser Tarefas.
 | RF-FLX-006 | O sistema deve permitir expedicao que gera tarefa posterior. | Expedicao com retorno, cumprimento ou conferencia cria tarefa vinculada quando a receita exigir. |
 | RF-FLX-007 | O sistema deve vincular prazos e alertas a tarefas e expedicoes. | Prazo vencido, retorno pendente ou conferencia pendente aparecem na fila conforme configuracao. |
 | RF-FLX-008 | O sistema deve filtrar fila por tarefa, expedicao, tipo, responsavel, prioridade, status e vencimento. | A unidade consegue operar uma fila unica sem perder a rastreabilidade documental. |
+| RF-FLX-009 | O sistema deve permitir vincular contatos a tarefas. | Uma tarefa pode referenciar envolvido externo ou interessado sem substituir o responsavel interno. |
 
 ## Regras de negocio
 
-- `tarefas_fluxos` controla trabalho a cumprir.
+- `tarefas` controla trabalho a cumprir.
 - `expedicoes` controla documentos expedidos ou acompanhados.
 - Uma receita operacional pode gerar expedicao, prazo e alerta.
 - Uma tarefa nao deve duplicar campos proprios da expedicao; deve apenas
   referencia-la quando houver documento expedido.
 - Uma expedicao nao deve duplicar fluxo de trabalho; deve abrir tarefa vinculada
   quando houver retorno, cumprimento ou conferencia.
+- Contatos podem ser vinculados a tarefas como envolvidos externos,
+  interessados ou referencias operacionais.
+- Contato vinculado nao substitui responsavel interno da tarefa.
 - Sigilo do processo vinculado deve restringir a tarefa e a expedicao.
 - Cancelamento de tarefa nao cancela automaticamente expedicao ja criada, salvo
   regra explicita da receita.
@@ -48,4 +52,5 @@ Gestao de Tarefas e cujo rotulo no menu interno deve ser Tarefas.
 - Tarefa pode gerar uma ou varias expedicoes.
 - Expedicao pode gerar tarefa de retorno, cumprimento ou conferencia.
 - Fila operacional mostra tarefas e expedicoes vinculadas sem duplicacao.
+- Tarefas podem referenciar contatos externos sem alterar o responsavel interno.
 - Cartas recebidas continuam como processos, nao como expedicoes.

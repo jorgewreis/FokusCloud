@@ -6,6 +6,8 @@ Definir o modelo relacional alvo do modulo `expedicoes`, nucleo documental
 unico do Fokus Law.
 
 Este documento complementa o [Modelo de dados do Fokus Law](fokus-law-data-model.md).
+Destinatarios e orgaos de destino reutilizaveis estao detalhados em
+[Modelo de dados da gestao de contatos Law](law-contacts-data-model.md).
 
 ## Principios
 
@@ -14,6 +16,8 @@ Este documento complementa o [Modelo de dados do Fokus Law](fokus-law-data-model
 - Expedicoes processuais possuem `law_case_id`.
 - Tipos definem regras de processo, destino, numeracao, numero externo, retorno
   e origem de criacao.
+- Destino pode ser texto livre ou contato vinculado, conforme maturidade do
+  cadastro e necessidade historica.
 - Instancias representam setores ou origens operacionais da unidade.
 - Numeracao interna e transacional por tipo, instancia e ano.
 - Cartas recebidas nao entram neste modelo; elas permanecem em `law_cases`.
@@ -27,6 +31,7 @@ Este documento complementa o [Modelo de dados do Fokus Law](fokus-law-data-model
 | LEI | Instancia de expedicao Law |
 | LEX | Expedicao Law |
 | LES | Sequencia de numeracao de expedicao Law |
+| LEV | Vinculo expedicao-contato Law |
 
 ## `law_expedition_types`
 
@@ -82,6 +87,8 @@ Representa o registro operacional expedido.
 | `sequence_number` | int | Condicional | Numero interno quando o tipo exigir. |
 | `external_number` | varchar | Nao | Numero atribuido por orgao de destino, quando permitido. |
 | `destination` | varchar | Condicional | Destino ou destinatario. |
+| `destination_contact_id` | char(30) | Nao | Contato principal de destino quando houver cadastro reutilizavel. |
+| `destination_snapshot` | json | Nao | Nome, endereco ou canal preservados para historico documental. |
 | `subject` | varchar | Sim | Assunto resumido. |
 | `status` | enum | Sim | `created`, `signed`, `sent`, `received`, `returned`, `closed`, `cancelled`. |
 | `issued_at` | datetime | Nao | Data de expedicao ou assinatura. |
@@ -112,6 +119,20 @@ Controla sequencias transacionais de tipos numerados.
 | `next_number` | int | Sim | Proximo numero disponivel. |
 | `updated_at`, `updated_by` | audit | Sim | Metadados de alteracao. |
 
+## `law_expedition_contacts`
+
+Relaciona expedicoes a contatos usados como destinatario, orgao de destino,
+unidade externa, responsavel por recebimento ou copia.
+
+O detalhamento do modelo esta em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md).
+
+Regras:
+
+- A expedicao pode ter um contato principal de destino e contatos adicionais.
+- O vinculo nao substitui o snapshot historico necessario para prova do envio.
+- Sigilo processual deve ser aplicado antes de exibir contatos de expedicoes
+  vinculadas a processo sigiloso.
+
 ## Indices recomendados
 
 - `law_expedition_types`: unico por `(company_id, code)`.
@@ -120,6 +141,7 @@ Controla sequencias transacionais de tipos numerados.
 - `law_expeditions`: indice por `(company_id, law_unit_id, law_case_id)`.
 - `law_expeditions`: indice por `(company_id, law_unit_id, status)`.
 - `law_expeditions`: indice por `(company_id, law_unit_id, law_expedition_type_id, status)`.
+- `law_expedition_contacts`: indice por `(company_id, law_expedition_id, law_contact_id)`.
 - `law_expedition_number_sequences`: unico por `(company_id, law_unit_id, law_expedition_type_id, law_expedition_instance_id, sequence_year)`.
 
 ## Regras para migrations

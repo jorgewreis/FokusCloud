@@ -19,9 +19,11 @@ decisoes de produto.
 ### Dentro do escopo
 
 - processos como entidade central;
-- gestao processual com classe, assuntos/artigos, prioridades, niveis de sigilo,
+- gestao de processos com classe, assuntos/artigos, prioridades, niveis de sigilo,
   tags, autuacao, distribuicao e Datajud;
-- partes processuais reutilizaveis por unidade;
+- gestao de contatos com partes, advogados, instituicoes, orgaos, enderecos e
+  canais reutilizaveis por unidade;
+- vinculos contextuais de contatos com processos, expedicoes e tarefas;
 - expedicoes com tipos configuraveis;
 - oficios como tipo de expedicao com numeracao por unidade, setor e ano;
 - mandados, cartas precatorias, cartas rogatorias, cartas de ordem, editais,
@@ -57,10 +59,10 @@ decisoes de produto.
 | RF-LAW-001 | O sistema deve permitir cadastrar processo como entidade central da unidade. | Um processo pode ser criado com numero, classe, assuntos/artigos, unidade, autuacao, distribuicao, situacao oficial, status operacional, prioridade, nivel de sigilo, tags, datas relevantes e observacoes. |
 | RF-LAW-002 | O sistema deve exigir unidade vinculada ao processo. | Nenhum processo e salvo sem unidade ativa e autorizada para o usuario. |
 | RF-LAW-003 | O sistema deve permitir classificar cartas recebidas como classe de processo. | Uma carta recebida e cadastrada/acompanhada pelo fluxo de processos e nao aparece como expediente separado. |
-| RF-LAW-004 | O sistema deve permitir cadastrar partes reutilizaveis por unidade. | A mesma parte pode ser vinculada a mais de um processo da unidade sem duplicacao obrigatoria. |
-| RF-LAW-005 | O sistema deve permitir informar papel processual da parte em cada processo. | A parte pode ter papel diferente por processo, preservando historico do vinculo. |
+| RF-LAW-004 | O sistema deve permitir cadastrar contatos reutilizaveis por unidade. | A mesma pessoa, advogado, instituicao, orgao ou unidade externa pode ser reutilizada sem novo cadastro obrigatorio. |
+| RF-LAW-005 | O sistema deve permitir informar papel contextual do contato em cada processo, expedicao ou tarefa. | O contato pode ter papel diferente por processo e pode ser destinatario ou referencia externa em expedicoes e tarefas. |
 | RF-LAW-005A | O sistema deve separar dados oficiais e operacionais do processo. | Datajud atualiza metadados oficiais sem sobrescrever responsavel, prioridade, tags, observacoes ou status operacional. |
-| RF-LAW-005B | O sistema deve permitir linha do tempo do processo. | O detalhe do processo consolida movimentacoes, tarefas, expedicoes, prazos, partes e auditoria relevante. |
+| RF-LAW-005B | O sistema deve permitir linha do tempo do processo. | O detalhe do processo consolida movimentacoes, tarefas, expedicoes, prazos, contatos, partes e auditoria relevante. |
 | RF-LAW-006 | O sistema deve permitir criar expedicoes vinculadas a processo quando forem processuais. | Uma expedicao processual nao pode ser salva sem processo da unidade ativa. |
 | RF-LAW-007 | O sistema deve controlar tipos e instancias de expedicao por unidade e setor. | Cartorio e Gabinete podem operar instancias independentes com regras proprias. |
 | RF-LAW-008 | O sistema deve registrar tipo, destino, assunto, status, responsavel, datas e historico da expedicao. | A tela de expedicao exibe os dados atuais e o historico de alteracoes relevantes. |
@@ -88,7 +90,7 @@ decisoes de produto.
 | --- | --- | --- |
 | RS-LAW-001 | O sistema deve isolar dados por unidade. | Consultas, listas e detalhes retornam apenas registros da unidade ativa permitida. |
 | RS-LAW-002 | O sistema deve aplicar perfil por unidade. | O mesmo usuario pode ter permissoes diferentes em unidades diferentes. |
-| RS-LAW-003 | O sistema deve tratar sigilo processual como regra transversal. | Processo sigiloso restringe tambem partes, expedientes, prazos, buscas, listas e indicadores detalhados. |
+| RS-LAW-003 | O sistema deve tratar sigilo processual como regra transversal. | Processo sigiloso restringe tambem contatos vinculados, partes, expedientes, prazos, buscas, listas e indicadores detalhados. |
 | RS-LAW-004 | O sistema deve permitir autorizacao especifica para acesso a processo sigiloso. | Usuario sem autorizacao nao visualiza dados identificaveis do processo sigiloso. |
 | RS-LAW-005 | O sistema deve impedir que o Fokus Law altere regras comerciais da assinatura. | Nenhuma tela do produto permite mudar plano, preco, voucher ou cobranca. |
 | RS-LAW-006 | O sistema deve auditar acoes sensiveis e operacionais. | Eventos definidos neste documento geram registro de auditoria com usuario, data, entidade e alteracao. |
@@ -102,7 +104,9 @@ decisoes de produto.
 | Criar e editar processos | X | X | X |  |
 | Cancelar ou inativar processos | X | X |  |  |
 | Gerenciar sigilo e autorizacoes | X | X |  |  |
-| Criar e editar partes | X | X | X |  |
+| Criar e editar contatos | X | X | X |  |
+| Inativar ou mesclar contatos | X | X |  |  |
+| Vincular contatos a processos ou expedicoes | X | X | X |  |
 | Criar e editar expedicoes | X | X | X |  |
 | Cancelar expedicoes | X | X |  |  |
 | Configurar tipos e instancias de expedicao | X | X |  |  |
@@ -121,7 +125,7 @@ limite comercial ou vinculo ativo na unidade.
 ### Processos
 
 - Processo e a entidade central da v1.
-- Gestao Processual e o nome comercial do modulo.
+- Gestao de Processos e o nome comercial do modulo.
 - Processos e o rotulo do menu interno.
 - Expedientes processuais devem possuir processo vinculado.
 - Cartas recebidas sao classe de processo.
@@ -134,15 +138,23 @@ limite comercial ou vinculo ativo na unidade.
 - Tags informativas nao substituem classe, prioridade, sigilo ou status.
 - Niveis de sigilo devem restringir entidades filhas quando aplicavel.
 - Linha do tempo deve reunir movimentacoes oficiais, tarefas, expedicoes,
-  prazos, partes e auditoria relevante.
+  prazos, contatos, partes e auditoria relevante.
 - Receitas operacionais podem sugerir tarefas ou expedicoes, mas execucoes
   dependem de regra habilitada e usuario autorizado.
 
-### Partes
+### Contatos
 
-- Parte pertence ao contexto da unidade.
-- Parte pode ser reutilizada em multiplos processos da mesma unidade.
-- O papel processual pertence ao vinculo entre parte e processo.
+- Gestao de Contatos e o nome comercial do modulo.
+- Contatos e o rotulo do menu interno.
+- O modulo nao deve ser chamado de Agenda para nao confundir com compromissos,
+  prazos, audiencias e pendencias.
+- Contato pertence ao contexto autorizado da empresa/unidade.
+- Contato pode representar pessoa, advogado, instituicao, orgao, unidade
+  externa, parte, destinatario ou referencia operacional.
+- Contato pode ser reutilizado em multiplos processos, expedicoes e tarefas.
+- O papel processual pertence ao vinculo entre contato e processo.
+- O papel em expedicao pertence ao vinculo entre contato e expedicao ou ao
+  snapshot historico da expedicao.
 - O cadastro deve coletar apenas dados necessarios para identificacao
   operacional e execucao do fluxo.
 
@@ -205,7 +217,8 @@ Eventos minimos:
 - criacao, edicao, cancelamento e inativacao de processo;
 - alteracao de sigilo;
 - acesso a processo sigiloso;
-- vinculacao e desvinculacao de partes;
+- criacao, edicao, inativacao e mesclagem de contatos;
+- vinculacao e desvinculacao de contatos/partes;
 - criacao, edicao, cancelamento e mudanca de status de expedicao;
 - criacao, edicao, cancelamento e mudanca de status de tarefa;
 - configuracao de receitas operacionais;
@@ -268,7 +281,8 @@ Telas minimas:
 - cadastro/edicao de processo;
 - linha do tempo do processo;
 - gestao de tags, prioridades e sigilo;
-- partes do processo;
+- contatos;
+- contatos e partes do processo;
 - lista e detalhe de expedicoes;
 - configuracao de tipos e instancias de expedicao;
 - lista e detalhe de tarefas;
@@ -295,7 +309,7 @@ Endpoints e rotas devem sempre validar:
 | RNF-LAW-001 | O sistema deve manter isolamento multiempresa e multiunidade. | Testes demonstram que usuarios sem vinculo nao acessam dados de outra unidade. |
 | RNF-LAW-002 | O sistema deve preservar rastreabilidade operacional. | Acoes sensiveis possuem evento de auditoria consultavel. |
 | RNF-LAW-003 | O sistema deve degradar graciosamente quando Datajud falhar. | Falha externa exibe mensagem clara e nao corrompe dados internos. |
-| RNF-LAW-004 | O sistema deve evitar duplicacao desnecessaria de dados pessoais. | Partes reutilizaveis usam vinculos em vez de cadastros repetidos por processo. |
+| RNF-LAW-004 | O sistema deve evitar duplicacao desnecessaria de dados pessoais. | Contatos reutilizaveis usam vinculos contextuais em vez de cadastros repetidos por processo ou expedicao. |
 | RNF-LAW-005 | O sistema deve validar limites contratados no backend. | Requisicoes diretas nao conseguem ultrapassar modulo ou limite da assinatura. |
 | RNF-LAW-006 | O sistema deve proteger dados sigilosos em listas e indicadores. | Usuario nao autorizado nao consegue inferir dados identificaveis de processo sigiloso. |
 
@@ -303,12 +317,13 @@ Endpoints e rotas devem sempre validar:
 
 - Processos podem ser cadastrados, consultados, editados, cancelados/inativados
   e usados como eixo central.
-- Gestao Processual e o nome comercial, com Processos como rotulo interno.
+- Gestao de Processos e o nome comercial, com Processos como rotulo interno.
+- Gestao de Contatos e o nome comercial, com Contatos como rotulo interno.
 - Processos possuem classe, assuntos/artigos, prioridades, niveis de sigilo,
   tags, autuacao e distribuicao.
 - Status oficial e status operacional interno sao independentes.
-- Linha do tempo consolida movimentacoes, tarefas, expedicoes, prazos, partes e
-  auditoria relevante.
+- Linha do tempo consolida movimentacoes, tarefas, expedicoes, prazos,
+  contatos, partes e auditoria relevante.
 - Cartas recebidas sao tratadas como classe de processo.
 - Expedicoes possuem tipos e instancias configuraveis.
 - Oficios possuem numeracao por unidade, instancia e ano.
@@ -317,7 +332,10 @@ Endpoints e rotas devem sempre validar:
 - Numero externo de destino da expedicao e opcional e posterior quando o tipo aceitar.
 - Tarefas e fluxos podem gerar ou acompanhar expedicoes conforme receita
   operacional.
-- Partes sao reutilizaveis entre processos da mesma unidade.
+- Contatos podem representar partes, advogados, instituicoes, orgaos,
+  destinatarios e referencias externas.
+- Partes sao papeis processuais de contatos reutilizaveis entre processos da
+  mesma unidade.
 - Prazos e pendencias podem ser vinculados a processos e expedientes.
 - Perfis por unidade respeitam a matriz de permissoes.
 - Usuario acessa apenas unidades vinculadas explicitamente.

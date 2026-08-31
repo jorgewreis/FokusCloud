@@ -83,17 +83,25 @@ Uma funcionalidade pode ser marcada como disponivel para contratacao avulsa.
 
 O catalogo do Fokus Cloud Law deve contemplar, conforme a matriz de ofertas:
 
-- funcionalidades operacionais existentes, como Gestao Processual, partes, expedicoes e audiencias;
-- funcionalidades de Advocacia, como prazos e intimacoes, agenda, tarefas, clientes, honorarios e financeiro;
-- funcionalidades de Cartorio Civel, como custas, recolhimentos e controle de prazos;
-- funcionalidades de Gestao de Expedientes, como tarefas, fluxos de trabalho e controle de prazos.
+- os quatro modulos comerciais: Gestao de Processos, Gestao de Contatos,
+  Gestao de Expedicoes e Gestao de Tarefas;
+- capacidades de contexto para Advocacia, Cartorio Criminal, Cartorio Civel,
+  Audiencias e Expedientes dentro desses modulos.
 
-Tambem devem ser suportadas ofertas personalizadas com modulos de prazos e intimacoes, relatorios gerenciais, processos, partes, prazos, tarefas, relatorios e notificacoes, individualmente ou em conjunto.
+Prazos, audiencias, Datajud, documentos, relatorios e notificacoes devem ser
+capacidades internas ou variantes dos quatro modulos, e nao modulos comerciais
+Law independentes.
 
-O modulo `processos` deve ser comercializado como Gestao Processual. No menu
+O modulo `processos` deve ser comercializado como Gestao de Processos. No menu
 interno do Fokus Law, o rotulo deve ser `Processos`. Esse modulo concentra
 classe processual, assuntos/artigos, prioridades, niveis de sigilo, tags,
-autuacao, distribuicao, partes, Datajud e linha do tempo.
+autuacao, distribuicao, contatos/partes, Datajud e linha do tempo.
+
+O modulo `contatos` deve ser comercializado como Gestao de Contatos. No menu
+interno do Fokus Law, o rotulo deve ser `Contatos`. Esse modulo concentra
+pessoas, advogados, instituicoes, orgaos, unidades externas, enderecos, canais,
+partes processuais e destinatarios reutilizaveis. Nao deve ser chamado de
+Agenda, pois agenda representa compromissos, prazos, audiencias e pendencias.
 
 O plano de Advocacia nao inclui expedicao ou recebimento institucional. O
 modulo `expedicoes` e direcionado aos modelos cartorarios e de expedientes,
@@ -116,11 +124,11 @@ Guias de execucao comum e penal, editais criminais e editais civeis devem ser
 tratados como tipos ou capacidades configuraveis do modulo `expedicoes`, nao
 como modulos comerciais autonomos.
 
-O modulo `tarefas_fluxos` deve ser comercializado como Gestao de Tarefas. O
+O modulo `tarefas` deve ser comercializado como Gestao de Tarefas. O
 termo fluxo ou receita operacional descreve a configuracao interna e nao deve
 ser usado como nome principal da oferta.
 
-Nos menus internos do Fokus Law, os rotulos devem ser `Processos`,
+Nos menus internos do Fokus Law, os rotulos devem ser `Processos`, `Contatos`,
 `Expedicoes` e `Tarefas`.
 
 Quando duas denominacoes forem variacoes do mesmo recurso, a modelagem deve preferir um modulo tecnico unico com capacidades ou contextos comerciais diferentes. Isso evita duplicacao e mantem preco, dependencias e limites centralizados.

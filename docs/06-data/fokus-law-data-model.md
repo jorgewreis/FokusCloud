@@ -22,8 +22,13 @@ Este documento complementa:
 - FKs empresariais devem impedir relacionamento entre entidades de empresas
   diferentes.
 - Processos sao a entidade central da v1.
-- Gestao Processual e o nome comercial do modulo `processos`; o menu interno
+- Gestao de Processos e o nome comercial do modulo `processos`; o menu interno
   deve usar `Processos`.
+- Gestao de Contatos e o nome comercial do modulo `contatos`; o menu interno
+  deve usar `Contatos`.
+- Contatos substituem o cadastro restrito de partes no modelo alvo.
+- Partes processuais, advogados, instituicoes, orgaos e destinatarios sao
+  papeis ou classificacoes contextuais de contatos.
 - Cartas recebidas sao classe de processo, nao expediente separado.
 - Dados oficiais e operacionais do processo devem ser separados.
 - Tags informativas nao substituem classe, prioridade, sigilo ou status.
@@ -45,8 +50,12 @@ Este documento complementa:
 | LWU | Unidade juridica do Fokus Law |
 | LWM | Vinculo usuario-unidade Law |
 | LCS | Processo Law |
-| LPT | Parte processual Law |
-| LCP | Vinculo processo-parte Law |
+| LCO | Contato Law |
+| LDR | Endereco de contato Law |
+| LCN | Canal de contato Law |
+| LCV | Vinculo processo-contato Law |
+| LEV | Vinculo expedicao-contato Law |
+| LTV | Vinculo tarefa-contato Law |
 | LET | Tipo de expedicao Law |
 | LEI | Instancia de expedicao Law |
 | LEX | Expedicao Law |
@@ -121,7 +130,7 @@ Regras:
 
 Representa processos do Fokus Law.
 
-O detalhamento do modelo alvo da Gestao Processual esta em [Modelo de dados da gestao processual Law](law-case-management-data-model.md).
+O detalhamento do modelo alvo da Gestao de Processos esta em [Modelo de dados da gestao de processos Law](law-case-management-data-model.md).
 
 | Campo | Tipo | Obrigatorio | Regra |
 | --- | --- | --- | --- |
@@ -161,24 +170,30 @@ Regras:
 - Tags nao substituem classe, prioridade, status ou sigilo.
 - Cartas recebidas devem usar `case_class`, nao tabela de expediente.
 - `confidentiality_level` substitui sigilo apenas binario no modelo alvo.
-- Processo sigiloso deve restringir partes, expedientes, tarefas, listas,
-  buscas, indicadores detalhados e exportacoes.
+- Processo sigiloso deve restringir contatos vinculados, partes, expedientes,
+  tarefas, listas, buscas, indicadores detalhados e exportacoes.
 
-### `law_parties`
+### `law_contacts`
 
-Representa partes reutilizaveis dentro da unidade juridica.
+Representa contatos reutilizaveis dentro da empresa/unidade juridica.
+
+O detalhamento do modelo alvo da Gestao de Contatos esta em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md).
 
 | Campo | Tipo | Obrigatorio | Regra |
 | --- | --- | --- | --- |
-| `id` | char(30) | Sim | Prefixo `LPT`. |
+| `id` | char(30) | Sim | Prefixo `LCO`. |
 | `company_id` | char(30) | Sim | Empresa proprietaria. |
-| `law_unit_id` | char(30) | Sim | Unidade juridica. |
+| `law_unit_id` | char(30) | Nao | Unidade juridica, quando o contato for restrito a uma unidade. |
 | `display_name` | varchar | Sim | Nome exibido. |
+| `legal_name` | varchar | Nao | Nome completo ou razao social. |
 | `document_type` | enum | Nao | `cpf`, `cnpj`, `other`, quando informado. |
 | `document_number` | varchar | Nao | Normalizado e protegido quando aplicavel. |
-| `party_type` | enum | Sim | `person`, `organization`, `public_body`, `unknown`. |
+| `oab_number`, `oab_state` | varchar | Nao | Identificacao profissional quando contato for advogado. |
+| `contact_type` | enum | Sim | `person`, `organization`, `lawyer`, `law_firm`, `public_body`, `court_unit`, `police_unit`, `prosecutor_office`, `public_defender`, `expert`, `unknown`. |
+| `tags` | json | Nao | Tags informativas do contato. |
 | `status` | enum | Sim | `active`, `inactive`, `merged`. |
 | `notes` | text | Nao | Observacoes internas. |
+| `merged_into_contact_id`, `merged_reason` | audit | Nao | Obrigatorios quando mesclado. |
 | `created_at`, `created_by` | audit | Sim | Metadados de criacao. |
 | `updated_at`, `updated_by` | audit | Sim | Metadados de alteracao. |
 | `deleted_at`, `deleted_by` | audit | Nao | Inativacao logica. |
@@ -189,21 +204,36 @@ Regras:
   operacional.
 - Dados pessoais devem ser minimizados e mascarados quando exibidos em contexto
   sem permissao.
-- A parte nao define papel processual sozinha; o papel fica no vinculo com o
+- O contato nao define papel processual sozinho; o papel fica no vinculo com o
   processo.
+- O contato pode ser destinatario ou orgao de destino em expedicoes.
+- O contato pode ser referencia externa em tarefas.
 
-### `law_case_parties`
+### `law_contact_addresses` e `law_contact_channels`
 
-Relaciona partes a processos.
+Representam enderecos e meios de contato vinculados a um contato.
+
+Campos detalhados estao em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md).
+
+Regras:
+
+- Um contato pode possuir multiplos enderecos e canais.
+- Um endereco ou canal pode ser marcado como principal.
+- Canais e documentos devem ser mascarados quando a permissao nao permitir
+  exibicao completa.
+
+### `law_case_contacts`
+
+Relaciona contatos a processos com papel contextual.
 
 | Campo | Tipo | Obrigatorio | Regra |
 | --- | --- | --- | --- |
-| `id` | char(30) | Sim | Prefixo `LCP`. |
+| `id` | char(30) | Sim | Prefixo `LCV`. |
 | `company_id` | char(30) | Sim | Empresa proprietaria. |
 | `law_unit_id` | char(30) | Sim | Unidade juridica. |
 | `law_case_id` | char(30) | Sim | Processo vinculado. |
-| `law_party_id` | char(30) | Sim | Parte vinculada. |
-| `role` | enum | Sim | `author`, `defendant`, `victim`, `prosecutor`, `defense`, `witness`, `interested`, `other`. |
+| `law_contact_id` | char(30) | Sim | Contato vinculado. |
+| `case_role` | enum | Sim | `author`, `defendant`, `victim`, `witness`, `lawyer`, `prosecutor`, `defender`, `representative`, `interested`, `origin_body`, `other`. |
 | `role_detail` | varchar | Nao | Complemento quando `role = other` ou quando necessario. |
 | `status` | enum | Sim | `active`, `inactive`. |
 | `created_at`, `created_by` | audit | Sim | Metadados de criacao. |
@@ -211,9 +241,23 @@ Relaciona partes a processos.
 
 Regras:
 
-- A mesma parte pode ter papeis diferentes em processos diferentes.
+- O mesmo contato pode ter papeis diferentes em processos diferentes.
 - O vinculo deve respeitar a mesma `company_id` e `law_unit_id` de processo e
-  parte.
+  contato.
+
+### `law_expedition_contacts` e `law_task_contacts`
+
+Relacionam contatos a expedicoes e tarefas.
+
+Campos detalhados estao em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md).
+
+Regras:
+
+- Expedicoes podem usar contatos como destinatario, orgao de destino, unidade
+  externa, responsavel por recebimento ou copia.
+- Tarefas podem referenciar contatos externos sem substituir responsavel interno.
+- Expedicoes devem preservar snapshot minimo do contato quando necessario para
+  historico documental.
 
 ### Expedicoes
 
@@ -452,14 +496,18 @@ companies ──< company_units ──< law_units
 companies ──< company_memberships ──< law_unit_memberships >── law_units
 
 law_units ──< law_cases
-law_units ──< law_parties
-law_cases ──< law_case_parties >── law_parties
+law_units ──< law_contacts
+law_contacts ──< law_contact_addresses
+law_contacts ──< law_contact_channels
+law_cases ──< law_case_contacts >── law_contacts
 
 law_cases ──< law_expeditions
+law_expeditions ──< law_expedition_contacts >── law_contacts
 
 law_cases ──< law_tasks
 law_expeditions ──< law_tasks
 law_tasks ──< law_task_expeditions >── law_expeditions
+law_tasks ──< law_task_contacts >── law_contacts
 
 law_units ──< law_alerts
 law_units ──< law_audit_events
@@ -480,8 +528,10 @@ indices por `company_id`, `law_unit_id`, `target_type` e `target_id`.
 - `law_cases`: indice por `(company_id, law_unit_id, case_number)`.
 - `law_cases`: indice por `(company_id, law_unit_id, operational_status)`.
 - `law_cases`: indice por `(company_id, law_unit_id, confidentiality_level)`.
-- `law_parties`: indice por `(company_id, law_unit_id, display_name)`.
-- `law_case_parties`: unico por `(company_id, law_case_id, law_party_id, role)`.
+- `law_contacts`: indice por `(company_id, law_unit_id, display_name)`.
+- `law_contacts`: indice por `(company_id, law_unit_id, contact_type)`.
+- `law_case_contacts`: unico por `(company_id, law_case_id, law_contact_id, case_role)`.
+- `law_expedition_contacts`: indice por `(company_id, law_expedition_id, law_contact_id)`.
 - `law_expedition_types`: unico por `(company_id, code)`.
 - `law_expedition_instances`: unico por `(company_id, law_unit_id, sector_code)`.
 - `law_expeditions`: indice por `(company_id, law_unit_id, law_case_id)`.
@@ -576,8 +626,9 @@ criacao/alteracao e versionamento quando houver edicao concorrente.
 - listar processos por classe, assunto, prioridade, tag e nivel de sigilo;
 - buscar processo por numero dentro da unidade;
 - listar processos sigilosos apenas para usuarios autorizados;
-- listar partes de um processo;
-- listar processos vinculados a uma parte;
+- listar contatos de um processo por papel;
+- listar processos vinculados a um contato;
+- listar expedicoes vinculadas a um contato;
 - listar expedicoes por unidade, tipo, instancia, ano e status;
 - obter proximo numero de expedicao numerada por unidade, tipo, instancia e ano;
 - listar expedicoes por processo, destino e status;
@@ -592,15 +643,17 @@ criacao/alteracao e versionamento quando houver edicao concorrente.
 - consultar historico de sincronizacao Datajud por processo;
 - listar divergencias Datajud abertas.
 - montar linha do tempo do processo por movimentacoes, tarefas, expedicoes,
-  prazos, partes e auditoria.
+  prazos, contatos, partes e auditoria.
 
 ## Regras para migrations
 
 - Criar tabelas em ordem de dependencia: `law_units`, `law_unit_memberships`,
-  `law_cases`, `law_parties`, `law_case_parties`,
+  `law_cases`, `law_contacts`, `law_contact_addresses`,
+  `law_contact_channels`, `law_case_contacts`,
   `law_expedition_types`, `law_expedition_instances`,
   `law_expedition_number_sequences`, `law_expeditions`, `law_task_types`,
-  `law_operation_recipes`, `law_tasks`, `law_task_expeditions`, `law_alerts`,
+  `law_operation_recipes`, `law_tasks`, `law_expedition_contacts`,
+  `law_task_contacts`, `law_task_expeditions`, `law_alerts`,
   `law_confidential_case_accesses`, `law_audit_events`,
   `law_support_requests`, `law_datajud_syncs`, `law_datajud_divergences`.
 - Criar FKs compostas com `company_id` sempre que o pai tambem for empresarial.
@@ -617,7 +670,10 @@ criacao/alteracao e versionamento quando houver edicao concorrente.
 - O modelo separa `company_units` de `law_units`.
 - O modelo permite perfil Law por unidade.
 - Processos sao entidade central e pertencem a empresa e unidade juridica.
-- Gestao Processual separa dados oficiais e operacionais.
+- Gestao de Processos separa dados oficiais e operacionais.
+- Gestao de Contatos substitui o cadastro restrito de partes no modelo alvo.
+- Partes, advogados, instituicoes, orgaos e destinatarios sao papeis ou
+  classificacoes de contatos.
 - Tags processuais sao informativas.
 - Sigilo usa `confidentiality_level` no modelo alvo.
 - Cartas recebidas nao possuem tabela propria de expediente.

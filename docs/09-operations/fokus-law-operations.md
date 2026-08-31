@@ -69,9 +69,14 @@ Tarefas devem aparecer na mesma tela operacional, preservando a distincao entre
 trabalho a cumprir e documento expedido. Quando houver vinculo, a fila deve
 permitir navegar da tarefa para a expedicao e da expedicao para a tarefa.
 
-Processos devem possuir visao propria de Gestao Processual, exibida no menu
+Processos devem possuir visao propria de Gestao de Processos, exibida no menu
 como `Processos`, com classe, assuntos/artigos, prioridade, nivel de sigilo,
-tags, autuacao, distribuicao, partes, Datajud e linha do tempo.
+tags, autuacao, distribuicao, contatos/partes, Datajud e linha do tempo.
+
+Contatos devem possuir visao propria de Gestao de Contatos, exibida no menu
+como `Contatos`, sem usar o termo Agenda. A operacao deve permitir localizar
+pessoas, advogados, instituicoes, orgaos, unidades externas, enderecos e canais
+para vinculo com processos, expedicoes e tarefas.
 
 ## Ordenacao da fila
 
@@ -164,8 +169,8 @@ do tempo ou historico tecnico sem virar alerta operacional obrigatorio na v1.
 ## Linha do tempo do processo
 
 A linha do tempo do processo deve consolidar movimentacoes oficiais, tarefas,
-expedicoes, prazos, pendencias, alteracoes de partes, mudancas de prioridade,
-tags, nivel de sigilo e auditoria relevante.
+expedicoes, prazos, pendencias, alteracoes de contatos/partes, mudancas de
+prioridade, tags, nivel de sigilo e auditoria relevante.
 
 Essa visao deve respeitar permissao e sigilo. Usuario sem autorizacao nao pode
 usar linha do tempo para inferir dados identificaveis de processo protegido.
@@ -260,6 +265,7 @@ O suporte pode orientar:
 O suporte nao pode visualizar:
 
 - processos;
+- contatos;
 - partes;
 - expedicoes;
 - prazos;
@@ -291,8 +297,8 @@ Categorias da v1:
 - assinatura/modulos.
 
 Prints e anexos devem ser sanitizados antes de envio. O sistema deve orientar o
-usuario a nao incluir dados sigilosos, partes, documentos ou conteudo processual
-sensivel.
+usuario a nao incluir dados sigilosos, contatos, partes, documentos ou conteudo
+processual sensivel.
 
 ## Incidentes operacionais
 
@@ -380,6 +386,8 @@ Metricas devem respeitar sigilo processual e permissao do usuario.
 - Dashboard possui os cards definidos neste documento.
 - Processos possuem linha do tempo com eventos oficiais, operacionais e
   relacionais.
+- Contatos aparecem como modulo operacional independente e podem ser vinculados
+  a processos, expedicoes e tarefas.
 - Produtividade e calculada por itens concluidos no periodo.
 - Rotinas de chefe/escrivao e servidor operacional estao documentadas.
 - Suporte e orientativo e nao acessa dados juridicos.

@@ -48,8 +48,12 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | LWU | Unidade juridica do Fokus Law |
 | LWM | Vinculo usuario-unidade Law |
 | LCS | Processo Law |
-| LPT | Parte processual Law |
-| LCP | Vinculo processo-parte Law |
+| LCO | Contato Law |
+| LDR | Endereco de contato Law |
+| LCN | Canal de contato Law |
+| LCV | Vinculo processo-contato Law |
+| LEV | Vinculo expedicao-contato Law |
+| LTV | Vinculo tarefa-contato Law |
 | LET | Tipo de expedicao Law |
 | LEI | Instancia de expedicao Law |
 | LEX | Expedicao Law |
@@ -115,17 +119,21 @@ Todas as entidades abaixo possuem `company_id NOT NULL`:
 | `platform_notifications` | NTF | Notificacoes imediatas por e-mail e dashboard. |
 | `law_units` | LWU | Especializacao juridica de unidade operacional para o Fokus Law. |
 | `law_unit_memberships` | LWM | Perfil e acesso do usuario em uma unidade juridica. |
-| `law_cases` | LCS | Gestao Processual do Fokus Law, incluindo cartas recebidas como classe de processo. |
-| `law_parties` | LPT | Partes processuais reutilizaveis por unidade juridica. |
-| `law_case_parties` | LCP | Vinculo entre processo e parte, com papel processual. |
+| `law_cases` | LCS | Gestao de Processos do Fokus Law, incluindo cartas recebidas como classe de processo. |
+| `law_contacts` | LCO | Gestao de Contatos do Fokus Law: pessoas, advogados, instituicoes, orgaos, partes e destinatarios reutilizaveis. |
+| `law_contact_addresses` | LDR | Enderecos vinculados a contatos. |
+| `law_contact_channels` | LCN | Telefones, e-mails e canais vinculados a contatos. |
+| `law_case_contacts` | LCV | Vinculo entre processo e contato, com papel processual contextual. |
 | `law_expedition_types` | LET | Tipos de expedicao, como oficio e cartas expedidas. |
 | `law_expedition_instances` | LEI | Instancias de expedicao por unidade e setor. |
 | `law_expedition_number_sequences` | LES | Sequencias anuais de expedicoes numeradas. |
 | `law_expeditions` | LEX | Expedicoes vinculadas a processo quando processuais. |
+| `law_expedition_contacts` | LEV | Vinculos entre expedicoes e contatos destinatarios ou externos. |
 | `law_tasks` | LTK | Prazos, pendencias e tarefas vinculaveis a processo, expedicao ou tarefa. |
 | `law_task_types` | LTT | Tipos de tarefa operacional do Fokus Law. |
 | `law_operation_recipes` | LOR | Receitas que conectam tarefas, expedicoes, prazos e alertas. |
 | `law_task_expeditions` | LTE | Vinculos entre tarefas e expedicoes. |
+| `law_task_contacts` | LTV | Vinculos opcionais entre tarefas e contatos externos. |
 | `law_alerts` | LAL | Alertas operacionais do Fokus Law. |
 | `law_audit_events` | LAU | Auditoria operacional do Fokus Law. |
 | `law_confidential_case_accesses` | LCA | Autorizacoes explicitas para processos sigilosos. |
@@ -158,12 +166,16 @@ platform_incidents ──< platform_alerts
 company_units ──< law_units
 company_memberships ──< law_unit_memberships >── law_units
 law_units ──< law_cases
-law_units ──< law_parties
-law_cases ──< law_case_parties >── law_parties
+law_units ──< law_contacts
+law_contacts ──< law_contact_addresses
+law_contacts ──< law_contact_channels
+law_cases ──< law_case_contacts >── law_contacts
 law_cases ──< law_expeditions
+law_expeditions ──< law_expedition_contacts >── law_contacts
 law_cases ──< law_tasks
 law_expeditions ──< law_tasks
 law_tasks ──< law_task_expeditions >── law_expeditions
+law_tasks ──< law_task_contacts >── law_contacts
 law_units ──< law_alerts
 law_units ──< law_audit_events
 law_cases ──< law_confidential_case_accesses

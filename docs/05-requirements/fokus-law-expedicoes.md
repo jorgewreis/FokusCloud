@@ -22,6 +22,7 @@ Expedicoes.
 | RF-EXP-010 | O sistema deve filtrar filas, dashboards e relatorios por tipo, instancia, status e responsavel. | A unidade acompanha todas as expedicoes em uma fila unica com filtros. |
 | RF-EXP-011 | O sistema deve permitir que tarefas gerem ou acompanhem expedicoes. | Uma tarefa de expedir mandado, edital, guia, carta ou oficio pode criar expedicao vinculada. |
 | RF-EXP-012 | O sistema deve permitir que expedicoes gerem tarefas posteriores. | Uma expedicao com retorno, cumprimento ou conferencia configurada cria tarefa vinculada quando a receita exigir. |
+| RF-EXP-013 | O sistema deve permitir usar contatos em expedicoes. | Destinatario, orgao de destino, unidade externa ou responsavel por recebimento pode ser selecionado da Gestao de Contatos. |
 
 ## Regras de negocio
 
@@ -38,6 +39,10 @@ Expedicoes.
   ano.
 - Alteracao de tipo, instancia, numero, processo vinculado, destino, status,
   responsavel ou cancelamento deve ser auditada.
+- Destinatarios e orgaos de destino devem usar contatos quando houver cadastro
+  reutilizavel disponivel.
+- A expedicao deve preservar snapshot minimo do destinatario quando necessario
+  para historico documental.
 
 ## Permissoes
 
@@ -59,6 +64,7 @@ ativo na unidade nem regra de sigilo.
 - detalhe da expedicao com historico;
 - configuracao de tipos e instancias;
 - vinculacao de prazos e pendencias.
+- vinculacao de contatos como destinatarios ou orgaos de destino.
 
 ## Criterios de aceite
 
@@ -71,3 +77,4 @@ ativo na unidade nem regra de sigilo.
 - Expedicao processual sem processo vinculado e recusada.
 - Processo sigiloso mascara ou bloqueia expedicoes vinculadas conforme acesso.
 - Dashboard e fila tratam expedicoes em conjunto e filtram por tipo.
+- Expedicoes podem reutilizar contatos como destinatarios ou orgaos de destino.

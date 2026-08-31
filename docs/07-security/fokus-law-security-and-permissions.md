@@ -100,8 +100,12 @@ imediata de permissoes.
 O sistema nao deve permitir remover ou suspender o ultimo administrador ativo da
 unidade.
 
-Gestao Processual e o nome comercial do modulo `processos`; no menu interno, o
+Gestao de Processos e o nome comercial do modulo `processos`; no menu interno, o
 rotulo deve ser `Processos`.
+
+Gestao de Contatos e o nome comercial do modulo `contatos`; no menu interno, o
+rotulo deve ser `Contatos`. Contatos vinculados a processos sigilosos devem
+obedecer ao nivel de sigilo do processo no contexto de consulta.
 
 ## Matriz de permissoes
 
@@ -116,7 +120,9 @@ rotulo deve ser `Processos`.
 | Criar e editar processos nao sigilosos | Sim | Sim | Sim | Nao |
 | Cancelar/inativar processos | Sim | Sim | Nao | Nao |
 | Visualizar processos nao sigilosos | Sim | Sim | Sim | Sim |
-| Criar e editar partes | Sim | Sim | Sim | Nao |
+| Criar e editar contatos | Sim | Sim | Sim | Nao |
+| Inativar ou mesclar contatos | Sim | Sim | Nao | Nao |
+| Vincular contatos a processos ou expedicoes | Sim | Sim | Sim | Nao |
 | Criar e editar expedicoes | Sim | Sim | Sim | Nao |
 | Cancelar expedicoes | Sim | Sim | Nao | Nao |
 | Configurar tipos e instancias de expedicao | Sim | Sim | Nao | Nao |
@@ -142,6 +148,8 @@ O modelo alvo deve usar niveis de sigilo processual:
 
 Processos com nivel `case_confidential` ou `enhanced_confidential` exigem
 autorizacao explicita por processo, alem de perfil e vinculo na unidade.
+Contatos vinculados ao processo devem seguir a mesma restricao quando exibidos
+nesse contexto.
 
 A autorizacao deve ser registrada em `law_confidential_case_accesses`, vinculada
 a processo, usuario/vinculo Law, nivel de acesso, concedente, motivo e validade
@@ -173,7 +181,7 @@ O item mascarado pode exibir apenas:
 Nao deve exibir:
 
 - numero completo do processo;
-- partes;
+- contatos e partes;
 - assunto;
 - observacoes;
 - expedientes;
@@ -345,8 +353,8 @@ O Backoffice pode acessar apenas:
 - alertas tecnicos agregados;
 - auditoria da plataforma.
 
-Dados juridicos do cliente, processos, partes, expedientes, prazos, pendencias e
-conteudo sigiloso nao devem ser expostos ao Backoffice na v1.
+Dados juridicos do cliente, processos, contatos, partes, expedientes, prazos,
+pendencias e conteudo sigiloso nao devem ser expostos ao Backoffice na v1.
 
 ## Testes obrigatorios
 

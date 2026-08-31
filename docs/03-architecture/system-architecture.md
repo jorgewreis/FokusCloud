@@ -11,7 +11,7 @@ Os produtos derivados sao sistemas verticais que utilizam essa base comum e adic
 | Nivel | Nome | Responsabilidade |
 | --- | --- | --- |
 | Plataforma | Fokus Cloud | Sustenta identidade, empresas, usuarios, assinaturas, catalogo, vouchers, auditoria, billing, backoffice e governanca. |
-| Produto derivado | Fokus Law | Atende rotinas juridicas e administrativas ligadas a advocacia, cartorios, audiencias, expedientes, prazos, partes e documentos. |
+| Produto derivado | Fokus Law | Atende rotinas juridicas e administrativas ligadas a advocacia, cartorios, audiencias, expedientes, prazos, contatos, partes e documentos. |
 | Produto derivado | Fokus Lead | Atende rotinas imobiliarias ligadas a CRM, leads, imoveis, corretores, funil comercial, RT, distribuicao e automacoes. |
 
 ## Regra de pertencimento
@@ -79,8 +79,9 @@ O Fokus Law deve conter apenas funcionalidades cujo valor depende do dominio jur
 
 Exemplos de modulos possiveis:
 
-- gestao processual;
-- partes;
+- gestao de processos;
+- gestao de contatos;
+- partes como papel processual de contatos;
 - audiencias;
 - expedientes;
 - expedicoes;
