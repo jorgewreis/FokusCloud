@@ -13,6 +13,8 @@
 - Relacoes empresariais usam `company_id` e chaves estrangeiras compostas
   quando o isolamento depender da relacao pai.
 - Exclusao fisica e excepcional e depende da politica de retencao.
+- Textos pessoais usam `utf8mb4`; identificadores tecnicos usam `ascii_bin`.
+- E-mail e CPF sao armazenados em forma normalizada e sem duplicacao.
 
 ## `users`
 
@@ -30,6 +32,10 @@ Representa a identidade global da pessoa.
 | `created_at`, `updated_at` | UTC com microssegundos. |
 | `version` | Controle de concorrencia otimista. |
 
+`legal_name` e `preferred_name` usam `utf8mb4` e `VARCHAR(255)`. O primeiro e
+obrigatorio; o segundo e opcional. O e-mail usa `utf8mb4`, e o CPF usa somente
+os 11 digitos normalizados.
+
 Telefone, endereco, foto e preferencias nao ficam na identidade minima.
 
 ## `user_credentials`
@@ -38,6 +44,16 @@ Mantem credenciais independentes da identidade pessoal. A primeira credencial
 sera senha local, com hash Argon2id. A tabela deve suportar provedores futuros,
 mas cada provedor so pode ser vinculado uma vez por conta. A ultima credencial
 ativa nao pode ser removida sem outra credencial ativa.
+
+Historico de hashes e mantido somente na quantidade e periodo necessarios para
+impedir reutilizacao recente.
+
+## `identity_verifications`
+
+Registra solicitacoes de validacao do nome civil e futuras validacoes de
+identidade. Usa os estados `pending`, `approved`, `rejected`, `expired` e
+`cancelled`. O usuario pode solicitar; somente o backoffice pode concluir.
+Documentos nao sao armazenados inicialmente.
 
 ## `user_preferences`
 
@@ -58,6 +74,11 @@ Sessoes web sao gerenciadas pelo servidor. Aplicativos moveis usam JWT curto e
 refresh tokens rotativos vinculados ao dispositivo. O usuario pode visualizar
 e revogar sessoes individualmente ou em conjunto. Recuperacao ou alteracao de
 senha invalida todas as sessoes e refresh tokens.
+
+O usuario pode encerrar a propria conta somente depois de deixar empresas e
+transferir administracao. Conta `blocked` pode ser desbloqueada por prazo
+automatico ou revisao do backoffice. Ao reativar, cada empresa aprova o
+vinculo e escolhe novamente as unidades autorizadas.
 
 ## Integridade e privacidade
 

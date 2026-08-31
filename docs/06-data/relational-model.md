@@ -49,6 +49,7 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | `user_credentials` | CRD | Hash de senha e futuras credenciais de autenticacao. |
 | `user_preferences` | PRF | Idioma, fuso horario e preferencias da conta. |
 | `legal_acceptances` | ACE | Aceites versionados de termos e politicas. |
+| `identity_verifications` | IDV | Validacoes de nome civil e identidade. |
 | `user_sessions` | SES | Sessoes web e dispositivos autenticados. |
 | `mobile_refresh_tokens` | RFT | Refresh tokens moveis rotativos e revogaveis. |
 

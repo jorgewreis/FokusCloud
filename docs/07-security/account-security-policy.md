@@ -24,6 +24,10 @@ O sistema deve aplicar limitacao progressiva por CPF, IP e dispositivo, com
 bloqueios temporarios e registro de eventos. Nao deve bloquear uma conta
 permanentemente apenas por tentativas invalidas.
 
+Bloqueios temporarios podem ser removidos automaticamente apos o prazo. Um
+bloqueio relacionado a incidente, abuso ou risco relevante exige revisao do
+backoffice. O administrador de empresa nunca desbloqueia uma conta global.
+
 ## MFA
 
 O MFA sera opcional para todos os perfis. O metodo inicial sera aplicativo

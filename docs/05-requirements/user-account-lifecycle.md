@@ -33,6 +33,10 @@ confirmar a conta. O portal empresarial permanece bloqueado.
 Depois da confirmacao do e-mail, o usuario ainda deve aceitar os documentos
 obrigatorios vigentes antes de acessar o portal empresarial.
 
+Conta `blocked` pode ser desbloqueada automaticamente quando o bloqueio for
+temporario ou por revisao do backoffice. Ao sair de `closed`, a reabertura
+depende do backoffice e de validacao de identidade.
+
 ## Senha e recuperacao
 
 - A senha sera armazenada somente como hash Argon2id.
@@ -82,6 +86,11 @@ vinculados ao dispositivo e revogaveis individualmente.
 O usuario podera manter varias sessoes, visualizar seus dispositivos e
 encerrar uma sessao especifica ou todas as sessoes. Suspensoes, remocoes e
 mudancas de permissao deverao reavaliar ou invalidar acessos imediatamente.
+
+Se a conta global for suspensa ou bloqueada, todos os acessos serao encerrados,
+mas os vinculos empresariais serao preservados. Na reativacao, cada `admin`
+devera aprovar novamente o vinculo e selecionar as unidades que voltarao a ser
+autorizadas.
 
 ## Encerramento da conta
 
