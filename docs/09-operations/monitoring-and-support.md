@@ -4,6 +4,10 @@
 
 Registrar como o sistema sera acompanhado apos entrar em uso real.
 
+As regras especificas de alertas, filas, incidentes, suporte interno e rotinas
+do Backoffice estao definidas em [Monitoramento, suporte e operacao do
+Backoffice](backoffice-monitoring-and-support.md).
+
 ## Pontos a definir
 
 - Logs de aplicacao.

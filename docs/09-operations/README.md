@@ -8,6 +8,7 @@ Esta pasta documenta ambientes, deploy, testes, qualidade, releases, monitoramen
 - [Testes e qualidade](testing-and-quality.md)
 - [Processo de release](release-process.md)
 - [Monitoramento e suporte](monitoring-and-support.md)
+- [Monitoramento, suporte e operacao do Backoffice](backoffice-monitoring-and-support.md)
 
 ## Quando atualizar
 

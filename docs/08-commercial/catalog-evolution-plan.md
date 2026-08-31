@@ -43,9 +43,11 @@ Os codigos dos novos planos devem ser:
 
 1. Criar telas de sistemas, planos e funcionalidades.
 2. Implementar rascunho, previa, revisao e publicacao.
-3. Implementar agendamento e invalidacao de cache.
-4. Restringir operacoes a superadministradores.
+3. Implementar publicacao imediata com confirmacao explicita e invalidacao de cache.
+4. Permitir criacao e edicao por administradores comerciais, reservando publicacao, pausa e arquivamento final a superadministradores.
 5. Registrar auditoria completa.
+
+Agendamento de publicacao pode ser criado em evolucao futura, mas nao e requisito da v1 do Backoffice.
 
 ## Fase 5: integracao dos consumidores
 

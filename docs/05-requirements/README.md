@@ -6,6 +6,8 @@ Esta pasta concentra requisitos funcionais, nao funcionais, regras de negocio e 
 
 - [Requisitos funcionais](functional-requirements.md)
 - [Requisitos nao funcionais](non-functional-requirements.md)
+- [Requisitos do Backoffice Fokus Cloud](backoffice.md)
+- [Requisitos do Fokus Law](fokus-law.md)
 - [Requisitos do modulo identidade e acesso](identity-and-access.md)
 - [Ciclo de vida da conta global](user-account-lifecycle.md)
 - [Template de requisitos de modulo](module-requirements-template.md)

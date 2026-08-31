@@ -7,6 +7,7 @@ Esta pasta documenta os produtos do ecossistema Fokus Cloud, seus modulos, limit
 - [Fokus Cloud](fokus-cloud.md)
 - [Fokus Law](fokus-law.md)
 - [Fokus Lead](fokus-lead.md)
+- [Backoffice Fokus Cloud](backoffice.md)
 - [Catalogo de modulos](module-catalog.md)
 
 ## Quando atualizar

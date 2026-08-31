@@ -36,7 +36,6 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 | `oficios` | Oficios - Setor Cartorio | Existente |  | X | X |  | X |
 | `oficios` | Oficios - Setor Gabinete | Existente |  | X | X |  | X |
 | `cartas-exp` | Cartas Expedidas - Processuais e Administrativas | Existente |  | X | X |  | X |
-| `cartas-rec` | Cartas Recebidas - Processuais e Administrativas | Existente |  | X | X |  | X |
 | `editais` | Editais Criminais | Existente |  | X |  |  |  |
 | `editais` | Editais Civeis | Existente |  |  | X |  |  |
 | `guias` | Guias de Execucao - Varas Criminais Comuns | Existente |  | X |  |  |  |
@@ -45,10 +44,15 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 | `documentos` | Documentos e Modelos | Novo | X |  |  |  | X |
 | `expedientes` | Central de Expedientes | Novo |  |  |  |  | X |
 
-O plano Advocacia nao inclui expedicao ou recebimento institucional. Portanto,
-`oficios`, `cartas-exp` e `cartas-rec` nao fazem parte da oferta sugerida de
-Advocacia e somente podem ser considerados em uma composicao personalizada se
-houver uma necessidade especifica validada.
+O plano Advocacia nao inclui expedicao institucional. Portanto, `oficios` e
+`cartas-exp` nao fazem parte da oferta sugerida de Advocacia e somente podem ser
+considerados em uma composicao personalizada se houver uma necessidade
+especifica validada.
+
+Na v1 cartoraria, cartas recebidas devem ser tratadas como classe de processo,
+nao como expediente separado. Por isso, o controle de cartas recebidas deve
+pertencer ao modulo `processos`, preservando classe, origem, dados processuais e
+acompanhamento operacional do processo recebido.
 
 ### Instancias de expedicao por setor
 
@@ -164,7 +168,8 @@ A composicao personalizada deve respeitar sistema, contexto, dependencias, incom
 
 - `processos`, `partes`, `prazos`, `agenda`, `tarefas_fluxos`, `relatorios` e `notificacoes` devem ser modulos tecnicos reutilizaveis com variantes de contexto;
 - `oficios` deve permitir varias instancias por unidade e setor, com numeracao e controles independentes;
-- `cartas-exp` e `cartas-rec` devem permitir configuracao por unidade e setor quando o fluxo operacional exigir;
+- `cartas-exp` deve permitir configuracao por unidade e setor quando o fluxo operacional exigir, mas nao deve possuir numeracao propria interna na v1 cartoraria;
+- cartas recebidas devem ser modeladas como classe de processo, nao como modulo tecnico separado de expediente na v1;
 - `guias` deve possuir as variantes `guias_execucao_comum` e `guias_execucao_penal`, com campos, fluxos e regras proprios;
 - `Gestao de Prazos e Intimacoes` e `Controle de Prazos` devem compartilhar o mesmo nucleo tecnico, salvo se houver regras de negocio realmente distintas;
 - `Relatorios` e `Relatorios Gerenciais` devem compartilhar o mesmo nucleo e variar por tipos de relatorio e permissao;

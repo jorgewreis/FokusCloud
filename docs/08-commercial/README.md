@@ -12,6 +12,7 @@ Esta pasta documenta catalogo comercial, planos, precos, vouchers, ofertas, assi
 - [Vouchers](vouchers.md)
 - [Governanca comercial](commercial-governance.md)
 - [Cadastro e assinatura](registration-and-subscription.md)
+- [Billing e conciliacao com Mercado Pago](billing-and-reconciliation.md)
 - [Migracao do catalogo legado](legacy-catalog-migration.md)
 - [Plano de evolucao do catalogo](catalog-evolution-plan.md)
 

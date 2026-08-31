@@ -2,7 +2,13 @@
 
 ## Permissoes
 
-Somente superadministradores do backoffice podem administrar o catalogo comercial. As permissoes devem ser separadas por capacidade:
+O catalogo comercial e administrado pelo Backoffice Fokus Cloud. A v1 usa os
+perfis internos `superadministrador` e `administrador_comercial`, sempre com
+escopo `platform` e sem aproveitar perfis de empresa.
+
+O administrador comercial pode criar e editar dados comerciais. A publicacao,
+pausa e arquivamento final de itens publicados ficam reservados ao
+superadministrador. As permissoes devem ser separadas por capacidade:
 
 - visualizar;
 - criar;
@@ -18,11 +24,11 @@ Somente superadministradores do backoffice podem administrar o catalogo comercia
 1. O administrador cria ou edita um item em rascunho.
 2. O sistema valida dados, vinculos, precos, dependencias e conteudo.
 3. O administrador revisa a previa.
-4. A publicacao e confirmada ou agendada.
-5. O catalogo publico passa a usar a nova versao no horario definido.
+4. O superadministrador confirma a publicacao imediata.
+5. O catalogo publico passa a usar a nova versao publicada.
 6. O cache e invalidado automaticamente.
 
-A versao anterior permanece disponivel para consulta historica, sem restauracao automatica.
+A versao anterior permanece disponivel para consulta historica, sem restauracao automatica. Agendamento de publicacao pode ser criado em evolucao futura, mas nao e requisito da v1 do Backoffice.
 
 ## Auditoria
 

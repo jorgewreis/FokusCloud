@@ -31,8 +31,20 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | ITM | Item contratado |
 | CNV | Convite ou aceite de vínculo |
 | TKN | Token temporário |
+| MFA | Desafio de MFA interno |
 | AUD | Auditoria |
 | SUP | Acesso temporário de suporte |
+| PAD | Administrador interno da plataforma |
+| ALT | Alerta operacional |
+| ALC | Comentario de alerta operacional |
+| INC | Incidente operacional |
+| NTF | Notificacao operacional |
+| PAG | Pagamento |
+| VCH | Voucher |
+| VRD | Resgate de voucher |
+| SCH | Mudanca de assinatura |
+| REE | Reembolso |
+| RCA | Alerta de conciliacao |
 
 ## Entidades e escopo
 
@@ -52,6 +64,10 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | `identity_verifications` | IDV | Validacoes de nome civil e identidade. |
 | `user_sessions` | SES | Sessoes web e dispositivos autenticados. |
 | `mobile_refresh_tokens` | RFT | Refresh tokens moveis rotativos e revogaveis. |
+| `platform_admins` | PAD | Contas internas do Backoffice, separadas de `users`. |
+| `platform_login_challenges` | MFA | Desafios de MFA por e-mail para contas internas. |
+| `platform_audit_events` | AUD | Auditoria de acoes internas do Backoffice. |
+| `vouchers` | VCH | Beneficios comerciais administraveis pelo Backoffice. |
 
 Os aceites legais ficam vinculados à conta global, com versão e data dos
 Termos de Uso e da Política de Privacidade.
@@ -69,6 +85,15 @@ Todas as entidades abaixo possuem `company_id NOT NULL`:
 | `company_invitations` | CNV | Criação de senha e aceite de vínculo. |
 | `subscriptions` | ASS | Assinatura de empresa por produto. |
 | `subscription_items` | ITM | Snapshot de módulo, quantidade, preço e condições. |
+| `subscription_changes` | SCH | Historico de upgrade, downgrade, cancelamento, suspensao e reativacao. |
+| `payments` | PAG | Pagamentos e cobrancas recorrentes por assinatura. |
+| `voucher_redemptions` | VRD | Resgates de vouchers com snapshot comercial. |
+| `refund_requests` | REE | Solicitacoes e execucoes de reembolso. |
+| `payment_reconciliation_alerts` | RCA | Divergencias entre status interno e Mercado Pago. |
+| `platform_alerts` | ALT | Alertas operacionais do Backoffice. |
+| `platform_alert_comments` | ALC | Comentarios e historico de alerta. |
+| `platform_incidents` | INC | Incidentes criticos e ciclo de resposta. |
+| `platform_notifications` | NTF | Notificacoes imediatas por e-mail e dashboard. |
 | `audit_events` | AUD | Histórico estruturado e mascarado. |
 | `support_accesses` | SUP | Acesso temporário e justificado da Fokus. |
 | Cadastros operacionais futuros | Prefixo próprio | Dados de Law, Lead e outros produtos. |
@@ -81,10 +106,17 @@ roles ────────────────────────�
 
 companies ──< subscriptions >── products
 subscriptions ──< subscription_items >── modules
+subscriptions ──< subscription_changes
+subscriptions ──< payments ──< refund_requests
+payments ──< payment_reconciliation_alerts
 plans ──< plan_modules >── modules
 companies ──< company_units ──< membership_units >── company_memberships
 users ──< user_sessions
 user_sessions ──< mobile_refresh_tokens
+platform_admins ──< platform_login_challenges
+platform_admins ──< platform_audit_events
+platform_alerts ──< platform_alert_comments
+platform_incidents ──< platform_alerts
 ```
 
 - Um usuário pode possuir vínculos com várias empresas.
@@ -95,6 +127,7 @@ user_sessions ──< mobile_refresh_tokens
 - Adicionar unidade nao remove associacoes existentes; transferencia remove a anterior em transacao.
 - Uma empresa possui no máximo uma assinatura não encerrada por produto.
 - Itens de assinatura são snapshots e não mudam com o catálogo atual.
+- O modelo alvo de Backoffice e Billing esta detalhado em [Modelo de dados do Backoffice e Billing](backoffice-and-billing-data-model.md).
 - A composição publicada de um plano é formada por `plan_modules`; uma funcionalidade pode estar em vários planos do mesmo produto.
 - FKs usam `ON DELETE RESTRICT`; nunca há exclusão em cascata automática.
 - Tabelas filhas empresariais possuem chave única auxiliar `(company_id, id)`.

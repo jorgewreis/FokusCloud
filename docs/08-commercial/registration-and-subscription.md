@@ -71,6 +71,15 @@ A escolha deve carregar exclusivamente a versão publicada e comercializável do
 catálogo. O cliente pode selecionar um plano sugerido, ajustar limites
 permitidos ou montar uma oferta personalizada com funcionalidades compatíveis.
 
+As regras de billing, status, recorrência, inadimplência, reembolso e
+conciliação com o Mercado Pago estão definidas em [Billing e conciliação com
+Mercado Pago](billing-and-reconciliation.md).
+
+A assinatura só é persistida depois que o Mercado Pago cria o checkout ou
+`preapproval` com sucesso. A assinatura e o pagamento iniciam em
+`aguardando_pagamento` e a ativação depende de webhook assinado ou conciliação
+posterior com o Mercado Pago.
+
 ## Estados do fluxo
 
 | Estado | Resultado |
@@ -80,6 +89,8 @@ permitidos ou montar uma oferta personalizada com funcionalidades compatíveis.
 | Documento empresarial existente | Não cria empresa; direciona ao login ou recuperação de acesso. |
 | E-mail pendente ou link expirado | Impede a escolha de assinatura e permite reenviar a confirmação. |
 | E-mail confirmado | Libera a escolha de assinatura para a empresa ativa. |
+| Checkout/preapproval criado | Cria assinatura e pagamento em `aguardando_pagamento`. |
+| Pagamento aprovado por webhook ou conciliação | Ativa a assinatura. |
 
 ## Critérios de aceite
 
@@ -96,5 +107,7 @@ permitidos ou montar uma oferta personalizada com funcionalidades compatíveis.
 - O valor exibido na revisão é recalculado no servidor a partir do catálogo,
   ciclo, plano, módulos e limites selecionados; valores vindos do navegador não
   são aceitos como preço.
-- A assinatura e o pagamento só são persistidos depois que o checkout do
-  provedor é criado. A confirmação depende do webhook assinado e idempotente.
+- A assinatura e o pagamento só são persistidos depois que o checkout ou
+  `preapproval` do Mercado Pago é criado.
+- A confirmação depende de webhook assinado e idempotente ou conciliação
+  posterior com o Mercado Pago.

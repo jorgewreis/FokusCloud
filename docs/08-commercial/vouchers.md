@@ -8,7 +8,8 @@ Vouchers concedem beneficios comerciais para a contratacao de sistemas e planos.
 
 - `trial_free`: assinatura gratuita conforme a duracao definida;
 - `percentage`: desconto percentual;
-- `fixed`: desconto em valor fixo.
+- `fixed`: desconto em valor fixo;
+- `commercial_credit`: credito comercial aplicado conforme regra do voucher.
 
 Para Trial Free, o desconto corresponde a 100% e os campos de percentual e valor devem permanecer bloqueados no formulario.
 

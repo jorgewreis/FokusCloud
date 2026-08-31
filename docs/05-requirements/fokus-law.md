@@ -1,0 +1,276 @@
+# Requisitos do Fokus Law
+
+## Identificacao
+
+- Produto: Fokus Law.
+- Contexto v1: cartorios e serventias judiciais.
+- Recorte inicial: Cartorio Criminal com base reutilizavel para Cartorio Civel.
+- Status: aprovado para detalhamento tecnico.
+- Documento de produto: [Fokus Law](../04-products/fokus-law.md).
+
+## Objetivo
+
+Definir requisitos funcionais, nao funcionais, regras de negocio, permissoes,
+auditoria e criterios de aceite para implementar a v1 do Fokus Law sem novas
+decisoes de produto.
+
+## Escopo
+
+### Dentro do escopo
+
+- processos como entidade central;
+- partes processuais reutilizaveis por unidade;
+- oficios com numeracao por unidade e setor;
+- cartas expedidas vinculadas a processos, sem numeracao interna propria;
+- cartas recebidas como classe de processo;
+- prazos e pendencias vinculados a processos e expedientes;
+- perfis e permissoes por unidade;
+- acesso multiunidade por vinculo explicito;
+- sigilo processual transversal;
+- auditoria de acoes sensiveis e operacionais;
+- indicadores operacionais por unidade;
+- consulta e atualizacao de dados processuais basicos via Datajud;
+- habilitacao por catalogo comercial publicado e assinatura ativa.
+
+### Fora do escopo
+
+- Advocacia;
+- financeiro e honorarios advocaticios;
+- gestao completa de audiencias;
+- pauta completa, sala, link e agenda de audiencias;
+- geracao automatica avancada de documentos;
+- integracoes automaticas alem do Datajud;
+- edicao de planos, precos, vouchers, billing ou assinatura;
+- gestao de usuarios internos do Backoffice.
+
+## Requisitos funcionais
+
+| Codigo | Requisito | Criterio de aceite |
+| --- | --- | --- |
+| RF-LAW-001 | O sistema deve permitir cadastrar processo como entidade central da unidade. | Um processo pode ser criado com numero, classe, assunto, unidade, situacao, prioridade, sigilo, datas relevantes e observacoes. |
+| RF-LAW-002 | O sistema deve exigir unidade vinculada ao processo. | Nenhum processo e salvo sem unidade ativa e autorizada para o usuario. |
+| RF-LAW-003 | O sistema deve permitir classificar cartas recebidas como classe de processo. | Uma carta recebida e cadastrada/acompanhada pelo fluxo de processos e nao aparece como expediente separado. |
+| RF-LAW-004 | O sistema deve permitir cadastrar partes reutilizaveis por unidade. | A mesma parte pode ser vinculada a mais de um processo da unidade sem duplicacao obrigatoria. |
+| RF-LAW-005 | O sistema deve permitir informar papel processual da parte em cada processo. | A parte pode ter papel diferente por processo, preservando historico do vinculo. |
+| RF-LAW-006 | O sistema deve permitir criar oficios vinculados a processo. | Um oficio processual nao pode ser salvo sem processo vinculado. |
+| RF-LAW-007 | O sistema deve controlar numeracao de oficios por unidade e setor. | Dois setores podem ter sequencias independentes sem conflito de numeracao. |
+| RF-LAW-008 | O sistema deve registrar destinatario, assunto, status, responsavel, datas e historico do oficio. | A tela de oficio exibe os dados atuais e o historico de alteracoes relevantes. |
+| RF-LAW-009 | O sistema deve permitir criar cartas expedidas vinculadas a processo da unidade. | Uma carta expedida nao pode ser salva sem processo de origem da unidade. |
+| RF-LAW-010 | O sistema nao deve gerar numeracao interna propria para cartas expedidas. | O cadastro de carta expedida nao possui campo obrigatorio de sequencia interna do sistema. |
+| RF-LAW-011 | O sistema deve permitir informar posteriormente numero atribuido pela comarca ou orgao de destino. | O numero de destino e opcional no cadastro inicial e editavel depois por usuario autorizado. |
+| RF-LAW-012 | O sistema deve registrar destino, tipo, status, envio, retorno, responsavel e historico da carta expedida. | A carta expedida pode ser acompanhada do envio ao retorno sem criar numero interno. |
+| RF-LAW-013 | O sistema deve permitir criar prazos e pendencias vinculados a processos. | Um processo pode listar prazos e pendencias associados. |
+| RF-LAW-014 | O sistema deve permitir criar prazos e pendencias vinculados a expedientes. | Um oficio ou carta expedida pode possuir prazo ou pendencia propria. |
+| RF-LAW-015 | O sistema deve permitir atribuir responsavel, data limite, prioridade, status e alerta a prazo ou pendencia. | Prazos vencidos e a vencer aparecem em consultas e indicadores. |
+| RF-LAW-016 | O sistema deve permitir cancelar ou inativar registros com motivo obrigatorio. | Processos, expedientes, prazos e pendencias usados no fluxo nao sao excluidos fisicamente. |
+| RF-LAW-017 | O sistema deve impedir exclusao fisica de registros operacionais ja utilizados. | Uma tentativa de exclusao fisica retorna erro ou e convertida para inativacao/cancelamento auditado. |
+| RF-LAW-018 | O sistema deve consultar dados processuais basicos no Datajud. | Um usuario autorizado pode solicitar consulta por numero CNJ e visualizar retorno disponivel. |
+| RF-LAW-019 | O sistema deve atualizar metadados publicos do processo com base no Datajud. | Campos sincronizaveis sao atualizados sem sobrescrever campos operacionais internos. |
+| RF-LAW-020 | O sistema deve registrar divergencias relevantes entre Datajud e cadastro interno. | Divergencias ficam consultaveis por usuario autorizado e podem ser auditadas. |
+| RF-LAW-021 | O sistema deve exibir dashboard operacional por unidade. | O dashboard mostra processos ativos, expedientes pendentes, prazos vencidos/a vencer, produtividade e gargalos. |
+| RF-LAW-022 | O sistema deve respeitar modulos e limites habilitados pela assinatura ativa. | Usuario sem modulo habilitado nao acessa funcionalidade restrita, mesmo tendo perfil operacional. |
+| RF-LAW-023 | O sistema deve permitir alternancia entre unidades vinculadas ao mesmo usuario. | O usuario acessa apenas unidades com vinculo ativo e perfil atribuido. |
+
+## Requisitos de seguranca e permissao
+
+| Codigo | Requisito | Criterio de aceite |
+| --- | --- | --- |
+| RS-LAW-001 | O sistema deve isolar dados por unidade. | Consultas, listas e detalhes retornam apenas registros da unidade ativa permitida. |
+| RS-LAW-002 | O sistema deve aplicar perfil por unidade. | O mesmo usuario pode ter permissoes diferentes em unidades diferentes. |
+| RS-LAW-003 | O sistema deve tratar sigilo processual como regra transversal. | Processo sigiloso restringe tambem partes, expedientes, prazos, buscas, listas e indicadores detalhados. |
+| RS-LAW-004 | O sistema deve permitir autorizacao especifica para acesso a processo sigiloso. | Usuario sem autorizacao nao visualiza dados identificaveis do processo sigiloso. |
+| RS-LAW-005 | O sistema deve impedir que o Fokus Law altere regras comerciais da assinatura. | Nenhuma tela do produto permite mudar plano, preco, voucher ou cobranca. |
+| RS-LAW-006 | O sistema deve auditar acoes sensiveis e operacionais. | Eventos definidos neste documento geram registro de auditoria com usuario, data, entidade e alteracao. |
+
+## Matriz de permissoes
+
+| Acao | Administrador da unidade | Chefe/Escrivao | Servidor operacional | Visualizador |
+| --- | ---: | ---: | ---: | ---: |
+| Gerenciar usuarios da unidade | X | X |  |  |
+| Gerenciar permissoes da unidade | X | X |  |  |
+| Criar e editar processos | X | X | X |  |
+| Cancelar ou inativar processos | X | X |  |  |
+| Gerenciar sigilo e autorizacoes | X | X |  |  |
+| Criar e editar partes | X | X | X |  |
+| Criar e editar oficios | X | X | X |  |
+| Cancelar oficios | X | X |  |  |
+| Criar e editar cartas expedidas | X | X | X |  |
+| Cancelar cartas expedidas | X | X |  |  |
+| Criar e editar prazos/pendencias | X | X | X |  |
+| Concluir prazos/pendencias proprios | X | X | X |  |
+| Cancelar prazos/pendencias | X | X |  |  |
+| Consultar dashboard da unidade | X | X | X | X |
+| Consultar auditoria operacional | X | X |  |  |
+| Consultar Datajud | X | X | X |  |
+
+Permissoes podem ser restringidas adicionalmente por sigilo, modulo contratado,
+limite comercial ou vinculo ativo na unidade.
+
+## Regras de negocio
+
+### Processos
+
+- Processo e a entidade central da v1.
+- Expedientes processuais devem possuir processo vinculado.
+- Cartas recebidas sao classe de processo.
+- O sistema deve preservar identificadores externos para integracoes futuras.
+- Dados operacionais internos nao devem ser sobrescritos por integracoes.
+
+### Partes
+
+- Parte pertence ao contexto da unidade.
+- Parte pode ser reutilizada em multiplos processos da mesma unidade.
+- O papel processual pertence ao vinculo entre parte e processo.
+- O cadastro deve coletar apenas dados necessarios para identificacao
+  operacional e execucao do fluxo.
+
+### Oficios
+
+- Oficios possuem numeracao propria por unidade e setor.
+- Cada setor pode manter sequencia, responsaveis, permissao e historico
+  independentes.
+- Cancelamento exige motivo.
+- Alteracao de numero, setor, processo vinculado ou status deve ser auditada.
+
+### Cartas expedidas
+
+- Carta expedida e expediente vinculado a processo da unidade.
+- Carta expedida nao possui numeracao propria interna.
+- Numero atribuido no destino e opcional e pode ser preenchido posteriormente.
+- Alteracao de destino, processo vinculado, status, envio ou retorno deve ser
+  auditada.
+
+### Prazos e pendencias
+
+- Prazos e pendencias podem se vincular a processo ou expediente.
+- Registros vencidos devem aparecer em listas e indicadores.
+- Cancelamento ou alteracao de data limite exige auditoria.
+- Alertas devem respeitar responsavel e unidade ativa.
+
+### Datajud
+
+- Datajud e integracao inicial da v1.
+- Datajud consulta e atualiza dados processuais basicos.
+- Dados internos prevalecem para campos operacionais.
+- Datajud prevalece apenas para metadados publicos sincronizados.
+- Falhas no Datajud nao podem impedir o uso interno de processos ja cadastrados.
+
+### Assinatura e catalogo
+
+- O catalogo comercial publicado e a fonte oficial de modulos e limites.
+- A assinatura ativa define direito de uso do produto.
+- O Fokus Law deve bloquear funcionalidades nao contratadas.
+- Alteracoes comerciais devem ocorrer no Backoffice/Billing, nao no Fokus Law.
+
+## Auditoria
+
+Eventos minimos:
+
+- criacao, edicao, cancelamento e inativacao de processo;
+- alteracao de sigilo;
+- acesso a processo sigiloso;
+- vinculacao e desvinculacao de partes;
+- criacao, edicao, cancelamento e mudanca de status de oficio;
+- criacao, edicao, cancelamento e mudanca de status de carta expedida;
+- criacao, edicao, cancelamento e mudanca de status de prazo ou pendencia;
+- alteracao de data limite;
+- alteracao de responsavel;
+- configuracao de usuarios e permissoes da unidade;
+- consulta Datajud que altere metadados internos;
+- registro ou resolucao de divergencia Datajud;
+- exportacao de dados, quando existir.
+
+Campos minimos do evento:
+
+- usuario;
+- data e hora;
+- empresa;
+- unidade;
+- entidade;
+- identificador da entidade;
+- acao;
+- valores antes e depois, quando aplicavel;
+- motivo, quando aplicavel;
+- metadados minimos de origem.
+
+Motivo e obrigatorio quando a acao afetar sigilo, prazo, cancelamento,
+inativacao, disponibilidade do registro ou historico operacional relevante.
+
+## Dados
+
+Entidades alvo da v1:
+
+- unidade juridica;
+- vinculo de usuario a unidade;
+- processo;
+- parte;
+- vinculo processo-parte;
+- oficio;
+- carta expedida;
+- prazo;
+- pendencia;
+- evento de auditoria;
+- registro de sincronizacao Datajud;
+- divergencia Datajud;
+- alerta operacional.
+
+Dados sensiveis devem ser minimizados, protegidos por permissao e omitidos de
+logs tecnicos sempre que nao forem necessarios.
+
+## Interfaces
+
+Telas minimas:
+
+- selecao de unidade ativa;
+- dashboard da unidade;
+- lista de processos;
+- detalhe do processo;
+- cadastro/edicao de processo;
+- partes do processo;
+- lista e detalhe de oficios;
+- lista e detalhe de cartas expedidas;
+- lista de prazos e pendencias;
+- usuarios e permissoes da unidade;
+- auditoria operacional;
+- consulta/sincronizacao Datajud.
+
+Endpoints e rotas devem sempre validar:
+
+- usuario autenticado;
+- empresa ativa;
+- unidade ativa;
+- vinculo ativo na unidade;
+- perfil necessario;
+- modulo contratado;
+- sigilo processual.
+
+## Requisitos nao funcionais
+
+| Codigo | Requisito | Criterio de aceite |
+| --- | --- | --- |
+| RNF-LAW-001 | O sistema deve manter isolamento multiempresa e multiunidade. | Testes demonstram que usuarios sem vinculo nao acessam dados de outra unidade. |
+| RNF-LAW-002 | O sistema deve preservar rastreabilidade operacional. | Acoes sensiveis possuem evento de auditoria consultavel. |
+| RNF-LAW-003 | O sistema deve degradar graciosamente quando Datajud falhar. | Falha externa exibe mensagem clara e nao corrompe dados internos. |
+| RNF-LAW-004 | O sistema deve evitar duplicacao desnecessaria de dados pessoais. | Partes reutilizaveis usam vinculos em vez de cadastros repetidos por processo. |
+| RNF-LAW-005 | O sistema deve validar limites contratados no backend. | Requisicoes diretas nao conseguem ultrapassar modulo ou limite da assinatura. |
+| RNF-LAW-006 | O sistema deve proteger dados sigilosos em listas e indicadores. | Usuario nao autorizado nao consegue inferir dados identificaveis de processo sigiloso. |
+
+## Criterios de aceite da v1
+
+- Processos podem ser cadastrados, consultados, editados, cancelados/inativados
+  e usados como eixo central.
+- Cartas recebidas sao tratadas como classe de processo.
+- Oficios possuem numeracao por unidade/setor.
+- Cartas expedidas exigem processo vinculado e nao possuem numeracao interna.
+- Numero da comarca de destino da carta expedida e opcional e posterior.
+- Partes sao reutilizaveis entre processos da mesma unidade.
+- Prazos e pendencias podem ser vinculados a processos e expedientes.
+- Perfis por unidade respeitam a matriz de permissoes.
+- Usuario acessa apenas unidades vinculadas explicitamente.
+- Sigilo restringe dados em detalhes, listas, buscas, indicadores e exportacoes.
+- Auditoria cobre as acoes sensiveis e operacionais definidas.
+- Datajud atualiza apenas metadados publicos sincronizaveis.
+- Dados operacionais internos prevalecem sobre Datajud.
+- Dashboard operacional apresenta os indicadores minimos.
+- Modulos e limites respeitam catalogo publicado e assinatura ativa.
+- O Fokus Law nao altera plano, preco, voucher, cobranca ou assinatura.

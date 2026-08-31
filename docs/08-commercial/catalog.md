@@ -99,6 +99,12 @@ Em unidades cartorarias, `oficios` pode possuir varias instancias por setor,
 como Cartorio e Gabinete. Cada instancia deve manter numeracao, serie,
 responsaveis, permissoes, fluxo e controles independentes.
 
+Na v1 cartoraria do Fokus Law, `cartas-exp` representa cartas expedidas como
+expedientes vinculados a processo e sem numeracao propria interna. O numero
+atribuido pela comarca ou orgao de destino e opcional e pode ser informado
+posteriormente. Cartas recebidas nao devem ser tratadas como expediente separado
+na v1, pois correspondem a uma classe de processo dentro do modulo `processos`.
+
 `Guias de Execucao` possui duas variantes de negocio: Varas Criminais Comuns e
 Varas de Execucao Penal. As variantes compartilham o modulo-base, mas podem
 possuir campos, fluxos, documentos e regras especificas.
