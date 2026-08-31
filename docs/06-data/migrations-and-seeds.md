@@ -18,7 +18,9 @@ Seeds podem criar dados iniciais para desenvolvimento, testes e carga inicial co
 - Migrations de status devem tratar conversao do estado atual para o modelo alvo sem perder historico de assinatura, pagamento, voucher ou auditoria.
 - Tabelas operacionais com retencao devem incluir `expires_at` quando a regra de negocio exigir limpeza posterior.
 - Tabelas do Fokus Law devem preservar `company_id`, `law_unit_id` quando aplicavel, FKs compostas e `ON DELETE RESTRICT`.
-- Sequencias de oficios devem ser incrementadas em transacao por unidade, setor e ano.
+- Sequencias de expedicoes numeradas devem ser incrementadas em transacao por unidade, tipo, instancia e ano.
+- Tarefas e fluxos devem manter receitas operacionais separadas dos registros executados.
+- Vinculos entre tarefas e expedicoes devem evitar duplicacao de dados documentais.
 
 ## A complementar
 

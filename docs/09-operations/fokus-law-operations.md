@@ -34,7 +34,8 @@ Estrutura recomendada:
 - fila de trabalho abaixo;
 - abas ou filtros por tipo de item;
 - filtros por periodo;
-- filtros por responsavel, setor, status e prioridade quando aplicavel.
+- filtros por responsavel, setor, status, prioridade, tag e nivel de sigilo
+  quando aplicavel.
 
 Enfase por perfil:
 
@@ -51,8 +52,7 @@ A fila de trabalho deve ser unica, com abas ou filtros por tipo.
 
 Tipos da v1:
 
-- oficios;
-- cartas expedidas;
+- expedicoes;
 - cartas recebidas;
 - tarefas;
 - prazos;
@@ -60,6 +60,18 @@ Tipos da v1:
 
 Cartas recebidas devem aparecer como fila/visao de processos cuja classe seja
 carta recebida. Elas nao sao expediente separado.
+
+Expedicoes devem aparecer em fila unica com filtros por tipo, como oficio,
+mandado, carta precatoria, carta rogatoria, carta de ordem, edital, guia de
+execucao e ato ordinatorio.
+
+Tarefas devem aparecer na mesma tela operacional, preservando a distincao entre
+trabalho a cumprir e documento expedido. Quando houver vinculo, a fila deve
+permitir navegar da tarefa para a expedicao e da expedicao para a tarefa.
+
+Processos devem possuir visao propria de Gestao Processual, exibida no menu
+como `Processos`, com classe, assuntos/artigos, prioridade, nivel de sigilo,
+tags, autuacao, distribuicao, partes, Datajud e linha do tempo.
 
 ## Ordenacao da fila
 
@@ -79,7 +91,7 @@ Alertas operacionais da v1:
 
 - prazo vencido;
 - prazo a vencer;
-- retorno de carta expedida pendente;
+- retorno, cumprimento ou conferencia de expedicao pendente;
 - solicitacao de acesso sigiloso pendente.
 
 Nao fazem parte da v1:
@@ -98,13 +110,13 @@ estar concluido, cancelado ou encerrado.
 
 Gerar alerta quando faltarem 3 dias corridos para o vencimento.
 
-### Retorno de carta expedida pendente
+### Retorno, cumprimento ou conferencia de expedicao pendente
 
-Gerar alerta conforme prazo configuravel por carta expedida.
+Gerar alerta conforme prazo configuravel por expedicao.
 
-Esse prazo deve ser informado no proprio cadastro ou acompanhamento da carta e
-deve permitir que cartas mais urgentes ou mais complexas tenham tratamento
-diferente.
+Esse prazo deve ser informado no proprio cadastro ou acompanhamento da
+expedicao e deve permitir que tipos mais urgentes ou mais complexos tenham
+tratamento diferente.
 
 ### Solicitacao de acesso sigiloso pendente
 
@@ -130,7 +142,8 @@ do alerta permitir.
 Exemplos:
 
 - prazo concluido resolve alerta de prazo vencido;
-- carta expedida retornada resolve alerta de retorno pendente;
+- expedicao retornada resolve alerta de retorno pendente;
+- tarefa de cumprimento concluida resolve alerta de cumprimento pendente;
 - solicitacao de sigilo aprovada, recusada ou cancelada resolve alerta de
   solicitacao pendente.
 
@@ -144,14 +157,32 @@ alerta do usuario. Quando houver erro, retorno vazio ou falha em processo
 sigiloso, o sistema deve apenas registrar tecnicamente de forma sanitizada,
 respeitando tentativas limitadas e sem bloquear a operacao interna.
 
+Dados oficiais sincronizados pelo Datajud devem aparecer separados dos dados
+operacionais internos da unidade. Divergencias relevantes devem compor a linha
+do tempo ou historico tecnico sem virar alerta operacional obrigatorio na v1.
+
+## Linha do tempo do processo
+
+A linha do tempo do processo deve consolidar movimentacoes oficiais, tarefas,
+expedicoes, prazos, pendencias, alteracoes de partes, mudancas de prioridade,
+tags, nivel de sigilo e auditoria relevante.
+
+Essa visao deve respeitar permissao e sigilo. Usuario sem autorizacao nao pode
+usar linha do tempo para inferir dados identificaveis de processo protegido.
+
 ## Dashboard v1
 
 Cards gerenciais minimos:
 
-- oficios pendentes de envio;
-- cartas expedidas pendentes de envio;
+- expedicoes pendentes de envio;
+- expedicoes sem retorno;
+- tarefas operacionais abertas;
+- tarefas geradas por expedicoes pendentes;
 - cartas recebidas aguardando cumprimento;
 - cartas recebidas aguardando devolucao;
+- processos por prioridade;
+- processos por tag;
+- processos por nivel de sigilo;
 - prazos vencidos;
 - prazos a vencer;
 - produtividade do usuario;
@@ -177,8 +208,7 @@ no periodo.
 
 Separar por tipo:
 
-- oficios;
-- cartas expedidas;
+- expedicoes;
 - cartas recebidas;
 - tarefas;
 - prazos.
@@ -231,8 +261,7 @@ O suporte nao pode visualizar:
 
 - processos;
 - partes;
-- oficios;
-- cartas;
+- expedicoes;
 - prazos;
 - pendencias;
 - conteudo sigiloso;
@@ -325,11 +354,13 @@ Metricas da v1:
 - itens vencidos;
 - itens a vencer;
 - tempo medio de conclusao;
-- cartas expedidas sem retorno;
+- expedicoes sem retorno;
+- expedicoes com cumprimento ou conferencia pendente;
 - produtividade por usuario;
 - produtividade por setor;
 - solicitacoes de sigilo;
 - chamados de suporte.
+- processos por classe, prioridade, tag e nivel de sigilo.
 
 Metricas devem respeitar sigilo processual e permissao do usuario.
 
@@ -338,14 +369,17 @@ Metricas devem respeitar sigilo processual e permissao do usuario.
 - Dashboard e fila aparecem como tela unica de comando.
 - Gestores e chefia visualizam mais indicadores.
 - Servidores visualizam mais fila de trabalho.
-- Fila possui abas/filtros para oficios, cartas expedidas, cartas recebidas,
+- Fila possui abas/filtros para expedicoes, cartas recebidas,
   tarefas, prazos e pendencias.
+- Fila permite visualizar vinculos entre tarefas e expedicoes.
 - Cartas recebidas sao fila/visao de processos, nao expediente separado.
 - Fila ordena vencidos, urgentes, vencimento proximo e itens antigos.
-- Alertas existem apenas para prazo vencido, prazo a vencer, retorno de carta e
-  solicitacao de acesso sigiloso.
+- Alertas existem apenas para prazo vencido, prazo a vencer, retorno,
+  cumprimento ou conferencia de expedicao e solicitacao de acesso sigiloso.
 - Erro Datajud nao aparece na interface operacional.
 - Dashboard possui os cards definidos neste documento.
+- Processos possuem linha do tempo com eventos oficiais, operacionais e
+  relacionais.
 - Produtividade e calculada por itens concluidos no periodo.
 - Rotinas de chefe/escrivao e servidor operacional estao documentadas.
 - Suporte e orientativo e nao acessa dados juridicos.

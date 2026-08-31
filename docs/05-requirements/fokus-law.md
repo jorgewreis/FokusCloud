@@ -19,10 +19,16 @@ decisoes de produto.
 ### Dentro do escopo
 
 - processos como entidade central;
+- gestao processual com classe, assuntos/artigos, prioridades, niveis de sigilo,
+  tags, autuacao, distribuicao e Datajud;
 - partes processuais reutilizaveis por unidade;
-- oficios com numeracao por unidade e setor;
-- cartas expedidas vinculadas a processos, sem numeracao interna propria;
+- expedicoes com tipos configuraveis;
+- oficios como tipo de expedicao com numeracao por unidade, setor e ano;
+- mandados, cartas precatorias, cartas rogatorias, cartas de ordem, editais,
+  guias de execucao e atos ordinatorios como tipos de expedicao;
+- cartas expedidas vinculadas a processos, sem numeracao interna propria na v1;
 - cartas recebidas como classe de processo;
+- tarefas e fluxos operacionais conectados a expedicoes;
 - prazos e pendencias vinculados a processos e expedientes;
 - perfis e permissoes por unidade;
 - acesso multiunidade por vinculo explicito;
@@ -48,21 +54,24 @@ decisoes de produto.
 
 | Codigo | Requisito | Criterio de aceite |
 | --- | --- | --- |
-| RF-LAW-001 | O sistema deve permitir cadastrar processo como entidade central da unidade. | Um processo pode ser criado com numero, classe, assunto, unidade, situacao, prioridade, sigilo, datas relevantes e observacoes. |
+| RF-LAW-001 | O sistema deve permitir cadastrar processo como entidade central da unidade. | Um processo pode ser criado com numero, classe, assuntos/artigos, unidade, autuacao, distribuicao, situacao oficial, status operacional, prioridade, nivel de sigilo, tags, datas relevantes e observacoes. |
 | RF-LAW-002 | O sistema deve exigir unidade vinculada ao processo. | Nenhum processo e salvo sem unidade ativa e autorizada para o usuario. |
 | RF-LAW-003 | O sistema deve permitir classificar cartas recebidas como classe de processo. | Uma carta recebida e cadastrada/acompanhada pelo fluxo de processos e nao aparece como expediente separado. |
 | RF-LAW-004 | O sistema deve permitir cadastrar partes reutilizaveis por unidade. | A mesma parte pode ser vinculada a mais de um processo da unidade sem duplicacao obrigatoria. |
 | RF-LAW-005 | O sistema deve permitir informar papel processual da parte em cada processo. | A parte pode ter papel diferente por processo, preservando historico do vinculo. |
-| RF-LAW-006 | O sistema deve permitir criar oficios vinculados a processo. | Um oficio processual nao pode ser salvo sem processo vinculado. |
-| RF-LAW-007 | O sistema deve controlar numeracao de oficios por unidade e setor. | Dois setores podem ter sequencias independentes sem conflito de numeracao. |
-| RF-LAW-008 | O sistema deve registrar destinatario, assunto, status, responsavel, datas e historico do oficio. | A tela de oficio exibe os dados atuais e o historico de alteracoes relevantes. |
-| RF-LAW-009 | O sistema deve permitir criar cartas expedidas vinculadas a processo da unidade. | Uma carta expedida nao pode ser salva sem processo de origem da unidade. |
-| RF-LAW-010 | O sistema nao deve gerar numeracao interna propria para cartas expedidas. | O cadastro de carta expedida nao possui campo obrigatorio de sequencia interna do sistema. |
-| RF-LAW-011 | O sistema deve permitir informar posteriormente numero atribuido pela comarca ou orgao de destino. | O numero de destino e opcional no cadastro inicial e editavel depois por usuario autorizado. |
-| RF-LAW-012 | O sistema deve registrar destino, tipo, status, envio, retorno, responsavel e historico da carta expedida. | A carta expedida pode ser acompanhada do envio ao retorno sem criar numero interno. |
+| RF-LAW-005A | O sistema deve separar dados oficiais e operacionais do processo. | Datajud atualiza metadados oficiais sem sobrescrever responsavel, prioridade, tags, observacoes ou status operacional. |
+| RF-LAW-005B | O sistema deve permitir linha do tempo do processo. | O detalhe do processo consolida movimentacoes, tarefas, expedicoes, prazos, partes e auditoria relevante. |
+| RF-LAW-006 | O sistema deve permitir criar expedicoes vinculadas a processo quando forem processuais. | Uma expedicao processual nao pode ser salva sem processo da unidade ativa. |
+| RF-LAW-007 | O sistema deve controlar tipos e instancias de expedicao por unidade e setor. | Cartorio e Gabinete podem operar instancias independentes com regras proprias. |
+| RF-LAW-008 | O sistema deve registrar tipo, destino, assunto, status, responsavel, datas e historico da expedicao. | A tela de expedicao exibe os dados atuais e o historico de alteracoes relevantes. |
+| RF-LAW-009 | O sistema deve controlar numeracao interna quando o tipo exigir. | Oficios recebem sequencia anual por unidade e instancia em transacao. |
+| RF-LAW-010 | O sistema deve permitir tipos de expedicao sem numeracao interna. | Cartas, editais, guias ou atos podem dispensar sequencia interna quando configurados assim. |
+| RF-LAW-011 | O sistema deve permitir informar posteriormente numero atribuido pela comarca ou orgao de destino. | O numero externo e opcional no cadastro inicial e editavel depois por usuario autorizado quando o tipo aceitar. |
+| RF-LAW-012 | O sistema deve permitir acompanhar envio, recebimento, retorno e encerramento da expedicao. | A expedicao pode ser acompanhada em fila unica com filtros por tipo, instancia e status. |
 | RF-LAW-013 | O sistema deve permitir criar prazos e pendencias vinculados a processos. | Um processo pode listar prazos e pendencias associados. |
-| RF-LAW-014 | O sistema deve permitir criar prazos e pendencias vinculados a expedientes. | Um oficio ou carta expedida pode possuir prazo ou pendencia propria. |
+| RF-LAW-014 | O sistema deve permitir criar prazos e pendencias vinculados a expedientes. | Uma expedicao pode possuir prazo ou pendencia propria. |
 | RF-LAW-015 | O sistema deve permitir atribuir responsavel, data limite, prioridade, status e alerta a prazo ou pendencia. | Prazos vencidos e a vencer aparecem em consultas e indicadores. |
+| RF-LAW-015A | O sistema deve permitir receitas operacionais que conectem tarefas, expedicoes, prazos e alertas. | Uma tarefa pode gerar expedicao e uma expedicao pode gerar tarefa posterior conforme receita habilitada. |
 | RF-LAW-016 | O sistema deve permitir cancelar ou inativar registros com motivo obrigatorio. | Processos, expedientes, prazos e pendencias usados no fluxo nao sao excluidos fisicamente. |
 | RF-LAW-017 | O sistema deve impedir exclusao fisica de registros operacionais ja utilizados. | Uma tentativa de exclusao fisica retorna erro ou e convertida para inativacao/cancelamento auditado. |
 | RF-LAW-018 | O sistema deve sincronizar dados processuais basicos no Datajud automaticamente quando processo for criado ou movimentado. | Criacao ou movimentacao agenda sincronizacao Datajud sem acao manual do usuario. |
@@ -94,11 +103,11 @@ decisoes de produto.
 | Cancelar ou inativar processos | X | X |  |  |
 | Gerenciar sigilo e autorizacoes | X | X |  |  |
 | Criar e editar partes | X | X | X |  |
-| Criar e editar oficios | X | X | X |  |
-| Cancelar oficios | X | X |  |  |
-| Criar e editar cartas expedidas | X | X | X |  |
-| Cancelar cartas expedidas | X | X |  |  |
+| Criar e editar expedicoes | X | X | X |  |
+| Cancelar expedicoes | X | X |  |  |
+| Configurar tipos e instancias de expedicao | X | X |  |  |
 | Criar e editar prazos/pendencias | X | X | X |  |
+| Configurar receitas operacionais | X | X |  |  |
 | Concluir prazos/pendencias proprios | X | X | X |  |
 | Cancelar prazos/pendencias | X | X |  |  |
 | Consultar dashboard da unidade | X | X | X | X |
@@ -112,10 +121,22 @@ limite comercial ou vinculo ativo na unidade.
 ### Processos
 
 - Processo e a entidade central da v1.
+- Gestao Processual e o nome comercial do modulo.
+- Processos e o rotulo do menu interno.
 - Expedientes processuais devem possuir processo vinculado.
 - Cartas recebidas sao classe de processo.
 - O sistema deve preservar identificadores externos para integracoes futuras.
 - Dados operacionais internos nao devem ser sobrescritos por integracoes.
+- Classe processual, assuntos, artigos ou capitulacoes, autuacao, distribuicao e
+  situacao oficial compoem a base processual.
+- Status oficial e status operacional interno devem ser independentes.
+- Prioridades operacionais nao substituem sigilo.
+- Tags informativas nao substituem classe, prioridade, sigilo ou status.
+- Niveis de sigilo devem restringir entidades filhas quando aplicavel.
+- Linha do tempo deve reunir movimentacoes oficiais, tarefas, expedicoes,
+  prazos, partes e auditoria relevante.
+- Receitas operacionais podem sugerir tarefas ou expedicoes, mas execucoes
+  dependem de regra habilitada e usuario autorizado.
 
 ### Partes
 
@@ -125,21 +146,32 @@ limite comercial ou vinculo ativo na unidade.
 - O cadastro deve coletar apenas dados necessarios para identificacao
   operacional e execucao do fluxo.
 
-### Oficios
+### Expedicoes
 
-- Oficios possuem numeracao propria por unidade e setor.
-- Cada setor pode manter sequencia, responsaveis, permissao e historico
+- Expedicoes possuem tipos configuraveis por unidade.
+- Oficio e tipo de expedicao com numeracao interna obrigatoria por unidade,
+  instancia e ano.
+- Cartas precatoria, rogatoria e de ordem, mandados, editais, guias de execucao
+  e atos ordinatorios sao tipos de expedicao.
+- Cartas expedidas nao possuem numeracao propria interna na v1.
+- Numero externo atribuido no destino e opcional e pode ser preenchido
+  posteriormente quando o tipo aceitar.
+- Cada instancia pode manter sequencia, responsaveis, permissao e historico
   independentes.
 - Cancelamento exige motivo.
-- Alteracao de numero, setor, processo vinculado ou status deve ser auditada.
+- Alteracao de tipo, numero, instancia, processo vinculado, destino, status,
+  envio ou retorno deve ser auditada.
 
-### Cartas expedidas
+### Gestao de tarefas
 
-- Carta expedida e expediente vinculado a processo da unidade.
-- Carta expedida nao possui numeracao propria interna.
-- Numero atribuido no destino e opcional e pode ser preenchido posteriormente.
-- Alteracao de destino, processo vinculado, status, envio ou retorno deve ser
-  auditada.
+- Tarefas representam trabalho a cumprir.
+- Expedicoes representam documentos expedidos ou acompanhados.
+- Uma tarefa pode existir sem expedicao.
+- Uma expedicao pode existir sem tarefa previa quando o tipo permitir.
+- Uma tarefa pode gerar uma ou varias expedicoes.
+- Uma expedicao pode gerar tarefa de retorno, cumprimento ou conferencia.
+- Receitas operacionais definem a conexao entre tarefa, expedicao, prazo e
+  alerta.
 
 ### Prazos e pendencias
 
@@ -174,8 +206,9 @@ Eventos minimos:
 - alteracao de sigilo;
 - acesso a processo sigiloso;
 - vinculacao e desvinculacao de partes;
-- criacao, edicao, cancelamento e mudanca de status de oficio;
-- criacao, edicao, cancelamento e mudanca de status de carta expedida;
+- criacao, edicao, cancelamento e mudanca de status de expedicao;
+- criacao, edicao, cancelamento e mudanca de status de tarefa;
+- configuracao de receitas operacionais;
 - criacao, edicao, cancelamento e mudanca de status de prazo ou pendencia;
 - alteracao de data limite;
 - alteracao de responsavel;
@@ -207,10 +240,12 @@ Entidades alvo da v1:
 - unidade juridica;
 - vinculo de usuario a unidade;
 - processo;
+- tag processual;
 - parte;
 - vinculo processo-parte;
-- oficio;
-- carta expedida;
+- expedicao;
+- tipo de tarefa;
+- receita operacional;
 - prazo;
 - pendencia;
 - evento de auditoria;
@@ -231,9 +266,13 @@ Telas minimas:
 - lista de processos;
 - detalhe do processo;
 - cadastro/edicao de processo;
+- linha do tempo do processo;
+- gestao de tags, prioridades e sigilo;
 - partes do processo;
-- lista e detalhe de oficios;
-- lista e detalhe de cartas expedidas;
+- lista e detalhe de expedicoes;
+- configuracao de tipos e instancias de expedicao;
+- lista e detalhe de tarefas;
+- configuracao de receitas operacionais;
 - lista de prazos e pendencias;
 - usuarios e permissoes da unidade;
 - auditoria operacional;
@@ -264,10 +303,20 @@ Endpoints e rotas devem sempre validar:
 
 - Processos podem ser cadastrados, consultados, editados, cancelados/inativados
   e usados como eixo central.
+- Gestao Processual e o nome comercial, com Processos como rotulo interno.
+- Processos possuem classe, assuntos/artigos, prioridades, niveis de sigilo,
+  tags, autuacao e distribuicao.
+- Status oficial e status operacional interno sao independentes.
+- Linha do tempo consolida movimentacoes, tarefas, expedicoes, prazos, partes e
+  auditoria relevante.
 - Cartas recebidas sao tratadas como classe de processo.
-- Oficios possuem numeracao por unidade/setor.
-- Cartas expedidas exigem processo vinculado e nao possuem numeracao interna.
-- Numero da comarca de destino da carta expedida e opcional e posterior.
+- Expedicoes possuem tipos e instancias configuraveis.
+- Oficios possuem numeracao por unidade, instancia e ano.
+- Mandados, editais, guias e atos ordinatorios sao tipos de expedicao.
+- Cartas expedidas exigem processo vinculado e nao possuem numeracao interna na v1.
+- Numero externo de destino da expedicao e opcional e posterior quando o tipo aceitar.
+- Tarefas e fluxos podem gerar ou acompanhar expedicoes conforme receita
+  operacional.
 - Partes sao reutilizaveis entre processos da mesma unidade.
 - Prazos e pendencias podem ser vinculados a processos e expedientes.
 - Perfis por unidade respeitam a matriz de permissoes.

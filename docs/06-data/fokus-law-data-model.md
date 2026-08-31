@@ -22,10 +22,17 @@ Este documento complementa:
 - FKs empresariais devem impedir relacionamento entre entidades de empresas
   diferentes.
 - Processos sao a entidade central da v1.
+- Gestao Processual e o nome comercial do modulo `processos`; o menu interno
+  deve usar `Processos`.
 - Cartas recebidas sao classe de processo, nao expediente separado.
-- Cartas expedidas sao expedientes vinculados a processo e nao possuem
-  numeracao interna propria.
-- Oficios possuem sequencia anual por unidade e setor.
+- Dados oficiais e operacionais do processo devem ser separados.
+- Tags informativas nao substituem classe, prioridade, sigilo ou status.
+- Sigilo deve usar nivel no modelo alvo.
+- Expedicoes sao expedientes vinculados a processo quando processuais.
+- Oficios, mandados, cartas precatorias, cartas rogatorias, cartas de ordem,
+  editais, guias de execucao e atos ordinatorios sao tipos de expedicao.
+- Oficios possuem sequencia anual por unidade, instancia e setor.
+- Cartas expedidas nao possuem numeracao interna propria na v1.
 - Dados internos prevalecem para campos operacionais.
 - Datajud prevalece apenas para metadados processuais publicos sincronizados.
 - Dados sigilosos devem ser protegidos por permissao e evitados em logs.
@@ -40,9 +47,14 @@ Este documento complementa:
 | LCS | Processo Law |
 | LPT | Parte processual Law |
 | LCP | Vinculo processo-parte Law |
-| LOF | Oficio Law |
-| LOL | Carta expedida Law |
+| LET | Tipo de expedicao Law |
+| LEI | Instancia de expedicao Law |
+| LEX | Expedicao Law |
+| LES | Sequencia de numeracao de expedicao Law |
 | LTK | Prazo ou pendencia Law |
+| LTT | Tipo de tarefa Law |
+| LOR | Receita operacional Law |
+| LTE | Vinculo tarefa-expedicao Law |
 | LAL | Alerta operacional Law |
 | LAU | Auditoria Law |
 | LCA | Acesso a processo sigiloso Law |
@@ -109,6 +121,8 @@ Regras:
 
 Representa processos do Fokus Law.
 
+O detalhamento do modelo alvo da Gestao Processual esta em [Modelo de dados da gestao processual Law](law-case-management-data-model.md).
+
 | Campo | Tipo | Obrigatorio | Regra |
 | --- | --- | --- | --- |
 | `id` | char(30) | Sim | Prefixo `LCS`. |
@@ -116,12 +130,18 @@ Representa processos do Fokus Law.
 | `law_unit_id` | char(30) | Sim | Unidade juridica. |
 | `case_number` | varchar | Sim | Numero do processo, preferencialmente CNJ quando houver. |
 | `case_class` | varchar | Sim | Classe processual; cartas recebidas entram como classe. |
-| `subject` | varchar | Nao | Assunto principal. |
+| `subjects` | json | Nao | Assuntos processuais. |
+| `legal_basis` | json | Nao | Artigos, capitulacoes ou base legal informada. |
+| `filing_date` | date | Nao | Data de autuacao. |
+| `distribution_date` | date | Nao | Data de distribuicao. |
+| `distribution_data` | json | Nao | Dados complementares de distribuicao. |
 | `operational_status` | enum | Sim | `active`, `pending`, `suspended`, `archived`, `cancelled`. |
 | `official_status_code` | varchar | Nao | Codigo/situacao externa sincronizada. |
 | `official_status_text` | varchar | Nao | Texto de situacao externa sincronizada. |
-| `priority` | varchar | Nao | Prioridade operacional. |
-| `is_confidential` | boolean | Sim | Indica sigilo processual interno. |
+| `operational_priority` | varchar | Nao | Prioridade operacional. |
+| `confidentiality_level` | enum | Sim | `public_internal`, `unit_restricted`, `case_confidential`, `enhanced_confidential`. |
+| `internal_tags` | json | Nao | Tags informativas da unidade. |
+| `responsible_membership_id` | char(30) | Nao | Responsavel operacional. |
 | `relevant_dates` | json | Nao | Datas operacionais relevantes. |
 | `external_source` | varchar | Nao | Origem externa, exemplo: `datajud`. |
 | `external_id` | varchar | Nao | Identificador externo quando disponivel. |
@@ -137,7 +157,10 @@ Regras:
 
 - `operational_status` e interno e nao deve ser controlado pelo Datajud.
 - Campos `official_*` representam situacao processual externa.
+- Campos oficiais e operacionais devem permanecer separados.
+- Tags nao substituem classe, prioridade, status ou sigilo.
 - Cartas recebidas devem usar `case_class`, nao tabela de expediente.
+- `confidentiality_level` substitui sigilo apenas binario no modelo alvo.
 - Processo sigiloso deve restringir partes, expedientes, tarefas, listas,
   buscas, indicadores detalhados e exportacoes.
 
@@ -192,73 +215,44 @@ Regras:
 - O vinculo deve respeitar a mesma `company_id` e `law_unit_id` de processo e
   parte.
 
-### `law_offices`
+### Expedicoes
 
-Representa oficios expedidos/controlados pela unidade.
+O nucleo de expedicoes substitui as tabelas separadas de oficios e cartas
+expedidas.
 
-| Campo | Tipo | Obrigatorio | Regra |
-| --- | --- | --- | --- |
-| `id` | char(30) | Sim | Prefixo `LOF`. |
-| `company_id` | char(30) | Sim | Empresa proprietaria. |
-| `law_unit_id` | char(30) | Sim | Unidade juridica. |
-| `law_case_id` | char(30) | Sim | Processo vinculado. |
-| `sector` | varchar | Sim | Setor/origem operacional, exemplo: Cartorio ou Gabinete. |
-| `sequence_year` | smallint | Sim | Ano de referencia da numeracao. |
-| `sequence_number` | int | Sim | Numero incremental por unidade, setor e ano. |
-| `recipient` | varchar | Sim | Destinatario. |
-| `subject` | varchar | Sim | Assunto. |
-| `status` | enum | Sim | `created`, `signed`, `sent`, `received`, `closed`. |
-| `issued_at` | datetime | Nao | Data de expedicao/assinatura. |
-| `sent_at` | datetime | Nao | Data de envio. |
-| `received_at` | datetime | Nao | Data de recebimento/resposta. |
-| `closed_at` | datetime | Nao | Data de encerramento. |
-| `responsible_membership_id` | char(30) | Nao | Responsavel operacional. |
-| `notes` | text | Nao | Observacoes internas. |
-| `cancelled_at`, `cancelled_by`, `cancel_reason` | audit | Nao | Usar apenas se evoluir para cancelamento explicito. |
-| `created_at`, `created_by` | audit | Sim | Metadados de criacao. |
-| `updated_at`, `updated_by` | audit | Sim | Metadados de alteracao. |
+Tabelas alvo:
 
-Indices e unicidade:
+- `law_expedition_types`;
+- `law_expedition_instances`;
+- `law_expeditions`;
+- `law_expedition_number_sequences`.
 
-- unico por `(company_id, law_unit_id, sector, sequence_year, sequence_number)`;
-- indice por `(company_id, law_unit_id, law_case_id)`;
-- indice por `(company_id, law_unit_id, status)`.
+O detalhamento das tabelas, campos, indices e regras condicionais esta em
+[Modelo de dados das expedicoes Law](law-expeditions-data-model.md).
 
-Regras:
+Regras principais:
 
-- A sequencia e anual por unidade e setor.
-- Geracao do proximo numero deve ocorrer em transacao.
-- Alteracoes de numero, setor, processo ou status devem ser auditadas.
+- oficio e tipo de expedicao com numeracao interna obrigatoria;
+- cartas precatoria, rogatoria e de ordem, mandados, editais, guias e atos
+  ordinatorios sao tipos de expedicao;
+- cartas expedidas nao possuem numeracao interna propria na v1;
+- numero externo de destino e opcional quando o tipo aceitar;
+- expedicoes processuais sempre devem possuir processo de origem;
+- geracao do proximo numero deve ocorrer em transacao;
+- alteracoes de tipo, numero, instancia, processo ou status devem ser auditadas.
 
-### `law_outgoing_letters`
+### Tarefas e fluxos operacionais
 
-Representa cartas expedidas.
+O nucleo de tarefas e fluxos representa o trabalho a cumprir e sua conexao com
+expedicoes, prazos e alertas.
 
-| Campo | Tipo | Obrigatorio | Regra |
-| --- | --- | --- | --- |
-| `id` | char(30) | Sim | Prefixo `LOL`. |
-| `company_id` | char(30) | Sim | Empresa proprietaria. |
-| `law_unit_id` | char(30) | Sim | Unidade juridica. |
-| `law_case_id` | char(30) | Sim | Processo de origem da unidade. |
-| `destination_court` | varchar | Sim | Comarca, vara ou orgao de destino. |
-| `letter_type` | varchar | Sim | Tipo da carta expedida. |
-| `status` | enum | Sim | `created`, `sent`, `received_at_destination`, `returned`, `closed`, `cancelled`. |
-| `sent_at` | datetime | Nao | Data de envio. |
-| `destination_received_at` | datetime | Nao | Data de recebimento no destino. |
-| `returned_at` | datetime | Nao | Data de retorno/devolucao. |
-| `closed_at` | datetime | Nao | Data de encerramento. |
-| `destination_number` | varchar | Nao | Numero atribuido pela comarca ou orgao de destino. |
-| `responsible_membership_id` | char(30) | Nao | Responsavel operacional. |
-| `notes` | text | Nao | Observacoes internas. |
-| `cancelled_at`, `cancelled_by`, `cancel_reason` | audit | Nao | Obrigatorios quando cancelada. |
-| `created_at`, `created_by` | audit | Sim | Metadados de criacao. |
-| `updated_at`, `updated_by` | audit | Sim | Metadados de alteracao. |
+Tabelas alvo:
 
-Regras:
+- `law_task_types`;
+- `law_operation_recipes`;
+- `law_task_expeditions`.
 
-- Nao existe sequencia interna propria para carta expedida.
-- `destination_number` e opcional e pode ser preenchido posteriormente.
-- Carta expedida sempre deve possuir processo de origem.
+O detalhamento esta em [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md).
 
 ### `law_tasks`
 
@@ -269,7 +263,7 @@ Representa prazos e pendencias.
 | `id` | char(30) | Sim | Prefixo `LTK`. |
 | `company_id` | char(30) | Sim | Empresa proprietaria. |
 | `law_unit_id` | char(30) | Sim | Unidade juridica. |
-| `target_type` | enum | Sim | `case`, `office`, `outgoing_letter`. |
+| `target_type` | enum | Sim | `case`, `expedition`, `task`. |
 | `target_id` | char(30) | Sim | Entidade relacionada. |
 | `task_type` | enum | Sim | `deadline`, `pending_item`. |
 | `title` | varchar | Sim | Titulo curto. |
@@ -302,7 +296,7 @@ Representa alertas operacionais do Fokus Law.
 | `alert_type` | enum | Sim | `deadline`, `confidentiality`, `datajud`, `operation`. |
 | `severity` | enum | Sim | `low`, `medium`, `high`, `critical`. |
 | `status` | enum | Sim | `open`, `acknowledged`, `resolved`, `dismissed`. |
-| `target_type` | enum | Nao | `case`, `office`, `outgoing_letter`, `task`, `datajud_divergence`. |
+| `target_type` | enum | Nao | `case`, `expedition`, `task`, `datajud_divergence`. |
 | `target_id` | char(30) | Nao | Entidade relacionada. |
 | `message` | varchar | Sim | Mensagem resumida. |
 | `assigned_membership_id` | char(30) | Nao | Responsavel pelo tratamento. |
@@ -461,12 +455,11 @@ law_units ──< law_cases
 law_units ──< law_parties
 law_cases ──< law_case_parties >── law_parties
 
-law_cases ──< law_offices
-law_cases ──< law_outgoing_letters
+law_cases ──< law_expeditions
 
 law_cases ──< law_tasks
-law_offices ──< law_tasks
-law_outgoing_letters ──< law_tasks
+law_expeditions ──< law_tasks
+law_tasks ──< law_task_expeditions >── law_expeditions
 
 law_units ──< law_alerts
 law_units ──< law_audit_events
@@ -486,12 +479,18 @@ indices por `company_id`, `law_unit_id`, `target_type` e `target_id`.
 - `law_unit_memberships`: unico por `(company_id, law_unit_id, company_membership_id)`.
 - `law_cases`: indice por `(company_id, law_unit_id, case_number)`.
 - `law_cases`: indice por `(company_id, law_unit_id, operational_status)`.
-- `law_cases`: indice por `(company_id, law_unit_id, is_confidential)`.
+- `law_cases`: indice por `(company_id, law_unit_id, confidentiality_level)`.
 - `law_parties`: indice por `(company_id, law_unit_id, display_name)`.
 - `law_case_parties`: unico por `(company_id, law_case_id, law_party_id, role)`.
-- `law_offices`: unico por `(company_id, law_unit_id, sector, sequence_year, sequence_number)`.
-- `law_outgoing_letters`: indice por `(company_id, law_unit_id, law_case_id)`.
+- `law_expedition_types`: unico por `(company_id, code)`.
+- `law_expedition_instances`: unico por `(company_id, law_unit_id, sector_code)`.
+- `law_expeditions`: indice por `(company_id, law_unit_id, law_case_id)`.
+- `law_expeditions`: indice por `(company_id, law_unit_id, law_expedition_type_id, status)`.
+- `law_expedition_number_sequences`: unico por `(company_id, law_unit_id, law_expedition_type_id, law_expedition_instance_id, sequence_year)`.
 - `law_tasks`: indice por `(company_id, law_unit_id, status, due_at)`.
+- `law_task_types`: unico por `(company_id, code)`.
+- `law_operation_recipes`: indice por `(company_id, law_unit_id, task_type_id)`.
+- `law_task_expeditions`: indice por `(company_id, law_unit_id, law_task_id)`.
 - `law_alerts`: indice por `(company_id, law_unit_id, status, severity)`.
 - `law_audit_events`: indice por `(company_id, law_unit_id, entity_type, entity_id, created_at)`.
 - `law_confidential_case_accesses`: indice por `(company_id, law_unit_id, law_case_id, status)`.
@@ -531,12 +530,18 @@ CREATE TABLE law_cases (
   law_unit_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   case_number VARCHAR(40) NOT NULL,
   case_class VARCHAR(120) NOT NULL,
-  subject VARCHAR(255) NULL,
+  subjects JSON NULL,
+  legal_basis JSON NULL,
+  filing_date DATE NULL,
+  distribution_date DATE NULL,
+  distribution_data JSON NULL,
   operational_status ENUM('active', 'pending', 'suspended', 'archived', 'cancelled') NOT NULL DEFAULT 'pending',
   official_status_code VARCHAR(80) NULL,
   official_status_text VARCHAR(255) NULL,
-  priority VARCHAR(80) NULL,
-  is_confidential BOOLEAN NOT NULL DEFAULT FALSE,
+  operational_priority VARCHAR(80) NULL,
+  confidentiality_level ENUM('public_internal', 'unit_restricted', 'case_confidential', 'enhanced_confidential') NOT NULL DEFAULT 'public_internal',
+  internal_tags JSON NULL,
+  responsible_membership_id CHAR(30) CHARACTER SET ascii COLLATE ascii_bin NULL,
   relevant_dates JSON NULL,
   external_source VARCHAR(40) NULL,
   external_id VARCHAR(120) NULL,
@@ -555,6 +560,7 @@ CREATE TABLE law_cases (
   UNIQUE KEY uq_law_case_company_id (company_id, id),
   KEY ix_law_case_number (company_id, law_unit_id, case_number),
   KEY ix_law_case_status (company_id, law_unit_id, operational_status),
+  KEY ix_law_case_confidentiality (company_id, law_unit_id, confidentiality_level),
   CONSTRAINT fk_law_case_unit FOREIGN KEY (company_id, law_unit_id)
     REFERENCES law_units (company_id, id) ON DELETE RESTRICT
 ) ENGINE=InnoDB;
@@ -567,13 +573,16 @@ criacao/alteracao e versionamento quando houver edicao concorrente.
 ## Consultas essenciais
 
 - listar processos ativos por unidade e status;
+- listar processos por classe, assunto, prioridade, tag e nivel de sigilo;
 - buscar processo por numero dentro da unidade;
 - listar processos sigilosos apenas para usuarios autorizados;
 - listar partes de um processo;
 - listar processos vinculados a uma parte;
-- listar oficios por unidade, setor, ano e status;
-- obter proximo numero de oficio por unidade, setor e ano;
-- listar cartas expedidas por processo, destino e status;
+- listar expedicoes por unidade, tipo, instancia, ano e status;
+- obter proximo numero de expedicao numerada por unidade, tipo, instancia e ano;
+- listar expedicoes por processo, destino e status;
+- listar receitas operacionais habilitadas por unidade;
+- listar vinculos entre tarefas e expedicoes;
 - listar tarefas vencidas e a vencer por responsavel;
 - consolidar dashboard por unidade;
 - listar alertas abertos por unidade;
@@ -582,18 +591,22 @@ criacao/alteracao e versionamento quando houver edicao concorrente.
 - listar solicitacoes de suporte por unidade, categoria e status;
 - consultar historico de sincronizacao Datajud por processo;
 - listar divergencias Datajud abertas.
+- montar linha do tempo do processo por movimentacoes, tarefas, expedicoes,
+  prazos, partes e auditoria.
 
 ## Regras para migrations
 
 - Criar tabelas em ordem de dependencia: `law_units`, `law_unit_memberships`,
-  `law_cases`, `law_parties`, `law_case_parties`, `law_offices`,
-  `law_outgoing_letters`, `law_tasks`, `law_alerts`,
+  `law_cases`, `law_parties`, `law_case_parties`,
+  `law_expedition_types`, `law_expedition_instances`,
+  `law_expedition_number_sequences`, `law_expeditions`, `law_task_types`,
+  `law_operation_recipes`, `law_tasks`, `law_task_expeditions`, `law_alerts`,
   `law_confidential_case_accesses`, `law_audit_events`,
   `law_support_requests`, `law_datajud_syncs`, `law_datajud_divergences`.
 - Criar FKs compostas com `company_id` sempre que o pai tambem for empresarial.
 - Nao usar cascade delete automatico.
 - Incluir indices de listagem operacional antes de criar telas dependentes.
-- Tratar sequencia de oficios em transacao.
+- Tratar sequencias de expedicoes numeradas em transacao.
 - Proteger campos sensiveis em logs, auditoria e payloads de integracao.
 - Validar no backend assinatura ativa, modulo contratado, unidade ativa,
   permissao e sigilo em todas as rotas.
@@ -604,10 +617,15 @@ criacao/alteracao e versionamento quando houver edicao concorrente.
 - O modelo separa `company_units` de `law_units`.
 - O modelo permite perfil Law por unidade.
 - Processos sao entidade central e pertencem a empresa e unidade juridica.
+- Gestao Processual separa dados oficiais e operacionais.
+- Tags processuais sao informativas.
+- Sigilo usa `confidentiality_level` no modelo alvo.
 - Cartas recebidas nao possuem tabela propria de expediente.
-- Oficios possuem sequencia anual por unidade e setor.
-- Cartas expedidas nao possuem numeracao interna propria.
+- Expedicoes usam tipos e instancias configuraveis.
+- Oficios possuem sequencia anual por unidade, instancia e ano.
+- Cartas expedidas nao possuem numeracao interna propria na v1.
 - Prazos e pendencias usam `law_tasks`.
+- Tarefas e fluxos usam tipos, receitas operacionais e vinculos com expedicoes.
 - Alertas Law usam `law_alerts`, separados de `platform_alerts`.
 - Auditoria Law usa `law_audit_events`, separada de `platform_audit_events`.
 - Acesso sigiloso usa `law_confidential_case_accesses`.

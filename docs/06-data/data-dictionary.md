@@ -22,11 +22,24 @@ Este arquivo deve descrever tabelas, colunas, tipos, obrigatoriedade e significa
 | law_unit_memberships | role | enum | Sim | Perfil Law por unidade: `unit_admin`, `chief_clerk`, `operator` ou `viewer`. |
 | law_cases | operational_status | enum | Sim | Estado operacional interno do processo: `active`, `pending`, `suspended`, `archived` ou `cancelled`. |
 | law_cases | official_status_code | string | Nao | Codigo/situacao oficial sincronizada de fonte externa, sem controlar o status interno. |
-| law_cases | is_confidential | boolean | Sim | Indica sigilo processual e aciona restricoes transversais. |
+| law_cases | subjects | json | Nao | Assuntos processuais sincronizados ou informados. |
+| law_cases | legal_basis | json | Nao | Artigos, capitulacoes ou base legal informada. |
+| law_cases | filing_date | date | Nao | Data de autuacao. |
+| law_cases | distribution_date | date | Nao | Data de distribuicao. |
+| law_cases | operational_priority | string | Nao | Prioridade operacional interna, sem substituir sigilo. |
+| law_cases | confidentiality_level | enum | Sim | Nivel de sigilo: `public_internal`, `unit_restricted`, `case_confidential` ou `enhanced_confidential`. |
+| law_cases | internal_tags | json | Nao | Tags informativas configuraveis da unidade. |
 | law_case_parties | role | enum | Sim | Papel processual: `author`, `defendant`, `victim`, `prosecutor`, `defense`, `witness`, `interested` ou `other`. |
-| law_offices | status | enum | Sim | Estado do oficio: `created`, `signed`, `sent`, `received` ou `closed`. |
-| law_outgoing_letters | status | enum | Sim | Estado da carta expedida: `created`, `sent`, `received_at_destination`, `returned`, `closed` ou `cancelled`. |
-| law_outgoing_letters | destination_number | string | Nao | Numero atribuido posteriormente pela comarca ou orgao de destino. |
+| law_expedition_types | code | string | Sim | Codigo do tipo de expedicao, como `oficio`, `carta_precatoria`, `carta_rogatoria` ou `carta_de_ordem`. |
+| law_expedition_types | uses_internal_number | boolean | Sim | Indica se o tipo exige numeracao interna. |
+| law_expedition_instances | sector_code | string | Sim | Codigo do setor ou origem operacional da expedicao. |
+| law_expeditions | status | enum | Sim | Estado da expedicao: `created`, `signed`, `sent`, `received`, `returned`, `closed` ou `cancelled`. |
+| law_expeditions | external_number | string | Nao | Numero atribuido posteriormente por comarca ou orgao de destino. |
+| law_expedition_number_sequences | next_number | integer | Sim | Proximo numero interno disponivel para tipo, instancia e ano. |
+| law_task_types | code | string | Sim | Codigo do tipo de tarefa, como `expedir_oficio`, `expedir_mandado` ou `publicar_edital`. |
+| law_operation_recipes | creates_expedition | boolean | Sim | Indica se a receita operacional gera expedicao. |
+| law_operation_recipes | creates_followup_task | boolean | Sim | Indica se a receita gera tarefa posterior de retorno, cumprimento ou conferencia. |
+| law_task_expeditions | relation_type | enum | Sim | Relacao entre tarefa e expedicao: `created`, `tracks`, `followup` ou `review`. |
 | law_tasks | status | enum | Sim | Estado do prazo ou pendencia: `open`, `in_progress`, `waiting`, `done`, `cancelled` ou `overdue`. |
 | law_alerts | status | enum | Sim | Estado do alerta operacional Law: `open`, `acknowledged`, `resolved` ou `dismissed`. |
 | law_audit_events | reason | string | Nao | Motivo da acao auditada, obrigatorio para alteracoes sensiveis definidas no modelo Law. |
@@ -44,4 +57,4 @@ Expandir conforme novas migrations forem criadas.
 O modelo detalhado das tabelas de Backoffice, Billing, alertas, reembolsos e
 conciliacao esta em [Modelo de dados do Backoffice e Billing](backoffice-and-billing-data-model.md).
 
-O modelo detalhado das tabelas do Fokus Law esta em [Modelo de dados do Fokus Law](fokus-law-data-model.md).
+O modelo detalhado das tabelas do Fokus Law esta em [Modelo de dados do Fokus Law](fokus-law-data-model.md). O nucleo de expedicoes esta detalhado em [Modelo de dados das expedicoes Law](law-expeditions-data-model.md), e tarefas/fluxos estao em [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md).

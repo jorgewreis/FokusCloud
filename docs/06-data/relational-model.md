@@ -50,9 +50,14 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | LCS | Processo Law |
 | LPT | Parte processual Law |
 | LCP | Vinculo processo-parte Law |
-| LOF | Oficio Law |
-| LOL | Carta expedida Law |
+| LET | Tipo de expedicao Law |
+| LEI | Instancia de expedicao Law |
+| LEX | Expedicao Law |
+| LES | Sequencia de numeracao de expedicao Law |
 | LTK | Prazo ou pendencia Law |
+| LTT | Tipo de tarefa Law |
+| LOR | Receita operacional Law |
+| LTE | Vinculo tarefa-expedicao Law |
 | LAL | Alerta operacional Law |
 | LAU | Auditoria Law |
 | LCA | Acesso a processo sigiloso Law |
@@ -110,12 +115,17 @@ Todas as entidades abaixo possuem `company_id NOT NULL`:
 | `platform_notifications` | NTF | Notificacoes imediatas por e-mail e dashboard. |
 | `law_units` | LWU | Especializacao juridica de unidade operacional para o Fokus Law. |
 | `law_unit_memberships` | LWM | Perfil e acesso do usuario em uma unidade juridica. |
-| `law_cases` | LCS | Processos do Fokus Law, incluindo cartas recebidas como classe de processo. |
+| `law_cases` | LCS | Gestao Processual do Fokus Law, incluindo cartas recebidas como classe de processo. |
 | `law_parties` | LPT | Partes processuais reutilizaveis por unidade juridica. |
 | `law_case_parties` | LCP | Vinculo entre processo e parte, com papel processual. |
-| `law_offices` | LOF | Oficios com sequencia anual por unidade e setor. |
-| `law_outgoing_letters` | LOL | Cartas expedidas vinculadas a processo, sem numeracao interna propria. |
-| `law_tasks` | LTK | Prazos e pendencias vinculaveis a processo ou expediente. |
+| `law_expedition_types` | LET | Tipos de expedicao, como oficio e cartas expedidas. |
+| `law_expedition_instances` | LEI | Instancias de expedicao por unidade e setor. |
+| `law_expedition_number_sequences` | LES | Sequencias anuais de expedicoes numeradas. |
+| `law_expeditions` | LEX | Expedicoes vinculadas a processo quando processuais. |
+| `law_tasks` | LTK | Prazos, pendencias e tarefas vinculaveis a processo, expedicao ou tarefa. |
+| `law_task_types` | LTT | Tipos de tarefa operacional do Fokus Law. |
+| `law_operation_recipes` | LOR | Receitas que conectam tarefas, expedicoes, prazos e alertas. |
+| `law_task_expeditions` | LTE | Vinculos entre tarefas e expedicoes. |
 | `law_alerts` | LAL | Alertas operacionais do Fokus Law. |
 | `law_audit_events` | LAU | Auditoria operacional do Fokus Law. |
 | `law_confidential_case_accesses` | LCA | Autorizacoes explicitas para processos sigilosos. |
@@ -150,11 +160,10 @@ company_memberships ──< law_unit_memberships >── law_units
 law_units ──< law_cases
 law_units ──< law_parties
 law_cases ──< law_case_parties >── law_parties
-law_cases ──< law_offices
-law_cases ──< law_outgoing_letters
+law_cases ──< law_expeditions
 law_cases ──< law_tasks
-law_offices ──< law_tasks
-law_outgoing_letters ──< law_tasks
+law_expeditions ──< law_tasks
+law_tasks ──< law_task_expeditions >── law_expeditions
 law_units ──< law_alerts
 law_units ──< law_audit_events
 law_cases ──< law_confidential_case_accesses

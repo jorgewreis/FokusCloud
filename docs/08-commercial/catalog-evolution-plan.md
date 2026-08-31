@@ -6,10 +6,11 @@
 2. Confirmar limites e opcoes de capacidade.
 3. Definir dependencias e incompatibilidades.
 4. Consolidar modulos equivalentes, evitando duplicar `Gestao de Prazos e Intimacoes` e `Controle de Prazos` sem necessidade.
-5. Definir variantes de `Audiencias`, `Editais`, `Partes`, `Processos` e `Guias de Execucao`.
-6. Definir instancias de expedicao por setor, incluindo numeracao e permissoes.
-7. Definir descontos mensal e anual.
-8. Confirmar as funcionalidades Team que ainda nao existem.
+5. Definir variantes de `Audiencias`, `Partes` e `Processos`.
+6. Definir tipos e instancias de expedicao por setor, incluindo numeracao e permissoes.
+7. Definir receitas operacionais que conectam tarefas, expedicoes, prazos e alertas.
+8. Definir descontos mensal e anual.
+9. Confirmar as funcionalidades Team que ainda nao existem.
 
 ## Fase 2: modelo de dados
 

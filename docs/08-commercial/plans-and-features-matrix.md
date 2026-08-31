@@ -21,11 +21,11 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 
 | Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `processos` | Processos e Movimentacoes - Advocacia | Existente | X |  |  |  |  |
-| `processos` | Processos e Movimentacoes - Cartorio Criminal | Existente |  | X |  |  |  |
-| `processos` | Processos e Movimentacoes - Cartorio Civel | Existente |  |  | X |  |  |
-| `processos` | Processos e Movimentacoes - Audiencias | Existente |  |  |  | X |  |
-| `processos` | Processos e Movimentacoes - Expedientes | Existente |  |  |  |  | X |
+| `processos` | Gestao Processual - Advocacia | Existente | X |  |  |  |  |
+| `processos` | Gestao Processual - Cartorio Criminal | Existente |  | X |  |  |  |
+| `processos` | Gestao Processual - Cartorio Civel | Existente |  |  | X |  |  |
+| `processos` | Gestao Processual - Audiencias | Existente |  |  |  | X |  |
+| `processos` | Gestao Processual - Expedientes | Existente |  |  |  |  | X |
 | `partes` | Partes Processuais - Cartorios | Existente |  | X | X | X |  |
 | `partes` | Clientes e Partes - Advocacia | Existente | X |  |  |  |  |
 
@@ -33,21 +33,14 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 
 | Modulo tecnico | Variante/contexto | Situacao | Advocacia | Cartorio Criminal | Cartorio Civel | Gestao de Audiencias | Gestao de Expedientes |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `oficios` | Oficios - Setor Cartorio | Existente |  | X | X |  | X |
-| `oficios` | Oficios - Setor Gabinete | Existente |  | X | X |  | X |
-| `cartas-exp` | Cartas Expedidas - Processuais e Administrativas | Existente |  | X | X |  | X |
-| `editais` | Editais Criminais | Existente |  | X |  |  |  |
-| `editais` | Editais Civeis | Existente |  |  | X |  |  |
-| `guias` | Guias de Execucao - Varas Criminais Comuns | Existente |  | X |  |  |  |
-| `guias` | Guias de Execucao - Varas de Execucao Penal | Existente |  | X |  |  |  |
+| `expedicoes` | Gestao de Expedicoes | Existente |  | X | X |  | X |
 | `custas` | Custas e Recolhimentos Civeis | Novo |  |  | X |  |  |
 | `documentos` | Documentos e Modelos | Novo | X |  |  |  | X |
 | `expedientes` | Central de Expedientes | Novo |  |  |  |  | X |
 
-O plano Advocacia nao inclui expedicao institucional. Portanto, `oficios` e
-`cartas-exp` nao fazem parte da oferta sugerida de Advocacia e somente podem ser
-considerados em uma composicao personalizada se houver uma necessidade
-especifica validada.
+O plano Advocacia nao inclui expedicao institucional. Portanto, `expedicoes`
+nao faz parte da oferta sugerida de Advocacia e somente pode ser considerado em
+uma composicao personalizada se houver uma necessidade especifica validada.
 
 Na v1 cartoraria, cartas recebidas devem ser tratadas como classe de processo,
 nao como expediente separado. Por isso, o controle de cartas recebidas deve
@@ -56,18 +49,19 @@ acompanhamento operacional do processo recebido.
 
 ### Instancias de expedicao por setor
 
-Os modulos de expedicao nao devem ser tratados como uma unica fila por unidade.
-Uma mesma unidade cartoraria pode possuir varias instancias do modulo `oficios`,
-uma por setor ou origem operacional, por exemplo:
+O modulo de expedicoes nao deve ser tratado como uma unica fila rigida por
+unidade. Uma mesma unidade cartoraria pode possuir varias instancias do modulo
+`expedicoes`, uma por setor ou origem operacional, por exemplo:
 
 - Cartorio;
 - Gabinete;
 - outros setores cadastrados pela unidade.
 
-Cada instancia deve possuir, no minimo, identificacao do setor, responsaveis,
-sequencia de numeracao, prefixo ou serie, regras de permissao, fluxo de
-aprovacao, controles e historico proprios. A matriz indica a disponibilidade do
-recurso; a quantidade de instancias deve ser configuravel conforme a unidade.
+Cada instancia deve possuir, no minimo, identificacao do setor, tipos aceitos,
+responsaveis, sequencia de numeracao quando aplicavel, prefixo ou serie, regras
+de permissao, fluxo de aprovacao, controles e historico proprios. A matriz
+indica a disponibilidade do recurso; a quantidade de instancias deve ser
+configuravel conforme a unidade.
 
 ### Modulos de prazos, agenda e tarefas
 
@@ -80,8 +74,8 @@ recurso; a quantidade de instancias deve ser configuravel conforme a unidade.
 | `agenda` | Controle Interno de Audiencias | Novo |  | X | X | X |  |
 | `agenda` | Acesso Externo a Audiencias | Novo |  |  |  | X |  |
 | `agenda` | Agendamento de Audiencias - Advocacia | Novo | X |  |  |  |  |
-| `tarefas_fluxos` | Tarefas e Fluxos - Advocacia | Novo | X |  |  |  |  |
-| `tarefas_fluxos` | Tarefas e Fluxos - Expedientes | Novo |  |  |  |  | X |
+| `tarefas_fluxos` | Gestao de Tarefas - Advocacia | Novo | X |  |  |  |  |
+| `tarefas_fluxos` | Gestao de Tarefas - Expedientes | Novo |  |  |  |  | X |
 
 ### Modulos especificos de Advocacia
 
@@ -155,10 +149,10 @@ As funcionalidades abaixo podem ser contratadas individualmente ou combinadas, s
 
 - Gestao de Prazos e Intimacoes;
 - Relatorios Gerenciais;
-- Gestao de Processos e Movimentacoes;
+- Gestao Processual;
 - Gestao de Partes;
 - Controle de Prazos;
-- Tarefas e Fluxos de Trabalho;
+- Gestao de Tarefas;
 - Relatorios;
 - Notificacoes.
 
@@ -167,10 +161,13 @@ A composicao personalizada deve respeitar sistema, contexto, dependencias, incom
 ## Regras de modelagem
 
 - `processos`, `partes`, `prazos`, `agenda`, `tarefas_fluxos`, `relatorios` e `notificacoes` devem ser modulos tecnicos reutilizaveis com variantes de contexto;
-- `oficios` deve permitir varias instancias por unidade e setor, com numeracao e controles independentes;
-- `cartas-exp` deve permitir configuracao por unidade e setor quando o fluxo operacional exigir, mas nao deve possuir numeracao propria interna na v1 cartoraria;
+- `processos` deve ser comercializado como Gestao Processual e exibido internamente como Processos;
+- `expedicoes` deve permitir varias instancias por unidade e setor, com tipos, numeracao e controles independentes;
+- oficios, mandados, cartas precatorias, cartas rogatorias, cartas de ordem, editais, guias de execucao e atos ordinatorios devem ser tipos do modulo `expedicoes`;
+- cartas expedidas nao devem possuir numeracao propria interna na v1 cartoraria, salvo evolucao futura por tipo;
 - cartas recebidas devem ser modeladas como classe de processo, nao como modulo tecnico separado de expediente na v1;
-- `guias` deve possuir as variantes `guias_execucao_comum` e `guias_execucao_penal`, com campos, fluxos e regras proprios;
+- guias de execucao comum e penal devem ser tipos ou capacidades de `expedicoes`, com campos, fluxos e regras proprios quando necessario;
+- os nomes comerciais devem ser Gestao de Expedicoes e Gestao de Tarefas; nos menus internos, usar apenas Expedicoes e Tarefas;
 - `Gestao de Prazos e Intimacoes` e `Controle de Prazos` devem compartilhar o mesmo nucleo tecnico, salvo se houver regras de negocio realmente distintas;
 - `Relatorios` e `Relatorios Gerenciais` devem compartilhar o mesmo nucleo e variar por tipos de relatorio e permissao;
 - uma variante externa de Audiencias deve possuir permissao de consulta sem permitir alteracoes indevidas;

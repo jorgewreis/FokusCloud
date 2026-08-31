@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 class SubscriptionController extends Controller
 {
     private const USAGE = [
-        'oficios' => ['options' => [2500, 5000, 10000, 20000, 50000], 'step' => 2],
+        'expedicoes' => ['options' => [2500, 5000, 10000, 20000, 50000], 'step' => 2],
         'partes' => ['options' => [5000, 10000, 20000, 50000, 100000], 'step' => 4],
         'pessoas' => ['options' => [50, 250, 1000, 5000, 10000], 'step' => 4],
         'empreendimentos' => ['options' => [20, 50, 100, 500, 1000], 'step' => 4],

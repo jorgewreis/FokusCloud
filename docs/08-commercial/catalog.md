@@ -83,31 +83,45 @@ Uma funcionalidade pode ser marcada como disponivel para contratacao avulsa.
 
 O catalogo do Fokus Cloud Law deve contemplar, conforme a matriz de ofertas:
 
-- funcionalidades operacionais existentes, como processos, partes, oficios, cartas, editais, guias e audiencias;
+- funcionalidades operacionais existentes, como Gestao Processual, partes, expedicoes e audiencias;
 - funcionalidades de Advocacia, como prazos e intimacoes, agenda, tarefas, clientes, honorarios e financeiro;
 - funcionalidades de Cartorio Civel, como custas, recolhimentos e controle de prazos;
 - funcionalidades de Gestao de Expedientes, como tarefas, fluxos de trabalho e controle de prazos.
 
 Tambem devem ser suportadas ofertas personalizadas com modulos de prazos e intimacoes, relatorios gerenciais, processos, partes, prazos, tarefas, relatorios e notificacoes, individualmente ou em conjunto.
 
-O plano de Advocacia nao inclui expedicao ou recebimento institucional de
-oficios e cartas. Esses modulos sao direcionados aos modelos cartorarios e de
-expedientes, podendo ser considerados apenas em uma oferta personalizada
-validada.
+O modulo `processos` deve ser comercializado como Gestao Processual. No menu
+interno do Fokus Law, o rotulo deve ser `Processos`. Esse modulo concentra
+classe processual, assuntos/artigos, prioridades, niveis de sigilo, tags,
+autuacao, distribuicao, partes, Datajud e linha do tempo.
 
-Em unidades cartorarias, `oficios` pode possuir varias instancias por setor,
-como Cartorio e Gabinete. Cada instancia deve manter numeracao, serie,
-responsaveis, permissoes, fluxo e controles independentes.
+O plano de Advocacia nao inclui expedicao ou recebimento institucional. O
+modulo `expedicoes` e direcionado aos modelos cartorarios e de expedientes,
+podendo ser considerado apenas em uma oferta personalizada validada.
 
-Na v1 cartoraria do Fokus Law, `cartas-exp` representa cartas expedidas como
-expedientes vinculados a processo e sem numeracao propria interna. O numero
-atribuido pela comarca ou orgao de destino e opcional e pode ser informado
-posteriormente. Cartas recebidas nao devem ser tratadas como expediente separado
-na v1, pois correspondem a uma classe de processo dentro do modulo `processos`.
+Em unidades cartorarias, `expedicoes` pode possuir varias instancias por setor,
+como Cartorio e Gabinete. Cada instancia deve manter tipos aceitos, numeracao,
+serie, responsaveis, permissoes, fluxo e controles independentes.
 
-`Guias de Execucao` possui duas variantes de negocio: Varas Criminais Comuns e
-Varas de Execucao Penal. As variantes compartilham o modulo-base, mas podem
-possuir campos, fluxos, documentos e regras especificas.
+Na v1 cartoraria do Fokus Law, o modulo comercial Gestao de Expedicoes
+(`expedicoes`) representa oficios, mandados,
+cartas expedidas, editais, guias de execucao e atos ordinatorios em nucleo
+tecnico unico. Oficios exigem numeracao interna por unidade, instancia e ano.
+Outros tipos podem ou nao exigir numero interno, numero externo, retorno,
+cumprimento ou conferencia conforme configuracao permitida pelo sistema.
+Cartas recebidas nao devem ser tratadas como expediente separado na v1, pois
+correspondem a uma classe de processo dentro do modulo `processos`.
+
+Guias de execucao comum e penal, editais criminais e editais civeis devem ser
+tratados como tipos ou capacidades configuraveis do modulo `expedicoes`, nao
+como modulos comerciais autonomos.
+
+O modulo `tarefas_fluxos` deve ser comercializado como Gestao de Tarefas. O
+termo fluxo ou receita operacional descreve a configuracao interna e nao deve
+ser usado como nome principal da oferta.
+
+Nos menus internos do Fokus Law, os rotulos devem ser `Processos`,
+`Expedicoes` e `Tarefas`.
 
 Quando duas denominacoes forem variacoes do mesmo recurso, a modelagem deve preferir um modulo tecnico unico com capacidades ou contextos comerciais diferentes. Isso evita duplicacao e mantem preco, dependencias e limites centralizados.
 

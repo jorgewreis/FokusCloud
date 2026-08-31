@@ -100,6 +100,9 @@ imediata de permissoes.
 O sistema nao deve permitir remover ou suspender o ultimo administrador ativo da
 unidade.
 
+Gestao Processual e o nome comercial do modulo `processos`; no menu interno, o
+rotulo deve ser `Processos`.
+
 ## Matriz de permissoes
 
 | Acao | `unit_admin` | `chief_clerk` | `operator` | `viewer` |
@@ -114,13 +117,13 @@ unidade.
 | Cancelar/inativar processos | Sim | Sim | Nao | Nao |
 | Visualizar processos nao sigilosos | Sim | Sim | Sim | Sim |
 | Criar e editar partes | Sim | Sim | Sim | Nao |
-| Criar e editar oficios | Sim | Sim | Sim | Nao |
-| Cancelar oficios | Sim | Sim | Nao | Nao |
-| Criar e editar cartas expedidas | Sim | Sim | Sim | Nao |
-| Cancelar cartas expedidas | Sim | Sim | Nao | Nao |
+| Criar e editar expedicoes | Sim | Sim | Sim | Nao |
+| Cancelar expedicoes | Sim | Sim | Nao | Nao |
+| Configurar tipos e instancias de expedicao | Sim | Sim | Nao | Nao |
 | Criar e editar prazos/pendencias | Sim | Sim | Sim | Nao |
 | Concluir prazos/pendencias | Sim | Sim | Sim | Nao |
 | Cancelar prazos/pendencias | Sim | Sim | Nao | Nao |
+| Configurar receitas operacionais | Sim | Sim | Nao | Nao |
 | Ver dashboard operacional | Sim | Sim | Sim | Sim |
 | Ver auditoria operacional | Sim | Sim | Nao | Nao |
 | Exportar dados visiveis | Sim | Sim | Sim | Sim |
@@ -128,10 +131,17 @@ unidade.
 Permissao de perfil nao ignora assinatura, modulo contratado, unidade ativa nem
 sigilo processual.
 
-## Sigilo processual
+## Niveis de sigilo processual
 
-Processos sigilosos exigem autorizacao explicita por processo, alem de perfil e
-vinculo na unidade.
+O modelo alvo deve usar niveis de sigilo processual:
+
+- `public_internal`: publico para usuarios autorizados da unidade;
+- `unit_restricted`: restrito a perfis operacionais da unidade;
+- `case_confidential`: sigiloso com autorizacao especifica por processo;
+- `enhanced_confidential`: sigilo reforcado quando a regra da unidade exigir.
+
+Processos com nivel `case_confidential` ou `enhanced_confidential` exigem
+autorizacao explicita por processo, alem de perfil e vinculo na unidade.
 
 A autorizacao deve ser registrada em `law_confidential_case_accesses`, vinculada
 a processo, usuario/vinculo Law, nivel de acesso, concedente, motivo e validade
@@ -145,12 +155,12 @@ Niveis de acesso:
   com perfil autorizado.
 
 Administrador da unidade e chefe/escrivao podem conceder e revogar acesso a
-qualquer processo sigiloso da unidade.
+qualquer processo em nivel sigiloso da unidade.
 
 ## Mascaramento de processo sigiloso
 
 Usuarios sem autorizacao explicita podem ver processo sigiloso mascarado em
-listas e buscas.
+listas e buscas quando a politica do nivel permitir item mascarado.
 
 O item mascarado pode exibir apenas:
 
@@ -170,11 +180,12 @@ Nao deve exibir:
 - prazos e pendencias;
 - responsaveis;
 - dados Datajud;
+- tags informativas;
 - qualquer dado que identifique o caso.
 
 ## Heranca de sigilo
 
-Partes, oficios, cartas expedidas, prazos e pendencias vinculados a processo
+Partes, expedicoes, tarefas, prazos e pendencias vinculados a processo
 sigiloso herdam o sigilo do processo.
 
 Para visualizar ou operar entidade filha de processo sigiloso, o usuario deve
@@ -193,6 +204,7 @@ Devem ser auditadas obrigatoriamente:
 
 - marcacao de processo como sigiloso;
 - remocao de sigilo;
+- alteracao de nivel de sigilo;
 - concessao de acesso a processo sigiloso;
 - revogacao de acesso a processo sigiloso.
 
@@ -311,8 +323,10 @@ Eventos minimos:
 - criacao, edicao, cancelamento e inativacao de processo;
 - marcacao/remocao de sigilo;
 - concessao/revogacao de acesso sigiloso;
-- criacao, edicao, cancelamento e mudanca de status de oficio;
-- criacao, edicao, cancelamento e mudanca de status de carta expedida;
+- criacao, edicao, cancelamento e mudanca de status de expedicao;
+- configuracao de tipos e instancias de expedicao;
+- criacao, edicao, cancelamento e mudanca de status de tarefa;
+- configuracao de receitas operacionais;
 - criacao, edicao, cancelamento e mudanca de status de prazo/pendencia;
 - exportacao de dados;
 - aplicacao de metadados Datajud;

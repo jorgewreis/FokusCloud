@@ -11,7 +11,7 @@
     account: "register",
     pendingCompany: null,
     usage: {
-      oficios: 2500,
+      expedicoes: 2500,
       partes: 5000,
       pessoas: 50,
       empreendimentos: 20,

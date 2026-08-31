@@ -21,8 +21,8 @@ operacao diaria por meio de:
 
 - processos como entidade central;
 - expedientes e documentos vinculados aos processos;
-- controle de oficios;
-- controle de cartas expedidas;
+- gestao de expedicoes;
+- tarefas e fluxos operacionais;
 - prazos e pendencias operacionais;
 - partes processuais reutilizaveis na unidade;
 - indicadores gerenciais da unidade.
@@ -43,15 +43,21 @@ Cartorio Civel.
 
 Faz parte do escopo da v1:
 
+- gestao processual como modulo central, exibido internamente como Processos;
 - cadastro e acompanhamento operacional de processos;
 - vinculacao obrigatoria de expedientes a processos quando o expediente for
   processual;
 - cadastro de partes vinculadas a processos e reutilizaveis entre processos da
   mesma unidade;
-- controle de oficios com numeracao por unidade e setor;
-- controle de cartas expedidas sem numeracao propria interna;
+- gestao de expedicoes com tipos configuraveis;
+- oficios como tipo de expedicao com numeracao por unidade, setor e ano;
+- mandados, cartas precatorias, cartas rogatorias, cartas de ordem, editais,
+  guias de execucao e atos ordinatorios como tipos de expedicao;
+- cartas expedidas sem numeracao propria interna, salvo configuracao futura
+  explicita por tipo;
+- receitas operacionais que conectam tarefas, expedicoes, prazos e alertas;
 - registro posterior opcional do numero atribuido pela comarca de destino em
-  cartas expedidas;
+  expedicoes que aceitem numero externo;
 - tratamento de cartas recebidas como classe de processo;
 - prazos e pendencias vinculados a processos e expedientes;
 - perfis internos por unidade;
@@ -93,17 +99,42 @@ Dados operacionais minimos:
 
 - numero do processo;
 - classe;
-- assunto;
+- assuntos, artigos ou capitulacoes;
 - vara ou unidade;
-- situacao operacional;
-- prioridade;
-- indicacao de sigilo;
+- situacao processual oficial;
+- situacao operacional interna;
+- prioridade operacional;
+- nivel de sigilo;
+- tags informativas;
+- dados de autuacao;
+- dados de distribuicao;
 - datas relevantes;
 - observacoes internas.
 
 Cartas recebidas devem ser tratadas como uma classe de processo. Elas nao devem
 ser modeladas como expediente separado nem como modulo autonomo de cartas
 recebidas.
+
+O nome comercial do modulo e Gestao Processual. No menu interno do sistema, o
+rotulo deve ser `Processos`.
+
+Dados oficiais, como classe, assunto, orgao julgador, movimentacoes publicas e
+situacao oficial, devem ficar separados de dados operacionais internos, como
+responsavel, prioridade, tags, observacoes e status de trabalho. A integracao
+Datajud nao deve sobrescrever dados operacionais internos.
+
+Tags informativas auxiliam filtros, filas e indicadores, mas nao substituem
+classe processual, prioridade, status ou sigilo.
+
+O controle de sigilo deve usar niveis, conforme detalhado em [Gestao processual do Fokus Law](fokus-law-gestao-processual.md), e deve restringir entidades filhas
+do processo quando aplicavel.
+
+O detalhe do processo deve possuir linha do tempo com movimentacoes oficiais,
+tarefas, expedicoes, prazos, partes e auditoria relevante.
+
+Receitas operacionais podem sugerir tarefas ou expedicoes a partir de classe,
+assunto, tag, prioridade ou situacao operacional, sem executar acoes
+automaticamente quando nao houver regra habilitada e usuario autorizado.
 
 ### Partes
 
@@ -115,46 +146,67 @@ papel processual. O objetivo nao e criar um cadastro pessoal amplo, mas permitir
 identificacao suficiente para execucao cartoraria, filtros, documentos,
 indicadores e historico.
 
-### Oficios
+### Expedicoes
 
-Oficios devem possuir controle proprio por unidade e setor.
+Expedicoes sao documentos expedidos e controlados pela unidade juridica.
 
-Cada oficio deve registrar, no minimo:
+Na v1, oficios, mandados, cartas precatorias, cartas rogatorias, cartas de
+ordem, editais, guias de execucao e atos ordinatorios sao tipos de expedicao,
+conforme detalhado em [Controle de expedicoes do Fokus Law](fokus-law-expedicoes.md).
+
+Cada expedicao deve registrar, no minimo:
 
 - unidade;
-- setor;
-- numero ou sequencia propria;
-- destinatario;
-- assunto;
-- processo vinculado;
-- status;
-- responsavel;
-- datas relevantes;
-- historico.
-
-A numeracao de oficios deve ser independente por setor quando a unidade possuir
-mais de uma origem operacional, como Cartorio e Gabinete.
-
-### Cartas expedidas
-
-Cartas expedidas sao expedientes vinculados a um processo da unidade.
-
-Elas nao devem possuir numeracao propria ou controlada internamente pelo Fokus
-Law. O cadastro deve exigir o processo de origem da unidade e deve permitir,
-posteriormente, o preenchimento opcional do numero atribuido pela comarca ou
-orgao de destino.
-
-Cada carta expedida deve registrar, no minimo:
-
-- processo vinculado;
-- destino;
+- setor ou instancia de expedicao;
 - tipo;
+- processo vinculado quando a expedicao for processual;
+- numero interno quando o tipo exigir;
+- destino ou destinatario;
+- assunto;
 - status;
+- data de expedicao ou assinatura;
 - data de envio;
 - data de retorno, quando houver;
-- numero atribuido no destino, opcional;
+- numero externo atribuido no destino, quando aplicavel;
 - responsavel;
 - historico.
+
+A numeracao deve ser configuravel por tipo e instancia. Oficios devem possuir
+numeracao interna obrigatoria por unidade, instancia e ano. Cartas expedidas nao
+devem possuir numeracao interna propria na v1, mas podem receber posteriormente
+numero atribuido pela comarca ou orgao de destino.
+
+Expedicoes podem ser criadas diretamente quando o tipo permitir ou geradas por
+tarefas e fluxos operacionais.
+
+### Gestao de tarefas
+
+Gestao de Tarefas controla o trabalho a cumprir na unidade. Fluxos e receitas
+operacionais sao conceitos internos desse modulo.
+
+Uma tarefa pode existir sem expedicao, gerar uma ou mais expedicoes, acompanhar
+uma expedicao existente ou ser criada a partir de uma expedicao que exija
+retorno, cumprimento ou conferencia.
+
+As receitas operacionais que conectam tarefas, expedicoes, prazos e alertas
+estao detalhadas em [Gestao de tarefas do Fokus Law](fokus-law-tarefas-fluxos.md).
+
+### Nomenclatura comercial e interna
+
+Os nomes comerciais dos modulos devem ser:
+
+- Gestao Processual;
+- Gestao de Expedicoes;
+- Gestao de Tarefas.
+
+No menu interno do sistema, os rotulos devem ser simples:
+
+- Processos;
+- Expedicoes;
+- Tarefas.
+
+Fluxos e receitas operacionais sao conceitos tecnicos internos da Gestao de
+Tarefas e nao devem aparecer como nome principal do modulo para o cliente.
 
 ### Prazos e pendencias
 
@@ -236,8 +288,7 @@ Eventos auditaveis minimos:
 
 - criacao, edicao, cancelamento e inativacao de processo;
 - alteracao de sigilo;
-- criacao, edicao, cancelamento e mudanca de status de oficio;
-- criacao, edicao, cancelamento e mudanca de status de carta expedida;
+- criacao, edicao, cancelamento e mudanca de status de expedicao;
 - criacao, edicao, cancelamento e mudanca de status de prazo ou pendencia;
 - vinculacao e desvinculacao de partes;
 - alteracao de permissoes na unidade;
@@ -309,8 +360,7 @@ Evolucoes esperadas apos a v1:
 
 - Cartorio Civel completo;
 - gestao completa de audiencias;
-- editais;
-- guias de execucao;
+- novos tipos de expedicao;
 - documentos e modelos;
 - automacoes de expedientes;
 - integracoes adicionais com sistemas judiciais;
@@ -327,8 +377,9 @@ comuns ficam no Fokus Cloud; regras juridicas ficam no Fokus Law.
   plataforma.
 - A v1 esta limitada a cartorios/serventias, com foco inicial em Cartorio
   Criminal e base reutilizavel para Civel.
-- Processos sao definidos como entidade central.
-- Oficios, cartas expedidas, prazos, pendencias e partes possuem papel claro.
+- Processos sao definidos como entidade central e como modulo comercial Gestao
+  Processual.
+- Expedicoes, tarefas, prazos, pendencias e partes possuem papel claro.
 - Cartas recebidas sao tratadas como classe de processo, nao como expediente.
 - Audiencias, Advocacia, financeiro/honorarios e geracao avancada de documentos
   ficam fora da v1.

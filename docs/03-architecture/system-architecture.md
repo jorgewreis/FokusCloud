@@ -79,16 +79,13 @@ O Fokus Law deve conter apenas funcionalidades cujo valor depende do dominio jur
 
 Exemplos de modulos possiveis:
 
-- processos;
+- gestao processual;
 - partes;
 - audiencias;
 - expedientes;
-- oficios;
-- cartas;
-- editais;
-- guias;
+- expedicoes;
 - prazos e intimacoes;
-- tarefas juridicas;
+- tarefas e fluxos juridicos;
 - relatorios juridicos;
 - rotinas de advocacia;
 - rotinas de cartorio criminal;

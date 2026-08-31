@@ -71,8 +71,8 @@ O modelo atual possui somente os campos basicos de produto, plano e modulo. Para
 - limites, unidades e opcoes de capacidade;
 - dependencias e incompatibilidades;
 - capacidades comerciais para diferenciar usos do mesmo modulo, quando aplicavel;
-- instancias operacionais por setor para modulos de expedicao, com sequencias de numeracao independentes;
-- variantes de `guias` para Varas Criminais Comuns e Varas de Execucao Penal;
+- tipos e instancias operacionais por setor para `expedicoes`, com sequencias de numeracao independentes quando aplicavel;
+- guias de execucao comum e penal como tipos ou capacidades de `expedicoes`;
 - versoes publicadas e agendamentos.
 
 Esses dados devem ser modelados antes da ativacao do gerenciamento completo pelo backoffice.
