@@ -34,8 +34,7 @@ Representa funcionalidades vendaveis ou componiveis.
 - `code` e unico dentro do sistema;
 - `module_code` identifica o nucleo tecnico (`processos`, `contatos`,
   `expedicoes` ou `tarefas`);
-- `segment_code` identifica o publico (`advocacia`, `judiciario` ou
-  `setor_publico`);
+- `segment_code` identifica o publico (`advocacia` ou `setor_publico`);
 - `context_code` identifica o ambiente operacional;
 - `variant_code` identifica a combinacao comercial estavel;
 - `name` e o nome exibido;

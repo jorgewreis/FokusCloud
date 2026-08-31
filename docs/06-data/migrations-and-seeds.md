@@ -33,3 +33,8 @@ Migrations ja existentes relacionadas ao modelo:
 - `2026_08_31_000100_recreate_fokus_law_catalog.php`: recria o catalogo Law
   para os quatro modulos, interrompendo a operacao quando houver itens de
   assinatura dependentes e preservando o historico comercial.
+- `2026_08_31_000200_add_law_module_variants.php`: adiciona nucleo tecnico,
+  segmento, contexto, variante, capacidades e regras de compatibilidade aos
+  modulos.
+- `2026_08_31_000300_normalize_law_module_segments.php`: normaliza registros
+  legados de `judiciario` para `setor_publico`.

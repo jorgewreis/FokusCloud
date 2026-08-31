@@ -7,7 +7,8 @@ A API deve consultar o banco de dados e ser a unica fonte consumida pelo backoff
 Para o Fokus Law, cada modulo retornado deve incluir `module_code`,
 `segment_code`, `context_code`, `variant_code`, `capabilities`,
 `dependencies` e `incompatibilities`, permitindo diferenciar a oferta para
-advocacia, Judiciario e setor publico sem duplicar o nucleo tecnico.
+advocacia e setor publico sem duplicar o nucleo tecnico. O contexto diferencia
+Varas Criminais, Varas Civeis, Juizados, Cartorios e orgaos administrativos.
 
 ## Catalogo do backoffice
 

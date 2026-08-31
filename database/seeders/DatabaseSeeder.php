@@ -21,19 +21,19 @@ class DatabaseSeeder extends Seeder
         $modules = [
             'law' => [
                 'processos-advocacia' => ['Gestão de Processos para Advogados', 'processos', 29.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
-                'processos-vara-criminal' => ['Gestão de Processos para Varas Criminais', 'processos', 34.90, 'judiciario', 'vara_criminal', 'judiciario-vara-criminal', false],
-                'processos-vara-civel' => ['Gestão de Processos para Varas Cíveis', 'processos', 34.90, 'judiciario', 'vara_civel', 'judiciario-vara-civel', false],
-                'processos-juizado' => ['Gestão de Processos para Juizados', 'processos', 32.90, 'judiciario', 'juizado', 'judiciario-juizado', false],
+                'processos-vara-criminal' => ['Gestão de Processos para Varas Criminais', 'processos', 34.90, 'setor_publico', 'vara_criminal', 'setor-publico-vara-criminal', false],
+                'processos-vara-civel' => ['Gestão de Processos para Varas Cíveis', 'processos', 34.90, 'setor_publico', 'vara_civel', 'setor-publico-vara-civel', false],
+                'processos-juizado' => ['Gestão de Processos para Juizados', 'processos', 32.90, 'setor_publico', 'juizado', 'setor-publico-juizado', false],
                 'processos-orgao-publico' => ['Gestão de Processos para Órgãos Públicos', 'processos', 34.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
                 'contatos-advocacia' => ['Gestão de Contatos para Advogados', 'contatos', 14.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
-                'contatos-judiciario' => ['Gestão de Contatos para Judiciário', 'contatos', 16.90, 'judiciario', 'vara', 'judiciario-vara', false],
+                'contatos-vara' => ['Gestão de Contatos para Varas', 'contatos', 16.90, 'setor_publico', 'vara', 'setor-publico-vara', false],
                 'contatos-setor-publico' => ['Gestão de Contatos para Setor Público', 'contatos', 16.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
-                'expedicoes-cartorio' => ['Gestão de Expedições para Cartórios', 'expedicoes', 19.90, 'judiciario', 'cartorio', 'judiciario-cartorio', false],
-                'expedicoes-vara' => ['Gestão de Expedições para Varas', 'expedicoes', 19.90, 'judiciario', 'vara', 'judiciario-vara', false],
+                'expedicoes-cartorio' => ['Gestão de Expedições para Cartórios', 'expedicoes', 19.90, 'setor_publico', 'cartorio', 'setor-publico-cartorio', false],
+                'expedicoes-vara' => ['Gestão de Expedições para Varas', 'expedicoes', 19.90, 'setor_publico', 'vara', 'setor-publico-vara', false],
                 'expedicoes-orgao-publico' => ['Gestão de Expedições para Órgãos Públicos', 'expedicoes', 19.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
                 'tarefas-advocacia' => ['Gestão de Tarefas para Escritórios', 'tarefas', 19.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
-                'tarefas-vara' => ['Gestão de Tarefas para Unidades Judiciais', 'tarefas', 19.90, 'judiciario', 'vara', 'judiciario-vara', false],
-                'tarefas-juizado' => ['Gestão de Tarefas para Juizados', 'tarefas', 19.90, 'judiciario', 'juizado', 'judiciario-juizado', false],
+                'tarefas-vara' => ['Gestão de Tarefas para Unidades Judiciais', 'tarefas', 19.90, 'setor_publico', 'vara', 'setor-publico-vara', false],
+                'tarefas-juizado' => ['Gestão de Tarefas para Juizados', 'tarefas', 19.90, 'setor_publico', 'juizado', 'setor-publico-juizado', false],
                 'tarefas-orgao-publico' => ['Gestão de Tarefas para Órgãos Públicos', 'tarefas', 19.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
             ],
             'lead' => [
@@ -79,9 +79,9 @@ class DatabaseSeeder extends Seeder
         $plans = [
             'law' => [
                 'law-advocacia' => ['Advocacia', 'advocacia', ['processos-advocacia', 'contatos-advocacia', 'tarefas-advocacia']],
-                'law-cartorio-criminal' => ['Cartório Criminal', 'judiciario', ['processos-vara-criminal', 'contatos-judiciario', 'expedicoes-cartorio', 'tarefas-vara']],
-                'law-cartorio-civel' => ['Cartório Cível', 'judiciario', ['processos-vara-civel', 'contatos-judiciario', 'expedicoes-cartorio', 'tarefas-vara']],
-                'law-gestao-audiencias' => ['Gestão de Audiências', 'judiciario', ['processos-juizado', 'contatos-judiciario', 'tarefas-juizado']],
+                'law-cartorio-criminal' => ['Cartório Criminal', 'setor_publico', ['processos-vara-criminal', 'contatos-vara', 'expedicoes-cartorio', 'tarefas-vara']],
+                'law-cartorio-civel' => ['Cartório Cível', 'setor_publico', ['processos-vara-civel', 'contatos-vara', 'expedicoes-cartorio', 'tarefas-vara']],
+                'law-gestao-audiencias' => ['Gestão de Audiências', 'setor_publico', ['processos-juizado', 'contatos-vara', 'tarefas-juizado']],
                 'law-gestao-expedientes' => ['Gestão de Expedientes', 'setor_publico', ['processos-orgao-publico', 'contatos-setor-publico', 'expedicoes-orgao-publico', 'tarefas-orgao-publico']],
             ],
             'lead' => [

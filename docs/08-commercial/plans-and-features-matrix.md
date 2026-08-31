@@ -21,7 +21,8 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 ## Fokus Cloud Law
 
 O catalogo Law comercializa exclusivamente `processos`, `contatos`,
-`expedicoes` e `tarefas`. As variantes abaixo representam contexto e capacidade
+`expedicoes` e `tarefas`. Os segmentos comerciais sao `advocacia` e
+`setor_publico`; as variantes abaixo representam contexto e capacidade
 do mesmo modulo tecnico, nao novos modulos comerciais.
 
 ### Modulos processuais e de relacionamento
