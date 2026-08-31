@@ -82,7 +82,7 @@ class BackofficeController extends Controller
                         ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
                         ->where('plan_module.plan_id', $plan->id)
                         ->orderBy('module.name')
-                        ->get(['module.id', 'module.code', 'module.name', 'module.context_code', 'module.variant_code', 'module.status', 'module.price_is_estimate'])
+                        ->get(['module.id', 'module.code', 'module.module_code', 'module.name', 'module.segment_code', 'module.context_code', 'module.variant_code', 'module.capabilities', 'module.dependencies', 'module.incompatibilities', 'module.status', 'module.price_is_estimate'])
                         ->map(fn ($module) => [...(array) $module, 'price_is_estimate' => (bool) $module->price_is_estimate]),
                 ]),
             ])->values(),

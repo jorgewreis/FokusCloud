@@ -4,6 +4,11 @@
 
 A API deve consultar o banco de dados e ser a unica fonte consumida pelo backoffice e pelo catalogo publico. Nenhum cliente deve depender de uma lista de nomes ou precos duplicada em JavaScript.
 
+Para o Fokus Law, cada modulo retornado deve incluir `module_code`,
+`segment_code`, `context_code`, `variant_code`, `capabilities`,
+`dependencies` e `incompatibilities`, permitindo diferenciar a oferta para
+advocacia, Judiciario e setor publico sem duplicar o nucleo tecnico.
+
 ## Catalogo do backoffice
 
 Endpoint atual:

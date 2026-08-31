@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
         return response()->json([
             'name' => $catalogName,
             'back' => $product->code === 'lead' ? '/produtos/fokus-lead' : '/produtos/fokus-law',
-            'modules' => $modules->map(fn ($module) => [$module->code, $module->name, '', (float) $module->monthly_price, self::USAGE[$module->code] ?? null])->values(),
+            'modules' => $modules->map(fn ($module) => [$module->code, $module->name, '', (float) $module->monthly_price, self::USAGE[$module->module_code] ?? null, $module->module_code, $module->segment_code, $module->context_code, $module->variant_code, $this->jsonArray($module->capabilities), $this->jsonArray($module->dependencies), $this->jsonArray($module->incompatibilities)])->values(),
             'plans' => $plans->map(function ($plan) use ($planModules, $catalogName) {
                 $lineName = $plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '');
                 $monthly = DB::table('plan_modules as plan_module')
@@ -69,7 +69,7 @@ class SubscriptionController extends Controller
         return response()->json([
             'name' => $catalogName,
             'back' => $product->code === 'lead' ? '/produtos/fokus-lead' : '/produtos/fokus-law',
-            'modules' => $modules->map(fn ($module) => [$module->code, $module->name, '', (float) $module->monthly_price, self::USAGE[$module->code] ?? null])->values(),
+            'modules' => $modules->map(fn ($module) => [$module->code, $module->name, '', (float) $module->monthly_price, self::USAGE[$module->module_code] ?? null, $module->module_code, $module->segment_code, $module->context_code, $module->variant_code, $this->jsonArray($module->capabilities), $this->jsonArray($module->dependencies), $this->jsonArray($module->incompatibilities)])->values(),
             'plans' => $plans->map(function ($plan) use ($planModules, $catalogName) {
                 $lineName = $plan->segment === 'one' ? ' One' : ($plan->segment === 'team' ? ' Team' : '');
                 return [$catalogName.$lineName.' - '.$plan->name, $planModules->where('plan_id', $plan->id)->pluck('code')->values()->all(), $plan->code];
@@ -251,6 +251,10 @@ class SubscriptionController extends Controller
         }
         $modules = DB::table('modules')->where('product_id', $product->id)->whereIn('code', $codes)->get()->keyBy('code');
         abort_unless($modules->count() === count($codes), 422, 'Módulo inválido para este produto.');
+        $technicalCodes = $modules->pluck('module_code')->filter()->values()->all();
+        abort_if(count($technicalCodes) !== count(array_unique($technicalCodes)), 422, 'Escolha apenas uma variante de cada módulo.');
+        $lawSegments = $modules->pluck('segment_code')->filter()->unique()->values();
+        abort_if($product->code === 'law' && $lawSegments->count() > 1, 422, 'As variantes selecionadas pertencem a segmentos incompatíveis.');
         $monthly = 0.0;
         $items = [];
         foreach ($data['items'] as $requested) {
@@ -264,7 +268,7 @@ class SubscriptionController extends Controller
             }
             $unit = (float) $module->monthly_price + ($usage ? array_search($usageLimit, $usage['options'], true) * $usage['step'] : 0);
             $monthly += $unit * $requested['quantity'];
-            $items[] = ['module' => $module, 'quantity' => $requested['quantity'], 'unit_price' => $data['cycle'] === 'annual' ? $unit * 10 : $unit, 'conditions' => ['cycle' => $data['cycle'], 'usage_limit' => $usageLimit, 'selection_mode' => $data['selection_mode'], 'plan_code' => $data['plan_code'] ?? null]];
+            $items[] = ['module' => $module, 'quantity' => $requested['quantity'], 'unit_price' => $data['cycle'] === 'annual' ? $unit * 10 : $unit, 'conditions' => ['cycle' => $data['cycle'], 'usage_limit' => $usageLimit, 'selection_mode' => $data['selection_mode'], 'plan_code' => $data['plan_code'] ?? null, 'module_code' => $module->module_code, 'segment_code' => $module->segment_code, 'context_code' => $module->context_code, 'variant_code' => $module->variant_code]];
         }
         if ($data['selection_mode'] === 'plan') {
             $monthly = $plan->monthly_amount === null
@@ -298,6 +302,12 @@ class SubscriptionController extends Controller
         sort($actual);
         sort($expected);
         return $actual === $expected;
+    }
+
+    private function jsonArray(?string $value): array
+    {
+        $decoded = $value ? json_decode($value, true) : [];
+        return is_array($decoded) ? $decoded : [];
     }
 
     private function assertWebhookSignature(Request $request): void

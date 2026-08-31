@@ -20,10 +20,21 @@ class DatabaseSeeder extends Seeder
 
         $modules = [
             'law' => [
-                'processos' => ['Gestão de Processos', 29.90, 'law', 'processos', false],
-                'contatos' => ['Gestão de Contatos', 14.90, 'law', 'contatos', false],
-                'expedicoes' => ['Gestão de Expedições', 19.90, 'law', 'expedicoes', false],
-                'tarefas' => ['Gestão de Tarefas', 19.90, 'law', 'tarefas', false],
+                'processos-advocacia' => ['Gestão de Processos para Advogados', 'processos', 29.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
+                'processos-vara-criminal' => ['Gestão de Processos para Varas Criminais', 'processos', 34.90, 'judiciario', 'vara_criminal', 'judiciario-vara-criminal', false],
+                'processos-vara-civel' => ['Gestão de Processos para Varas Cíveis', 'processos', 34.90, 'judiciario', 'vara_civel', 'judiciario-vara-civel', false],
+                'processos-juizado' => ['Gestão de Processos para Juizados', 'processos', 32.90, 'judiciario', 'juizado', 'judiciario-juizado', false],
+                'processos-orgao-publico' => ['Gestão de Processos para Órgãos Públicos', 'processos', 34.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
+                'contatos-advocacia' => ['Gestão de Contatos para Advogados', 'contatos', 14.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
+                'contatos-judiciario' => ['Gestão de Contatos para Judiciário', 'contatos', 16.90, 'judiciario', 'vara', 'judiciario-vara', false],
+                'contatos-setor-publico' => ['Gestão de Contatos para Setor Público', 'contatos', 16.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
+                'expedicoes-cartorio' => ['Gestão de Expedições para Cartórios', 'expedicoes', 19.90, 'judiciario', 'cartorio', 'judiciario-cartorio', false],
+                'expedicoes-vara' => ['Gestão de Expedições para Varas', 'expedicoes', 19.90, 'judiciario', 'vara', 'judiciario-vara', false],
+                'expedicoes-orgao-publico' => ['Gestão de Expedições para Órgãos Públicos', 'expedicoes', 19.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
+                'tarefas-advocacia' => ['Gestão de Tarefas para Escritórios', 'tarefas', 19.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
+                'tarefas-vara' => ['Gestão de Tarefas para Unidades Judiciais', 'tarefas', 19.90, 'judiciario', 'vara', 'judiciario-vara', false],
+                'tarefas-juizado' => ['Gestão de Tarefas para Juizados', 'tarefas', 19.90, 'judiciario', 'juizado', 'judiciario-juizado', false],
+                'tarefas-orgao-publico' => ['Gestão de Tarefas para Órgãos Públicos', 'tarefas', 19.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
             ],
             'lead' => [
                 'pessoas' => ['Gestão de Pessoas', 4.90, 'one,team', 'pessoas', false],
@@ -48,11 +59,16 @@ class DatabaseSeeder extends Seeder
 
         foreach ($modules as $productCode => $items) {
             $productId = DB::table('products')->where('code', $productCode)->value('id');
-            foreach ($items as $code => [$name, $price, $context, $variant, $estimate]) {
+            foreach ($items as $code => [$name, $moduleCode, $price, $segment, $context, $variant, $estimate]) {
                 $this->upsertCatalog('modules', ['product_id' => $productId, 'code' => $code], ['name' => $name, 'monthly_price' => $price], 'MOD');
                 DB::table('modules')->where('product_id', $productId)->where('code', $code)->update([
+                    'module_code' => $moduleCode,
+                    'segment_code' => $segment,
                     'context_code' => $context,
                     'variant_code' => $variant,
+                    'capabilities' => json_encode($this->lawCapabilities($moduleCode, $segment, $context)),
+                    'dependencies' => json_encode($moduleCode === 'contatos' ? [] : ['contatos']),
+                    'incompatibilities' => json_encode([]),
                     'status' => 'rascunho',
                     'price_is_estimate' => $estimate,
                     'updated_at' => now(),
@@ -62,11 +78,11 @@ class DatabaseSeeder extends Seeder
 
         $plans = [
             'law' => [
-                'law-advocacia' => ['Advocacia', null, ['processos', 'contatos', 'tarefas']],
-                'law-cartorio-criminal' => ['Cartório Criminal', null, ['processos', 'contatos', 'expedicoes', 'tarefas']],
-                'law-cartorio-civel' => ['Cartório Cível', null, ['processos', 'contatos', 'expedicoes', 'tarefas']],
-                'law-gestao-audiencias' => ['Gestão de Audiências', null, ['processos', 'contatos', 'tarefas']],
-                'law-gestao-expedientes' => ['Gestão de Expedientes', null, ['processos', 'contatos', 'expedicoes', 'tarefas']],
+                'law-advocacia' => ['Advocacia', 'advocacia', ['processos-advocacia', 'contatos-advocacia', 'tarefas-advocacia']],
+                'law-cartorio-criminal' => ['Cartório Criminal', 'judiciario', ['processos-vara-criminal', 'contatos-judiciario', 'expedicoes-cartorio', 'tarefas-vara']],
+                'law-cartorio-civel' => ['Cartório Cível', 'judiciario', ['processos-vara-civel', 'contatos-judiciario', 'expedicoes-cartorio', 'tarefas-vara']],
+                'law-gestao-audiencias' => ['Gestão de Audiências', 'judiciario', ['processos-juizado', 'contatos-judiciario', 'tarefas-juizado']],
+                'law-gestao-expedientes' => ['Gestão de Expedientes', 'setor_publico', ['processos-orgao-publico', 'contatos-setor-publico', 'expedicoes-orgao-publico', 'tarefas-orgao-publico']],
             ],
             'lead' => [
                 'lead-one-essencial' => ['Essencial', 'one', ['pessoas', 'imoveis', 'notificacoes']],
@@ -120,5 +136,21 @@ class DatabaseSeeder extends Seeder
             return;
         }
         DB::table($table)->insert([...$where, ...$values, 'id' => PrefixedUlid::make($prefix), 'created_at' => now(), 'updated_at' => now()]);
+    }
+
+    private function lawCapabilities(string $module, string $segment, string $context): array
+    {
+        return match ($module) {
+            'processos' => $segment === 'advocacia'
+                ? ['anotacoes_manuais', 'controle_prazos', 'acompanhamento_estrategico', 'clientes_partes']
+                : ($segment === 'setor_publico'
+                    ? ['processos_administrativos', 'interessados', 'setores', 'tramitacao_interna', 'pareceres', 'controle_prazos']
+                    : ['tramitacao_processual', 'partes_processuais', 'sigilo', 'movimentacoes_oficiais', 'filas_operacionais']),
+            'contatos' => $segment === 'advocacia'
+                ? ['clientes', 'partes', 'advogados', 'correspondentes']
+                : ($segment === 'setor_publico' ? ['orgaos', 'unidades', 'autoridades', 'destinatarios_oficiais'] : ['partes_processuais', 'representantes', 'orgaos']),
+            'expedicoes' => ['oficios', 'mandados', 'cartas', 'editais', 'guias_execucao', 'atos_ordinatorios'],
+            default => ['tarefas', 'fluxos', 'receitas', 'prazos', 'pendencias', 'alertas'],
+        };
     }
 }
