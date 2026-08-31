@@ -8,6 +8,10 @@ As regras especificas de alertas, filas, incidentes, suporte interno e rotinas
 do Backoffice estao definidas em [Monitoramento, suporte e operacao do
 Backoffice](backoffice-monitoring-and-support.md).
 
+As regras especificas de dashboard, fila de trabalho, alertas, suporte
+orientativo e incidentes da unidade Law estao definidas em [Operacao do Fokus
+Law](fokus-law-operations.md).
+
 ## Pontos a definir
 
 - Logs de aplicacao.

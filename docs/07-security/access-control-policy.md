@@ -43,9 +43,18 @@ Nenhum dado de empresa pode ser lido, alterado ou excluido sem validar usuario a
 O catalogo atomico, os escopos, a ordem de avaliacao e os testes normativos
 estao definidos em [Modelo de permissoes e perfis](permission-model.md).
 
+Para o Fokus Law v1, a autorizacao deve validar tambem assinatura ativa do
+produto, unidade Law ativa, vinculo Law ativo, modulo contratado e regra de
+sigilo processual, conforme [Seguranca e permissoes do Fokus Law](fokus-law-security-and-permissions.md).
+
 ## Backoffice
 
 O backoffice interno nao deve usar os perfis de empresa como autorizacao suficiente. Acesso administrativo interno precisa de regra propria, separada dos usuarios clientes.
+
+Na v1, o Backoffice nao acessa dados operacionais do Fokus Law. Ele pode tratar
+informacoes comerciais, assinatura, billing, vouchers, alertas tecnicos
+agregados e auditoria da plataforma, sem visualizar processos, partes,
+expedientes, prazos, pendencias ou conteudo sigiloso do cliente.
 
 ## Controles obrigatorios
 

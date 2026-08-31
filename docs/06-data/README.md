@@ -10,6 +10,7 @@ Esta pasta documenta dados, entidades, relacionamentos, isolamento multiempresa,
 - [Isolamento e governanca de dados](data-isolation-and-governance.md)
 - [Modelo de dados do catalogo](catalog-data-model.md)
 - [Modelo de dados do Backoffice e Billing](backoffice-and-billing-data-model.md)
+- [Modelo de dados do Fokus Law](fokus-law-data-model.md)
 - [Dicionario de dados](data-dictionary.md)
 - [Migrations e seeds](migrations-and-seeds.md)
 

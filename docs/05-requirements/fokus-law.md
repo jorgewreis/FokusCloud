@@ -29,7 +29,8 @@ decisoes de produto.
 - sigilo processual transversal;
 - auditoria de acoes sensiveis e operacionais;
 - indicadores operacionais por unidade;
-- consulta e atualizacao de dados processuais basicos via Datajud;
+- sincronizacao automatica de dados processuais basicos via Datajud;
+- suporte orientativo solicitado dentro do produto;
 - habilitacao por catalogo comercial publicado e assinatura ativa.
 
 ### Fora do escopo
@@ -64,12 +65,13 @@ decisoes de produto.
 | RF-LAW-015 | O sistema deve permitir atribuir responsavel, data limite, prioridade, status e alerta a prazo ou pendencia. | Prazos vencidos e a vencer aparecem em consultas e indicadores. |
 | RF-LAW-016 | O sistema deve permitir cancelar ou inativar registros com motivo obrigatorio. | Processos, expedientes, prazos e pendencias usados no fluxo nao sao excluidos fisicamente. |
 | RF-LAW-017 | O sistema deve impedir exclusao fisica de registros operacionais ja utilizados. | Uma tentativa de exclusao fisica retorna erro ou e convertida para inativacao/cancelamento auditado. |
-| RF-LAW-018 | O sistema deve consultar dados processuais basicos no Datajud. | Um usuario autorizado pode solicitar consulta por numero CNJ e visualizar retorno disponivel. |
+| RF-LAW-018 | O sistema deve sincronizar dados processuais basicos no Datajud automaticamente quando processo for criado ou movimentado. | Criacao ou movimentacao agenda sincronizacao Datajud sem acao manual do usuario. |
 | RF-LAW-019 | O sistema deve atualizar metadados publicos do processo com base no Datajud. | Campos sincronizaveis sao atualizados sem sobrescrever campos operacionais internos. |
-| RF-LAW-020 | O sistema deve registrar divergencias relevantes entre Datajud e cadastro interno. | Divergencias ficam consultaveis por usuario autorizado e podem ser auditadas. |
+| RF-LAW-020 | O sistema deve registrar divergencias relevantes entre Datajud e cadastro interno. | Divergencias ficam registradas tecnicamente e podem ser auditadas sem aparecer como alerta operacional da unidade. |
 | RF-LAW-021 | O sistema deve exibir dashboard operacional por unidade. | O dashboard mostra processos ativos, expedientes pendentes, prazos vencidos/a vencer, produtividade e gargalos. |
 | RF-LAW-022 | O sistema deve respeitar modulos e limites habilitados pela assinatura ativa. | Usuario sem modulo habilitado nao acessa funcionalidade restrita, mesmo tendo perfil operacional. |
 | RF-LAW-023 | O sistema deve permitir alternancia entre unidades vinculadas ao mesmo usuario. | O usuario acessa apenas unidades com vinculo ativo e perfil atribuido. |
+| RF-LAW-024 | O sistema deve permitir solicitacao de suporte orientativo dentro do produto. | Usuario autorizado registra categoria, descricao, prints opcionais sanitizados e metadados tecnicos automaticos. |
 
 ## Requisitos de seguranca e permissao
 
@@ -101,7 +103,6 @@ decisoes de produto.
 | Cancelar prazos/pendencias | X | X |  |  |
 | Consultar dashboard da unidade | X | X | X | X |
 | Consultar auditoria operacional | X | X |  |  |
-| Consultar Datajud | X | X | X |  |
 
 Permissoes podem ser restringidas adicionalmente por sigilo, modulo contratado,
 limite comercial ou vinculo ativo na unidade.
@@ -150,10 +151,13 @@ limite comercial ou vinculo ativo na unidade.
 ### Datajud
 
 - Datajud e integracao inicial da v1.
-- Datajud consulta e atualiza dados processuais basicos.
+- Datajud sincroniza dados processuais basicos automaticamente quando processo
+  for criado ou movimentado.
 - Dados internos prevalecem para campos operacionais.
 - Datajud prevalece apenas para metadados publicos sincronizados.
 - Falhas no Datajud nao podem impedir o uso interno de processos ja cadastrados.
+- Erros Datajud nao devem aparecer como alerta operacional nem interface
+  visivel ao usuario na v1.
 
 ### Assinatura e catalogo
 
@@ -176,7 +180,7 @@ Eventos minimos:
 - alteracao de data limite;
 - alteracao de responsavel;
 - configuracao de usuarios e permissoes da unidade;
-- consulta Datajud que altere metadados internos;
+- sincronizacao Datajud que altere metadados internos;
 - registro ou resolucao de divergencia Datajud;
 - exportacao de dados, quando existir.
 
@@ -213,6 +217,7 @@ Entidades alvo da v1:
 - registro de sincronizacao Datajud;
 - divergencia Datajud;
 - alerta operacional.
+- solicitacao de suporte.
 
 Dados sensiveis devem ser minimizados, protegidos por permissao e omitidos de
 logs tecnicos sempre que nao forem necessarios.
@@ -232,7 +237,7 @@ Telas minimas:
 - lista de prazos e pendencias;
 - usuarios e permissoes da unidade;
 - auditoria operacional;
-- consulta/sincronizacao Datajud.
+- solicitacao de suporte.
 
 Endpoints e rotas devem sempre validar:
 
@@ -272,5 +277,7 @@ Endpoints e rotas devem sempre validar:
 - Datajud atualiza apenas metadados publicos sincronizaveis.
 - Dados operacionais internos prevalecem sobre Datajud.
 - Dashboard operacional apresenta os indicadores minimos.
+- Suporte orientativo pode ser solicitado dentro do produto sem expor dados
+  juridicos ao Backoffice.
 - Modulos e limites respeitam catalogo publicado e assinatura ativa.
 - O Fokus Law nao altera plano, preco, voucher, cobranca ou assinatura.

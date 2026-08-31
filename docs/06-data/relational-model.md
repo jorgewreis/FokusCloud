@@ -45,6 +45,20 @@ com prefixo e ULID em maiúsculas. Os IDs são imutáveis.
 | SCH | Mudanca de assinatura |
 | REE | Reembolso |
 | RCA | Alerta de conciliacao |
+| LWU | Unidade juridica do Fokus Law |
+| LWM | Vinculo usuario-unidade Law |
+| LCS | Processo Law |
+| LPT | Parte processual Law |
+| LCP | Vinculo processo-parte Law |
+| LOF | Oficio Law |
+| LOL | Carta expedida Law |
+| LTK | Prazo ou pendencia Law |
+| LAL | Alerta operacional Law |
+| LAU | Auditoria Law |
+| LCA | Acesso a processo sigiloso Law |
+| LSR | Solicitacao de suporte Law |
+| LDS | Sincronizacao Datajud |
+| LDD | Divergencia Datajud |
 
 ## Entidades e escopo
 
@@ -94,6 +108,20 @@ Todas as entidades abaixo possuem `company_id NOT NULL`:
 | `platform_alert_comments` | ALC | Comentarios e historico de alerta. |
 | `platform_incidents` | INC | Incidentes criticos e ciclo de resposta. |
 | `platform_notifications` | NTF | Notificacoes imediatas por e-mail e dashboard. |
+| `law_units` | LWU | Especializacao juridica de unidade operacional para o Fokus Law. |
+| `law_unit_memberships` | LWM | Perfil e acesso do usuario em uma unidade juridica. |
+| `law_cases` | LCS | Processos do Fokus Law, incluindo cartas recebidas como classe de processo. |
+| `law_parties` | LPT | Partes processuais reutilizaveis por unidade juridica. |
+| `law_case_parties` | LCP | Vinculo entre processo e parte, com papel processual. |
+| `law_offices` | LOF | Oficios com sequencia anual por unidade e setor. |
+| `law_outgoing_letters` | LOL | Cartas expedidas vinculadas a processo, sem numeracao interna propria. |
+| `law_tasks` | LTK | Prazos e pendencias vinculaveis a processo ou expediente. |
+| `law_alerts` | LAL | Alertas operacionais do Fokus Law. |
+| `law_audit_events` | LAU | Auditoria operacional do Fokus Law. |
+| `law_confidential_case_accesses` | LCA | Autorizacoes explicitas para processos sigilosos. |
+| `law_support_requests` | LSR | Solicitacoes de suporte orientativo abertas dentro do produto. |
+| `law_datajud_syncs` | LDS | Consultas e sincronizacoes Datajud. |
+| `law_datajud_divergences` | LDD | Divergencias entre dados internos e Datajud. |
 | `audit_events` | AUD | Histórico estruturado e mascarado. |
 | `support_accesses` | SUP | Acesso temporário e justificado da Fokus. |
 | Cadastros operacionais futuros | Prefixo próprio | Dados de Law, Lead e outros produtos. |
@@ -117,6 +145,22 @@ platform_admins ──< platform_login_challenges
 platform_admins ──< platform_audit_events
 platform_alerts ──< platform_alert_comments
 platform_incidents ──< platform_alerts
+company_units ──< law_units
+company_memberships ──< law_unit_memberships >── law_units
+law_units ──< law_cases
+law_units ──< law_parties
+law_cases ──< law_case_parties >── law_parties
+law_cases ──< law_offices
+law_cases ──< law_outgoing_letters
+law_cases ──< law_tasks
+law_offices ──< law_tasks
+law_outgoing_letters ──< law_tasks
+law_units ──< law_alerts
+law_units ──< law_audit_events
+law_cases ──< law_confidential_case_accesses
+law_units ──< law_support_requests
+law_cases ──< law_datajud_syncs
+law_datajud_syncs ──< law_datajud_divergences
 ```
 
 - Um usuário pode possuir vínculos com várias empresas.
@@ -128,6 +172,7 @@ platform_incidents ──< platform_alerts
 - Uma empresa possui no máximo uma assinatura não encerrada por produto.
 - Itens de assinatura são snapshots e não mudam com o catálogo atual.
 - O modelo alvo de Backoffice e Billing esta detalhado em [Modelo de dados do Backoffice e Billing](backoffice-and-billing-data-model.md).
+- O modelo alvo do Fokus Law esta detalhado em [Modelo de dados do Fokus Law](fokus-law-data-model.md).
 - A composição publicada de um plano é formada por `plan_modules`; uma funcionalidade pode estar em vários planos do mesmo produto.
 - FKs usam `ON DELETE RESTRICT`; nunca há exclusão em cascata automática.
 - Tabelas filhas empresariais possuem chave única auxiliar `(company_id, id)`.

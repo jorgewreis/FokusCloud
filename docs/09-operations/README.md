@@ -9,6 +9,7 @@ Esta pasta documenta ambientes, deploy, testes, qualidade, releases, monitoramen
 - [Processo de release](release-process.md)
 - [Monitoramento e suporte](monitoring-and-support.md)
 - [Monitoramento, suporte e operacao do Backoffice](backoffice-monitoring-and-support.md)
+- [Operacao do Fokus Law](fokus-law-operations.md)
 
 ## Quando atualizar
 

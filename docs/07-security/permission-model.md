@@ -112,6 +112,11 @@ ingles e no singular. Os nomes exibidos na interface podem ser traduzidos.
 suas permissoes especificas antes de entrar em producao; permissoes amplas nao
 devem substituir regras de leitura, criacao, alteracao e exclusao do dominio.
 
+O Fokus Law v1 publica perfis e permissoes proprios por unidade juridica em
+[Seguranca e permissoes do Fokus Law](fokus-law-security-and-permissions.md).
+Essas permissoes complementam os perfis base da empresa e devem respeitar
+assinatura ativa, modulo contratado, unidade ativa e sigilo processual.
+
 ## Algoritmo de autorizacao
 
 Uma requisicao protegida somente pode ser autorizada quando todas as
@@ -214,7 +219,7 @@ desnecessarios.
 
 - Definir se o plano sera avaliado no mesmo servico de autorizacao ou em uma
   camada de habilitacao de produto.
-- Definir quais permissoes especificas serao publicadas pelo primeiro modulo
-  do Fokus Law e pelo primeiro modulo do Fokus Lead.
+- Definir quais permissoes especificas serao publicadas pelo primeiro modulo do
+  Fokus Lead.
 - Definir politica de cache e invalidacao depois de alteracao de perfil,
   vinculo, plano ou produto.
