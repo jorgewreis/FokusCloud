@@ -25,7 +25,7 @@
 ## Fase 3: recriacao do catalogo inicial
 
 Como o projeto ainda nao possui vinculacoes comerciais publicas, os planos Law
-atuais podem ser removidos e recriados com os quatro modulos comerciais. A
+atuais podem ser removidos e recriados com os cinco modulos comerciais. A
 operacao deve ocorrer em migration controlada e ser acompanhada de seeders
 idempotentes. Os planos Lead permanecem inalterados.
 

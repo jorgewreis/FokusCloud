@@ -298,6 +298,11 @@ Tabelas alvo:
 
 O detalhamento esta em [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md).
 
+### Audiencias
+
+Audiencias possuem nucleo proprio, participantes, historico de status, alertas
+e acessos externos. O detalhamento esta em [Modelo de dados de audiencias Law](law-hearings-data-model.md).
+
 ### `law_tasks`
 
 Representa prazos e pendencias.

@@ -57,6 +57,7 @@ Tipos da v1:
 - tarefas;
 - prazos;
 - pendencias.
+- audiencias.
 
 Cartas recebidas devem aparecer como fila/visao de processos cuja classe seja
 carta recebida. Elas nao sao expediente separado.
@@ -381,7 +382,11 @@ Metricas devem respeitar sigilo processual e permissao do usuario.
 - Cartas recebidas sao fila/visao de processos, nao expediente separado.
 - Fila ordena vencidos, urgentes, vencimento proximo e itens antigos.
 - Alertas existem apenas para prazo vencido, prazo a vencer, retorno,
-  cumprimento ou conferencia de expedicao e solicitacao de acesso sigiloso.
+cumprimento ou conferencia de expedicao e solicitacao de acesso sigiloso.
+
+Audiencias devem possuir fila e agenda proprias, com filtros por periodo,
+unidade, sala, modalidade, responsavel e status. O acompanhamento externo deve
+exibir apenas o status autorizado da audiencia, sem dados internos do processo.
 - Erro Datajud nao aparece na interface operacional.
 - Dashboard possui os cards definidos neste documento.
 - Processos possuem linha do tempo com eventos oficiais, operacionais e

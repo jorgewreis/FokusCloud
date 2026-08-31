@@ -45,8 +45,7 @@ decisoes de produto.
 
 - Advocacia;
 - financeiro e honorarios advocaticios;
-- gestao completa de audiencias;
-- pauta completa, sala, link e agenda de audiencias;
+- gestao completa de audiencias, pauta, sala, link e agenda de audiencias;
 - geracao automatica avancada de documentos;
 - integracoes automaticas alem do Datajud;
 - edicao de planos, precos, vouchers, billing ou assinatura;

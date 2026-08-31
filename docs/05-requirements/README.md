@@ -12,6 +12,7 @@ Esta pasta concentra requisitos funcionais, nao funcionais, regras de negocio e 
 - [Requisitos da gestao de contatos](fokus-law-contatos.md)
 - [Requisitos da gestao de expedicoes](fokus-law-expedicoes.md)
 - [Requisitos da gestao de tarefas](fokus-law-tarefas-fluxos.md)
+- [Requisitos da gestao de audiencias](fokus-law-audiencias.md)
 - [Requisitos do modulo identidade e acesso](identity-and-access.md)
 - [Ciclo de vida da conta global](user-account-lifecycle.md)
 - [Template de requisitos de modulo](module-requirements-template.md)

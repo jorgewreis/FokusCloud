@@ -35,6 +35,12 @@ class DatabaseSeeder extends Seeder
                 'tarefas-vara' => ['Gestão de Tarefas para Unidades Judiciais', 'tarefas', 19.90, 'setor_publico', 'vara', 'setor-publico-vara', false],
                 'tarefas-juizado' => ['Gestão de Tarefas para Juizados', 'tarefas', 19.90, 'setor_publico', 'juizado', 'setor-publico-juizado', false],
                 'tarefas-orgao-publico' => ['Gestão de Tarefas para Órgãos Públicos', 'tarefas', 19.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
+                'audiencias-advocacia' => ['Gestão de Audiências para Advogados', 'audiencias', 24.90, 'advocacia', 'escritorio', 'advocacia-escritorio', false],
+                'audiencias-vara-criminal' => ['Gestão de Audiências para Varas Criminais', 'audiencias', 29.90, 'setor_publico', 'vara_criminal', 'setor-publico-vara-criminal', false],
+                'audiencias-vara-civel' => ['Gestão de Audiências para Varas Cíveis', 'audiencias', 29.90, 'setor_publico', 'vara_civel', 'setor-publico-vara-civel', false],
+                'audiencias-juizado' => ['Gestão de Audiências para Juizados', 'audiencias', 27.90, 'setor_publico', 'juizado', 'setor-publico-juizado', false],
+                'audiencias-orgao-publico' => ['Gestão de Audiências para Órgãos Públicos', 'audiencias', 29.90, 'setor_publico', 'orgao_publico', 'setor-publico-orgao-publico', false],
+                'audiencias-externo' => ['Acompanhamento Externo de Audiências', 'audiencias_externo', 9.90, 'setor_publico', 'orgao_publico', 'setor-publico-audiencias-externo', false],
             ],
             'lead' => [
                 'pessoas' => ['Gestão de Pessoas', 4.90, 'one,team', 'pessoas', false],
@@ -67,7 +73,7 @@ class DatabaseSeeder extends Seeder
                     'context_code' => $context,
                     'variant_code' => $variant,
                     'capabilities' => json_encode($this->lawCapabilities($moduleCode, $segment, $context)),
-                    'dependencies' => json_encode($moduleCode === 'contatos' ? [] : ['contatos']),
+                    'dependencies' => json_encode($moduleCode === 'contatos' ? [] : ($moduleCode === 'audiencias_externo' ? ['audiencias'] : ($moduleCode === 'audiencias' ? ['processos', 'contatos'] : ['contatos']))),
                     'incompatibilities' => json_encode([]),
                     'status' => 'rascunho',
                     'price_is_estimate' => $estimate,
@@ -81,8 +87,10 @@ class DatabaseSeeder extends Seeder
                 'law-advocacia' => ['Advocacia', 'advocacia', ['processos-advocacia', 'contatos-advocacia', 'tarefas-advocacia']],
                 'law-cartorio-criminal' => ['Cartório Criminal', 'setor_publico', ['processos-vara-criminal', 'contatos-vara', 'expedicoes-cartorio', 'tarefas-vara']],
                 'law-cartorio-civel' => ['Cartório Cível', 'setor_publico', ['processos-vara-civel', 'contatos-vara', 'expedicoes-cartorio', 'tarefas-vara']],
-                'law-gestao-audiencias' => ['Gestão de Audiências', 'setor_publico', ['processos-juizado', 'contatos-vara', 'tarefas-juizado']],
+                'law-gestao-audiencias' => ['Gestão de Audiências', 'setor_publico', ['processos-juizado', 'contatos-vara', 'tarefas-juizado', 'audiencias-juizado']],
                 'law-gestao-expedientes' => ['Gestão de Expedientes', 'setor_publico', ['processos-orgao-publico', 'contatos-setor-publico', 'expedicoes-orgao-publico', 'tarefas-orgao-publico']],
+                'law-audiencias-advocacia' => ['Audiências para Advocacia', 'advocacia', ['processos-advocacia', 'contatos-advocacia', 'tarefas-advocacia', 'audiencias-advocacia']],
+                'law-audiencias-setor-publico' => ['Audiências para Setor Público', 'setor_publico', ['processos-vara-criminal', 'contatos-vara', 'tarefas-vara', 'audiencias-vara-criminal']],
             ],
             'lead' => [
                 'lead-one-essencial' => ['Essencial', 'one', ['pessoas', 'imoveis', 'notificacoes']],
@@ -111,6 +119,9 @@ class DatabaseSeeder extends Seeder
                 } else {
                     $planId = $plan->id;
                 }
+
+                DB::table('plans')->where('id', $planId)->update(['name' => $name, 'segment' => $segment, 'updated_at' => now()]);
+                DB::table('plan_modules')->where('plan_id', $planId)->delete();
 
                 $moduleIds = DB::table('modules')->where('product_id', $productId)->whereIn('code', $moduleCodes)->pluck('id');
                 foreach ($moduleIds as $moduleId) {
@@ -150,6 +161,8 @@ class DatabaseSeeder extends Seeder
                 ? ['clientes', 'partes', 'advogados', 'correspondentes']
                 : ($segment === 'setor_publico' ? ['orgaos', 'unidades', 'autoridades', 'destinatarios_oficiais'] : ['partes_processuais', 'representantes', 'orgaos']),
             'expedicoes' => ['oficios', 'mandados', 'cartas', 'editais', 'guias_execucao', 'atos_ordinatorios'],
+            'audiencias' => ['agenda', 'processo', 'participantes', 'alertas', 'notificacoes', 'anotacoes_internas', 'status_audiencia', 'tarefas_relacionadas'],
+            'audiencias_externo' => ['status_tempo_real', 'data_horario', 'modalidade', 'mensagens_institucionais', 'acesso_expiravel', 'registro_de_acessos'],
             default => ['tarefas', 'fluxos', 'receitas', 'prazos', 'pendencias', 'alertas'],
         };
     }

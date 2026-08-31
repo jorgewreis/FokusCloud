@@ -31,10 +31,12 @@ Migrations ja existentes relacionadas ao modelo:
 - `2026_08_06_000300_create_governance_tables.php`: cria `payments`, `audit_events` e `support_accesses`.
 - `2026_08_08_000600_create_backoffice_and_commercial_governance_tables.php`: cria `platform_admins`, `platform_login_challenges`, `platform_audit_events`, `vouchers`, `voucher_redemptions`, `subscription_changes`, `usage_snapshots` e campos de recorrencia em `subscriptions`.
 - `2026_08_31_000100_recreate_fokus_law_catalog.php`: recria o catalogo Law
-  para os quatro modulos, interrompendo a operacao quando houver itens de
+  para os cinco modulos, interrompendo a operacao quando houver itens de
   assinatura dependentes e preservando o historico comercial.
 - `2026_08_31_000200_add_law_module_variants.php`: adiciona nucleo tecnico,
   segmento, contexto, variante, capacidades e regras de compatibilidade aos
   modulos.
 - `2026_08_31_000300_normalize_law_module_segments.php`: normaliza registros
   legados de `judiciario` para `setor_publico`.
+- `2026_08_31_000400_create_law_hearings_tables.php`: cria o nucleo de dados de
+  audiencias, historico, alertas e acompanhamento externo.

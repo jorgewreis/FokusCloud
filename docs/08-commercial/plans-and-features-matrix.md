@@ -3,7 +3,7 @@
 ## Objetivo
 
 Esta matriz organiza os planos comerciais e suas funcionalidades por contexto
-de uso. No Fokus Law, somente os quatro modulos principais sao comerciais;
+de uso. No Fokus Law, somente os cinco modulos principais sao comerciais;
 capacidades especificas sao variantes internas e devem ser aprovadas antes de
 alterar migrations, seeders ou registros no banco.
 
@@ -21,7 +21,7 @@ Quando um modulo existente aparece com uma variante de contexto, isso significa 
 ## Fokus Cloud Law
 
 O catalogo Law comercializa exclusivamente `processos`, `contatos`,
-`expedicoes` e `tarefas`. Os segmentos comerciais sao `advocacia` e
+`expedicoes`, `tarefas` e `audiencias`. Os segmentos comerciais sao `advocacia` e
 `setor_publico`; as variantes abaixo representam contexto e capacidade
 do mesmo modulo tecnico, nao novos modulos comerciais.
 
@@ -74,9 +74,16 @@ configuravel conforme a unidade.
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | `tarefas` | Tarefas, fluxos, receitas, prazos, alertas e pendencias | X | X | X | X | X |
 
+### Gestao de Audiencias
+
+| Modulo tecnico | Variante/contexto | Advocacia | Cartorio Criminal | Cartorio Civel | Juizado | Orgao Publico |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `audiencias` | Gestao de Audiencias | X | X | X | X | X |
+| `audiencias_externo` | Acompanhamento Externo de Audiencias |  | X | X | X | X |
+
 As demais capacidades jurídicas, como custas, documentos, assinatura,
 honorários, financeiro, presos, monitoramento, medidas, penas, relatórios,
-notificações, prazos e agenda, pertencem ao contexto funcional dos quatro
+notificações, prazos e agenda, pertencem ao contexto funcional dos cinco
 módulos e não devem ser cadastradas como módulos Law independentes.
 
 ## Fokus Cloud Lead One
@@ -121,13 +128,13 @@ A linha Team deve possuir recursos de colaboracao e governanca de equipes, alem 
 
 ## Composicao personalizada
 
-Uma composicao personalizada pode combinar apenas os quatro modulos Law,
+Uma composicao personalizada pode combinar apenas os cinco modulos Law,
 respeitando contexto, dependencias, limites e permissoes. Capacidades internas
 nao criam planos ou modulos comerciais permanentes.
 
 ## Regras de modelagem
 
-- `processos`, `contatos`, `expedicoes` e `tarefas` sao os unicos modulos tecnicos comerciais do Law;
+- `processos`, `contatos`, `expedicoes`, `tarefas` e `audiencias` sao os unicos modulos tecnicos comerciais do Law;
 - `processos` deve ser comercializado como Gestao de Processos e exibido internamente como Processos;
 - `contatos` deve ser comercializado como Gestao de Contatos e exibido internamente como Contatos;
 - partes processuais, advogados, instituicoes, orgaos e destinatarios devem ser papeis ou classificacoes de contatos, nao modulos tecnicos separados;
@@ -136,7 +143,7 @@ nao criam planos ou modulos comerciais permanentes.
 - cartas expedidas nao devem possuir numeracao propria interna na v1 cartoraria, salvo evolucao futura por tipo;
 - cartas recebidas devem ser modeladas como classe de processo, nao como modulo tecnico separado de expediente na v1;
 - guias de execucao comum e penal devem ser tipos ou capacidades de `expedicoes`, com campos, fluxos e regras proprios quando necessario;
-- os nomes comerciais devem ser Gestao de Contatos, Gestao de Expedicoes e Gestao de Tarefas; nos menus internos, usar apenas Contatos, Expedicoes e Tarefas;
+- os nomes comerciais devem incluir Gestao de Audiencias; nos menus internos, usar apenas Contatos, Expedicoes, Tarefas e Audiencias;
 - `Gestao de Prazos e Intimacoes` e `Controle de Prazos` devem compartilhar o mesmo nucleo tecnico, salvo se houver regras de negocio realmente distintas;
 - `Relatorios` e `Relatorios Gerenciais` devem compartilhar o mesmo nucleo e variar por tipos de relatorio e permissao;
 - uma variante externa de Audiencias deve possuir permissao de consulta sem permitir alteracoes indevidas;

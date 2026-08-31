@@ -15,6 +15,7 @@ Esta pasta documenta dados, entidades, relacionamentos, isolamento multiempresa,
 - [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md)
 - [Modelo de dados das expedicoes Law](law-expeditions-data-model.md)
 - [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md)
+- [Modelo de dados de audiencias Law](law-hearings-data-model.md)
 - [Dicionario de dados](data-dictionary.md)
 - [Migrations e seeds](migrations-and-seeds.md)
 

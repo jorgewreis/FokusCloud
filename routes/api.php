@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\BackofficeController;
 use App\Http\Controllers\Api\UsageSnapshotController;
 use App\Http\Middleware\EnsureCompanyContext;
 use App\Http\Middleware\EnsurePlatformAdmin;
+use App\Http\Controllers\Api\LawHearingController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register-company', [AuthController::class, 'registerCompany']);
@@ -37,6 +38,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/subscriptions', [SubscriptionController::class, 'index']);
         Route::post('/subscriptions/checkout', [SubscriptionController::class, 'checkout']);
         Route::post('/subscriptions/{subscription}/change', [SubscriptionController::class, 'change']);
+        Route::get('/law/hearings', [LawHearingController::class, 'index']);
+        Route::post('/law/hearings', [LawHearingController::class, 'store']);
+        Route::get('/law/hearings/{hearing}', [LawHearingController::class, 'show']);
+        Route::patch('/law/hearings/{hearing}', [LawHearingController::class, 'update']);
+        Route::post('/law/hearings/{hearing}/status', [LawHearingController::class, 'status']);
+        Route::get('/law/hearings/{hearing}/timeline', [LawHearingController::class, 'timeline']);
+        Route::post('/law/hearings/{hearing}/external-access', [LawHearingController::class, 'createExternalAccess']);
+        Route::delete('/law/hearings/{hearing}/external-access/{access}', [LawHearingController::class, 'revokeExternalAccess']);
     });
 
     Route::middleware(EnsureCompanyContext::class)->prefix('portal')->group(function () {
@@ -48,6 +57,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/audit-history', [CompanyUserController::class, 'auditHistory']);
     });
 });
+
+Route::get('/law/external/hearings/{token}', [LawHearingController::class, 'external'])->where('token', '[A-Za-z0-9]+');
 
 Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(function () {
     Route::get('/auth/me', [PlatformAuthController::class, 'me']);

@@ -23,6 +23,7 @@ operacao diaria por meio de:
 - expedientes e documentos vinculados aos processos;
 - gestao de expedicoes;
 - tarefas e fluxos operacionais;
+- gestao de audiencias;
 - prazos e pendencias operacionais;
 - contatos, partes, advogados, instituicoes, enderecos e canais reutilizaveis;
 - indicadores gerenciais da unidade.
@@ -79,8 +80,7 @@ Nao faz parte da v1:
 
 - modulos de Advocacia;
 - financeiro e honorarios advocaticios;
-- gestao completa de audiencias;
-- pauta completa, salas, links e agenda de audiencias;
+- gestao de audiencias integrais, pauta, salas, links e agenda de audiencias;
 - geracao automatica avancada de documentos a partir de modelos;
 - integracoes automaticas alem do Datajud;
 - substituicao integral de sistemas judiciais oficiais;

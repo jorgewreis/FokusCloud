@@ -107,6 +107,11 @@ Gestao de Contatos e o nome comercial do modulo `contatos`; no menu interno, o
 rotulo deve ser `Contatos`. Contatos vinculados a processos sigilosos devem
 obedecer ao nivel de sigilo do processo no contexto de consulta.
 
+Gestao de Audiencias e o nome comercial do modulo `audiencias`; no menu interno,
+o rotulo deve ser `Audiencias`. Audiencias, participantes, alertas e acessos
+externos obedecem assinatura, unidade ativa, permissao do perfil e sigilo do
+processo relacionado.
+
 ## Matriz de permissoes
 
 | Acao | `unit_admin` | `chief_clerk` | `operator` | `viewer` |
@@ -126,6 +131,9 @@ obedecer ao nivel de sigilo do processo no contexto de consulta.
 | Criar e editar expedicoes | Sim | Sim | Sim | Nao |
 | Cancelar expedicoes | Sim | Sim | Nao | Nao |
 | Configurar tipos e instancias de expedicao | Sim | Sim | Nao | Nao |
+| Criar e editar audiencias | Sim | Sim | Sim | Nao |
+| Alterar status de audiencias | Sim | Sim | Sim | Nao |
+| Gerenciar acessos externos de audiencias | Sim | Sim | Nao | Nao |
 | Criar e editar prazos/pendencias | Sim | Sim | Sim | Nao |
 | Concluir prazos/pendencias | Sim | Sim | Sim | Nao |
 | Cancelar prazos/pendencias | Sim | Sim | Nao | Nao |
@@ -193,7 +201,7 @@ Nao deve exibir:
 
 ## Heranca de sigilo
 
-Partes, expedicoes, tarefas, prazos e pendencias vinculados a processo
+Partes, expedicoes, tarefas, audiencias, prazos e pendencias vinculados a processo
 sigiloso herdam o sigilo do processo.
 
 Para visualizar ou operar entidade filha de processo sigiloso, o usuario deve

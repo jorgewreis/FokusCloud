@@ -83,14 +83,18 @@ Uma funcionalidade pode ser marcada como disponivel para contratacao avulsa.
 
 O catalogo do Fokus Cloud Law deve contemplar, conforme a matriz de ofertas:
 
-- os quatro modulos comerciais: Gestao de Processos, Gestao de Contatos,
-  Gestao de Expedicoes e Gestao de Tarefas;
+- os cinco modulos comerciais: Gestao de Processos, Gestao de Contatos,
+  Gestao de Expedicoes, Gestao de Tarefas e Gestao de Audiencias;
 - capacidades de contexto para Advocacia, Cartorio Criminal, Cartorio Civel,
   Audiencias e Expedientes dentro desses modulos.
 
-Prazos, audiencias, Datajud, documentos, relatorios e notificacoes devem ser
-capacidades internas ou variantes dos quatro modulos, e nao modulos comerciais
+Prazos, Datajud, documentos, relatorios e notificacoes devem ser capacidades
+internas ou variantes dos cinco modulos, e nao modulos comerciais
 Law independentes.
+
+Gestao de Audiencias aparece no menu como `Audiencias`. Suas variantes atendem
+escritorios, varas criminais, varas civeis, juizados e orgaos publicos.
+`audiencias_externo` e add-on dependente para acompanhamento externo por partes.
 
 O modulo `processos` deve ser comercializado como Gestao de Processos. No menu
 interno do Fokus Law, o rotulo deve ser `Processos`. Esse modulo concentra
