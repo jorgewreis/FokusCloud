@@ -112,4 +112,8 @@
             --role-color-900: var(--color-orange-900);
             --role-contrast: var(--color-white-050);
             --text-color-primary: var(--role-color-400);
+            --text-color-info: var(--role-color-800);
+            --form-feedback-error-border: var(--role-color-500);
+            --form-feedback-error-background: var(--role-color-050);
+            --form-feedback-error-text: var(--role-color-800);
         }

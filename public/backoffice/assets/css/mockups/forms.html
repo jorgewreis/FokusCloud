@@ -27,7 +27,7 @@
             <article class="card card-static"><div class="title">Selecao e opcoes</div><div class="content stack m-3">
                 <div class="form-field"><label class="form-label" for="demo-select">Perfil</label><select class="form-select" id="demo-select"><option value="">Selecione um perfil</option><option>Superadministrador</option><option>Administrador comercial</option></select></div>
                 <fieldset class="form-field"><legend class="form-label">Canal preferencial</legend><div class="form-radio-group"><label class="form-radio"><input class="form-radio-input" type="radio" name="channel" checked> E-mail</label><label class="form-radio"><input class="form-radio-input" type="radio" name="channel"> Sistema</label></div></fieldset>
-                <fieldset class="form-field"><legend class="form-label">Permissoes</legend><div class="form-check-group is-stacked"><label class="form-check"><input class="form-check-input" type="checkbox" checked> Receber alertas</label><label class="form-check"><input class="form-check-input" type="checkbox"> Receber relatorios</label></div></fieldset>
+                <fieldset class="form-field"><legend class="form-label">Permissoes</legend><div class="form-check-group is-stacked is-invalid" aria-describedby="demo-permissions-error"><label class="form-check"><input class="form-check-input" type="checkbox" checked> Receber alertas</label><label class="form-check"><input class="form-check-input" type="checkbox"> Receber relatorios</label></div><small class="form-error" id="demo-permissions-error" role="alert">Selecione ao menos uma permissao.</small></fieldset>
                 <label class="form-switch"><input class="form-switch-input" type="checkbox" checked> Conta ativa</label>
             </div></article>
 
@@ -39,7 +39,11 @@
                 <div class="form-field"><label class="form-label" for="demo-file">Arquivo</label><input class="form-file" id="demo-file" type="file" accept=".pdf,.doc,.docx"><small class="form-help">PDF ou DOCX, ate 10 MB.</small></div>
                 <div class="form-field"><label class="form-label" for="demo-notes">Observacoes</label><textarea class="form-textarea" id="demo-notes" placeholder="Escreva uma observacao"></textarea></div>
                 <div class="form-actions"><button class="submit" type="button">Salvar</button><button class="button button-secondary" type="button">Limpar</button><button class="button button-danger" type="button">Excluir</button><button class="button is-loading" type="button" disabled>Processando</button></div>
-                <div class="system-notice" data-tone="success" role="status">Formulario salvo com sucesso.</div>
+                <div class="stack stack-sm">
+                    <div class="system-notice" data-tone="info" role="status">As alteracoes serao aplicadas ao proximo acesso.</div>
+                    <div class="system-notice" data-tone="warning" role="status">Revise os dados antes de publicar.</div>
+                    <div class="system-notice" data-tone="success" role="status">Formulario salvo com sucesso.</div>
+                </div>
             </div></article>
         </section>
         <section class="card card-static mt-4">
@@ -52,7 +56,7 @@
                             <tr><td>Input</td><td>Base</td><td>Ring de foco</td><td>Borda + mensagem</td><td>Borda confirmada</td><td>Superficie alternativa</td><td>Spinner</td></tr>
                             <tr><td>Select</td><td>Base</td><td>Ring de foco</td><td>Mensagem associada</td><td>Confirmado</td><td>Bloqueado</td><td>Carregando opcoes</td></tr>
                             <tr><td>Checkbox/radio</td><td>Opcao</td><td>Foco visivel</td><td>Grupo destacado</td><td>Grupo confirmado</td><td>Sem interacao</td><td>Nao aplicavel</td></tr>
-                            <tr><td>Acao</td><td>Botao</td><td>Ring de foco</td><td>Perigosa</td><td>Confirmada</td><td>Opacidade reduzida</td><td>Spinner e bloqueio</td></tr>
+                            <tr><td>Acao</td><td>Botao</td><td>Ring de foco</td><td>Primary do admin</td><td>Confirmada</td><td>Opacidade reduzida</td><td>Spinner e bloqueio</td></tr>
                         </tbody>
                     </table>
                 </div>

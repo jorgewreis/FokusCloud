@@ -19,15 +19,15 @@
     --form-control-disabled-opacity: 0.75;
     --form-control-gap: 8px;
     --form-feedback-size: 10px;
-    --form-feedback-error-border: var(--color-red-600);
-    --form-feedback-error-background: var(--color-red-050);
-    --form-feedback-error-text: var(--color-red-800);
+    --form-feedback-error-border: var(--role-color-500);
+    --form-feedback-error-background: var(--role-color-050);
+    --form-feedback-error-text: var(--role-color-800);
     --form-feedback-success-border: var(--color-green-600);
     --form-feedback-success-background: var(--color-green-050);
     --form-feedback-success-text: var(--color-green-800);
-    --form-feedback-warning-border: var(--color-yellow-600);
-    --form-feedback-warning-background: var(--color-yellow-050);
-    --form-feedback-warning-text: var(--color-yellow-800);
+    --form-feedback-warning-border: var(--color-yellow-400);
+    --form-feedback-warning-background: var(--color-yellow-100);
+    --form-feedback-warning-text: var(--color-yellow-950);
 
     /* BREAKPOINTS */
     --breakpoint-sm: 576px;
