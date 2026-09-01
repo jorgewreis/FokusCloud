@@ -30,8 +30,8 @@ return new class extends Migration {
             $table->char('created_by', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('updated_by', 30)->charset('ascii')->collation('ascii_bin');
             $table->timestamps();
-            $table->index(['company_id', 'law_unit_id', 'scheduled_at']);
-            $table->index(['company_id', 'status', 'scheduled_at']);
+            $table->index(['company_id', 'law_unit_id', 'scheduled_at'], 'lh_company_unit_scheduled_idx');
+            $table->index(['company_id', 'status', 'scheduled_at'], 'lh_company_status_scheduled_idx');
             });
         }
 
@@ -45,7 +45,7 @@ return new class extends Migration {
             $table->string('name_snapshot', 180);
             $table->boolean('visible_externally')->default(false);
             $table->timestamps();
-            $table->index(['company_id', 'law_hearing_id']);
+            $table->index(['company_id', 'law_hearing_id'], 'lhp_company_hearing_idx');
             });
         }
 
@@ -60,7 +60,7 @@ return new class extends Migration {
             $table->string('origin', 40)->default('internal');
             $table->char('created_by', 30)->charset('ascii')->collation('ascii_bin')->nullable();
             $table->timestamps();
-            $table->index(['company_id', 'law_hearing_id', 'created_at']);
+            $table->index(['company_id', 'law_hearing_id', 'created_at'], 'lhsh_company_hearing_created_idx');
             });
         }
 
@@ -74,7 +74,7 @@ return new class extends Migration {
             $table->dateTime('triggered_at');
             $table->dateTime('resolved_at')->nullable();
             $table->timestamps();
-            $table->index(['company_id', 'status', 'triggered_at']);
+            $table->index(['company_id', 'status', 'triggered_at'], 'lha_company_status_triggered_idx');
             });
         }
 
@@ -89,7 +89,13 @@ return new class extends Migration {
             $table->dateTime('revoked_at')->nullable();
             $table->unsignedInteger('access_count')->default(0);
             $table->timestamps();
-            $table->index(['company_id', 'law_hearing_id', 'expires_at']);
+            $table->index(['company_id', 'law_hearing_id', 'expires_at'], 'lhea_company_hearing_expires_idx');
+            });
+        }
+
+        if (! Schema::hasIndex('law_hearing_external_accesses', 'lhea_company_hearing_expires_idx')) {
+            Schema::table('law_hearing_external_accesses', function (Blueprint $table): void {
+                $table->index(['company_id', 'law_hearing_id', 'expires_at'], 'lhea_company_hearing_expires_idx');
             });
         }
 
@@ -101,7 +107,7 @@ return new class extends Migration {
             $table->string('event_type', 48);
             $table->json('payload')->nullable();
             $table->timestamps();
-            $table->index(['company_id', 'law_hearing_id', 'created_at']);
+            $table->index(['company_id', 'law_hearing_id', 'created_at'], 'lhee_company_hearing_created_idx');
             });
         }
     }
