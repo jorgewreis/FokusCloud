@@ -49,6 +49,7 @@ A release `0.1` estara pronta quando:
 - [Roteiro de homologacao](homologation-script.md)
 - [Notas da release](release-notes.md)
 - [Decisoes abertas](open-decisions.md)
+- [Marco 2 - seguranca interna](milestone-2-security.md)
 - [Matriz de rastreabilidade](traceability-matrix.md)
 - [Definition of Done](definition-of-done.md)
 - [Checklist de revisao documental](documentation-review-checklist.md)

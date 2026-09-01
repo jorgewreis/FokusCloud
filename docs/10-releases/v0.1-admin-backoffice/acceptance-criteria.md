@@ -64,3 +64,15 @@
   preenchido.
 - As notas da release registram a `0.0.1` como release documental.
 - O commit documental e a tag anotada `v0.0.1` estao sincronizados no remoto.
+
+## Aceite do Marco 2 - 0.0.2
+
+- `platform_admins` permanece separado de `users` e usa guard `platform`.
+- Login interno exige senha e MFA por e-mail, com expiracao, limite de
+  tentativas e reenvio controlado.
+- RBAC bloqueia no backend acoes de seguranca para `administrador_comercial`.
+- Bloqueio temporario e manual seguem as janelas definidas e deixam auditoria.
+- Convite de ativacao nao envia senha; a ultima conta ativa de
+  superadministrador permanece protegida.
+- Mudancas de acesso revogam sessoes e registram before/after mascarados com
+  retencao de 180 dias.

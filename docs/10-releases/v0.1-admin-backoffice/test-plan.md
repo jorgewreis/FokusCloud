@@ -46,3 +46,10 @@ no resultado da homologacao.
 - Capturas ou registro textual dos fluxos de homologacao.
 - Lista de falhas bloqueantes resolvidas.
 - Lista de falhas nao bloqueantes aceitas para versao posterior.
+
+## Evidencia da 0.0.2
+
+- `php artisan test`: 18 testes aprovados.
+- Migration e seeder executados em banco SQLite limpo.
+- Testes de permissao comercial, bloqueio temporario, convite e protecao da
+  ultima conta de superadministrador incluidos na suite.

@@ -19,6 +19,9 @@
 
 Resultado esperado: sessao interna criada apenas apos MFA valido.
 
+No Marco 2, validar tambem tres senhas incorretas, reenvio de MFA e a recusa
+de acesso durante o bloqueio temporario.
+
 ## Fluxo 2 - Perfis
 
 1. Entrar como superadministrador.
@@ -29,6 +32,10 @@ Resultado esperado: sessao interna criada apenas apos MFA valido.
 
 Resultado esperado: interface e API bloqueiam acoes exclusivas de
 superadministrador.
+
+Validar convite, ativacao com senha definida pelo destinatario, bloqueio,
+desbloqueio e que a ultima conta ativa de superadministrador nao pode ser
+bloqueada, desativada ou rebaixada.
 
 ## Fluxo 3 - Catalogo
 

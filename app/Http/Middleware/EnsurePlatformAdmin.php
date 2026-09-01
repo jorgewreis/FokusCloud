@@ -12,8 +12,9 @@ class EnsurePlatformAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $admin = Auth::guard('platform')->user();
-        abort_unless($admin && $admin->status === 'ativo', 401, 'Acesso interno não autenticado.');
+        abort_unless($admin && $admin->isAvailableForLogin() && $admin->hasPermission('platform.access'), 401, 'Acesso interno não autenticado.');
         $request->setUserResolver(fn () => $admin);
+
         return $next($request);
     }
 }

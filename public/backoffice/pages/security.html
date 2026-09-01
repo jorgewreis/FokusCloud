@@ -1,0 +1,19 @@
+<section class="container-content-inner">
+  <div class="d-flex justify-between align-center"><div><h1 class="title">Segurança e perfis</h1><p class="text-muted">Contas internas, papéis e eventos de acesso.</p></div><button id="invite-admin" type="button">Convidar administrador</button></div>
+  <div id="security-message" class="system-notice" hidden></div>
+  <div class="table-wrapper"><table><thead><tr><th>Administrador</th><th>Perfil</th><th>Status</th><th>Último acesso</th><th>Ações</th></tr></thead><tbody id="admins-body"></tbody></table></div>
+  <dialog id="invite-dialog"><form id="invite-form" method="dialog"><h2>Convidar administrador</h2><label>Nome <input name="name" required></label><label>E-mail <input name="email" type="email" required></label><label>Perfil <select name="role"><option value="administrador_comercial">Administrador comercial</option><option value="superadministrador">Superadministrador</option></select></label><div class="d-flex gap-sm"><button type="submit">Enviar convite</button><button type="button" id="close-invite">Cancelar</button></div></form></dialog>
+  <script>
+    (() => {
+      const api = window.FokusApi;
+      const body = document.querySelector('#admins-body'); const notice = document.querySelector('#security-message'); const dialog = document.querySelector('#invite-dialog');
+      const message = text => { notice.hidden = false; notice.textContent = text; };
+      const escape = value => String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+      async function load() { try { const { admins } = await api.request('/backoffice/admins'); body.innerHTML = admins.map(admin => `<tr><td>${escape(admin.name)}<br><small>${escape(admin.email)}</small></td><td>${escape(admin.role)}</td><td>${escape(admin.status)}</td><td>${admin.last_login_at ? new Date(admin.last_login_at).toLocaleString('pt-BR') : '-'}</td><td><button data-action="block" data-id="${admin.id}">Bloquear</button> <button data-action="unblock" data-id="${admin.id}">Desbloquear</button> <button data-action="deactivate" data-id="${admin.id}">Desativar</button></td></tr>`).join(''); } catch (error) { message(error.message || 'Não foi possível carregar as contas internas.'); } }
+      document.querySelector('#invite-admin').addEventListener('click', () => dialog.showModal()); document.querySelector('#close-invite').addEventListener('click', () => dialog.close());
+      document.querySelector('#invite-form').addEventListener('submit', async event => { event.preventDefault(); try { const data = await api.request('/backoffice/admins/invitations', { method: 'POST', body: Object.fromEntries(new FormData(event.currentTarget)) }); dialog.close(); event.currentTarget.reset(); message(data.message); load(); } catch (error) { message(error.message || 'Não foi possível enviar o convite.'); } });
+      body.addEventListener('click', async event => { const button = event.target.closest('[data-action]'); if (!button) return; const reason = prompt('Informe o motivo desta ação:'); if (!reason) return; try { const data = await api.request(`/backoffice/admins/${button.dataset.id}/${button.dataset.action}`, { method: 'POST', body: { reason } }); message(data.message); load(); } catch (error) { message(error.message || 'Ação não permitida.'); } });
+      load();
+    })();
+  </script>
+</section>

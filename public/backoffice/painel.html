@@ -46,7 +46,7 @@
                         <img src="/backoffice/assets/icons/Tickets--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Vouchers</span>
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="platform-users">
+                    <button class="sidebar-button" type="button" data-sidebar-item="security" data-platform-permission="platform.security.manage">
                         <img src="/backoffice/assets/icons/Multiple-Actions-Setting--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Admins</span>
                     </button>
@@ -110,6 +110,7 @@
             empresas: "companies",
             assinaturas: "subscriptions",
             vouchers: "vouchers",
+            seguranca: "security",
         };
         const nameParticles = new Set(["de", "da", "do", "das", "dos", "e"]);
 
@@ -193,6 +194,9 @@
                 if (response?.admin?.name) {
                     document.querySelector("#admin-name").textContent = formatSidebarAdminName(response.admin.name);
                 }
+                document.querySelectorAll("[data-platform-permission]").forEach((element) => {
+                    element.hidden = !(response?.admin?.permissions || []).includes(element.dataset.platformPermission);
+                });
             } catch (error) {
                 location.replace("/backoffice/acesso");
             }

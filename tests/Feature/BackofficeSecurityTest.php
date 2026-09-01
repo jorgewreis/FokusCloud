@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\PlatformAdmin;
+use App\Models\PlatformRole;
 use App\Services\PrefixedUlid;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -33,10 +34,10 @@ class BackofficeSecurityTest extends TestCase
         $this->assertDatabaseHas('platform_login_challenges', ['platform_admin_id' => $admin->id]);
     }
 
-    public function test_access_routes_open_the_corresponding_modal_on_the_home_page(): void
+    public function test_backoffice_access_uses_a_dedicated_internal_login_page(): void
     {
         $this->get('/acesso')->assertRedirect('/?acesso=cliente');
-        $this->get('/backoffice/acesso')->assertRedirect('/?acesso=administrativo');
+        $this->get('/backoffice/acesso')->assertOk();
     }
 
     public function test_usage_integration_requires_shared_secret(): void
@@ -92,6 +93,6 @@ class BackofficeSecurityTest extends TestCase
 
     private function admin(): PlatformAdmin
     {
-        return PlatformAdmin::create(['id' => PrefixedUlid::make('PAD'), 'name' => 'Equipe Fokus', 'email' => 'interno@example.test', 'password' => Hash::make('SenhaInterna!2026'), 'status' => 'ativo', 'email_verified_at' => now()]);
+        return PlatformAdmin::create(['id' => PrefixedUlid::make('PAD'), 'name' => 'Equipe Fokus', 'email' => 'interno@example.test', 'password' => Hash::make('SenhaInterna!2026'), 'status' => 'ativo', 'platform_role_id' => PlatformRole::where('code', 'superadministrador')->value('id'), 'email_verified_at' => now()]);
     }
 }

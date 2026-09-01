@@ -1,14 +1,16 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CompanyUserController;
-use App\Http\Controllers\Api\SubscriptionController;
-use App\Http\Controllers\Api\PlatformAuthController;
 use App\Http\Controllers\Api\BackofficeController;
+use App\Http\Controllers\Api\CompanyUserController;
+use App\Http\Controllers\Api\LawHearingController;
+use App\Http\Controllers\Api\PlatformAdminController;
+use App\Http\Controllers\Api\PlatformAuthController;
+use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\UsageSnapshotController;
 use App\Http\Middleware\EnsureCompanyContext;
 use App\Http\Middleware\EnsurePlatformAdmin;
-use App\Http\Controllers\Api\LawHearingController;
+use App\Http\Middleware\EnsurePlatformPermission;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register-company', [AuthController::class, 'registerCompany']);
@@ -26,6 +28,8 @@ Route::get('/catalog/{product}', [SubscriptionController::class, 'publicCatalog'
 Route::prefix('backoffice/auth')->group(function () {
     Route::post('/login', [PlatformAuthController::class, 'login'])->middleware('throttle:5,1');
     Route::post('/verify-mfa', [PlatformAuthController::class, 'verifyMfa'])->middleware('throttle:5,1');
+    Route::post('/resend-mfa', [PlatformAuthController::class, 'resendMfa'])->middleware('throttle:2,1');
+    Route::post('/activate-invitation', [PlatformAuthController::class, 'activateInvitation'])->middleware('throttle:5,1');
 });
 
 Route::middleware('auth')->group(function () {
@@ -63,20 +67,26 @@ Route::get('/law/external/hearings/{token}', [LawHearingController::class, 'exte
 Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(function () {
     Route::get('/auth/me', [PlatformAuthController::class, 'me']);
     Route::post('/auth/logout', [PlatformAuthController::class, 'logout']);
-    Route::get('/dashboard', [BackofficeController::class, 'dashboard']);
-    Route::get('/catalog', [BackofficeController::class, 'catalog']);
-    Route::get('/plans', [BackofficeController::class, 'plans']);
-    Route::post('/plans', [BackofficeController::class, 'createPlan']);
-    Route::patch('/plans/{plan}', [BackofficeController::class, 'updatePlan']);
-    Route::delete('/plans/{plan}', [BackofficeController::class, 'deletePlan']);
-    Route::get('/companies', [BackofficeController::class, 'companies']);
-    Route::get('/companies/{company}', [BackofficeController::class, 'company']);
-    Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription']);
-    Route::get('/vouchers', [BackofficeController::class, 'vouchers']);
-    Route::post('/vouchers', [BackofficeController::class, 'createVoucher']);
-    Route::patch('/vouchers/{voucher}', [BackofficeController::class, 'updateVoucherStatus']);
-    Route::delete('/vouchers/{voucher}', [BackofficeController::class, 'deleteVoucher']);
-    Route::post('/admins', [BackofficeController::class, 'createAdmin']);
-    Route::post('/users/{user}/force-password-reset', [BackofficeController::class, 'forcePasswordReset']);
-    Route::get('/audit', [BackofficeController::class, 'audit']);
+    Route::get('/dashboard', [BackofficeController::class, 'dashboard'])->middleware(EnsurePlatformPermission::class.':platform.dashboard.view');
+    Route::get('/catalog', [BackofficeController::class, 'catalog'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::get('/plans', [BackofficeController::class, 'plans'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::post('/plans', [BackofficeController::class, 'createPlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::patch('/plans/{plan}', [BackofficeController::class, 'updatePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::delete('/plans/{plan}', [BackofficeController::class, 'deletePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
+    Route::get('/companies', [BackofficeController::class, 'companies'])->middleware(EnsurePlatformPermission::class.':platform.companies.view');
+    Route::get('/companies/{company}', [BackofficeController::class, 'company'])->middleware(EnsurePlatformPermission::class.':platform.companies.view');
+    Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
+    Route::get('/vouchers', [BackofficeController::class, 'vouchers'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::post('/vouchers', [BackofficeController::class, 'createVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::patch('/vouchers/{voucher}', [BackofficeController::class, 'updateVoucherStatus'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::delete('/vouchers/{voucher}', [BackofficeController::class, 'deleteVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::get('/admins', [PlatformAdminController::class, 'index'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::post('/admins/invitations', [PlatformAdminController::class, 'invite'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::patch('/admins/{admin}/role', [PlatformAdminController::class, 'updateRole'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::post('/admins/{admin}/block', [PlatformAdminController::class, 'block'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::post('/admins/{admin}/unblock', [PlatformAdminController::class, 'unblock'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::post('/admins/{admin}/deactivate', [PlatformAdminController::class, 'deactivate'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::get('/admins/{admin}/security-events', [PlatformAdminController::class, 'securityEvents'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::post('/users/{user}/force-password-reset', [BackofficeController::class, 'forcePasswordReset'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
+    Route::get('/audit', [BackofficeController::class, 'audit'])->middleware(EnsurePlatformPermission::class.':platform.audit.view_all');
 });

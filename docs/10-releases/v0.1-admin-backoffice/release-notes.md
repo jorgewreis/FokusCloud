@@ -9,6 +9,11 @@ ao remoto.
 
 Planejada.
 
+## Status da 0.0.2
+
+Concluida como entrega funcional do Marco 2, condicionada ao commit, tag,
+push e GitHub Actions aprovado.
+
 ## Entrega prevista
 
 A release `0.1` entrega o Backoffice Admin funcional em ambiente de
@@ -44,6 +49,14 @@ pela equipe interna da Fokus Cloud.
 - Alertas operacionais.
 - Mercado Pago em sandbox real.
 - Conciliacao manual de divergencias financeiras.
+
+### 0.0.2 - seguranca interna
+
+- RBAC exclusivo de plataforma com dois papeis internos.
+- Pagina propria de acesso interno, MFA por e-mail e ativacao por convite.
+- Bloqueio progressivo por conta, IP e dispositivo.
+- Gestao de administradores internos com revogacao de sessoes.
+- Auditoria de seguranca mascarada com retencao de 180 dias.
 
 ## Fora da release
 

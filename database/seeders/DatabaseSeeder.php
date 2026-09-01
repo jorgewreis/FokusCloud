@@ -65,15 +65,22 @@ class DatabaseSeeder extends Seeder
 
         foreach ($modules as $productCode => $items) {
             $productId = DB::table('products')->where('code', $productCode)->value('id');
-            foreach ($items as $code => [$name, $moduleCode, $price, $segment, $context, $variant, $estimate]) {
+            foreach ($items as $code => $definition) {
+                if ($productCode === 'law') {
+                    [$name, $moduleCode, $price, $segment, $context, $variant, $estimate] = $definition;
+                } else {
+                    [$name, $price, $segment, $moduleCode, $estimate] = $definition;
+                    $context = null;
+                    $variant = null;
+                }
                 $this->upsertCatalog('modules', ['product_id' => $productId, 'code' => $code], ['name' => $name, 'monthly_price' => $price], 'MOD');
                 DB::table('modules')->where('product_id', $productId)->where('code', $code)->update([
                     'module_code' => $moduleCode,
                     'segment_code' => $segment,
                     'context_code' => $context,
                     'variant_code' => $variant,
-                    'capabilities' => json_encode($this->lawCapabilities($moduleCode, $segment, $context)),
-                    'dependencies' => json_encode($moduleCode === 'contatos' ? [] : ($moduleCode === 'audiencias_externo' ? ['audiencias'] : ($moduleCode === 'audiencias' ? ['processos', 'contatos'] : ['contatos']))),
+                    'capabilities' => json_encode($productCode === 'law' ? $this->lawCapabilities($moduleCode, $segment, $context) : []),
+                    'dependencies' => json_encode($productCode === 'law' ? ($moduleCode === 'contatos' ? [] : ($moduleCode === 'audiencias_externo' ? ['audiencias'] : ($moduleCode === 'audiencias' ? ['processos', 'contatos'] : ['contatos']))) : []),
                     'incompatibilities' => json_encode([]),
                     'status' => 'rascunho',
                     'price_is_estimate' => $estimate,
@@ -144,6 +151,7 @@ class DatabaseSeeder extends Seeder
         $query = DB::table($table)->where($where);
         if ($query->exists()) {
             $query->update([...$values, 'updated_at' => now()]);
+
             return;
         }
         DB::table($table)->insert([...$where, ...$values, 'id' => PrefixedUlid::make($prefix), 'created_at' => now(), 'updated_at' => now()]);

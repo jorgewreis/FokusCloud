@@ -40,6 +40,18 @@ usuario.
 
 Dispositivos confiaveis serao opcionais, terao validade limitada e poderao ser
 revogados individualmente. Nao poderao contornar exigencias especificas para
+
+## Identidades internas do Backoffice
+
+Esta secao prevalece para `platform_admins`: o MFA por e-mail e obrigatorio,
+mesmo que o MFA de contas clientes permaneça opcional. O desafio tem seis
+digitos, validade de 10 minutos, cinco tentativas e reenvio apos 60 segundos.
+
+Tres falhas de senha em 10 minutos causam bloqueio temporario de 10 minutos;
+cinco falhas em 24 horas exigem desbloqueio por superadministrador. Cinco
+e-mails internos distintos falhos no mesmo IP ou dispositivo em 10 minutos
+bloqueiam a origem durante a janela. Acoes de perfil, bloqueio e desativacao
+revogam sessoes internas imediatamente e geram auditoria mascarada.
 operacoes de alto risco.
 
 ## Notificacoes

@@ -52,3 +52,10 @@ Esses itens pertencem aos marcos 2 a 8 da release `0.1`.
 Os marcos 2 a 8 continuam pendentes depois da `0.0.1`. Cada um deve ser
 planejado e implementado em ciclo proprio, usando esta documentacao como fonte
 de escopo, aceite e rastreabilidade.
+
+## Pronto para o Marco 2 - 0.0.2
+
+O Marco 2 esta pronto quando o documento `milestone-2-security.md`, testes de
+seguranca, migration limpa, commit, tag anotada `v0.0.2`, push e GitHub Actions
+aprovado estiverem registrados. Catalogo, vouchers, assinaturas, billing e
+alertas permanecem pendentes para os marcos seguintes.

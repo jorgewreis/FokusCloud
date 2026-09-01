@@ -27,6 +27,16 @@ Nenhuma decisao bloqueante registrada para a release documental `0.0.1`.
 
 Nenhuma decisao bloqueante registrada no inicio da release.
 
+## Decisoes fechadas na 0.0.2
+
+| Decisao | Resultado |
+| --- | --- |
+| Modelo de permissao interna | RBAC em tabelas proprias do escopo `platform`. |
+| MFA interno | Obrigatorio por e-mail; TOTP fica fora deste marco. |
+| Bloqueio | 3 falhas/10 minutos temporario; 5 falhas/24 horas manual; origem com 5 e-mails distintos bloqueada por 10 minutos. |
+| Provisionamento | Convite de ativacao com token unico de 24 horas; senha definida pelo destinatario. |
+| Sessoes | Revogacao imediata ao mudar papel, bloquear ou desativar. |
+
 ## Regra de atualizacao
 
 Toda nova duvida deve ser classificada como:

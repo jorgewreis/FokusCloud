@@ -18,9 +18,9 @@ O projeto ja possui base relevante para o Backoffice:
 
 | Area | Lacuna | Impacto |
 | --- | --- | --- |
-| Perfis internos | `platform_admins` ainda precisa garantir `role` e matriz de permissao por endpoint. | `administrador_comercial` pode executar acoes que deveriam ser exclusivas de superadministrador. |
-| Bloqueio rigido | Conta interna nao registra contagem de falhas nem bloqueio automatico completo. | RF-BO-002 incompleto. |
-| Auditoria | Eventos nao possuem `before_masked`, `after_masked` e `expires_at`. | Nao atende rastreabilidade e retencao da 0.1. |
+| Perfis internos | Concluido na `0.0.2` com RBAC de plataforma e permissao por endpoint. | Reutilizar a matriz nos marcos comerciais. |
+| Bloqueio rigido | Concluido na `0.0.2` com risco por conta, IP e dispositivo. | Monitorar eventos no Marco 7. |
+| Auditoria | Base de seguranca concluida na `0.0.2` com `before_masked`, `after_masked` e `expires_at`. | Estender aos dominios comerciais nos marcos seguintes. |
 | Paginas reais | Apenas planos e vouchers aparecem como paginas reais; painel, empresas, assinaturas e admins dependem de mockups. | Backoffice nao esta funcional ponta a ponta. |
 | Catalogo | CRUD atual foca planos; produtos, modulos, composicoes e publicacao final ainda precisam ser completados. | Catalogo administrativo incompleto. |
 | Vouchers | API atual aceita `trial_free`, `percentage` e `fixed`, mas ainda precisa `commercial_credit` e snapshot completo de resgate. | Tipos e historico comercial incompletos. |

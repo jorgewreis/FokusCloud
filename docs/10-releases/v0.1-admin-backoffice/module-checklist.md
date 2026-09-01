@@ -44,13 +44,13 @@
 
 ## Usuarios internos, perfis e seguranca
 
-- [ ] Usar `platform_admins` separado de `users`.
-- [ ] Exigir login interno em `/backoffice/acesso`.
-- [ ] Exigir MFA por e-mail.
-- [ ] Bloquear conta interna apos tentativas invalidas conforme politica.
-- [ ] Permitir desbloqueio apenas por superadministrador.
-- [ ] Implementar perfis `superadministrador` e `administrador_comercial`.
-- [ ] Aplicar permissao no servidor para cada acao sensivel.
+- [x] Usar `platform_admins` separado de `users`.
+- [x] Exigir login interno em `/backoffice/acesso`.
+- [x] Exigir MFA por e-mail.
+- [x] Bloquear conta interna apos tentativas invalidas conforme politica.
+- [x] Permitir desbloqueio apenas por superadministrador.
+- [x] Implementar perfis `superadministrador` e `administrador_comercial`.
+- [x] Aplicar permissao no servidor para cada acao sensivel.
 
 ## Auditoria
 

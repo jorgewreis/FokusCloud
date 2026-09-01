@@ -44,3 +44,10 @@ O Marco 1 esta concluido quando os criterios de
 [Definition of Done](definition-of-done.md) estiverem atendidos e o
 [checklist de revisao documental](documentation-review-checklist.md) estiver
 versionado.
+
+## Marco 2 - seguranca interna 0.0.2
+
+O Marco 2 esta concluido quando identidade interna, RBAC de plataforma, MFA,
+bloqueio progressivo, convite, revogacao de sessoes e auditoria de seguranca
+estiverem implementados, testados e documentados em
+[Marco 2 - seguranca interna](milestone-2-security.md).

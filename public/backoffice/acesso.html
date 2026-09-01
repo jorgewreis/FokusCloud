@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Acesso administrativo | Fokus Cloud</title>
+  <link rel="stylesheet" href="/backoffice/assets/css/main.css">
+  <style>
+    body { min-height: 100vh; display: grid; place-items: center; background: #eef2f7; margin: 0; font-family: Arial, sans-serif; }
+    main { width: min(420px, calc(100% - 32px)); background: #fff; border: 1px solid #d9e0e8; padding: 32px; box-sizing: border-box; }
+    h1 { margin: 0 0 8px; font-size: 24px; } p { color: #5f6b7a; line-height: 1.5; } label { display: block; margin: 16px 0 6px; font-weight: 600; }
+    input, button { width: 100%; box-sizing: border-box; min-height: 42px; padding: 10px; font: inherit; } input { border: 1px solid #aab6c3; }
+    button { border: 0; background: #155eef; color: #fff; font-weight: 700; cursor: pointer; margin-top: 22px; } button.secondary { background: #fff; color: #155eef; border: 1px solid #155eef; }
+    [hidden] { display: none; } #message { margin-top: 16px; color: #a12b2b; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Fokus Admin</h1>
+    <p>Acesso exclusivo para administração interna da plataforma.</p>
+    <form id="credentials-form">
+      <label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="username" required>
+      <label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button>Continuar</button>
+    </form>
+    <form id="mfa-form" hidden>
+      <label for="code">Código enviado por e-mail</label><input id="code" name="code" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" required>
+      <button>Validar acesso</button>
+      <button class="secondary" id="resend" type="button">Reenviar código</button>
+    </form>
+    <p id="message" role="alert" hidden></p>
+  </main>
+  <script src="/assets/js/api-client.js"></script>
+  <script>
+    const credentials = document.querySelector('#credentials-form');
+    const mfa = document.querySelector('#mfa-form');
+    const message = document.querySelector('#message');
+    const show = (text, error = true) => { message.hidden = false; message.style.color = error ? '#a12b2b' : '#176b3a'; message.textContent = text; };
+    credentials.addEventListener('submit', async (event) => { event.preventDefault(); message.hidden = true; try { const result = await FokusApi.request('/backoffice/auth/login', { method: 'POST', body: Object.fromEntries(new FormData(credentials)) }); if (result.mfa_required) { credentials.hidden = true; mfa.hidden = false; show(result.message, false); document.querySelector('#code').focus(); } } catch (error) { show(error.message || 'Não foi possível iniciar o acesso.'); } });
+    mfa.addEventListener('submit', async (event) => { event.preventDefault(); message.hidden = true; try { await FokusApi.request('/backoffice/auth/verify-mfa', { method: 'POST', body: Object.fromEntries(new FormData(mfa)) }); location.replace('/backoffice/painel'); } catch (error) { show(error.message || 'Código inválido.'); } });
+    document.querySelector('#resend').addEventListener('click', async () => { try { const result = await FokusApi.request('/backoffice/auth/resend-mfa', { method: 'POST' }); show(result.message, false); } catch (error) { show(error.message || 'Aguarde para reenviar o código.'); } });
+  </script>
+</body>
+</html>

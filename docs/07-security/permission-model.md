@@ -22,6 +22,14 @@ O modelo inicial nao tera permissoes individuais por usuario. Essa extensao
 somente deve ser criada quando houver necessidade comprovada e documentada,
 porque aumenta a complexidade de suporte, auditoria e previsibilidade.
 
+## RBAC interno de plataforma
+
+O Backoffice usa tabelas proprias `platform_roles`, `platform_permissions` e
+`platform_role_permissions`. Os papeis `superadministrador` e
+`administrador_comercial` recebem permissoes `platform.*`; essas permissoes
+nunca sao concedidas por vinculos de empresa. A autorizacao ocorre no servidor
+por endpoint, e a interface apenas oculta acoes indisponiveis.
+
 ## Conceitos
 
 | Conceito | Definicao |
