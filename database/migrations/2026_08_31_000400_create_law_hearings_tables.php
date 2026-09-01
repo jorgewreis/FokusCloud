@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('law_hearings', function (Blueprint $table): void {
+        if (! Schema::hasTable('law_hearings')) {
+            Schema::create('law_hearings', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('law_unit_id', 30)->charset('ascii')->collation('ascii_bin')->nullable();
@@ -31,9 +32,11 @@ return new class extends Migration {
             $table->timestamps();
             $table->index(['company_id', 'law_unit_id', 'scheduled_at']);
             $table->index(['company_id', 'status', 'scheduled_at']);
-        });
+            });
+        }
 
-        Schema::create('law_hearing_participants', function (Blueprint $table): void {
+        if (! Schema::hasTable('law_hearing_participants')) {
+            Schema::create('law_hearing_participants', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('law_hearing_id', 30)->charset('ascii')->collation('ascii_bin');
@@ -43,9 +46,11 @@ return new class extends Migration {
             $table->boolean('visible_externally')->default(false);
             $table->timestamps();
             $table->index(['company_id', 'law_hearing_id']);
-        });
+            });
+        }
 
-        Schema::create('law_hearing_status_history', function (Blueprint $table): void {
+        if (! Schema::hasTable('law_hearing_status_history')) {
+            Schema::create('law_hearing_status_history', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('law_hearing_id', 30)->charset('ascii')->collation('ascii_bin');
@@ -56,9 +61,11 @@ return new class extends Migration {
             $table->char('created_by', 30)->charset('ascii')->collation('ascii_bin')->nullable();
             $table->timestamps();
             $table->index(['company_id', 'law_hearing_id', 'created_at']);
-        });
+            });
+        }
 
-        Schema::create('law_hearing_alerts', function (Blueprint $table): void {
+        if (! Schema::hasTable('law_hearing_alerts')) {
+            Schema::create('law_hearing_alerts', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('law_hearing_id', 30)->charset('ascii')->collation('ascii_bin');
@@ -68,9 +75,11 @@ return new class extends Migration {
             $table->dateTime('resolved_at')->nullable();
             $table->timestamps();
             $table->index(['company_id', 'status', 'triggered_at']);
-        });
+            });
+        }
 
-        Schema::create('law_hearing_external_accesses', function (Blueprint $table): void {
+        if (! Schema::hasTable('law_hearing_external_accesses')) {
+            Schema::create('law_hearing_external_accesses', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('law_hearing_id', 30)->charset('ascii')->collation('ascii_bin');
@@ -81,9 +90,11 @@ return new class extends Migration {
             $table->unsignedInteger('access_count')->default(0);
             $table->timestamps();
             $table->index(['company_id', 'law_hearing_id', 'expires_at']);
-        });
+            });
+        }
 
-        Schema::create('law_hearing_external_events', function (Blueprint $table): void {
+        if (! Schema::hasTable('law_hearing_external_events')) {
+            Schema::create('law_hearing_external_events', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('law_hearing_id', 30)->charset('ascii')->collation('ascii_bin');
@@ -91,7 +102,8 @@ return new class extends Migration {
             $table->json('payload')->nullable();
             $table->timestamps();
             $table->index(['company_id', 'law_hearing_id', 'created_at']);
-        });
+            });
+        }
     }
 
     public function down(): void
