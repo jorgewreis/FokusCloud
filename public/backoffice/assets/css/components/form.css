@@ -7,10 +7,6 @@
 
 .security-page { position: relative; }
 
-.security-page > .col:first-child h1 {
-    color: var(--role-color-500);
-}
-
 .security-page #invite-admin {
     background-color: var(--role-color-500);
     color: var(--role-contrast);
