@@ -289,9 +289,9 @@ textarea,
 }
 
 .system-notice[data-tone="warning"] {
-    --notice-accent: var(--form-feedback-warning-border);
-    --notice-text: var(--form-feedback-warning-text);
-    --notice-bg: var(--form-feedback-warning-background);
+    --notice-accent: var(--color-yellow-500);
+    --notice-text: var(--color-yellow-800);
+    --notice-bg: var(--color-yellow-050);
 }
 
 .system-notice[data-tone="info"] {

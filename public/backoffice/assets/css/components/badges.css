@@ -5,8 +5,8 @@
     min-height: 22px;
     padding: 2px 8px;
     border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font-size: 11px;
+    border-radius: 6px;
+    font-size: 10px;
     font-weight: var(--font-weight-medium);
     line-height: 1.2;
     white-space: nowrap;
@@ -17,8 +17,8 @@
 .badge-danger { border-color: var(--color-red-200); background: var(--color-red-050); color: var(--color-red-600); }
 .badge-info { border-color: var(--role-color-200); background: var(--role-color-050); color: var(--role-color-700); }
 .badge-neutral { border-color: var(--color-gray-200); background: var(--color-gray-100); color: var(--color-gray-700); }
-.badge-sm { min-height: 18px; padding: 1px 6px; font-size: 10px; }
-.badge-lg { min-height: 26px; padding: 4px 10px; font-size: 12px; }
+.badge-sm { min-height: 18px; padding: 1px 6px; border-radius: 4px; font-size: 10px; }
+.badge-lg { min-height: 26px; padding: 4px 10px; border-radius: 8px; font-size: 12px; }
 
 /* Compatibility bridge for existing status markup. */
-.status-pill { border-radius: var(--radius-pill); }
+.status-pill { border-radius: 6px; }

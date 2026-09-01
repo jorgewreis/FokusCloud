@@ -1,5 +1,19 @@
 .empty-state { display: grid; place-items: center; gap: var(--space-2); min-height: 160px; padding: var(--space-5); color: var(--theme-text-muted); text-align: center; }
-.skeleton { display: block; min-height: 12px; border-radius: var(--radius-sm); background: linear-gradient(90deg, var(--theme-surface-alt) 25%, var(--theme-border-alt) 37%, var(--theme-surface-alt) 63%); background-size: 400% 100%; animation: skeleton-loading 1.4s ease infinite; }
-.skeleton-text { width: 70%; }
-.skeleton-title { width: 42%; min-height: 18px; }
-@keyframes skeleton-loading { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+.skeleton { display: block; min-height: 14px; border-radius: 4px; background: linear-gradient(90deg, var(--color-gray-100) 0%, var(--color-gray-100) 20%, var(--color-gray-200) 32%, var(--color-gray-300) 43%, var(--color-gray-300) 57%, var(--color-gray-200) 68%, var(--color-gray-100) 80%, var(--color-gray-100) 100%); background-size: 320px 100%; background-repeat: repeat-x; background-position: 0 0; animation: skeleton-loading 2.1s cubic-bezier(0.45, 0, 0.55, 1) infinite; will-change: background-position; }
+.skeleton-text { width: 70%; min-height: 10px; }
+.skeleton-text-sm { width: 42%; min-height: 9px; }
+.skeleton-title { width: 42%; min-height: 18px; border-radius: 5px; }
+.skeleton-heading { width: 58%; min-height: 24px; border-radius: 5px; }
+.skeleton-avatar { width: 32px; height: 32px; min-height: 32px; border-radius: 50%; }
+.skeleton-button { width: 96px; height: 36px; min-height: 36px; border-radius: var(--form-control-radius); }
+.skeleton-input { width: 100%; height: var(--form-control-height); min-height: var(--form-control-height); border-radius: var(--form-control-radius); }
+.skeleton-card { display: grid; gap: 12px; min-height: 110px; padding: var(--space-3); border: 1px solid var(--color-gray-200); border-radius: var(--radius-md); background: var(--color-gray-050); }
+.skeleton-card .skeleton-text { width: 88%; }
+.skeleton-card .skeleton-text-sm { width: 54%; }
+.skeleton-metric { display: grid; gap: 10px; min-height: 112px; padding: var(--space-3); border: 1px solid var(--color-gray-200); border-radius: var(--radius-md); background: var(--color-gray-050); }
+.skeleton-metric .skeleton-value { width: 46%; min-height: 28px; border-radius: 5px; }
+.skeleton-row { display: flex; align-items: center; gap: var(--space-2); }
+.skeleton-table { display: grid; gap: 10px; width: 100%; }
+.skeleton-table .skeleton { width: 100%; }
+.skeleton-static { animation: none; background: var(--color-gray-200); }
+@keyframes skeleton-loading { from { background-position: 0 0; } to { background-position: 320px 0; } }

@@ -9,3 +9,8 @@
     height: 30px;
     border-radius: 0px;
 }
+
+.showcase-progress-list { display: grid; gap: 18px; padding-top: 4px; }
+.showcase-skeleton-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.showcase-skeleton-grid > * { min-width: 0; }
+@media (max-width: 760px) { .showcase-skeleton-grid { grid-template-columns: 1fr; } }
