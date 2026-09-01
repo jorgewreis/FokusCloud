@@ -565,7 +565,14 @@ textarea,
 
 .form-label-required::after {
     content: "*";
-    color: var(--text-color-danger, var(--color-red-600));
+    color: var(--form-feedback-error-text, var(--text-color-danger, var(--color-red-600)));
+}
+
+/* Required controls mark their own field label without page-specific classes. */
+.form-field:has(> :is(input, select, textarea)[required]) > label:not(.form-label-required)::after,
+.form-field:has(> :is(input, select, textarea)[required]) > legend:not(.form-label-required)::after {
+    content: "*";
+    color: var(--form-feedback-error-text, var(--text-color-danger, var(--color-red-600)));
 }
 
 .form-label-optional::after {

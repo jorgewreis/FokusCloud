@@ -39,6 +39,8 @@ Controles aceitam os estados nativos `:hover`, `:focus-visible`, `:disabled`, `:
 
 Use `aria-invalid="true"` quando houver erro confirmado e `aria-invalid="false"` quando a validacao explicita tiver sucesso. Mensagens devem receber um `id` e ser referenciadas por `aria-describedby`. Erros de submissao devem usar `system-notice` com `role="alert"` ou `aria-live="polite"` conforme a urgencia.
 
+Todo controle com o atributo `required` recebe automaticamente um `*` no `label` ou `legend` do `.form-field`. A classe `.form-label-required` permanece disponivel para casos em que o marcador precise ser declarado explicitamente.
+
 ## Exemplos
 
 ```html
