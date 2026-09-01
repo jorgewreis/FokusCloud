@@ -16,3 +16,30 @@
 .showcase-skeleton-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .showcase-skeleton-grid > * { min-width: 0; }
 @media (max-width: 760px) { .showcase-skeleton-grid { grid-template-columns: 1fr; } }
+
+/* LIVE BACKOFFICE PAGE REFINEMENTS */
+.plan-page, .voucher-page, .security-page { box-sizing: border-box; max-width: 1440px; padding: var(--space-4) var(--space-5) var(--space-6); }
+.plan-page > .col:first-child, .voucher-page > .col:first-child, .security-page > .col:first-child { gap: 6px; margin-bottom: var(--space-4); }
+.plan-page > .col:first-child h1, .voucher-page > .col:first-child h1, .security-page > .col:first-child h1 { margin: 0; line-height: 1.15; }
+.plan-page > .col:first-child p, .voucher-page > .col:first-child p, .security-page > .col:first-child p { max-width: 720px; margin: 0; line-height: 1.5; }
+.plan-page > hr, .voucher-page > hr, .security-page > hr { width: 100%; margin: 0 0 var(--space-4); border: 0; border-top: 1px solid var(--theme-border-alt); }
+.plan-page .form-panel, .voucher-page .form-panel, .security-page .form-panel { margin: 0 0 var(--space-4); padding: var(--space-4); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface); box-shadow: var(--shadow-sm); }
+.plan-page .form-line, .voucher-page .form-line { gap: var(--space-3) var(--space-4); margin-top: var(--space-3); }
+.plan-page .form-line:first-child, .voucher-page .form-line:first-child { margin-top: 0; }
+.plan-page .form-actions, .voucher-page .form-actions, .security-page .form-actions { margin-top: var(--space-4); }
+.plan-page .table-panel, .voucher-page .table-panel, .security-page .table-panel { margin-top: var(--space-3); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface); }
+.plan-page .data-table, .voucher-page .data-table, .security-page .data-table { min-width: 900px; }
+.plan-page .data-table tbody tr, .voucher-page .data-table tbody tr, .security-page .data-table tbody tr { height: 48px; }
+.plan-page .system-notice, .voucher-page .system-notice, .security-page .system-notice { margin: var(--space-3) 0; }
+.security-page .form-panel { padding: 0; border: 0; background: transparent; box-shadow: none; }
+.security-page #invite-dialog .dialog-panel { padding: 0; }
+.security-page #invite-dialog .dialog-header { min-height: 48px; padding: var(--space-3); }
+.security-page #invite-dialog .dialog-content { margin: 0; padding: var(--space-4); }
+.security-page #invite-dialog .form-actions { justify-content: flex-end; }
+.security-page .icon-button { width: 34px; height: 34px; border-radius: var(--radius-control); }
+
+@media (max-width: 760px) {
+    .plan-page, .voucher-page, .security-page { padding: var(--space-3) var(--space-2) var(--space-5); }
+    .plan-page .form-panel, .voucher-page .form-panel { padding: var(--space-3); }
+    .plan-page .data-table, .voucher-page .data-table, .security-page .data-table { min-width: 0; }
+}
