@@ -28,7 +28,7 @@ class FormDesignSystemTest extends TestCase
 
     public function test_form_system_documents_all_required_components(): void
     {
-        $css = file_get_contents(base_path('public/backoffice/assets/css/components/form.css'));
+        $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $documentation = file_get_contents(base_path('docs/03-architecture/form-design-system.md'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 

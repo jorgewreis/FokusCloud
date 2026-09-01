@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este documento define o contrato visual e semantico compartilhado para formularios do FokusCloud. Paginas funcionais e mockups devem carregar o `main.css` do dominio e reutilizar os componentes de `components/form.css`. A classe-raiz `.fc-form` delimita o alcance dos estilos de controles.
+Este documento define o contrato visual e semantico compartilhado para formularios do FokusCloud. Paginas funcionais e mockups devem carregar o `main.css` do dominio e reutilizar os componentes de `components/form-admin.css`. A classe-raiz `.fc-form` delimita o alcance dos estilos de controles.
 
 O modelo foi inspirado nos padroes oficiais de formularios e estados de [Bootstrap](https://getbootstrap.com/docs/5.1/forms/overview/), [Tailwind CSS](https://tailwindcss.com/docs/hover-focus-and-other-states) e [Bulma](https://bulma.io/documentation/form/), sem adicionar esses frameworks como dependencias.
 
