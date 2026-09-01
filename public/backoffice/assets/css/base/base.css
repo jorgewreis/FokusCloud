@@ -1,11 +1,11 @@
 /* NORMALIZE BROWSER DEFAULTS */
-@import url("reset.css?v=20260901-required-fields");
+@import url("reset.css?v=20260901-live-controls");
 
 /* DEFINE COLOR TOKENS */
-@import url("colors.css?v=20260901-required-fields");
+@import url("colors.css?v=20260901-live-controls");
 
 /* DEFINE GLOBAL DESIGN TOKENS */
-@import url("variables.css?v=20260901-required-fields");
+@import url("variables.css?v=20260901-live-controls");
 
 /* DEFINE TYPOGRAPHY SYSTEM */
-@import url("typography.css?v=20260901-required-fields");
+@import url("typography.css?v=20260901-live-controls");

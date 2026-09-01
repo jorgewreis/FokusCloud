@@ -26,10 +26,10 @@
     --z-tooltip: 1200;
 
     /* FORM CONTROLS */
-    --form-control-height: 36px;
-    --form-control-min-height: 36px;
-    --form-control-padding-x: 10px;
-    --form-control-radius: 2px;
+    --form-control-height: 40px;
+    --form-control-min-height: 40px;
+    --form-control-padding-x: 12px;
+    --form-control-radius: var(--radius-control);
     --form-control-border: var(--theme-border-alt);
     --form-control-focus-border: var(--role-color-400);
     --form-control-focus-ring: var(--role-color-100);

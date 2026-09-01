@@ -335,6 +335,186 @@ html[data-theme="dark"] .modal { background: rgb(0 0 0 / .68); }
 .metric-value { letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .metric-card .progress { margin-top: 8px; }
 
+/* BACKOFFICE LIVE CONTROL OVERRIDES */
+.container-content :is(.fc-form, .form-panel) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea),
+.container-content :is(.form-input-text, .form-select, .form-textarea, .form-control, .select-control),
+.auth-panel :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: var(--form-control-height);
+    padding: 0 var(--form-control-padding-x);
+    border: 1px solid var(--theme-border-alt);
+    border-radius: var(--radius-control);
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: var(--font-weight-regular);
+    line-height: 1.4;
+    box-shadow: inset 0 1px 1px rgb(15 23 42 / 0.03);
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.container-content :is(.fc-form, .form-panel) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select),
+.container-content :is(.form-input-text, .form-select, .form-control, .select-control),
+.auth-panel :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select) {
+    height: var(--form-control-height);
+}
+
+.container-content :is(.fc-form, .form-panel) textarea,
+.container-content :is(.form-textarea, textarea.form-control),
+.auth-panel textarea {
+    height: auto;
+    min-height: 88px;
+    padding-block: 10px;
+    resize: vertical;
+}
+
+.container-content :is(.fc-form, .form-panel) select,
+.container-content :is(.form-select, .select-control),
+.auth-panel select {
+    appearance: none;
+    padding-right: 36px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--theme-text-muted) 50%),
+        linear-gradient(135deg, var(--theme-text-muted) 50%, transparent 50%);
+    background-position:
+        calc(100% - 17px) 17px,
+        calc(100% - 12px) 17px;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.container-content :is(.fc-form, .form-panel) :is(input, select, textarea)::placeholder,
+.container-content :is(.form-input-text, .form-control, .form-textarea)::placeholder,
+.auth-panel :is(input, textarea)::placeholder {
+    color: var(--theme-text-muted);
+    opacity: .76;
+}
+
+.container-content :is(.fc-form, .form-panel) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea):hover,
+.container-content :is(.form-input-text, .form-select, .form-textarea, .form-control, .select-control):hover,
+.auth-panel :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea):hover {
+    border-color: var(--role-color-300);
+    background-color: color-mix(in srgb, var(--theme-surface) 96%, var(--role-color-050));
+}
+
+.container-content :is(.fc-form, .form-panel) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea):focus,
+.container-content :is(.fc-form, .form-panel) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea):focus-visible,
+.container-content :is(.form-input-text, .form-select, .form-textarea, .form-control, .select-control):focus,
+.container-content :is(.form-input-text, .form-select, .form-textarea, .form-control, .select-control):focus-visible,
+.auth-panel :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea):focus,
+.auth-panel :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), select, textarea):focus-visible {
+    border-color: var(--role-color-500);
+    outline: none;
+    background-color: var(--theme-surface);
+    box-shadow: 0 0 0 3px var(--role-color-100), inset 0 1px 1px rgb(15 23 42 / 0.03);
+}
+
+.container-content :is(.fc-form, .form-panel) :is(input:disabled, select:disabled, textarea:disabled, input[readonly], textarea[readonly]),
+.container-content :is(.form-input-text, .form-select, .form-textarea, .form-control, .select-control):disabled,
+.container-content :is(.form-input-text, .form-control, .form-textarea)[readonly],
+.auth-panel :is(input:disabled, select:disabled, textarea:disabled, input[readonly], textarea[readonly]) {
+    background-color: var(--theme-surface-alt);
+    color: var(--theme-text-muted);
+    cursor: not-allowed;
+    opacity: .86;
+}
+
+.container-content :is(.button, .submit, button:not(.sidebar-button):not(.icon-button):not(.pagination-item):not(.tab):not(.dropdown-item):not(.dropdown-trigger)),
+.auth-panel :is(.button, .submit, button:not(.icon-button)) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: var(--form-control-height);
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    background-color: var(--role-color-500);
+    color: var(--role-contrast);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+
+.container-content :is(.button, .submit, button:not(.sidebar-button):not(.icon-button):not(.pagination-item):not(.tab):not(.dropdown-item):not(.dropdown-trigger)):hover,
+.auth-panel :is(.button, .submit, button:not(.icon-button)):hover {
+    border-color: var(--role-color-600);
+    background-color: var(--role-color-600);
+    color: var(--role-contrast);
+}
+
+.container-content :is(.button-secondary, button[type="reset"]),
+.auth-panel .button-secondary {
+    border-color: var(--theme-border-alt);
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+}
+
+.container-content :is(.button-secondary, button[type="reset"]):hover,
+.auth-panel .button-secondary:hover {
+    border-color: var(--role-color-300);
+    background-color: var(--role-color-050);
+    color: var(--role-color-700);
+}
+
+.container-content :is(.button-ghost, .filter-toggle) {
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--theme-text-muted);
+}
+
+.container-content :is(.button-ghost, .filter-toggle):hover {
+    border-color: transparent;
+    background-color: var(--theme-surface-alt);
+    color: var(--theme-text);
+}
+
+.container-content :is(.button, .submit, button:not(.sidebar-button):not(.icon-button)):disabled,
+.auth-panel :is(.button, .submit, button):disabled {
+    cursor: not-allowed;
+    opacity: .56;
+    transform: none;
+}
+
+.container-content .plan-order-input {
+    width: 72px;
+    min-width: 72px;
+    text-align: center;
+}
+
+.container-content .input-group > :is(.form-input-text, .form-select, .form-control, .select-control, input, select) {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+}
+
+.container-content .input-group > :is(.input-prefix, .input-group-addon) {
+    border-radius: var(--radius-control) 0 0 var(--radius-control);
+}
+
+.container-content .input-group > :is(.input-suffix, .button, .submit):last-child {
+    border-radius: 0 var(--radius-control) var(--radius-control) 0;
+}
+
+.container-content .input-group > :is(.form-input-text, .form-select, .form-control, .select-control, input, select):not(:first-child) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.container-content .input-group > :is(.form-input-text, .form-select, .form-control, .select-control, input, select):not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 @media (max-width: 760px) {
     .timeline { margin-left: 6px; padding-left: 20px; }
     .timeline-item::before { left: -29px; }

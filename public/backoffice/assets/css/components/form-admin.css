@@ -345,12 +345,12 @@ textarea,
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: 36px;
+    min-height: var(--form-control-height);
     padding: 0 16px;
 
     /* THEME */
     border: 1px solid transparent;
-    border-radius: 2px;
+    border-radius: var(--radius-control);
     background-color: var(--role-color-500);
     color: var(--role-contrast);
     font-size: 13px;
@@ -529,7 +529,7 @@ textarea,
     height: 28px;
     padding: 5px;
     border: 1px solid transparent;
-    border-radius: 2px;
+    border-radius: var(--radius-control);
     background-color: transparent;
     color: var(--theme-text-muted);
     cursor: pointer;
@@ -788,8 +788,8 @@ textarea,
     border-radius: 0;
 }
 
-.input-group > :first-child { border-radius: 2px 0 0 2px; }
-.input-group > :last-child { border-radius: 0 2px 2px 0; }
+.input-group > :first-child { border-radius: var(--radius-control) 0 0 var(--radius-control); }
+.input-group > :last-child { border-radius: 0 var(--radius-control) var(--radius-control) 0; }
 .input-group-addon {
     display: inline-flex;
     align-items: center;

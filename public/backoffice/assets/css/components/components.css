@@ -1,7 +1,7 @@
 /* DEFINE CARD COMPONENTS */
-@import url("cards.css?v=20260901-required-fields");
+@import url("cards.css?v=20260901-live-controls");
 
-@import url("form-admin.css?v=20260901-required-fields");
+@import url("form-admin.css?v=20260901-live-controls");
 
 @import url("buttons.css?v=20260901-components");
 @import url("badges.css?v=20260901-components");
@@ -22,4 +22,4 @@
 @import url("tooltips.css?v=20260901-components");
 @import url("upload.css?v=20260901-components");
 @import url("avatars.css?v=20260901-components");
-@import url("refinements.css?v=20260901-refinements");
+@import url("refinements.css?v=20260901-live-controls");
