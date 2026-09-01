@@ -7,6 +7,11 @@
 
 .security-page { position: relative; }
 
+.voucher-page > .col:first-child h1,
+.security-page > .col:first-child h1 {
+    color: var(--theme-text);
+}
+
 .security-page #invite-admin {
     background-color: var(--role-color-500);
     color: var(--role-contrast);
