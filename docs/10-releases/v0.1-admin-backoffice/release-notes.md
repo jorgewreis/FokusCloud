@@ -11,9 +11,9 @@ Planejada.
 
 ## Status da 0.0.2
 
-Implementacao consolidada para nova validacao do Marco 2. O fechamento exige
-commit, atualizacao da tag anotada, push e GitHub Actions aprovado; a tag nao
-deve ser considerada evidencia final antes dessa execucao.
+Concluida como entrega funcional do Marco 2. A validacao aprovada esta em
+`https://github.com/jorgewreis/FokusCloud/actions/runs/33564168328`, com
+migration/seeder SQLite, 36 testes, build e publicacao aprovados.
 
 ## Entrega prevista
 
