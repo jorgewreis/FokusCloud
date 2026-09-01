@@ -28,6 +28,9 @@ jobs:
           extensions: pdo_sqlite, sqlite3
           coverage: none
 
+      - name: Prepare SQLite database for package discovery
+        run: touch database/database.sqlite
+
       - name: Install PHP dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
