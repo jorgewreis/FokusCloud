@@ -5,6 +5,8 @@
     margin: var(--space-3);
 }
 
+.security-page { position: relative; }
+
 .security-page > .col:first-child h1 {
     color: var(--role-color-500);
 }
@@ -29,6 +31,28 @@
 .security-page #invite-dialog .dialog-panel {
     border-top: 3px solid var(--role-color-500);
 }
+
+.security-page #invite-dialog {
+    position: absolute;
+    z-index: 10;
+    top: 76px;
+    right: 0;
+    width: min(520px, calc(100vw - 48px));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+}
+
+.security-page #invite-dialog.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.security-page #invite-dialog .dialog-panel { width: 100%; }
 
 .form-panel {
     /* LAYOUT */
@@ -823,15 +847,6 @@ textarea,
     animation: form-spin 700ms linear infinite;
 }
 
-dialog {
-    max-width: min(520px, calc(100% - 32px));
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: var(--theme-text);
-}
-
-dialog::backdrop { background: var(--theme-overlay); background: color-mix(in srgb, var(--theme-overlay) 55%, transparent); }
 .dialog-panel { width: min(520px, calc(100vw - 32px)); margin: 0; }
 .dialog-header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
 .dialog-content { padding: var(--space-3); background: var(--theme-surface); }
