@@ -88,5 +88,5 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::post('/admins/{admin}/deactivate', [PlatformAdminController::class, 'deactivate'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
     Route::get('/admins/{admin}/security-events', [PlatformAdminController::class, 'securityEvents'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
     Route::post('/users/{user}/force-password-reset', [BackofficeController::class, 'forcePasswordReset'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
-    Route::get('/audit', [BackofficeController::class, 'audit'])->middleware(EnsurePlatformPermission::class.':platform.audit.view_all');
+    Route::get('/audit', [BackofficeController::class, 'audit'])->middleware(EnsurePlatformPermission::class.':platform.audit.view_commercial');
 });

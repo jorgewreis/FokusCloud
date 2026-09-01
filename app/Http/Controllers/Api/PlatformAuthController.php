@@ -26,7 +26,7 @@ class PlatformAuthController extends Controller
             $security->recordAttempt($admin, $email, $request, 'origin_locked');
             $audit->record($admin?->id, 'backoffice.login_origin_locked', 'platform_admin', $admin?->id, request: $request);
 
-            return $this->denied();
+            return response()->json(['message' => 'Origem temporariamente bloqueada. Tente novamente mais tarde.'], 429);
         }
 
         if (! $admin || ! $admin->isAvailableForLogin() || ! Hash::check($data['password'], $admin->password)) {
@@ -60,7 +60,7 @@ class PlatformAuthController extends Controller
         $adminId = $request->session()->get('platform_pending_admin_id');
         abort_unless($adminId, 401, 'Inicie o acesso interno novamente.');
         $challenge = DB::table('platform_login_challenges')->where('platform_admin_id', $adminId)->whereNull('used_at')->where('expires_at', '>', now())->latest('created_at')->first();
-        if (! $challenge || ! hash_equals($challenge->code_hash, hash('sha256', $data['code']))) {
+        if (! $challenge || ! $this->matchesMfaCode($challenge->code_hash, $data['code'])) {
             if ($challenge) {
                 $attempts = $challenge->attempt_count + 1;
                 DB::table('platform_login_challenges')->where('id', $challenge->id)->update(['attempt_count' => $attempts, 'used_at' => $attempts >= 5 ? now() : null, 'updated_at' => now()]);
@@ -85,11 +85,21 @@ class PlatformAuthController extends Controller
     public function activateInvitation(Request $request, PlatformAudit $audit)
     {
         $data = $request->validate(['token' => ['required', 'string', 'size:64'], 'password' => ['required', 'string', 'min:12', 'confirmed']]);
-        $invitation = DB::table('platform_admin_invitations')->where('token_hash', hash('sha256', $data['token']))->whereNull('accepted_at')->where('expires_at', '>', now())->first();
-        abort_unless($invitation, 422, 'Convite inválido ou expirado.');
-        $admin = PlatformAdmin::findOrFail($invitation->platform_admin_id);
-        $admin->forceFill(['password' => Hash::make($data['password']), 'status' => 'ativo', 'email_verified_at' => now()])->save();
-        DB::table('platform_admin_invitations')->where('id', $invitation->id)->update(['accepted_at' => now(), 'updated_at' => now()]);
+        $admin = DB::transaction(function () use ($data) {
+            $invitation = DB::table('platform_admin_invitations')
+                ->where('token_hash', hash('sha256', $data['token']))
+                ->whereNull('accepted_at')
+                ->where('expires_at', '>', now())
+                ->lockForUpdate()
+                ->first();
+            abort_unless($invitation, 422, 'Convite inválido ou expirado.');
+
+            $admin = PlatformAdmin::lockForUpdate()->findOrFail($invitation->platform_admin_id);
+            $admin->forceFill(['password' => Hash::make($data['password']), 'status' => 'ativo', 'email_verified_at' => now()])->save();
+            DB::table('platform_admin_invitations')->where('id', $invitation->id)->update(['accepted_at' => now(), 'updated_at' => now()]);
+
+            return $admin;
+        });
         $audit->record($admin->id, 'backoffice.admin_invitation_accepted', 'platform_admin', $admin->id, after: ['id' => $admin->id, 'status' => 'ativo'], request: $request);
 
         return response()->json(['message' => 'Conta interna ativada. Entre com seu e-mail e senha.']);
@@ -125,7 +135,7 @@ class PlatformAuthController extends Controller
 
             return response()->json(['message' => 'Não foi possível enviar o código de acesso. Tente novamente em alguns minutos.'], 503);
         }
-        DB::table('platform_login_challenges')->insert(['id' => PrefixedUlid::make('MFA'), 'platform_admin_id' => $admin->id, 'code_hash' => hash('sha256', $code), 'attempt_count' => 0, 'expires_at' => now()->addMinutes(10), 'resend_available_at' => now()->addMinute(), 'created_at' => now(), 'updated_at' => now()]);
+        DB::table('platform_login_challenges')->insert(['id' => PrefixedUlid::make('MFA'), 'platform_admin_id' => $admin->id, 'code_hash' => Hash::make($code), 'attempt_count' => 0, 'expires_at' => now()->addMinutes(10), 'resend_available_at' => now()->addMinute(), 'created_at' => now(), 'updated_at' => now()]);
         $request->session()->put('platform_pending_admin_id', $admin->id);
         $audit->record($admin->id, 'backoffice.mfa_requested', 'platform_admin', $admin->id, request: $request);
         $response = response()->json(['mfa_required' => true, 'message' => 'Enviamos um código de acesso ao seu e-mail.']);
@@ -139,6 +149,16 @@ class PlatformAuthController extends Controller
     private function denied()
     {
         return response()->json(['message' => 'Credenciais internas inválidas.'], 422);
+    }
+
+    private function matchesMfaCode(string $storedHash, string $code): bool
+    {
+        // Existing challenges retain compatibility only until their 10-minute expiry.
+        if (strlen($storedHash) === 64 && ctype_xdigit($storedHash)) {
+            return hash_equals($storedHash, hash('sha256', $code));
+        }
+
+        return Hash::check($code, $storedHash);
     }
 
     private function adminPayload(PlatformAdmin $admin): array

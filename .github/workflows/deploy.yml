@@ -11,8 +11,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate:
+    name: Validate application
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup PHP with SQLite
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Validate migrations and seed data on SQLite
+        run: |
+          cp .env.example .env
+          touch database/ci.sqlite
+          php artisan key:generate --force
+          DB_CONNECTION=sqlite DB_DATABASE="$GITHUB_WORKSPACE/database/ci.sqlite" php artisan migrate:fresh --seed --force --no-interaction
+
+      - name: Run automated tests
+        run: php artisan test
+
+      - name: Build frontend assets
+        run: |
+          npm ci
+          npm run build
+
   deploy:
     name: Publish Laravel application
+    needs: validate
     runs-on: ubuntu-latest
     environment: production
     env:

@@ -509,6 +509,15 @@ class BackofficeController extends Controller
 
     public function audit(Request $request)
     {
-        return response()->json(DB::table('platform_audit_events')->orderByDesc('created_at')->limit(200)->get());
+        $query = DB::table('platform_audit_events')->orderByDesc('created_at')->limit(200);
+        if (! $request->user()->hasPermission('platform.audit.view_all')) {
+            $query->where(function ($commercial) {
+                foreach (['backoffice.dashboard_%', 'backoffice.compan%', 'backoffice.plan_%', 'backoffice.subscription_%', 'backoffice.voucher_%'] as $action) {
+                    $commercial->orWhere('action', 'like', $action);
+                }
+            });
+        }
+
+        return response()->json($query->get());
     }
 }

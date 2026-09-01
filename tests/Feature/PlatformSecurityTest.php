@@ -4,8 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\PlatformAdmin;
 use App\Models\PlatformRole;
+use App\Models\User;
+use App\Services\PlatformAudit;
 use App\Services\PrefixedUlid;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -21,10 +24,78 @@ class PlatformSecurityTest extends TestCase
         Mail::fake();
     }
 
-    public function test_commercial_admin_cannot_manage_internal_accounts(): void
+    public function test_customer_session_cannot_access_the_backoffice(): void
     {
-        $admin = $this->admin('administrador_comercial');
-        $this->actingAs($admin, 'platform')->getJson('/api/backoffice/admins')->assertForbidden();
+        $customer = User::create(['id' => PrefixedUlid::make('USR'), 'name' => 'Cliente', 'cpf' => '12345678901', 'email' => 'cliente@example.test', 'password' => 'SenhaCliente!2026', 'status' => 'ativa']);
+        $this->actingAs($customer)->getJson('/api/backoffice/dashboard')->assertUnauthorized();
+    }
+
+    public function test_platform_admin_is_never_authenticated_as_a_portal_user(): void
+    {
+        $admin = $this->admin();
+        $this->actingAs($admin, 'platform');
+        $this->assertGuest('web');
+        $this->assertAuthenticatedAs($admin, 'platform');
+    }
+
+    public function test_platform_login_requires_mfa_before_the_final_session(): void
+    {
+        $admin = $this->admin();
+        $this->postJson('/api/backoffice/auth/login', ['email' => $admin->email, 'password' => 'SenhaInterna!2026'])->assertOk()->assertJsonPath('mfa_required', true);
+        $this->assertGuest('platform');
+        $this->assertDatabaseHas('platform_login_challenges', ['platform_admin_id' => $admin->id]);
+    }
+
+    public function test_valid_mfa_authenticates_the_platform_guard_and_consumes_the_challenge(): void
+    {
+        $admin = $this->admin();
+        $challengeId = $this->challenge($admin, '123456');
+        $this->withSession(['platform_pending_admin_id' => $admin->id])->postJson('/api/backoffice/auth/verify-mfa', ['code' => '123456'])->assertOk()->assertJsonPath('admin.id', $admin->id);
+        $this->assertAuthenticatedAs($admin, 'platform');
+        $this->assertDatabaseMissing('platform_login_challenges', ['id' => $challengeId, 'used_at' => null]);
+    }
+
+    public function test_invalid_mfa_increments_the_attempt_counter(): void
+    {
+        $admin = $this->admin();
+        $challengeId = $this->challenge($admin, '123456');
+        $this->withSession(['platform_pending_admin_id' => $admin->id])->postJson('/api/backoffice/auth/verify-mfa', ['code' => '654321'])->assertUnprocessable();
+        $this->assertDatabaseHas('platform_login_challenges', ['id' => $challengeId, 'attempt_count' => 1]);
+    }
+
+    public function test_expired_mfa_is_refused(): void
+    {
+        $admin = $this->admin();
+        $this->challenge($admin, '123456', now()->subSecond());
+        $this->withSession(['platform_pending_admin_id' => $admin->id])->postJson('/api/backoffice/auth/verify-mfa', ['code' => '123456'])->assertUnprocessable();
+        $this->assertGuest('platform');
+    }
+
+    public function test_fifth_invalid_mfa_attempt_invalidates_the_challenge(): void
+    {
+        $admin = $this->admin();
+        $challengeId = $this->challenge($admin, '123456');
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->withSession(['platform_pending_admin_id' => $admin->id])->postJson('/api/backoffice/auth/verify-mfa', ['code' => '654321'])->assertUnprocessable();
+        }
+        $this->assertDatabaseHas('platform_login_challenges', ['id' => $challengeId, 'attempt_count' => 5]);
+        $this->assertNotNull(DB::table('platform_login_challenges')->where('id', $challengeId)->value('used_at'));
+    }
+
+    public function test_mfa_resend_before_one_minute_is_rate_limited(): void
+    {
+        $admin = $this->admin();
+        $this->challenge($admin, '123456', now()->addMinutes(10), now()->addSeconds(59));
+        $this->withSession(['platform_pending_admin_id' => $admin->id])->postJson('/api/backoffice/auth/resend-mfa')->assertStatus(429);
+    }
+
+    public function test_mfa_resend_invalidates_the_previous_code_after_one_minute(): void
+    {
+        $admin = $this->admin();
+        $challengeId = $this->challenge($admin, '123456', now()->addMinutes(10), now()->subSecond());
+        $this->withSession(['platform_pending_admin_id' => $admin->id])->postJson('/api/backoffice/auth/resend-mfa')->assertOk()->assertJsonPath('mfa_required', true);
+        $this->assertNotNull(DB::table('platform_login_challenges')->where('id', $challengeId)->value('used_at'));
+        $this->assertSame(2, DB::table('platform_login_challenges')->where('platform_admin_id', $admin->id)->count());
     }
 
     public function test_three_password_failures_temporarily_lock_an_internal_account(): void
@@ -33,27 +104,100 @@ class PlatformSecurityTest extends TestCase
         for ($attempt = 0; $attempt < 3; $attempt++) {
             $this->postJson('/api/backoffice/auth/login', ['email' => $admin->email, 'password' => 'senha-incorreta'])->assertUnprocessable();
         }
-        $this->assertDatabaseHas('platform_admins', ['id' => $admin->id]);
         $this->assertNotNull($admin->fresh()->locked_until);
         $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.account_temporarily_locked']);
     }
 
-    public function test_last_active_superadmin_cannot_be_blocked(): void
+    public function test_login_is_refused_while_the_temporary_lock_is_active(): void
     {
         $admin = $this->admin();
-        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/admins/{$admin->id}/block", ['reason' => 'Teste'])->assertUnprocessable();
+        for ($attempt = 0; $attempt < 3; $attempt++) {
+            $this->postJson('/api/backoffice/auth/login', ['email' => $admin->email, 'password' => 'senha-incorreta'])->assertUnprocessable();
+        }
+        $this->travel(2)->minutes();
+        $this->postJson('/api/backoffice/auth/login', ['email' => $admin->email, 'password' => 'SenhaInterna!2026'])->assertUnprocessable();
     }
 
-    public function test_invited_admin_activates_with_a_token_and_own_password(): void
+    public function test_five_password_failures_in_one_day_create_a_manual_block(): void
+    {
+        $admin = $this->admin();
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->postJson('/api/backoffice/auth/login', ['email' => $admin->email, 'password' => 'senha-incorreta'])->assertUnprocessable();
+            $this->travel(11)->minutes();
+        }
+        $this->assertNotNull($admin->fresh()->manual_blocked_at);
+        $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.account_manually_blocked']);
+    }
+
+    public function test_five_distinct_emails_from_one_origin_block_further_attempts(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->postJson('/api/backoffice/auth/login', ['email' => "origem{$attempt}@example.test", 'password' => 'senha-incorreta'])->assertUnprocessable();
+        }
+        $this->travel(61)->seconds();
+        $this->postJson('/api/backoffice/auth/login', ['email' => 'origem6@example.test', 'password' => 'senha-incorreta'])->assertStatus(429)->assertJsonPath('message', 'Origem temporariamente bloqueada. Tente novamente mais tarde.');
+    }
+
+    public function test_commercial_admin_cannot_manage_internal_accounts(): void
+    {
+        $admin = $this->admin('administrador_comercial');
+        $this->actingAs($admin, 'platform')->getJson('/api/backoffice/admins')->assertForbidden();
+    }
+
+    public function test_invitation_creates_a_suspended_admin_without_a_plain_password_or_token(): void
     {
         $super = $this->admin();
-        $this->actingAs($super, 'platform')->postJson('/api/backoffice/admins/invitations', ['name' => 'Comercial', 'email' => 'comercial@example.test', 'role' => 'administrador_comercial'])->assertCreated();
-        $invited = PlatformAdmin::where('email', 'comercial@example.test')->firstOrFail();
+        $this->actingAs($super, 'platform')->postJson('/api/backoffice/admins/invitations', ['name' => 'Comercial', 'email' => 'convidado@example.test', 'role' => 'administrador_comercial'])->assertCreated();
+        $invited = PlatformAdmin::where('email', 'convidado@example.test')->firstOrFail();
+        $invitation = DB::table('platform_admin_invitations')->where('platform_admin_id', $invited->id)->first();
         $this->assertSame('suspenso', $invited->status);
+        $this->assertNotSame('SenhaInterna!2026', $invited->password);
+        $this->assertSame(64, strlen($invitation->token_hash));
+    }
+
+    public function test_invitation_activation_sets_the_recipient_password_and_consumes_the_token(): void
+    {
+        $admin = $this->admin('administrador_comercial');
+        $admin->forceFill(['status' => 'suspenso'])->save();
+        $token = str_repeat('a', 64);
+        DB::table('platform_admin_invitations')->insert(['id' => PrefixedUlid::make('PAI'), 'platform_admin_id' => $admin->id, 'invited_by_platform_admin_id' => $this->admin()->id, 'token_hash' => hash('sha256', $token), 'expires_at' => now()->addDay(), 'created_at' => now(), 'updated_at' => now()]);
+        $payload = ['token' => $token, 'password' => 'NovaSenhaSegura!2026', 'password_confirmation' => 'NovaSenhaSegura!2026'];
+        $this->postJson('/api/backoffice/auth/activate-invitation', $payload)->assertOk();
+        $this->postJson('/api/backoffice/auth/activate-invitation', $payload)->assertUnprocessable();
+        $this->assertSame('ativo', $admin->fresh()->status);
+        $this->assertTrue(Hash::check('NovaSenhaSegura!2026', $admin->fresh()->password));
+    }
+
+    public function test_last_active_superadmin_cannot_be_relegated_blocked_or_deactivated(): void
+    {
+        $admin = $this->admin();
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/admins/{$admin->id}/role", ['role' => 'administrador_comercial', 'reason' => 'Teste'])->assertUnprocessable();
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/admins/{$admin->id}/block", ['reason' => 'Teste'])->assertUnprocessable();
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/admins/{$admin->id}/deactivate", ['reason' => 'Teste'])->assertUnprocessable();
+    }
+
+    public function test_security_audit_masks_sensitive_values_and_expires_after_180_days(): void
+    {
+        $admin = $this->admin();
+        app(PlatformAudit::class)->record($admin->id, 'backoffice.audit_test', 'platform_admin', $admin->id, metadata: ['password' => 'segredo', 'token' => 'token-secreto', 'cpf' => '12345678901'], after: ['email' => $admin->email, 'code' => '123456'], request: request());
+        $event = DB::table('platform_audit_events')->where('action', 'backoffice.audit_test')->first();
+        $this->assertStringNotContainsString('segredo', $event->metadata);
+        $this->assertStringNotContainsString('token-secreto', $event->metadata);
+        $this->assertStringNotContainsString('12345678901', $event->metadata);
+        $this->assertStringNotContainsString($admin->email, $event->after_masked);
+        $this->assertSame(now()->addDays(180)->format('Y-m-d'), substr($event->expires_at, 0, 10));
     }
 
     private function admin(string $role = 'superadministrador'): PlatformAdmin
     {
-        return PlatformAdmin::create(['id' => PrefixedUlid::make('PAD'), 'name' => 'Equipe Fokus', 'email' => $role === 'superadministrador' ? 'super@example.test' : 'comercial@example.test', 'password' => Hash::make('SenhaInterna!2026'), 'status' => 'ativo', 'platform_role_id' => PlatformRole::where('code', $role)->value('id'), 'email_verified_at' => now()]);
+        return PlatformAdmin::create(['id' => PrefixedUlid::make('PAD'), 'name' => 'Equipe Fokus', 'email' => $role === 'superadministrador' ? 'super'.PlatformAdmin::count().'@example.test' : 'comercial'.PlatformAdmin::count().'@example.test', 'password' => Hash::make('SenhaInterna!2026'), 'status' => 'ativo', 'platform_role_id' => PlatformRole::where('code', $role)->value('id'), 'email_verified_at' => now()]);
+    }
+
+    private function challenge(PlatformAdmin $admin, string $code, $expiresAt = null, $resendAvailableAt = null): string
+    {
+        $id = PrefixedUlid::make('MFA');
+        DB::table('platform_login_challenges')->insert(['id' => $id, 'platform_admin_id' => $admin->id, 'code_hash' => Hash::make($code), 'attempt_count' => 0, 'expires_at' => $expiresAt ?: now()->addMinutes(10), 'resend_available_at' => $resendAvailableAt ?: now()->addMinute(), 'created_at' => now(), 'updated_at' => now()]);
+
+        return $id;
     }
 }

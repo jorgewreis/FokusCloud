@@ -11,8 +11,9 @@ Planejada.
 
 ## Status da 0.0.2
 
-Concluida como entrega funcional do Marco 2, condicionada ao commit, tag,
-push e GitHub Actions aprovado.
+Implementacao consolidada para nova validacao do Marco 2. O fechamento exige
+commit, atualizacao da tag anotada, push e GitHub Actions aprovado; a tag nao
+deve ser considerada evidencia final antes dessa execucao.
 
 ## Entrega prevista
 

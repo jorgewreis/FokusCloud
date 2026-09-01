@@ -49,7 +49,10 @@ no resultado da homologacao.
 
 ## Evidencia da 0.0.2
 
-- `php artisan test`: 18 testes aprovados.
-- Migration e seeder executados em banco SQLite limpo.
-- Testes de permissao comercial, bloqueio temporario, convite e protecao da
-  ultima conta de superadministrador incluidos na suite.
+- A suite do Marco 2 cobre isolamento entre guards, senha + MFA, expiracao,
+  quinta tentativa, reenvio, bloqueio temporario e manual, origem suspeita,
+  RBAC, convite, ativacao, ultima conta superadministradora e auditoria.
+- O gate do GitHub Actions executa `php artisan migrate:fresh --seed` em SQLite
+  limpo, `php artisan test` e `npm run build` antes de liberar o deploy.
+- A evidencia final deve apontar para a execucao aprovada em
+  `https://github.com/jorgewreis/FokusCloud/actions/workflows/deploy.yml`.

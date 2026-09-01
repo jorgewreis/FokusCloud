@@ -58,9 +58,14 @@ propria senha. Senhas nao sao enviadas por e-mail.
 
 ## Evidencias de aceite
 
-- `php artisan test` com 18 testes aprovados.
-- `php artisan migrate:fresh --seed` executa em banco limpo.
-- Cliente nao acessa o guard `platform`; administrador comercial recebe `403`
-  ao tentar gerir administradores internos.
+- A suite automatizada cobre os 18 cenarios minimos e os controles de borda
+  adicionais de auditoria, convite e isolamento entre guards.
+- `php artisan migrate:fresh --seed`, `php artisan test` e `npm run build`
+  executam no gate SQLite do GitHub Actions antes do deploy.
+- Cliente autenticado no guard `web` nao acessa o Backoffice; administrador
+  comercial recebe `403` ao tentar gerir administradores internos.
 - Eventos de seguranca gravam ator, acao, origem, before/after mascarados e
-  `expires_at` de 180 dias sem senha, token ou codigo MFA.
+  `expires_at` de 180 dias, com redacao defensiva de senha, token, MFA, CPF,
+  CNPJ e documento.
+- A evidencia de execucao aprovada fica no workflow de deploy:
+  `https://github.com/jorgewreis/FokusCloud/actions/workflows/deploy.yml`.
