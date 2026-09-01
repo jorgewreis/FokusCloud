@@ -45,6 +45,11 @@
     transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
 }
 
+.security-page #invite-dialog[aria-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .security-page #invite-dialog.is-open {
     opacity: 1;
     visibility: visible;
