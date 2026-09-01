@@ -50,7 +50,7 @@ class FormDesignSystemTest extends TestCase
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
         foreach ([$panel, $access, $activate] as $contents) {
-            $this->assertStringContainsString('20260901-required-fields', $contents);
+            $this->assertStringContainsString('20260901-live-controls', $contents);
         }
 
         $this->assertStringContainsString('MutationObserver', $script);
