@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formularios - Mockups</title>
-    <link rel="stylesheet" href="../main.css?v=20260901-forms">
-    <link rel="stylesheet" href="../base/reset.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../base/colors.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../base/variables.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../base/typography.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../themes/theme.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../layout/layout.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../components/cards.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../components/form-admin.css?v=20260901-admin-header">
-    <link rel="stylesheet" href="../pages/pages.css?v=20260901-admin-panel">
-    <link rel="stylesheet" href="../responsive/responsive.css?v=20260901-admin-panel">
+    <link rel="stylesheet" href="../main.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../base/reset.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../base/colors.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../base/variables.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../base/typography.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../themes/theme.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../layout/layout.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../components/cards.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../components/form-admin.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../pages/pages.css?v=20260901-required-fields">
+    <link rel="stylesheet" href="../responsive/responsive.css?v=20260901-required-fields">
 </head>
 <body data-theme="light" data-role="admin">
     <main class="container-mockup p-4 fc-form">
@@ -26,8 +26,8 @@
 
         <section class="grid-auto-fit gap-1 w-full">
             <article class="card card-static"><div class="title">Campos e estados</div><div class="content stack m-3">
-                <div class="form-field"><label class="form-label form-label-required" for="demo-text">Nome</label><input class="form-input-text" id="demo-text" type="text" placeholder="Nome completo"><small class="form-help">Texto auxiliar do campo.</small></div>
-                <div class="form-field is-invalid"><label class="form-label form-label-required" for="demo-email">E-mail invalido</label><input class="form-input-text" id="demo-email" type="email" aria-invalid="true" aria-describedby="demo-email-error" value="email-invalido"><small class="form-error" id="demo-email-error" role="alert">Informe um e-mail valido.</small></div>
+                <div class="form-field"><label class="form-label" for="demo-text">Nome</label><input class="form-input-text" id="demo-text" type="text" placeholder="Nome completo" required><small class="form-help">Texto auxiliar do campo.</small></div>
+                <div class="form-field is-invalid"><label class="form-label" for="demo-email">E-mail invalido</label><input class="form-input-text" id="demo-email" type="email" aria-invalid="true" aria-describedby="demo-email-error" value="email-invalido" required><small class="form-error" id="demo-email-error" role="alert">Informe um e-mail valido.</small></div>
                 <div class="form-field is-valid"><label class="form-label" for="demo-valid">Campo valido</label><input class="form-input-text" id="demo-valid" type="text" aria-invalid="false" value="Valor conferido"><small class="form-success">Valor validado.</small></div>
                 <div class="form-field is-warning"><label class="form-label" for="demo-warning">Campo com aviso</label><input class="form-input-text" id="demo-warning" type="text" value="Revisar"><small class="form-warning">Revise este valor antes de continuar.</small></div>
                 <div class="form-field"><label class="form-label" for="demo-readonly">Somente leitura</label><input class="form-input-text" id="demo-readonly" type="text" value="Identificador" readonly></div>
@@ -73,6 +73,7 @@
             </div>
         </section>
     </main>
+    <script src="../../js/form-system.js?v=20260901-required-fields"></script>
     <script>
         const range = document.querySelector("#demo-range");
         const output = document.querySelector("#demo-range-value");

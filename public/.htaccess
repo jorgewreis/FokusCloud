@@ -28,3 +28,10 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<IfModule mod_headers.c>
+    SetEnvIf Request_URI "^/backoffice(/|$)" FOKUS_BACKOFFICE=1
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0" env=FOKUS_BACKOFFICE
+    Header set Pragma "no-cache" env=FOKUS_BACKOFFICE
+    Header set Expires "0" env=FOKUS_BACKOFFICE
+</IfModule>

@@ -1,20 +1,20 @@
 /* LOAD BASE FOUNDATION */
-@import url("base/base.css");
+@import url("base/base.css?v=20260901-required-fields");
 
 /* LOAD THEME TOKENS */
-@import url("themes/themes.css");
+@import url("themes/themes.css?v=20260901-required-fields");
 
 /* LOAD STRUCTURAL LAYOUT */
-@import url("layout/layout.css");
+@import url("layout/layout.css?v=20260901-required-fields");
 
 /* LOAD REUSABLE COMPONENTS */
-@import url("components/components.css");
+@import url("components/components.css?v=20260901-required-fields");
 
 /* LOAD PAGE SPECIFIC STYLES */
-@import url("pages/pages.css");
+@import url("pages/pages.css?v=20260901-required-fields");
 
 /* LOAD UTILITY CLASSES */
-@import url("utilities/utilities.css");
+@import url("utilities/utilities.css?v=20260901-required-fields");
 
 /* LOAD RESPONSIVE OVERRIDES */
-@import url("responsive/responsive.css");
+@import url("responsive/responsive.css?v=20260901-required-fields");

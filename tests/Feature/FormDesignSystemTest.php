@@ -40,4 +40,32 @@ class FormDesignSystemTest extends TestCase
             $this->assertTrue(str_contains($script, $contract) || str_contains($documentation, $contract), $contract);
         }
     }
+
+    public function test_backoffice_required_fields_are_auto_marked_and_cache_busted(): void
+    {
+        $panel = file_get_contents(base_path('public/backoffice/painel.html'));
+        $access = file_get_contents(base_path('public/backoffice/acesso.html'));
+        $activate = file_get_contents(base_path('public/backoffice/ativar.html'));
+        $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
+        $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
+
+        foreach ([$panel, $access, $activate] as $contents) {
+            $this->assertStringContainsString('20260901-required-fields', $contents);
+        }
+
+        $this->assertStringContainsString('MutationObserver', $script);
+        $this->assertStringContainsString('markRequiredFields', $script);
+        $this->assertStringContainsString('form-label-required', $script);
+        $this->assertStringContainsString('background: var(--theme-surface, #ffffff)', $css);
+    }
+
+    public function test_admin_invite_form_does_not_reuse_sidebar_admin_id(): void
+    {
+        $panel = file_get_contents(base_path('public/backoffice/painel.html'));
+        $security = file_get_contents(base_path('public/backoffice/pages/security.html'));
+
+        $this->assertStringContainsString('id="admin-name"', $panel);
+        $this->assertStringNotContainsString('id="admin-name"', $security);
+        $this->assertStringContainsString('id="invite-admin-name"', $security);
+    }
 }

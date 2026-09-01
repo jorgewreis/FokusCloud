@@ -1,4 +1,4 @@
 /* DEFINE CARD COMPONENTS */
 @import url("cards.css");
 
-@import url("form.css");
+@import url("../../../../public/backoffice/assets/css/components/form-admin.css?v=20260901-required-fields");

@@ -60,7 +60,14 @@
 
 .security-page #invite-dialog .dialog-panel {
     width: 100%;
-    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border, #d9dee7);
+    border-top: 3px solid var(--role-color-500, #f05a24);
+    background: var(--theme-surface, #ffffff);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+}
+
+.security-page #invite-dialog .invite-admin-card {
+    background: var(--theme-surface, #ffffff);
 }
 
 .form-panel {
@@ -565,6 +572,8 @@ textarea,
 
 .form-label-required::after {
     content: "*";
+    display: inline-block;
+    margin-left: 3px;
     color: var(--form-feedback-error-text, var(--text-color-danger, var(--color-red-600)));
 }
 

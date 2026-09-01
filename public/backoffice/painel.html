@@ -8,17 +8,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- IMPORT CSS -->
-        <link rel="stylesheet" href="/backoffice/assets/css/base/reset.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/base/colors.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/base/variables.css?v=20260901-admin-panel">
+        <link rel="stylesheet" href="/backoffice/assets/css/base/reset.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/base/colors.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/base/variables.css?v=20260901-required-fields">
         <link rel="stylesheet" href="/backoffice/assets/css/base/typography.css?v=20260828-20">
-        <link rel="stylesheet" href="/backoffice/assets/css/themes/theme.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/layout/layout.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/components/cards.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/components/form-admin.css?v=20260901-admin-header">
-        <link rel="stylesheet" href="/backoffice/assets/css/pages/pages.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/responsive/responsive.css?v=20260901-admin-panel">
-        <link rel="stylesheet" href="/backoffice/assets/css/main.css?v=20260901-forms">
+        <link rel="stylesheet" href="/backoffice/assets/css/themes/theme.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/layout/layout.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/components/cards.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/components/form-admin.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/pages/pages.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/responsive/responsive.css?v=20260901-required-fields">
+        <link rel="stylesheet" href="/backoffice/assets/css/main.css?v=20260901-required-fields">
     </head>
     <body>
 
@@ -84,7 +84,7 @@
         </div>
 
     <script src="/assets/js/api-client.js?v=20260828-19"></script>
-    <script src="/backoffice/assets/js/form-system.js?v=20260901-forms"></script>
+    <script src="/backoffice/assets/js/form-system.js?v=20260901-required-fields"></script>
     <script>
         function sidebarHide() {
             let sidebar = document.querySelector(".sidebar");
@@ -113,7 +113,7 @@
         const pageContent = document.querySelector("#page-content");
         const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
         const pagePath = "./pages";
-        const pageVersion = "20260901-admin-header";
+        const pageVersion = "20260901-required-fields";
         const routePageMap = {
             painel: "platform-dashboard",
             empresas: "companies",
@@ -171,6 +171,7 @@
                 }
 
                 pageContent.innerHTML = await response.text();
+                window.FokusForm?.enhance(pageContent);
                 runPageScripts(pageContent);
 
                 sidebarButtons.forEach((button) => {

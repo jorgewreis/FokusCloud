@@ -1,4 +1,4 @@
 /* DEFINE CARD COMPONENTS */
-@import url("cards.css");
+@import url("cards.css?v=20260901-required-fields");
 
-@import url("form-admin.css?v=20260901-admin-header");
+@import url("form-admin.css?v=20260901-required-fields");

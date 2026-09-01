@@ -2,6 +2,7 @@
     "use strict";
 
     const controls = "input, select, textarea";
+    const requiredControls = "input[required], select[required], textarea[required]";
 
     function getField(form, name) {
         return form.querySelector(`[name="${CSS.escape(name)}"]`);
@@ -95,5 +96,61 @@
         form.querySelectorAll(controls).forEach(clearField);
     }
 
-    window.FokusForm = { clear, clearField, mapServerErrors, setFeedback, setLoading, validate };
+    function markRequiredFields(root = document) {
+        const fields = root.matches?.(".form-field")
+            ? [root, ...root.querySelectorAll(".form-field")]
+            : [...root.querySelectorAll(".form-field")];
+
+        fields.forEach((field) => {
+            const required = field.querySelector(requiredControls);
+
+            if (!required) {
+                return;
+            }
+
+            const label = required.id
+                ? field.querySelector(`label[for="${CSS.escape(required.id)}"]`)
+                : field.querySelector("label, legend, .form-label");
+
+            if (!label) {
+                return;
+            }
+
+            label.classList.add("form-label-required");
+            label.setAttribute("data-required", "true");
+        });
+    }
+
+    function enhance(root = document) {
+        markRequiredFields(root);
+    }
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType !== Node.ELEMENT_NODE) {
+                    return;
+                }
+
+                if (node.matches?.(".form-field, form, .fc-form")) {
+                    enhance(node);
+                    return;
+                }
+
+                if (node.querySelector?.(".form-field")) {
+                    enhance(node);
+                }
+            });
+        });
+    });
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => enhance(document), { once: true });
+    } else {
+        enhance(document);
+    }
+
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    window.FokusForm = { clear, clearField, enhance, mapServerErrors, markRequiredFields, setFeedback, setLoading, validate };
 })(window, document);
