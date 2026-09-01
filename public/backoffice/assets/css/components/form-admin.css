@@ -42,8 +42,8 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-8px);
-    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    transform: translateX(calc(100% + 24px));
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
 }
 
 .security-page #invite-dialog[aria-hidden="true"] {
@@ -55,10 +55,13 @@
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
-.security-page #invite-dialog .dialog-panel { width: 100%; }
+.security-page #invite-dialog .dialog-panel {
+    width: 100%;
+    background-color: var(--theme-surface);
+}
 
 .form-panel {
     /* LAYOUT */
