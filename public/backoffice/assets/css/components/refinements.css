@@ -51,7 +51,7 @@
 /* BADGES AND STATUS */
 .badge-outline { border-color: currentColor; background: transparent; }
 .badge-dot::before { content: ""; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; background: currentColor; }
-.status-pill { width: auto; min-width: 74px; }
+.status-pill { width: auto; min-width: 74px; height: 24px; min-height: 24px; border-radius: var(--radius-control); font-size: 10px; line-height: 1; }
 
 /* FEEDBACK */
 .system-notice-header { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-1); font-weight: var(--font-weight-semibold); }
@@ -214,6 +214,9 @@ html[data-theme="dark"] .modal { background: rgb(0 0 0 / .68); }
 
 /* FINAL COMPONENT POLISH */
 .form-control, .select-control, .form-input-text, .form-select, .form-textarea { box-sizing: border-box; width: 100%; min-height: 40px; padding: 0 12px; border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface); color: var(--theme-text); font: inherit; font-size: 12px; transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease; }
+.fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]), .fc-form select, .fc-form textarea { box-sizing: border-box; min-height: 40px; border-radius: var(--radius-control); font-size: 12px; }
+.fc-form textarea { min-height: 88px; padding-block: 10px; }
+.fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus, .fc-form select:focus, .fc-form textarea:focus { border-color: var(--role-color-500); outline: none; box-shadow: 0 0 0 3px var(--role-color-100); }
 .form-control::placeholder, .select-control::placeholder, .form-input-text::placeholder, .form-textarea::placeholder { color: var(--theme-text-muted); opacity: .8; }
 .form-control:hover, .select-control:hover, .form-input-text:hover, .form-select:hover, .form-textarea:hover { border-color: var(--role-color-300); }
 .form-control:focus, .select-control:focus, .form-input-text:focus, .form-select:focus, .form-textarea:focus, .form-control:focus-visible, .select-control:focus-visible, .form-input-text:focus-visible, .form-select:focus-visible, .form-textarea:focus-visible { border-color: var(--role-color-500); outline: none; box-shadow: 0 0 0 3px var(--role-color-100); }
