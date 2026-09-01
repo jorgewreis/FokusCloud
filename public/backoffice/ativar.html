@@ -1,2 +1,22 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Ativar acesso | Fokus Cloud</title><link rel="stylesheet" href="/backoffice/assets/css/main.css"><style>body{min-height:100vh;display:grid;place-items:center;background:#eef2f7;margin:0;font-family:Arial,sans-serif}main{width:min(420px,calc(100% - 32px));background:#fff;border:1px solid #d9e0e8;padding:32px;box-sizing:border-box}label{display:block;margin:16px 0 6px;font-weight:600}input,button{width:100%;box-sizing:border-box;min-height:42px;padding:10px;font:inherit}input{border:1px solid #aab6c3}button{border:0;background:#155eef;color:#fff;font-weight:700;margin-top:22px}#message{color:#a12b2b}</style></head><body><main><h1>Ativar acesso interno</h1><form id="activation"><label for="password">Nova senha</label><input id="password" name="password" type="password" minlength="12" required><label for="password_confirmation">Confirme a senha</label><input id="password_confirmation" name="password_confirmation" type="password" minlength="12" required><button>Ativar conta</button></form><p id="message" role="alert"></p></main><script src="/assets/js/api-client.js"></script><script>const form=document.querySelector('#activation'),message=document.querySelector('#message'),token=new URLSearchParams(location.search).get('token');form.addEventListener('submit',async event=>{event.preventDefault();try{const data=await FokusApi.request('/backoffice/auth/activate-invitation',{method:'POST',body:{...Object.fromEntries(new FormData(form)),token}});message.style.color='#176b3a';message.textContent=data.message;setTimeout(()=>location.replace('/backoffice/acesso'),1200)}catch(error){message.textContent=error.message||'Não foi possível ativar a conta.'}})</script></body></html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Ativar acesso | Fokus Cloud</title><link rel="stylesheet" href="/backoffice/assets/css/main.css"></head>
+<body class="auth-shell" data-theme="light" data-role="admin">
+  <main class="auth-panel">
+    <header class="stack stack-sm"><h1 class="text-heading-2">Ativar acesso interno</h1><p class="text-body text-muted">Defina uma senha segura para concluir seu convite.</p></header>
+    <form class="stack" id="activation" novalidate>
+      <div class="form-field"><label class="form-label form-label-required" for="password">Nova senha</label><input class="form-input-text" id="password" name="password" type="password" minlength="12" autocomplete="new-password" required><small class="form-help" id="password-help">Use pelo menos 12 caracteres.</small></div>
+      <div class="form-field"><label class="form-label form-label-required" for="password_confirmation">Confirme a senha</label><input class="form-input-text" id="password_confirmation" name="password_confirmation" type="password" minlength="12" autocomplete="new-password" aria-describedby="password-help" required></div>
+      <div class="form-actions"><button class="submit" type="submit">Ativar conta</button></div>
+    </form>
+    <div class="system-notice" id="message" role="alert" aria-live="polite" aria-atomic="true"></div>
+  </main>
+  <script src="/assets/js/api-client.js"></script>
+  <script>
+    const form = document.querySelector("#activation");
+    const message = document.querySelector("#message");
+    const token = new URLSearchParams(location.search).get("token");
+    form.addEventListener("submit", async (event) => { event.preventDefault(); if (!form.checkValidity()) { form.reportValidity(); return; } try { const data = await FokusApi.request("/backoffice/auth/activate-invitation", { method: "POST", body: { ...Object.fromEntries(new FormData(form)), token } }); message.dataset.tone = "success"; message.textContent = data.message; setTimeout(() => location.replace("/backoffice/acesso"), 1200); } catch (error) { message.dataset.tone = "danger"; message.textContent = error.message || "Nao foi possivel ativar a conta."; } });
+  </script>
+</body>
+</html>

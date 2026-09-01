@@ -1,14 +1,18 @@
-<section class="container-content-inner">
-    <div class="d-flex justify-between align-center">
-        <div>
-            <h1 class="title">Seguranca e perfis</h1>
-            <p class="text-body text-muted">Contas internas, papeis e eventos de acesso.</p>
-        </div>
+<section class="security-page d-flex col">
+    <div class="col gap-3 mb-3">
+        <h1 class="text-display-4">Seguranca e perfis</h1>
+        <p class="text-heading-5 text-muted">Gerencie contas internas, papeis e eventos de acesso do Backoffice.</p>
+    </div>
+
+    <hr>
+
+    <div class="form-actions">
         <button class="button" id="invite-admin" type="button">
             <img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt="">
             Convidar administrador
         </button>
     </div>
+
     <div class="system-notice" id="security-message" hidden></div>
     <div class="table-panel">
         <table class="data-table">
@@ -17,12 +21,14 @@
         </table>
     </div>
     <dialog id="invite-dialog">
-        <form class="form-panel" id="invite-form" method="dialog">
-            <h2 class="text-heading-2">Convidar administrador</h2>
-            <div class="form-field"><label for="admin-name">Nome</label><input class="form-input-text" id="admin-name" name="name" required></div>
-            <div class="form-field"><label for="admin-email">E-mail</label><input class="form-input-text" id="admin-email" name="email" type="email" required></div>
-            <div class="form-field"><label for="admin-role">Perfil</label><select class="form-select" id="admin-role" name="role" required><option value="administrador_comercial">Administrador comercial</option><option value="superadministrador">Superadministrador</option></select></div>
-            <div class="form-actions"><button class="button" type="submit">Enviar convite</button><button class="button button-secondary" id="close-invite" type="button">Cancelar</button></div>
+        <form class="card card-static form-panel" id="invite-form" method="dialog">
+            <div class="title">Convidar administrador</div>
+            <div class="content stack m-3">
+                <div class="form-field"><label for="admin-name">Nome</label><input class="form-input-text" id="admin-name" name="name" required></div>
+                <div class="form-field"><label for="admin-email">E-mail</label><input class="form-input-text" id="admin-email" name="email" type="email" required></div>
+                <div class="form-field"><label for="admin-role">Perfil</label><select class="form-select" id="admin-role" name="role" required><option value="administrador_comercial">Administrador comercial</option><option value="superadministrador">Superadministrador</option></select></div>
+                <div class="form-actions"><button class="button" type="submit">Enviar convite</button><button class="button button-secondary" id="close-invite" type="button">Cancelar</button></div>
+            </div>
         </form>
     </dialog>
     <script>
@@ -39,7 +45,13 @@
                 try {
                     const [{ admins }, { admin: currentAdmin }] = await Promise.all([api.request("/backoffice/admins"), api.request("/backoffice/auth/me")]);
                     const canManage = (currentAdmin?.permissions || []).includes("platform.security.manage");
-                    body.innerHTML = admins.map((admin) => `<tr><td>${escapeHtml(admin.name)}<br><small class="text-muted">${escapeHtml(admin.email)}</small></td><td>${escapeHtml(admin.role)}</td><td>${escapeHtml(admin.status)}</td><td>${admin.last_login_at ? new Date(admin.last_login_at).toLocaleString("pt-BR") : "-"}</td><td class="voucher-actions">${canManage ? actionButton("block", admin.id, "Bloquear", "Single-Man-Actions-Lock--Streamline-Ultimate.png") : ""}${canManage ? actionButton("unblock", admin.id, "Desbloquear", "Single-Man-Actions-Key--Streamline-Ultimate.png") : ""}${canManage ? actionButton("deactivate", admin.id, "Desativar", "Single-Man-Actions-Block--Streamline-Ultimate.png", true) : ""}</td></tr>`).join("");
+                    body.innerHTML = admins.map((admin) => {
+                        const isBlocked = ["bloqueado", "bloqueio_temporario"].includes(admin.status);
+                        const actions = canManage
+                            ? `${isBlocked ? actionButton("unblock", admin.id, "Desbloquear", "Single-Man-Actions-Key--Streamline-Ultimate.png") : admin.status === "ativo" ? actionButton("block", admin.id, "Bloquear", "Single-Man-Actions-Lock--Streamline-Ultimate.png") : ""}${admin.status !== "desativado" ? actionButton("deactivate", admin.id, "Desativar", "Single-Man-Actions-Block--Streamline-Ultimate.png", true) : ""}`
+                            : "";
+                        return `<tr><td>${escapeHtml(admin.name)}<br><small class="text-muted">${escapeHtml(admin.email)}</small></td><td>${escapeHtml(admin.role)}</td><td>${escapeHtml(admin.status)}</td><td>${admin.last_login_at ? new Date(admin.last_login_at).toLocaleString("pt-BR") : "-"}</td><td class="voucher-actions">${actions}</td></tr>`;
+                    }).join("");
                 } catch (error) { message(error.message || "Nao foi possivel carregar as contas internas.", "danger"); }
             }
             document.querySelector("#invite-admin").addEventListener("click", () => dialog.showModal());

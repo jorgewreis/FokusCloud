@@ -9,6 +9,7 @@ Esta pasta documenta a arquitetura do Fokus Cloud, suas fronteiras, componentes,
 - [Fluxo de identidade e acesso](identity-and-access-flow.md)
 - [Portais e governanca](portals-and-governance.md)
 - [Decisoes arquiteturais](architecture-decisions.md)
+- [Design system de formularios](form-design-system.md)
 
 ## Quando atualizar
 
