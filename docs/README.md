@@ -27,6 +27,7 @@ Sobre essa base, produtos derivados podem evoluir por modulos independentes:
 | [`07-security`](07-security/README.md) | Seguranca, privacidade, LGPD, ameacas, requisitos e controles. |
 | [`08-commercial`](08-commercial/README.md) | Catalogo comercial, planos, precos, vouchers, ofertas e assinatura. |
 | [`09-operations`](09-operations/README.md) | Ambientes, deploy, qualidade, testes, releases, monitoramento e operacao. |
+| [`10-releases`](10-releases/README.md) | Pacotes de entrega por versao, marcos, checklists, aceite e homologacao. |
 
 ## Documentos de partida
 
@@ -45,6 +46,7 @@ Sobre essa base, produtos derivados podem evoluir por modulos independentes:
 - [Seguranca e dados](07-security/security-and-data.md)
 - [Catalogo comercial](08-commercial/catalog.md)
 - [Ambientes e deploy](09-operations/environments-and-deploy.md)
+- [Release 0.1 - Backoffice Admin](10-releases/v0.1-admin-backoffice/README.md)
 
 ## Principios centrais
 

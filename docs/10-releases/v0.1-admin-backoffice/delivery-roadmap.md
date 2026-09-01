@@ -1,0 +1,46 @@
+# Roadmap de entrega da release 0.1
+
+## Sequencia de marcos
+
+| Marco | Entrega | Dependencias | Saida obrigatoria |
+| --- | --- | --- | --- |
+| 1 | Pacote documental da release (`0.0.1`) | Documentacao existente de produto, requisitos, dados, seguranca, comercial e operacao | Pasta `docs/10-releases/v0.1-admin-backoffice` publicada, rastreada, validada, commitada e tagueada |
+| 2 | Seguranca interna | `platform_admins`, guard `platform`, MFA, auditoria inicial | Login interno, bloqueio rigido e perfis internos testados |
+| 3 | Catalogo administrativo | Produtos, planos, modulos, precos, composicao e publicacao | Planos geridos no Backoffice e catalogo publico sem dados duplicados |
+| 4 | Vouchers/cupons | Catalogo publicado, regras comerciais e snapshots | Vouchers criados, pausados, arquivados e consumidos com snapshot |
+| 5 | Empresas e assinaturas | Empresas, assinaturas, pagamentos e historico | Consulta comercial e acoes controladas sobre assinatura |
+| 6 | Billing sandbox | Credenciais sandbox Mercado Pago, webhooks, pagamentos e recorrencia | Fluxo sandbox executavel e divergencias conciliaveis |
+| 7 | Dashboard, alertas e auditoria | Eventos auditaveis, dados comerciais e financeiros | Painel operacional e filas de alerta para homologacao |
+| 8 | Estabilizacao e release | Testes, homologacao e notas de release | Checklist assinado e release `0.1` registrada |
+
+## Regras de execucao
+
+- O Marco 1 e uma release documental propria: `v0.0.1`.
+- Cada marco deve atualizar testes e documentacao afetada antes de ser marcado
+  como concluido.
+- A [matriz de rastreabilidade](traceability-matrix.md) deve ser atualizada
+  quando qualquer marco mudar escopo, aceite ou teste.
+- Nenhuma acao sensivel pode depender apenas de controle visual no frontend.
+- Catalogo publico e checkout devem consumir dados publicados pelo backend.
+- Mercado Pago sandbox deve ser validado com webhook assinado ou mecanismo
+  equivalente de ambiente de testes.
+- Pendencias podem seguir para versao posterior apenas se forem registradas em
+  [decisoes abertas](open-decisions.md) como nao bloqueantes.
+
+## Ordem recomendada
+
+1. Completar migrations e modelos de seguranca, auditoria e billing.
+2. Implementar autorizacao por perfil interno no backend.
+3. Completar APIs de Backoffice antes de finalizar telas.
+4. Ligar telas reais aos endpoints, removendo fallbacks de mock quando houver
+   autenticacao.
+5. Implementar Mercado Pago sandbox e conciliacao.
+6. Fechar dashboard, alertas e auditoria.
+7. Rodar testes automatizados e homologacao guiada.
+
+## Marco 1 - entrega documental 0.0.1
+
+O Marco 1 esta concluido quando os criterios de
+[Definition of Done](definition-of-done.md) estiverem atendidos e o
+[checklist de revisao documental](documentation-review-checklist.md) estiver
+versionado.
