@@ -11,6 +11,8 @@
 }
 
 .showcase-progress-list { display: grid; gap: 18px; padding-top: 4px; }
+.showcase .filter-chip .icon-button,
+.showcase .filter-chip .icon-button-close { width: 18px; height: 18px; min-height: 18px; padding: 0; font-size: 12px; }
 .showcase-skeleton-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .showcase-skeleton-grid > * { min-width: 0; }
 @media (max-width: 760px) { .showcase-skeleton-grid { grid-template-columns: 1fr; } }
