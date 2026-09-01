@@ -19,7 +19,7 @@
             <tbody id="admins-body"></tbody>
         </table>
     </div>
-    <div id="invite-dialog" role="dialog" aria-modal="false" aria-labelledby="invite-dialog-title" aria-hidden="true">
+    <div id="invite-dialog" hidden role="dialog" aria-modal="false" aria-labelledby="invite-dialog-title" aria-hidden="true">
         <form class="fc-form dialog-panel card card-static form-panel invite-admin-card" id="invite-form" novalidate>
             <div class="title dialog-header" id="invite-dialog-title">Convidar administrador</div>
             <div class="content dialog-content stack m-3">
@@ -36,8 +36,8 @@
             const body = document.querySelector("#admins-body");
             const notice = document.querySelector("#security-message");
             const dialog = document.querySelector("#invite-dialog");
-            const openDialog = () => { dialog.classList.add("is-open"); dialog.setAttribute("aria-hidden", "false"); dialog.setAttribute("aria-modal", "true"); document.querySelector("#admin-name").focus(); };
-            const closeDialog = () => { dialog.classList.remove("is-open"); dialog.setAttribute("aria-hidden", "true"); dialog.setAttribute("aria-modal", "false"); };
+            const openDialog = () => { dialog.hidden = false; requestAnimationFrame(() => dialog.classList.add("is-open")); dialog.setAttribute("aria-hidden", "false"); dialog.setAttribute("aria-modal", "true"); document.querySelector("#admin-name").focus(); };
+            const closeDialog = () => { dialog.classList.remove("is-open"); dialog.setAttribute("aria-hidden", "true"); dialog.setAttribute("aria-modal", "false"); window.setTimeout(() => { if (!dialog.classList.contains("is-open")) dialog.hidden = true; }, 180); };
             const iconBasePath = "/backoffice/assets/icons/";
             const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (character) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[character]);
             const message = (text, tone = "info") => { notice.hidden = false; notice.dataset.tone = tone; notice.textContent = text; };
