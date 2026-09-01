@@ -5,6 +5,31 @@
     margin: var(--space-3);
 }
 
+.security-page > .col:first-child h1 {
+    color: var(--role-color-500);
+}
+
+.security-page #invite-admin {
+    background-color: var(--role-color-500);
+    color: var(--role-contrast);
+}
+
+.security-page #invite-admin:hover,
+.security-page #invite-admin:focus-visible {
+    background-color: var(--role-color-600);
+}
+
+.security-page #security-message[data-tone="info"],
+.security-page #security-message[data-tone="danger"] {
+    border-color: var(--role-color-500);
+    background-color: var(--role-color-050);
+    color: var(--role-color-800);
+}
+
+.security-page #invite-dialog .dialog-panel {
+    border-top: 3px solid var(--role-color-500);
+}
+
 .form-panel {
     /* LAYOUT */
     width: 100%;
