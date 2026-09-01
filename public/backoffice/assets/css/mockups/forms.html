@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../main.css">
 </head>
 <body data-theme="light" data-role="admin">
-    <main class="container-mockup p-4">
+    <main class="container-mockup p-4 fc-form">
         <header class="stack stack-sm mb-4">
             <span class="text-overline text-muted">Design system</span>
             <h1 class="text-display-4">Formularios</h1>
@@ -36,16 +36,35 @@
                 <div class="form-field"><label class="form-label" for="demo-search">Busca</label><div class="input-group"><input class="form-input-text" id="demo-search" type="search" placeholder="Pesquisar"><button class="button button-secondary" type="button">Buscar</button></div></div>
                 <div class="form-field"><label class="form-label" for="demo-range">Retencao <output class="range-value" id="demo-range-value">180 dias</output></label><input class="form-range" id="demo-range" type="range" min="30" max="365" value="180"><small class="form-help">Entre 30 e 365 dias.</small></div>
                 <div class="form-field is-loading"><label class="form-label" for="demo-loading">Carregando</label><input class="form-input-text" id="demo-loading" type="text" value="Consultando..." readonly></div>
+                <div class="form-field"><label class="form-label" for="demo-file">Arquivo</label><input class="form-file" id="demo-file" type="file" accept=".pdf,.doc,.docx"><small class="form-help">PDF ou DOCX, ate 10 MB.</small></div>
                 <div class="form-field"><label class="form-label" for="demo-notes">Observacoes</label><textarea class="form-textarea" id="demo-notes" placeholder="Escreva uma observacao"></textarea></div>
-                <div class="form-actions"><button class="submit" type="button">Salvar</button><button class="button button-secondary" type="button">Limpar</button><button class="button button-danger" type="button">Excluir</button></div>
+                <div class="form-actions"><button class="submit" type="button">Salvar</button><button class="button button-secondary" type="button">Limpar</button><button class="button button-danger" type="button">Excluir</button><button class="button is-loading" type="button" disabled>Processando</button></div>
                 <div class="system-notice" data-tone="success" role="status">Formulario salvo com sucesso.</div>
             </div></article>
+        </section>
+        <section class="card card-static mt-4">
+            <div class="title">Matriz de estados</div>
+            <div class="content m-3">
+                <div class="table-panel">
+                    <table class="data-table" aria-label="Matriz visual de estados dos formularios">
+                        <thead><tr><th>Componente</th><th>Normal</th><th>Foco</th><th>Erro</th><th>Sucesso</th><th>Desabilitado</th><th>Loading</th></tr></thead>
+                        <tbody>
+                            <tr><td>Input</td><td>Base</td><td>Ring de foco</td><td>Borda + mensagem</td><td>Borda confirmada</td><td>Superficie alternativa</td><td>Spinner</td></tr>
+                            <tr><td>Select</td><td>Base</td><td>Ring de foco</td><td>Mensagem associada</td><td>Confirmado</td><td>Bloqueado</td><td>Carregando opcoes</td></tr>
+                            <tr><td>Checkbox/radio</td><td>Opcao</td><td>Foco visivel</td><td>Grupo destacado</td><td>Grupo confirmado</td><td>Sem interacao</td><td>Nao aplicavel</td></tr>
+                            <tr><td>Acao</td><td>Botao</td><td>Ring de foco</td><td>Perigosa</td><td>Confirmada</td><td>Opacidade reduzida</td><td>Spinner e bloqueio</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
     </main>
     <script>
         const range = document.querySelector("#demo-range");
         const output = document.querySelector("#demo-range-value");
-        range.addEventListener("input", () => { output.value = `${range.value} dias`; output.textContent = `${range.value} dias`; });
+        const syncRange = () => { const percent = ((range.value - range.min) / (range.max - range.min)) * 100; range.style.setProperty("--range-progress", `${percent}%`); output.value = `${range.value} dias`; output.textContent = `${range.value} dias`; };
+        range.addEventListener("input", syncRange);
+        syncRange();
     </script>
 </body>
 </html>

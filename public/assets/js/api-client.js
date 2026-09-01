@@ -21,7 +21,10 @@ window.FokusApi = (() => {
       const validationMessage = payload?.errors
         ? Object.values(payload.errors).flat().find(Boolean)
         : null;
-      throw new Error(validationMessage || payload?.message || 'Não foi possível concluir a solicitação.');
+      const error = new Error(validationMessage || payload?.message || 'Não foi possível concluir a solicitação.');
+      error.errors = payload?.errors || {};
+      error.payload = payload;
+      throw error;
     }
     return payload;
   }

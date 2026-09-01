@@ -1,0 +1,99 @@
+(function (window, document) {
+    "use strict";
+
+    const controls = "input, select, textarea";
+
+    function getField(form, name) {
+        return form.querySelector(`[name="${CSS.escape(name)}"]`);
+    }
+
+    function feedbackId(field) {
+        return `${field.id || field.name}-error`;
+    }
+
+    function clearField(field) {
+        document.getElementById(feedbackId(field))?.remove();
+        field.removeAttribute("aria-invalid");
+        field.removeAttribute("aria-describedby");
+        field.closest(".form-field")?.classList.remove("is-invalid", "is-valid");
+    }
+
+    function setFeedback(field, message, type = "error") {
+        if (!field) return;
+        clearField(field);
+        const feedback = document.createElement("small");
+        feedback.id = feedbackId(field);
+        feedback.className = `form-${type}`;
+        feedback.setAttribute("role", type === "error" ? "alert" : "status");
+        feedback.textContent = message;
+        field.insertAdjacentElement("afterend", feedback);
+        field.setAttribute("aria-invalid", type === "error" ? "true" : "false");
+        field.setAttribute("aria-describedby", feedback.id);
+        field.closest(".form-field")?.classList.add(type === "error" ? "is-invalid" : "is-valid");
+    }
+
+    function clearSummary(form) { form.querySelector(".form-error-summary")?.remove(); }
+
+    function renderSummary(form, errors) {
+        clearSummary(form);
+        const entries = Object.entries(errors).filter(([, message]) => message);
+        if (!entries.length) return;
+        const summary = document.createElement("div");
+        summary.className = "form-error-summary";
+        summary.setAttribute("role", "alert");
+        summary.innerHTML = "<strong>Revise os campos destacados.</strong>";
+        const list = document.createElement("ul");
+        entries.forEach(([name, message]) => {
+            const field = getField(form, name);
+            const item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = field?.id ? `#${field.id}` : "#";
+            link.textContent = message;
+            item.appendChild(link);
+            list.appendChild(item);
+        });
+        summary.appendChild(list);
+        form.prepend(summary);
+    }
+
+    function validate(form) {
+        const errors = {};
+        form.classList.add("is-validated");
+        form.querySelectorAll(controls).forEach((field) => {
+            clearField(field);
+            if (!field.checkValidity()) {
+                errors[field.name || field.id] = field.validationMessage;
+                setFeedback(field, field.validationMessage);
+            }
+        });
+        renderSummary(form, errors);
+        form.querySelector('[aria-invalid="true"]')?.focus();
+        return Object.keys(errors).length === 0;
+    }
+
+    function mapServerErrors(form, errors) {
+        const normalized = {};
+        Object.entries(errors || {}).forEach(([name, messages]) => {
+            const message = Array.isArray(messages) ? messages[0] : messages;
+            if (!message) return;
+            normalized[name] = message;
+            setFeedback(getField(form, name), message);
+        });
+        renderSummary(form, normalized);
+        form.querySelector('[aria-invalid="true"]')?.focus();
+    }
+
+    function setLoading(form, loading, button = form.querySelector("button[type=submit]")) {
+        form.toggleAttribute("aria-busy", loading);
+        button?.classList.toggle("is-loading", loading);
+        if (button) button.disabled = loading;
+    }
+
+    function clear(form) {
+        clearSummary(form);
+        form.classList.remove("is-validated");
+        form.querySelectorAll(controls).forEach(clearField);
+    }
+
+    window.FokusForm = { clear, clearField, mapServerErrors, setFeedback, setLoading, validate };
+})(window, document);

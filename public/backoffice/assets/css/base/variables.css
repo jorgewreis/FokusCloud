@@ -8,6 +8,27 @@
     --space-5: 32px;
     --space-6: 40px;
 
+    /* FORM CONTROLS */
+    --form-control-height: 36px;
+    --form-control-min-height: 36px;
+    --form-control-padding-x: 10px;
+    --form-control-radius: 2px;
+    --form-control-border: var(--theme-border-alt);
+    --form-control-focus-border: var(--role-color-400);
+    --form-control-focus-ring: var(--role-color-100);
+    --form-control-disabled-opacity: 0.75;
+    --form-control-gap: 8px;
+    --form-feedback-size: 10px;
+    --form-feedback-error-border: var(--color-red-600);
+    --form-feedback-error-background: var(--color-red-050);
+    --form-feedback-error-text: var(--color-red-800);
+    --form-feedback-success-border: var(--color-green-600);
+    --form-feedback-success-background: var(--color-green-050);
+    --form-feedback-success-text: var(--color-green-800);
+    --form-feedback-warning-border: var(--color-yellow-600);
+    --form-feedback-warning-background: var(--color-yellow-050);
+    --form-feedback-warning-text: var(--color-yellow-800);
+
     /* BREAKPOINTS */
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;

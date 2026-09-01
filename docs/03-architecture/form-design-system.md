@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este documento define o contrato visual e semantico compartilhado para formularios do FokusCloud. Paginas funcionais e mockups devem carregar o `main.css` do dominio e reutilizar os componentes de `components/form.css`.
+Este documento define o contrato visual e semantico compartilhado para formularios do FokusCloud. Paginas funcionais e mockups devem carregar o `main.css` do dominio e reutilizar os componentes de `components/form.css`. A classe-raiz `.fc-form` delimita o alcance dos estilos de controles.
 
 O modelo foi inspirado nos padroes oficiais de formularios e estados de [Bootstrap](https://getbootstrap.com/docs/5.1/forms/overview/), [Tailwind CSS](https://tailwindcss.com/docs/hover-focus-and-other-states) e [Bulma](https://bulma.io/documentation/form/), sem adicionar esses frameworks como dependencias.
 
@@ -29,6 +29,9 @@ O modelo foi inspirado nos padroes oficiais de formularios e estados de [Bootstr
 | Grupo | `input-group`, `input-group-addon` | Prefixos, sufixos, unidades e botoes. |
 | Mensagens | `form-error`, `form-success`, `form-warning`, `system-notice` | Feedback de campo e formulario. |
 | Acoes | `form-actions`, `submit`, `button`, `button-secondary`, `button-danger`, `button-ghost` | Comandos do formulario. |
+| Dialogo | `dialog-panel`, `dialog-header`, `dialog-content`, `dialog-actions` | Formularios em dialogos e confirmacoes. |
+
+A raiz `.fc-form` escopa os controles nativos. O comportamento compartilhado fica em `backoffice/assets/js/form-system.js`, com `FokusForm.validate`, `FokusForm.mapServerErrors`, `FokusForm.setFeedback`, `FokusForm.setLoading` e `FokusForm.clear`.
 
 ## Estados
 
@@ -81,6 +84,12 @@ Use `form-grid` e `form-line` para composicoes de formulario. Colunas devem cair
 - Nao exponha senha, token, codigo MFA ou payload sensivel em mensagens, HTML ou logs.
 - Foco visivel deve permanecer presente em todos os controles interativos.
 - Animacoes devem respeitar `prefers-reduced-motion`.
+- Botoes em processamento usam `is-loading`, ficam desabilitados e preservam um texto acessivel.
+- Respostas Laravel com `errors` devem ser mapeadas para os campos e tambem aparecer no resumo geral.
+
+## Tokens
+
+Dimensoes recorrentes devem usar os tokens `--form-control-height`, `--form-control-padding-x`, `--form-control-radius`, `--form-control-border`, `--form-control-focus-border`, `--form-control-focus-ring` e `--form-control-gap` definidos em `base/variables.css`.
 
 ## Matriz de tipos
 
@@ -95,6 +104,18 @@ Use `form-grid` e `form-line` para composicoes de formulario. Colunas devem cair
 | `radio` | `form-radio-input` | Agrupe em `fieldset` e `form-radio-group`. |
 | `range` | `form-range` | Mostre valor atual e limites de forma textual. |
 
+## Checklist de contrato
+
+| Verificacao | Resultado esperado |
+| --- | --- |
+| Raiz | Todo formulario do Backoffice usa `.fc-form`. |
+| Controle | Inputs, selects e textareas ficam dentro de `.fc-form` ou usam classe de componente. |
+| Label | Cada controle tem `label`, `aria-label` ou pertence a `fieldset` com `legend`. |
+| Erro | Campo recebe `aria-invalid`, mensagem vinculada e resumo quando houver falha. |
+| Loading | Formulario fica `aria-busy`, botao de envio fica desabilitado e exibe spinner. |
+| CSS | Nenhuma pagina ou mockup cria `style` ou `<style>` para componentes de formulario. |
+| Mockup | A matriz de estados permanece atualizada em `mockups/forms.html`. |
+
 ## Governanca
 
-Qualquer novo controle deve ser adicionado ao CSS compartilhado, documentado neste arquivo e demonstrado em [forms.html](../../public/backoffice/assets/css/mockups/forms.html). Nao criar CSS paralelo em paginas ou mockups. Uma alteracao visual global exige revisao das paginas consumidoras e validacao desktop, tablet e celular.
+Qualquer novo controle deve ser adicionado ao CSS compartilhado, documentado neste arquivo e demonstrado em [forms.html](../../public/backoffice/assets/css/mockups/forms.html). Nao criar CSS paralelo em paginas ou mockups. Uma alteracao visual global exige revisao das paginas consumidoras e validacao desktop, tablet e celular. A matriz visual do mockup deve ser atualizada junto com novos estados.

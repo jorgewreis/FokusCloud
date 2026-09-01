@@ -1,115 +1,3 @@
-<style>
-.plan-page .form-panel,
-.plan-page .form-panel > .col {
-    width: 100%;
-}
-
-.plan-order-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.plan-order-input {
-    width: 64px;
-    min-width: 64px;
-}
-
-.plan-page {
-    width: calc(100% - 35px);
-    margin: var(--space-3);
-}
-
-    .plan-page .form-line {
-        display: grid !important;
-        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-        align-items: end !important;
-        gap: 20px 24px !important;
-        width: 100% !important;
-        max-width: none !important;
-        margin-top: 20px !important;
-    }
-
-    .plan-page .form-line > .form-field {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-
-    .plan-page .form-line > .w-1 {
-        grid-column: span 1 !important;
-    }
-
-    .plan-page .form-line > .w-2 {
-        grid-column: span 2 !important;
-    }
-
-    .plan-page .form-line > .w-3 {
-        grid-column: span 3 !important;
-    }
-
-    .plan-page .form-line > .w-4 {
-        grid-column: span 4 !important;
-    }
-
-    .plan-page .form-line > .w-5 {
-        grid-column: span 5 !important;
-    }
-
-    .plan-page .form-line > .w-6 {
-        grid-column: span 6 !important;
-    }
-
-    .plan-page .form-line > .w-7 {
-        grid-column: span 7 !important;
-    }
-
-    .plan-page .form-line > .w-8 {
-        grid-column: span 8 !important;
-    }
-
-    .plan-page .form-line > .w-9 {
-        grid-column: span 9 !important;
-    }
-
-    @media (max-width: 980px) {
-        .plan-page .form-line {
-            grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-        }
-
-        .plan-page .form-line > .w-1,
-        .plan-page .form-line > .w-2 {
-            grid-column: span 1 !important;
-        }
-
-        .plan-page .form-line > .w-3,
-        .plan-page .form-line > .w-4,
-        .plan-page .form-line > .w-5,
-        .plan-page .form-line > .w-6,
-        .plan-page .form-line > .w-7,
-        .plan-page .form-line > .w-8,
-        .plan-page .form-line > .w-9 {
-            grid-column: span 3 !important;
-        }
-    }
-
-    @media (max-width: 640px) {
-        .plan-page .form-line {
-            grid-template-columns: 1fr !important;
-        }
-
-        .plan-page .form-line > .w-1,
-        .plan-page .form-line > .w-2,
-        .plan-page .form-line > .w-3,
-        .plan-page .form-line > .w-4,
-        .plan-page .form-line > .w-5,
-        .plan-page .form-line > .w-6,
-        .plan-page .form-line > .w-7,
-        .plan-page .form-line > .w-8,
-        .plan-page .form-line > .w-9 {
-            grid-column: 1 / -1 !important;
-        }
-    }
-</style>
 
 <div class="plan-page d-flex col">
 
@@ -118,22 +6,22 @@
         <p class="text-heading-5 text-muted">Cadastre e organize os planos comerciais do catálogo. Todo plano começa em rascunho de publicação.</p>
     </div>
 
-    <hr style="width: 100%;">
+    <hr>
 
-    <form class="form-panel" id="plan-form">
+    <form class="fc-form form-panel" id="plan-form">
         <div class="col">
             <div class="form-line">
-                <div class="form-field w-6" style="width: 100%; min-width: 0; grid-column: span 6;">
+                <div class="form-field w-6">
                     <label for="plan-name">Nome-base do plano</label>
                     <input id="plan-name" name="base_name" type="text" autocomplete="off" placeholder="Advocacia, Essencial, Premium" required>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="plan-code">Código</label>
                     <input id="plan-code" name="code" type="text" placeholder="law-essencial" autocomplete="off" readonly required>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="plan-system">Sistema principal</label>
                     <select id="plan-system" name="system" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -145,29 +33,29 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                <div class="form-field w-4">
                     <label for="plan-monthly">Valor mensal</label>
                     <input id="plan-monthly" name="monthly_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" required>
                 </div>
 
-                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                <div class="form-field w-4">
                     <label for="plan-annual">Valor anual</label>
                     <input id="plan-annual" name="annual_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
                 </div>
 
-                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                <div class="form-field w-4">
                     <label for="plan-order">Ordem inicial</label>
                     <input id="plan-order" name="display_order" type="number" min="1" step="1" value="1" readonly>
                 </div>
             </div>
 
             <div class="form-line">
-                <div class="form-field w-6" style="width: 100%; min-width: 0; grid-column: span 6;">
+                <div class="form-field w-6">
                     <label for="plan-technical-description">Descrição técnica</label>
                     <textarea id="plan-technical-description" name="technical_description" placeholder="Regras do plano, limites, dependências e composição técnica"></textarea>
                 </div>
 
-                <div class="form-field w-6" style="width: 100%; min-width: 0; grid-column: span 6;">
+                <div class="form-field w-6">
                     <label for="plan-commercial-content">Conteúdo comercial</label>
                     <textarea id="plan-commercial-content" name="commercial_content" placeholder="Texto de oferta, benefícios e mensagem exibida ao cliente"></textarea>
                 </div>
@@ -540,8 +428,11 @@
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
+            if (window.FokusForm && !FokusForm.validate(form)) return;
+            FokusForm?.setLoading(form, true);
 
-            const payload = {
+            try {
+                const payload = {
                 base_name: name.value.trim(),
                 name: `${getSystemLabel(system.value)} - ${name.value.trim()}`,
                 code: code.value.trim() || normalizeCode(),
@@ -555,19 +446,17 @@
                 display_order: (Math.max(...planRows.map((plan) => Number(plan.display_order || 0))) || 0) + 1,
             };
 
-            if (standalone) {
                 await api.request("/backoffice/plans", { method: "POST", body: payload });
-            } else {
-                await api.request("/backoffice/plans", { method: "POST", body: payload });
-            }
-            setMessage("Plano cadastrado com sucesso.", "success");
-            form.reset();
-            code.value = "";
-            annual.value = "";
-            if (!standalone) {
+                setMessage("Plano cadastrado com sucesso.", "success");
+                form.reset();
+                code.value = "";
+                annual.value = "";
                 await loadPlans();
-            } else {
-                await loadPlans();
+            } catch (error) {
+                FokusForm?.mapServerErrors(form, error.errors);
+                setMessage(error.message || "Nao foi possivel salvar o plano.", "danger");
+            } finally {
+                FokusForm?.setLoading(form, false);
             }
         });
 

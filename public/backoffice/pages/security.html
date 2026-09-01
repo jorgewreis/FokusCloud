@@ -6,11 +6,10 @@
 
     <hr>
 
-    <div class="form-actions">
-        <button class="button" id="invite-admin" type="button">
-            <img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt="">
-            Convidar administrador
-        </button>
+    <div class="form-panel">
+        <div class="form-actions">
+            <button class="button" id="invite-admin" type="button">Convidar administrador</button>
+        </div>
     </div>
 
     <div class="system-notice" id="security-message" hidden></div>
@@ -21,9 +20,9 @@
         </table>
     </div>
     <dialog id="invite-dialog">
-        <form class="card card-static form-panel" id="invite-form" method="dialog">
-            <div class="title">Convidar administrador</div>
-            <div class="content stack m-3">
+        <form class="fc-form dialog-panel card card-static form-panel" id="invite-form" method="dialog">
+            <div class="title dialog-header">Convidar administrador</div>
+            <div class="content dialog-content stack m-3">
                 <div class="form-field"><label for="admin-name">Nome</label><input class="form-input-text" id="admin-name" name="name" required></div>
                 <div class="form-field"><label for="admin-email">E-mail</label><input class="form-input-text" id="admin-email" name="email" type="email" required></div>
                 <div class="form-field"><label for="admin-role">Perfil</label><select class="form-select" id="admin-role" name="role" required><option value="administrador_comercial">Administrador comercial</option><option value="superadministrador">Superadministrador</option></select></div>
@@ -56,7 +55,7 @@
             }
             document.querySelector("#invite-admin").addEventListener("click", () => dialog.showModal());
             document.querySelector("#close-invite").addEventListener("click", () => dialog.close());
-            document.querySelector("#invite-form").addEventListener("submit", async (event) => { event.preventDefault(); try { const data = await api.request("/backoffice/admins/invitations", { method: "POST", body: Object.fromEntries(new FormData(event.currentTarget)) }); dialog.close(); event.currentTarget.reset(); message(data.message, "success"); load(); } catch (error) { message(error.message || "Nao foi possivel enviar o convite.", "danger"); } });
+            document.querySelector("#invite-form").addEventListener("submit", async (event) => { event.preventDefault(); const form = event.currentTarget; if (window.FokusForm && !FokusForm.validate(form)) return; FokusForm?.setLoading(form, true); try { const data = await api.request("/backoffice/admins/invitations", { method: "POST", body: Object.fromEntries(new FormData(form)) }); dialog.close(); form.reset(); message(data.message, "success"); load(); } catch (error) { FokusForm?.mapServerErrors(form, error.errors); message(error.message || "Nao foi possivel enviar o convite.", "danger"); } finally { FokusForm?.setLoading(form, false); } });
             body.addEventListener("click", async (event) => { const button = event.target.closest("button[data-action]"); if (!button) return; const reason = prompt("Informe o motivo desta acao:"); if (!reason) return; try { const data = await api.request(`/backoffice/admins/${button.dataset.id}/${button.dataset.action}`, { method: "POST", body: { reason } }); message(data.message, "success"); load(); } catch (error) { message(error.message || "Acao nao permitida.", "danger"); } });
             load();
         })();

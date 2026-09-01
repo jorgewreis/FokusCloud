@@ -1,99 +1,3 @@
-<style>
-    .voucher-page .form-panel,
-    .voucher-page .form-panel > .col {
-        width: 100%;
-    }
-
-    .voucher-page .form-line {
-        display: grid !important;
-        grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-        align-items: end !important;
-        gap: 20px 24px !important;
-        width: 100% !important;
-        max-width: none !important;
-        margin-top: 20px !important;
-    }
-
-    .voucher-page .form-line > .form-field {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-
-    .voucher-page .form-line > .w-1 {
-        grid-column: span 1 !important;
-    }
-
-    .voucher-page .form-line > .w-2 {
-        grid-column: span 2 !important;
-    }
-
-    .voucher-page .form-line > .w-3 {
-        grid-column: span 3 !important;
-    }
-
-    .voucher-page .form-line > .w-4 {
-        grid-column: span 4 !important;
-    }
-
-    .voucher-page .form-line > .w-5 {
-        grid-column: span 5 !important;
-    }
-
-    .voucher-page .form-line > .w-6 {
-        grid-column: span 6 !important;
-    }
-
-    .voucher-page .form-line > .w-7 {
-        grid-column: span 7 !important;
-    }
-
-    .voucher-page .form-line > .w-8 {
-        grid-column: span 8 !important;
-    }
-
-    .voucher-page .form-line > .w-9 {
-        grid-column: span 9 !important;
-    }
-
-    @media (max-width: 980px) {
-        .voucher-page .form-line {
-            grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-        }
-
-        .voucher-page .form-line > .w-1,
-        .voucher-page .form-line > .w-2 {
-            grid-column: span 1 !important;
-        }
-
-        .voucher-page .form-line > .w-3,
-        .voucher-page .form-line > .w-4,
-        .voucher-page .form-line > .w-5,
-        .voucher-page .form-line > .w-6,
-        .voucher-page .form-line > .w-7,
-        .voucher-page .form-line > .w-8,
-        .voucher-page .form-line > .w-9 {
-            grid-column: span 3 !important;
-        }
-    }
-
-    @media (max-width: 640px) {
-        .voucher-page .form-line {
-            grid-template-columns: 1fr !important;
-        }
-
-        .voucher-page .form-line > .w-1,
-        .voucher-page .form-line > .w-2,
-        .voucher-page .form-line > .w-3,
-        .voucher-page .form-line > .w-4,
-        .voucher-page .form-line > .w-5,
-        .voucher-page .form-line > .w-6,
-        .voucher-page .form-line > .w-7,
-        .voucher-page .form-line > .w-8,
-        .voucher-page .form-line > .w-9 {
-            grid-column: 1 / -1 !important;
-        }
-    }
-</style>
 
 <div class="voucher-page d-flex col">
 
@@ -102,17 +6,17 @@
         <p class="text-heading-5 text-muted">Crie e acompanhe vouchers promocionais.</p>
     </div>
 
-    <hr style="width: 100%;">
+    <hr>
 
-    <form class="form-panel" id="voucher-form">
+    <form class="fc-form form-panel" id="voucher-form">
         <div class="col">
             <div class="form-line">
-                <div class="form-field w-6" style="width: 100%; min-width: 0; grid-column: span 6;">
+                <div class="form-field w-6">
                     <label for="voucher-name">Nome do voucher</label>
                     <input id="voucher-name" name="name" type="text" autocomplete="off" required>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="voucher-code">Código</label>
                     <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
@@ -120,28 +24,28 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-5" style="width: 100%; min-width: 0; grid-column: span 5;">
+                <div class="form-field w-5">
                     <label for="voucher-system">Sistema</label>
                     <select id="voucher-system" name="product_id" required>
                         <option value="" selected disabled>Carregando...</option>
                     </select>
                 </div>
 
-                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                <div class="form-field w-4">
                     <label for="voucher-plans">Planos aplicáveis</label>
                     <select id="voucher-plans" name="plan_id" required disabled>
                         <option value="" selected disabled>Selecione um sistema</option>
                     </select>
                 </div>
 
-                <div class="form-field w-3" id="voucher-base-field" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3" id="voucher-base-field">
                     <label for="voucher-base-value">Valor da assinatura</label>
                     <input id="voucher-base-value" name="base_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
                 </div>
             </div>
 
             <div class="form-line">
-                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                <div class="form-field w-4">
                     <label for="voucher-discount-type">Tipo de desconto</label>
                     <select id="voucher-discount-type" name="discount_mode" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -151,17 +55,17 @@
                     </select>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="voucher-discount-percent">Desconto %</label>
                     <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
                 </div>
 
-                <div class="form-field w-2" id="voucher-discount-value-field" style="width: 100%; min-width: 0; grid-column: span 2;">
+                <div class="form-field w-2" id="voucher-discount-value-field">
                     <label for="voucher-discount-value">Desconto R$</label>
                     <input id="voucher-discount-value" name="discount_value_display" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00">
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="voucher-duration">Duração do benefício após ativação</label>
                     <select id="voucher-duration" name="benefit_duration" required>
                         <option value="" selected disabled>Selecione aqui</option>
@@ -175,17 +79,17 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="voucher-start-date">Início da validade do voucher</label>
                     <input id="voucher-start-date" name="starts_at" type="date" required>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="voucher-end-date">Fim da validade do voucher</label>
                     <input id="voucher-end-date" name="ends_at" type="date" required>
                 </div>
 
-                <div class="form-field w-3" style="width: 100%; min-width: 0; grid-column: span 3;">
+                <div class="form-field w-3">
                     <label for="voucher-total">Quantidade total</label>
                     <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
                 </div>
@@ -197,12 +101,12 @@
             </div>
 
             <div class="form-line">
-                <div class="form-field w-4" style="width: 100%; min-width: 0; grid-column: span 4;">
+                <div class="form-field w-4">
                     <label for="voucher-origin">Campanha/origem</label>
                     <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
                 </div>
 
-                <div class="form-field w-8" style="width: 100%; min-width: 0; grid-column: span 8;">
+                <div class="form-field w-8">
                     <label for="voucher-notes">Observações internas</label>
                     <textarea id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
                 </div>
@@ -601,6 +505,8 @@
 
         async function submitVoucher(event) {
             event.preventDefault();
+            if (window.FokusForm && !FokusForm.validate(form)) return;
+            FokusForm?.setLoading(form, true);
             const values = Object.fromEntries(new FormData(form));
             const discountMode = values.discount_mode;
             const payload = {
@@ -639,7 +545,10 @@
                 await loadVouchers();
                 setMessage("Voucher cadastrado.", "success");
             } catch (error) {
+                FokusForm?.mapServerErrors(form, error.errors);
                 setMessage(error.message, "danger");
+            } finally {
+                FokusForm?.setLoading(form, false);
             }
         }
 

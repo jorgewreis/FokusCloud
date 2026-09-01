@@ -4,25 +4,26 @@
 <body class="auth-shell" data-theme="light" data-role="admin">
   <main class="auth-panel">
     <header class="stack stack-sm"><h1 class="text-heading-2">Fokus Admin</h1><p class="text-body text-muted">Acesso exclusivo para administração interna da plataforma.</p></header>
-    <form class="stack" id="credentials-form" novalidate>
+    <form class="fc-form stack" id="credentials-form">
       <div class="form-field"><label class="form-label form-label-required" for="email">E-mail</label><input class="form-input-text" id="email" name="email" type="email" autocomplete="username" aria-describedby="email-help" required><small class="form-help" id="email-help">Use o e-mail vinculado a sua conta interna.</small></div>
       <div class="form-field"><label class="form-label form-label-required" for="password">Senha</label><input class="form-input-text" id="password" name="password" type="password" autocomplete="current-password" required></div>
       <div class="form-actions"><button class="submit" type="submit">Continuar</button></div>
     </form>
-    <form class="stack" id="mfa-form" hidden novalidate>
+    <form class="fc-form stack" id="mfa-form" hidden>
       <div class="form-field"><label class="form-label form-label-required" for="code">Codigo enviado por e-mail</label><input class="form-input-text" id="code" name="code" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" aria-describedby="code-help" required><small class="form-help" id="code-help">Informe o codigo de seis digitos. Ele expira em 10 minutos.</small></div>
       <div class="form-actions"><button class="submit" type="submit">Validar acesso</button><button class="button button-secondary" id="resend" type="button">Reenviar codigo</button></div>
     </form>
     <div class="system-notice" id="message" role="alert" aria-live="polite" aria-atomic="true" hidden></div>
   </main>
   <script src="/assets/js/api-client.js"></script>
+  <script src="/backoffice/assets/js/form-system.js"></script>
   <script>
     const credentials = document.querySelector("#credentials-form");
     const mfa = document.querySelector("#mfa-form");
     const message = document.querySelector("#message");
     const show = (text, error = true) => { message.hidden = false; message.dataset.tone = error ? "danger" : "success"; message.textContent = text; };
-    credentials.addEventListener("submit", async (event) => { event.preventDefault(); if (!credentials.checkValidity()) { credentials.reportValidity(); return; } message.hidden = true; try { const result = await FokusApi.request("/backoffice/auth/login", { method: "POST", body: Object.fromEntries(new FormData(credentials)) }); if (result.mfa_required) { credentials.hidden = true; mfa.hidden = false; show(result.message, false); document.querySelector("#code").focus(); } } catch (error) { show(error.message || "Nao foi possivel iniciar o acesso."); } });
-    mfa.addEventListener("submit", async (event) => { event.preventDefault(); if (!mfa.checkValidity()) { mfa.reportValidity(); return; } message.hidden = true; try { await FokusApi.request("/backoffice/auth/verify-mfa", { method: "POST", body: Object.fromEntries(new FormData(mfa)) }); location.replace("/backoffice/painel"); } catch (error) { show(error.message || "Codigo invalido."); } });
+    credentials.addEventListener("submit", async (event) => { event.preventDefault(); if (!FokusForm.validate(credentials)) return; message.hidden = true; FokusForm.setLoading(credentials, true); try { const result = await FokusApi.request("/backoffice/auth/login", { method: "POST", body: Object.fromEntries(new FormData(credentials)) }); if (result.mfa_required) { credentials.hidden = true; mfa.hidden = false; show(result.message, false); document.querySelector("#code").focus(); } } catch (error) { show(error.message || "Nao foi possivel iniciar o acesso."); } finally { FokusForm.setLoading(credentials, false); } });
+    mfa.addEventListener("submit", async (event) => { event.preventDefault(); if (!FokusForm.validate(mfa)) return; message.hidden = true; FokusForm.setLoading(mfa, true); try { await FokusApi.request("/backoffice/auth/verify-mfa", { method: "POST", body: Object.fromEntries(new FormData(mfa)) }); location.replace("/backoffice/painel"); } catch (error) { show(error.message || "Codigo invalido."); } finally { FokusForm.setLoading(mfa, false); } });
     document.querySelector("#resend").addEventListener("click", async () => { try { const result = await FokusApi.request("/backoffice/auth/resend-mfa", { method: "POST" }); show(result.message, false); } catch (error) { show(error.message || "Aguarde para reenviar o codigo."); } });
   </script>
 </body>
