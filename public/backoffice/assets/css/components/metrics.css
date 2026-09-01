@@ -1,0 +1,6 @@
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-3); }
+.metric-card { min-width: 0; padding: var(--space-3); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-md); background: var(--theme-surface); box-shadow: var(--shadow-sm); }
+.metric-label { display: block; color: var(--theme-text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: var(--space-1); color: var(--theme-text); font-size: 28px; font-weight: var(--font-weight-bold); line-height: 1.1; }
+.metric-trend-up { color: var(--color-green-700); }
+.metric-trend-down { color: var(--color-red-600); }

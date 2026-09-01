@@ -1,0 +1,5 @@
+.empty-state { display: grid; place-items: center; gap: var(--space-2); min-height: 160px; padding: var(--space-5); color: var(--theme-text-muted); text-align: center; }
+.skeleton { display: block; min-height: 12px; border-radius: var(--radius-sm); background: linear-gradient(90deg, var(--theme-surface-alt) 25%, var(--theme-border-alt) 37%, var(--theme-surface-alt) 63%); background-size: 400% 100%; animation: skeleton-loading 1.4s ease infinite; }
+.skeleton-text { width: 70%; }
+.skeleton-title { width: 42%; min-height: 18px; }
+@keyframes skeleton-loading { from { background-position: 100% 0; } to { background-position: -100% 0; } }

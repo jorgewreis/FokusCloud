@@ -1,0 +1,6 @@
+.toast-container { position: fixed; right: var(--space-3); bottom: var(--space-3); z-index: var(--z-toast); display: grid; gap: var(--space-2); width: min(380px, calc(100vw - 32px)); }
+.toast { display: flex; align-items: flex-start; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--theme-border-alt); border-left: 3px solid var(--role-color-500); border-radius: var(--radius-md); background: var(--theme-surface); color: var(--theme-text); box-shadow: var(--shadow-md); }
+.toast-success { border-left-color: var(--color-green-600); }
+.toast-warning { border-left-color: var(--color-yellow-500); }
+.toast-danger { border-left-color: var(--color-red-600); }
+.toast-close { margin-left: auto; }

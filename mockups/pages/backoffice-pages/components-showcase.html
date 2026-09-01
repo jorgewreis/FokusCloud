@@ -1,0 +1,120 @@
+<link rel="stylesheet" href="./../../assets/css/main.css?v=20260901-components-showcase">
+<style>
+    .showcase { width: min(1180px, calc(100% - 40px)); margin: 32px auto 72px; }
+    .showcase-hero { display: flex; align-items: center; justify-content: space-between; gap: 32px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--theme-border-alt); }
+    .showcase-hero h1 { margin: 0; color: var(--theme-text); }
+    .showcase-section { margin-top: 28px; padding: 24px; border: 1px solid var(--theme-border-alt); border-radius: 8px; background: var(--theme-surface); box-shadow: var(--shadow-sm); }
+    .showcase-section h2 { margin: 0; color: var(--theme-text); font-size: 18px; line-height: 1.25; }
+    .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; align-items: start; }
+    .showcase-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    .showcase-stack { display: grid; gap: 16px; }
+    .showcase-note { color: var(--theme-text-muted); font-size: 11px; line-height: 1.5; }
+    .showcase-kicker { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px; color: var(--role-color-600); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    .showcase-kicker::before { content: ""; width: 18px; height: 2px; background: var(--role-color-500); }
+    .showcase-section-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+    .showcase-section-header h2 { margin-bottom: 0; }
+    .showcase-section-header p { margin: 6px 0 0; }
+    .showcase-divider { height: 1px; margin: 20px 0; background: var(--theme-border-alt); }
+    .showcase .data-table { min-width: 760px; }
+    .showcase .table-panel { margin-inline: -4px; padding-inline: 4px; }
+    .showcase .metric-grid { gap: 16px; }
+    .showcase .metric-card { min-height: 112px; }
+    .showcase .filter-bar { gap: 16px; }
+    .showcase .filter-header { flex-basis: 100%; padding-bottom: 2px; }
+    .showcase .filter-chips { padding-top: 2px; }
+    .showcase .selection-toolbar { margin-bottom: 4px; }
+    .showcase .timeline { min-height: 190px; }
+    .showcase .accordion { height: fit-content; }
+    .showcase .toast-container { right: 24px; bottom: 24px; }
+    .showcase-modal-trigger { margin-left: auto; }
+    .showcase-modal[hidden] { display: none; }
+    @media (max-width: 760px) {
+        .showcase { width: min(100% - 24px, 600px); margin-top: 20px; }
+        .showcase-hero { display: grid; gap: 18px; margin-bottom: 24px; padding-bottom: 20px; }
+        .showcase-modal-trigger { width: 100%; margin-left: 0; }
+        .showcase-section { margin-top: 20px; padding: 18px; }
+        .showcase-section-header { display: grid; gap: 12px; margin-bottom: 16px; }
+        .showcase-section-header > .button, .showcase-section-header > .badge { justify-self: start; }
+        .showcase-grid { grid-template-columns: 1fr; gap: 16px; }
+        .showcase .data-table { min-width: 0; }
+    }
+</style>
+
+<main class="showcase" aria-labelledby="showcase-title">
+    <header class="showcase-hero">
+        <div>
+            <span class="showcase-kicker">Fokus Admin · Design system</span>
+            <h1 id="showcase-title">Componentes refinados</h1>
+            <p class="showcase-note">Catálogo visual das funcionalidades CSS disponíveis no backoffice.</p>
+        </div>
+        <button class="button showcase-modal-trigger" type="button" data-open-modal="showcase-modal">Abrir modal demonstrativo</button>
+    </header>
+
+    <section class="showcase-section" aria-labelledby="metrics-title">
+        <div class="showcase-section-header"><div><h2 id="metrics-title">Métricas e status</h2><p class="showcase-note">Indicadores rápidos e estados semânticos.</p></div><span class="badge badge-info">Atualizado agora</span></div>
+        <div class="metric-grid">
+            <article class="metric-card is-clickable"><span class="metric-label">Assinaturas ativas</span><strong class="metric-value">1.284</strong><span class="metric-trend-up">+12,4% no mês</span></article>
+            <article class="metric-card"><span class="metric-label">Receita recorrente</span><strong class="metric-value">R$ 84,6k</strong><span class="metric-comparison">vs. R$ 79,2k anterior</span></article>
+            <article class="metric-card"><span class="metric-label">Taxa de conversão</span><strong class="metric-value">68%</strong><span class="metric-trend-down">−2,1% no mês</span></article>
+        </div>
+        <div class="showcase-row" style="margin-top:16px">
+            <span class="badge badge-success badge-dot">Ativo</span><span class="badge badge-warning">Pausado</span><span class="badge badge-danger">Cancelado</span><span class="badge badge-neutral">Rascunho</span><span class="badge badge-info badge-outline">12 notificações</span>
+        </div>
+    </section>
+
+    <section class="showcase-section" aria-labelledby="feedback-title">
+        <div class="showcase-section-header"><div><h2 id="feedback-title">Feedback, progresso e carregamento</h2><p class="showcase-note">Mensagens, operações em andamento e estados de espera.</p></div></div>
+        <div class="showcase-stack">
+            <div class="system-notice" data-tone="success" role="status"><div><strong class="system-notice-header">Operação concluída</strong><span>O plano foi atualizado com sucesso.</span></div><button class="icon-button system-notice-close" type="button" aria-label="Fechar">×</button></div>
+            <div class="system-notice" data-tone="warning" role="status"><div><strong class="system-notice-header">Atenção</strong><span>Existem 3 vouchers próximos do vencimento.</span></div></div>
+            <div><div class="progress-label"><span>Migração de dados</span><strong>72%</strong></div><div class="progress progress-with-label" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="--progress-value:72%"><div class="progress-bar">72%</div></div></div>
+            <div class="showcase-row"><div class="progress-circle" data-value="84%" style="--progress-value:84%"></div><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span></div>
+        </div>
+    </section>
+
+    <section class="showcase-section" aria-labelledby="forms-title">
+        <div class="showcase-section-header"><div><h2 id="forms-title">Filtros, formulário e upload</h2><p class="showcase-note">Controles com validação, ajuda e ações contextuais.</p></div><button class="button button-ghost button-sm">Configurar campos</button></div>
+        <div class="filter-bar">
+            <div class="filter-header"><strong>Filtrar registros</strong><span class="filter-count">2 filtros ativos</span></div>
+            <div class="form-field"><label class="form-label" for="demo-search">Busca</label><input class="form-input-text" id="demo-search" placeholder="Nome ou e-mail"></div>
+            <div class="form-field"><label class="form-label" for="demo-status">Status</label><select class="form-select" id="demo-status"><option>Todos os status</option><option>Ativo</option><option>Pausado</option></select></div>
+            <button class="button" type="button">Aplicar filtros</button><button class="button button-ghost" type="button">Limpar</button>
+            <div class="filter-chips"><span class="filter-chip">Status: Ativo <button class="icon-button icon-button-sm" type="button" aria-label="Remover filtro">×</button></span><span class="filter-chip">Plano: Pro <button class="icon-button icon-button-sm" type="button" aria-label="Remover filtro">×</button></span></div>
+        </div>
+        <div class="showcase-grid" style="margin-top:16px">
+            <div class="upload-zone" tabindex="0"><strong>Solte arquivos aqui</strong><span>ou selecione arquivos PDF, PNG ou JPG</span><input type="file" aria-label="Selecionar arquivo"></div>
+            <div class="showcase-stack"><div class="form-field is-valid"><label class="form-label" for="demo-email">E-mail</label><input class="form-input-text" id="demo-email" value="admin@fokuscloud.com"><small class="form-success has-icon">E-mail válido</small></div><div class="form-field is-invalid"><label class="form-label" for="demo-code">Código</label><input class="form-input-text" id="demo-code" aria-invalid="true" value="ABC"><small class="form-error has-icon">Informe um código válido</small></div></div>
+        </div>
+    </section>
+
+    <section class="showcase-section" aria-labelledby="table-title">
+        <div class="showcase-section-header"><div><h2 id="table-title">Tabela com seleção e ações</h2><p class="showcase-note">Ordenação, seleção, ações e paginação responsiva.</p></div><button class="button button-outline button-sm">Exportar CSV</button></div>
+        <div class="selection-toolbar"><span><strong>2 registros selecionados</strong></span><div class="showcase-row"><button class="button button-outline button-sm">Exportar</button><button class="button button-danger button-sm">Excluir</button></div></div>
+        <div class="table-panel" style="margin-top:12px"><table class="data-table is-striped"><thead><tr><th><input type="checkbox" aria-label="Selecionar todos"></th><th aria-sort="ascending">Empresa</th><th>Status</th><th class="cell-value">Valor</th><th>Ações</th></tr></thead><tbody><tr class="is-selected"><td><input type="checkbox" checked aria-label="Selecionar Fokus Legal"></td><td data-label="Empresa"><strong>Fokus Legal</strong><br><small class="text-muted">admin@fokuslegal.com</small></td><td data-label="Status"><span class="badge badge-success">Ativo</span></td><td data-label="Valor" class="cell-value">R$ 299,00</td><td data-label="Ações"><div class="dropdown"><button class="icon-button" type="button" aria-label="Abrir ações">•••</button><div class="dropdown-menu"><span class="dropdown-group-title">Ações</span><button class="dropdown-item">Editar registro</button><button class="dropdown-item dropdown-item-danger">Cancelar</button></div></div></td></tr><tr><td><input type="checkbox" aria-label="Selecionar Silva Advogados"></td><td data-label="Empresa"><strong>Silva Advogados</strong><br><small class="text-muted">contato@silva.com</small></td><td data-label="Status"><span class="badge badge-warning">Pausado</span></td><td data-label="Valor" class="cell-value">R$ 149,00</td><td data-label="Ações"><button class="icon-button" data-tooltip="Mais ações" type="button" aria-label="Mais ações">•••</button></td></tr></tbody></table></div>
+        <div class="pagination" style="margin-top:16px"><span class="pagination-info">1–2 de 24 registros</span><button class="pagination-item" disabled>‹</button><button class="pagination-item is-active" aria-current="page">1</button><button class="pagination-item">2</button><span class="pagination-ellipsis">…</span><button class="pagination-item">12</button><button class="pagination-item">›</button></div>
+    </section>
+
+    <section class="showcase-section" aria-labelledby="navigation-title">
+        <div class="showcase-section-header"><div><h2 id="navigation-title">Navegação e histórico</h2><p class="showcase-note">Orientação, agrupamento de conteúdo e linha do tempo.</p></div></div>
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a class="breadcrumb-item" href="#">Painel geral</a><a class="breadcrumb-item" href="#">Empresas</a><span class="breadcrumb-item" aria-current="page">Fokus Legal</span></nav>
+        <div class="tabs is-scrollable" role="tablist" style="margin-top:20px"><button class="tab" role="tab" aria-selected="true">Visão geral</button><button class="tab" role="tab" aria-selected="false">Assinaturas <span class="badge badge-sm badge-info">4</span></button><button class="tab has-error" role="tab" aria-selected="false">Pendências</button></div>
+        <div class="showcase-grid" style="margin-top:20px"><details class="accordion" open><summary class="accordion-summary">Detalhes da assinatura</summary><div class="accordion-content">Plano profissional, renovação automática e 12 usuários vinculados.</div></details><div class="timeline"><div class="timeline-item is-complete"><span class="timeline-date">Hoje, 10:42</span><strong>Pagamento confirmado</strong><p class="showcase-note">Transação processada com sucesso.</p></div><div class="timeline-item is-current"><span class="timeline-date">Ontem, 16:20</span><strong>Plano atualizado</strong></div><div class="timeline-item"><span class="timeline-date">12/08/2026</span><strong>Convite enviado</strong></div></div></div>
+    </section>
+
+    <div class="toast-container" aria-live="polite"><div class="toast toast-success"><span>Alterações salvas.</span><button class="icon-button icon-button-sm toast-close" aria-label="Fechar">×</button><span class="toast-progress" style="width:65%"></span></div></div>
+</main>
+
+<div class="modal modal-confirm showcase-modal" id="showcase-modal" aria-hidden="true"><section class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="showcase-modal-title"><header class="modal-header"><h2 id="showcase-modal-title">Confirmar alteração</h2><button class="icon-button modal-close" type="button" data-close-modal aria-label="Fechar">×</button></header><div class="modal-body"><p>Este modal demonstra o comportamento visual do componente para confirmações importantes.</p></div><footer class="modal-footer"><button class="button button-secondary" type="button" data-close-modal>Voltar</button><button class="button" type="button" data-close-modal>Confirmar</button></footer></section></div>
+
+<script>
+    (() => {
+        const modal = document.querySelector("#showcase-modal");
+        const openButton = document.querySelector("[data-open-modal]");
+        const closeButtons = modal.querySelectorAll("[data-close-modal]");
+        const setModal = (open) => { modal.classList.toggle("is-open", open); modal.setAttribute("aria-hidden", String(!open)); document.body.classList.toggle("has-modal-open", open); if (open) closeButtons[0].focus(); else openButton.focus(); };
+        openButton.addEventListener("click", () => setModal(true));
+        closeButtons.forEach((button) => button.addEventListener("click", () => setModal(false)));
+        modal.addEventListener("click", (event) => { if (event.target === modal) setModal(false); });
+        document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal.classList.contains("is-open")) setModal(false); });
+    })();
+</script>

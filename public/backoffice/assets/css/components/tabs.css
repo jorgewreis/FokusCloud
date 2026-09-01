@@ -1,0 +1,5 @@
+.tabs { display: flex; flex-wrap: wrap; gap: var(--space-3); border-bottom: 1px solid var(--theme-border-alt); }
+.tab { position: relative; padding: 10px 2px; border: 0; background: transparent; color: var(--theme-text-muted); cursor: pointer; }
+.tab:hover, .tab:focus-visible { color: var(--role-color-600); }
+.tab[aria-selected="true"], .tab.is-active { color: var(--role-color-600); }
+.tab[aria-selected="true"]::after, .tab.is-active::after { content: ""; position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--role-color-500); }

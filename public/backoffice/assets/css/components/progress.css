@@ -1,0 +1,9 @@
+.progress { width: 100%; height: 8px; overflow: hidden; border-radius: var(--radius-pill); background: var(--theme-surface-alt); }
+.progress-bar { width: var(--progress-value, 0%); height: 100%; border-radius: inherit; background: var(--role-color-500); transition: width 250ms ease; }
+.progress-sm { height: 4px; }
+.progress-lg { height: 12px; }
+.progress-success .progress-bar { background: var(--color-green-600); }
+.progress-warning .progress-bar { background: var(--color-yellow-500); }
+.progress-danger .progress-bar { background: var(--color-red-600); }
+.progress-indeterminate .progress-bar { width: 40%; animation: progress-indeterminate 1.2s ease-in-out infinite; }
+@keyframes progress-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(250%); } }

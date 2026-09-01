@@ -1,0 +1,5 @@
+.selection-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3); border: 1px solid var(--role-color-200); border-radius: var(--radius-md); background: var(--role-color-050); }
+.selection-toolbar[hidden] { display: none; }
+.data-table tbody tr { transition: background-color 150ms ease; }
+.data-table tbody tr:hover, .data-table tbody tr.is-selected, .data-table tbody tr:has(input[type="checkbox"]:checked) { background: var(--role-color-050); }
+.data-table th:first-child, .data-table td:first-child { width: 1%; }
