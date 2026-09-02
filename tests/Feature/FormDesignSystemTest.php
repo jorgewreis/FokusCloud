@@ -13,6 +13,8 @@ class FormDesignSystemTest extends TestCase
             'public/backoffice/ativar.html',
             'public/backoffice/pages/security.html',
             'public/backoffice/pages/subscription-plans.html',
+            'public/backoffice/pages/companies.html',
+            'public/backoffice/pages/subscriptions.html',
             'public/backoffice/pages/vouchers.html',
         ];
 
@@ -49,7 +51,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260902-catalog-pagination', $panel);
+        $this->assertStringContainsString('20260902-commercial-alpha1', $panel);
         foreach ([$access, $activate] as $contents) {
             $this->assertStringContainsString('20260901-live-controls', $contents);
         }
