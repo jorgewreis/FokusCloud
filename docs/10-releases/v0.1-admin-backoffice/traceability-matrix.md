@@ -52,3 +52,12 @@ Esta matriz e o artefato central da release documental `0.0.1`.
 
 Quando um marco mudar escopo, status, aceite ou teste obrigatorio, esta matriz
 deve ser atualizada no mesmo commit da mudanca documental correspondente.
+## Marco 4 / release 0.0.4
+
+| Requisito | Implementação | Evidência |
+| --- | --- | --- |
+| Voucher reservado e confirmado | VoucherManager, checkout e webhook | VoucherRedemptionTest |
+| Snapshot e commercial_credit | migration de snapshot/reservas e VoucherManager | VoucherRedemptionTest |
+| Edição/imutabilidade e governança | APIs PATCH/archive/delete e RBAC | BackofficeSecurityTest |
+| Exclusões e fallback | CatalogManager e APIs DELETE | CatalogAdminTest |
+| Formulários | FokusForm, diálogos, ícones e cache versionado | FormDesignSystemTest + homologação |

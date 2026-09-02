@@ -114,3 +114,6 @@ Em caso de falha de leitura, a aplicacao deve retornar erro controlado e o front
 O snapshot versionado em `catalog_publications` e a fonte da leitura publica. Se
 cache de leitura for adicionado, ele deve ser invalidado no momento da
 publicacao.
+## Operações administrativas do Marco 4
+
+Planos e funcionalidades expõem DELETE físico somente sem dependências; publicações permitem DELETE apenas da versão corrente, restaurando a anterior. Vouchers expõem PATCH antes do primeiro resgate, archive e consulta detalhada de resgates/reservas. Erros de dependência são 422 explicativos. O contrato público continua 0.0.3.

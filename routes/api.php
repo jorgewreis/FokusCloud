@@ -73,10 +73,13 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::patch('/catalog/products/{product}', [BackofficeController::class, 'updateProduct'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::post('/catalog/modules', [BackofficeController::class, 'createModule'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::patch('/catalog/modules/{module}', [BackofficeController::class, 'updateModule'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::delete('/catalog/modules/{module}', [BackofficeController::class, 'deleteModule'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::post('/catalog/plans', [BackofficeController::class, 'createPlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::patch('/catalog/plans/{plan}', [BackofficeController::class, 'updatePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::delete('/catalog/plans/{plan}', [BackofficeController::class, 'deletePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::put('/catalog/plans/{plan}/modules', [BackofficeController::class, 'syncPlanModules'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::post('/catalog/{product}/publish', [BackofficeController::class, 'publishCatalog'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
+    Route::delete('/catalog/publications/{publication}', [BackofficeController::class, 'deleteCatalogPublication'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::post('/catalog/{type}/{id}/pause', [BackofficeController::class, 'pauseCatalogItem'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::post('/catalog/{type}/{id}/archive', [BackofficeController::class, 'archiveCatalogItem'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::get('/plans', [BackofficeController::class, 'plans'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
@@ -88,8 +91,10 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
     Route::get('/vouchers', [BackofficeController::class, 'vouchers'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
     Route::post('/vouchers', [BackofficeController::class, 'createVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
-    Route::patch('/vouchers/{voucher}', [BackofficeController::class, 'updateVoucherStatus'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
-    Route::delete('/vouchers/{voucher}', [BackofficeController::class, 'deleteVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::patch('/vouchers/{voucher}', [BackofficeController::class, 'updateVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::get('/vouchers/{voucher}', [BackofficeController::class, 'voucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
+    Route::post('/vouchers/{voucher}/archive', [BackofficeController::class, 'archiveVoucher'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
+    Route::delete('/vouchers/{voucher}', [BackofficeController::class, 'deleteVoucher'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::get('/admins', [PlatformAdminController::class, 'index'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
     Route::post('/admins/invitations', [PlatformAdminController::class, 'invite'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
     Route::patch('/admins/{admin}/role', [PlatformAdminController::class, 'updateRole'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');

@@ -33,6 +33,7 @@ class CatalogManager
                 'modules' => $modules->where('product_id', $product->id)->values()->map(fn (object $module): array => $this->modulePayload($module))->all(),
                 'plans' => $plans->where('product_id', $product->id)->values()->all(),
             ])->values()->all(),
+            'publications' => $this->adminPublications(),
         ];
     }
 
@@ -303,7 +304,11 @@ class CatalogManager
         $current = DB::table($table)->where('id', $id)->first();
         abort_unless($current, 404, 'Item de catálogo não encontrado.');
 
-        $status = $state === 'arquivado' ? 'arquivado' : ($table === 'products' ? 'pausado' : ($table === 'plans' ? 'inativo' : 'pausado'));
+        $status = $table === 'products'
+            ? ($state === 'arquivado' ? 'inativo' : 'pausado')
+            : ($table === 'plans'
+                ? 'inativo'
+                : ($state === 'arquivado' ? 'arquivado' : 'pausado'));
         DB::table($table)->where('id', $id)->update([
             'status' => $status,
             'publication_state' => $state,
@@ -312,6 +317,84 @@ class CatalogManager
         ]);
 
         return [(array) $current, (array) DB::table($table)->where('id', $id)->first()];
+    }
+
+    public function deleteCatalogItem(string $type, string $id): array
+    {
+        $table = match ($type) {
+            'module' => 'modules',
+            'plan' => 'plans',
+            default => abort(404, 'Item de catálogo não encontrado.'),
+        };
+        $current = DB::table($table)->where('id', $id)->first();
+        abort_unless($current, 404, 'Item de catálogo não encontrado.');
+
+        $dependencies = $type === 'module'
+            ? $this->moduleDeletionDependencies($id)
+            : $this->planDeletionDependencies($id, $current->code);
+        abort_if($dependencies !== [], 422, 'Não é possível excluir este item porque existem vínculos: '.implode(', ', $dependencies).'. Arquive-o para preservar o histórico.');
+
+        DB::transaction(function () use ($table, $id): void {
+            DB::table($table)->where('id', $id)->delete();
+        });
+
+        return (array) $current;
+    }
+
+    public function deletePublication(string $publicationId): array
+    {
+        $publication = DB::table('catalog_publications')->where('id', $publicationId)->first();
+        abort_unless($publication, 404, 'Publicação não encontrada.');
+        $latestVersion = (int) DB::table('catalog_publications')->where('product_id', $publication->product_id)->max('version');
+        abort_unless((int) $publication->version === $latestVersion, 422, 'Somente a publicação atualmente ativa pode ser removida.');
+
+        DB::transaction(function () use ($publication, $publicationId, $latestVersion): void {
+            DB::table('catalog_publications')->where('id', $publicationId)->delete();
+
+            $latestVersion = (int) DB::table('catalog_publications')
+                ->where('product_id', $publication->product_id)
+                ->max('version');
+
+            DB::table('products')->where('id', $publication->product_id)->update([
+                'published_catalog_version' => $latestVersion,
+                'publication_state' => $latestVersion > 0 ? 'publicado' : 'rascunho',
+                'updated_at' => now(),
+            ]);
+            if ($latestVersion === 0) {
+                DB::table('modules')->where('product_id', $publication->product_id)->where('publication_state', 'publicado')->update(['publication_state' => 'rascunho', 'updated_at' => now()]);
+                DB::table('plans')->where('product_id', $publication->product_id)->where('publication_state', 'publicado')->update(['publication_state' => 'rascunho', 'updated_at' => now()]);
+            }
+        });
+
+        return (array) $publication;
+    }
+
+    private function moduleDeletionDependencies(string $moduleId): array
+    {
+        $dependencies = [];
+        if (DB::table('plan_modules')->where('module_id', $moduleId)->exists()) $dependencies[] = 'composição de plano';
+        if (DB::table('subscription_items')->where('module_id', $moduleId)->exists()) $dependencies[] = 'itens de assinatura';
+        if ($this->catalogSnapshotsContain($moduleId)) $dependencies[] = 'publicações do catálogo';
+
+        return $dependencies;
+    }
+
+    private function planDeletionDependencies(string $planId, string $planCode): array
+    {
+        $dependencies = [];
+        if (DB::table('vouchers')->where('plan_id', $planId)->exists()) $dependencies[] = 'vouchers';
+        if (DB::table('voucher_redemptions')->where('snapshot', 'like', '%'.$planId.'%')->orWhere('snapshot', 'like', '%'.$planCode.'%')->exists()) $dependencies[] = 'resgates de voucher';
+        if (DB::table('subscription_items')->where('conditions_snapshot', 'like', '%'.$planCode.'%')->exists()) $dependencies[] = 'itens de assinatura';
+        if ($this->catalogSnapshotsContain($planId) || $this->catalogSnapshotsContain($planCode)) $dependencies[] = 'publicações do catálogo';
+
+        return $dependencies;
+    }
+
+    private function catalogSnapshotsContain(string $needle): bool
+    {
+        return DB::table('catalog_publications')->pluck('snapshot')->contains(function ($snapshot) use ($needle): bool {
+            return str_contains((string) $snapshot, $needle);
+        });
     }
 
     public function publishedModuleMap(string $productCode): Collection
@@ -396,6 +479,34 @@ class CatalogManager
                 'module_codes' => collect($plan['modules'])->pluck('code')->values()->all(),
             ])->values()->all(),
         ];
+    }
+
+    private function adminPublications(): array
+    {
+        return DB::table('catalog_publications as publication')
+            ->join('products as product', 'product.id', '=', 'publication.product_id')
+            ->leftJoin('platform_admins as admin', 'admin.id', '=', 'publication.published_by_platform_admin_id')
+            ->orderByDesc('publication.published_at')
+            ->orderByDesc('publication.version')
+            ->get([
+                'publication.id',
+                'publication.product_id',
+                'product.name as product_name',
+                'publication.version',
+                'publication.reason',
+                'publication.published_at',
+                'admin.name as published_by',
+            ])
+            ->map(fn (object $publication): array => [
+                'id' => $publication->id,
+                'product_id' => $publication->product_id,
+                'product_name' => $publication->product_name,
+                'version' => (int) $publication->version,
+                'reason' => $publication->reason,
+                'published_at' => $publication->published_at,
+                'published_by' => $publication->published_by,
+            ])
+            ->all();
     }
 
     private function productPayload(object $product): array

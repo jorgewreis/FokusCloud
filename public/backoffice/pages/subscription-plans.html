@@ -6,6 +6,22 @@
 
     <hr>
 
+    <div id="catalog-destructive-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="catalog-dialog-title" aria-describedby="catalog-dialog-description">
+        <form class="fc-form dialog-panel card card-static form-panel" id="catalog-destructive-form">
+            <div class="title dialog-header"><span id="catalog-dialog-title">Confirmar remoção</span></div>
+            <div class="content dialog-content stack">
+                <p id="catalog-dialog-description">A remoção física só será concluída se não houver dependências.</p>
+                <label class="form-field" for="catalog-dialog-reason">Motivo obrigatório
+                    <textarea id="catalog-dialog-reason" name="reason" maxlength="1000" required></textarea>
+                </label>
+                <div class="dialog-actions">
+                    <button class="button button-secondary" type="button" data-catalog-dialog-close>Cancelar</button>
+                    <button class="submit button-danger" type="submit">Confirmar remoção</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="form-panel">
         <div class="form-actions">
             <button class="button button-secondary" type="button" data-catalog-tab="products">Produtos</button>
@@ -84,6 +100,7 @@
             </div>
             <div class="form-actions"><button class="submit" type="submit">Publicar catálogo</button></div>
         </form>
+        <div class="table-panel"><table class="data-table" aria-label="Publicações do catálogo"><thead><tr><th>Produto</th><th>Versão</th><th>Publicado em</th><th>Autor</th><th>Motivo</th><th>Ações</th></tr></thead><tbody id="publication-list"><tr><td colspan="6">Carregando...</td></tr></tbody></table></div>
     </section>
 </div>
 
@@ -97,7 +114,9 @@
         const splitCodes = (value) => String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
         const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
         const iconBasePath = "/backoffice/assets/icons/";
-        const actionButton = (action, id, label, icon, danger = false) => `<button class="icon-button${danger ? " icon-button-danger" : ""}" type="button" data-${action}-product="${escapeHtml(id)}" title="${label}" aria-label="${label}"><img src="${iconBasePath}${icon}" alt=""></button>`;
+        const editIcon = "Shopping-Basket-Edit--Streamline-Ultimate.png";
+        const removeIcon = "Shopping-Basket-Subtract--Streamline-Ultimate.png";
+        const actionButton = (type, action, id, label, icon, danger = false) => `<button class="icon-button${danger ? " icon-button-danger" : ""}" type="button" data-catalog-type="${type}" data-catalog-action="${action}" data-catalog-id="${escapeHtml(id)}" title="${label}" aria-label="${label}"><img src="${iconBasePath}${icon}" alt=""></button>`;
 
         function showMessage(text, tone = "info") {
             message.textContent = text || "";
@@ -117,6 +136,10 @@
             return state.catalog.products.flatMap((product) => (product.plans || []).map((plan) => ({ ...plan, product_name: product.name })));
         }
 
+        function publications() {
+            return state.catalog.publications || [];
+        }
+
         function renderSelects() {
             ["#module-product", "#plan-product", "#publish-product"].forEach((selector) => {
                 const select = document.querySelector(selector);
@@ -132,10 +155,11 @@
 
         function render() {
             renderSelects();
-            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("edit", product.id, "Editar produto", "Shopping-Basket-Edit--Streamline-Ultimate.png")}${actionButton("remove", product.id, "Remover produto", "Shopping-Basket-Subtract--Streamline-Ultimate.png", true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
-            document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions"><button class="icon-button" type="button" data-edit-module="${escapeHtml(module.id)}" title="Editar funcionalidade" aria-label="Editar funcionalidade"><img src="${iconBasePath}Shopping-Basket-Edit--Streamline-Ultimate.png" alt=""></button></td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
+            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
+            document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
-            document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions"><button class="icon-button" type="button" data-edit-plan="${escapeHtml(plan.id)}" title="Editar plano" aria-label="Editar plano"><img src="${iconBasePath}Shopping-Basket-Edit--Streamline-Ultimate.png" alt=""></button></td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
+            document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
+            document.querySelector("#publication-list").innerHTML = publications().length ? publications().map((publication) => `<tr><td>${escapeHtml(publication.product_name)}</td><td>${publication.version}</td><td>${publication.published_at ? new Date(publication.published_at).toLocaleString("pt-BR") : "-"}</td><td>${escapeHtml(publication.published_by || "-")}</td><td>${escapeHtml(publication.reason || "-")}</td><td class="voucher-actions">${actionButton("publication", "remove", publication.id, "Excluir publicação", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="6">Nenhuma publicação registrada.</td></tr>';
             window.FokusForm?.enhance(document.querySelector(".plan-page"));
         }
 
@@ -185,70 +209,148 @@
 
         document.querySelector("#module-form").addEventListener("submit", async (event) => {
             event.preventDefault();
-            const payload = Object.fromEntries(new FormData(event.currentTarget));
-            payload.monthly_price = parseMoney(payload.monthly_price);
-            payload.dependencies = splitCodes(payload.dependencies);
-            payload.incompatibilities = splitCodes(payload.incompatibilities);
-            const id = state.editing.module;
-            await api.request(id ? `/backoffice/catalog/modules/${id}` : "/backoffice/catalog/modules", { method: id ? "PATCH" : "POST", body: payload });
-            event.currentTarget.reset();
-            state.editing.module = null;
-            showMessage("Funcionalidade salva.", "success");
-            await loadCatalog();
+            const form = event.currentTarget;
+            if (window.FokusForm && !FokusForm.validate(form)) return;
+            FokusForm?.setLoading(form, true);
+            try {
+                const payload = Object.fromEntries(new FormData(form));
+                payload.monthly_price = parseMoney(payload.monthly_price);
+                payload.dependencies = splitCodes(payload.dependencies);
+                payload.incompatibilities = splitCodes(payload.incompatibilities);
+                const id = state.editing.module;
+                await api.request(id ? `/backoffice/catalog/modules/${id}` : "/backoffice/catalog/modules", { method: id ? "PATCH" : "POST", body: payload });
+                form.reset();
+                state.editing.module = null;
+                FokusForm?.clear(form);
+                showMessage("Funcionalidade salva.", "success");
+                await loadCatalog({ clearMessage: false });
+            } catch (error) {
+                FokusForm?.mapServerErrors(form, error.errors);
+                showMessage(error.message || "Não foi possível salvar a funcionalidade.", "danger");
+            } finally {
+                FokusForm?.setLoading(form, false);
+            }
         });
 
         document.querySelector("#plan-form").addEventListener("submit", async (event) => {
             event.preventDefault();
-            const payload = Object.fromEntries(new FormData(event.currentTarget));
-            payload.monthly_amount = payload.monthly_amount ? parseMoney(payload.monthly_amount) : null;
-            payload.display_order = Number(payload.display_order || 0);
-            payload.featured = payload.featured === "1";
-            payload.module_ids = [...event.currentTarget.querySelectorAll('input[name="module_ids"]:checked')].map((input) => input.value);
-            const id = state.editing.plan;
-            await api.request(id ? `/backoffice/catalog/plans/${id}` : "/backoffice/catalog/plans", { method: id ? "PATCH" : "POST", body: payload });
-            event.currentTarget.reset();
-            state.editing.plan = null;
-            showMessage("Plano salvo.", "success");
-            await loadCatalog();
+            const form = event.currentTarget;
+            if (window.FokusForm && !FokusForm.validate(form)) return;
+            const moduleIds = [...form.querySelectorAll('input[name="module_ids"]:checked')].map((input) => input.value);
+            if (!moduleIds.length) {
+                showMessage("Selecione ao menos uma funcionalidade para compor o plano.", "danger");
+                return;
+            }
+            FokusForm?.setLoading(form, true);
+            try {
+                const payload = Object.fromEntries(new FormData(form));
+                payload.name = payload.base_name;
+                payload.monthly_amount = payload.monthly_amount ? parseMoney(payload.monthly_amount) : null;
+                payload.display_order = Number(payload.display_order || 0);
+                payload.featured = payload.featured === "1";
+                payload.module_ids = moduleIds;
+                const id = state.editing.plan;
+                await api.request(id ? `/backoffice/catalog/plans/${id}` : "/backoffice/catalog/plans", { method: id ? "PATCH" : "POST", body: payload });
+                form.reset();
+                state.editing.plan = null;
+                FokusForm?.clear(form);
+                renderPlanModuleOptions();
+                showMessage("Plano salvo.", "success");
+                await loadCatalog({ clearMessage: false });
+            } catch (error) {
+                FokusForm?.mapServerErrors(form, error.errors);
+                showMessage(error.message || "Não foi possível salvar o plano.", "danger");
+            } finally {
+                FokusForm?.setLoading(form, false);
+            }
         });
 
         document.querySelector("#publish-form").addEventListener("submit", async (event) => {
             event.preventDefault();
-            const payload = Object.fromEntries(new FormData(event.currentTarget));
-            if (!window.confirm("Publicar a versão atual deste catálogo?")) return;
-            const response = await api.request(`/backoffice/catalog/${payload.product_id}/publish`, { method: "POST", body: { reason: payload.reason } });
-            showMessage(`Catálogo publicado na versão ${response.version}.`, "success");
-            await loadCatalog();
+            const form = event.currentTarget;
+            if (window.FokusForm && !FokusForm.validate(form)) return;
+            FokusForm?.setLoading(form, true);
+            try {
+                const payload = Object.fromEntries(new FormData(form));
+                const response = await api.request(`/backoffice/catalog/${payload.product_id}/publish`, { method: "POST", body: { reason: payload.reason } });
+                showMessage(`Catálogo publicado na versão ${response.version}.`, "success");
+                await loadCatalog({ clearMessage: false });
+            } catch (error) {
+                FokusForm?.mapServerErrors(form, error.errors);
+                showMessage(error.message || "Não foi possível publicar o catálogo.", "danger");
+            } finally {
+                FokusForm?.setLoading(form, false);
+            }
+        });
+
+        const destructiveDialog = document.querySelector("#catalog-destructive-dialog");
+        const destructiveForm = document.querySelector("#catalog-destructive-form");
+        let pendingDestructiveAction = null;
+        const closeDestructiveDialog = () => {
+            destructiveDialog.classList.remove("is-open");
+            destructiveDialog.setAttribute("aria-hidden", "true");
+            destructiveDialog.hidden = true;
+            pendingDestructiveAction = null;
+            destructiveForm.reset();
+        };
+        const openDestructiveDialog = (type, id) => {
+            const labels = { product: "produto", module: "funcionalidade", plan: "plano", publication: "publicação" };
+            pendingDestructiveAction = { type, id };
+            document.querySelector("#catalog-dialog-title").textContent = `Confirmar remoção de ${labels[type] || "item"}`;
+            destructiveDialog.hidden = false;
+            destructiveDialog.setAttribute("aria-hidden", "false");
+            destructiveDialog.classList.add("is-open");
+            document.querySelector("#catalog-dialog-reason").focus();
+        };
+        document.querySelector("[data-catalog-dialog-close]").addEventListener("click", closeDestructiveDialog);
+        destructiveForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!pendingDestructiveAction || (window.FokusForm && !FokusForm.validate(destructiveForm))) return;
+            const { type, id } = pendingDestructiveAction;
+            const reason = new FormData(destructiveForm).get("reason");
+            FokusForm?.setLoading(destructiveForm, true);
+            try {
+                const paths = {
+                    product: `/backoffice/catalog/products/${id}/archive`,
+                    module: `/backoffice/catalog/modules/${id}`,
+                    plan: `/backoffice/catalog/plans/${id}`,
+                    publication: `/backoffice/catalog/publications/${id}`,
+                };
+                const methods = { product: "POST", module: "DELETE", plan: "DELETE", publication: "DELETE" };
+                const response = await api.request(paths[type], { method: methods[type], body: { reason } });
+                closeDestructiveDialog();
+                showMessage(response.message || "Item removido.", "success");
+                await loadCatalog({ clearMessage: false });
+            } catch (error) {
+                showMessage(error.message || "Não foi possível remover o item.", "danger");
+            } finally {
+                FokusForm?.setLoading(destructiveForm, false);
+            }
         });
 
         document.addEventListener("click", async (event) => {
-            const productId = event.target.closest("[data-edit-product]")?.dataset.editProduct;
-            const removeProductId = event.target.closest("[data-remove-product]")?.dataset.removeProduct;
-            const moduleId = event.target.closest("[data-edit-module]")?.dataset.editModule;
-            const planId = event.target.closest("[data-edit-plan]")?.dataset.editPlan;
-            if (removeProductId) {
-                const reason = prompt("Informe o motivo para remover este produto:");
-                if (!reason) return;
-                try {
-                    const response = await api.request(`/backoffice/catalog/products/${removeProductId}/archive`, { method: "POST", body: { reason } });
-                    showMessage(response.message || "Produto removido.", "success");
-                    await loadCatalog({ clearMessage: false });
-                } catch (error) {
-                    showMessage(error.message || "Não foi possível remover o produto.", "danger");
-                }
+            const actionControl = event.target.closest("[data-catalog-action]");
+            const action = actionControl?.dataset.catalogAction;
+            const type = actionControl?.dataset.catalogType;
+            const id = actionControl?.dataset.catalogId;
+            if (!actionControl) return;
+
+            if (action === "remove") {
+                openDestructiveDialog(type, id);
                 return;
             }
-            if (productId) {
-                const product = state.catalog.products.find((item) => item.id === productId);
-                state.editing.product = productId;
+
+            if (type === "product" && action === "edit") {
+                const product = state.catalog.products.find((item) => item.id === id);
+                state.editing.product = id;
                 ["code", "name", "status", "display_order", "technical_description", "commercial_content"].forEach((key) => {
                     const field = document.querySelector(`#product-form [name="${key}"]`);
                     if (field) field.value = product[key] ?? "";
                 });
             }
-            if (moduleId) {
-                const module = allModules().find((item) => item.id === moduleId);
-                state.editing.module = moduleId;
+            if (type === "module" && action === "edit") {
+                const module = allModules().find((item) => item.id === id);
+                state.editing.module = id;
                 ["product_id", "code", "module_code", "name", "segment_code", "context_code", "status"].forEach((key) => {
                     const field = document.querySelector(`#module-form [name="${key}"]`);
                     if (field) field.value = module[key] ?? "";
@@ -257,9 +359,9 @@
                 document.querySelector("#module-dependencies").value = (module.dependencies || []).join(", ");
                 document.querySelector("#module-incompatibilities").value = (module.incompatibilities || []).join(", ");
             }
-            if (planId) {
-                const plan = allPlans().find((item) => item.id === planId);
-                state.editing.plan = planId;
+            if (type === "plan" && action === "edit") {
+                const plan = allPlans().find((item) => item.id === id);
+                state.editing.plan = id;
                 ["product_id", "code", "segment", "status", "display_order"].forEach((key) => {
                     const field = document.querySelector(`#plan-form [name="${key}"]`);
                     if (field) field.value = plan[key] ?? "";

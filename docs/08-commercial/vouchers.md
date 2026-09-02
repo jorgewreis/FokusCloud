@@ -70,3 +70,8 @@ Cada resgate deve preservar, no minimo:
 - empresa que utilizou o voucher.
 
 Isso preserva a auditoria mesmo depois de alteracoes no catalogo.
+## Reserva e crédito comercial
+
+A tentativa de checkout cria uma reserva temporária de 30 minutos. Ela consome os limites para impedir concorrência, mas não é resgate confirmado. Aprovação confirma uma única reserva; abandono, falha, cancelamento ou expiração a libera. commercial_credit é um valor fixo aplicado somente à primeira cobrança, limitado ao valor cobrado, sem saldo remanescente ou recorrência.
+
+Após o primeiro resgate, regras comerciais, elegibilidade e valor são imutáveis. O snapshot confirmado inclui também código, produto, plano, ciclo, empresa, assinatura, base, desconto, valor final e período do benefício.

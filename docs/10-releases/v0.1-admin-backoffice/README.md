@@ -63,3 +63,6 @@ A release `0.1` estara pronta quando:
 - [Modelo de permissoes](../../07-security/permission-model.md)
 - [Billing e conciliacao com Mercado Pago](../../08-commercial/billing-and-reconciliation.md)
 - [Monitoramento, suporte e operacao do Backoffice](../../09-operations/backoffice-monitoring-and-support.md)
+## Marco 4 e release 0.0.4
+
+O Marco 4 está documentado em [milestone-4-vouchers.md](milestone-4-vouchers.md) e cobre vouchers, reserva/consumo, exclusões controladas e correção dos formulários. O contrato público do catálogo permanece 0.0.3.

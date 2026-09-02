@@ -53,3 +53,13 @@ Toda nova duvida deve ser classificada como:
 - bloqueante: impede implementar ou homologar a 0.1;
 - nao bloqueante: pode seguir para versao posterior sem comprometer a entrega
   funcional definida.
+## Decisões fechadas no Marco 4 / 0.0.4
+
+| Decisão | Resultado |
+| --- | --- |
+| Exclusão | Física quando não houver dependências; caso contrário, 422 e arquivamento. |
+| Escopo do voucher | Fluxo completo de reserva, confirmação e snapshot; Mercado Pago billing avançado permanece no Marco 6. |
+| commercial_credit | Crédito fixo limitado à primeira cobrança, sem carteira ou recorrência. |
+| Edição | Permitida antes do primeiro resgate; após resgate, somente pausa, reativação e encerramento. |
+| Publicação | Apenas atual pode ser removida; restaura a anterior e protege histórico. |
+| Contrato | Catálogo público permanece em 0.0.3; release do conjunto é 0.0.4. |

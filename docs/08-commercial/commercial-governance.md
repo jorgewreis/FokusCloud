@@ -57,3 +57,6 @@ A exclusao fisica somente e permitida quando nao houver vinculos. Sistemas, plan
 - impedir comercializacao de itens nao publicados;
 - preservar snapshots de contratacoes e resgates;
 - registrar todas as alteracoes sensiveis.
+## Governança de vouchers 0.0.4
+
+Administrador comercial cria e edita vouchers não resgatados. Superadministrador executa arquivamento, exclusão e ações finais. Toda operação destrutiva exige motivo, confirmação explícita e auditoria; o frontend não substitui as permissões do backend.

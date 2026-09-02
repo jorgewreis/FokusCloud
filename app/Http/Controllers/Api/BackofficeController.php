@@ -9,6 +9,7 @@ use App\Services\PlatformAudit;
 use App\Services\CatalogManager;
 use App\Services\CatalogPricing;
 use App\Services\PrefixedUlid;
+use App\Services\VoucherManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -139,6 +140,9 @@ class BackofficeController extends Controller
 
     public function createPlan(Request $request, CatalogManager $catalog, PlatformAudit $audit)
     {
+        if (! $request->filled('name') && $request->filled('base_name')) {
+            $request->merge(['name' => $request->input('base_name')]);
+        }
         $data = $request->validate([
             'product_id' => ['nullable', 'string', 'size:30'],
             'system' => ['nullable', 'string', 'max:120'],
@@ -166,6 +170,9 @@ class BackofficeController extends Controller
 
     public function updatePlan(Request $request, string $plan, CatalogManager $catalog, PlatformAudit $audit)
     {
+        if (! $request->filled('name') && $request->filled('base_name')) {
+            $request->merge(['name' => $request->input('base_name')]);
+        }
         $data = $request->validate([
             'product_id' => ['nullable', 'string', 'size:30'],
             'system' => ['nullable', 'string', 'max:120'],
@@ -217,6 +224,24 @@ class BackofficeController extends Controller
         return response()->json(['message' => 'Catálogo publicado.', 'version' => $publication['version']]);
     }
 
+    public function deleteCatalogPublication(Request $request, string $publication, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        $before = $catalog->deletePublication($publication);
+        $audit->record(
+            $request->user()->id,
+            'backoffice.catalog_publication_deleted',
+            'catalog_publication',
+            $publication,
+            $before['product_id'] ?? null,
+            reason: $data['reason'],
+            before: $before,
+            request: $request,
+        );
+
+        return response()->json(['message' => 'Publicação excluída.']);
+    }
+
     public function pauseCatalogItem(Request $request, string $type, string $id, CatalogManager $catalog, PlatformAudit $audit)
     {
         $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
@@ -235,16 +260,20 @@ class BackofficeController extends Controller
         return response()->json(['message' => 'Item arquivado.']);
     }
 
-    public function deletePlan(Request $request, string $plan, PlatformAudit $audit)
+    public function deleteModule(Request $request, string $module, CatalogManager $catalog, PlatformAudit $audit)
     {
-        $current = DB::table('plans')->where('id', $plan)->first();
-        abort_unless($current, 404, 'Plano não encontrado.');
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        $before = $catalog->deleteCatalogItem('module', $module);
+        $audit->record($request->user()->id, 'backoffice.catalog_module_deleted', 'module', $module, reason: $data['reason'], before: $before, request: $request);
 
-        DB::transaction(function () use ($plan) {
-            DB::table('plans')->where('id', $plan)->delete();
-        });
+        return response()->json(['message' => 'Funcionalidade excluída.']);
+    }
 
-        $audit->record($request->user()->id, 'backoffice.plan_deleted', 'plan', $plan, reason: 'Exclusão de plano', request: $request);
+    public function deletePlan(Request $request, string $plan, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        $before = $catalog->deleteCatalogItem('plan', $plan);
+        $audit->record($request->user()->id, 'backoffice.plan_deleted', 'plan', $plan, reason: $data['reason'], before: $before, request: $request);
 
         return response()->json(['message' => 'Plano excluído.']);
     }
@@ -332,6 +361,23 @@ class BackofficeController extends Controller
             $voucher->computed_status = $voucher->ends_at && now()->gt(\Illuminate\Support\Carbon::parse($voucher->ends_at)) ? 'expirada' : $voucher->status;
             return $voucher;
         }));
+    }
+
+    public function voucher(Request $request, string $voucher)
+    {
+        $current = DB::table('vouchers as voucher')
+            ->leftJoin('products as product', 'product.id', '=', 'voucher.product_id')
+            ->leftJoin('plans as plan', 'plan.id', '=', 'voucher.plan_id')
+            ->where('voucher.id', $voucher)
+            ->select('voucher.*', 'product.name as product_name', 'plan.name as plan_name')
+            ->first();
+        abort_unless($current, 404, 'Voucher não encontrado.');
+
+        return response()->json([
+            'voucher' => $current,
+            'redemptions' => DB::table('voucher_redemptions')->where('voucher_id', $voucher)->orderByDesc('created_at')->get(),
+            'reservations' => DB::table('voucher_redemption_reservations')->where('voucher_id', $voucher)->orderByDesc('created_at')->get(),
+        ]);
     }
 
     private function catalogPlanRows()
@@ -455,7 +501,7 @@ class BackofficeController extends Controller
         $data = $request->validate([
             'name' => ['nullable', 'string', 'max:120'],
             'code' => ['nullable', 'string', 'max:64', 'alpha_num', 'unique:vouchers,code'],
-            'discount_type' => ['required', Rule::in(['trial_free', 'percentage', 'fixed'])],
+            'discount_type' => ['required', Rule::in(['trial_free', 'percentage', 'fixed', 'commercial_credit'])],
             'discount_value' => ['required', 'numeric', 'gt:0'],
             'product_id' => ['nullable', 'string', 'size:30'],
             'plan_id' => ['nullable', 'string', 'size:30'],
@@ -470,7 +516,7 @@ class BackofficeController extends Controller
             'origin' => ['nullable', 'string', 'max:120'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ]);
-        $data['code'] = $data['code'] ?: $this->generateVoucherCode($data['name'] ?? 'VOUCHER');
+        $data['code'] = ($data['code'] ?? null) ?: $this->generateVoucherCode($data['name'] ?? 'VOUCHER');
         if ($data['discount_type'] === 'percentage') abort_if($data['discount_value'] > 100, 422, 'O percentual não pode exceder 100%.');
         if (! empty($data['product_id'])) {
             abort_unless(DB::table('products')->where('id', $data['product_id'])->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
@@ -484,6 +530,7 @@ class BackofficeController extends Controller
         if (! empty($data['plan_id'])) {
             $data['base_amount'] = $this->voucherBaseAmount($data['plan_id'], $data['benefit_duration'] ?? null);
         } else {
+            abort_if($data['discount_type'] !== 'percentage', 422, 'Este tipo de voucher exige um plano específico.');
             $data['base_amount'] = null;
         }
         $id = PrefixedUlid::make('VCH');
@@ -538,31 +585,72 @@ class BackofficeController extends Controller
         };
     }
 
-    public function updateVoucherStatus(Request $request, string $voucher, PlatformAudit $audit)
+    public function updateVoucher(Request $request, string $voucher, PlatformAudit $audit)
     {
-        $data = $request->validate(['status' => ['required', Rule::in(['ativa', 'suspensa'])]]);
         $current = DB::table('vouchers')->where('id', $voucher)->first();
         abort_unless($current, 404, 'Voucher não encontrado.');
 
-        DB::table('vouchers')->where('id', $voucher)->update([
-            'status' => $data['status'],
-            'updated_at' => now(),
+        $data = $request->validate([
+            'name' => ['sometimes', 'nullable', 'string', 'max:120'],
+            'code' => ['sometimes', 'nullable', 'string', 'max:64', 'alpha_num', Rule::unique('vouchers', 'code')->ignore($voucher, 'id')],
+            'discount_type' => ['sometimes', Rule::in(['trial_free', 'percentage', 'fixed', 'commercial_credit'])],
+            'discount_value' => ['sometimes', 'numeric', 'gt:0'],
+            'product_id' => ['sometimes', 'nullable', 'string', 'size:30'],
+            'plan_id' => ['sometimes', 'nullable', 'string', 'size:30'],
+            'benefit_duration' => ['sometimes', 'nullable', Rule::in(['d7', 'm1', 'm3', 'm6', 'a1'])],
+            'redemption_limit' => ['sometimes', 'nullable', 'integer', 'min:1'],
+            'redemption_limit_per_company' => ['sometimes', 'nullable', 'integer', 'min:1'],
+            'starts_at' => ['sometimes', 'nullable', 'date'],
+            'ends_at' => ['sometimes', 'nullable', 'date', 'after:starts_at'],
+            'status' => ['sometimes', Rule::in(['ativa', 'suspensa'])],
+            'origin' => ['sometimes', 'nullable', 'string', 'max:120'],
+            'notes' => ['sometimes', 'nullable', 'string', 'max:2000'],
         ]);
+        $redemptions = DB::table('voucher_redemptions')->where('voucher_id', $voucher)->count();
+        $editableFields = array_diff(array_keys($data), ['status']);
+        abort_if($redemptions && $editableFields !== [], 422, 'Voucher com resgate não pode ter suas regras comerciais alteradas.');
+
+        if ($editableFields !== []) {
+            $merged = [...(array) $current, ...$data];
+            if (($merged['discount_type'] ?? null) === 'percentage') abort_if((float) $merged['discount_value'] > 100, 422, 'O percentual não pode exceder 100%.');
+            if (! empty($merged['product_id'])) abort_unless(DB::table('products')->where('id', $merged['product_id'])->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
+            if (! empty($merged['plan_id'])) abort_unless(DB::table('plans')->where('id', $merged['plan_id'])->exists(), 422, 'O plano selecionado não existe no catálogo.');
+            if (! empty($merged['plan_id']) && ! empty($merged['product_id'])) abort_unless(DB::table('plans')->where('id', $merged['plan_id'])->where('product_id', $merged['product_id'])->exists(), 422, 'O plano selecionado não pertence ao sistema informado.');
+            if (($merged['plan_id'] ?? null) === null) abort_if(($merged['discount_type'] ?? null) !== 'percentage', 422, 'Este tipo de voucher exige um plano específico.');
+            $data['base_amount'] = $this->voucherBaseAmount($merged['plan_id'], $merged['benefit_duration'] ?? null);
+            if (isset($data['code'])) $data['code'] = strtoupper($data['code']);
+        }
+
+        DB::table('vouchers')->where('id', $voucher)->update([...$data, 'updated_at' => now()]);
 
         $audit->record(
             $request->user()->id,
-            'backoffice.voucher_' . ($data['status'] === 'ativa' ? 'reactivated' : 'paused'),
+            $editableFields === [] ? 'backoffice.voucher_' . ($data['status'] === 'ativa' ? 'reactivated' : 'paused') : 'backoffice.voucher_updated',
             'voucher',
             $voucher,
-            reason: $data['status'] === 'ativa' ? 'Reativação de voucher' : 'Pausa de voucher',
+            reason: $editableFields === [] ? ($data['status'] === 'ativa' ? 'Reativação de voucher' : 'Pausa de voucher') : 'Atualização de voucher',
+            before: (array) $current,
+            after: $data,
             request: $request,
         );
 
-        return response()->json(['message' => 'Status do voucher atualizado.']);
+        return response()->json(['message' => $editableFields === [] ? 'Status do voucher atualizado.' : 'Voucher atualizado.']);
+    }
+
+    public function archiveVoucher(Request $request, string $voucher, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        $current = DB::table('vouchers')->where('id', $voucher)->first();
+        abort_unless($current, 404, 'Voucher não encontrado.');
+        DB::table('vouchers')->where('id', $voucher)->update(['status' => 'encerrada', 'updated_at' => now()]);
+        $audit->record($request->user()->id, 'backoffice.voucher_archived', 'voucher', $voucher, reason: $data['reason'], before: (array) $current, request: $request);
+
+        return response()->json(['message' => 'Voucher arquivado.']);
     }
 
     public function deleteVoucher(Request $request, string $voucher, PlatformAudit $audit)
     {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
         $current = DB::table('vouchers')->where('id', $voucher)->first();
         abort_unless($current, 404, 'Voucher não encontrado.');
         abort_if(
@@ -570,9 +658,10 @@ class BackofficeController extends Controller
             422,
             'Vouchers com resgates não podem ser excluídos. Pause o voucher para impedir novos usos.',
         );
+        abort_if(DB::table('voucher_redemption_reservations')->where('voucher_id', $voucher)->where('status', 'pending')->exists(), 422, 'Voucher possui uma reserva de checkout pendente. Aguarde a expiração ou arquive-o.');
 
         DB::table('vouchers')->where('id', $voucher)->delete();
-        $audit->record($request->user()->id, 'backoffice.voucher_deleted', 'voucher', $voucher, reason: 'Exclusão de voucher', request: $request);
+        $audit->record($request->user()->id, 'backoffice.voucher_deleted', 'voucher', $voucher, reason: $data['reason'], request: $request);
 
         return response()->noContent();
     }

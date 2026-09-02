@@ -638,3 +638,6 @@ Evolucoes necessarias:
 Este documento esta suficiente quando um implementador consegue planejar
 migrations, status, chaves, relacionamentos, retencao, snapshots e consultas
 principais sem tomar novas decisoes de dados.
+## Modelo de reserva e snapshot de voucher
+
+voucher_redemption_reservations guarda request_key único, empresa, voucher, assinatura opcional, estado pending/confirmed/released/expired, snapshot e janela de expiração. voucher_redemptions.snapshot preserva o contexto comercial confirmado, incluindo o período do benefício. As FKs e verificações de dependência protegem histórico de catálogo e resgates.

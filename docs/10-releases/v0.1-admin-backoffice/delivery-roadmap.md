@@ -59,3 +59,6 @@ composicoes e publicacao controlada estiverem implementados, testados e
 documentados em [Marco 3 - catalogo administrativo](milestone-3-catalog.md).
 O catalogo publico e o checkout devem consumir somente a ultima publicacao
 versionada do backend.
+## Marco 4 - vouchers/cupons e release 0.0.4
+
+Além de criar, pausar, arquivar e consumir vouchers, este marco inclui commercial_credit, reserva temporária no checkout, confirmação por webhook, liberação em falha/abandono, snapshot completo, edição pré-resgate, exclusões condicionais de planos/funcionalidades/publicação e revisão dos formulários. A saída pública continua com contrato 0.0.3; a entrega é 0.0.4. O detalhamento está em [milestone-4-vouchers.md](milestone-4-vouchers.md).
