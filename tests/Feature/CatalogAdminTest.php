@@ -100,6 +100,27 @@ class CatalogAdminTest extends TestCase
         $this->assertNotContains('Fokus Cloud Law - Advocacia Alterada', collect($after['plans'])->pluck('name')->all());
     }
 
+    public function test_product_display_order_is_persisted_and_reflected_in_catalog_listing(): void
+    {
+        $admin = $this->admin();
+        $lawId = DB::table('products')->where('code', 'law')->value('id');
+        $leadId = DB::table('products')->where('code', 'lead')->value('id');
+
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/catalog/products/{$lawId}", [
+            'display_order' => 9,
+        ])->assertOk();
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/catalog/products/{$leadId}", [
+            'display_order' => 1,
+        ])->assertOk();
+
+        $products = $this->actingAs($admin, 'platform')->getJson('/api/backoffice/catalog')
+            ->assertOk()
+            ->json('products');
+
+        $this->assertSame('lead', $products[0]['code']);
+        $this->assertSame(9, DB::table('products')->where('id', $lawId)->value('display_order'));
+    }
+
     public function test_superadmin_can_pause_public_items_but_commercial_admin_cannot(): void
     {
         $commercial = $this->admin('administrador_comercial');
