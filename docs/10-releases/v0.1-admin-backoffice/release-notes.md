@@ -152,6 +152,6 @@ navegador. O contrato publico do catalogo permanece 0.0.3.
 
 Primeira camada operacional de Mercado Pago sandbox, com checkout idempotente,
 webhooks HMAC, recorrência, tolerância de inadimplência, pagamentos,
-conciliação manual, reembolsos controlados e página administrativa de Billing.
+conciliação manual, reembolsos controlados e página administrativa de Pagamentos.
 Credenciais sandbox reais e homologação completa permanecem requisitos antes da
 promoção para beta.

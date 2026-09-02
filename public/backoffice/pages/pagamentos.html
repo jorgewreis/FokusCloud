@@ -1,6 +1,6 @@
-<div class="billing-page d-flex col">
+<div class="pagamentos-page d-flex col">
     <div class="col gap-3 mb-3">
-        <h1 class="text-display-4">Billing</h1>
+        <h1 class="text-display-4">Pagamentos</h1>
         <p class="text-heading-5 text-muted">Pagamentos, conciliação e reembolsos do ambiente operacional.</p>
     </div>
     <hr>
@@ -8,7 +8,7 @@
     <section class="form-panel">
         <div class="d-flex justify-between align-center gap-3">
             <div class="col gap-1"><h2 class="text-heading-3">Pagamentos recentes</h2><p class="text-body text-muted">A origem do status permanece no Mercado Pago.</p></div>
-            <button class="button button-secondary" type="button" id="billing-reload">Atualizar</button>
+            <button class="submit" type="button" id="billing-reload">Atualizar</button>
         </div>
         <div class="table-panel mt-3"><table class="data-table is-responsive" aria-label="Pagamentos recentes"><thead><tr><th>Empresa</th><th>Valor</th><th>Status</th><th>Período</th><th>Gateway</th></tr></thead><tbody id="billing-payments"><tr><td colspan="5">Carregando pagamentos...</td></tr></tbody></table></div>
     </section>
@@ -29,7 +29,7 @@
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;","\"":"&quot;"}[char]));
     const money = (value) => `R$ ${Number(value || 0).toFixed(2).replace(".", ",")}`;
     const status = (value) => `<span class="badge">${escapeHtml(String(value || "-").replaceAll("_", " "))}</span>`;
-    const showError = (error) => { message.textContent = error.message || "Não foi possível carregar o billing."; message.hidden = false; };
+    const showError = (error) => { message.textContent = error.message || "Não foi possível carregar os pagamentos."; message.hidden = false; };
     async function load() {
         try {
             const [payments, reconciliation, refunds] = await Promise.all([

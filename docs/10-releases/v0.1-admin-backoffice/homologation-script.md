@@ -123,4 +123,4 @@ Resultado esperado: eventos e alertas existem com escopo e permissao corretos.
 3. Simular aprovação, recusa, pausa, cancelamento, tolerância de inadimplência e reativação.
 4. Abrir divergência, revisar com administrador comercial e confirmar bloqueio de correção para esse perfil.
 5. Solicitar, aprovar, recusar e executar reembolso total e parcial com o superadministrador.
-6. Conferir auditoria, payloads sanitizados, permissões, página de Billing e ausência de dados sensíveis.
+6. Conferir auditoria, payloads sanitizados, permissões, página de Pagamentos e ausência de dados sensíveis.
