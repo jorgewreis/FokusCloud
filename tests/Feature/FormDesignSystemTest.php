@@ -51,7 +51,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260902-commercial-alpha1', $panel);
+        $this->assertStringContainsString('20260902-page-spacing', $panel);
         foreach ([$access, $activate] as $contents) {
             $this->assertStringContainsString('20260901-live-controls', $contents);
         }
@@ -142,8 +142,10 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('cancelamento_imediato', $subscriptions);
 
         $pageCss = file_get_contents(base_path('public/backoffice/assets/css/pages/mockup.css'));
+        $formCss = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         foreach (['.company-page', '.subscription-page'] as $selector) {
             $this->assertStringContainsString($selector, $pageCss, $selector);
+            $this->assertStringContainsString($selector, $formCss, $selector);
         }
     }
 }

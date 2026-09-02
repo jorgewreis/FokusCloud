@@ -1,6 +1,8 @@
 .plan-page,
 .voucher-page,
-.security-page {
+.security-page,
+.company-page,
+.subscription-page {
     width: calc(100% - 35px);
     margin: var(--space-3);
 }
