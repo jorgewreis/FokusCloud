@@ -11,6 +11,9 @@ use App\Services\CatalogPricing;
 use App\Services\PrefixedUlid;
 use App\Services\VoucherManager;
 use App\Services\SubscriptionChangeManager;
+use App\Services\MercadoPagoClient;
+use App\Services\BillingReconciliationManager;
+use App\Services\RefundManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -101,6 +104,80 @@ class BackofficeController extends Controller
         $audit->record($request->user()->id, 'backoffice.subscription_viewed', 'subscription', $subscription, $current->company_id, request: $request);
 
         return response()->json($this->subscriptionPayload($current, true));
+    }
+
+    public function payments(Request $request, PlatformAudit $audit)
+    {
+        $perPage = min(max((int) $request->query('per_page', 25), 1), 100);
+        $paginator = DB::table('payments as payment')
+            ->join('companies as company', 'company.id', '=', 'payment.company_id')
+            ->leftJoin('subscriptions as subscription', 'subscription.id', '=', 'payment.subscription_id')
+            ->whereNull('company.deleted_at')
+            ->when($request->query('status'), fn ($query, $status) => $query->where('payment.status', $status))
+            ->when($request->query('company_id'), fn ($query, $companyId) => $query->where('payment.company_id', $companyId))
+            ->select('payment.*', 'company.legal_name as company_name', 'subscription.provider_subscription_id')
+            ->orderByDesc('payment.created_at')->paginate($perPage);
+        $audit->record($request->user()->id, 'backoffice.payments_viewed', request: $request);
+        return response()->json(['data' => collect($paginator->items())->map(fn (object $payment): array => [...$this->paymentPayload($payment), 'company_name' => $payment->company_name, 'subscription_id' => $payment->subscription_id, 'provider_subscription_id' => $payment->provider_subscription_id])->values(), 'meta' => $this->paginationMeta($paginator)]);
+    }
+
+    public function payment(Request $request, string $payment, PlatformAudit $audit)
+    {
+        $row = DB::table('payments as payment')->join('companies as company', 'company.id', '=', 'payment.company_id')->where('payment.id', $payment)->select('payment.*', 'company.legal_name as company_name')->first();
+        abort_unless($row, 404, 'Pagamento não encontrado.');
+        $audit->record($request->user()->id, 'backoffice.payment_viewed', 'payment', $payment, $row->company_id, request: $request);
+        return response()->json([...$this->paymentPayload($row), 'company_name' => $row->company_name]);
+    }
+
+    public function reconciliation(Request $request, BillingReconciliationManager $manager, PlatformAudit $audit)
+    {
+        $audit->record($request->user()->id, 'backoffice.reconciliation_viewed', request: $request);
+        return response()->json($manager->list($request->query()));
+    }
+
+    public function reconciliationDetail(Request $request, string $alert, PlatformAudit $audit)
+    {
+        $row = DB::table('payment_reconciliation_alerts')->where('id', $alert)->first();
+        abort_unless($row, 404, 'Divergência não encontrada.');
+        $audit->record($request->user()->id, 'backoffice.reconciliation_detail_viewed', 'payment_reconciliation_alert', $alert, $row->company_id, request: $request);
+        return response()->json($row);
+    }
+
+    public function updateReconciliation(Request $request, string $alert, BillingReconciliationManager $manager, PlatformAudit $audit)
+    {
+        $data = $request->validate(['action' => ['required', Rule::in(['revisar', 'descartar', 'corrigir'])], 'reason' => ['required', 'string', 'max:1000']]);
+        return response()->json($manager->action($alert, $data['action'], $data['reason'], $request->user(), $audit));
+    }
+
+    public function refunds(Request $request, RefundManager $manager, PlatformAudit $audit)
+    {
+        $query = DB::table('refund_requests')->orderByDesc('created_at');
+        if ($request->query('status')) $query->where('status', $request->query('status'));
+        $paginator = $query->paginate(min(max((int) $request->query('per_page', 25), 1), 100));
+        $audit->record($request->user()->id, 'backoffice.refunds_viewed', request: $request);
+        return response()->json(['data' => collect($paginator->items())->map(fn (object $refund): array => $manager->payload($refund))->values(), 'meta' => $this->paginationMeta($paginator)]);
+    }
+
+    public function refund(Request $request, string $refund, RefundManager $manager, PlatformAudit $audit)
+    {
+        $row = DB::table('refund_requests')->where('id', $refund)->first();
+        abort_unless($row, 404, 'Solicitação de reembolso não encontrada.');
+        $audit->record($request->user()->id, 'backoffice.refund_viewed', 'refund_request', $refund, $row->company_id, request: $request);
+        return response()->json($manager->payload($row));
+    }
+
+    public function createRefund(Request $request, RefundManager $manager, PlatformAudit $audit)
+    {
+        $data = $request->validate(['payment_id' => ['required', 'string'], 'amount' => ['required', 'numeric', 'gt:0'], 'allowed_case' => ['required', Rule::in(RefundManager::CASES)], 'reason' => ['required', 'string', 'max:1000']]);
+        $refund = $manager->request($data, $request->user());
+        $audit->record($request->user()->id, 'backoffice.refund_requested', 'refund_request', $refund->id, $refund->company_id, $data['reason'], after: ['status' => 'solicitado', 'amount' => $refund->amount], request: $request);
+        return response()->json($manager->payload($refund), 201);
+    }
+
+    public function updateRefund(Request $request, string $refund, RefundManager $manager, PlatformAudit $audit, MercadoPagoClient $client)
+    {
+        $data = $request->validate(['action' => ['required', Rule::in(['aprovar', 'recusar', 'executar'])], 'reason' => ['required', 'string', 'max:1000']]);
+        return response()->json($manager->payload($manager->action($refund, $data['action'], $data['reason'], $request->user(), $client, $audit)));
     }
 
     public function catalog(Request $request, CatalogManager $catalog)

@@ -91,6 +91,15 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::get('/subscriptions', [BackofficeController::class, 'subscriptions'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
     Route::get('/subscriptions/{subscription}', [BackofficeController::class, 'subscription'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
     Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
+    Route::get('/payments', [BackofficeController::class, 'payments'])->middleware(EnsurePlatformPermission::class.':platform.payments.view');
+    Route::get('/payments/{payment}', [BackofficeController::class, 'payment'])->middleware(EnsurePlatformPermission::class.':platform.payments.view');
+    Route::get('/reconciliation', [BackofficeController::class, 'reconciliation'])->middleware(EnsurePlatformPermission::class.':platform.reconciliation.view');
+    Route::get('/reconciliation/{alert}', [BackofficeController::class, 'reconciliationDetail'])->middleware(EnsurePlatformPermission::class.':platform.reconciliation.view');
+    Route::patch('/reconciliation/{alert}', [BackofficeController::class, 'updateReconciliation'])->middleware(EnsurePlatformPermission::class.':platform.reconciliation.view');
+    Route::get('/refunds', [BackofficeController::class, 'refunds'])->middleware(EnsurePlatformPermission::class.':platform.refunds.request');
+    Route::get('/refunds/{refund}', [BackofficeController::class, 'refund'])->middleware(EnsurePlatformPermission::class.':platform.refunds.request');
+    Route::post('/refunds', [BackofficeController::class, 'createRefund'])->middleware(EnsurePlatformPermission::class.':platform.refunds.request');
+    Route::patch('/refunds/{refund}', [BackofficeController::class, 'updateRefund'])->middleware(EnsurePlatformPermission::class.':platform.refunds.manage');
     Route::get('/vouchers', [BackofficeController::class, 'vouchers'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
     Route::post('/vouchers', [BackofficeController::class, 'createVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
     Route::patch('/vouchers/{voucher}', [BackofficeController::class, 'updateVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
