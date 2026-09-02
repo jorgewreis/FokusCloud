@@ -174,7 +174,7 @@
     color: var(--text-color-muted, var(--theme-text-muted, var(--color-gray-700)));
 }
 
-.fc-form input,
+.fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
 .fc-form select,
 .fc-form textarea,
 .form-input-text,
@@ -202,7 +202,7 @@
         background-color 200ms ease;
 }
 
-.fc-form input,
+.fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
 .fc-form select,
 .form-input-text,
 .form-select {
@@ -217,7 +217,7 @@ textarea,
     resize: vertical;
 }
 
-.fc-form input:focus,
+.fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
 .fc-form select:focus,
 .fc-form textarea:focus,
 .form-input-text:focus,
@@ -227,7 +227,7 @@ textarea,
     box-shadow: 0 0 0 2px var(--form-control-focus-ring);
 }
 
-.fc-form input:disabled,
+.fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):disabled,
 .fc-form select:disabled,
 .fc-form textarea:disabled,
 .form-input-text:disabled,

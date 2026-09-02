@@ -49,7 +49,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260902-marco4-vouchers', $panel);
+        $this->assertStringContainsString('20260902-catalog-currency-checkboxes', $panel);
         foreach ([$access, $activate] as $contents) {
             $this->assertStringContainsString('20260901-live-controls', $contents);
         }
@@ -87,5 +87,18 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringNotContainsString('data-voucher-action="delete"', $vouchers);
         $this->assertStringNotContainsString('window.confirm', $catalog.$vouchers);
         $this->assertStringNotContainsString('prompt(', $catalog.$vouchers);
+    }
+
+    public function test_catalog_uses_masked_currency_controls_and_compact_plan_checkboxes(): void
+    {
+        $catalog = file_get_contents(base_path('public/backoffice/pages/subscription-plans.html'));
+        $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
+        $pageCss = file_get_contents(base_path('public/backoffice/assets/css/pages/mockup.css'));
+
+        $this->assertSame(2, substr_count($catalog, 'data-currency-input'));
+        $this->assertStringContainsString('plan-module-checkbox', $catalog);
+        $this->assertStringContainsString('input:not([type="checkbox"]):not([type="radio"])', $css);
+        $this->assertStringContainsString('width: 16px !important', $pageCss);
+        $this->assertStringContainsString('height: 16px !important', $pageCss);
     }
 }

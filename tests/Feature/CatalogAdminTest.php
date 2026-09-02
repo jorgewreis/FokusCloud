@@ -288,6 +288,32 @@ class CatalogAdminTest extends TestCase
         $this->assertSame(299.90, (float) DB::table('plans')->where('id', $planId)->value('monthly_amount'));
     }
 
+    public function test_catalog_accepts_localized_currency_values_from_masked_inputs(): void
+    {
+        $admin = $this->admin();
+        $productId = DB::table('products')->where('code', 'law')->value('id');
+
+        $moduleId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/modules', [
+            'product_id' => $productId,
+            'code' => 'modulo-preco-localizado',
+            'module_code' => 'preco-localizado',
+            'name' => 'Módulo com moeda localizada',
+            'monthly_price' => 'R$ 149,90',
+        ])->assertCreated()->json('id');
+
+        $planId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/plans', [
+            'product_id' => $productId,
+            'code' => 'plano-preco-localizado',
+            'base_name' => 'Plano com moeda localizada',
+            'monthly_amount' => 'R$ 299,90',
+            'status' => 'ativo',
+            'module_ids' => [$moduleId],
+        ])->assertCreated()->json('id');
+
+        $this->assertSame(149.90, (float) DB::table('modules')->where('id', $moduleId)->value('monthly_price'));
+        $this->assertSame(299.90, (float) DB::table('plans')->where('id', $planId)->value('monthly_amount'));
+    }
+
     public function test_physical_deletion_is_allowed_without_dependencies_and_blocked_with_dependencies(): void
     {
         $admin = $this->admin();
