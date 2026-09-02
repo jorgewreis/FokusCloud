@@ -136,14 +136,21 @@ class CatalogManager
     public function createProduct(array $data): string
     {
         $id = PrefixedUlid::make('PRD');
-        DB::table('products')->insert($this->productWritePayload($data, [
-            'id' => $id,
-            'code' => Str::slug($data['code']),
-            'active' => ($data['status'] ?? 'ativo') === 'ativo',
-            'publication_state' => 'rascunho',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]));
+        $displayOrder = array_key_exists('display_order', $data)
+            ? (int) $data['display_order']
+            : $this->nextProductDisplayOrder();
+
+        DB::transaction(function () use ($data, $id, $displayOrder): void {
+            $this->shiftProductOrdersFrom($displayOrder);
+            DB::table('products')->insert($this->productWritePayload([...$data, 'display_order' => $displayOrder], [
+                'id' => $id,
+                'code' => Str::slug($data['code']),
+                'active' => ($data['status'] ?? 'ativo') === 'ativo',
+                'publication_state' => 'rascunho',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
+        });
 
         return $id;
     }
@@ -155,7 +162,21 @@ class CatalogManager
             $extra['active'] = $data['status'] === 'ativo';
         }
 
-        DB::table('products')->where('id', $productId)->update($this->productWritePayload($data, $extra));
+        DB::transaction(function () use ($productId, $data, $extra): void {
+            $payload = $this->productWritePayload($data, $extra);
+
+            if (array_key_exists('display_order', $data)) {
+                $currentOrder = (int) DB::table('products')->where('id', $productId)->value('display_order');
+                $nextOrder = (int) $data['display_order'];
+
+                if ($currentOrder !== $nextOrder) {
+                    DB::table('products')->where('id', $productId)->update(['display_order' => $this->temporaryProductDisplayOrder(), 'updated_at' => now()]);
+                    $this->shiftProductOrdersFrom($nextOrder, $productId);
+                }
+            }
+
+            DB::table('products')->where('id', $productId)->update($payload);
+        });
     }
 
     public function createModule(array $data): string
@@ -431,6 +452,31 @@ class CatalogManager
                 'featured' => array_key_exists('featured', $data) ? (bool) $data['featured'] : null,
             ], fn ($value): bool => $value !== null),
         ];
+    }
+
+    private function nextProductDisplayOrder(): int
+    {
+        return ((int) DB::table('products')->max('display_order')) + 1;
+    }
+
+    private function temporaryProductDisplayOrder(): int
+    {
+        return $this->nextProductDisplayOrder() + 1000;
+    }
+
+    private function shiftProductOrdersFrom(int $displayOrder, ?string $exceptProductId = null): void
+    {
+        $query = DB::table('products')->where('display_order', '>=', $displayOrder);
+        if ($exceptProductId) {
+            $query->where('id', '!=', $exceptProductId);
+        }
+
+        $query->orderByDesc('display_order')->get(['id', 'display_order'])->each(function (object $product): void {
+            DB::table('products')->where('id', $product->id)->update([
+                'display_order' => ((int) $product->display_order) + 1,
+                'updated_at' => now(),
+            ]);
+        });
     }
 
     private function moduleWritePayload(array $data, array $extra): array

@@ -16,7 +16,8 @@ Campos principais:
 - `publication_state`: estado de publicacao;
 - `published_catalog_version`: ultima versao publicada;
 - descricoes tecnica e comercial;
-- ordem de exibicao e destaque;
+- ordem de exibicao unica entre produtos, com reordenacao automatica em caso
+  de colisao, e destaque;
 - `created_at` e `updated_at`.
 
 ### `plans`

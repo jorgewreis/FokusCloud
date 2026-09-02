@@ -37,11 +37,14 @@ fonte normativa do Marco 3 e o grupo `/api/backoffice/catalog`.
 
 ## Validacao de publicacao
 
-A publicacao imediata exige produto ativo, ao menos uma funcionalidade ativa,
-ao menos um plano ativo, plano com composicao, funcionalidades do mesmo produto,
-precos validos, dependencias atendidas, incompatibilidades ausentes e nenhum
-item arquivado. Cada publicacao grava uma linha em `catalog_publications` com
-snapshot completo, versao, motivo, autor quando houver e data.
+A publicacao imediata exige produto ativo, ordem unica entre produtos, ao menos
+uma funcionalidade ativa, ao menos um plano ativo, plano com composicao,
+funcionalidades do mesmo produto, precos validos, dependencias atendidas,
+incompatibilidades ausentes e nenhum item arquivado. Quando uma ordem de
+produto ja existente e informada, o produto editado ou criado assume essa
+posicao e os demais itens subsequentes sao reordenados automaticamente. Cada
+publicacao grava uma linha em `catalog_publications` com snapshot completo,
+versao, motivo, autor quando houver e data.
 
 ## Evidencias de aceite
 

@@ -118,7 +118,34 @@ class CatalogAdminTest extends TestCase
             ->json('products');
 
         $this->assertSame('lead', $products[0]['code']);
-        $this->assertSame(9, DB::table('products')->where('id', $lawId)->value('display_order'));
+        $this->assertSame(10, DB::table('products')->where('id', $lawId)->value('display_order'));
+        $this->assertSame(1, DB::table('products')->where('id', $leadId)->value('display_order'));
+    }
+
+    public function test_product_display_order_collision_reorders_subsequent_products(): void
+    {
+        $admin = $this->admin();
+        $lawId = DB::table('products')->where('code', 'law')->value('id');
+        $leadId = DB::table('products')->where('code', 'lead')->value('id');
+
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/catalog/products/{$leadId}", [
+            'display_order' => 1,
+        ])->assertOk();
+
+        $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/products', [
+            'code' => 'academy',
+            'name' => 'Fokus Cloud Academy',
+            'status' => 'ativo',
+            'display_order' => 1,
+        ])->assertCreated();
+
+        $products = $this->actingAs($admin, 'platform')->getJson('/api/backoffice/catalog')
+            ->assertOk()
+            ->json('products');
+
+        $this->assertSame(['academy', 'lead', 'law'], collect($products)->pluck('code')->all());
+        $this->assertSame(3, DB::table('products')->where('id', $lawId)->value('display_order'));
+        $this->assertSame(2, DB::table('products')->where('id', $leadId)->value('display_order'));
     }
 
     public function test_superadmin_can_pause_public_items_but_commercial_admin_cannot(): void

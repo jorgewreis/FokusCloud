@@ -23,7 +23,8 @@ Cada sistema deve possuir:
 - descricao tecnica e conteudo comercial separados;
 - identificacao visual;
 - status;
-- ordem de exibicao;
+- ordem de exibicao unica entre sistemas, com reordenacao automatica dos itens
+  subsequentes quando uma posicao ja existente for escolhida;
 - datas de criacao e alteracao.
 
 Os sistemas comerciais oficiais sao:

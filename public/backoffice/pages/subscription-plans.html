@@ -130,7 +130,7 @@
 
         function render() {
             renderSelects();
-            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td><input class="plan-order-input" type="number" min="0" step="1" value="${Number(product.display_order || 0)}" data-product-order-input="${escapeHtml(product.id)}"></td><td>${product.published_version || 0}</td><td><button class="button button-secondary" type="button" data-edit-product="${escapeHtml(product.id)}">Editar</button><button class="button button-secondary" type="button" data-save-product-order="${escapeHtml(product.id)}">Salvar ordem</button></td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
+            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td><button class="button button-secondary" type="button" data-edit-product="${escapeHtml(product.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
             document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td><button class="button button-secondary" type="button" data-edit-module="${escapeHtml(module.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
             document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td><button class="button button-secondary" type="button" data-edit-plan="${escapeHtml(plan.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
@@ -209,15 +209,8 @@
 
         document.addEventListener("click", async (event) => {
             const productId = event.target.closest("[data-edit-product]")?.dataset.editProduct;
-            const productOrderId = event.target.closest("[data-save-product-order]")?.dataset.saveProductOrder;
             const moduleId = event.target.closest("[data-edit-module]")?.dataset.editModule;
             const planId = event.target.closest("[data-edit-plan]")?.dataset.editPlan;
-            if (productOrderId) {
-                const input = document.querySelector(`[data-product-order-input="${CSS.escape(productOrderId)}"]`);
-                await api.request(`/backoffice/catalog/products/${productOrderId}`, { method: "PATCH", body: { display_order: Number(input?.value || 0) } });
-                showMessage("Ordem do produto salva.", "success");
-                await loadCatalog();
-            }
             if (productId) {
                 const product = state.catalog.products.find((item) => item.id === productId);
                 state.editing.product = productId;
