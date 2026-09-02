@@ -11,7 +11,7 @@ O projeto ja possui base relevante para o Backoffice:
 - migrations iniciais para `platform_admins`, desafios MFA, auditoria,
   vouchers, resgates, mudancas de assinatura e campos de recorrencia;
 - paginas reais para planos e vouchers em `public/backoffice/pages`;
-- mockups para painel, empresas, assinaturas e admins internos;
+- paginas reais para empresas e assinaturas, alem das paginas de planos e vouchers;
 - testes iniciais de seguranca, isolamento e vouchers.
 
 ## Lacunas bloqueantes
@@ -21,10 +21,10 @@ O projeto ja possui base relevante para o Backoffice:
 | Perfis internos | Concluido na `0.0.2` com RBAC de plataforma e permissao por endpoint. | Reutilizar a matriz nos marcos comerciais. |
 | Bloqueio rigido | Concluido na `0.0.2` com risco por conta, IP e dispositivo. | Monitorar eventos no Marco 7. |
 | Auditoria | Base de seguranca concluida na `0.0.2` com `before_masked`, `after_masked` e `expires_at`. | Estender aos dominios comerciais nos marcos seguintes. |
-| Paginas reais | Apenas planos e vouchers aparecem como paginas reais; painel, empresas, assinaturas e admins dependem de mockups. | Backoffice nao esta funcional ponta a ponta. |
+| Paginas reais | Empresas e assinaturas foram implementadas na `v0.0.5-alpha.1`; painel e admins ainda tem escopo posterior. | Homologacao em navegador real permanece necessaria. |
 | Catalogo | Concluido na `0.0.3` com endpoints administrativos de produtos, funcionalidades, planos, composicao, publicacao e snapshot publico versionado. | Reutilizar o contrato publicado nos marcos de vouchers, assinaturas e billing. |
 | Vouchers | API atual aceita `trial_free`, `percentage` e `fixed`, mas ainda precisa `commercial_credit` e snapshot completo de resgate. | Tipos e historico comercial incompletos. |
-| Assinaturas | API atual cobre suspensao, reativacao e cancelamento simples; upgrade, downgrade, recalculo e override ainda faltam. | Fluxo comercial incompleto. |
+| Assinaturas | Consulta, snapshots, pausa, reativacao, cancelamento agendado, upgrade, downgrade e override foram implementados na `v0.0.5-alpha.1`. | Billing sandbox, conciliacao e reembolsos permanecem no Marco 6. |
 | Billing | Mercado Pago sandbox, webhook validado, recorrencia, inadimplencia, reembolso e conciliacao ainda precisam ser fechados. | Financeiro administrativo incompleto. |
 | Alertas | Tabelas e APIs de alertas, comentarios, incidentes e notificacoes ainda precisam ser criadas. | Dashboard operacional e conciliacao ficam incompletos. |
 

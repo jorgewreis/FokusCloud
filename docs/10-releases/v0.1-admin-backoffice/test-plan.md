@@ -70,3 +70,20 @@ no resultado da homologacao.
 ## Testes da release 0.0.4
 
 Cobrir tipos de voucher, validade, limites, elegibilidade por plano, concorrência/idempotência de reserva, confirmação/liberação, snapshot, crédito comercial, edição pré/pós-resgate, exclusões, fallback de publicação e payload base_name. A validação automatizada da pré-release `v0.0.4-alpha.1` executa 57 testes aprovados, incluindo regressões de expiração, falha do gateway, webhook repetido, imutabilidade pós-resgate e exclusão com reserva pendente. O aceite final ainda requer navegador real para todos os formulários e perfis.
+
+## Testes do Marco 5 / `v0.0.5-alpha.1`
+
+Executar em banco descartavel SQLite e registrar a evidencia real:
+
+```bash
+php artisan migrate:fresh --seed
+php artisan test
+npm run build
+git diff --check
+```
+
+Os cenarios abrangem consulta paginada de empresas, mascaramento, detalhe de
+assinatura, pagamentos, itens, historico, snapshots, pausa, reativacao,
+cancelamento agendado, upgrade pendente, downgrade agendado, override,
+permissoes, auditoria e aplicacao de mudancas pelo comando agendado. Billing
+sandbox, conciliacao e homologacao de navegador permanecem fora da alpha.

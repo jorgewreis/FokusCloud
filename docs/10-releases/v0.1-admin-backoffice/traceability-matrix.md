@@ -52,6 +52,19 @@ Esta matriz e o artefato central da release documental `0.0.1`.
 
 Quando um marco mudar escopo, status, aceite ou teste obrigatorio, esta matriz
 deve ser atualizada no mesmo commit da mudanca documental correspondente.
+
+## Marco 5 / release `v0.0.5-alpha.1`
+
+| Requisito | Implementacao | Evidencia |
+| --- | --- | --- |
+| RF-BO-008 e RF-BO-015 — consulta de empresas | APIs paginadas, detalhe comercial, mascaramento e pagina real | `CompanyAdminTest`, `FormDesignSystemTest` |
+| RF-BO-009 — consulta de assinaturas | Listagem, detalhe, itens, pagamentos, historico e snapshot | `SubscriptionAdminTest` |
+| RF-BO-010 — acoes controladas | Pausa, reativacao e cancelamento agendado com motivo e auditoria | `SubscriptionAdminTest` |
+| RF-BO-011 — troca de plano | Upgrade pendente, downgrade agendado e recalculo pelo catalogo publicado | `SubscriptionAdminTest`, `ApplyScheduledSubscriptionChanges` |
+| RF-BO-012 — override e historico | Override por superadministrador, before/after e versionamento | `SubscriptionAdminTest` |
+
+A validacao final da pre-release deve registrar a execucao completa da suite,
+build, diff-check, workflow do GitHub Actions e commit publicado.
 ## Marco 4 / release 0.0.4
 
 | Requisito | Implementação | Evidência |

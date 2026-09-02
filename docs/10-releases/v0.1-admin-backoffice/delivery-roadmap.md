@@ -62,3 +62,14 @@ versionada do backend.
 ## Marco 4 - vouchers/cupons e release 0.0.4
 
 Além de criar, pausar, arquivar e consumir vouchers, este marco inclui commercial_credit, reserva temporária no checkout, confirmação por webhook, liberação em falha/abandono, snapshot completo, edição pré-resgate, exclusões condicionais de planos/funcionalidades/publicação e revisão dos formulários. A saída pública continua com contrato 0.0.3; a entrega é 0.0.4. O detalhamento está em [milestone-4-vouchers.md](milestone-4-vouchers.md).
+
+## Marco 5 - empresas e assinaturas e release 0.0.5
+
+O Marco 5 e entregue inicialmente como `v0.0.5-alpha.1`, com consulta
+comercial de empresas, consulta detalhada de assinaturas, pagamentos locais,
+itens e historico, alem de pausa, reativacao, cancelamento agendado, upgrade
+pendente de pagamento, downgrade agendado e override restrito ao
+superadministrador. A implementacao preserva snapshots, auditoria e o
+contrato publico 0.0.3 do catalogo. Billing sandbox completo, conciliacao,
+reembolsos e alertas financeiros permanecem no Marco 6/7. O detalhamento esta
+em [milestone-5-companies-subscriptions.md](milestone-5-companies-subscriptions.md).

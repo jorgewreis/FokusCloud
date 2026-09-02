@@ -7,12 +7,12 @@
 - [ ] Exibir eventos sensiveis recentes.
 - [ ] Diferenciar dados internos, dados do Mercado Pago e divergencias.
 
-## Empresas
+## Empresas — `v0.0.5-alpha.1`
 
-- [ ] Listar empresas com busca por nome e documento mascarado.
-- [ ] Exibir assinatura, plano, ciclo, status comercial, pagamentos e uso recente.
-- [ ] Permitir somente gestao comercial autorizada.
-- [ ] Bloquear alteracao de CPF, CNPJ, razao social, nome civil, e-mail e senha.
+- [x] Listar empresas com busca, paginação e documento mascarado.
+- [x] Exibir assinatura, plano, ciclo, status comercial, pagamentos e uso recente.
+- [x] Permitir somente gestão comercial autorizada.
+- [x] Bloquear alteração de CPF, CNPJ, razão social, nome civil, e-mail e senha.
 
 ## Planos e catalogo
 
@@ -24,15 +24,15 @@
 - [x] Garantir que catalogo publico e checkout ignorem rascunhos, pausados,
   arquivados e incompletos.
 
-## Assinaturas
+## Assinaturas — `v0.0.5-alpha.1`
 
-- [ ] Consultar assinatura, pagamentos, historico e snapshots.
-- [ ] Pausar e reativar assinatura com motivo e auditoria.
-- [ ] Agendar cancelamento para fim da vigencia.
-- [ ] Aplicar upgrade somente apos cobranca proporcional aprovada.
-- [ ] Agendar downgrade para fim da vigencia.
-- [ ] Recalcular valores no backend pelo catalogo publicado.
-- [ ] Permitir override manual apenas para superadministrador, com motivo e diff.
+- [x] Consultar assinatura, pagamentos, histórico e snapshots.
+- [x] Pausar e reativar assinatura com motivo e auditoria.
+- [x] Agendar cancelamento para fim da vigência.
+- [x] Aplicar upgrade somente após cobrança proporcional aprovada.
+- [x] Agendar downgrade para fim da vigência.
+- [x] Recalcular valores no backend pelo catálogo publicado.
+- [x] Permitir override manual apenas para superadministrador, com motivo e diff.
 
 ## Vouchers/cupons
 
