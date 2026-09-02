@@ -10,7 +10,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('refund_requests', function (Blueprint $table): void {
+        if (! Schema::hasTable('refund_requests')) {
+            Schema::create('refund_requests', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('subscription_id', 30)->charset('ascii')->collation('ascii_bin')->nullable();
@@ -35,9 +36,11 @@ return new class extends Migration
             $table->foreign('approved_by_platform_admin_id', 'refund_approver_fk')->references('id')->on('platform_admins')->nullOnDelete();
             $table->index(['company_id', 'status', 'created_at']);
             $table->index(['payment_id', 'status']);
-        });
+            });
+        }
 
-        Schema::create('payment_reconciliation_alerts', function (Blueprint $table): void {
+        if (! Schema::hasTable('payment_reconciliation_alerts')) {
+            Schema::create('payment_reconciliation_alerts', function (Blueprint $table): void {
             $table->char('id', 30)->charset('ascii')->collation('ascii_bin')->primary();
             $table->char('company_id', 30)->charset('ascii')->collation('ascii_bin');
             $table->char('subscription_id', 30)->charset('ascii')->collation('ascii_bin')->nullable();
@@ -67,7 +70,8 @@ return new class extends Migration
             $table->foreign('audit_event_id', 'recon_audit_fk')->references('id')->on('platform_audit_events')->nullOnDelete();
             $table->index(['status', 'impact', 'opened_at']);
             $table->index(['company_id', 'subscription_id', 'payment_id']);
-        });
+            });
+        }
 
         $permissions = [
             'platform.payments.view' => 'Consultar pagamentos',
