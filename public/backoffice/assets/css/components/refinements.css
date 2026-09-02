@@ -239,6 +239,7 @@ html[data-theme="dark"] .modal { background: rgb(0 0 0 / .68); }
 .form-control-wrap.has-action .form-control { padding-right: 42px; }
 .input-prefix, .input-suffix { display: inline-flex; align-items: center; min-height: 40px; padding: 0 10px; border: 1px solid var(--color-gray-200); background: var(--color-gray-100); color: var(--color-gray-700); font-size: 12px; white-space: nowrap; }
 .input-group { display: flex; flex-wrap: nowrap; align-items: stretch; width: 100%; }
+.currency-input > input { flex: 1 1 auto; width: auto; min-width: 0; }
 .input-group > .form-control, .input-group > .form-input-text { flex: 1 1 auto; width: auto; min-width: 0; }
 .input-group > .input-prefix, .input-group > .input-suffix { flex: 0 0 auto; }
 .input-group > .input-prefix + .form-control,
@@ -251,6 +252,7 @@ html[data-theme="dark"] .modal { background: rgb(0 0 0 / .68); }
 .input-prefix { border-right: 0; border-radius: 5px 0 0 5px; }
 .input-suffix { border-left: 0; border-radius: 0 5px 5px 0; }
 .input-prefix + .form-control, .input-prefix + .form-control-wrap .form-control { border-radius: 0 5px 5px 0; }
+.currency-input > .input-prefix + input { margin-left: -1px; border-radius: 0 var(--radius-control) var(--radius-control) 0; }
 .form-control:has(+ .input-suffix) { border-radius: 5px 0 0 5px; }
 .form-control-wrap.is-loading::after { content: ""; position: absolute; right: 12px; width: 14px; height: 14px; border: 2px solid var(--role-color-200); border-top-color: var(--role-color-500); border-radius: 50%; animation: form-control-spin 700ms linear infinite; }
 @keyframes form-control-spin { to { transform: rotate(360deg); } }

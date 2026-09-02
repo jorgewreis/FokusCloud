@@ -262,6 +262,32 @@ class CatalogAdminTest extends TestCase
         $this->assertDatabaseHas('plans', ['id' => $planId, 'name' => 'Plano editado pela interface']);
     }
 
+    public function test_catalog_form_values_are_persisted_as_decimal_amounts(): void
+    {
+        $admin = $this->admin();
+        $productId = DB::table('products')->where('code', 'law')->value('id');
+
+        $moduleId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/modules', [
+            'product_id' => $productId,
+            'code' => 'modulo-preco-decimal',
+            'module_code' => 'preco-decimal',
+            'name' => 'Módulo com preço decimal',
+            'monthly_price' => 149.90,
+        ])->assertCreated()->json('id');
+
+        $planId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/plans', [
+            'product_id' => $productId,
+            'code' => 'plano-preco-decimal',
+            'base_name' => 'Plano com valor decimal',
+            'monthly_amount' => 299.90,
+            'status' => 'ativo',
+            'module_ids' => [$moduleId],
+        ])->assertCreated()->json('id');
+
+        $this->assertSame(149.90, (float) DB::table('modules')->where('id', $moduleId)->value('monthly_price'));
+        $this->assertSame(299.90, (float) DB::table('plans')->where('id', $planId)->value('monthly_amount'));
+    }
+
     public function test_physical_deletion_is_allowed_without_dependencies_and_blocked_with_dependencies(): void
     {
         $admin = $this->admin();

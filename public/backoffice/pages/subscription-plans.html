@@ -58,7 +58,7 @@
                 <div class="form-field w-3"><label for="module-name">Nome</label><input id="module-name" name="name" type="text" required></div>
             </div>
             <div class="form-line">
-                <div class="form-field w-3"><label for="module-price">Preço mensal</label><input id="module-price" name="monthly_price" type="text" inputmode="decimal" class="money-input" required></div>
+                <div class="form-field w-3"><label for="module-price">Preço mensal</label><div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="module-price" name="monthly_price" type="number" min="0" step="0.01" inputmode="decimal" required></div></div>
                 <div class="form-field w-3"><label for="module-segment">Segmento</label><input id="module-segment" name="segment_code" type="text"></div>
                 <div class="form-field w-3"><label for="module-context">Contexto</label><input id="module-context" name="context_code" type="text"></div>
                 <div class="form-field w-3"><label for="module-status">Status</label><select id="module-status" name="status"><option value="ativo">Ativo</option><option value="rascunho">Rascunho</option><option value="pausado">Pausado</option><option value="arquivado">Arquivado</option></select></div>
@@ -76,13 +76,13 @@
         <form class="fc-form form-panel" id="plan-form">
             <div class="form-line">
                 <div class="form-field w-3"><label for="plan-product">Produto</label><select id="plan-product" name="product_id" required></select></div>
-                <div class="form-field w-3"><label for="plan-code">Código</label><input id="plan-code" name="code" type="text" required></div>
-                <div class="form-field w-3"><label for="plan-name">Nome-base</label><input id="plan-name" name="base_name" type="text" required></div>
+                <div class="form-field w-3"><label for="plan-code">Código</label><input id="plan-code" name="code" type="text" maxlength="64" required></div>
+                <div class="form-field w-3"><label for="plan-name">Nome-base</label><input id="plan-name" name="base_name" type="text" maxlength="120" required></div>
                 <div class="form-field w-3"><label for="plan-status">Status</label><select id="plan-status" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
             </div>
             <div class="form-line">
-                <div class="form-field w-3"><label for="plan-segment">Segmento</label><input id="plan-segment" name="segment" type="text"></div>
-                <div class="form-field w-3"><label for="plan-monthly">Valor mensal</label><input id="plan-monthly" name="monthly_amount" type="text" inputmode="decimal" class="money-input"></div>
+                <div class="form-field w-3"><label for="plan-segment">Segmento</label><input id="plan-segment" name="segment" type="text" maxlength="16"></div>
+                <div class="form-field w-3"><label for="plan-monthly">Valor mensal</label><div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="plan-monthly" name="monthly_amount" type="number" min="0" step="0.01" inputmode="decimal"></div></div>
                 <div class="form-field w-3"><label for="plan-order">Ordem</label><input id="plan-order" name="display_order" type="number" min="0" step="1" value="1"></div>
                 <div class="form-field w-3"><label for="plan-featured">Destaque</label><select id="plan-featured" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></div>
             </div>
@@ -110,7 +110,8 @@
         const state = { catalog: { products: [] }, editing: { product: null, module: null, plan: null } };
         const message = document.querySelector("#catalog-message");
         const money = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        const parseMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
+        const parseMoney = (value) => Number(String(value ?? "").replace(",", ".")) || 0;
+        const parseMoneyField = (field) => Number.isFinite(field?.valueAsNumber) ? field.valueAsNumber : parseMoney(field?.value);
         const splitCodes = (value) => String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
         const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
         const iconBasePath = "/backoffice/assets/icons/";
@@ -214,7 +215,7 @@
             FokusForm?.setLoading(form, true);
             try {
                 const payload = Object.fromEntries(new FormData(form));
-                payload.monthly_price = parseMoney(payload.monthly_price);
+                payload.monthly_price = parseMoneyField(form.elements.monthly_price);
                 payload.dependencies = splitCodes(payload.dependencies);
                 payload.incompatibilities = splitCodes(payload.incompatibilities);
                 const id = state.editing.module;
@@ -245,7 +246,7 @@
             try {
                 const payload = Object.fromEntries(new FormData(form));
                 payload.name = payload.base_name;
-                payload.monthly_amount = payload.monthly_amount ? parseMoney(payload.monthly_amount) : null;
+                payload.monthly_amount = form.elements.monthly_amount.value === "" ? null : parseMoneyField(form.elements.monthly_amount);
                 payload.display_order = Number(payload.display_order || 0);
                 payload.featured = payload.featured === "1";
                 payload.module_ids = moduleIds;
@@ -355,7 +356,7 @@
                     const field = document.querySelector(`#module-form [name="${key}"]`);
                     if (field) field.value = module[key] ?? "";
                 });
-                document.querySelector("#module-price").value = money(module.monthly_amount || module.monthly_price);
+                document.querySelector("#module-price").value = Number(module.monthly_amount || module.monthly_price || 0).toFixed(2);
                 document.querySelector("#module-dependencies").value = (module.dependencies || []).join(", ");
                 document.querySelector("#module-incompatibilities").value = (module.incompatibilities || []).join(", ");
             }
@@ -368,7 +369,7 @@
                 });
                 document.querySelector("#plan-name").value = plan.base_name || plan.name;
                 document.querySelector("#plan-featured").value = plan.featured ? "1" : "0";
-                document.querySelector("#plan-monthly").value = money(plan.monthly_amount);
+                document.querySelector("#plan-monthly").value = Number(plan.monthly_amount || 0).toFixed(2);
                 renderPlanModuleOptions((plan.modules || []).map((module) => module.id));
             }
         });

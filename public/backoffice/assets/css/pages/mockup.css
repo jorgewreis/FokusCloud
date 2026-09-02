@@ -26,6 +26,12 @@
 .plan-page .form-panel, .voucher-page .form-panel, .security-page .form-panel { margin: 0 0 var(--space-4); padding: var(--space-4); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface); box-shadow: var(--shadow-sm); }
 .plan-page .form-line, .voucher-page .form-line { gap: var(--space-3) var(--space-4); margin-top: var(--space-3); }
 .plan-page .form-line:first-child, .voucher-page .form-line:first-child { margin-top: 0; }
+.plan-page #plan-module-options { display: grid; gap: 8px; padding: var(--space-2); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface-alt); }
+.plan-page #plan-module-options .consent-field { box-sizing: border-box; display: flex; align-items: center; gap: 8px; width: 100%; min-height: 32px; margin: 0; padding: 6px 8px; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--theme-text); font-size: 12px; line-height: 1.35; cursor: pointer; }
+.plan-page #plan-module-options .consent-field:hover { border-color: var(--role-color-200); background: var(--role-color-050); }
+.plan-page #plan-module-options .consent-field:has(input:focus-visible) { outline: 2px solid var(--role-color-300); outline-offset: 2px; }
+.plan-page #plan-module-options .consent-field input[type="checkbox"] { flex: 0 0 16px; width: 16px; min-width: 16px; height: 16px; min-height: 16px; margin: 0; padding: 0; accent-color: var(--role-color-500); }
+.plan-page #plan-module-options .consent-field span { min-width: 0; }
 .plan-page .form-actions, .voucher-page .form-actions, .security-page .form-actions { margin-top: var(--space-4); }
 .plan-page .table-panel, .voucher-page .table-panel, .security-page .table-panel { margin-top: var(--space-3); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface); }
 .plan-page .data-table, .voucher-page .data-table, .security-page .data-table { min-width: 900px; }

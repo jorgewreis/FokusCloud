@@ -40,7 +40,7 @@
 
                 <div class="form-field w-3" id="voucher-base-field">
                     <label for="voucher-base-value">Valor da assinatura</label>
-                    <input id="voucher-base-value" name="base_amount" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00" readonly required>
+                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" type="number" min="0" step="0.01" inputmode="decimal" readonly required></div>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
 
                 <div class="form-field w-2" id="voucher-discount-value-field">
                     <label for="voucher-discount-value">Desconto R$</label>
-                    <input id="voucher-discount-value" name="discount_value_display" type="text" inputmode="decimal" class="money-input" placeholder="R$ 0,00">
+                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" type="number" min="0" step="0.01" inputmode="decimal"></div>
                 </div>
 
                 <div class="form-field w-3">
@@ -306,13 +306,8 @@
 
         const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
         const toMoney = (value) => Number(value || 0).toFixed(2);
-        const formatInputMoney = (value) => {
-            const digits = String(value ?? "").replace(/\D/g, "");
-            if (!digits) return "";
-            return (Number(digits) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        };
-        const formatMoneyValue = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-        const parseInputMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
+        const formatMoneyValue = (value) => Number(value || 0).toFixed(2);
+        const parseInputMoney = (value) => Number(String(value ?? "").replace(",", ".")) || 0;
         const makeSuffix = () => {
             const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             if (window.crypto?.getRandomValues) {
@@ -664,12 +659,7 @@
         plans.addEventListener("change", updateBaseValueFromPlan);
         discountType.addEventListener("change", () => syncDiscount("percent"));
         discountPercent.addEventListener("input", () => syncDiscount("percent"));
-        discountValue.addEventListener("input", () => {
-            const cursorEnd = discountValue.value.length;
-            discountValue.value = formatInputMoney(discountValue.value);
-            discountValue.setSelectionRange(cursorEnd, cursorEnd);
-            syncDiscount("value");
-        });
+        discountValue.addEventListener("input", () => syncDiscount("value"));
         duration.addEventListener("change", updateBaseValueFromPlan);
         startDate.addEventListener("change", updateValidityWindow);
         endDate.addEventListener("change", updateValidityWindow);
