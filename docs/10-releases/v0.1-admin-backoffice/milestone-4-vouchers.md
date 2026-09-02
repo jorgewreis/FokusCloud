@@ -7,6 +7,18 @@ temporária, confirmação idempotente, liberação segura e snapshot completo d
 benefício. A mesma entrega corrige os formulários do Backoffice e torna
 explícitas as regras de exclusão física do catálogo.
 
+## Status da pré-release `v0.0.4-alpha.1`
+
+A implementação funcional do Marco 4 está presente na branch `develop`, com
+validação automatizada aprovada em 57 testes e 271 asserções. A validação
+inclui reservas, expiração, liberação em falha, idempotência de webhook,
+snapshot, `commercial_credit`, governança de edição e exclusões condicionais.
+
+O build frontend e `git diff --check` também foram aprovados. A homologação
+manual em navegador real permanece pendente para as etapas `beta`, `rc` ou a
+versão final. A tag `v0.0.4-alpha.1` só deve ser criada após a integração da
+branch com `origin/main`.
+
 ## Contratos implementados
 
 - commercial_credit concede crédito fixo limitado ao valor da primeira

@@ -98,6 +98,131 @@ class VoucherRedemptionTest extends TestCase
         $this->assertNotNull($snapshot['benefit_ends_at']);
     }
 
+    public function test_failed_gateway_checkout_releases_the_voucher_reservation_without_persisting_commercial_data(): void
+    {
+        [$user, $companyId] = $this->customerContext();
+        $admin = $this->platformAdmin();
+        [$product, $plan, $voucherId] = $this->voucher($admin, 'FAILCHECKOUT');
+
+        Http::fake([
+            'https://api.mercadopago.com/preapproval' => Http::response(['message' => 'sandbox indisponível'], 500),
+        ]);
+
+        $this->actingAs($user)->withSession(['active_company_id' => $companyId])->postJson('/api/subscriptions/checkout', [
+            'product_code' => $product->code,
+            'items' => $this->planItems(),
+            'cycle' => 'monthly',
+            'selection_mode' => 'plan',
+            'plan_code' => $plan->code,
+            'voucher_code' => 'FAILCHECKOUT',
+        ])->assertStatus(502);
+
+        $this->assertDatabaseHas('voucher_redemption_reservations', [
+            'voucher_id' => $voucherId,
+            'company_id' => $companyId,
+            'status' => 'released',
+        ]);
+        $this->assertDatabaseCount('subscriptions', 0);
+        $this->assertDatabaseCount('payments', 0);
+    }
+
+    public function test_repeated_preapproval_webhook_does_not_change_subscription_version_or_duplicate_redemption(): void
+    {
+        [$user, $companyId] = $this->customerContext();
+        $admin = $this->platformAdmin();
+        [$product, $plan] = $this->voucher($admin, 'IDEMPOTENT');
+
+        Http::fake([
+            'https://api.mercadopago.com/preapproval' => Http::response(['id' => 'preapproval-idempotent', 'init_point' => 'https://mercadopago.test/checkout'], 201),
+            'https://api.mercadopago.com/preapproval/preapproval-idempotent' => Http::response(['status' => 'authorized'], 200),
+        ]);
+
+        $response = $this->actingAs($user)->withSession(['active_company_id' => $companyId])->postJson('/api/subscriptions/checkout', [
+            'product_code' => $product->code,
+            'items' => $this->planItems(),
+            'cycle' => 'monthly',
+            'selection_mode' => 'plan',
+            'plan_code' => $plan->code,
+            'voucher_code' => 'IDEMPOTENT',
+        ])->assertCreated();
+
+        $subscriptionId = $response->json('subscription_id');
+        $timestamp = (string) now()->timestamp;
+        $signature = 'ts='.$timestamp.',v1='.hash_hmac('sha256', 'id:preapproval-idempotent;request-id:req-idempotent;ts:'.$timestamp.';', 'test-secret');
+        $headers = ['x-signature' => $signature, 'x-request-id' => 'req-idempotent'];
+
+        $this->withHeaders($headers)->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-idempotent']])->assertNoContent();
+        $version = DB::table('subscriptions')->where('id', $subscriptionId)->value('version');
+        $this->withHeaders($headers)->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-idempotent']])->assertNoContent();
+
+        $this->assertSame($version, DB::table('subscriptions')->where('id', $subscriptionId)->value('version'));
+        $this->assertDatabaseCount('voucher_redemptions', 1);
+    }
+
+    public function test_expired_voucher_reservation_is_released_and_no_longer_consumes_a_limit(): void
+    {
+        [, $companyId] = $this->customerContext();
+        $admin = $this->platformAdmin();
+        [$product, $plan, $voucherId] = $this->voucher($admin, 'EXPIRED', limit: 1);
+        $voucher = DB::table('vouchers')->where('id', $voucherId)->first();
+
+        $reservation = app(VoucherManager::class)->reserve($voucher, $companyId, 'request-expired', [
+            'product_id' => $product->id,
+            'plan_code' => $plan->code,
+        ]);
+        DB::table('voucher_redemption_reservations')->where('id', $reservation->id)->update(['expires_at' => now()->subMinute()]);
+
+        $this->assertSame(1, app(VoucherManager::class)->expireReservations());
+        $this->assertDatabaseHas('voucher_redemption_reservations', ['id' => $reservation->id, 'status' => 'expired']);
+        $this->assertSame($voucherId, app(VoucherManager::class)->findEligible('EXPIRED', $product->id, $companyId, $this->moduleCodes(), $plan->code)->id);
+    }
+
+    public function test_redeemed_voucher_cannot_be_edited_and_pending_reservation_cannot_be_deleted(): void
+    {
+        [$user, $companyId] = $this->customerContext();
+        $admin = $this->platformAdmin();
+        [$product, $plan, $voucherId] = $this->voucher($admin, 'GOVERNED');
+
+        Http::fake([
+            'https://api.mercadopago.com/preapproval' => Http::sequence()
+                ->push(['id' => 'preapproval-governed', 'init_point' => 'https://mercadopago.test/checkout'], 201)
+                ->push(['id' => 'preapproval-pending', 'init_point' => 'https://mercadopago.test/checkout'], 201),
+            'https://api.mercadopago.com/preapproval/preapproval-governed' => Http::response(['status' => 'authorized'], 200),
+        ]);
+        $response = $this->actingAs($user)->withSession(['active_company_id' => $companyId])->postJson('/api/subscriptions/checkout', [
+            'product_code' => $product->code,
+            'items' => $this->planItems(),
+            'cycle' => 'monthly',
+            'selection_mode' => 'plan',
+            'plan_code' => $plan->code,
+            'voucher_code' => 'GOVERNED',
+        ])->assertCreated();
+
+        $subscriptionId = $response->json('subscription_id');
+        $timestamp = (string) now()->timestamp;
+        $signature = 'ts='.$timestamp.',v1='.hash_hmac('sha256', 'id:preapproval-governed;request-id:req-governed;ts:'.$timestamp.';', 'test-secret');
+        $this->withHeaders(['x-signature' => $signature, 'x-request-id' => 'req-governed'])
+            ->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-governed']])
+            ->assertNoContent();
+
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/vouchers/{$voucherId}", ['discount_value' => 10])
+            ->assertUnprocessable();
+
+        [$pendingUser, $pendingCompanyId] = $this->customerContext();
+        [$pendingProduct, $pendingPlan, $pendingVoucherId] = $this->voucher($admin, 'PENDINGDELETE');
+        $this->actingAs($pendingUser)->withSession(['active_company_id' => $pendingCompanyId])->postJson('/api/subscriptions/checkout', [
+            'product_code' => $pendingProduct->code,
+            'items' => $this->planItems(),
+            'cycle' => 'monthly',
+            'selection_mode' => 'plan',
+            'plan_code' => $pendingPlan->code,
+            'voucher_code' => 'PENDINGDELETE',
+        ])->assertCreated();
+
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/vouchers/{$pendingVoucherId}", ['reason' => 'Reserva pendente.'])
+            ->assertUnprocessable();
+    }
+
     public function test_voucher_bound_to_plan_cannot_be_used_on_another_plan(): void
     {
         [$user, $companyId] = $this->customerContext();
@@ -128,14 +253,16 @@ class VoucherRedemptionTest extends TestCase
 
     private function customerContext(): array
     {
+        $cpf = '111444777'.str_pad((string) (35 + User::count()), 2, '0', STR_PAD_LEFT);
         $user = User::create([
-            'id' => PrefixedUlid::make('USR'), 'name' => 'Cliente Teste', 'cpf' => '11144477735',
+            'id' => PrefixedUlid::make('USR'), 'name' => 'Cliente Teste', 'cpf' => $cpf,
             'email' => 'cliente-'.User::count().'@example.test', 'password' => Hash::make('SenhaSegura!2026'),
             'status' => 'ativa', 'email_verified_at' => now(),
         ]);
         $companyId = PrefixedUlid::make('EMP');
+        $documentNumber = '11222333000'.str_pad((string) (181 + DB::table('companies')->count()), 3, '0', STR_PAD_LEFT);
         DB::table('companies')->insert([
-            'id' => $companyId, 'document_type' => 'cnpj', 'document_number' => '11222333000181',
+            'id' => $companyId, 'document_type' => 'cnpj', 'document_number' => $documentNumber,
             'legal_name' => 'Empresa de Teste', 'status' => 'ativa', 'version' => 1,
             'created_at' => now(), 'updated_at' => now(),
         ]);
@@ -158,5 +285,47 @@ class VoucherRedemptionTest extends TestCase
             'platform_role_id' => PlatformRole::where('code', 'superadministrador')->value('id'),
             'email_verified_at' => now(),
         ]);
+    }
+
+    private function voucher(PlatformAdmin $admin, string $code, int $limit = 10): array
+    {
+        $product = DB::table('products')->where('code', 'law')->first();
+        $plan = DB::table('plans')->where('product_id', $product->id)->where('code', 'law-advocacia')->first();
+        $voucherId = PrefixedUlid::make('VCH');
+        DB::table('vouchers')->insert([
+            'id' => $voucherId,
+            'code' => $code,
+            'name' => $code,
+            'discount_type' => 'commercial_credit',
+            'discount_value' => 500,
+            'product_id' => $product->id,
+            'plan_id' => $plan->id,
+            'base_amount' => 64.70,
+            'benefit_duration' => 'm1',
+            'redemption_limit' => $limit,
+            'redemption_limit_per_company' => 1,
+            'starts_at' => now()->subDay(),
+            'ends_at' => now()->addMonth(),
+            'status' => 'ativa',
+            'created_by_platform_admin_id' => $admin->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return [$product, $plan, $voucherId];
+    }
+
+    private function planItems(): array
+    {
+        return [
+            ['module_code' => 'processos-advocacia', 'quantity' => 1],
+            ['module_code' => 'contatos-advocacia', 'quantity' => 1],
+            ['module_code' => 'tarefas-advocacia', 'quantity' => 1],
+        ];
+    }
+
+    private function moduleCodes(): array
+    {
+        return array_column($this->planItems(), 'module_code');
     }
 }

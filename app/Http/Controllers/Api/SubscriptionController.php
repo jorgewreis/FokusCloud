@@ -194,7 +194,9 @@ class SubscriptionController extends Controller
                 $status = ($remote['status'] ?? '') === 'authorized' ? 'ativa' : (($remote['status'] ?? '') === 'cancelled' ? 'encerrada' : 'pendente');
                 $subscription = DB::table('subscriptions')->where('provider_subscription_id', $providerId)->first();
                 if ($subscription) {
-                    DB::table('subscriptions')->where('id', $subscription->id)->update(['status' => $status, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+                    if ($subscription->status !== $status) {
+                        DB::table('subscriptions')->where('id', $subscription->id)->update(['status' => $status, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+                    }
                     if ($status === 'ativa') $vouchers->confirmForSubscription($subscription->id);
                     if ($status === 'encerrada') $vouchers->releaseForSubscription($subscription->id);
                 }
