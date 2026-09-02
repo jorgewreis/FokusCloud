@@ -1,0 +1,299 @@
+PROMPT REUTILIZÁVEL — PLANEJAMENTO DE MARCOS E SUBVERSÕES DE PRÉ-RELEASE
+
+CONTEXTO DO PROJETO
+
+Você está trabalhando no repositório FokusCloud. A etapa atual do produto é a
+release 0.1, documentada principalmente em:
+
+  docs/10-releases/v0.1-admin-backoffice/delivery-roadmap.md
+
+Use esse roadmap como fonte principal para entender a sequência de marcos,
+dependências, saídas obrigatórias, regras de execução e critérios de conclusão.
+Os documentos diretamente referenciados pelo roadmap também fazem parte do
+contexto, especialmente a matriz de rastreabilidade, as decisões abertas, o
+Definition of Done, checklists e documentos específicos de cada marco.
+
+ENTRADA OBRIGATÓRIA
+
+O usuário informará somente o marco ou a subversão a ser planejada, por
+exemplo:
+
+  0.0.2
+  0.0.4-alpha.1
+  0.0.4-beta.1
+  0.0.4-rc.1
+  0.1.0
+
+Não exija do usuário uma descrição prévia do estado do código. Levante o
+contexto no próprio repositório antes de elaborar o plano.
+
+OBJETIVO
+
+Produza um plano completo, executável e rastreável para implementar o marco ou
+a subversão informada, sem executar alterações. O plano deve levar o estado
+real do repositório até o estágio solicitado, respeitando o roadmap e
+identificando divergências, dependências, riscos e pendências.
+
+REGRAS DE VERSIONAMENTO
+
+1. Use SemVer completo.
+2. A etapa consolidada do produto deve ser identificada como v0.1.0.
+3. Os marcos intermediários seguem o roadmap e devem usar versões como
+   v0.0.1, v0.0.2, v0.0.3 e v0.0.4.
+4. As pré-versões de cada marco usam os estágios necessários conforme o risco
+   e a complexidade:
+   - alpha: implementação inicial e testes iniciais;
+   - beta: integração, regressão e preparação para homologação;
+   - rc: estabilização, ausência de bloqueadores e homologação;
+   - versão sem sufixo: marco concluído.
+5. Use identificadores como v0.0.4-alpha.1, v0.0.4-beta.1,
+   v0.0.4-rc.1 e v0.0.4.
+6. Não crie estágios artificiais. Crie somente as subversões justificadas pelo
+   escopo, risco, dependências ou necessidade de validação.
+7. Para uma subversão, compare o estágio solicitado com o estado real do
+   marco: registre o que já foi concluído, o que está parcialmente concluído,
+   o que falta, o que está bloqueado e o que precisa ser replanejado. Não
+   repita tarefas já comprovadamente concluídas.
+
+INSPEÇÃO OBRIGATÓRIA ANTES DO PLANO
+
+Faça uma auditoria ampla e baseada em evidências, incluindo, quando aplicável:
+
+- delivery-roadmap e documentos diretamente relacionados ao marco;
+- traceability-matrix, open-decisions, Definition of Done e checklists;
+- estrutura do repositório e convenções existentes;
+- código afetado, classes, métodos, serviços, controllers, models, policies,
+  requests, resources, rotas e componentes de frontend;
+- migrations, tabelas, relacionamentos, seeders e configurações relevantes;
+- testes automatizados existentes e sua cobertura relacionada;
+- contratos de API, integrações, jobs, eventos, filas, webhooks e auditoria;
+- documentação afetada;
+- estado do Git, branch atual, commits, tags, diffs e histórico relevante.
+
+Inspecione o working tree antes de concluir qualquer diagnóstico. Se houver
+alterações locais, registre esse fato e preserve-as integralmente. Nunca
+reverta, sobrescreva, limpe ou faça commit automático de alterações existentes.
+
+Não leia nem exponha credenciais ou segredos. Não use conteúdo de arquivos
+.env como dado de resposta. Quando necessário, use .env.example,
+configurações não sensíveis, nomes de variáveis e metadados para entender os
+contratos.
+
+FONTES EXTERNAS
+
+Use primeiro as evidências do repositório. Quando uma dependência diretamente
+afetada exigir confirmação de comportamento, versão ou contrato:
+
+- consulte automaticamente a documentação oficial da dependência;
+- registre no plano a fonte, a versão ou a data consultada e a decisão
+  influenciada;
+- peça autorização antes de consultar fontes não oficiais, como fóruns, blogs,
+  vídeos ou respostas de terceiros.
+
+ESCOPO DA ANÁLISE
+
+Não modifique arquivos, não crie código, não altere branches, não execute
+migrations destrutivas, não faça deploy, não crie tags e não faça commits.
+Entregue somente o plano e os comandos que deverão ser executados
+posteriormente por uma pessoa ou por uma execução explicitamente autorizada.
+
+Quando recomendar uma alteração, preserve os contratos técnicos existentes
+sem evidência de que devam mudar. Considere, conforme o impacto, backend,
+frontend, banco de dados, segurança, permissões, auditoria, integrações,
+catalogação, checkout, billing, testes, documentação e operação.
+
+PRECISÃO DAS TAREFAS
+
+Para cada tarefa, indique os arquivos exatos e, quando possível, classes,
+métodos, rotas, migrations, tabelas, componentes, contratos e testes afetados.
+Confirme cada caminho na inspeção; não invente arquivos ou símbolos. Explique
+quando um arquivo foi considerado e descartado.
+
+TRATAMENTO DE LACUNAS E CONFLITOS
+
+Quando encontrar informação ausente, conflitante ou desatualizada:
+
+1. registre a evidência e o impacto;
+2. proponha uma alternativa provisória claramente identificada como hipótese;
+3. indique quais decisões dependem de confirmação;
+4. peça esclarecimento somente quando a lacuna impedir um plano confiável;
+5. se ainda for possível avançar, entregue o plano parcial com os bloqueios
+   explícitos.
+
+Se uma alteração mudar escopo, aceite, dependência ou teste, indique as
+atualizações necessárias em:
+
+- docs/10-releases/v0.1-admin-backoffice/delivery-roadmap.md;
+- documentação específica do marco;
+- docs/10-releases/v0.1-admin-backoffice/traceability-matrix.md;
+- docs/10-releases/v0.1-admin-backoffice/open-decisions.md, quando a decisão
+  for relevante ou não bloqueante.
+
+FLUXO DE GIT E RELEASE
+
+Planeje o fluxo sem executá-lo:
+
+1. A criação e a edição de cada subversão devem ocorrer na branch develop.
+2. Branches auxiliares feature/* ou equivalentes podem ser sugeridas quando
+   o escopo justificar, mas devem retornar à develop antes da entrega do
+   marco.
+3. Planeje commits atômicos, com mensagens descritivas e agrupamento lógico.
+4. Após validação, prefira pull request de develop para origin/main.
+5. Use merge direto somente quando o contexto do repositório justificar;
+   registre a justificativa e as verificações equivalentes à revisão.
+6. Planeje a tag correspondente somente depois da integração e da validação:
+   v0.0.x para marcos intermediários, com o sufixo alpha/beta/rc quando
+   aplicável, e v0.1.0 para a release consolidada.
+7. Não presuma que push, pull request, aprovação, deploy ou publicação foram
+   realizados; descreva-os como ações planejadas e critérios a verificar.
+
+CRITÉRIOS DE PROMOÇÃO
+
+Defina critérios de entrada, saída e promoção para o estágio solicitado:
+
+- alpha: escopo inicial implementado, contratos principais definidos, testes
+  iniciais executáveis e riscos críticos identificados;
+- beta: integração concluída, testes de regressão executados, documentação
+  afetada atualizada e fluxo pronto para homologação;
+- rc: nenhum bloqueador conhecido, correções estabilizadas, homologação
+  guiada concluída ou formalmente pendente com justificativa;
+- versão do marco: testes, documentação, rastreabilidade, checklist, revisão,
+  commit, integração e tag atendidos;
+- v0.1.0: todos os marcos necessários concluídos, estabilização encerrada,
+  checklist assinado e release registrada.
+
+Inclua critérios objetivos de aceite e diferencie falhas bloqueantes,
+importantes e não bloqueantes. Pendências só podem ser postergadas quando
+registradas em open-decisions.md como não bloqueantes.
+
+FORMATO OBRIGATÓRIO DA RESPOSTA
+
+Responda em português do Brasil, com linguagem técnica clara, objetiva e
+detalhada. Preserve exatamente os nomes de arquivos, classes, métodos, rotas,
+comandos e símbolos encontrados no repositório.
+
+Use Markdown estruturado, com títulos, tabelas quando agregarem clareza,
+checklists para execução e blocos de código para comandos. Organize a resposta
+com estas seções:
+
+1. Identificação do marco ou subversão
+   - entrada recebida;
+   - versão SemVer correspondente;
+   - estágio e objetivo;
+   - branch e destino de integração.
+
+2. Resumo executivo
+   - resultado pretendido;
+   - conclusão recomendada: avançar, replanejar, bloquear ou pedir decisão.
+
+3. Evidências do estado atual
+   - documentos consultados;
+   - código, dados, testes e configurações encontrados;
+   - estado do Git e alterações locais;
+   - o que está confirmado, parcialmente confirmado ou ausente.
+
+4. Comparação com o roadmap
+   - escopo previsto;
+   - escopo existente;
+   - divergências;
+   - mudanças propostas e suas justificativas.
+
+5. Escopo do plano
+   - incluído;
+   - explicitamente excluído;
+   - dependências;
+   - premissas e restrições.
+
+6. Plano técnico detalhado
+   Divida por etapas e liste, para cada tarefa:
+   - ordem e objetivo;
+   - arquivos e símbolos exatos;
+   - alteração esperada;
+   - dependências;
+   - riscos;
+   - testes necessários;
+   - documentação e contratos afetados.
+
+7. Banco de dados e migrações
+   - alterações de schema, dados, índices, constraints e reversibilidade;
+   - compatibilidade com dados existentes;
+   - cuidados de rollout e rollback.
+
+8. Segurança e operação
+   - autenticação, autorização, MFA, sigilo, auditoria, logs, filas,
+     webhooks, dados sensíveis e observabilidade, conforme o impacto.
+
+9. Estratégia de testes e validação
+   - testes unitários, integração, feature, frontend, contrato, segurança,
+     regressão, homologação e sandbox, quando aplicáveis;
+   - comandos concretos;
+   - dados ou pré-condições necessários;
+   - resultado esperado e evidência que deve ser guardada.
+
+10. Documentação e rastreabilidade
+    - arquivos a atualizar;
+    - requisitos, aceites e testes a vincular;
+    - alterações necessárias no roadmap, matriz e decisões abertas.
+
+11. Git e entrega da subversão
+    - sequência de commits atômicos;
+    - validações antes da integração;
+    - pull request preferencial de develop para origin/main ou justificativa
+      para merge direto;
+    - tag planejada;
+    - checklist pós-integração.
+
+12. Riscos, bloqueios e rollback
+    - risco, probabilidade, impacto, mitigação e responsável sugerido;
+    - bloqueios reais e decisões pendentes;
+    - estratégia de rollback de código, banco, configuração e publicação.
+
+13. Critérios de entrada, saída e promoção
+    - condições para começar;
+    - condições para concluir o estágio;
+    - condições para promover à próxima subversão ou ao próximo marco;
+    - itens que impedem a promoção.
+
+14. Checklist final executável
+    Use caixas de seleção e separe itens de implementação, testes,
+    documentação, revisão, integração, tag e evidências.
+
+15. Perguntas bloqueantes e decisões abertas
+    Inclua somente perguntas que realmente impeçam um plano confiável. Para
+    cada uma, explique o impacto e indique uma recomendação provisória.
+
+CLASSIFICAÇÃO DE EVIDÊNCIAS
+
+Classifique explicitamente as afirmações relevantes usando uma destas marcas:
+
+- CONFIRMADO POR INSPEÇÃO — observado diretamente em arquivo, código, Git ou
+  configuração não sensível;
+- VALIDADO ESTATICAMENTE — confirmado por análise estática, lint, testes ou
+  comandos que não substituem execução funcional completa;
+- VALIDADO EM NAVEGADOR — confirmado por inspeção ou interação real em
+  navegador;
+- VALIDADO FUNCIONALMENTE — confirmado por execução funcional adequada;
+- PROPOSTO — recomendação ainda não aplicada;
+- PENDENTE — depende de ação, evidência ou decisão;
+- BLOQUEADO — não pode avançar por uma condição identificada.
+
+Nunca diga que um arquivo foi criado, que um teste passou, que uma branch foi
+integrada, que uma tag existe ou que uma release foi publicada se isso não foi
+comprovado na execução atual. Como este prompt é de planejamento, a resposta
+deve distinguir rigorosamente fatos observados de ações propostas.
+
+VERIFICAÇÃO FINAL ANTES DE RESPONDER
+
+Confirme silenciosamente que:
+
+- o marco ou subversão foi localizado no roadmap;
+- a versão SemVer está coerente;
+- o plano considera o estado real e não repete trabalho concluído;
+- os caminhos e símbolos citados foram verificados;
+- alterações locais e segredos foram preservados;
+- testes, documentação, rastreabilidade, Git, integração, tag, riscos e
+  rollback foram contemplados;
+- toda hipótese, pendência e decisão está claramente marcada;
+- nenhuma alteração foi executada.
+
+Se alguma confirmação falhar, ajuste a resposta antes de entregá-la.

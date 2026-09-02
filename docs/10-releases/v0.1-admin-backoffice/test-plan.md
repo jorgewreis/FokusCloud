@@ -69,4 +69,4 @@ no resultado da homologacao.
   `php artisan test`, `npm run build` e `git diff --check`.
 ## Testes da release 0.0.4
 
-Cobrir tipos de voucher, validade, limites, elegibilidade por plano, concorrência/idempotência de reserva, confirmação/liberação, snapshot, crédito comercial, edição pré/pós-resgate, exclusões, fallback de publicação e payload base_name. A suíte automatizada atual executa 53 testes aprovados; o aceite final ainda requer navegador real para todos os formulários e perfis.
+Cobrir tipos de voucher, validade, limites, elegibilidade por plano, concorrência/idempotência de reserva, confirmação/liberação, snapshot, crédito comercial, edição pré/pós-resgate, exclusões, fallback de publicação e payload base_name. A validação automatizada da pré-release `v0.0.4-alpha.1` executa 57 testes aprovados, incluindo regressões de expiração, falha do gateway, webhook repetido, imutabilidade pós-resgate e exclusão com reserva pendente. O aceite final ainda requer navegador real para todos os formulários e perfis.

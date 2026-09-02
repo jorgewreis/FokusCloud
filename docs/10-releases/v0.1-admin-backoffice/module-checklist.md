@@ -76,4 +76,5 @@
 - [x] Edição antes do primeiro resgate e imutabilidade posterior.
 - [x] Exclusões físicas condicionais e fallback de publicação.
 - [x] Ícones, diálogo acessível e contrato FokusForm nas telas de catálogo/vouchers.
+- [x] Suíte automatizada da `v0.0.4-alpha.1` aprovada com 57 testes.
 - [ ] Homologação manual em navegador real dos formulários e dos dois perfis.

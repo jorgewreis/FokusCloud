@@ -125,4 +125,12 @@ for concluida, incluindo commit, ambiente homologado, data de fechamento e
 restricoes conhecidas.
 ## 0.0.4 - Marco 4
 
-Entrega de vouchers com reserva e snapshot, crédito comercial na primeira cobrança, edição governada, exclusões condicionais de catálogo/publicação e correções dos formulários. O catálogo público mantém o contrato 0.0.3. Evidências automatizadas: 53 testes aprovados; build e homologação manual devem ser registrados antes da tag final.
+Entrega de vouchers com reserva e snapshot, crédito comercial na primeira cobrança, edição governada, exclusões condicionais de catálogo/publicação e correções dos formulários. O catálogo público mantém o contrato 0.0.3.
+
+## Status da pré-release `v0.0.4-alpha.1`
+
+A implementação foi validada na branch `develop` com 57 testes automatizados e
+271 asserções aprovados. O build frontend e `git diff --check` também foram
+aprovados. A homologação manual em navegador real permanece pendente, assim
+como a integração de `develop` com `origin/main` e a criação da tag
+`v0.0.4-alpha.1`.
