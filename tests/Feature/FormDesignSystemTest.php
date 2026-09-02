@@ -79,6 +79,9 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('id="voucher-destructive-dialog"', $vouchers);
         $this->assertStringContainsString('Shopping-Basket-Edit--Streamline-Ultimate.png', $catalog);
         $this->assertStringContainsString('Shopping-Basket-Subtract--Streamline-Ultimate.png', $catalog);
+        foreach (['Tags-Add--Streamline-Ultimate.png', 'Tags-Cash--Streamline-Ultimate.png', 'Tags-Minus--Streamline-Ultimate.png', 'Tags-Remove--Streamline-Ultimate.png'] as $icon) {
+            $this->assertStringContainsString($icon, $vouchers, $icon);
+        }
         $this->assertStringNotContainsString('window.confirm', $catalog.$vouchers);
         $this->assertStringNotContainsString('prompt(', $catalog.$vouchers);
     }

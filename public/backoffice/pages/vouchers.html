@@ -166,6 +166,10 @@
     (() => {
         const standalone = !document.querySelector(".container-page");
         const iconBasePath = "/backoffice/assets/icons/";
+        const voucherEditIcon = "Tags-Cash--Streamline-Ultimate.png";
+        const voucherAddIcon = "Tags-Add--Streamline-Ultimate.png";
+        const voucherMinusIcon = "Tags-Minus--Streamline-Ultimate.png";
+        const voucherRemoveIcon = "Tags-Remove--Streamline-Ultimate.png";
 
         if (standalone) {
             document.documentElement.dataset.theme ||= "light";
@@ -579,8 +583,8 @@
                 const actionButton = currentStatus === "expirada"
                     ? ""
                     : voucher.status === "suspensa"
-                        ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}Add-Square--Streamline-Ultimate.png" alt=""></button>`
-                        : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}Subtract-Square--Streamline-Ultimate.png" alt=""></button>`;
+                        ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}${voucherAddIcon}" alt=""></button>`
+                        : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}${voucherMinusIcon}" alt=""></button>`;
 
                 return `<tr>
                     <td>${escapeHtml(voucher.code)}</td>
@@ -591,10 +595,10 @@
                     <td>${escapeHtml(validity)}</td>
                     <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
                     <td class="voucher-actions">
-                        ${Number(voucher.redemptions_count || 0) === 0 && voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="edit" data-voucher-id="${escapeHtml(voucher.id)}" title="Editar voucher" aria-label="Editar voucher"><img src="${iconBasePath}Shopping-Basket-Edit--Streamline-Ultimate.png" alt=""></button>` : ""}
+                        ${Number(voucher.redemptions_count || 0) === 0 && voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="edit" data-voucher-id="${escapeHtml(voucher.id)}" title="Editar voucher" aria-label="Editar voucher"><img src="${iconBasePath}${voucherEditIcon}" alt=""></button>` : ""}
                         ${actionButton}
-                        ${voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="archive" data-voucher-id="${escapeHtml(voucher.id)}" title="Arquivar voucher" aria-label="Arquivar voucher"><img src="${iconBasePath}Subtract-Square--Streamline-Ultimate.png" alt=""></button>` : ""}
-                        ${voucher.status !== "encerrada" && Number(voucher.redemptions_count || 0) === 0 ? `<button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}Remove-Square-1--Streamline-Ultimate.png" alt=""></button>` : ""}
+                        ${voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="archive" data-voucher-id="${escapeHtml(voucher.id)}" title="Arquivar voucher" aria-label="Arquivar voucher"><img src="${iconBasePath}${voucherMinusIcon}" alt=""></button>` : ""}
+                        ${voucher.status !== "encerrada" && Number(voucher.redemptions_count || 0) === 0 ? `<button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}${voucherRemoveIcon}" alt=""></button>` : ""}
                     </td>
                 </tr>`;
             }).join("");
