@@ -51,3 +51,11 @@ O Marco 2 esta concluido quando identidade interna, RBAC de plataforma, MFA,
 bloqueio progressivo, convite, revogacao de sessoes e auditoria de seguranca
 estiverem implementados, testados e documentados em
 [Marco 2 - seguranca interna](milestone-2-security.md).
+
+## Marco 3 - catalogo administrativo 0.0.3
+
+O Marco 3 esta concluido quando produtos, funcionalidades, planos, precos,
+composicoes e publicacao controlada estiverem implementados, testados e
+documentados em [Marco 3 - catalogo administrativo](milestone-3-catalog.md).
+O catalogo publico e o checkout devem consumir somente a ultima publicacao
+versionada do backend.

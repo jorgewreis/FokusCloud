@@ -15,6 +15,13 @@ Concluida como entrega funcional do Marco 2. A validacao aprovada esta em
 `https://github.com/jorgewreis/FokusCloud/actions/runs/33564168328`, com
 migration/seeder SQLite, 36 testes, build e publicacao aprovados.
 
+## Status da 0.0.3
+
+Concluida como entrega funcional do Marco 3. O catalogo administrativo passa a
+gerir produtos, funcionalidades, planos, composicoes, precos e publicacao; o
+catalogo publico usa contrato versionado `0.0.3` a partir de snapshot publicado
+no backend.
+
 ## Entrega prevista
 
 A release `0.1` entrega o Backoffice Admin funcional em ambiente de
@@ -58,6 +65,24 @@ pela equipe interna da Fokus Cloud.
 - Bloqueio progressivo por conta, IP e dispositivo.
 - Gestao de administradores internos com revogacao de sessoes.
 - Auditoria de seguranca mascarada com retencao de 180 dias.
+
+### 0.0.3 - catalogo administrativo
+
+- Endpoints administrativos de catalogo para produtos, funcionalidades, planos
+  e composicao.
+- Publicacao imediata exclusiva do superadministrador, com motivo, auditoria e
+  snapshot versionado.
+- Contrato publico `0.0.3` consumido pelo frontend de assinatura.
+- Remocao de fallback estatico de precos e composicoes no fluxo publico.
+
+Evidencias locais de fechamento:
+
+| Evidencia | Resultado |
+| --- | --- |
+| `php artisan migrate:fresh --seed --force` com SQLite em memoria | Concluido |
+| `php artisan test` | Concluido, 41 testes |
+| `npm run build` | Concluido |
+| `git diff --check` | Concluido |
 
 ## Fora da release
 

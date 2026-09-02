@@ -69,6 +69,16 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::post('/auth/logout', [PlatformAuthController::class, 'logout']);
     Route::get('/dashboard', [BackofficeController::class, 'dashboard'])->middleware(EnsurePlatformPermission::class.':platform.dashboard.view');
     Route::get('/catalog', [BackofficeController::class, 'catalog'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::post('/catalog/products', [BackofficeController::class, 'createProduct'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::patch('/catalog/products/{product}', [BackofficeController::class, 'updateProduct'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::post('/catalog/modules', [BackofficeController::class, 'createModule'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::patch('/catalog/modules/{module}', [BackofficeController::class, 'updateModule'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::post('/catalog/plans', [BackofficeController::class, 'createPlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::patch('/catalog/plans/{plan}', [BackofficeController::class, 'updatePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::put('/catalog/plans/{plan}/modules', [BackofficeController::class, 'syncPlanModules'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
+    Route::post('/catalog/{product}/publish', [BackofficeController::class, 'publishCatalog'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
+    Route::post('/catalog/{type}/{id}/pause', [BackofficeController::class, 'pauseCatalogItem'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
+    Route::post('/catalog/{type}/{id}/archive', [BackofficeController::class, 'archiveCatalogItem'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::get('/plans', [BackofficeController::class, 'plans'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::post('/plans', [BackofficeController::class, 'createPlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::patch('/plans/{plan}', [BackofficeController::class, 'updatePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');

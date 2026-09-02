@@ -12,6 +12,11 @@ Campos principais:
 - `code`: codigo tecnico unico;
 - `name`: nome exibido;
 - `active`: indicador atual de atividade;
+- `status`: estado operacional;
+- `publication_state`: estado de publicacao;
+- `published_catalog_version`: ultima versao publicada;
+- descricoes tecnica e comercial;
+- ordem de exibicao e destaque;
 - `created_at` e `updated_at`.
 
 ### `plans`
@@ -21,6 +26,11 @@ Representa os planos de cada sistema.
 - `product_id` referencia `products.id`;
 - `code` e unico dentro do sistema;
 - `name` e o nome exibido.
+- `technical_description` e `commercial_content` separam operacao e oferta;
+- `status` e `publication_state` separam disponibilidade operacional e
+  publicacao;
+- `display_order`, `featured` e `monthly_amount` controlam exibicao e preco
+  configurado.
 
 Para os planos do produto `lead`, deve existir um campo de linha/segmento com os valores `one` ou `team`. O codigo completo recomendado inclui a linha, por exemplo `lead-one-essencial`.
 
@@ -39,12 +49,26 @@ Representa funcionalidades vendaveis ou componiveis.
 - `variant_code` identifica a combinacao comercial estavel;
 - `name` e o nome exibido;
 - `monthly_price` e o preco mensal em BRL.
+- `publication_state`, ordem, destaque, capacidade, dependencias e
+  incompatibilidades permitem validar a publicacao.
 
 ### `plan_modules`
 
 Tabela associativa entre planos e funcionalidades. Possui chave primaria composta por `plan_id` e `module_id`.
 
 As chaves estrangeiras garantem que a relacao exista e que a exclusao de um plano ou funcionalidade nao deixe associacoes orfas.
+
+### `catalog_publications`
+
+Representa a versao publicada por produto.
+
+- `product_id` referencia o sistema;
+- `version` e sequencial dentro do produto;
+- `snapshot` guarda produto, funcionalidades, planos, precos e composicoes;
+- `published_by_platform_admin_id` identifica o superadministrador quando a
+  publicacao for manual;
+- `reason` registra a justificativa;
+- `published_at` registra a data efetiva.
 
 ## Integridade
 
@@ -62,11 +86,13 @@ O backend deve validar:
 
 Alteracoes de preco, composicao e limites nao devem modificar o historico de assinaturas ou resgates. Esses registros devem armazenar os valores aplicados no evento.
 
-O catalogo deve manter versoes publicadas para consulta historica. A restauracao automatica de uma versao anterior nao faz parte da regra aprovada.
+O catalogo mantem versoes publicadas em `catalog_publications` para consulta
+historica. A restauracao automatica de uma versao anterior nao faz parte da
+regra aprovada.
 
 ## Evolucao estrutural necessaria
 
-O modelo atual possui somente os campos basicos de produto, plano e modulo. Para atender ao modelo aprovado, a evolucao deve adicionar ou normalizar:
+O Marco 3 adiciona ou normaliza:
 
 - descricao tecnica e conteudo comercial;
 - status comercial e estado de publicacao;
@@ -78,9 +104,9 @@ O modelo atual possui somente os campos basicos de produto, plano e modulo. Para
 - capacidades comerciais para diferenciar usos do mesmo modulo, quando aplicavel;
 - tipos e instancias operacionais por setor para `expedicoes`, com sequencias de numeracao independentes quando aplicavel;
 - guias de execucao comum e penal como tipos ou capacidades de `expedicoes`;
-- versoes publicadas e agendamentos.
+- versoes publicadas.
 
-Esses dados devem ser modelados antes da ativacao do gerenciamento completo pelo backoffice.
+Agendamento de publicacao permanece fora da `0.1`.
 
 ## Carga inicial
 

@@ -56,3 +56,14 @@ no resultado da homologacao.
   limpo, `php artisan test` e `npm run build` antes de liberar o deploy.
 - A evidencia final deve apontar para a execucao aprovada em
   `https://github.com/jorgewreis/FokusCloud/actions/workflows/deploy.yml`.
+
+## Evidencia da 0.0.3
+
+- `CatalogAdminTest` cobre criacao de rascunho por administrador comercial,
+  bloqueio de publicacao por perfil, publicacao por superadministrador,
+  recusa de plano ativo sem composicao, estabilidade do snapshot publico e
+  pausa restrita.
+- O contrato publico esperado para catalogo e `contract_version: 0.0.3`, com
+  `published_version`, `published_at`, produto, funcionalidades e planos.
+- A validacao final deve executar `php artisan migrate:fresh --seed`,
+  `php artisan test`, `npm run build` e `git diff --check`.

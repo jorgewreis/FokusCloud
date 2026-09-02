@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Services\PrefixedUlid;
+use App\Services\CatalogManager;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,6 +17,14 @@ class DatabaseSeeder extends Seeder
 
         foreach (['law' => 'Fokus Cloud Law', 'lead' => 'Fokus Cloud Lead'] as $code => $name) {
             $this->upsertCatalog('products', ['code' => $code], ['name' => $name, 'active' => true], 'PRD');
+            DB::table('products')->where('code', $code)->update([
+                'technical_description' => "Sistema comercial {$name} com catálogo administrável pelo Backoffice.",
+                'commercial_content' => "Oferta pública {$name}.",
+                'status' => 'ativo',
+                'publication_state' => 'rascunho',
+                'display_order' => $code === 'law' ? 1 : 2,
+                'updated_at' => now(),
+            ]);
         }
 
         $modules = [
@@ -82,7 +91,12 @@ class DatabaseSeeder extends Seeder
                     'capabilities' => json_encode($productCode === 'law' ? $this->lawCapabilities($moduleCode, $segment, $context) : []),
                     'dependencies' => json_encode($productCode === 'law' ? ($moduleCode === 'contatos' ? [] : ($moduleCode === 'audiencias_externo' ? ['audiencias'] : ($moduleCode === 'audiencias' ? ['processos', 'contatos'] : ['contatos']))) : []),
                     'incompatibilities' => json_encode([]),
-                    'status' => 'rascunho',
+                    'technical_description' => "Funcionalidade {$name} vinculada ao catálogo {$productCode}.",
+                    'commercial_content' => $name,
+                    'status' => 'ativo',
+                    'publication_state' => 'rascunho',
+                    'display_order' => array_search($code, array_keys($items), true) + 1,
+                    'available_standalone' => true,
                     'price_is_estimate' => $estimate,
                     'updated_at' => now(),
                 ]);
@@ -118,7 +132,7 @@ class DatabaseSeeder extends Seeder
                     $planId = DB::table('plans')->where('product_id', $productId)->where('code', $code)->value('id');
                     DB::table('plans')->where('id', $planId)->update([
                         'segment' => $segment,
-                        'status' => 'inativo',
+                        'status' => 'ativo',
                         'publication_state' => 'rascunho',
                         'display_order' => array_search($code, array_keys($items), true),
                         'updated_at' => now(),
@@ -127,7 +141,14 @@ class DatabaseSeeder extends Seeder
                     $planId = $plan->id;
                 }
 
-                DB::table('plans')->where('id', $planId)->update(['name' => $name, 'segment' => $segment, 'updated_at' => now()]);
+                DB::table('plans')->where('id', $planId)->update([
+                    'name' => $name,
+                    'technical_description' => "Plano {$name} com composição publicada pelo Backoffice.",
+                    'commercial_content' => "Plano {$name}.",
+                    'segment' => $segment,
+                    'status' => 'ativo',
+                    'updated_at' => now(),
+                ]);
                 DB::table('plan_modules')->where('plan_id', $planId)->delete();
 
                 $moduleIds = DB::table('modules')->where('product_id', $productId)->whereIn('code', $moduleCodes)->pluck('id');
@@ -143,6 +164,13 @@ class DatabaseSeeder extends Seeder
         foreach ($modules as $productCode => $items) {
             $productId = DB::table('products')->where('code', $productCode)->value('id');
             DB::table('modules')->where('product_id', $productId)->whereNotIn('code', array_keys($items))->delete();
+        }
+
+        foreach (['law', 'lead'] as $productCode) {
+            $productId = DB::table('products')->where('code', $productCode)->value('id');
+            if ($productId && ! DB::table('catalog_publications')->where('product_id', $productId)->exists()) {
+                app(CatalogManager::class)->publish($productId, null, 'Carga inicial publicada pelo seeder do Marco 3.');
+            }
         }
     }
 

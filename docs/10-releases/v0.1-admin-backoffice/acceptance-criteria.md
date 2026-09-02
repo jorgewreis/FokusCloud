@@ -76,3 +76,16 @@
   superadministrador permanece protegida.
 - Mudancas de acesso revogam sessoes e registram before/after mascarados com
   retencao de 180 dias.
+
+## Aceite do Marco 3 - 0.0.3
+
+- Produtos, funcionalidades e planos sao geridos por endpoints de catalogo do
+  Backoffice.
+- Administrador comercial cria e edita rascunhos, mas nao publica, pausa ou
+  arquiva itens de disponibilidade publica.
+- Superadministrador publica catalogo com motivo, auditoria e snapshot
+  versionado em `catalog_publications`.
+- Publicacao invalida e recusada quando ha plano sem composicao, item
+  arquivado, preco invalido, dependencia ausente ou incompatibilidade.
+- Catalogo publico retorna contrato `0.0.3` e checkout valida a selecao contra
+  a ultima versao publicada.

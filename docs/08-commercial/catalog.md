@@ -156,7 +156,14 @@ O ciclo comercial de sistemas, planos e funcionalidades e:
 - `pausado`: temporariamente indisponivel;
 - `arquivado`: retirado da comercializacao, preservando historico.
 
-O estado de publicacao deve ser tratado separadamente do ciclo comercial, permitindo rascunho, revisao, publicacao e agendamento. Somente a versao publicada e comercializavel fica disponivel no catalogo publico.
+O estado de publicacao deve ser tratado separadamente do ciclo comercial,
+permitindo rascunho, publicacao, pausa e arquivamento. Somente a versao
+publicada e comercializavel fica disponivel no catalogo publico. Agendamento
+de publicacao permanece fora da `0.1`.
+
+Cada publicacao gera snapshot versionado por produto em `catalog_publications`.
+Edicoes administrativas posteriores nao alteram o catalogo publico ate nova
+publicacao.
 
 ## Ofertas sugeridas e personalizadas
 

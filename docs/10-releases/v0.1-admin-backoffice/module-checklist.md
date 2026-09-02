@@ -16,12 +16,12 @@
 
 ## Planos e catalogo
 
-- [ ] Criar e editar produtos, planos, modulos, precos e composicoes.
-- [ ] Separar status operacional de estado de publicacao.
-- [ ] Validar plano antes da publicacao.
-- [ ] Permitir publicacao, pausa e arquivamento apenas para superadministrador.
+- [x] Criar e editar produtos, planos, modulos, precos e composicoes.
+- [x] Separar status operacional de estado de publicacao.
+- [x] Validar plano antes da publicacao.
+- [x] Permitir publicacao, pausa e arquivamento apenas para superadministrador.
 - [ ] Invalidar cache apos publicacao, quando houver cache.
-- [ ] Garantir que catalogo publico e checkout ignorem rascunhos, pausados,
+- [x] Garantir que catalogo publico e checkout ignorem rascunhos, pausados,
   arquivados e incompletos.
 
 ## Assinaturas

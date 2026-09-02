@@ -12,7 +12,7 @@ Varas Criminais, Varas Civeis, Juizados, Cartorios e orgaos administrativos.
 
 ## Catalogo do backoffice
 
-Endpoint atual:
+Endpoint administrativo:
 
 ```http
 GET /api/backoffice/catalog
@@ -20,20 +20,25 @@ GET /api/backoffice/catalog
 
 Requer autenticacao de administrador da plataforma.
 
-Resposta atual, em forma resumida:
+Resposta resumida:
 
 ```json
 {
+  "contract_version": "0.0.3",
   "products": [
     {
       "id": "PRD...",
       "code": "law",
       "name": "Fokus Cloud Law",
+      "publication_state": "publicado",
+      "published_version": 1,
+      "modules": [],
       "plans": [
         {
           "id": "PLN...",
           "code": "law-advocacia",
-          "name": "Advocacia"
+          "name": "Advocacia",
+          "modules": []
         }
       ]
     }
@@ -41,26 +46,71 @@ Resposta atual, em forma resumida:
 }
 ```
 
-O endpoint atual considera produtos ativos, agrupa as funcionalidades do plano e calcula o valor mensal a partir da composicao cadastrada.
+O endpoint considera produtos, funcionalidades e planos cadastrados, agrupa as
+funcionalidades do plano e calcula o valor mensal a partir da composicao
+cadastrada quando o plano nao possuir preco proprio.
 
-## Requisitos do contrato alvo
+## Endpoints de escrita
 
-O contrato evoluido deve contemplar, quando implementado:
+| Endpoint | Uso |
+| --- | --- |
+| `POST /api/backoffice/catalog/products` e `PATCH /api/backoffice/catalog/products/{product}` | Criar e editar sistemas comerciais. |
+| `POST /api/backoffice/catalog/modules` e `PATCH /api/backoffice/catalog/modules/{module}` | Criar e editar funcionalidades. |
+| `POST /api/backoffice/catalog/plans` e `PATCH /api/backoffice/catalog/plans/{plan}` | Criar e editar planos. |
+| `PUT /api/backoffice/catalog/plans/{plan}/modules` | Atualizar composicao do plano. |
+| `POST /api/backoffice/catalog/{product}/publish` | Publicar snapshot versionado. |
+| `POST /api/backoffice/catalog/{type}/{id}/pause` | Pausar item publicado. |
+| `POST /api/backoffice/catalog/{type}/{id}/archive` | Arquivar item publicado. |
 
-- descricao tecnica e conteudo comercial;
-- status e estado de publicacao;
-- ordem de exibicao e destaque;
-- ciclos mensal e anual;
-- descontos configurados;
-- funcionalidades, limites e dependencias;
-- versao publicada do catalogo.
+Criacao e edicao exigem `platform.catalog.manage`. Publicacao, pausa e
+arquivamento exigem `platform.catalog.publish`.
 
 ## Catalogo publico
 
-O endpoint publico deve retornar somente itens ativos, publicados, completos e comercializaveis. Registros pausados, arquivados ou em rascunho nao podem ser usados no checkout.
+O endpoint publico retorna somente a ultima versao publicada:
+
+```http
+GET /api/catalog/{product}
+```
+
+Contrato `0.0.3`, em forma resumida:
+
+```json
+{
+  "contract_version": "0.0.3",
+  "published_version": 1,
+  "published_at": "2026-09-02 10:00:00",
+  "product": {
+    "code": "law",
+    "name": "Fokus Cloud Law"
+  },
+  "modules": [
+    {
+      "code": "processos-advocacia",
+      "name": "Gestao de Processos para Advogados",
+      "monthly_amount": 29.9
+    }
+  ],
+  "plans": [
+    {
+      "code": "law-advocacia",
+      "name": "Fokus Cloud Law - Advocacia",
+      "module_codes": ["processos-advocacia"],
+      "monthly_amount": 94.9,
+      "annual_amount": 949
+    }
+  ]
+}
+```
+
+Registros pausados, arquivados, em rascunho ou editados depois da ultima
+publicacao nao sao usados pelo catalogo publico nem pelo checkout ate nova
+publicacao.
 
 Em caso de falha de leitura, a aplicacao deve retornar erro controlado e o frontend deve informar indisponibilidade. Nao e permitido usar dados simulados ou o catalogo legado como fallback.
 
 ## Cache
 
-O cache pode ser utilizado para leitura, mas deve ser invalidado automaticamente no momento da publicacao. A versao publicada deve estar disponivel imediatamente apos a invalidacao.
+O snapshot versionado em `catalog_publications` e a fonte da leitura publica. Se
+cache de leitura for adicionado, ele deve ser invalidado no momento da
+publicacao.

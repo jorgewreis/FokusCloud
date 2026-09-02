@@ -24,6 +24,8 @@
 
 ## Fase 3: recriacao do catalogo inicial
 
+Concluida no Marco 3 (`0.0.3`) para a base administrativa do catalogo.
+
 Como o projeto ainda nao possui vinculacoes comerciais publicas, os planos Law
 atuais podem ser removidos e recriados com os cinco modulos comerciais. A
 operacao deve ocorrer em migration controlada e ser acompanhada de seeders
@@ -55,12 +57,17 @@ Agendamento de publicacao pode ser criado em evolucao futura, mas nao e requisit
 
 ## Fase 5: integracao dos consumidores
 
-1. Fazer o catalogo publico consumir a API.
-2. Fazer o checkout consumir a versao publicada.
+1. Fazer o catalogo publico consumir a API. Concluido com contrato `0.0.3`.
+2. Fazer o checkout consumir a versao publicada. Concluido com snapshot em
+   `catalog_publications`.
 3. Recalcular precos no backend.
-4. Remover o catalogo estatico legado.
+4. Remover o catalogo estatico legado. Concluido: o arquivo publico restante e
+   apenas adaptador da API.
 5. Validar catalogo vazio, itens inativos, falha da API e composicoes personalizadas.
 
 ## Criterio de conclusao
 
-A evolucao sera concluida quando os 11 planos estiverem cadastrados com composicoes aprovadas, o catalogo publico exibir apenas a versao ativa publicada, os limites e precos forem calculados a partir do banco e nenhum dado comercial duplicado permanecer no frontend.
+A evolucao da base administrativa foi concluida quando os planos estiveram
+cadastrados com composicoes, o catalogo publico passou a exibir apenas a versao
+publicada, os limites e precos passaram a ser calculados a partir do backend e
+nenhum dado comercial duplicado permaneceu no frontend.

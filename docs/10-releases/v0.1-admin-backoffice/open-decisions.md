@@ -37,6 +37,15 @@ Nenhuma decisao bloqueante registrada no inicio da release.
 | Provisionamento | Convite de ativacao com token unico de 24 horas; senha definida pelo destinatario. |
 | Sessoes | Revogacao imediata ao mudar papel, bloquear ou desativar. |
 
+## Decisoes fechadas na 0.0.3
+
+| Decisao | Resultado |
+| --- | --- |
+| Escopo do catalogo | Marco 3 cobre produtos, funcionalidades, planos, composicoes, precos e publicacao. |
+| Contrato publico | `GET /api/catalog/{product}` retorna contrato versionado `0.0.3` baseado em snapshot publicado. |
+| Publicacao | Imediata, exclusiva do superadministrador, com motivo e auditoria. |
+| Compatibilidade do frontend | O fluxo de assinatura normaliza o contrato novo sem manter preco ou composicao estatica. |
+
 ## Regra de atualizacao
 
 Toda nova duvida deve ser classificada como:

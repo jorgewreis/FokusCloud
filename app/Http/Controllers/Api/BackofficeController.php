@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\PlatformAdmin;
 use App\Services\PlatformAudit;
+use App\Services\CatalogManager;
 use App\Services\CatalogPricing;
 use App\Services\PrefixedUlid;
 use Illuminate\Http\Request;
@@ -56,45 +57,87 @@ class BackofficeController extends Controller
         ]);
     }
 
-    public function catalog(Request $request)
+    public function catalog(Request $request, CatalogManager $catalog)
     {
-        $products = DB::table('products')->where('active', true)->orderBy('name')->get();
-        $plans = $this->catalogPlanRows();
-        $modules = DB::table('modules')->whereIn('product_id', $products->pluck('id'))->orderBy('name')->get();
+        return response()->json($catalog->adminCatalog());
+    }
 
-        return response()->json([
-            'products' => $products->map(fn ($product) => [
-                'id' => $product->id,
-                'code' => $product->code,
-                'name' => $product->name,
-                'plans' => $plans->where('product_id', $product->id)->values()->map(fn ($plan) => [
-                    'id' => $plan->id,
-                    'code' => $plan->code,
-                    'name' => $plan->name,
-                    'full_name' => $plan->full_name,
-                    'segment' => $plan->segment,
-                    'status' => $plan->status,
-                    'display_order' => $plan->display_order,
-                    'featured' => (bool) $plan->featured,
-                    'monthly_amount' => $plan->monthly_amount,
-                    'annual_amount' => $plan->annual_amount,
-                    'modules' => DB::table('plan_modules as plan_module')
-                        ->join('modules as module', 'module.id', '=', 'plan_module.module_id')
-                        ->where('plan_module.plan_id', $plan->id)
-                        ->orderBy('module.name')
-                        ->get(['module.id', 'module.code', 'module.module_code', 'module.name', 'module.segment_code', 'module.context_code', 'module.variant_code', 'module.capabilities', 'module.dependencies', 'module.incompatibilities', 'module.status', 'module.price_is_estimate'])
-                        ->map(fn ($module) => [...(array) $module, 'price_is_estimate' => (bool) $module->price_is_estimate]),
-                ]),
-            ])->values(),
+    public function plans(Request $request, CatalogManager $catalog)
+    {
+        return response()->json($catalog->managementPlans()->values());
+    }
+
+    public function createProduct(Request $request, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:64'],
+            'name' => ['required', 'string', 'max:120'],
+            'technical_description' => ['nullable', 'string', 'max:2000'],
+            'commercial_content' => ['nullable', 'string', 'max:20000'],
+            'status' => ['nullable', Rule::in(['ativo', 'inativo'])],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'featured' => ['nullable', 'boolean'],
         ]);
+        abort_if(DB::table('products')->where('code', Str::slug($data['code']))->exists(), 422, 'Já existe um sistema com este código.');
+
+        $id = $catalog->createProduct($data);
+        $audit->record($request->user()->id, 'backoffice.catalog_product_created', 'product', $id, reason: 'Criação de sistema comercial', after: $data, request: $request);
+
+        return response()->json(['id' => $id, 'message' => 'Sistema criado.'], 201);
     }
 
-    public function plans(Request $request)
+    public function updateProduct(Request $request, string $product, CatalogManager $catalog, PlatformAudit $audit)
     {
-        return response()->json($this->managementPlanRows());
+        $data = $request->validate([
+            'code' => ['nullable', 'string', 'max:64'],
+            'name' => ['nullable', 'string', 'max:120'],
+            'technical_description' => ['nullable', 'string', 'max:2000'],
+            'commercial_content' => ['nullable', 'string', 'max:20000'],
+            'status' => ['nullable', Rule::in(['ativo', 'inativo'])],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'featured' => ['nullable', 'boolean'],
+        ]);
+        $current = DB::table('products')->where('id', $product)->first();
+        abort_unless($current, 404, 'Sistema não encontrado.');
+        if (isset($data['code'])) {
+            abort_if(DB::table('products')->where('code', Str::slug($data['code']))->where('id', '!=', $product)->exists(), 422, 'Já existe um sistema com este código.');
+        }
+
+        $catalog->updateProduct($product, $data);
+        $audit->record($request->user()->id, 'backoffice.catalog_product_updated', 'product', $product, reason: 'Atualização de sistema comercial', before: (array) $current, after: $data, request: $request);
+
+        return response()->json(['message' => 'Sistema atualizado.']);
     }
 
-    public function createPlan(Request $request, PlatformAudit $audit)
+    public function createModule(Request $request, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $this->validateModule($request);
+        abort_unless(DB::table('products')->where('id', $data['product_id'])->exists(), 422, 'Sistema não encontrado.');
+        abort_if(DB::table('modules')->where('product_id', $data['product_id'])->where('code', Str::slug($data['code']))->exists(), 422, 'Já existe uma funcionalidade com este código no sistema.');
+
+        $id = $catalog->createModule($data);
+        $audit->record($request->user()->id, 'backoffice.catalog_module_created', 'module', $id, reason: 'Criação de funcionalidade comercial', after: $data, request: $request);
+
+        return response()->json(['id' => $id, 'message' => 'Funcionalidade criada.'], 201);
+    }
+
+    public function updateModule(Request $request, string $module, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $this->validateModule($request, true);
+        $current = DB::table('modules')->where('id', $module)->first();
+        abort_unless($current, 404, 'Funcionalidade não encontrada.');
+        $productId = $data['product_id'] ?? $current->product_id;
+        if (isset($data['code'])) {
+            abort_if(DB::table('modules')->where('product_id', $productId)->where('code', Str::slug($data['code']))->where('id', '!=', $module)->exists(), 422, 'Já existe uma funcionalidade com este código no sistema.');
+        }
+
+        $catalog->updateModule($module, $data);
+        $audit->record($request->user()->id, 'backoffice.catalog_module_updated', 'module', $module, reason: 'Atualização de funcionalidade comercial', before: (array) $current, after: $data, request: $request);
+
+        return response()->json(['message' => 'Funcionalidade atualizada.']);
+    }
+
+    public function createPlan(Request $request, CatalogManager $catalog, PlatformAudit $audit)
     {
         $data = $request->validate([
             'product_id' => ['nullable', 'string', 'size:30'],
@@ -102,55 +145,26 @@ class BackofficeController extends Controller
             'code' => ['required', 'string', 'max:64'],
             'name' => ['required', 'string', 'max:120'],
             'base_name' => ['nullable', 'string', 'max:120'],
+            'technical_description' => ['nullable', 'string', 'max:2000'],
+            'commercial_content' => ['nullable', 'string', 'max:20000'],
             'segment' => ['nullable', 'string', 'max:16'],
             'monthly_amount' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['nullable', 'string', 'max:32'],
-            'publication_state' => ['nullable', 'string', 'max:32'],
+            'status' => ['nullable', Rule::in(['ativo', 'inativo'])],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'featured' => ['nullable', 'boolean'],
+            'module_ids' => ['nullable', 'array'],
+            'module_ids.*' => ['string', 'size:30'],
         ]);
+        $data = $this->resolvePlanProductData($data);
+        abort_if(DB::table('plans')->where('product_id', $data['product_id'])->where('code', Str::slug($data['code']))->exists(), 422, 'Já existe um plano com este código no sistema selecionado.');
 
-        $productId = $data['product_id'] ?? null;
-        $systemSegment = null;
-        if (! $productId && ! empty($data['system'])) {
-            [$productId, $systemSegment] = $this->resolvePlanSystem($data['system']);
-        }
-        abort_unless($productId, 422, 'O sistema selecionado não está disponível no catálogo.');
-        abort_unless(DB::table('products')->where('id', $productId)->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
+        $id = $catalog->createPlan([...$data, 'status' => $data['status'] ?? 'inativo']);
+        $audit->record($request->user()->id, 'backoffice.plan_created', 'plan', $id, reason: 'Criação de plano', after: $data, request: $request);
 
-        $normalizedCode = Str::lower(trim((string) $data['code']));
-        abort_if($normalizedCode === '', 422, 'O código do plano é obrigatório.');
-        abort_if(DB::table('plans')->where('product_id', $productId)->where('code', $normalizedCode)->exists(), 422, 'Já existe um plano com este código no sistema selecionado.');
-
-        $status = $this->normalizePlanOperationalStatus($data['status'] ?? 'inativo');
-        $publicationState = $this->normalizePlanPublicationState($data['publication_state'] ?? 'rascunho');
-        $displayOrder = (int) ($data['display_order'] ?? ((int) DB::table('plans')->where('product_id', $productId)->max('display_order') + 1));
-
-        $id = PrefixedUlid::make('PLN');
-        DB::table('plans')->insert([
-            'id' => $id,
-            'product_id' => $productId,
-            'code' => $normalizedCode,
-            'name' => trim((string) ($data['base_name'] ?? $data['name'])),
-            'monthly_amount' => $data['monthly_amount'] ?? null,
-            'segment' => $data['segment'] ?? $systemSegment,
-            'status' => $status,
-            'publication_state' => $publicationState,
-            'display_order' => $displayOrder,
-            'featured' => (bool) ($data['featured'] ?? false),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $audit->record($request->user()->id, 'backoffice.plan_created', 'plan', $id, reason: 'Criação de plano', request: $request);
-
-        return response()->json([
-            'id' => $id,
-            'message' => 'Plano criado.',
-        ], 201);
+        return response()->json(['id' => $id, 'message' => 'Plano criado.'], 201);
     }
 
-    public function updatePlan(Request $request, string $plan, PlatformAudit $audit)
+    public function updatePlan(Request $request, string $plan, CatalogManager $catalog, PlatformAudit $audit)
     {
         $data = $request->validate([
             'product_id' => ['nullable', 'string', 'size:30'],
@@ -158,53 +172,67 @@ class BackofficeController extends Controller
             'code' => ['nullable', 'string', 'max:64'],
             'name' => ['nullable', 'string', 'max:120'],
             'base_name' => ['nullable', 'string', 'max:120'],
+            'technical_description' => ['nullable', 'string', 'max:2000'],
+            'commercial_content' => ['nullable', 'string', 'max:20000'],
             'segment' => ['nullable', 'string', 'max:16'],
             'monthly_amount' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['nullable', 'string', 'max:32'],
-            'publication_state' => ['nullable', 'string', 'max:32'],
+            'status' => ['nullable', Rule::in(['ativo', 'inativo'])],
             'display_order' => ['nullable', 'integer', 'min:0'],
             'featured' => ['nullable', 'boolean'],
+            'module_ids' => ['nullable', 'array'],
+            'module_ids.*' => ['string', 'size:30'],
         ]);
-
         $current = DB::table('plans')->where('id', $plan)->first();
         abort_unless($current, 404, 'Plano não encontrado.');
-
-        $productId = $data['product_id'] ?? $current->product_id;
-        $systemSegment = null;
-        if (! empty($data['system'])) {
-            [$resolvedProductId, $systemSegment] = $this->resolvePlanSystem($data['system']);
-            $productId = $resolvedProductId ?: $productId;
+        $data = $this->resolvePlanProductData($data, $current);
+        if (isset($data['code'])) {
+            abort_if(DB::table('plans')->where('product_id', $data['product_id'])->where('code', Str::slug($data['code']))->where('id', '!=', $plan)->exists(), 422, 'Já existe um plano com este código no sistema selecionado.');
         }
-        abort_unless(DB::table('products')->where('id', $productId)->where('active', true)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
 
-        $code = isset($data['code']) ? Str::lower(trim((string) $data['code'])) : $current->code;
-        abort_if($code === '', 422, 'O código do plano é obrigatório.');
-        abort_if(
-            DB::table('plans')->where('product_id', $productId)->where('code', $code)->where('id', '!=', $plan)->exists(),
-            422,
-            'Já existe um plano com este código no sistema selecionado.',
-        );
-
-        $status = $this->normalizePlanOperationalStatus($data['status'] ?? $current->status);
-        $publicationState = $this->normalizePlanPublicationState($data['publication_state'] ?? $current->publication_state);
-        $displayOrder = array_key_exists('display_order', $data) ? (int) $data['display_order'] : (int) $current->display_order;
-
-        DB::table('plans')->where('id', $plan)->update([
-            'product_id' => $productId,
-            'code' => $code,
-            'name' => trim((string) ($data['base_name'] ?? $data['name'] ?? $current->name)),
-            'monthly_amount' => array_key_exists('monthly_amount', $data) ? $data['monthly_amount'] : $current->monthly_amount,
-            'segment' => array_key_exists('segment', $data) ? $data['segment'] : ($systemSegment ?? $current->segment),
-            'status' => $status,
-            'publication_state' => $publicationState,
-            'display_order' => $displayOrder,
-            'featured' => array_key_exists('featured', $data) ? (bool) $data['featured'] : (bool) $current->featured,
-            'updated_at' => now(),
-        ]);
-
-        $audit->record($request->user()->id, 'backoffice.plan_updated', 'plan', $plan, reason: 'Atualização de plano', request: $request);
+        $catalog->updatePlan($plan, $data);
+        $audit->record($request->user()->id, 'backoffice.plan_updated', 'plan', $plan, reason: 'Atualização de plano', before: (array) $current, after: $data, request: $request);
 
         return response()->json(['message' => 'Plano atualizado.']);
+    }
+
+    public function syncPlanModules(Request $request, string $plan, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate([
+            'module_ids' => ['required', 'array', 'min:1'],
+            'module_ids.*' => ['required', 'string', 'size:30'],
+        ]);
+        $current = DB::table('plan_modules')->where('plan_id', $plan)->pluck('module_id')->all();
+        $catalog->syncPlanModules($plan, $data['module_ids']);
+        $audit->record($request->user()->id, 'backoffice.plan_modules_updated', 'plan', $plan, reason: 'Atualização da composição do plano', before: ['module_ids' => $current], after: $data, request: $request);
+
+        return response()->json(['message' => 'Composição atualizada.']);
+    }
+
+    public function publishCatalog(Request $request, string $product, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        $publication = $catalog->publish($product, $request->user()->id, $data['reason']);
+        $audit->record($request->user()->id, 'backoffice.catalog_published', 'product', $product, reason: $data['reason'], metadata: ['version' => $publication['version']], request: $request);
+
+        return response()->json(['message' => 'Catálogo publicado.', 'version' => $publication['version']]);
+    }
+
+    public function pauseCatalogItem(Request $request, string $type, string $id, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        [$before, $after] = $catalog->pauseOrArchive($type, $id, 'pausado');
+        $audit->record($request->user()->id, 'backoffice.catalog_item_paused', $type, $id, reason: $data['reason'], before: $before, after: $after, request: $request);
+
+        return response()->json(['message' => 'Item pausado.']);
+    }
+
+    public function archiveCatalogItem(Request $request, string $type, string $id, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        [$before, $after] = $catalog->pauseOrArchive($type, $id, 'arquivado');
+        $audit->record($request->user()->id, 'backoffice.catalog_item_archived', $type, $id, reason: $data['reason'], before: $before, after: $after, request: $request);
+
+        return response()->json(['message' => 'Item arquivado.']);
     }
 
     public function deletePlan(Request $request, string $plan, PlatformAudit $audit)
@@ -219,6 +247,58 @@ class BackofficeController extends Controller
         $audit->record($request->user()->id, 'backoffice.plan_deleted', 'plan', $plan, reason: 'Exclusão de plano', request: $request);
 
         return response()->json(['message' => 'Plano excluído.']);
+    }
+
+    private function validateModule(Request $request, bool $partial = false): array
+    {
+        $required = $partial ? 'nullable' : 'required';
+
+        return $request->validate([
+            'product_id' => [$required, 'string', 'size:30'],
+            'code' => [$required, 'string', 'max:64'],
+            'module_code' => ['nullable', 'string', 'max:64'],
+            'name' => [$required, 'string', 'max:120'],
+            'technical_description' => ['nullable', 'string', 'max:2000'],
+            'commercial_content' => ['nullable', 'string', 'max:20000'],
+            'monthly_price' => [$required, 'numeric', 'min:0'],
+            'segment_code' => ['nullable', 'string', 'max:32'],
+            'context_code' => ['nullable', 'string', 'max:64'],
+            'variant_code' => ['nullable', 'string', 'max:64'],
+            'capabilities' => ['nullable', 'array'],
+            'dependencies' => ['nullable', 'array'],
+            'incompatibilities' => ['nullable', 'array'],
+            'status' => ['nullable', Rule::in(['ativo', 'rascunho', 'pausado', 'arquivado'])],
+            'display_order' => ['nullable', 'integer', 'min:0'],
+            'featured' => ['nullable', 'boolean'],
+            'capacity_unit' => ['nullable', 'string', 'max:64'],
+            'default_capacity' => ['nullable', 'integer', 'min:1'],
+            'capacity_options' => ['nullable', 'array'],
+            'capacity_options.*' => ['integer', 'min:1'],
+            'available_standalone' => ['nullable', 'boolean'],
+            'price_is_estimate' => ['nullable', 'boolean'],
+        ]);
+    }
+
+    private function resolvePlanProductData(array $data, ?object $current = null): array
+    {
+        $productId = $data['product_id'] ?? $current?->product_id ?? null;
+        $systemSegment = null;
+
+        if (! empty($data['system'])) {
+            [$resolvedProductId, $systemSegment] = $this->resolvePlanSystem($data['system']);
+            $productId = $resolvedProductId ?: $productId;
+        }
+
+        abort_unless($productId, 422, 'O sistema selecionado não está disponível no catálogo.');
+        abort_unless(DB::table('products')->where('id', $productId)->exists(), 422, 'O sistema selecionado não está disponível no catálogo.');
+
+        $data['product_id'] = $productId;
+        if (! array_key_exists('segment', $data) && $systemSegment) {
+            $data['segment'] = $systemSegment;
+        }
+        unset($data['system']);
+
+        return $data;
     }
 
     public function changeSubscription(Request $request, string $subscription, PlatformAudit $audit)

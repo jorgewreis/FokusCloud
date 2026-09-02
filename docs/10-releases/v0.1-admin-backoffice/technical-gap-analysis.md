@@ -22,7 +22,7 @@ O projeto ja possui base relevante para o Backoffice:
 | Bloqueio rigido | Concluido na `0.0.2` com risco por conta, IP e dispositivo. | Monitorar eventos no Marco 7. |
 | Auditoria | Base de seguranca concluida na `0.0.2` com `before_masked`, `after_masked` e `expires_at`. | Estender aos dominios comerciais nos marcos seguintes. |
 | Paginas reais | Apenas planos e vouchers aparecem como paginas reais; painel, empresas, assinaturas e admins dependem de mockups. | Backoffice nao esta funcional ponta a ponta. |
-| Catalogo | CRUD atual foca planos; produtos, modulos, composicoes e publicacao final ainda precisam ser completados. | Catalogo administrativo incompleto. |
+| Catalogo | Concluido na `0.0.3` com endpoints administrativos de produtos, funcionalidades, planos, composicao, publicacao e snapshot publico versionado. | Reutilizar o contrato publicado nos marcos de vouchers, assinaturas e billing. |
 | Vouchers | API atual aceita `trial_free`, `percentage` e `fixed`, mas ainda precisa `commercial_credit` e snapshot completo de resgate. | Tipos e historico comercial incompletos. |
 | Assinaturas | API atual cobre suspensao, reativacao e cancelamento simples; upgrade, downgrade, recalculo e override ainda faltam. | Fluxo comercial incompleto. |
 | Billing | Mercado Pago sandbox, webhook validado, recorrencia, inadimplencia, reembolso e conciliacao ainda precisam ser fechados. | Financeiro administrativo incompleto. |
@@ -57,6 +57,6 @@ O projeto ja possui base relevante para o Backoffice:
 - Cobrir permissao por perfil interno.
 - Cobrir bloqueio de conta interna.
 - Cobrir before/after e retencao de auditoria.
-- Cobrir catalogo publicado versus rascunho/pausado/arquivado.
+- Concluido na `0.0.3`: cobrir catalogo publicado versus rascunho/pausado/arquivado.
 - Cobrir Mercado Pago sandbox com eventos validos, invalidos e duplicados.
 - Cobrir fluxo manual de conciliacao.

@@ -50,6 +50,7 @@ A release `0.1` estara pronta quando:
 - [Notas da release](release-notes.md)
 - [Decisoes abertas](open-decisions.md)
 - [Marco 2 - seguranca interna](milestone-2-security.md)
+- [Marco 3 - catalogo administrativo](milestone-3-catalog.md)
 - [Matriz de rastreabilidade](traceability-matrix.md)
 - [Definition of Done](definition-of-done.md)
 - [Checklist de revisao documental](documentation-review-checklist.md)
