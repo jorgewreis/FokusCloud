@@ -40,7 +40,7 @@
 
                 <div class="form-field w-3" id="voucher-base-field">
                     <label for="voucher-base-value">Valor da assinatura</label>
-                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" type="number" min="0" step="0.01" inputmode="decimal" readonly required></div>
+                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input readonly required></div>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
 
                 <div class="form-field w-2" id="voucher-discount-value-field">
                     <label for="voucher-discount-value">Desconto R$</label>
-                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" type="number" min="0" step="0.01" inputmode="decimal"></div>
+                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div>
                 </div>
 
                 <div class="form-field w-3">
@@ -179,7 +179,7 @@
             if (!document.querySelector('link[data-voucher-standalone-css]')) {
                 const css = document.createElement("link");
                 css.rel = "stylesheet";
-                css.href = "/backoffice/assets/css/main.css?v=20260901-live-controls";
+                css.href = "/backoffice/assets/css/main.css?v=20260902-catalog-inputs";
                 css.dataset.voucherStandaloneCss = "true";
                 document.head.appendChild(css);
             }
@@ -204,6 +204,7 @@
         let messageTimer = null;
         let editingVoucher = null;
         let pendingVoucherAction = null;
+        window.FokusCurrency?.bind(document.querySelector(".voucher-page"));
         let mockVouchers = [
             {
                 id: "vch_oneyear10",
@@ -306,8 +307,8 @@
 
         const toNumber = (value) => Number(String(value || "").replace(",", ".")) || 0;
         const toMoney = (value) => Number(value || 0).toFixed(2);
-        const formatMoneyValue = (value) => Number(value || 0).toFixed(2);
-        const parseInputMoney = (value) => Number(String(value ?? "").replace(",", ".")) || 0;
+        const formatMoneyValue = (value) => window.FokusCurrency?.format(value) ?? "";
+        const parseInputMoney = (value) => window.FokusCurrency?.parse(value) ?? 0;
         const makeSuffix = () => {
             const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             if (window.crypto?.getRandomValues) {

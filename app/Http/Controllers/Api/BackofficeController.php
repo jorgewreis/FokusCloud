@@ -112,6 +112,9 @@ class BackofficeController extends Controller
 
     public function createModule(Request $request, CatalogManager $catalog, PlatformAudit $audit)
     {
+        if ($request->has('monthly_price')) {
+            $request->merge(['monthly_price' => $this->normalizeDecimalInput($request->input('monthly_price'))]);
+        }
         $data = $this->validateModule($request);
         abort_unless(DB::table('products')->where('id', $data['product_id'])->exists(), 422, 'Sistema não encontrado.');
         abort_if(DB::table('modules')->where('product_id', $data['product_id'])->where('code', Str::slug($data['code']))->exists(), 422, 'Já existe uma funcionalidade com este código no sistema.');
@@ -124,6 +127,9 @@ class BackofficeController extends Controller
 
     public function updateModule(Request $request, string $module, CatalogManager $catalog, PlatformAudit $audit)
     {
+        if ($request->has('monthly_price')) {
+            $request->merge(['monthly_price' => $this->normalizeDecimalInput($request->input('monthly_price'))]);
+        }
         $data = $this->validateModule($request, true);
         $current = DB::table('modules')->where('id', $module)->first();
         abort_unless($current, 404, 'Funcionalidade não encontrada.');
@@ -140,6 +146,9 @@ class BackofficeController extends Controller
 
     public function createPlan(Request $request, CatalogManager $catalog, PlatformAudit $audit)
     {
+        if ($request->has('monthly_amount')) {
+            $request->merge(['monthly_amount' => $this->normalizeDecimalInput($request->input('monthly_amount'))]);
+        }
         if (! $request->filled('name') && $request->filled('base_name')) {
             $request->merge(['name' => $request->input('base_name')]);
         }
@@ -170,6 +179,9 @@ class BackofficeController extends Controller
 
     public function updatePlan(Request $request, string $plan, CatalogManager $catalog, PlatformAudit $audit)
     {
+        if ($request->has('monthly_amount')) {
+            $request->merge(['monthly_amount' => $this->normalizeDecimalInput($request->input('monthly_amount'))]);
+        }
         if (! $request->filled('name') && $request->filled('base_name')) {
             $request->merge(['name' => $request->input('base_name')]);
         }
@@ -306,6 +318,22 @@ class BackofficeController extends Controller
             'available_standalone' => ['nullable', 'boolean'],
             'price_is_estimate' => ['nullable', 'boolean'],
         ]);
+    }
+
+    private function normalizeDecimalInput(mixed $value): mixed
+    {
+        if ($value === null || $value === '' || is_numeric($value)) {
+            return $value;
+        }
+
+        $compact = preg_replace('/[^\d,.-]/', '', (string) $value);
+        $comma = strrpos($compact, ',');
+        $dot = strrpos($compact, '.');
+        $normalized = $comma !== false && ($dot === false || $comma > $dot)
+            ? str_replace(',', '.', str_replace('.', '', $compact))
+            : str_replace(',', '', $compact);
+
+        return is_numeric($normalized) ? (float) $normalized : $value;
     }
 
     private function resolvePlanProductData(array $data, ?object $current = null): array
