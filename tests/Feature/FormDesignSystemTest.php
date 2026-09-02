@@ -132,6 +132,15 @@ class FormDesignSystemTest extends TestCase
             $this->assertStringNotContainsString('table-container', $contents, $page);
         }
 
+        $companies = file_get_contents(base_path('public/backoffice/pages/companies.html'));
+        $subscriptions = file_get_contents(base_path('public/backoffice/pages/subscriptions.html'));
+        $this->assertStringContainsString('metric-label">STATUS', $companies);
+        $this->assertStringContainsString('metric-label">ADMINISTRADOR', $companies);
+        $this->assertStringContainsString('subscription-summary-card', $companies);
+        $this->assertStringContainsString('card-header', $companies);
+        $this->assertStringContainsString('card-body', $subscriptions);
+        $this->assertStringContainsString('cancelamento_imediato', $subscriptions);
+
         $pageCss = file_get_contents(base_path('public/backoffice/assets/css/pages/mockup.css'));
         foreach (['.company-page', '.subscription-page'] as $selector) {
             $this->assertStringContainsString($selector, $pageCss, $selector);

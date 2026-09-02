@@ -36,7 +36,12 @@
 .plan-page .table-panel, .voucher-page .table-panel, .security-page .table-panel, .company-page .table-panel, .subscription-page .table-panel { margin-top: var(--space-3); border: 1px solid var(--theme-border-alt); border-radius: var(--radius-control); background: var(--theme-surface); }
 .plan-page .data-table, .voucher-page .data-table, .security-page .data-table, .company-page .data-table, .subscription-page .data-table { min-width: 900px; }
 .plan-page .data-table tbody tr, .voucher-page .data-table tbody tr, .security-page .data-table tbody tr, .company-page .data-table tbody tr, .subscription-page .data-table tbody tr { height: 48px; }
-.company-page .card-static, .subscription-page .card-static { margin-bottom: var(--space-2); }
+.company-page .card-static, .subscription-page .card-static { margin: 0 0 var(--space-2); overflow: hidden; background: var(--theme-surface); }
+.company-page .metric-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.company-page #company-detail-summary .metric-value { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+.company-page .badge, .subscription-page .badge { font-size: 10px; letter-spacing: .04em; text-transform: uppercase; }
+.company-page .subscription-detail-value { display: block; margin-top: var(--space-1); color: var(--theme-text); font-size: 12px; font-weight: var(--font-weight-semibold); line-height: 1.3; }
+.subscription-page .card-header, .subscription-page .card-body { padding: var(--space-3); }
 .company-page .system-notice, .subscription-page .system-notice { margin: 0 0 var(--space-3); }
 .company-page .form-actions, .subscription-page .form-actions { margin-top: var(--space-4); }
 .plan-page .system-notice, .voucher-page .system-notice, .security-page .system-notice { margin: var(--space-3) 0; }

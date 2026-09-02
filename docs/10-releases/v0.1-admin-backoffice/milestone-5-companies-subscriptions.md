@@ -9,8 +9,9 @@ gestao controlada de assinaturas: `v0.0.5-alpha.1`.
 
 A alpha inclui listagem paginada e detalhe de empresas, assinaturas,
 pagamentos locais, itens contratados, uso recente e historico comercial.
-Tambem inclui pausa, reativacao, cancelamento agendado, upgrade pendente de
-pagamento, downgrade agendado e override exclusivo do superadministrador.
+Tambem inclui pausa, reativacao, cancelamento agendado, encerramento imediato,
+upgrade pendente de pagamento, downgrade agendado e override exclusivo do
+superadministrador.
 
 As paginas reais sao `public/backoffice/pages/companies.html` e
 `public/backoffice/pages/subscriptions.html`. As APIs administrativas sao:
@@ -29,7 +30,8 @@ As paginas reais sao `public/backoffice/pages/companies.html` e
 - Suspensao, reativacao, cancelamento, upgrade e downgrade exigem motivo.
 - Precos e composicao sao recalculados pelo catalogo publicado.
 - Upgrade permanece aguardando confirmacao financeira; downgrade e
-  cancelamento respeitam a data efetiva.
+  cancelamento agendado respeitam a data efetiva. O encerramento imediato
+  preserva a assinatura e seu historico, sem exclusao fisica.
 - Transicoes usam transacao, bloqueio da assinatura, versionamento e auditoria.
 - CPF, CNPJ e e-mails sao mascarados; dados pessoais nao podem ser alterados
   por estas APIs.

@@ -34,12 +34,21 @@ class SubscriptionChangeManager
                 abort_unless($subscription->status === 'suspensa', 422, 'Somente assinaturas suspensas podem ser reativadas.');
                 $updates['status'] = 'ativa';
                 $after['status'] = 'ativa';
-            } elseif ($action === 'cancelamento') {
-                $effectiveAt = $subscription->current_period_ends_at ? Carbon::parse($subscription->current_period_ends_at) : now();
-                $updates['status'] = 'cancelamento_agendado';
-                $updates['cancel_at'] = $effectiveAt;
-                $after['status'] = 'cancelamento_agendado';
-                $after['cancel_at'] = $effectiveAt->toISOString();
+            } elseif (in_array($action, ['cancelamento', 'cancelamento_imediato'], true)) {
+                if ($action === 'cancelamento_imediato') {
+                    $effectiveAt = now();
+                    $updates['status'] = 'encerrada';
+                    $updates['open_company_product'] = null;
+                    $updates['cancel_at'] = $effectiveAt;
+                    $after['status'] = 'encerrada';
+                    $after['cancel_at'] = $effectiveAt->toISOString();
+                } else {
+                    $effectiveAt = $subscription->current_period_ends_at ? Carbon::parse($subscription->current_period_ends_at) : now();
+                    $updates['status'] = 'cancelamento_agendado';
+                    $updates['cancel_at'] = $effectiveAt;
+                    $after['status'] = 'cancelamento_agendado';
+                    $after['cancel_at'] = $effectiveAt->toISOString();
+                }
             } elseif (in_array($action, ['upgrade', 'downgrade'], true)) {
                 $target = $this->targetPlanSnapshot($subscription, $data);
                 $after = [...$before, ...$target['snapshot']];
@@ -68,7 +77,7 @@ class SubscriptionChangeManager
                 abort(422, 'Ação de assinatura inválida.');
             }
 
-            if (in_array($action, ['suspensao', 'reativacao', 'cancelamento', 'override'], true)) {
+            if (in_array($action, ['suspensao', 'reativacao', 'cancelamento', 'cancelamento_imediato', 'override'], true)) {
                 $after['status'] = $updates['status'] ?? $subscription->status;
                 $updates['commercial_snapshot'] = json_encode($after);
                 DB::table('subscriptions')->where('id', $subscriptionId)->update($updates);
@@ -79,7 +88,7 @@ class SubscriptionChangeManager
                 'id' => $changeId,
                 'company_id' => $subscription->company_id,
                 'subscription_id' => $subscriptionId,
-                'type' => $action,
+                'type' => $action === 'cancelamento_imediato' ? 'cancelamento' : $action,
                 'status' => $status,
                 'effective_at' => $effectiveAt,
                 'proration_amount' => $prorationAmount,
