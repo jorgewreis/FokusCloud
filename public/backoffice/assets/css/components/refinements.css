@@ -253,6 +253,7 @@ html[data-theme="dark"] .modal { background: rgb(0 0 0 / .68); }
 .input-suffix { border-left: 0; border-radius: 0 5px 5px 0; }
 .input-prefix + .form-control, .input-prefix + .form-control-wrap .form-control { border-radius: 0 5px 5px 0; }
 .currency-input > .input-prefix + input { margin-left: -1px; border-radius: 0 var(--radius-control) var(--radius-control) 0; }
+.currency-input > .input-prefix + .currency-input-control { margin-left: -1px; border-left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; }
 .form-control:has(+ .input-suffix) { border-radius: 5px 0 0 5px; }
 .form-control-wrap.is-loading::after { content: ""; position: absolute; right: 12px; width: 14px; height: 14px; border: 2px solid var(--role-color-200); border-top-color: var(--role-color-500); border-radius: 50%; animation: form-control-spin 700ms linear infinite; }
 @keyframes form-control-spin { to { transform: rotate(360deg); } }
