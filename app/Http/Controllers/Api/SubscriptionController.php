@@ -8,9 +8,10 @@ use App\Services\CatalogManager;
 use App\Services\CatalogPricing;
 use App\Services\VoucherManager;
 use App\Services\SubscriptionChangeManager;
+use App\Services\MercadoPagoClient;
+use App\Services\BillingWebhookProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 
 class SubscriptionController extends Controller
@@ -41,11 +42,9 @@ class SubscriptionController extends Controller
         return response()->json($subscriptions);
     }
 
-    public function checkout(Request $request, CatalogManager $catalog, VoucherManager $vouchers, SubscriptionChangeManager $subscriptionChanges)
+    public function checkout(Request $request, CatalogManager $catalog, VoucherManager $vouchers, SubscriptionChangeManager $subscriptionChanges, MercadoPagoClient $mercadoPago)
     {
         abort_unless($request->user()->email_verified_at, 403, 'Confirme o e-mail antes de assinar.');
-        $accessToken = config('services.mercado_pago.access_token');
-        abort_unless($accessToken, 503, 'O checkout ainda não foi configurado.');
         $data = $request->validate([
             'product_code' => ['required', Rule::in(['law', 'lead'])],
             'items' => ['required', 'array', 'min:1'],
@@ -61,6 +60,33 @@ class SubscriptionController extends Controller
         $product = DB::table('products')->where('code', $data['product_code'])->where('active', true)->first();
         abort_unless($product, 404, 'Produto não encontrado.');
         $quoted = $this->quote($product, $data, $catalog);
+        $requestKey = (string) ($request->header('Idempotency-Key') ?: hash('sha256', implode('|', [
+            $request->user()->id, $companyId, json_encode($data),
+        ])));
+        $previousAttempt = DB::table('billing_checkout_attempts')->where('company_id', $companyId)->where('request_key', $requestKey)->first();
+        if ($previousAttempt?->status === 'completed') {
+            return response()->json(json_decode((string) $previousAttempt->response_snapshot_sanitized, true) ?: [], 201);
+        }
+        if ($previousAttempt?->status === 'started') {
+            return response()->json(['message' => 'Este checkout já está em processamento.'], 409);
+        }
+        if ($previousAttempt?->status === 'failed') {
+            return response()->json(['message' => 'Esta tentativa de checkout já falhou. Gere uma nova chave de idempotência para tentar novamente.'], 502);
+        }
+        $attemptId = $previousAttempt?->id ?: PrefixedUlid::make('BCA');
+        if (! $previousAttempt) {
+            DB::table('billing_checkout_attempts')->insert([
+                'id' => $attemptId,
+                'company_id' => $companyId,
+                'user_id' => $request->user()->id,
+                'request_key' => $requestKey,
+                'status' => 'started',
+                'request_snapshot_sanitized' => json_encode(['product_code' => $data['product_code'], 'cycle' => $data['cycle'], 'selection_mode' => $data['selection_mode'], 'amount' => $quoted['amount']]),
+                'expires_at' => now()->addHour(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
         $voucher = ! empty($data['voucher_code'])
             ? $vouchers->findEligible($data['voucher_code'], $product->id, $companyId, array_column($data['items'], 'module_code'), $data['plan_code'] ?? null)
             : null;
@@ -74,17 +100,7 @@ class SubscriptionController extends Controller
 
         if ($voucher) {
             $plan = $data['plan_code'] ? DB::table('plans')->where('product_id', $product->id)->where('code', $data['plan_code'])->first() : null;
-            $reservationKey = (string) ($request->header('Idempotency-Key') ?: hash('sha256', implode('|', [
-                $request->user()->id,
-                $companyId,
-                $data['product_code'],
-                $data['cycle'],
-                $data['selection_mode'],
-                $data['plan_code'] ?? '',
-                $data['voucher_code'],
-                json_encode($data['items']),
-            ])));
-            $reservation = $vouchers->reserve($voucher, $companyId, $reservationKey, [
+            $reservation = $vouchers->reserve($voucher, $companyId, $requestKey, [
                 'voucher_id' => $voucher->id,
                 'code' => $voucher->code,
                 'name' => $voucher->name,
@@ -111,16 +127,18 @@ class SubscriptionController extends Controller
         }
 
         try {
-            $response = Http::withToken($accessToken)->timeout(15)->post('https://api.mercadopago.com/preapproval', [
+            $response = $mercadoPago->createPreapproval([
                 'external_reference' => $paymentId,
                 'reason' => "Assinatura {$product->name}",
                 'payer_email' => $request->user()->email,
                 'auto_recurring' => ['frequency' => $data['cycle'] === 'annual' ? 12 : 1, 'frequency_type' => 'months', 'transaction_amount' => $quoted['amount'], 'currency_id' => 'BRL'],
+                'status' => 'pending',
                 'back_url' => rtrim(config('app.url'), '/').'/portal/assinaturas',
                 'notification_url' => rtrim(config('app.url'), '/').'/api/webhooks/mercado-pago',
-            ])->throw()->json();
-        } catch (\Throwable) {
+            ], $requestKey);
+        } catch (\Throwable $exception) {
             if ($reservation) $vouchers->release($reservation->id);
+            DB::table('billing_checkout_attempts')->where('id', $attemptId)->update(['status' => 'failed', 'error_message' => mb_substr($exception->getMessage(), 0, 1000), 'updated_at' => now()]);
             return response()->json(['message' => 'Não foi possível iniciar o checkout. Nenhuma assinatura foi criada; tente novamente.'], 502);
         }
 
@@ -159,8 +177,18 @@ class SubscriptionController extends Controller
                 'commercial_snapshot' => json_encode($subscriptionChanges->snapshot($subscription)),
                 'updated_at' => now(),
             ]);
+            DB::table('billing_checkout_attempts')->where('id', $attemptId)->update([
+                'status' => 'completed', 'payment_id' => $paymentId, 'subscription_id' => $subscriptionId,
+                'provider_subscription_id' => $response['id'] ?? null,
+                'response_snapshot_sanitized' => json_encode(['checkout_url' => $response['init_point'] ?? null, 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount']]),
+                'updated_at' => now(),
+            ]);
         } catch (\Throwable $exception) {
             if ($reservation) $vouchers->release($reservation->id);
+            if (! empty($response['id'])) {
+                try { $mercadoPago->updatePreapproval((string) $response['id'], ['status' => 'cancelled'], 'compensate-'.$attemptId); } catch (\Throwable) { /* retry/reconciliation will handle the external orphan */ }
+            }
+            DB::table('billing_checkout_attempts')->where('id', $attemptId)->update(['status' => 'failed', 'error_message' => mb_substr($exception->getMessage(), 0, 1000), 'updated_at' => now()]);
             throw $exception;
         }
 
@@ -191,66 +219,11 @@ class SubscriptionController extends Controller
         return response()->json(['message' => $data['type'] === 'upgrade' ? 'Upgrade criado e aguardando a cobrança proporcional.' : 'Alteração programada para o fim do ciclo.', 'effective_at' => $effectiveAt]);
     }
 
-    public function webhook(Request $request, VoucherManager $vouchers)
+    public function webhook(Request $request, BillingWebhookProcessor $processor)
     {
         $this->assertWebhookSignature($request);
-        if (in_array((string) $request->input('type'), ['subscription_preapproval', 'preapproval'], true)) {
-            $providerId = (string) data_get($request->all(), 'data.id');
-            if ($providerId) {
-                $remote = Http::withToken(config('services.mercado_pago.access_token'))->timeout(15)->get("https://api.mercadopago.com/preapproval/{$providerId}")->throw()->json();
-                $status = ($remote['status'] ?? '') === 'authorized' ? 'ativa' : (($remote['status'] ?? '') === 'cancelled' ? 'encerrada' : 'aguardando_pagamento');
-                $subscription = DB::table('subscriptions')->where('provider_subscription_id', $providerId)->first();
-                if ($subscription) {
-                    if ($subscription->status !== $status) {
-                        DB::table('subscriptions')->where('id', $subscription->id)->update(['status' => $status, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
-                    }
-                    if ($status === 'ativa') $vouchers->confirmForSubscription($subscription->id);
-                    if ($status === 'encerrada') $vouchers->releaseForSubscription($subscription->id);
-                }
-            }
-            return response()->noContent();
-        }
-        $providerPaymentId = data_get($request->all(), 'data.id');
-        if (! $providerPaymentId) {
-            return response()->noContent();
-        }
-        $accessToken = config('services.mercado_pago.access_token');
-        abort_unless($accessToken, 503, 'Webhook não configurado.');
-        $remote = Http::withToken($accessToken)->timeout(15)->get("https://api.mercadopago.com/v1/payments/{$providerPaymentId}")->throw()->json();
-        $localId = $remote['external_reference'] ?? null;
-        $status = match ($remote['status'] ?? '') {
-            'approved' => 'aprovado',
-            'rejected' => 'recusado',
-            'cancelled' => 'cancelado',
-            default => 'aguardando_pagamento',
-        };
-        $subscriptionId = null;
-        DB::transaction(function () use ($localId, $providerPaymentId, $status, $remote, &$subscriptionId) {
-            $payment = DB::table('payments')->where('id', $localId)->lockForUpdate()->first();
-            if (! $payment || ($payment->provider_payment_id === (string) $providerPaymentId && $payment->status === $status)) {
-                return;
-            }
-            DB::table('payments')->where('id', $payment->id)->update([
-                'provider_payment_id' => (string) $providerPaymentId, 'status' => $status,
-                'provider_payload_sanitized' => json_encode([
-                    'id' => $remote['id'] ?? null,
-                    'status' => $remote['status'] ?? null,
-                    'status_detail' => $remote['status_detail'] ?? null,
-                    'external_reference' => $remote['external_reference'] ?? null,
-                ]), 'paid_at' => $status === 'aprovado' ? now() : null,
-                'updated_at' => now(), 'version' => DB::raw('version + 1'),
-            ]);
-            $subscriptionId = $payment->subscription_id;
-            if ($status === 'aprovado') {
-                DB::table('subscriptions')->where('id', $payment->subscription_id)->where('company_id', $payment->company_id)
-                    ->update(['status' => 'ativa', 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
-            }
-        });
-        if ($subscriptionId) {
-            if ($status === 'aprovado') $vouchers->confirmForSubscription($subscriptionId);
-            if (in_array($status, ['recusado', 'cancelado'], true)) $vouchers->releaseForSubscription($subscriptionId);
-        }
-        return response()->noContent();
+        $processor->process($request);
+        return response()->json(['received' => true]);
     }
 
     private function quote(object $product, array $data, CatalogManager $catalog): array
@@ -339,7 +312,13 @@ class SubscriptionController extends Controller
         $requestId = (string) $request->header('x-request-id');
         preg_match('/(?:^|,)\s*ts=([^,]+)/', $signature, $timestamp);
         preg_match('/(?:^|,)\s*v1=([^,]+)/', $signature, $digest);
-        $dataId = (string) data_get($request->all(), 'data.id');
+        $dataId = (string) ($request->query('data_id') ?: $request->query('data.id'));
+        if ($dataId === '') {
+            $dataId = (string) data_get($request->all(), 'data.id');
+        }
+        abort_unless($requestId !== '', 401, 'Assinatura de webhook inválida.');
+        $ts = (int) ($timestamp[1] ?? 0);
+        abort_unless($ts > 0 && abs(now()->timestamp - $ts) <= (int) config('services.mercado_pago.webhook_tolerance', 300), 401, 'Assinatura de webhook expirada.');
         abort_unless($dataId && ! empty($timestamp[1]) && ! empty($digest[1]), 401, 'Assinatura de webhook inválida.');
         $manifest = "id:{$dataId};request-id:{$requestId};ts:{$timestamp[1]};";
         $expected = hash_hmac('sha256', $manifest, $secret);
