@@ -111,6 +111,7 @@
         const message = document.querySelector("#catalog-message");
         const money = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         const parseMoney = (value) => Number(String(value ?? "").replace(",", ".")) || 0;
+        const parseMoneyField = (field) => Number.isFinite(field?.valueAsNumber) ? field.valueAsNumber : parseMoney(field?.value);
         const splitCodes = (value) => String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
         const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
         const iconBasePath = "/backoffice/assets/icons/";
@@ -214,7 +215,7 @@
             FokusForm?.setLoading(form, true);
             try {
                 const payload = Object.fromEntries(new FormData(form));
-                payload.monthly_price = parseMoney(payload.monthly_price);
+                payload.monthly_price = parseMoneyField(form.elements.monthly_price);
                 payload.dependencies = splitCodes(payload.dependencies);
                 payload.incompatibilities = splitCodes(payload.incompatibilities);
                 const id = state.editing.module;
@@ -245,7 +246,7 @@
             try {
                 const payload = Object.fromEntries(new FormData(form));
                 payload.name = payload.base_name;
-                payload.monthly_amount = payload.monthly_amount ? parseMoney(payload.monthly_amount) : null;
+                payload.monthly_amount = form.elements.monthly_amount.value === "" ? null : parseMoneyField(form.elements.monthly_amount);
                 payload.display_order = Number(payload.display_order || 0);
                 payload.featured = payload.featured === "1";
                 payload.module_ids = moduleIds;
