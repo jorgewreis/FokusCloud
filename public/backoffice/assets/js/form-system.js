@@ -75,10 +75,14 @@
     function mapServerErrors(form, errors) {
         const normalized = {};
         Object.entries(errors || {}).forEach(([name, messages]) => {
-            const message = Array.isArray(messages) ? messages[0] : messages;
+            const field = getField(form, name);
+            const rawMessage = Array.isArray(messages) ? messages[0] : messages;
+            const message = rawMessage === "validation.max.string" && field?.maxLength > 0
+                ? `Use no máximo ${field.maxLength} caracteres.`
+                : rawMessage;
             if (!message) return;
             normalized[name] = message;
-            setFeedback(getField(form, name), message);
+            setFeedback(field, message);
         });
         renderSummary(form, normalized);
         form.querySelector('[aria-invalid="true"]')?.focus();

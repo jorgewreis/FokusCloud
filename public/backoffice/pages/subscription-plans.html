@@ -76,12 +76,12 @@
         <form class="fc-form form-panel" id="plan-form">
             <div class="form-line">
                 <div class="form-field w-3"><label for="plan-product">Produto</label><select id="plan-product" name="product_id" required></select></div>
-                <div class="form-field w-3"><label for="plan-code">Código</label><input id="plan-code" name="code" type="text" required></div>
-                <div class="form-field w-3"><label for="plan-name">Nome-base</label><input id="plan-name" name="base_name" type="text" required></div>
+                <div class="form-field w-3"><label for="plan-code">Código</label><input id="plan-code" name="code" type="text" maxlength="64" required></div>
+                <div class="form-field w-3"><label for="plan-name">Nome-base</label><input id="plan-name" name="base_name" type="text" maxlength="120" required></div>
                 <div class="form-field w-3"><label for="plan-status">Status</label><select id="plan-status" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
             </div>
             <div class="form-line">
-                <div class="form-field w-3"><label for="plan-segment">Segmento</label><input id="plan-segment" name="segment" type="text"></div>
+                <div class="form-field w-3"><label for="plan-segment">Segmento</label><input id="plan-segment" name="segment" type="text" maxlength="16"></div>
                 <div class="form-field w-3"><label for="plan-monthly">Valor mensal</label><input id="plan-monthly" name="monthly_amount" type="text" inputmode="decimal" class="money-input"></div>
                 <div class="form-field w-3"><label for="plan-order">Ordem</label><input id="plan-order" name="display_order" type="number" min="0" step="1" value="1"></div>
                 <div class="form-field w-3"><label for="plan-featured">Destaque</label><select id="plan-featured" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></div>
