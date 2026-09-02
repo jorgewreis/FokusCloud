@@ -137,12 +137,12 @@
             window.FokusForm?.enhance(document.querySelector(".plan-page"));
         }
 
-        async function loadCatalog() {
+        async function loadCatalog({ clearMessage = true } = {}) {
             try {
                 if (!api) throw new Error("API do Backoffice indisponível.");
                 state.catalog = await api.request("/backoffice/catalog");
                 render();
-                showMessage("");
+                if (clearMessage) showMessage("");
             } catch (error) {
                 showMessage(error.message || "Não foi possível carregar o catálogo.", "danger");
             }
@@ -159,14 +159,26 @@
 
         document.querySelector("#product-form").addEventListener("submit", async (event) => {
             event.preventDefault();
-            const payload = Object.fromEntries(new FormData(event.currentTarget));
-            payload.display_order = Number(payload.display_order || 0);
-            const id = state.editing.product;
-            await api.request(id ? `/backoffice/catalog/products/${id}` : "/backoffice/catalog/products", { method: id ? "PATCH" : "POST", body: payload });
-            event.currentTarget.reset();
-            state.editing.product = null;
-            showMessage("Produto salvo.", "success");
-            await loadCatalog();
+            const form = event.currentTarget;
+            if (window.FokusForm && !FokusForm.validate(form)) return;
+            FokusForm?.setLoading(form, true);
+
+            try {
+                const payload = Object.fromEntries(new FormData(form));
+                payload.display_order = Number(payload.display_order || 0);
+                const id = state.editing.product;
+                await api.request(id ? `/backoffice/catalog/products/${id}` : "/backoffice/catalog/products", { method: id ? "PATCH" : "POST", body: payload });
+                state.editing.product = null;
+                await loadCatalog({ clearMessage: false });
+                form.reset();
+                FokusForm?.clear(form);
+                showMessage("Produto salvo com sucesso.", "success");
+            } catch (error) {
+                FokusForm?.mapServerErrors(form, error.errors);
+                showMessage(error.message || "Não foi possível salvar o produto.", "danger");
+            } finally {
+                FokusForm?.setLoading(form, false);
+            }
         });
 
         document.querySelector("#module-form").addEventListener("submit", async (event) => {
