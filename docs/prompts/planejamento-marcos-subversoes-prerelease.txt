@@ -93,9 +93,16 @@ afetada exigir confirmação de comportamento, versão ou contrato:
 ESCOPO DA ANÁLISE
 
 Não modifique arquivos, não crie código, não altere branches, não execute
-migrations destrutivas, não faça deploy, não crie tags e não faça commits.
-Entregue somente o plano e os comandos que deverão ser executados
-posteriormente por uma pessoa ou por uma execução explicitamente autorizada.
+migrations destrutivas, não faça deploy, não crie tags e não faça commits
+durante a elaboração do plano. Entregue somente o plano e os comandos que
+deverão ser executados posteriormente.
+
+Quando este plano for explicitamente executado, a execução deverá terminar
+com commit de todas as alterações intencionais, push para `origin/main` e
+verificação do GitHub Actions até confirmar o resultado do deploy. Se o
+Actions falhar, consulte os logs do job, identifique a causa, corrija o
+problema quando estiver dentro do escopo, faça novo commit e push, e repita a
+verificação até obter sucesso ou registrar um bloqueio real.
 
 Quando recomendar uma alteração, preserve os contratos técnicos existentes
 sem evidência de que devam mudar. Considere, conforme o impacto, backend,
@@ -144,8 +151,20 @@ Planeje o fluxo sem executá-lo:
 6. Planeje a tag correspondente somente depois da integração e da validação:
    v0.0.x para marcos intermediários, com o sufixo alpha/beta/rc quando
    aplicável, e v0.1.0 para a release consolidada.
-7. Não presuma que push, pull request, aprovação, deploy ou publicação foram
-   realizados; descreva-os como ações planejadas e critérios a verificar.
+7. Ao executar o plano, após concluir a implementação e os gates, faça commit
+   de todas as alterações intencionais e push obrigatório para `origin/main`.
+8. Após o push para `origin/main`, acompanhe o GitHub Actions e confirme os
+   jobs de validação e deploy. Não considere a entrega concluída enquanto o
+   deploy não estiver confirmado como bem-sucedido.
+9. Se o GitHub Actions falhar, use `gh run view <run-id> --log-failed` para
+   identificar a causa, corrija-a quando estiver dentro do escopo, faça novo
+   commit e push para `origin/main`, e acompanhe uma nova execução. Se a
+   causa for externa ou exigir decisão, registre o bloqueio e não declare a
+   entrega concluída.
+10. Durante a elaboração do plano, não presuma que commit, push, pull request,
+    aprovação, deploy ou publicação foram realizados; descreva-os como ações
+    planejadas e critérios a verificar. Durante a execução, registre as
+    evidências reais de cada etapa.
 
 CRITÉRIOS DE PROMOÇÃO
 
@@ -240,6 +259,12 @@ com estas seções:
     - validações antes da integração;
     - pull request preferencial de develop para origin/main ou justificativa
       para merge direto;
+    - commit obrigatório de todas as alterações intencionais;
+    - push obrigatório para origin/main ao finalizar a execução;
+    - verificação do GitHub Actions, incluindo os jobs de validação e deploy;
+    - uso de `gh run view <run-id> --log-failed` em caso de falha;
+    - correção, novo commit, novo push e nova verificação quando a falha for
+      corrigível dentro do escopo;
     - tag planejada;
     - checklist pós-integração.
 
@@ -256,7 +281,8 @@ com estas seções:
 
 14. Checklist final executável
     Use caixas de seleção e separe itens de implementação, testes,
-    documentação, revisão, integração, tag e evidências.
+    documentação, revisão, commit, push para origin/main, GitHub Actions,
+    deploy, integração, tag e evidências.
 
 15. Perguntas bloqueantes e decisões abertas
     Inclua somente perguntas que realmente impeçam um plano confiável. Para
@@ -293,6 +319,8 @@ Confirme silenciosamente que:
 - alterações locais e segredos foram preservados;
 - testes, documentação, rastreabilidade, Git, integração, tag, riscos e
   rollback foram contemplados;
+- o plano exige commit de todas as alterações, push para origin/main e
+  verificação do GitHub Actions quando for executado;
 - toda hipótese, pendência e decisão está claramente marcada;
 - nenhuma alteração foi executada.
 
