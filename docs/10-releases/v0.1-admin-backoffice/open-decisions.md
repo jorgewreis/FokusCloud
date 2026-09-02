@@ -63,3 +63,12 @@ Toda nova duvida deve ser classificada como:
 | Edição | Permitida antes do primeiro resgate; após resgate, somente pausa, reativação e encerramento. |
 | Publicação | Apenas atual pode ser removida; restaura a anterior e protege histórico. |
 | Contrato | Catálogo público permanece em 0.0.3; release do conjunto é 0.0.4. |
+
+## Decisoes fechadas no Marco 5 / 0.0.5
+
+| Decisao | Resultado |
+| --- | --- |
+| Escopo da alpha | Consulta de empresas e gestao de assinaturas, sem novos campos de notas ou status comerciais em `companies`. |
+| Fonte comercial | Composicao e preco de upgrade/downgrade vem do catalogo publicado; valores do navegador nao sao fonte de verdade. |
+| Billing | Billing sandbox completo, conciliacao e reembolsos permanecem no Marco 6. |
+| Dados pessoais | APIs e paginas administrativas exibem documentos e e-mails mascarados e nao alteram dados cadastrais. |

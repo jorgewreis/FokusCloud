@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Services\PlatformAudit;
+use App\Services\SubscriptionChangeManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -10,20 +12,19 @@ class ApplyScheduledSubscriptionChanges extends Command
     protected $signature = 'fokus:apply-subscription-changes';
     protected $description = 'Aplica cancelamentos e downgrades cuja vigência chegou ao fim.';
 
-    public function handle(): int
+    public function handle(SubscriptionChangeManager $manager, PlatformAudit $audit): int
     {
-        $changes = DB::table('subscription_changes')->where('status', 'agendada')->where('effective_at', '<=', now())->orderBy('effective_at')->get();
-        foreach ($changes as $change) {
-            DB::transaction(function () use ($change) {
-                $locked = DB::table('subscription_changes')->where('id', $change->id)->lockForUpdate()->first();
-                if (! $locked || $locked->status !== 'agendada') return;
-                if ($locked->type === 'cancelamento') {
-                    DB::table('subscriptions')->where('id', $locked->subscription_id)->update(['status' => 'encerrada', 'open_company_product' => null, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
-                }
-                DB::table('subscription_changes')->where('id', $locked->id)->update(['status' => 'aplicada', 'updated_at' => now()]);
-            });
+        $scheduled = DB::table('subscription_changes')->where('status', 'agendada')->where('effective_at', '<=', now())->orderBy('effective_at')->get();
+        $applied = 0;
+        foreach ($scheduled as $change) {
+            $result = $manager->applyScheduledChange($change->id);
+            if ($result) {
+                $applied++;
+                $subscription = DB::table('subscriptions')->where('id', $change->subscription_id)->first();
+                $audit->record(null, 'subscription_change_applied', 'subscription', $change->subscription_id, $subscription?->company_id, 'Aplicação automática da alteração agendada', metadata: ['change_id' => $change->id, 'type' => $change->type], before: $result['before'], after: $result['after']);
+            }
         }
-        $this->info("Alterações aplicadas: {$changes->count()}");
+        $this->info("Alterações aplicadas: {$applied}");
         return self::SUCCESS;
     }
 }

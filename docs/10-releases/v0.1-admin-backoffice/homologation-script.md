@@ -64,13 +64,15 @@ historico.
 
 ## Fluxo 5 - Assinaturas
 
-1. Consultar assinatura de empresa.
-2. Pausar assinatura com motivo.
-3. Reativar assinatura com motivo.
-4. Agendar cancelamento.
-5. Executar troca de plano com upgrade.
-6. Executar troca de plano com downgrade.
-7. Testar override manual com superadministrador.
+1. Consultar empresa com busca, paginação e documento mascarado.
+2. Abrir o detalhe comercial e conferir assinaturas, itens, pagamentos, uso e histórico.
+3. Consultar assinatura pelos filtros de empresa, produto e status.
+4. Pausar assinatura com motivo e conferir auditoria.
+5. Reativar assinatura com motivo.
+6. Agendar cancelamento para o fim da vigência.
+7. Executar troca de plano com upgrade e conferir estado pendente de pagamento.
+8. Executar troca de plano com downgrade e conferir aplicação na data efetiva.
+9. Testar override manual com superadministrador e confirmar bloqueio para administrador comercial.
 
 Resultado esperado: status, historico, snapshots e auditoria refletem cada
 acao.

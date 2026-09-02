@@ -10,6 +10,7 @@ use App\Services\CatalogManager;
 use App\Services\CatalogPricing;
 use App\Services\PrefixedUlid;
 use App\Services\VoucherManager;
+use App\Services\SubscriptionChangeManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -33,17 +34,21 @@ class BackofficeController extends Controller
     public function companies(Request $request, PlatformAudit $audit)
     {
         $query = trim((string) $request->query('q', ''));
-        $rows = DB::table('companies as company')
+        $perPage = min(max((int) $request->query('per_page', 25), 1), 100);
+        $paginator = DB::table('companies as company')
             ->leftJoin('company_memberships as membership', fn ($join) => $join->on('membership.company_id', '=', 'company.id')->whereNotNull('membership.active_admin_company_id'))
             ->leftJoin('users as admin', 'admin.id', '=', 'membership.user_id')
             ->leftJoin('subscriptions as subscription', fn ($join) => $join->on('subscription.company_id', '=', 'company.id')->where('subscription.status', 'ativa'))
             ->whereNull('company.deleted_at')
             ->when($query, fn ($builder) => $builder->where(fn ($filter) => $filter->where('company.legal_name', 'like', "%{$query}%")->orWhere('company.document_number', 'like', "%{$query}%")))
-            ->groupBy('company.id', 'company.legal_name', 'company.document_number', 'company.status', 'admin.name', 'admin.email')
-            ->select('company.id', 'company.legal_name', 'company.document_number', 'company.status', 'admin.name as admin_name', 'admin.email as admin_email', DB::raw('count(distinct subscription.id) as active_subscriptions'))
-            ->orderBy('company.legal_name')->limit(100)->get();
+            ->groupBy('company.id', 'company.legal_name', 'company.document_type', 'company.document_number', 'company.status', 'admin.name', 'admin.email')
+            ->select('company.id', 'company.legal_name', 'company.document_type', 'company.document_number', 'company.status', 'admin.name as admin_name', 'admin.email as admin_email', DB::raw('count(distinct subscription.id) as active_subscriptions'))
+            ->orderBy('company.legal_name')->paginate($perPage);
         $audit->record($request->user()->id, 'backoffice.companies_viewed', request: $request);
-        return response()->json($rows);
+        return response()->json([
+            'data' => collect($paginator->items())->map(fn (object $row): array => $this->companyListPayload($row))->values(),
+            'meta' => $this->paginationMeta($paginator),
+        ]);
     }
 
     public function company(Request $request, string $company, PlatformAudit $audit)
@@ -51,11 +56,51 @@ class BackofficeController extends Controller
         $entity = DB::table('companies')->where('id', $company)->first();
         abort_unless($entity, 404, 'Empresa não encontrada.');
         $audit->record($request->user()->id, 'backoffice.company_viewed', 'company', $company, $company, request: $request);
+        $subscriptions = DB::table('subscriptions as subscription')->join('products as product', 'product.id', '=', 'subscription.product_id')->where('subscription.company_id', $company)->select('subscription.*', 'product.code as product_code', 'product.name as product_name')->orderByDesc('subscription.created_at')->get();
         return response()->json([
-            'company' => $entity,
-            'subscriptions' => DB::table('subscriptions as subscription')->join('products as product', 'product.id', '=', 'subscription.product_id')->where('subscription.company_id', $company)->select('subscription.*', 'product.name as product_name')->get(),
+            'company' => $this->companyDetailPayload($entity),
+            'subscriptions' => $subscriptions->map(fn (object $subscription): array => $this->subscriptionPayload($subscription, true))->values(),
             'usage' => DB::table('usage_snapshots as usage')->join('products as product', 'product.id', '=', 'usage.product_id')->where('usage.company_id', $company)->select('usage.*', 'product.name as product_name')->latest('reported_on')->limit(30)->get(),
         ]);
+    }
+
+    public function subscriptions(Request $request, PlatformAudit $audit)
+    {
+        $query = trim((string) $request->query('q', ''));
+        $status = $request->query('status');
+        $productId = $request->query('product_id');
+        $perPage = min(max((int) $request->query('per_page', 25), 1), 100);
+        $paginator = DB::table('subscriptions as subscription')
+            ->join('companies as company', 'company.id', '=', 'subscription.company_id')
+            ->join('products as product', 'product.id', '=', 'subscription.product_id')
+            ->whereNull('company.deleted_at')
+            ->when($query, fn ($builder) => $builder->where(fn ($filter) => $filter->where('company.legal_name', 'like', "%{$query}%")->orWhere('product.name', 'like', "%{$query}%")))
+            ->when($status, fn ($builder) => $builder->where('subscription.status', $status))
+            ->when($productId, fn ($builder) => $builder->where('subscription.product_id', $productId))
+            ->select('subscription.*', 'company.legal_name as company_name', 'product.code as product_code', 'product.name as product_name')
+            ->orderByDesc('subscription.created_at')
+            ->paginate($perPage);
+
+        $audit->record($request->user()->id, 'backoffice.subscriptions_viewed', request: $request);
+
+        return response()->json([
+            'data' => collect($paginator->items())->map(fn (object $subscription): array => $this->subscriptionPayload($subscription))->values(),
+            'meta' => $this->paginationMeta($paginator),
+        ]);
+    }
+
+    public function subscription(Request $request, string $subscription, PlatformAudit $audit)
+    {
+        $current = DB::table('subscriptions as subscription')
+            ->join('companies as company', 'company.id', '=', 'subscription.company_id')
+            ->join('products as product', 'product.id', '=', 'subscription.product_id')
+            ->where('subscription.id', $subscription)
+            ->select('subscription.*', 'company.legal_name as company_name', 'product.code as product_code', 'product.name as product_name')
+            ->first();
+        abort_unless($current, 404, 'Assinatura não encontrada.');
+        $audit->record($request->user()->id, 'backoffice.subscription_viewed', 'subscription', $subscription, $current->company_id, request: $request);
+
+        return response()->json($this->subscriptionPayload($current, true));
     }
 
     public function catalog(Request $request, CatalogManager $catalog)
@@ -358,19 +403,48 @@ class BackofficeController extends Controller
         return $data;
     }
 
-    public function changeSubscription(Request $request, string $subscription, PlatformAudit $audit)
+    public function changeSubscription(Request $request, string $subscription, PlatformAudit $audit, SubscriptionChangeManager $changes)
     {
-        $data = $request->validate(['action' => ['required', Rule::in(['suspensao', 'reativacao', 'cancelamento'])], 'reason' => ['required', 'string', 'max:1000']]);
+        $data = $request->validate([
+            'action' => ['required', Rule::in(['suspensao', 'reativacao', 'cancelamento', 'upgrade', 'downgrade', 'override'])],
+            'reason' => ['required', 'string', 'max:1000'],
+            'target_plan_id' => ['required_if:action,upgrade,downgrade', 'nullable', 'string', 'size:30'],
+            'billing_cycle' => ['nullable', Rule::in(['monthly', 'annual'])],
+            'override' => ['required_if:action,override', 'nullable', 'array'],
+            'override.monthly_amount' => ['nullable', 'numeric', 'min:0'],
+            'override.billing_cycle' => ['nullable', Rule::in(['monthly', 'annual'])],
+            'override.current_period_starts_at' => ['nullable', 'date'],
+            'override.current_period_ends_at' => ['nullable', 'date', 'after_or_equal:override.current_period_starts_at'],
+            'override.items' => ['nullable', 'array', 'min:1'],
+            'override.items.*.module_id' => ['required_with:override.items', 'string', 'size:30'],
+            'override.items.*.name' => ['required_with:override.items', 'string', 'max:120'],
+            'override.items.*.quantity' => ['required_with:override.items', 'integer', 'min:1', 'max:1000'],
+            'override.items.*.unit_price' => ['required_with:override.items', 'numeric', 'min:0'],
+            'override.items.*.conditions' => ['nullable', 'array'],
+        ]);
         $current = DB::table('subscriptions')->where('id', $subscription)->first();
         abort_unless($current, 404, 'Assinatura não encontrada.');
-        $effective = $data['action'] === 'cancelamento' ? ($current->current_period_ends_at ?: now()) : now();
-        $status = $data['action'] === 'suspensao' ? 'suspensa' : ($data['action'] === 'reativacao' ? 'ativa' : $current->status);
-        DB::transaction(function () use ($current, $data, $effective, $status, $request) {
-            DB::table('subscription_changes')->insert(['id' => PrefixedUlid::make('SCH'), 'company_id' => $current->company_id, 'subscription_id' => $current->id, 'type' => $data['action'], 'status' => $data['action'] === 'cancelamento' ? 'agendada' : 'aplicada', 'effective_at' => $effective, 'reason' => $data['reason'], 'requested_by_platform_admin_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now()]);
-            DB::table('subscriptions')->where('id', $current->id)->update(['status' => $status, 'cancel_at' => $data['action'] === 'cancelamento' ? $effective : null, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
-        });
-        $audit->record($request->user()->id, 'backoffice.subscription_'.$data['action'], 'subscription', $subscription, $current->company_id, $data['reason'], request: $request);
-        return response()->json(['message' => 'Alteração comercial registrada.']);
+        $result = $changes->change($subscription, $data, $request->user());
+        $audit->record(
+            $request->user()->id,
+            'backoffice.subscription_'.$data['action'],
+            'subscription',
+            $subscription,
+            $current->company_id,
+            $data['reason'],
+            metadata: ['change_id' => $result['id'], 'status' => $result['status']],
+            before: $result['before'],
+            after: $result['after'],
+            request: $request,
+        );
+
+        return response()->json([
+            'id' => $result['id'],
+            'status' => $result['status'],
+            'effective_at' => $result['effective_at'],
+            'proration_amount' => $result['proration_amount'],
+            'message' => 'Alteração comercial registrada.',
+        ]);
     }
 
     public function vouchers(Request $request)
@@ -389,6 +463,142 @@ class BackofficeController extends Controller
             $voucher->computed_status = $voucher->ends_at && now()->gt(\Illuminate\Support\Carbon::parse($voucher->ends_at)) ? 'expirada' : $voucher->status;
             return $voucher;
         }));
+    }
+
+    private function companyListPayload(object $row): array
+    {
+        return [
+            'id' => $row->id,
+            'legal_name' => $row->legal_name,
+            'document_type' => $row->document_type,
+            'document_masked' => $this->maskDocument($row->document_type, $row->document_number),
+            'status' => $row->status,
+            'admin_name' => $row->admin_name,
+            'admin_email_masked' => $this->maskEmail($row->admin_email),
+            'active_subscriptions' => (int) $row->active_subscriptions,
+        ];
+    }
+
+    private function companyDetailPayload(object $company): array
+    {
+        $admin = DB::table('company_memberships as membership')
+            ->join('users as user', 'user.id', '=', 'membership.user_id')
+            ->where('membership.company_id', $company->id)
+            ->whereIn('membership.status', ['ativo', 'pendente'])
+            ->orderByRaw("case when membership.status = 'ativo' then 0 else 1 end")
+            ->select('user.name', 'user.email')
+            ->first();
+
+        return [
+            'id' => $company->id,
+            'legal_name' => $company->legal_name,
+            'document_type' => $company->document_type,
+            'document_masked' => $this->maskDocument($company->document_type, $company->document_number),
+            'status' => $company->status,
+            'admin' => $admin ? ['name' => $admin->name, 'email_masked' => $this->maskEmail($admin->email)] : null,
+            'created_at' => $company->created_at,
+        ];
+    }
+
+    private function subscriptionPayload(object $subscription, bool $details = false): array
+    {
+        $snapshot = json_decode((string) ($subscription->commercial_snapshot ?? ''), true) ?: [];
+        $payment = DB::table('payments')->where('subscription_id', $subscription->id)->latest('created_at')->first();
+        $payload = [
+            'id' => $subscription->id,
+            'company_id' => $subscription->company_id,
+            'company_name' => $subscription->company_name ?? null,
+            'product_id' => $subscription->product_id,
+            'product_code' => $subscription->product_code ?? null,
+            'product_name' => $subscription->product_name ?? null,
+            'plan_id' => $snapshot['plan_id'] ?? null,
+            'plan_code' => $snapshot['plan_code'] ?? null,
+            'plan_name' => $snapshot['plan_name'] ?? null,
+            'status' => $subscription->status,
+            'billing_cycle' => $subscription->billing_cycle,
+            'monthly_amount' => $snapshot['monthly_amount'] ?? null,
+            'amount' => $snapshot['amount'] ?? ($payment?->amount ? (float) $payment->amount : null),
+            'current_period_starts_at' => $subscription->current_period_starts_at,
+            'current_period_ends_at' => $subscription->current_period_ends_at,
+            'cancel_at' => $subscription->cancel_at,
+            'version' => (int) $subscription->version,
+            'payment' => $payment ? $this->paymentPayload($payment) : null,
+        ];
+
+        if ($details) {
+            $payload['commercial_snapshot'] = $snapshot;
+            $payload['items'] = DB::table('subscription_items')->where('subscription_id', $subscription->id)->whereNull('deleted_at')->orderBy('created_at')->get()->map(fn (object $item): array => [
+                'id' => $item->id,
+                'module_id' => $item->module_id,
+                'name' => $item->name_snapshot,
+                'quantity' => (int) $item->quantity,
+                'unit_price' => (float) $item->unit_price_snapshot,
+                'conditions' => json_decode((string) $item->conditions_snapshot, true) ?: [],
+            ])->values();
+            $payload['payments'] = DB::table('payments')->where('subscription_id', $subscription->id)->orderByDesc('created_at')->get()->map(fn (object $item): array => $this->paymentPayload($item))->values();
+            $payload['history'] = DB::table('subscription_changes')->where('subscription_id', $subscription->id)->orderByDesc('created_at')->get()->map(fn (object $change): array => [
+                'id' => $change->id,
+                'type' => $change->type,
+                'status' => $change->status,
+                'effective_at' => $change->effective_at,
+                'proration_amount' => (float) $change->proration_amount,
+                'reason' => $change->reason,
+                'before_snapshot' => json_decode((string) $change->before_snapshot, true) ?: [],
+                'after_snapshot' => json_decode((string) $change->after_snapshot, true) ?: [],
+                'created_at' => $change->created_at,
+            ])->values();
+        }
+
+        return $payload;
+    }
+
+    private function paymentPayload(object $payment): array
+    {
+        return [
+            'id' => $payment->id,
+            'provider' => $payment->provider,
+            'provider_payment_id' => $payment->provider_payment_id,
+            'status' => $payment->status,
+            'amount' => (float) $payment->amount,
+            'currency' => $payment->currency,
+            'paid_at' => $payment->paid_at ?? null,
+            'billing_period_starts_at' => $payment->billing_period_starts_at ?? null,
+            'billing_period_ends_at' => $payment->billing_period_ends_at ?? null,
+            'created_at' => $payment->created_at,
+        ];
+    }
+
+    private function paginationMeta(object $paginator): array
+    {
+        return [
+            'current_page' => $paginator->currentPage(),
+            'per_page' => $paginator->perPage(),
+            'total' => $paginator->total(),
+            'last_page' => $paginator->lastPage(),
+        ];
+    }
+
+    private function maskDocument(string $type, ?string $document): string
+    {
+        $digits = preg_replace('/\D+/', '', (string) $document);
+        if ($type === 'cnpj' && strlen($digits) === 14) {
+            return '**.***.***/****-'.substr($digits, -2);
+        }
+        if ($type === 'cpf' && strlen($digits) === 11) {
+            return '***.***.***-'.substr($digits, -2);
+        }
+
+        return $digits ? '***'.substr($digits, -2) : '';
+    }
+
+    private function maskEmail(?string $email): ?string
+    {
+        if (! $email || ! str_contains($email, '@')) {
+            return $email;
+        }
+        [$local, $domain] = explode('@', $email, 2);
+
+        return substr($local, 0, 1).'***@'.$domain;
     }
 
     public function voucher(Request $request, string $voucher)

@@ -7,6 +7,7 @@ use App\Services\PrefixedUlid;
 use App\Services\CatalogManager;
 use App\Services\CatalogPricing;
 use App\Services\VoucherManager;
+use App\Services\SubscriptionChangeManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -40,7 +41,7 @@ class SubscriptionController extends Controller
         return response()->json($subscriptions);
     }
 
-    public function checkout(Request $request, CatalogManager $catalog, VoucherManager $vouchers)
+    public function checkout(Request $request, CatalogManager $catalog, VoucherManager $vouchers, SubscriptionChangeManager $subscriptionChanges)
     {
         abort_unless($request->user()->email_verified_at, 403, 'Confirme o e-mail antes de assinar.');
         $accessToken = config('services.mercado_pago.access_token');
@@ -126,10 +127,10 @@ class SubscriptionController extends Controller
         try {
             DB::transaction(function () use ($companyId, $product, $quoted, $request, $subscriptionId, $paymentId, $response, $data) {
             $existing = DB::table('subscriptions')->where('company_id', $companyId)->where('product_id', $product->id)
-                ->whereIn('status', ['pendente', 'ativa', 'suspensa'])->lockForUpdate()->first();
+                ->where('status', '!=', 'encerrada')->lockForUpdate()->first();
             abort_if($existing, 409, 'Já existe uma assinatura não encerrada para este produto.');
             DB::table('subscriptions')->insert([
-                'id' => $subscriptionId, 'company_id' => $companyId, 'product_id' => $product->id, 'status' => 'pendente',
+                'id' => $subscriptionId, 'company_id' => $companyId, 'product_id' => $product->id, 'status' => 'aguardando_pagamento',
                 'open_company_product' => $companyId.'-'.$product->id, 'version' => 1, 'billing_cycle' => $data['cycle'],
                 'current_period_starts_at' => now(), 'current_period_ends_at' => $data['cycle'] === 'annual' ? now()->addYear() : now()->addMonth(),
                 'provider_subscription_id' => $response['id'] ?? null,
@@ -146,12 +147,18 @@ class SubscriptionController extends Controller
             }
             DB::table('payments')->insert([
                 'id' => $paymentId, 'company_id' => $companyId, 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount'],
-                'currency' => 'BRL', 'status' => 'pendente', 'provider_payload' => json_encode(['preapproval_id' => $response['id'] ?? null]),
+                'currency' => 'BRL', 'status' => 'aguardando_pagamento', 'provider_subscription_id' => $response['id'] ?? null,
+                'provider_payload_sanitized' => json_encode(['preapproval_id' => $response['id'] ?? null]),
                 'created_by' => $request->user()->id, 'updated_by' => $request->user()->id,
                 'created_at' => now(), 'updated_at' => now(),
             ]);
             });
             if ($reservation) $vouchers->attachSubscription($reservation->id, $subscriptionId);
+            $subscription = DB::table('subscriptions')->where('id', $subscriptionId)->first();
+            DB::table('subscriptions')->where('id', $subscriptionId)->update([
+                'commercial_snapshot' => json_encode($subscriptionChanges->snapshot($subscription)),
+                'updated_at' => now(),
+            ]);
         } catch (\Throwable $exception) {
             if ($reservation) $vouchers->release($reservation->id);
             throw $exception;
@@ -173,7 +180,7 @@ class SubscriptionController extends Controller
         $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->whereIn('status', ['ativa', 'suspensa'])->first();
         abort_unless($current, 404, 'Assinatura ativa não encontrada.');
         $effectiveAt = $data['type'] === 'upgrade' ? now() : ($current->current_period_ends_at ?: now());
-        $status = $data['type'] === 'upgrade' ? 'pendente_pagamento' : 'agendada';
+        $status = $data['type'] === 'upgrade' ? 'aguardando_pagamento' : 'agendada';
         DB::table('subscription_changes')->insert([
             'id' => PrefixedUlid::make('SCH'), 'company_id' => $companyId, 'subscription_id' => $current->id,
             'type' => $data['type'], 'status' => $status, 'effective_at' => $effectiveAt,
@@ -191,7 +198,7 @@ class SubscriptionController extends Controller
             $providerId = (string) data_get($request->all(), 'data.id');
             if ($providerId) {
                 $remote = Http::withToken(config('services.mercado_pago.access_token'))->timeout(15)->get("https://api.mercadopago.com/preapproval/{$providerId}")->throw()->json();
-                $status = ($remote['status'] ?? '') === 'authorized' ? 'ativa' : (($remote['status'] ?? '') === 'cancelled' ? 'encerrada' : 'pendente');
+                $status = ($remote['status'] ?? '') === 'authorized' ? 'ativa' : (($remote['status'] ?? '') === 'cancelled' ? 'encerrada' : 'aguardando_pagamento');
                 $subscription = DB::table('subscriptions')->where('provider_subscription_id', $providerId)->first();
                 if ($subscription) {
                     if ($subscription->status !== $status) {
@@ -215,7 +222,7 @@ class SubscriptionController extends Controller
             'approved' => 'aprovado',
             'rejected' => 'recusado',
             'cancelled' => 'cancelado',
-            default => 'pendente',
+            default => 'aguardando_pagamento',
         };
         $subscriptionId = null;
         DB::transaction(function () use ($localId, $providerPaymentId, $status, $remote, &$subscriptionId) {
@@ -225,7 +232,13 @@ class SubscriptionController extends Controller
             }
             DB::table('payments')->where('id', $payment->id)->update([
                 'provider_payment_id' => (string) $providerPaymentId, 'status' => $status,
-                'provider_payload' => json_encode($remote), 'updated_at' => now(), 'version' => DB::raw('version + 1'),
+                'provider_payload_sanitized' => json_encode([
+                    'id' => $remote['id'] ?? null,
+                    'status' => $remote['status'] ?? null,
+                    'status_detail' => $remote['status_detail'] ?? null,
+                    'external_reference' => $remote['external_reference'] ?? null,
+                ]), 'paid_at' => $status === 'aprovado' ? now() : null,
+                'updated_at' => now(), 'version' => DB::raw('version + 1'),
             ]);
             $subscriptionId = $payment->subscription_id;
             if ($status === 'aprovado') {

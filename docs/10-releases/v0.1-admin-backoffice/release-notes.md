@@ -134,3 +134,15 @@ A implementação foi validada na branch `develop` com 57 testes automatizados e
 aprovados. A homologação manual em navegador real permanece pendente, assim
 como a integração de `develop` com `origin/main` e a criação da tag
 `v0.0.4-alpha.1`.
+
+## `v0.0.5-alpha.1` — Marco 5
+
+Pre-release de consulta comercial de empresas e gestao controlada de
+assinaturas. Inclui APIs e paginas reais de empresas e assinaturas, pagamentos
+locais, itens, historico, snapshots, mascaramento de dados pessoais, pausa,
+reativacao, cancelamento agendado, upgrade pendente, downgrade agendado,
+override de superadministrador, auditoria e status comerciais normalizados.
+
+Ficam fora desta alpha o billing sandbox completo do Mercado Pago,
+conciliacao, reembolsos, alertas financeiros e homologacao completa em
+navegador. O contrato publico do catalogo permanece 0.0.3.
