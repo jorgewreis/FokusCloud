@@ -406,7 +406,7 @@ class BackofficeController extends Controller
     public function changeSubscription(Request $request, string $subscription, PlatformAudit $audit, SubscriptionChangeManager $changes)
     {
         $data = $request->validate([
-            'action' => ['required', Rule::in(['suspensao', 'reativacao', 'cancelamento', 'upgrade', 'downgrade', 'override'])],
+            'action' => ['required', Rule::in(['suspensao', 'reativacao', 'cancelamento', 'cancelamento_imediato', 'upgrade', 'downgrade', 'override'])],
             'reason' => ['required', 'string', 'max:1000'],
             'target_plan_id' => ['required_if:action,upgrade,downgrade', 'nullable', 'string', 'size:30'],
             'billing_cycle' => ['nullable', Rule::in(['monthly', 'annual'])],

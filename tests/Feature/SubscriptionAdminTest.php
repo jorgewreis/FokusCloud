@@ -87,6 +87,29 @@ class SubscriptionAdminTest extends TestCase
         $this->assertSame('annual', $snapshot['billing_cycle']);
     }
 
+    public function test_immediate_cancellation_ends_subscription_and_preserves_history(): void
+    {
+        $admin = $this->platformAdmin();
+        $fixture = $this->subscriptionFixture();
+
+        $this->actingAs($admin, 'platform')->patchJson('/api/backoffice/subscriptions/'.$fixture['subscription_id'], [
+            'action' => 'cancelamento_imediato',
+            'reason' => 'Encerramento imediato aprovado.',
+        ])->assertOk()->assertJsonPath('status', 'aplicada');
+
+        $this->assertDatabaseHas('subscriptions', [
+            'id' => $fixture['subscription_id'],
+            'status' => 'encerrada',
+            'open_company_product' => null,
+        ]);
+        $this->assertDatabaseHas('subscription_changes', [
+            'subscription_id' => $fixture['subscription_id'],
+            'type' => 'cancelamento',
+            'status' => 'aplicada',
+            'reason' => 'Encerramento imediato aprovado.',
+        ]);
+    }
+
     public function test_downgrade_is_scheduled_and_command_applies_it_at_period_end(): void
     {
         $admin = $this->platformAdmin();
