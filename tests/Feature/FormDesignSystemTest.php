@@ -49,7 +49,8 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        foreach ([$panel, $access, $activate] as $contents) {
+        $this->assertStringContainsString('20260902-marco4-vouchers', $panel);
+        foreach ([$access, $activate] as $contents) {
             $this->assertStringContainsString('20260901-live-controls', $contents);
         }
 
@@ -67,5 +68,18 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('id="admin-name"', $panel);
         $this->assertStringNotContainsString('id="admin-name"', $security);
         $this->assertStringContainsString('id="invite-admin-name"', $security);
+    }
+
+    public function test_catalog_and_voucher_actions_use_accessible_dialogs_and_shared_icons(): void
+    {
+        $catalog = file_get_contents(base_path('public/backoffice/pages/subscription-plans.html'));
+        $vouchers = file_get_contents(base_path('public/backoffice/pages/vouchers.html'));
+
+        $this->assertStringContainsString('id="catalog-destructive-dialog"', $catalog);
+        $this->assertStringContainsString('id="voucher-destructive-dialog"', $vouchers);
+        $this->assertStringContainsString('Shopping-Basket-Edit--Streamline-Ultimate.png', $catalog);
+        $this->assertStringContainsString('Shopping-Basket-Subtract--Streamline-Ultimate.png', $catalog);
+        $this->assertStringNotContainsString('window.confirm', $catalog.$vouchers);
+        $this->assertStringNotContainsString('prompt(', $catalog.$vouchers);
     }
 }

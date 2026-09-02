@@ -67,3 +67,6 @@ no resultado da homologacao.
   `published_version`, `published_at`, produto, funcionalidades e planos.
 - A validacao final deve executar `php artisan migrate:fresh --seed`,
   `php artisan test`, `npm run build` e `git diff --check`.
+## Testes da release 0.0.4
+
+Cobrir tipos de voucher, validade, limites, elegibilidade por plano, concorrência/idempotência de reserva, confirmação/liberação, snapshot, crédito comercial, edição pré/pós-resgate, exclusões, fallback de publicação e payload base_name. A suíte automatizada atual executa 53 testes aprovados; o aceite final ainda requer navegador real para todos os formulários e perfis.

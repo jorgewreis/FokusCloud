@@ -169,6 +169,122 @@ class CatalogAdminTest extends TestCase
         ]);
     }
 
+    public function test_superadmin_can_archive_modules_and_plans_but_commercial_admin_cannot(): void
+    {
+        $commercial = $this->admin('administrador_comercial');
+        $super = $this->admin();
+        $moduleId = DB::table('modules')->where('code', 'expedicoes-cartorio')->value('id');
+        $planId = DB::table('plans')->where('code', 'law-cartorio-criminal')->value('id');
+
+        $this->actingAs($commercial, 'platform')->postJson("/api/backoffice/catalog/modules/{$moduleId}/archive", [
+            'reason' => 'Sem permissão.',
+        ])->assertForbidden();
+
+        $this->actingAs($super, 'platform')->postJson("/api/backoffice/catalog/modules/{$moduleId}/archive", [
+            'reason' => 'Funcionalidade descontinuada.',
+        ])->assertOk();
+
+        $this->actingAs($super, 'platform')->postJson("/api/backoffice/catalog/plans/{$planId}/archive", [
+            'reason' => 'Plano descontinuado.',
+        ])->assertOk();
+
+        $this->assertDatabaseHas('modules', [
+            'id' => $moduleId,
+            'status' => 'arquivado',
+            'publication_state' => 'arquivado',
+        ]);
+        $this->assertDatabaseHas('plans', [
+            'id' => $planId,
+            'status' => 'inativo',
+            'publication_state' => 'arquivado',
+        ]);
+        $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.catalog_item_archived']);
+    }
+
+    public function test_superadmin_can_delete_a_catalog_publication_and_public_catalog_falls_back_to_previous_version(): void
+    {
+        $admin = $this->admin();
+        $productId = DB::table('products')->where('code', 'law')->value('id');
+
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/catalog/{$productId}/publish", [
+            'reason' => 'Publicação temporária.',
+        ])->assertOk()->assertJsonPath('version', 2);
+
+        $publicationId = DB::table('catalog_publications')
+            ->where('product_id', $productId)
+            ->where('version', 2)
+            ->value('id');
+
+        $this->actingAs($this->admin('administrador_comercial'), 'platform')
+            ->deleteJson("/api/backoffice/catalog/publications/{$publicationId}", ['reason' => 'Sem permissão.'])
+            ->assertForbidden();
+
+        $this->actingAs($admin, 'platform')
+            ->deleteJson("/api/backoffice/catalog/publications/{$publicationId}", ['reason' => 'Remoção homologada.'])
+            ->assertOk();
+
+        $this->assertDatabaseMissing('catalog_publications', ['id' => $publicationId]);
+        $this->assertDatabaseHas('products', [
+            'id' => $productId,
+            'published_catalog_version' => 1,
+            'publication_state' => 'publicado',
+        ]);
+        $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.catalog_publication_deleted']);
+
+        $this->getJson('/api/catalog/law')
+            ->assertOk()
+            ->assertJsonPath('published_version', 1);
+    }
+
+    public function test_plan_form_payload_accepts_base_name_and_updates_composition(): void
+    {
+        $admin = $this->admin();
+        $productId = DB::table('products')->where('code', 'law')->value('id');
+        $moduleId = DB::table('modules')->where('code', 'processos-advocacia')->value('id');
+
+        $response = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/plans', [
+            'product_id' => $productId,
+            'code' => 'law-base-name',
+            'base_name' => 'Plano criado pela interface',
+            'status' => 'ativo',
+            'module_ids' => [$moduleId],
+        ])->assertCreated();
+
+        $planId = $response->json('id');
+        $this->assertDatabaseHas('plans', ['id' => $planId, 'name' => 'Plano criado pela interface']);
+        $this->assertDatabaseHas('plan_modules', ['plan_id' => $planId, 'module_id' => $moduleId]);
+
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/catalog/plans/{$planId}", [
+            'base_name' => 'Plano editado pela interface',
+            'module_ids' => [$moduleId],
+        ])->assertOk();
+
+        $this->assertDatabaseHas('plans', ['id' => $planId, 'name' => 'Plano editado pela interface']);
+    }
+
+    public function test_physical_deletion_is_allowed_without_dependencies_and_blocked_with_dependencies(): void
+    {
+        $admin = $this->admin();
+        $productId = DB::table('products')->where('code', 'law')->value('id');
+
+        $moduleId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/modules', [
+            'product_id' => $productId,
+            'code' => 'modulo-descartavel',
+            'module_code' => 'descartavel',
+            'name' => 'Módulo descartável',
+            'monthly_price' => 10,
+        ])->assertCreated()->json('id');
+
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/catalog/modules/{$moduleId}", ['reason' => 'Limpeza de teste.'])->assertOk();
+        $this->assertDatabaseMissing('modules', ['id' => $moduleId]);
+
+        $linkedModuleId = DB::table('modules')->where('code', 'processos-advocacia')->value('id');
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/catalog/modules/{$linkedModuleId}", ['reason' => 'Tentativa inválida.'])
+            ->assertUnprocessable()
+            ->assertJsonPath('message', fn ($message) => str_contains($message, 'vínculos'));
+        $this->assertDatabaseHas('modules', ['id' => $linkedModuleId]);
+    }
+
     private function admin(string $role = 'superadministrador'): PlatformAdmin
     {
         return PlatformAdmin::create([

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\PrefixedUlid;
 use App\Services\CatalogManager;
 use App\Services\CatalogPricing;
+use App\Services\VoucherManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -39,7 +40,7 @@ class SubscriptionController extends Controller
         return response()->json($subscriptions);
     }
 
-    public function checkout(Request $request, CatalogManager $catalog)
+    public function checkout(Request $request, CatalogManager $catalog, VoucherManager $vouchers)
     {
         abort_unless($request->user()->email_verified_at, 403, 'Confirme o e-mail antes de assinar.');
         $accessToken = config('services.mercado_pago.access_token');
@@ -59,18 +60,54 @@ class SubscriptionController extends Controller
         $product = DB::table('products')->where('code', $data['product_code'])->where('active', true)->first();
         abort_unless($product, 404, 'Produto não encontrado.');
         $quoted = $this->quote($product, $data, $catalog);
-        $voucher = ! empty($data['voucher_code']) ? $this->voucherFor($data['voucher_code'], $product->id, $companyId, array_column($data['items'], 'module_code')) : null;
+        $voucher = ! empty($data['voucher_code'])
+            ? $vouchers->findEligible($data['voucher_code'], $product->id, $companyId, array_column($data['items'], 'module_code'), $data['plan_code'] ?? null)
+            : null;
         if ($voucher) {
-            $discount = match ($voucher->discount_type) {
-                'trial_free' => $quoted['amount'],
-                'percentage' => $quoted['amount'] * ((float) $voucher->discount_value / 100),
-                default => (float) $voucher->discount_value,
-            };
-            $quoted['discount_amount'] = round(min($quoted['amount'], $discount), 2);
+            $quoted['discount_amount'] = $vouchers->discount($voucher, $quoted['amount']);
             $quoted['amount'] = round($quoted['amount'] - $quoted['discount_amount'], 2);
         }
         $subscriptionId = PrefixedUlid::make('ASS');
         $paymentId = PrefixedUlid::make('PAG');
+        $reservation = null;
+
+        if ($voucher) {
+            $plan = $data['plan_code'] ? DB::table('plans')->where('product_id', $product->id)->where('code', $data['plan_code'])->first() : null;
+            $reservationKey = (string) ($request->header('Idempotency-Key') ?: hash('sha256', implode('|', [
+                $request->user()->id,
+                $companyId,
+                $data['product_code'],
+                $data['cycle'],
+                $data['selection_mode'],
+                $data['plan_code'] ?? '',
+                $data['voucher_code'],
+                json_encode($data['items']),
+            ])));
+            $reservation = $vouchers->reserve($voucher, $companyId, $reservationKey, [
+                'voucher_id' => $voucher->id,
+                'code' => $voucher->code,
+                'name' => $voucher->name,
+                'product_id' => $product->id,
+                'product_code' => $product->code,
+                'product_name' => $product->name,
+                'plan_id' => $plan?->id,
+                'plan_code' => $plan?->code,
+                'plan_name' => $plan?->name,
+                'discount_type' => $voucher->discount_type,
+                'discount_value' => (float) $voucher->discount_value,
+                'base_amount' => (float) ($voucher->base_amount ?? $quoted['amount']),
+                'discount_amount' => $quoted['discount_amount'],
+                'final_amount' => $quoted['amount'],
+                'billing_cycle' => $data['cycle'],
+                'benefit_duration' => $voucher->benefit_duration,
+                'benefit_starts_at' => null,
+                'benefit_ends_at' => null,
+                'company_id' => $companyId,
+                'subscription_id' => $subscriptionId,
+                'selection_mode' => $data['selection_mode'],
+                'module_codes' => array_column($data['items'], 'module_code'),
+            ]);
+        }
 
         try {
             $response = Http::withToken($accessToken)->timeout(15)->post('https://api.mercadopago.com/preapproval', [
@@ -82,10 +119,12 @@ class SubscriptionController extends Controller
                 'notification_url' => rtrim(config('app.url'), '/').'/api/webhooks/mercado-pago',
             ])->throw()->json();
         } catch (\Throwable) {
+            if ($reservation) $vouchers->release($reservation->id);
             return response()->json(['message' => 'Não foi possível iniciar o checkout. Nenhuma assinatura foi criada; tente novamente.'], 502);
         }
 
-        DB::transaction(function () use ($companyId, $product, $quoted, $request, $subscriptionId, $paymentId, $response, $voucher) {
+        try {
+            DB::transaction(function () use ($companyId, $product, $quoted, $request, $subscriptionId, $paymentId, $response, $data) {
             $existing = DB::table('subscriptions')->where('company_id', $companyId)->where('product_id', $product->id)
                 ->whereIn('status', ['pendente', 'ativa', 'suspensa'])->lockForUpdate()->first();
             abort_if($existing, 409, 'Já existe uma assinatura não encerrada para este produto.');
@@ -111,8 +150,12 @@ class SubscriptionController extends Controller
                 'created_by' => $request->user()->id, 'updated_by' => $request->user()->id,
                 'created_at' => now(), 'updated_at' => now(),
             ]);
-            if ($voucher) DB::table('voucher_redemptions')->insert(['id' => PrefixedUlid::make('VRD'), 'voucher_id' => $voucher->id, 'company_id' => $companyId, 'subscription_id' => $subscriptionId, 'discount_amount' => $quoted['discount_amount'], 'created_at' => now()]);
-        });
+            });
+            if ($reservation) $vouchers->attachSubscription($reservation->id, $subscriptionId);
+        } catch (\Throwable $exception) {
+            if ($reservation) $vouchers->release($reservation->id);
+            throw $exception;
+        }
 
         return response()->json(['checkout_url' => $response['init_point'] ?? null, 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount']], 201);
     }
@@ -141,7 +184,7 @@ class SubscriptionController extends Controller
         return response()->json(['message' => $data['type'] === 'upgrade' ? 'Upgrade criado e aguardando a cobrança proporcional.' : 'Alteração programada para o fim do ciclo.', 'effective_at' => $effectiveAt]);
     }
 
-    public function webhook(Request $request)
+    public function webhook(Request $request, VoucherManager $vouchers)
     {
         $this->assertWebhookSignature($request);
         if (in_array((string) $request->input('type'), ['subscription_preapproval', 'preapproval'], true)) {
@@ -149,7 +192,12 @@ class SubscriptionController extends Controller
             if ($providerId) {
                 $remote = Http::withToken(config('services.mercado_pago.access_token'))->timeout(15)->get("https://api.mercadopago.com/preapproval/{$providerId}")->throw()->json();
                 $status = ($remote['status'] ?? '') === 'authorized' ? 'ativa' : (($remote['status'] ?? '') === 'cancelled' ? 'encerrada' : 'pendente');
-                DB::table('subscriptions')->where('provider_subscription_id', $providerId)->update(['status' => $status, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+                $subscription = DB::table('subscriptions')->where('provider_subscription_id', $providerId)->first();
+                if ($subscription) {
+                    DB::table('subscriptions')->where('id', $subscription->id)->update(['status' => $status, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+                    if ($status === 'ativa') $vouchers->confirmForSubscription($subscription->id);
+                    if ($status === 'encerrada') $vouchers->releaseForSubscription($subscription->id);
+                }
             }
             return response()->noContent();
         }
@@ -167,7 +215,8 @@ class SubscriptionController extends Controller
             'cancelled' => 'cancelado',
             default => 'pendente',
         };
-        DB::transaction(function () use ($localId, $providerPaymentId, $status, $remote) {
+        $subscriptionId = null;
+        DB::transaction(function () use ($localId, $providerPaymentId, $status, $remote, &$subscriptionId) {
             $payment = DB::table('payments')->where('id', $localId)->lockForUpdate()->first();
             if (! $payment || ($payment->provider_payment_id === (string) $providerPaymentId && $payment->status === $status)) {
                 return;
@@ -176,11 +225,16 @@ class SubscriptionController extends Controller
                 'provider_payment_id' => (string) $providerPaymentId, 'status' => $status,
                 'provider_payload' => json_encode($remote), 'updated_at' => now(), 'version' => DB::raw('version + 1'),
             ]);
+            $subscriptionId = $payment->subscription_id;
             if ($status === 'aprovado') {
                 DB::table('subscriptions')->where('id', $payment->subscription_id)->where('company_id', $payment->company_id)
                     ->update(['status' => 'ativa', 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
             }
         });
+        if ($subscriptionId) {
+            if ($status === 'aprovado') $vouchers->confirmForSubscription($subscriptionId);
+            if (in_array($status, ['recusado', 'cancelado'], true)) $vouchers->releaseForSubscription($subscriptionId);
+        }
         return response()->noContent();
     }
 

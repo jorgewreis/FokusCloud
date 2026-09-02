@@ -69,3 +69,11 @@
 - [ ] Criar alerta de inadimplencia e tolerancia expirada.
 - [ ] Criar divergencia de conciliacao quando status interno divergir do gateway.
 - [ ] Permitir correcao manual apenas por superadministrador, com auditoria.
+## Marco 4 / 0.0.4
+
+- [x] Vouchers com trial, percentual, valor fixo e crédito comercial.
+- [x] Reserva, confirmação, liberação, expiração, idempotência e snapshot.
+- [x] Edição antes do primeiro resgate e imutabilidade posterior.
+- [x] Exclusões físicas condicionais e fallback de publicação.
+- [x] Ícones, diálogo acessível e contrato FokusForm nas telas de catálogo/vouchers.
+- [ ] Homologação manual em navegador real dos formulários e dos dois perfis.

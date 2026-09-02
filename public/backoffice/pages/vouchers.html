@@ -52,6 +52,7 @@
                         <option value="trial_free">Assinatura gratuita</option>
                         <option value="percentage">Desconto percentual</option>
                         <option value="fixed">Desconto por valor fixo</option>
+                        <option value="commercial_credit">Crédito comercial na primeira cobrança</option>
                     </select>
                 </div>
 
@@ -121,6 +122,22 @@
         <div class="system-notice" id="voucher-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </form>
 
+    <div id="voucher-destructive-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="voucher-dialog-title">
+        <form class="fc-form dialog-panel card card-static form-panel" id="voucher-destructive-form">
+            <div class="title dialog-header"><span id="voucher-dialog-title">Confirmar ação</span></div>
+            <div class="content dialog-content stack">
+                <p>Informe o motivo. A ação será registrada no histórico administrativo.</p>
+                <label class="form-field" for="voucher-dialog-reason">Motivo obrigatório
+                    <textarea id="voucher-dialog-reason" name="reason" maxlength="1000" required></textarea>
+                </label>
+                <div class="dialog-actions">
+                    <button class="button button-secondary" type="button" data-voucher-dialog-close>Cancelar</button>
+                    <button class="submit button-danger" type="submit">Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="table-panel">
         <table class="data-table" aria-label="Vouchers cadastrados">
             <thead>
@@ -181,6 +198,8 @@
         let catalog = [];
         let codeSuffix = "";
         let messageTimer = null;
+        let editingVoucher = null;
+        let pendingVoucherAction = null;
         let mockVouchers = [
             {
                 id: "vch_oneyear10",
@@ -264,8 +283,8 @@
                 }
                 if (path.startsWith("/backoffice/vouchers/") && options.method === "PATCH") {
                     const id = path.split("/").pop();
-                    mockVouchers = mockVouchers.map((voucher) => voucher.id === id ? { ...voucher, status: options.body.status } : voucher);
-                    return { message: "Status do voucher atualizado." };
+                    mockVouchers = mockVouchers.map((voucher) => voucher.id === id ? { ...voucher, ...options.body } : voucher);
+                    return { message: "Voucher atualizado." };
                 }
                 if (path.startsWith("/backoffice/vouchers/") && options.method === "DELETE") {
                     const id = path.split("/").pop();
@@ -369,6 +388,7 @@
             const allPlans = plans.value === "__all__";
             discountType.querySelector('option[value="trial_free"]').disabled = allPlans;
             discountType.querySelector('option[value="fixed"]').disabled = allPlans;
+            discountType.querySelector('option[value="commercial_credit"]').disabled = allPlans;
             baseField.hidden = allPlans;
             discountValueField.hidden = allPlans;
             baseValue.disabled = allPlans;
@@ -408,6 +428,13 @@
                 return;
             }
 
+            if (discountType.value === "commercial_credit") {
+                discountPercent.value = "";
+                discountPercent.disabled = true;
+                discountValue.disabled = false;
+                return;
+            }
+
             discountPercent.disabled = false;
             discountValue.disabled = false;
 
@@ -439,12 +466,78 @@
             setMessage(status === "ativa" ? "Voucher reativado." : "Voucher pausado.", "success");
         }
 
-        async function deleteVoucher(voucherId) {
-            if (!window.confirm("Excluir este voucher? Esta ação não pode ser desfeita.")) return;
-            await api.request(`/backoffice/vouchers/${voucherId}`, { method: "DELETE" });
-            await loadVouchers();
-            setMessage("Voucher excluído.", "success");
+        function editVoucher(voucher) {
+            editingVoucher = voucher;
+            name.value = voucher.name || "";
+            code.value = voucher.code || "";
+            products.value = voucher.product_id || "";
+            updatePlans();
+            plans.value = voucher.plan_id || "__all__";
+            duration.value = voucher.benefit_duration || "";
+            baseValue.value = voucher.base_amount ? formatMoneyValue(voucher.base_amount) : "";
+            discountType.value = voucher.discount_type || "percentage";
+            discountPercent.value = voucher.discount_type === "percentage" ? toMoney(voucher.discount_value) : "";
+            discountValue.value = ["fixed", "commercial_credit"].includes(voucher.discount_type) ? formatMoneyValue(voucher.discount_value) : "";
+            startDate.value = voucher.starts_at ? String(voucher.starts_at).slice(0, 10) : "";
+            endDate.value = voucher.ends_at ? String(voucher.ends_at).slice(0, 10) : "";
+            form.querySelector('[name="redemption_limit"]').value = voucher.redemption_limit || "";
+            form.querySelector('[name="redemption_limit_per_company"]').value = voucher.redemption_limit_per_company || "";
+            form.querySelector('[name="origin"]').value = voucher.origin || "";
+            form.querySelector('[name="notes"]').value = voucher.notes || "";
+            updateDiscountAvailability();
+            syncDiscount(discountType.value === "percentage" ? "percent" : "value");
+            form.querySelector('button[type="submit"]').textContent = "Salvar alterações";
+            form.scrollIntoView({ behavior: "smooth", block: "start" });
         }
+
+        function clearVoucherForm() {
+            editingVoucher = null;
+            form.querySelector('button[type="submit"]').textContent = "Cadastrar voucher";
+            codeSuffix = "";
+            plans.disabled = true;
+            plans.innerHTML = '<option value="" selected disabled>Selecione um sistema</option>';
+            baseValue.value = "";
+            endDate.value = "";
+            updateDiscountAvailability();
+            syncDiscount("percent");
+        }
+
+        const destructiveDialog = document.querySelector("#voucher-destructive-dialog");
+        const destructiveForm = document.querySelector("#voucher-destructive-form");
+        const closeDestructiveDialog = () => {
+            destructiveDialog.classList.remove("is-open");
+            destructiveDialog.setAttribute("aria-hidden", "true");
+            destructiveDialog.hidden = true;
+            pendingVoucherAction = null;
+            destructiveForm.reset();
+        };
+        const openDestructiveDialog = (action, voucherId) => {
+            pendingVoucherAction = { action, voucherId };
+            document.querySelector("#voucher-dialog-title").textContent = action === "delete" ? "Confirmar exclusão do voucher" : "Confirmar arquivamento do voucher";
+            destructiveDialog.hidden = false;
+            destructiveDialog.setAttribute("aria-hidden", "false");
+            destructiveDialog.classList.add("is-open");
+            document.querySelector("#voucher-dialog-reason").focus();
+        };
+        document.querySelector("[data-voucher-dialog-close]").addEventListener("click", closeDestructiveDialog);
+        destructiveForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!pendingVoucherAction || (window.FokusForm && !FokusForm.validate(destructiveForm))) return;
+            const { action, voucherId } = pendingVoucherAction;
+            const reason = new FormData(destructiveForm).get("reason");
+            FokusForm?.setLoading(destructiveForm, true);
+            try {
+                const path = `/backoffice/vouchers/${voucherId}${action === "archive" ? "/archive" : ""}`;
+                const response = await api.request(path, { method: action === "archive" ? "POST" : "DELETE", body: { reason } });
+                closeDestructiveDialog();
+                await loadVouchers();
+                setMessage(response.message || "Ação concluída.", "success");
+            } catch (error) {
+                setMessage(error.message || "Não foi possível concluir a ação.", "danger");
+            } finally {
+                FokusForm?.setLoading(destructiveForm, false);
+            }
+        });
 
         function updateValidityWindow() {
             if (!startDate.value) return;
@@ -476,12 +569,14 @@
                 const [statusLabel, statusClass] = statusMeta(currentStatus);
                 const discount = voucher.discount_type === "trial_free"
                     ? `Assinatura gratuita | 100%`
+                    : voucher.discount_type === "commercial_credit"
+                    ? `Crédito na 1ª cobrança | ${formatMoney(voucher.discount_value)}`
                     : voucher.discount_type === "percentage"
                     ? `${Number(voucher.discount_value).toLocaleString("pt-BR")}% | ${formatMoney((Number(voucher.base_amount || 0) * Number(voucher.discount_value || 0)) / 100)}`
                     : `${formatMoney(voucher.discount_value)}`;
                 const used = `${voucher.redemptions_count || 0} / ${voucher.redemption_limit || "-"}`;
                 const validity = `${formatDate(voucher.starts_at)} até ${formatDate(voucher.ends_at)}`;
-                const actionButton = currentStatus === "expired"
+                const actionButton = currentStatus === "expirada"
                     ? ""
                     : voucher.status === "suspensa"
                         ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}Add-Square--Streamline-Ultimate.png" alt=""></button>`
@@ -496,8 +591,10 @@
                     <td>${escapeHtml(validity)}</td>
                     <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
                     <td class="voucher-actions">
+                        ${Number(voucher.redemptions_count || 0) === 0 && voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="edit" data-voucher-id="${escapeHtml(voucher.id)}" title="Editar voucher" aria-label="Editar voucher"><img src="${iconBasePath}Shopping-Basket-Edit--Streamline-Ultimate.png" alt=""></button>` : ""}
                         ${actionButton}
-                        <button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}Remove-Square-1--Streamline-Ultimate.png" alt=""></button>
+                        ${voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="archive" data-voucher-id="${escapeHtml(voucher.id)}" title="Arquivar voucher" aria-label="Arquivar voucher"><img src="${iconBasePath}Subtract-Square--Streamline-Ultimate.png" alt=""></button>` : ""}
+                        ${voucher.status !== "encerrada" && Number(voucher.redemptions_count || 0) === 0 ? `<button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}Remove-Square-1--Streamline-Ultimate.png" alt=""></button>` : ""}
                     </td>
                 </tr>`;
             }).join("");
@@ -511,8 +608,7 @@
             const discountMode = values.discount_mode;
             const payload = {
                 name: values.name,
-                code: null,
-                status: "ativa",
+                code: values.code || null,
                 product_id: values.product_id,
                 plan_id: values.plan_id === "__all__" ? null : values.plan_id,
                 base_amount: values.plan_id === "__all__" ? null : parseInputMoney(values.base_amount),
@@ -526,24 +622,20 @@
                 discount_type: discountMode,
                 discount_value: discountMode === "trial_free"
                     ? 100
-                    : discountMode === "fixed"
+                    : ["fixed", "commercial_credit"].includes(discountMode)
                         ? parseInputMoney(discountValue.value)
                         : discountPercent.value,
             };
 
             try {
                 setMessage("Salvando voucher...");
-                await api.request("/backoffice/vouchers", { method: "POST", body: payload });
+                const wasEditing = Boolean(editingVoucher);
+                const path = editingVoucher ? `/backoffice/vouchers/${editingVoucher.id}` : "/backoffice/vouchers";
+                await api.request(path, { method: editingVoucher ? "PATCH" : "POST", body: payload });
                 form.reset();
-                plans.disabled = true;
-                plans.innerHTML = '<option value="" selected disabled>Selecione um sistema</option>';
-                codeSuffix = "";
-                baseValue.value = "";
-                endDate.value = "";
-                updateDiscountAvailability();
-                syncDiscount("percent");
+                clearVoucherForm();
                 await loadVouchers();
-                setMessage("Voucher cadastrado.", "success");
+                setMessage(wasEditing ? "Voucher atualizado." : "Voucher cadastrado.", "success");
             } catch (error) {
                 FokusForm?.mapServerErrors(form, error.errors);
                 setMessage(error.message, "danger");
@@ -574,9 +666,14 @@
             if (!button) return;
             try {
                 const action = button.dataset.voucherAction;
-                await (action === "delete"
-                    ? deleteVoucher(button.dataset.voucherId)
-                    : updateVoucher(button.dataset.voucherId, action === "pause" ? "suspensa" : "ativa"));
+                const voucher = (await api.request("/backoffice/vouchers")).find((item) => item.id === button.dataset.voucherId);
+                if (action === "edit") {
+                    editVoucher(voucher);
+                } else if (action === "delete" || action === "archive") {
+                    openDestructiveDialog(action, button.dataset.voucherId);
+                } else {
+                    await updateVoucher(button.dataset.voucherId, action === "pause" ? "suspensa" : "ativa");
+                }
             } catch (error) {
                 setMessage(error.message, "danger");
             }
@@ -587,6 +684,7 @@
                 endDate.min = "";
                 codeSuffix = "";
                 endDate.value = "";
+                clearVoucherForm();
                 updateDiscountAvailability();
                 syncDiscount("percent");
                 setMessage("");

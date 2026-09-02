@@ -89,3 +89,10 @@
   arquivado, preco invalido, dependencia ausente ou incompatibilidade.
 - Catalogo publico retorna contrato `0.0.3` e checkout valida a selecao contra
   a ultima versao publicada.
+## Marco 4 - Vouchers e exclusões
+
+- Voucher é reservado no checkout e só vira resgate após aprovação; falha, cancelamento e expiração liberam a reserva.
+- commercial_credit é limitado à primeira cobrança e o snapshot preserva o contexto completo.
+- Regras comerciais ficam bloqueadas após resgate; pausa, reativação e encerramento permanecem possíveis.
+- Exclusão física sem dependência funciona; dependência retorna 422 explicativo; publicação atual retorna à anterior e histórico não pode ser removido.
+- Formulários exibem validação, erro de API, carregamento e edição limpa.

@@ -123,3 +123,6 @@ homologacao:
 Este documento deve ser atualizado quando a implementacao funcional da `0.1`
 for concluida, incluindo commit, ambiente homologado, data de fechamento e
 restricoes conhecidas.
+## 0.0.4 - Marco 4
+
+Entrega de vouchers com reserva e snapshot, crédito comercial na primeira cobrança, edição governada, exclusões condicionais de catálogo/publicação e correções dos formulários. O catálogo público mantém o contrato 0.0.3. Evidências automatizadas: 53 testes aprovados; build e homologação manual devem ser registrados antes da tag final.

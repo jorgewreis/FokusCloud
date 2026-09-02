@@ -6,6 +6,7 @@ use App\Models\PlatformAdmin;
 use App\Models\PlatformRole;
 use App\Services\PrefixedUlid;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -89,6 +90,53 @@ class BackofficeSecurityTest extends TestCase
             'benefit_duration' => 'm3',
             'origin' => 'Lançamento',
         ]);
+    }
+
+    public function test_commercial_credit_is_capped_and_voucher_can_be_edited_before_first_redemption(): void
+    {
+        $admin = $this->admin();
+        $product = DB::table('products')->where('code', 'law')->first();
+        $plan = DB::table('plans')->where('product_id', $product->id)->where('code', 'law-advocacia')->first();
+
+        $voucherId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/vouchers', [
+            'name' => 'Crédito de implantação',
+            'discount_type' => 'commercial_credit',
+            'discount_value' => 500,
+            'product_id' => $product->id,
+            'plan_id' => $plan->id,
+            'benefit_duration' => 'm1',
+            'redemption_limit' => 10,
+            'redemption_limit_per_company' => 1,
+            'starts_at' => now()->toDateString(),
+            'ends_at' => now()->addMonth()->toDateString(),
+        ])->assertCreated()->json('id');
+
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/vouchers/{$voucherId}", [
+            'name' => 'Crédito atualizado',
+            'discount_value' => 300,
+        ])->assertOk();
+        $this->assertDatabaseHas('vouchers', ['id' => $voucherId, 'name' => 'Crédito atualizado', 'discount_value' => 300]);
+    }
+
+    public function test_final_voucher_actions_require_superadmin_permission(): void
+    {
+        $commercial = PlatformAdmin::create([
+            'id' => PrefixedUlid::make('PAD'),
+            'name' => 'Comercial',
+            'email' => 'comercial-'.PlatformAdmin::count().'@example.test',
+            'password' => Hash::make('SenhaInterna!2026'),
+            'status' => 'ativo',
+            'platform_role_id' => PlatformRole::where('code', 'administrador_comercial')->value('id'),
+            'email_verified_at' => now(),
+        ]);
+        $voucherId = $this->actingAs($this->admin(), 'platform')->postJson('/api/backoffice/vouchers', [
+            'code' => 'FINALTEST',
+            'discount_type' => 'percentage',
+            'discount_value' => 10,
+        ])->assertCreated()->json('id');
+
+        $this->actingAs($commercial, 'platform')->postJson("/api/backoffice/vouchers/{$voucherId}/archive", ['reason' => 'Não permitido.'])->assertForbidden();
+        $this->actingAs($commercial, 'platform')->deleteJson("/api/backoffice/vouchers/{$voucherId}", ['reason' => 'Não permitido.'])->assertForbidden();
     }
 
     private function admin(): PlatformAdmin

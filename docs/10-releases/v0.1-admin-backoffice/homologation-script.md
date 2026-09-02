@@ -104,3 +104,11 @@ Resultado esperado: eventos e alertas existem com escopo e permissao corretos.
 3. Corrigir falhas bloqueantes.
 4. Atualizar [notas da release](release-notes.md).
 5. Marcar a release como pronta somente se nao houver bloqueio.
+## Roteiro Marco 4 / 0.0.4
+
+1. Como administrador comercial, criar e editar voucher não resgatado; validar campos inválidos e falha de API.
+2. Como superadministrador, pausar, reativar, arquivar e excluir voucher sem resgate; confirmar motivo obrigatório e bloqueio de duplo envio.
+3. Iniciar checkout com voucher, confirmar aprovação e conferir uma reserva confirmada e um snapshot completo; repetir webhook para conferir idempotência.
+4. Verificar liberação em falha/cancelamento/expiração e crédito comercial limitado à primeira cobrança.
+5. Tentar excluir plano/funcionalidade com e sem dependência; excluir publicação atual e conferir fallback, mantendo histórico protegido.
+6. Repetir sucesso, invalidação, erro de API, edição e carregamento nos formulários de login, MFA, ativação, convite, produtos, funcionalidades, planos, publicação e vouchers, nos dois perfis.
