@@ -52,9 +52,9 @@
                         <img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png">
                         <span class="sidebar-button-label text-subtitle-sm">Assinaturas</span>
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="billing" data-platform-permission="platform.payments.view">
+                    <button class="sidebar-button" type="button" data-sidebar-item="pagamentos" data-platform-permission="platform.payments.view">
                         <img src="/backoffice/assets/icons/Accounting-Coins--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Billing</span>
+                        <span class="sidebar-button-label text-subtitle-sm">Pagamentos</span>
                     </button>
                     <button class="sidebar-button" type="button" data-sidebar-item="vouchers">
                         <img src="/backoffice/assets/icons/Tickets--Streamline-Ultimate.png">
@@ -120,14 +120,15 @@
         const pageContent = document.querySelector("#page-content");
         const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
         const pagePath = "./pages";
-        const pageVersion = "20260902-v006-billing";
+        const pageVersion = "20260902-v006-pagamentos";
         const routePageMap = {
             painel: "platform-dashboard",
             empresas: "companies",
             planos: "subscription-plans",
             catalogo: "subscription-plans",
             assinaturas: "subscriptions",
-            billing: "billing",
+            pagamentos: "pagamentos",
+            billing: "pagamentos",
             vouchers: "vouchers",
             seguranca: "security",
         };

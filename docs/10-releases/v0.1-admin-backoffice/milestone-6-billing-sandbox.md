@@ -15,7 +15,7 @@ Esta alpha implementa a primeira camada operacional de billing com Mercado Pago 
 - conciliação manual sem correção automática;
 - solicitação, aprovação e execução de reembolso total ou parcial;
 - auditoria e permissões financeiras;
-- página `/backoffice/pages/billing.html` carregada pelo shell administrativo.
+- página `/backoffice/pages/pagamentos.html` carregada pelo shell administrativo.
 
 ### APIs e comandos
 

@@ -118,6 +118,7 @@ class FormDesignSystemTest extends TestCase
         $pages = [
             'public/backoffice/pages/companies.html' => 'company-page',
             'public/backoffice/pages/subscriptions.html' => 'subscription-page',
+            'public/backoffice/pages/pagamentos.html' => 'pagamentos-page',
         ];
 
         foreach ($pages as $page => $rootClass) {
@@ -143,7 +144,7 @@ class FormDesignSystemTest extends TestCase
 
         $pageCss = file_get_contents(base_path('public/backoffice/assets/css/pages/mockup.css'));
         $formCss = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
-        foreach (['.company-page', '.subscription-page'] as $selector) {
+        foreach (['.company-page', '.subscription-page', '.pagamentos-page'] as $selector) {
             $this->assertStringContainsString($selector, $pageCss, $selector);
             $this->assertStringContainsString($selector, $formCss, $selector);
         }

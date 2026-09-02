@@ -85,6 +85,6 @@
 - [x] Cliente Mercado Pago e checkout idempotente implementados.
 - [x] Webhooks assinados e eventos duplicados tratados.
 - [x] Inadimplência, tolerância, conciliação e reembolso controlado implementados.
-- [x] API e página administrativa de Billing adicionadas.
+- [x] API e página administrativa de Pagamentos adicionadas.
 - [x] Cobertura automatizada específica adicionada.
 - [ ] Credenciais e fluxo sandbox real homologados.
