@@ -1,12 +1,12 @@
-<div class="companies-page d-flex col gap-3">
-    <div class="d-flex justify-between align-center gap-3">
-        <div class="col gap-1">
-            <h1 class="text-display-4">Empresas</h1>
-            <p class="text-heading-5 text-muted">Consulta comercial das empresas cadastradas.</p>
-        </div>
+<div class="company-page d-flex col">
+    <div class="col gap-3 mb-3">
+        <h1 class="text-display-4">Empresas</h1>
+        <p class="text-heading-5 text-muted">Consulta comercial das empresas cadastradas.</p>
     </div>
 
-    <p id="company-message" class="form-message" role="status" hidden></p>
+    <hr>
+
+    <div id="company-message" class="system-notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
     <form class="fc-form form-panel" id="company-filter-form">
         <div class="form-line align-end">
@@ -15,13 +15,13 @@
                 <input id="company-query" name="q" type="search" placeholder="Nome ou documento" autocomplete="off">
             </div>
             <div class="form-actions w-4">
-                <button class="btn btn-green" type="submit">Buscar</button>
+                <button class="submit" type="submit">Buscar</button>
             </div>
         </div>
     </form>
 
-    <div class="table-container">
-        <table class="table">
+    <div class="table-panel">
+        <table class="data-table is-responsive" aria-label="Empresas cadastradas">
             <thead><tr><th>Empresa</th><th>Documento</th><th>Status</th><th>Assinaturas ativas</th><th>Administrador</th><th></th></tr></thead>
             <tbody id="company-list"><tr><td colspan="6">Carregando empresas...</td></tr></tbody>
         </table>
@@ -31,7 +31,7 @@
     <section class="form-panel" id="company-detail" hidden aria-live="polite">
         <div class="d-flex justify-between align-center gap-3">
             <div class="col gap-1"><h2 class="text-heading-3" id="company-detail-name"></h2><p class="text-body text-muted" id="company-detail-document"></p></div>
-            <button class="btn btn-outline" id="company-detail-close" type="button">Fechar</button>
+            <button class="button button-secondary" id="company-detail-close" type="button">Fechar</button>
         </div>
         <div class="metric-grid mt-3" id="company-detail-summary"></div>
         <div class="col gap-2 mt-3"><h3 class="text-heading-4">Assinaturas</h3><div id="company-detail-subscriptions"></div></div>
@@ -50,13 +50,14 @@
 
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;","\"":"&quot;"}[char]));
     const showMessage = (value, tone = "danger") => { message.textContent = value || ""; message.dataset.tone = tone; message.hidden = !value; };
+    const statusBadge = (value) => { const classes = { ativa: "badge-success", suspensa: "badge-warning", cancelamento_agendado: "badge-warning", encerrada: "badge-danger", inadimplente: "badge-danger", aguardando_pagamento: "badge-info" }; return `<span class="badge ${classes[value] || "badge-neutral"}">${escapeHtml(value)}</span>`; };
     const renderPagination = (meta) => {
         if (!meta || meta.last_page <= 1) { pagination.innerHTML = meta ? `<span class="pagination-info">${meta.total} empresas</span>` : ""; return; }
         pagination.innerHTML = `<span class="pagination-info">Página ${meta.current_page} de ${meta.last_page} · ${meta.total} empresas</span>${Array.from({length: meta.last_page}, (_, i) => i + 1).map((page) => `<button class="pagination-item${page === meta.current_page ? " is-active" : ""}" type="button" data-company-page="${page}" ${page === meta.current_page ? 'aria-current="page"' : ""}>${page}</button>`).join("")}`;
     };
     const render = (response) => {
         const rows = response.data || [];
-        list.innerHTML = rows.length ? rows.map((company) => `<tr><td>${escapeHtml(company.legal_name)}</td><td>${escapeHtml(company.document_masked)}</td><td>${escapeHtml(company.status)}</td><td>${company.active_subscriptions}</td><td>${escapeHtml(company.admin_name || "-")}<br><span class="text-caption text-muted">${escapeHtml(company.admin_email_masked || "-")}</span></td><td><button class="btn btn-outline btn-sm" type="button" data-company-id="${escapeHtml(company.id)}">Detalhes</button></td></tr>`).join("") : '<tr><td colspan="6">Nenhuma empresa encontrada.</td></tr>';
+        list.innerHTML = rows.length ? rows.map((company) => `<tr><td data-label="Empresa">${escapeHtml(company.legal_name)}</td><td data-label="Documento">${escapeHtml(company.document_masked)}</td><td data-label="Status">${statusBadge(company.status)}</td><td data-label="Assinaturas ativas">${company.active_subscriptions}</td><td data-label="Administrador">${escapeHtml(company.admin_name || "-")}<br><span class="text-caption text-muted">${escapeHtml(company.admin_email_masked || "-")}</span></td><td data-label="Ações"><button class="button button-secondary button-sm" type="button" data-company-id="${escapeHtml(company.id)}">Detalhes</button></td></tr>`).join("") : '<tr><td colspan="6">Nenhuma empresa encontrada.</td></tr>';
         renderPagination(response.meta);
     };
     const load = async () => {
@@ -71,8 +72,8 @@
         const company = response.company;
         document.querySelector("#company-detail-name").textContent = company.legal_name;
         document.querySelector("#company-detail-document").textContent = `${company.document_type.toUpperCase()} · ${company.document_masked}`;
-        document.querySelector("#company-detail-summary").innerHTML = `<article class="metric-card"><span>Status</span><strong>${escapeHtml(company.status)}</strong></article><article class="metric-card"><span>Administrador</span><strong>${escapeHtml(company.admin?.name || "-")}</strong></article>`;
-        document.querySelector("#company-detail-subscriptions").innerHTML = response.subscriptions?.length ? response.subscriptions.map((subscription) => `<article class="card"><div class="d-flex justify-between"><strong>${escapeHtml(subscription.product_name || subscription.product_code)}</strong><span class="badge">${escapeHtml(subscription.status)}</span></div><p>${escapeHtml(subscription.plan_name || "Plano não informado")} · ${escapeHtml(subscription.billing_cycle || "-")} · R$ ${Number(subscription.amount || 0).toFixed(2).replace(".", ",")}</p><p class="text-caption text-muted">${subscription.history?.length || 0} alterações · ${subscription.payments?.length || 0} pagamentos</p></article>`).join("") : '<p class="text-body text-muted">Nenhuma assinatura registrada.</p>';
+        document.querySelector("#company-detail-summary").innerHTML = `<article class="metric-card"><span class="metric-label">Status</span><strong class="metric-value">${escapeHtml(company.status)}</strong></article><article class="metric-card"><span class="metric-label">Administrador</span><strong class="metric-value">${escapeHtml(company.admin?.name || "-")}</strong></article>`;
+        document.querySelector("#company-detail-subscriptions").innerHTML = response.subscriptions?.length ? response.subscriptions.map((subscription) => `<article class="card card-static"><div class="d-flex justify-between"><strong>${escapeHtml(subscription.product_name || subscription.product_code)}</strong>${statusBadge(subscription.status)}</div><p>${escapeHtml(subscription.plan_name || "Plano não informado")} · ${escapeHtml(subscription.billing_cycle || "-")} · R$ ${Number(subscription.amount || 0).toFixed(2).replace(".", ",")}</p><p class="text-caption text-muted">${subscription.history?.length || 0} alterações · ${subscription.payments?.length || 0} pagamentos</p></article>`).join("") : '<p class="text-body text-muted">Nenhuma assinatura registrada.</p>';
         document.querySelector("#company-detail-usage").innerHTML = response.usage?.length ? `<ul>${response.usage.map((item) => `<li>${escapeHtml(item.product_name)} · ${escapeHtml(item.reported_on)} · ${item.active_users} usuários ativos</li>`).join("")}</ul>` : '<p class="text-body text-muted">Nenhum uso recente registrado.</p>';
         detail.hidden = false;
         detail.scrollIntoView({ behavior: "smooth", block: "start" });

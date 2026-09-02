@@ -112,4 +112,29 @@ class FormDesignSystemTest extends TestCase
             $this->assertStringContainsString($fragment, $catalog, $fragment);
         }
     }
+
+    public function test_company_and_subscription_pages_follow_live_backoffice_components(): void
+    {
+        $pages = [
+            'public/backoffice/pages/companies.html' => 'company-page',
+            'public/backoffice/pages/subscriptions.html' => 'subscription-page',
+        ];
+
+        foreach ($pages as $page => $rootClass) {
+            $contents = file_get_contents(base_path($page));
+
+            $this->assertStringContainsString('class="'.$rootClass.' d-flex col"', $contents, $page);
+            $this->assertStringContainsString('<hr>', $contents, $page);
+            $this->assertStringContainsString('table-panel', $contents, $page);
+            $this->assertStringContainsString('data-table', $contents, $page);
+            $this->assertStringContainsString('class="submit"', $contents, $page);
+            $this->assertStringNotContainsString('class="btn', $contents, $page);
+            $this->assertStringNotContainsString('table-container', $contents, $page);
+        }
+
+        $pageCss = file_get_contents(base_path('public/backoffice/assets/css/pages/mockup.css'));
+        foreach (['.company-page', '.subscription-page'] as $selector) {
+            $this->assertStringContainsString($selector, $pageCss, $selector);
+        }
+    }
 }
