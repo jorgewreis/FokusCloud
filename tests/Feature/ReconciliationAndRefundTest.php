@@ -6,6 +6,7 @@ use App\Models\PlatformAdmin;
 use App\Models\PlatformRole;
 use App\Services\PrefixedUlid;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -19,6 +20,7 @@ class ReconciliationAndRefundTest extends TestCase
     {
         parent::setUp();
         $this->seed();
+        Config::set('services.mercado_pago.access_token', 'sandbox-token');
     }
 
     public function test_reconciliation_is_opened_and_only_superadmin_can_correct_it(): void
