@@ -140,7 +140,8 @@ como a integração de `develop` com `origin/main` e a criação da tag
 Pre-release de consulta comercial de empresas e gestao controlada de
 assinaturas. Inclui APIs e paginas reais de empresas e assinaturas, pagamentos
 locais, itens, historico, snapshots, mascaramento de dados pessoais, pausa,
-reativacao, cancelamento agendado, upgrade pendente, downgrade agendado,
+reativacao, cancelamento agendado, encerramento imediato com historico
+preservado, upgrade pendente, downgrade agendado,
 override de superadministrador, auditoria e status comerciais normalizados.
 
 Ficam fora desta alpha o billing sandbox completo do Mercado Pago,

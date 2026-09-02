@@ -29,6 +29,7 @@
 - [x] Consultar assinatura, pagamentos, histórico e snapshots.
 - [x] Pausar e reativar assinatura com motivo e auditoria.
 - [x] Agendar cancelamento para fim da vigência.
+- [x] Encerrar assinatura imediatamente com motivo, auditoria e histórico preservado.
 - [x] Aplicar upgrade somente após cobrança proporcional aprovada.
 - [x] Agendar downgrade para fim da vigência.
 - [x] Recalcular valores no backend pelo catálogo publicado.
