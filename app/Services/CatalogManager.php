@@ -535,6 +535,7 @@ class CatalogManager
             'name' => $module->name,
             'technical_description' => $module->technical_description ?? null,
             'commercial_content' => $module->commercial_content ?? null,
+            'monthly_price' => (float) ($module->monthly_price ?? 0),
             'segment_code' => $module->segment_code ?? null,
             'context_code' => $module->context_code ?? null,
             'variant_code' => $module->variant_code ?? null,

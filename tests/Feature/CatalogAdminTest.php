@@ -286,6 +286,10 @@ class CatalogAdminTest extends TestCase
 
         $this->assertSame(149.90, (float) DB::table('modules')->where('id', $moduleId)->value('monthly_price'));
         $this->assertSame(299.90, (float) DB::table('plans')->where('id', $planId)->value('monthly_amount'));
+
+        $modules = collect($this->actingAs($admin, 'platform')->getJson('/api/backoffice/catalog')->json('products'))
+            ->flatMap(fn (array $product) => $product['modules']);
+        $this->assertSame(149.90, (float) $modules->firstWhere('id', $moduleId)['monthly_price']);
     }
 
     public function test_catalog_accepts_localized_currency_values_from_masked_inputs(): void
