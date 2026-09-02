@@ -87,3 +87,20 @@ assinatura, pagamentos, itens, historico, snapshots, pausa, reativacao,
 cancelamento agendado, upgrade pendente, downgrade agendado, override,
 permissoes, auditoria e aplicacao de mudancas pelo comando agendado. Billing
 sandbox, conciliacao e homologacao de navegador permanecem fora da alpha.
+
+## Marco 6 — alpha.1
+
+Executar em banco descartável:
+
+```bash
+php artisan migrate:fresh --seed
+php artisan test
+npm run build
+node --check public/backoffice/assets/js/currency-input.js
+git diff --check
+```
+
+A cobertura inclui checkout idempotente, HMAC válido/inválido, eventos
+duplicados, recorrência, inadimplência, conciliação, permissões e reembolso.
+Homologar posteriormente com credenciais sandbox, comprador/vendedor de teste,
+webhook público e reembolso de teste.

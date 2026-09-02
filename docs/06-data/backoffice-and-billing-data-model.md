@@ -641,3 +641,12 @@ principais sem tomar novas decisoes de dados.
 ## Modelo de reserva e snapshot de voucher
 
 voucher_redemption_reservations guarda request_key único, empresa, voucher, assinatura opcional, estado pending/confirmed/released/expired, snapshot e janela de expiração. voucher_redemptions.snapshot preserva o contexto comercial confirmado, incluindo o período do benefício. As FKs e verificações de dependência protegem histórico de catálogo e resgates.
+
+## Estruturas do Billing sandbox
+
+As migrations `2026_09_02_000700` e `2026_09_02_000800` adicionam rastreamento
+de provedor em assinaturas e pagamentos, `billing_checkout_attempts`,
+`billing_provider_events`, `refund_requests` e
+`payment_reconciliation_alerts`. Payloads novos são sanitizados e eventos,
+reembolsos e divergências preservam histórico por FKs restritivas e índices de
+provedor/status.

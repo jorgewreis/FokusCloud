@@ -73,3 +73,11 @@ superadministrador. A implementacao preserva snapshots, auditoria e o
 contrato publico 0.0.3 do catalogo. Billing sandbox completo, conciliacao,
 reembolsos e alertas financeiros permanecem no Marco 6/7. O detalhamento esta
 em [milestone-5-companies-subscriptions.md](milestone-5-companies-subscriptions.md).
+
+## Marco 6 — `v0.0.6-alpha.1`
+
+A alpha adiciona a camada operacional de Billing sandbox: cliente Mercado Pago,
+checkout idempotente, webhooks assinados, recorrência, tolerância de
+inadimplência, pagamentos, conciliação manual e reembolsos controlados. A saída
+depende de testes automatizados, deploy aprovado e homologação sandbox real;
+emissão fiscal, chargeback e indicadores avançados permanecem posteriores.

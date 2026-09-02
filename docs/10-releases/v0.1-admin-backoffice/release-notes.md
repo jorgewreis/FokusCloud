@@ -147,3 +147,11 @@ override de superadministrador, auditoria e status comerciais normalizados.
 Ficam fora desta alpha o billing sandbox completo do Mercado Pago,
 conciliacao, reembolsos, alertas financeiros e homologacao completa em
 navegador. O contrato publico do catalogo permanece 0.0.3.
+
+## `v0.0.6-alpha.1` — Billing sandbox
+
+Primeira camada operacional de Mercado Pago sandbox, com checkout idempotente,
+webhooks HMAC, recorrência, tolerância de inadimplência, pagamentos,
+conciliação manual, reembolsos controlados e página administrativa de Billing.
+Credenciais sandbox reais e homologação completa permanecem requisitos antes da
+promoção para beta.

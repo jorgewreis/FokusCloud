@@ -79,3 +79,12 @@
 - [x] Ícones, diálogo acessível e contrato FokusForm nas telas de catálogo/vouchers.
 - [x] Suíte automatizada da `v0.0.4-alpha.1` aprovada com 57 testes.
 - [ ] Homologação manual em navegador real dos formulários e dos dois perfis.
+
+## Marco 6 — Billing sandbox
+
+- [x] Cliente Mercado Pago e checkout idempotente implementados.
+- [x] Webhooks assinados e eventos duplicados tratados.
+- [x] Inadimplência, tolerância, conciliação e reembolso controlado implementados.
+- [x] API e página administrativa de Billing adicionadas.
+- [x] Cobertura automatizada específica adicionada.
+- [ ] Credenciais e fluxo sandbox real homologados.

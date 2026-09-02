@@ -240,3 +240,11 @@ descumprimento de prazo e areas que exigem prevencao.
 Este documento esta suficiente quando um implementador consegue criar filas,
 alertas, severidade, prazos, notificacoes, comentarios, retencao, metricas e
 tratamento de incidente critico sem tomar novas decisoes operacionais.
+
+## Billing sandbox
+
+Monitorar `fokus:expire-subscription-tolerance`,
+`fokus:reconcile-mercado-pago`, eventos do provedor com status `failed`,
+reembolsos reaplicáveis e divergências abertas. Nunca registrar token, segredo
+HMAC, cartão ou payload bruto. Falhas de consulta do gateway devem manter o
+evento reaplicável e permitir nova tentativa.

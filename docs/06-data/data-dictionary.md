@@ -64,3 +64,7 @@ O modelo detalhado das tabelas de Backoffice, Billing, alertas, reembolsos e
 conciliacao esta em [Modelo de dados do Backoffice e Billing](backoffice-and-billing-data-model.md).
 
 O modelo detalhado das tabelas do Fokus Law esta em [Modelo de dados do Fokus Law](fokus-law-data-model.md). O nucleo de contatos esta detalhado em [Modelo de dados da gestao de contatos Law](law-contacts-data-model.md), expedicoes em [Modelo de dados das expedicoes Law](law-expeditions-data-model.md), e tarefas/fluxos em [Modelo de dados de tarefas e fluxos Law](law-operational-workflows-data-model.md).
+
+Para o Marco 6, consultar também `billing_checkout_attempts`,
+`billing_provider_events`, `refund_requests` e
+`payment_reconciliation_alerts`, criadas nas migrations de Billing sandbox.
