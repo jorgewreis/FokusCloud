@@ -70,9 +70,10 @@ historico.
 4. Pausar assinatura com motivo e conferir auditoria.
 5. Reativar assinatura com motivo.
 6. Agendar cancelamento para o fim da vigência.
-7. Executar troca de plano com upgrade e conferir estado pendente de pagamento.
-8. Executar troca de plano com downgrade e conferir aplicação na data efetiva.
-9. Testar override manual com superadministrador e confirmar bloqueio para administrador comercial.
+7. Encerrar assinatura imediatamente com motivo e conferir preservação do histórico.
+8. Executar troca de plano com upgrade e conferir estado pendente de pagamento.
+9. Executar troca de plano com downgrade e conferir aplicação na data efetiva.
+10. Testar override manual com superadministrador e confirmar bloqueio para administrador comercial.
 
 Resultado esperado: status, historico, snapshots e auditoria refletem cada
 acao.
