@@ -96,6 +96,8 @@
         const parseMoney = (value) => Number(String(value || "").replace(/[^0-9]/g, "")) / 100 || 0;
         const splitCodes = (value) => String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
         const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
+        const iconBasePath = "/backoffice/assets/icons/";
+        const actionButton = (action, id, label, icon, danger = false) => `<button class="icon-button${danger ? " icon-button-danger" : ""}" type="button" data-${action}-product="${escapeHtml(id)}" title="${label}" aria-label="${label}"><img src="${iconBasePath}${icon}" alt=""></button>`;
 
         function showMessage(text, tone = "info") {
             message.textContent = text || "";
@@ -130,7 +132,7 @@
 
         function render() {
             renderSelects();
-            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td><button class="button button-secondary" type="button" data-edit-product="${escapeHtml(product.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
+            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("edit", product.id, "Editar produto", "Single-Man-Actions-Edit-1--Streamline-Ultimate.png")}${actionButton("remove", product.id, "Remover produto", "Remove-Square-1--Streamline-Ultimate.png", true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
             document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td><button class="button button-secondary" type="button" data-edit-module="${escapeHtml(module.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
             document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td><button class="button button-secondary" type="button" data-edit-plan="${escapeHtml(plan.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
@@ -221,8 +223,21 @@
 
         document.addEventListener("click", async (event) => {
             const productId = event.target.closest("[data-edit-product]")?.dataset.editProduct;
+            const removeProductId = event.target.closest("[data-remove-product]")?.dataset.removeProduct;
             const moduleId = event.target.closest("[data-edit-module]")?.dataset.editModule;
             const planId = event.target.closest("[data-edit-plan]")?.dataset.editPlan;
+            if (removeProductId) {
+                const reason = prompt("Informe o motivo para remover este produto:");
+                if (!reason) return;
+                try {
+                    const response = await api.request(`/backoffice/catalog/products/${removeProductId}/archive`, { method: "POST", body: { reason } });
+                    showMessage(response.message || "Produto removido.", "success");
+                    await loadCatalog({ clearMessage: false });
+                } catch (error) {
+                    showMessage(error.message || "Não foi possível remover o produto.", "danger");
+                }
+                return;
+            }
             if (productId) {
                 const product = state.catalog.products.find((item) => item.id === productId);
                 state.editing.product = productId;
