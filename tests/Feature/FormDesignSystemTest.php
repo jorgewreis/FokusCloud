@@ -49,7 +49,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260902-catalog-currency-checkboxes', $panel);
+        $this->assertStringContainsString('20260902-catalog-pagination', $panel);
         foreach ([$access, $activate] as $contents) {
             $this->assertStringContainsString('20260901-live-controls', $contents);
         }
@@ -100,5 +100,14 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('input:not([type="checkbox"]):not([type="radio"])', $css);
         $this->assertStringContainsString('width: 16px !important', $pageCss);
         $this->assertStringContainsString('height: 16px !important', $pageCss);
+    }
+
+    public function test_catalog_tables_expose_reusable_pagination_controls(): void
+    {
+        $catalog = file_get_contents(base_path('public/backoffice/pages/subscription-plans.html'));
+
+        foreach (['product-pagination', 'module-pagination', 'plan-pagination', 'publication-pagination', 'data-catalog-page', 'pageSize = 20'] as $fragment) {
+            $this->assertStringContainsString($fragment, $catalog, $fragment);
+        }
     }
 }

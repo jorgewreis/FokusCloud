@@ -47,6 +47,7 @@
             <div class="form-actions"><button class="submit" type="submit">Salvar produto</button><button class="button button-secondary" type="reset">Novo produto</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Produtos do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Status</th><th>Publicação</th><th>Ordem</th><th>Versão</th><th>Ações</th></tr></thead><tbody id="product-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
+        <nav class="pagination catalog-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="modules" hidden>
@@ -70,6 +71,7 @@
             <div class="form-actions"><button class="submit" type="submit">Salvar funcionalidade</button><button class="button button-secondary" type="reset">Nova funcionalidade</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Funcionalidades do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Produto</th><th>Preço</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="module-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
+        <nav class="pagination catalog-pagination" id="module-pagination" aria-label="Paginação de funcionalidades"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="plans" hidden>
@@ -90,6 +92,7 @@
             <div class="form-actions"><button class="submit" type="submit">Salvar plano</button><button class="button button-secondary" type="reset">Novo plano</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Planos do catálogo"><thead><tr><th>Código</th><th>Plano</th><th>Produto</th><th>Mensal</th><th>Módulos</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="plan-list"><tr><td colspan="8">Carregando...</td></tr></tbody></table></div>
+        <nav class="pagination catalog-pagination" id="plan-pagination" aria-label="Paginação de planos"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="publish" hidden>
@@ -101,13 +104,19 @@
             <div class="form-actions"><button class="submit" type="submit">Publicar catálogo</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Publicações do catálogo"><thead><tr><th>Produto</th><th>Versão</th><th>Publicado em</th><th>Autor</th><th>Motivo</th><th>Ações</th></tr></thead><tbody id="publication-list"><tr><td colspan="6">Carregando...</td></tr></tbody></table></div>
+        <nav class="pagination catalog-pagination" id="publication-pagination" aria-label="Paginação de publicações"></nav>
     </section>
 </div>
 
 <script>
     (() => {
         const api = window.FokusApi;
-        const state = { catalog: { products: [] }, editing: { product: null, module: null, plan: null } };
+        const state = {
+            catalog: { products: [] },
+            editing: { product: null, module: null, plan: null },
+            pages: { products: 1, modules: 1, plans: 1, publications: 1 },
+        };
+        const pageSize = 20;
         const message = document.querySelector("#catalog-message");
         const money = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
         const parseMoney = (value) => window.FokusCurrency?.parse(value) ?? 0;
@@ -142,6 +151,50 @@
             return state.catalog.publications || [];
         }
 
+        function paginate(key, rows) {
+            const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+            const page = Math.min(Math.max(state.pages[key] || 1, 1), totalPages);
+            const start = (page - 1) * pageSize;
+            state.pages[key] = page;
+
+            return {
+                rows: rows.slice(start, start + pageSize),
+                page,
+                totalPages,
+                total: rows.length,
+                from: rows.length ? start + 1 : 0,
+                to: Math.min(start + pageSize, rows.length),
+            };
+        }
+
+        function paginationTokens(page, totalPages) {
+            if (totalPages <= 7) return Array.from({ length: totalPages }, (_, index) => index + 1);
+
+            const tokens = [1];
+            if (page > 4) tokens.push("…");
+            for (let item = Math.max(2, page - 1); item <= Math.min(totalPages - 1, page + 1); item += 1) tokens.push(item);
+            if (page < totalPages - 3) tokens.push("…");
+            tokens.push(totalPages);
+
+            return [...new Set(tokens)];
+        }
+
+        function renderPagination(key, pageData, label) {
+            const root = document.querySelector(`#${key.slice(0, -1)}-pagination`);
+            if (!root) return;
+
+            if (pageData.total <= pageSize) {
+                root.innerHTML = pageData.total ? `<span class="pagination-info">${pageData.total} ${label}</span>` : "";
+                return;
+            }
+
+            const controls = paginationTokens(pageData.page, pageData.totalPages).map((token) => token === "…"
+                ? '<span class="pagination-ellipsis" aria-hidden="true">…</span>'
+                : `<button class="pagination-item${token === pageData.page ? " is-active" : ""}" type="button" data-catalog-page="${key}" data-page="${token}" ${token === pageData.page ? 'aria-current="page"' : ""}>${token}</button>`).join("");
+
+            root.innerHTML = `<span class="pagination-info">${pageData.from}–${pageData.to} de ${pageData.total} ${label}</span><button class="pagination-item" type="button" data-catalog-page="${key}" data-page="${pageData.page - 1}" aria-label="Página anterior" ${pageData.page === 1 ? "disabled" : ""}>‹</button>${controls}<button class="pagination-item" type="button" data-catalog-page="${key}" data-page="${pageData.page + 1}" aria-label="Próxima página" ${pageData.page === pageData.totalPages ? "disabled" : ""}>›</button>`;
+        }
+
         function renderSelects() {
             ["#module-product", "#plan-product", "#publish-product"].forEach((selector) => {
                 const select = document.querySelector(selector);
@@ -157,11 +210,19 @@
 
         function render() {
             renderSelects();
-            document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
-            document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
+            const productPage = paginate("products", state.catalog.products);
+            const modulePage = paginate("modules", allModules());
+            const planPage = paginate("plans", allPlans());
+            const publicationPage = paginate("publications", publications());
+            document.querySelector("#product-list").innerHTML = productPage.total ? productPage.rows.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
+            document.querySelector("#module-list").innerHTML = modulePage.total ? modulePage.rows.map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
-            document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
-            document.querySelector("#publication-list").innerHTML = publications().length ? publications().map((publication) => `<tr><td>${escapeHtml(publication.product_name)}</td><td>${publication.version}</td><td>${publication.published_at ? new Date(publication.published_at).toLocaleString("pt-BR") : "-"}</td><td>${escapeHtml(publication.published_by || "-")}</td><td>${escapeHtml(publication.reason || "-")}</td><td class="voucher-actions">${actionButton("publication", "remove", publication.id, "Excluir publicação", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="6">Nenhuma publicação registrada.</td></tr>';
+            document.querySelector("#plan-list").innerHTML = planPage.total ? planPage.rows.map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
+            document.querySelector("#publication-list").innerHTML = publicationPage.total ? publicationPage.rows.map((publication) => `<tr><td>${escapeHtml(publication.product_name)}</td><td>${publication.version}</td><td>${publication.published_at ? new Date(publication.published_at).toLocaleString("pt-BR") : "-"}</td><td>${escapeHtml(publication.published_by || "-")}</td><td>${escapeHtml(publication.reason || "-")}</td><td class="voucher-actions">${actionButton("publication", "remove", publication.id, "Excluir publicação", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="6">Nenhuma publicação registrada.</td></tr>';
+            renderPagination("products", productPage, "produtos");
+            renderPagination("modules", modulePage, "funcionalidades");
+            renderPagination("plans", planPage, "planos");
+            renderPagination("publications", publicationPage, "publicações");
             window.FokusCurrency?.bind(document.querySelector(".plan-page"));
             window.FokusForm?.enhance(document.querySelector(".plan-page"));
         }
@@ -183,6 +244,13 @@
                     panel.hidden = panel.dataset.catalogPanel !== button.dataset.catalogTab;
                 });
             });
+        });
+        document.querySelector(".plan-page").addEventListener("click", (event) => {
+            const control = event.target.closest("[data-catalog-page]");
+            if (!control || control.disabled) return;
+
+            state.pages[control.dataset.catalogPage] = Number(control.dataset.page);
+            render();
         });
         document.querySelector("#plan-product").addEventListener("change", () => renderPlanModuleOptions());
 
