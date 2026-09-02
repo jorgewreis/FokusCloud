@@ -88,6 +88,8 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::delete('/plans/{plan}', [BackofficeController::class, 'deletePlan'])->middleware(EnsurePlatformPermission::class.':platform.catalog.publish');
     Route::get('/companies', [BackofficeController::class, 'companies'])->middleware(EnsurePlatformPermission::class.':platform.companies.view');
     Route::get('/companies/{company}', [BackofficeController::class, 'company'])->middleware(EnsurePlatformPermission::class.':platform.companies.view');
+    Route::get('/subscriptions', [BackofficeController::class, 'subscriptions'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
+    Route::get('/subscriptions/{subscription}', [BackofficeController::class, 'subscription'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
     Route::patch('/subscriptions/{subscription}', [BackofficeController::class, 'changeSubscription'])->middleware(EnsurePlatformPermission::class.':platform.subscriptions.manage');
     Route::get('/vouchers', [BackofficeController::class, 'vouchers'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
     Route::post('/vouchers', [BackofficeController::class, 'createVoucher'])->middleware(EnsurePlatformPermission::class.':platform.vouchers.manage');
