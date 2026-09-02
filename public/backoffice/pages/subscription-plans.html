@@ -28,7 +28,10 @@
                 <div class="form-field w-6"><label for="product-technical-description">Descrição técnica</label><textarea id="product-technical-description" name="technical_description"></textarea></div>
                 <div class="form-field w-6"><label for="product-commercial-content">Conteúdo comercial</label><textarea id="product-commercial-content" name="commercial_content"></textarea></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar produto</button><button class="button button-secondary" type="reset">Novo produto</button></div>
+            <div class="form-actions">
+                <button class="icon-button icon-button-lg" type="submit" title="Salvar produto" aria-label="Salvar produto"><img src="/backoffice/assets/icons/Upload-Square-3--Streamline-Ultimate.png" alt=""></button>
+                <button class="icon-button icon-button-lg" type="reset" title="Novo produto" aria-label="Novo produto"><img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt=""></button>
+            </div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Produtos do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Status</th><th>Publicação</th><th>Ordem</th><th>Versão</th><th>Ações</th></tr></thead><tbody id="product-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
     </section>
@@ -51,7 +54,10 @@
                 <div class="form-field w-6"><label for="module-dependencies">Dependências</label><input id="module-dependencies" name="dependencies" type="text" placeholder="contatos, processos"></div>
                 <div class="form-field w-6"><label for="module-incompatibilities">Incompatibilidades</label><input id="module-incompatibilities" name="incompatibilities" type="text" placeholder="codigo-a, codigo-b"></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar funcionalidade</button><button class="button button-secondary" type="reset">Nova funcionalidade</button></div>
+            <div class="form-actions">
+                <button class="icon-button icon-button-lg" type="submit" title="Salvar funcionalidade" aria-label="Salvar funcionalidade"><img src="/backoffice/assets/icons/Upload-Square-3--Streamline-Ultimate.png" alt=""></button>
+                <button class="icon-button icon-button-lg" type="reset" title="Nova funcionalidade" aria-label="Nova funcionalidade"><img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt=""></button>
+            </div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Funcionalidades do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Produto</th><th>Preço</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="module-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
     </section>
@@ -71,7 +77,10 @@
                 <div class="form-field w-3"><label for="plan-featured">Destaque</label><select id="plan-featured" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></div>
             </div>
             <div class="form-field"><label>Composição</label><div class="form-panel" id="plan-module-options"></div></div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar plano</button><button class="button button-secondary" type="reset">Novo plano</button></div>
+            <div class="form-actions">
+                <button class="icon-button icon-button-lg" type="submit" title="Salvar plano" aria-label="Salvar plano"><img src="/backoffice/assets/icons/Upload-Square-3--Streamline-Ultimate.png" alt=""></button>
+                <button class="icon-button icon-button-lg" type="reset" title="Novo plano" aria-label="Novo plano"><img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt=""></button>
+            </div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Planos do catálogo"><thead><tr><th>Código</th><th>Plano</th><th>Produto</th><th>Mensal</th><th>Módulos</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="plan-list"><tr><td colspan="8">Carregando...</td></tr></tbody></table></div>
     </section>
@@ -82,7 +91,9 @@
                 <div class="form-field w-4"><label for="publish-product">Produto</label><select id="publish-product" name="product_id" required></select></div>
                 <div class="form-field w-8"><label for="publish-reason">Motivo</label><input id="publish-reason" name="reason" type="text" maxlength="1000" required></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Publicar catálogo</button></div>
+            <div class="form-actions">
+                <button class="icon-button icon-button-lg" type="submit" title="Publicar catálogo" aria-label="Publicar catálogo"><img src="/backoffice/assets/icons/Upload-Square-3--Streamline-Ultimate.png" alt=""></button>
+            </div>
         </form>
     </section>
 </div>
@@ -133,9 +144,9 @@
         function render() {
             renderSelects();
             document.querySelector("#product-list").innerHTML = state.catalog.products.length ? state.catalog.products.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("edit", product.id, "Editar produto", "Shopping-Basket-Edit--Streamline-Ultimate.png")}${actionButton("remove", product.id, "Remover produto", "Shopping-Basket-Subtract--Streamline-Ultimate.png", true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
-            document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td><button class="button button-secondary" type="button" data-edit-module="${escapeHtml(module.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
+            document.querySelector("#module-list").innerHTML = allModules().length ? allModules().map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions"><button class="icon-button" type="button" data-edit-module="${escapeHtml(module.id)}" title="Editar funcionalidade" aria-label="Editar funcionalidade"><img src="${iconBasePath}Shopping-Basket-Edit--Streamline-Ultimate.png" alt=""></button></td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
-            document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td><button class="button button-secondary" type="button" data-edit-plan="${escapeHtml(plan.id)}">Editar</button></td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
+            document.querySelector("#plan-list").innerHTML = allPlans().length ? allPlans().map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions"><button class="icon-button" type="button" data-edit-plan="${escapeHtml(plan.id)}" title="Editar plano" aria-label="Editar plano"><img src="${iconBasePath}Shopping-Basket-Edit--Streamline-Ultimate.png" alt=""></button></td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
             window.FokusForm?.enhance(document.querySelector(".plan-page"));
         }
 
