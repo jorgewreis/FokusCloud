@@ -166,7 +166,7 @@
     (() => {
         const standalone = !document.querySelector(".container-page");
         const iconBasePath = "/backoffice/assets/icons/";
-        const voucherEditIcon = "Tags-Cash--Streamline-Ultimate.png";
+        const voucherEditIcon = "Ticket-Exchange--Streamline-Ultimate.png";
         const voucherAddIcon = "Tags-Add--Streamline-Ultimate.png";
         const voucherMinusIcon = "Tags-Minus--Streamline-Ultimate.png";
         const voucherRemoveIcon = "Tags-Remove--Streamline-Ultimate.png";
@@ -284,6 +284,11 @@
                         redemptions_count: 0,
                     }, ...mockVouchers];
                     return { message: "Voucher cadastrado." };
+                }
+                if (path.startsWith("/backoffice/vouchers/") && path.endsWith("/archive") && options.method === "POST") {
+                    const id = path.split("/").slice(-2, -1)[0];
+                    mockVouchers = mockVouchers.map((voucher) => voucher.id === id ? { ...voucher, status: "encerrada" } : voucher);
+                    return { message: "Voucher arquivado." };
                 }
                 if (path.startsWith("/backoffice/vouchers/") && options.method === "PATCH") {
                     const id = path.split("/").pop();
@@ -517,7 +522,7 @@
         };
         const openDestructiveDialog = (action, voucherId) => {
             pendingVoucherAction = { action, voucherId };
-            document.querySelector("#voucher-dialog-title").textContent = action === "delete" ? "Confirmar exclusão do voucher" : "Confirmar arquivamento do voucher";
+            document.querySelector("#voucher-dialog-title").textContent = "Confirmar exclusão ou arquivamento do voucher";
             destructiveDialog.hidden = false;
             destructiveDialog.setAttribute("aria-hidden", "false");
             destructiveDialog.classList.add("is-open");
@@ -531,8 +536,13 @@
             const reason = new FormData(destructiveForm).get("reason");
             FokusForm?.setLoading(destructiveForm, true);
             try {
-                const path = `/backoffice/vouchers/${voucherId}${action === "archive" ? "/archive" : ""}`;
-                const response = await api.request(path, { method: action === "archive" ? "POST" : "DELETE", body: { reason } });
+                let response;
+                try {
+                    response = await api.request(`/backoffice/vouchers/${voucherId}`, { method: "DELETE", body: { reason } });
+                } catch (error) {
+                    if (error.status !== 422) throw error;
+                    response = await api.request(`/backoffice/vouchers/${voucherId}/archive`, { method: "POST", body: { reason } });
+                }
                 closeDestructiveDialog();
                 await loadVouchers();
                 setMessage(response.message || "Ação concluída.", "success");
@@ -597,8 +607,7 @@
                     <td class="voucher-actions">
                         ${Number(voucher.redemptions_count || 0) === 0 && voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="edit" data-voucher-id="${escapeHtml(voucher.id)}" title="Editar voucher" aria-label="Editar voucher"><img src="${iconBasePath}${voucherEditIcon}" alt=""></button>` : ""}
                         ${actionButton}
-                        ${voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="archive" data-voucher-id="${escapeHtml(voucher.id)}" title="Arquivar voucher" aria-label="Arquivar voucher"><img src="${iconBasePath}${voucherMinusIcon}" alt=""></button>` : ""}
-                        ${voucher.status !== "encerrada" && Number(voucher.redemptions_count || 0) === 0 ? `<button class="icon-button icon-button-danger" type="button" data-voucher-action="delete" data-voucher-id="${escapeHtml(voucher.id)}" title="Excluir voucher" aria-label="Excluir voucher"><img src="${iconBasePath}${voucherRemoveIcon}" alt=""></button>` : ""}
+                        ${voucher.status !== "encerrada" ? `<button class="icon-button ${Number(voucher.redemptions_count || 0) === 0 ? "icon-button-danger" : ""}" type="button" data-voucher-action="remove-or-archive" data-voucher-id="${escapeHtml(voucher.id)}" title="${Number(voucher.redemptions_count || 0) === 0 ? "Excluir voucher" : "Arquivar voucher"}" aria-label="${Number(voucher.redemptions_count || 0) === 0 ? "Excluir voucher" : "Arquivar voucher"}"><img src="${iconBasePath}${Number(voucher.redemptions_count || 0) === 0 ? voucherRemoveIcon : voucherMinusIcon}" alt=""></button>` : ""}
                     </td>
                 </tr>`;
             }).join("");
@@ -673,7 +682,7 @@
                 const voucher = (await api.request("/backoffice/vouchers")).find((item) => item.id === button.dataset.voucherId);
                 if (action === "edit") {
                     editVoucher(voucher);
-                } else if (action === "delete" || action === "archive") {
+                } else if (action === "remove-or-archive") {
                     openDestructiveDialog(action, button.dataset.voucherId);
                 } else {
                     await updateVoucher(button.dataset.voucherId, action === "pause" ? "suspensa" : "ativa");
