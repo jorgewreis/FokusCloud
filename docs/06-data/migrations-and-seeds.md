@@ -40,3 +40,12 @@ Migrations ja existentes relacionadas ao modelo:
   legados de `judiciario` para `setor_publico`.
 - `2026_08_31_000400_create_law_hearings_tables.php`: cria o nucleo de dados de
   audiencias, historico, alertas e acompanhamento externo.
+
+- `2026_09_02_000700_add_billing_provider_tracking.php`: adiciona sincronização
+  do provedor, tentativas de checkout e eventos idempotentes.
+- `2026_09_02_000800_create_refunds_and_reconciliation.php`: cria reembolsos,
+  divergências e permissões financeiras.
+
+Em produção, executar migrations com `php artisan migrate --force
+--no-interaction`; não executar `db:seed`, pois o catálogo é gerenciado pelo
+Backoffice.

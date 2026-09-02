@@ -84,8 +84,8 @@ class VoucherRedemptionTest extends TestCase
         $timestamp = (string) now()->timestamp;
         $signature = 'ts='.$timestamp.',v1='.hash_hmac('sha256', 'id:preapproval-test;request-id:req-1;ts:'.$timestamp.';', 'test-secret');
         $this->withHeaders(['x-signature' => $signature, 'x-request-id' => 'req-1'])
-            ->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-test']])
-            ->assertNoContent();
+            ->postJson('/api/webhooks/mercado-pago?data.id=preapproval-test', ['type' => 'preapproval'])
+            ->assertOk();
 
         $this->assertDatabaseHas('voucher_redemption_reservations', ['subscription_id' => $subscriptionId, 'status' => 'confirmed']);
         $this->assertDatabaseHas('voucher_redemptions', ['voucher_id' => $voucherId, 'subscription_id' => $subscriptionId]);
@@ -151,9 +151,9 @@ class VoucherRedemptionTest extends TestCase
         $signature = 'ts='.$timestamp.',v1='.hash_hmac('sha256', 'id:preapproval-idempotent;request-id:req-idempotent;ts:'.$timestamp.';', 'test-secret');
         $headers = ['x-signature' => $signature, 'x-request-id' => 'req-idempotent'];
 
-        $this->withHeaders($headers)->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-idempotent']])->assertNoContent();
+        $this->withHeaders($headers)->postJson('/api/webhooks/mercado-pago?data.id=preapproval-idempotent', ['type' => 'preapproval'])->assertOk();
         $version = DB::table('subscriptions')->where('id', $subscriptionId)->value('version');
-        $this->withHeaders($headers)->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-idempotent']])->assertNoContent();
+        $this->withHeaders($headers)->postJson('/api/webhooks/mercado-pago?data.id=preapproval-idempotent', ['type' => 'preapproval'])->assertOk();
 
         $this->assertSame($version, DB::table('subscriptions')->where('id', $subscriptionId)->value('version'));
         $this->assertDatabaseCount('voucher_redemptions', 1);
@@ -202,8 +202,8 @@ class VoucherRedemptionTest extends TestCase
         $timestamp = (string) now()->timestamp;
         $signature = 'ts='.$timestamp.',v1='.hash_hmac('sha256', 'id:preapproval-governed;request-id:req-governed;ts:'.$timestamp.';', 'test-secret');
         $this->withHeaders(['x-signature' => $signature, 'x-request-id' => 'req-governed'])
-            ->postJson('/api/webhooks/mercado-pago', ['type' => 'preapproval', 'data' => ['id' => 'preapproval-governed']])
-            ->assertNoContent();
+            ->postJson('/api/webhooks/mercado-pago?data.id=preapproval-governed', ['type' => 'preapproval'])
+            ->assertOk();
 
         $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/vouchers/{$voucherId}", ['discount_value' => 10])
             ->assertUnprocessable();

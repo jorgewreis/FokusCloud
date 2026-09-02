@@ -72,3 +72,6 @@ Toda nova duvida deve ser classificada como:
 | Fonte comercial | Composicao e preco de upgrade/downgrade vem do catalogo publicado; valores do navegador nao sao fonte de verdade. |
 | Billing | Billing sandbox completo, conciliacao e reembolsos permanecem no Marco 6. |
 | Dados pessoais | APIs e paginas administrativas exibem documentos e e-mails mascarados e nao alteram dados cadastrais. |
+
+| Marco 6 alpha | Mercado Pago é o gateway prevalente; webhooks são síncronos e idempotentes; billing real, emissão fiscal e chargeback ficam fora da alpha. |
+| Reembolsos | Administrador comercial solicita; somente superadministrador aprova, recusa e executa, sempre com motivo e auditoria. |

@@ -273,3 +273,12 @@ Devem gerar auditoria:
 Este documento esta suficiente quando um implementador consegue criar ou
 ajustar status, checkout, webhooks, conciliacao, dashboard financeiro,
 reembolso e transicoes de assinatura sem tomar novas decisoes de produto.
+
+## Implementação `v0.0.6-alpha.1`
+
+A alpha usa `MercadoPagoClient` para `/preapproval`, `/preapproval/{id}`,
+`/authorized_payments/{id}`, `/v1/payments/{id}` e reembolsos. Webhooks usam
+HMAC com `x-signature`, `x-request-id` e `data.id`, persistem evento sanitizado
+antes do processamento e retornam `200` para processados ou duplicados. A
+tolerância de inadimplência é de sete dias. Correções de conciliação e execução
+de reembolso são exclusivas do superadministrador.

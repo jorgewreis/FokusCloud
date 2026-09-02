@@ -115,3 +115,12 @@ Resultado esperado: eventos e alertas existem com escopo e permissao corretos.
 4. Verificar liberação em falha/cancelamento/expiração e crédito comercial limitado à primeira cobrança.
 5. Tentar excluir plano/funcionalidade com e sem dependência; excluir publicação atual e conferir fallback, mantendo histórico protegido.
 6. Repetir sucesso, invalidação, erro de API, edição e carregamento nos formulários de login, MFA, ativação, convite, produtos, funcionalidades, planos, publicação e vouchers, nos dois perfis.
+
+## Fluxo 7 — Billing sandbox
+
+1. Criar checkout com conta de teste e confirmar a assinatura pendente.
+2. Enviar eventos assinados de preapproval, pagamento autorizado e payment; repetir um evento e conferir idempotência.
+3. Simular aprovação, recusa, pausa, cancelamento, tolerância de inadimplência e reativação.
+4. Abrir divergência, revisar com administrador comercial e confirmar bloqueio de correção para esse perfil.
+5. Solicitar, aprovar, recusar e executar reembolso total e parcial com o superadministrador.
+6. Conferir auditoria, payloads sanitizados, permissões, página de Billing e ausência de dados sensíveis.

@@ -74,3 +74,12 @@ build, diff-check, workflow do GitHub Actions e commit publicado.
 | Edição/imutabilidade e governança | APIs PATCH/archive/delete e RBAC | BackofficeSecurityTest e VoucherRedemptionTest |
 | Exclusões e fallback | CatalogManager e APIs DELETE | CatalogAdminTest e VoucherRedemptionTest |
 | Formulários | FokusForm, diálogos, ícones e cache versionado | FormDesignSystemTest; homologação manual pendente |
+
+## Marco 6 — Billing sandbox
+
+| Requisito | Implementação | Evidência `v0.0.6-alpha.1` |
+| --- | --- | --- |
+| RF-BO-017 Pagamentos | MercadoPagoClient, webhooks e API administrativa | BillingSandboxTest |
+| RF-BO-018 Conciliação | BillingReconciliationManager e comando manual | ReconciliationAndRefundTest |
+| RNF-BO-005 Idempotência | billing_checkout_attempts e billing_provider_events | BillingSandboxTest |
+| RF-BO-020 Auditoria financeira | PlatformAudit, reembolsos e correções | ReconciliationAndRefundTest |

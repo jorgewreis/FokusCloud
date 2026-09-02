@@ -60,3 +60,11 @@ O projeto ja possui base relevante para o Backoffice:
 - Concluido na `0.0.3`: cobrir catalogo publicado versus rascunho/pausado/arquivado.
 - Cobrir Mercado Pago sandbox com eventos validos, invalidos e duplicados.
 - Cobrir fluxo manual de conciliacao.
+
+## Marco 6 — atualização da alpha
+
+Concluídos na implementação local: camada REST do Mercado Pago, HMAC pelo
+contrato oficial, idempotência persistida, recorrência, tolerância de
+inadimplência, consulta de pagamentos, conciliação manual, reembolso controlado
+e página de Billing. Permanecem pendentes a validação com credenciais sandbox
+reais, emissão fiscal, chargeback e indicadores financeiros avançados.
