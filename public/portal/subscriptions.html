@@ -31,7 +31,7 @@
       const conditionLabels = { usage_limit: 'Limite de utilização', plan_code: 'Plano', segment_code: 'Segmento', variant_code: 'Configuração', cycle: 'Ciclo' };
       const cycleLabels = { monthly: 'Mensal', annual: 'Anual' };
       const hiddenConditions = ['module_code', 'selection_mode', 'context_code', 'collaboration_code', 'collaboration'];
-      const formatConditions = (conditions) => Object.entries(conditions || {}).filter(([key, value]) => value !== null && value !== '' && !hiddenConditions.includes(key)).map(([key, value]) => `<li>${conditionLabels[key] || key}: <b>${key === 'cycle' ? (cycleLabels[value] || value) : (Array.isArray(value) ? value.join(', ') : value)}</b></li>`).join('');
+      const formatConditions = (conditions) => Object.entries(conditions || {}).filter(([key, value]) => value !== null && value !== '' && !hiddenConditions.includes(key) && !(key === 'variant_code' && value === 'colaboracao')).map(([key, value]) => `<li>${conditionLabels[key] || key}: <b>${key === 'cycle' ? (cycleLabels[value] || value) : (Array.isArray(value) ? value.join(', ') : value)}</b></li>`).join('');
       (async () => {
         try {
           const subscriptions = await FokusApi.request('/subscriptions');
@@ -46,7 +46,7 @@
             const isCanceled = ['encerrada', 'cancelada'].includes(item.status);
             const canCancel = !isCanceled;
             const canDelete = ['encerrada', 'cancelada'].includes(item.status);
-            const cancel = canCancel ? `<div class="review-actions"><button class="btn btn-outline" data-cancel="${item.id}" data-type="cancelamento">Cancelar</button></div>` : (item.cancel_at ? `<p class="text-danger"><b>Cancelado em ${new Date(item.cancel_at).toLocaleDateString('pt-BR')}</b></p>` : '');
+            const cancel = canCancel ? `<div class="review-actions"><button class="btn btn-outline" data-cancel="${item.id}" data-type="cancelamento">Cancelar</button></div>` : (item.cancel_at ? `<p class="text-danger" style="color:#b42318 !important"><b>Cancelado em ${new Date(item.cancel_at).toLocaleDateString('pt-BR')}</b></p>` : '');
             const remove = canDelete ? `<div class="review-actions"><button class="btn btn-danger" data-delete="${item.id}">Excluir</button></div>` : '';
             const paymentStatus = isCanceled ? 'cancelado' : (item.payment?.status || 'aguardando_pagamento');
             return `<article class="admin-list-item"><h2>${item.product_name}</h2><p>Número da assinatura: <b>${item.id}</b></p><p>Status da assinatura: <b>${statusLabels[item.status] || item.status}</b></p>${period}<p>Status do pagamento: <b>${paymentLabels[paymentStatus] || paymentStatus}</b> — ${total}</p><h3>Módulos e configurações</h3><ul>${item.items.map((entry) => `<li><b>${entry.name}</b> (${entry.quantity}x)${formatConditions(entry.conditions) ? `<ul>${formatConditions(entry.conditions)}</ul>` : ''}</li>`).join('')}</ul>${cancel}${remove}</article>`;
