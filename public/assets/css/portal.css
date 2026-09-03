@@ -58,6 +58,16 @@ body.portal-page {
 .portal-page .text-danger, .portal-page .admin-list-item p.text-danger { color: var(--color-red-700, #b42318) !important; }
 .portal-page .btn-green, .portal-page .btn-primary { background: var(--role-color-500, #2374d8); border-color: var(--role-color-500, #2374d8); }
 .portal-page .btn-green:hover, .portal-page .btn-primary:hover { background: var(--role-color-600, #1b62b9); }
+.portal-page .btn-danger {
+  background: var(--color-red-700, #b42318);
+  border: 1px solid var(--color-red-700, #b42318);
+  color: #fff;
+}
+.portal-page .btn-danger:hover {
+  background: var(--color-red-800, #912018);
+  border-color: var(--color-red-800, #912018);
+  color: #fff;
+}
 .portal-page input:focus, .portal-page select:focus, .portal-page textarea:focus, .portal-page button:focus-visible, .portal-page a:focus-visible { outline: 3px solid var(--role-color-200, #b9d7fa); outline-offset: 2px; }
 .portal-status { display: inline-flex; padding: 4px 9px; border-radius: 999px; background: var(--role-color-050, #eff6ff); color: var(--role-color-700, #1755a5); font-size: .7rem; font-weight: 700; }
 .portal-empty { padding: 26px; border: 1px dashed var(--theme-border-alt, #dfe7f2); border-radius: 12px; color: var(--theme-text-muted, #5d6b82); text-align: center; }
