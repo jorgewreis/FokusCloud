@@ -253,15 +253,15 @@ class SubscriptionController extends Controller
             $before['cancel_at'] = $current->cancel_at;
             $effectiveAt = now();
             $after = [...$before, 'status' => 'encerrada', 'cancel_at' => $effectiveAt->toISOString()];
-            DB::transaction(function () use ($current, $subscription, $effectiveAt, $before, $after, $data, $request): void {
-                DB::table('subscriptions')->where('id', $subscription)->update([
-                    'status' => 'encerrada',
-                    'open_company_product' => null,
-                    'cancel_at' => $effectiveAt,
-                    'commercial_snapshot' => json_encode($after),
-                    'updated_at' => now(),
-                    'version' => DB::raw('version + 1'),
-                ]);
+            DB::table('subscriptions')->where('id', $subscription)->update([
+                'status' => 'encerrada',
+                'open_company_product' => null,
+                'cancel_at' => $effectiveAt,
+                'commercial_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
+                'updated_at' => now(),
+                'version' => DB::raw('version + 1'),
+            ]);
+            try {
                 DB::table('subscription_changes')->insert([
                     'id' => PrefixedUlid::make('SCH'),
                     'company_id' => $current->company_id,
@@ -270,15 +270,17 @@ class SubscriptionController extends Controller
                     'status' => 'aplicada',
                     'effective_at' => $effectiveAt,
                     'proration_amount' => 0,
-                    'items_snapshot' => json_encode($after['items'] ?? []),
-                    'before_snapshot' => json_encode($before),
-                    'after_snapshot' => json_encode($after),
+                    'items_snapshot' => json_encode($after['items'] ?? [], JSON_INVALID_UTF8_SUBSTITUTE),
+                    'before_snapshot' => json_encode($before, JSON_INVALID_UTF8_SUBSTITUTE),
+                    'after_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
                     'reason' => $data['reason'] ?? 'Cancelamento imediato solicitado pelo administrador da empresa.',
                     'requested_by_user_id' => $request->user()->id,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-            });
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
 
             return response()->json([
                 'message' => $data['type'] === 'cancelamento_imediato' ? 'Assinatura cancelada imediatamente.' : 'Assinatura não paga cancelada imediatamente.',
