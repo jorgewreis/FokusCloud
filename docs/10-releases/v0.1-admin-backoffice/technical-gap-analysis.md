@@ -66,5 +66,5 @@ O projeto ja possui base relevante para o Backoffice:
 Concluídos na implementação local: camada REST do Mercado Pago, HMAC pelo
 contrato oficial, idempotência persistida, recorrência, tolerância de
 inadimplência, consulta de pagamentos, conciliação manual, reembolso controlado
-e página de Billing. Permanecem pendentes a validação com credenciais sandbox
+e página administrativa de Pagamentos. Permanecem pendentes a validação com credenciais sandbox
 reais, emissão fiscal, chargeback e indicadores financeiros avançados.

@@ -73,7 +73,7 @@ propria senha. Senhas nao sao enviadas por e-mail.
 ## Fechamento registrado
 
 - Implementacao de seguranca: `9f73f4c0f5500e9f69ef2b23f358c9a4e8b83f58`.
-- Validacao e publicacao aprovadas: `https://github.com/jorgewreis/FokusCloud/actions/runs/33564168328`.
+- Validacao e publicacao da tag `v0.0.2` aprovadas: `https://github.com/jorgewreis/FokusCloud/actions/runs/33564280938`.
 - O gate executou migration/seeder SQLite, 36 testes automatizados e build do
   frontend antes da publicacao. A tag anotada `v0.0.2` foi atualizada para o
   fechamento consolidado.

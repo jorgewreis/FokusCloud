@@ -54,8 +54,8 @@ no resultado da homologacao.
   RBAC, convite, ativacao, ultima conta superadministradora e auditoria.
 - O gate do GitHub Actions executa `php artisan migrate:fresh --seed` em SQLite
   limpo, `php artisan test` e `npm run build` antes de liberar o deploy.
-- A evidencia final deve apontar para a execucao aprovada em
-  `https://github.com/jorgewreis/FokusCloud/actions/workflows/deploy.yml`.
+- A execucao da tag `v0.0.2` foi aprovada em
+  `https://github.com/jorgewreis/FokusCloud/actions/runs/33564280938`.
 
 ## Evidencia da 0.0.3
 
@@ -67,6 +67,8 @@ no resultado da homologacao.
   `published_version`, `published_at`, produto, funcionalidades e planos.
 - A validacao final deve executar `php artisan migrate:fresh --seed`,
   `php artisan test`, `npm run build` e `git diff --check`.
+- A execucao da tag `v0.0.3` foi aprovada em
+  `https://github.com/jorgewreis/FokusCloud/actions/runs/33624520690`.
 ## Testes da release 0.0.4
 
 Cobrir tipos de voucher, validade, limites, elegibilidade por plano, concorrência/idempotência de reserva, confirmação/liberação, snapshot, crédito comercial, edição pré/pós-resgate, exclusões, fallback de publicação e payload base_name. A validação automatizada da pré-release `v0.0.4-alpha.1` executa 57 testes aprovados, incluindo regressões de expiração, falha do gateway, webhook repetido, imutabilidade pós-resgate e exclusão com reserva pendente. O aceite final ainda requer navegador real para todos os formulários e perfis.
