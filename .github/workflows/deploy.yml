@@ -47,7 +47,7 @@ jobs:
       - name: Build frontend assets
         run: |
           npm ci
-          npm run build
+          timeout 120s npm run build
 
   deploy:
     name: Publish Laravel application
