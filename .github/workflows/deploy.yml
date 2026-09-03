@@ -159,7 +159,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "sudo -n systemctl reload clp-php-fpm.service || sudo -n systemctl restart clp-php-fpm.service"
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "sudo -n systemctl reload clp-php-fpm.service || sudo -n systemctl restart clp-php-fpm.service" || echo "PHP-FPM reload requires server-side sudo; continuing deployment."
 
       - name: Purge Cloudflare cache
         if: ${{ env.CLOUDFLARE_API_TOKEN != '' && env.CLOUDFLARE_ZONE_ID != '' }}
