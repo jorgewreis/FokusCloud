@@ -150,6 +150,26 @@ class SubscriptionAdminTest extends TestCase
         ]);
     }
 
+    public function test_company_admin_cancel_unpaid_subscription_locally_when_provider_is_unavailable(): void
+    {
+        config(['services.mercado_pago.access_token' => 'test-token']);
+        Http::fake(['https://api.mercadopago.com/preapproval/pre-unavailable' => Http::response(['message' => 'temporary failure'], 500)]);
+        $fixture = $this->subscriptionFixture(['status' => 'aguardando_pagamento', 'provider_subscription_id' => 'pre-unavailable']);
+        $user = User::find($fixture['user_id']);
+
+        $this->actingAs($user)->withSession(['active_company_id' => $fixture['company_id']])
+            ->postJson('/api/subscriptions/'.$fixture['subscription_id'].'/change', ['type' => 'cancelamento'])
+            ->assertOk()
+            ->assertJsonPath('message', 'Assinatura não paga cancelada imediatamente.')
+            ->assertJsonPath('provider_sync_pending', true);
+
+        $this->assertDatabaseHas('subscriptions', [
+            'id' => $fixture['subscription_id'],
+            'status' => 'encerrada',
+            'open_company_product' => null,
+        ]);
+    }
+
     public function test_company_admin_can_delete_only_closed_subscription(): void
     {
         $fixture = $this->subscriptionFixture(['status' => 'encerrada']);

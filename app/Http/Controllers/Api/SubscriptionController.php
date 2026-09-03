@@ -221,6 +221,7 @@ class SubscriptionController extends Controller
             abort_unless(in_array($current->status, ['ativa', 'suspensa'], true), 422, 'Esta alteração só pode ser feita em assinaturas ativas ou suspensas.');
         }
 
+        $providerCancellationPending = false;
         if ($cancelImmediately && $current->provider_subscription_id) {
             try {
                 app(MercadoPagoClient::class)->updatePreapproval(
@@ -230,7 +231,11 @@ class SubscriptionController extends Controller
                 );
             } catch (\Throwable $exception) {
                 report($exception);
-                return response()->json(['message' => 'Não foi possível cancelar a assinatura no Mercado Pago. Tente novamente.'], 502);
+                // O cancelamento da assinatura local não pode ficar bloqueado
+                // por uma indisponibilidade temporária do provedor. O estado
+                // local revoga imediatamente o acesso e o evento fica marcado
+                // para reconciliação posterior.
+                $providerCancellationPending = true;
             }
         }
 
@@ -275,7 +280,11 @@ class SubscriptionController extends Controller
                 ]);
             });
 
-            return response()->json(['message' => $data['type'] === 'cancelamento_imediato' ? 'Assinatura cancelada imediatamente.' : 'Assinatura não paga cancelada imediatamente.', 'effective_at' => $effectiveAt]);
+            return response()->json([
+                'message' => $data['type'] === 'cancelamento_imediato' ? 'Assinatura cancelada imediatamente.' : 'Assinatura não paga cancelada imediatamente.',
+                'effective_at' => $effectiveAt,
+                'provider_sync_pending' => $providerCancellationPending,
+            ]);
         }
 
         $effectiveAt = $data['type'] === 'upgrade' ? now() : ($current->current_period_ends_at ?: now());
