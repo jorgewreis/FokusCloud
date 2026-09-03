@@ -39,7 +39,7 @@
             const period = item.current_period_ends_at ? `<p>Vigência até: <b>${new Date(item.current_period_ends_at).toLocaleDateString('pt-BR')}</b></p>` : '';
             const canCancel = item.status !== 'encerrada';
             const cancel = canCancel ? `<div class="review-actions"><button class="btn btn-outline" data-cancel="${item.id}" data-type="cancelamento">Cancelar ao fim do ciclo</button><button class="btn btn-danger" data-cancel="${item.id}" data-type="cancelamento_imediato">Cancelar imediatamente</button></div>` : (item.cancel_at ? `<p>Cancelada em ${new Date(item.cancel_at).toLocaleDateString('pt-BR')}.</p>` : '');
-            return `<article class="admin-list-item"><h2>${item.product_name}</h2><p>Status da assinatura: <b>${item.status}</b></p>${period}<p>Pagamento: <b>${item.payment?.status || 'pendente'}</b> — ${total}</p><ul>${item.items.map((entry) => `<li>${entry.name} (${entry.quantity}x)</li>`).join('')}</ul><div class="review-actions">${cancel}</div></article>`;
+            return `<article class="admin-list-item"><h2>${item.product_name}</h2><p>Número da assinatura: <b>${item.id}</b></p><p>Status da assinatura: <b>${item.status}</b></p>${period}<p>Pagamento: <b>${item.payment?.status || 'pendente'}</b> — ${total}</p><ul>${item.items.map((entry) => `<li>${entry.name} (${entry.quantity}x)</li>`).join('')}</ul><div class="review-actions">${cancel}</div></article>`;
           }).join('');
           document.querySelectorAll('[data-cancel]').forEach((button) => button.onclick = async () => {
             const immediate = button.dataset.type === 'cancelamento_imediato';
