@@ -278,6 +278,24 @@ class SubscriptionController extends Controller
         return response()->json(['message' => $data['type'] === 'upgrade' ? 'Upgrade criado e aguardando a cobrança proporcional.' : 'Alteração programada para o fim do ciclo.', 'effective_at' => $effectiveAt]);
     }
 
+    public function destroy(Request $request, string $subscription)
+    {
+        $membership = $request->attributes->get('active_membership');
+        abort_unless($membership->role === 'admin', 403, 'Apenas o administrador pode excluir a assinatura.');
+        $companyId = $request->attributes->get('active_company_id');
+        $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->first();
+        abort_unless($current && in_array($current->status, ['encerrada', 'cancelada'], true), 422, 'Somente assinaturas canceladas ou encerradas podem ser excluídas.');
+
+        DB::transaction(function () use ($subscription): void {
+            foreach (['voucher_redemption_reservations', 'voucher_redemptions', 'subscription_changes', 'refund_requests', 'payment_reconciliation_alerts', 'billing_checkout_attempts', 'subscription_items', 'payments'] as $table) {
+                if (DB::getSchemaBuilder()->hasTable($table)) DB::table($table)->where('subscription_id', $subscription)->delete();
+            }
+            DB::table('subscriptions')->where('id', $subscription)->delete();
+        });
+
+        return response()->json(['message' => 'Assinatura excluída definitivamente.']);
+    }
+
     public function webhook(Request $request, BillingWebhookProcessor $processor)
     {
         $this->assertWebhookSignature($request);

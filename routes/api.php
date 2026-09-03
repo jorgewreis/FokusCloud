@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/subscriptions', [SubscriptionController::class, 'index']);
         Route::post('/subscriptions/checkout', [SubscriptionController::class, 'checkout']);
         Route::post('/subscriptions/{subscription}/change', [SubscriptionController::class, 'change']);
+        Route::delete('/subscriptions/{subscription}', [SubscriptionController::class, 'destroy']);
         Route::get('/law/hearings', [LawHearingController::class, 'index']);
         Route::post('/law/hearings', [LawHearingController::class, 'store']);
         Route::get('/law/hearings/{hearing}', [LawHearingController::class, 'show']);

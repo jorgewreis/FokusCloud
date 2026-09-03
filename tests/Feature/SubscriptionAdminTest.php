@@ -150,6 +150,31 @@ class SubscriptionAdminTest extends TestCase
         ]);
     }
 
+    public function test_company_admin_can_delete_only_closed_subscription(): void
+    {
+        $fixture = $this->subscriptionFixture(['status' => 'encerrada']);
+        $user = User::find($fixture['user_id']);
+
+        $this->actingAs($user)->withSession(['active_company_id' => $fixture['company_id']])
+            ->deleteJson('/api/subscriptions/'.$fixture['subscription_id'])
+            ->assertOk()->assertJsonPath('message', 'Assinatura excluída definitivamente.');
+
+        $this->assertDatabaseMissing('subscriptions', ['id' => $fixture['subscription_id']]);
+        $this->assertDatabaseMissing('subscription_items', ['subscription_id' => $fixture['subscription_id']]);
+        $this->assertDatabaseMissing('payments', ['subscription_id' => $fixture['subscription_id']]);
+    }
+
+    public function test_company_admin_cannot_delete_active_subscription(): void
+    {
+        $fixture = $this->subscriptionFixture(['status' => 'ativa']);
+        $user = User::find($fixture['user_id']);
+
+        $this->actingAs($user)->withSession(['active_company_id' => $fixture['company_id']])
+            ->deleteJson('/api/subscriptions/'.$fixture['subscription_id'])
+            ->assertStatus(422);
+        $this->assertDatabaseHas('subscriptions', ['id' => $fixture['subscription_id'], 'status' => 'ativa']);
+    }
+
     public function test_downgrade_is_scheduled_and_command_applies_it_at_period_end(): void
     {
         $admin = $this->platformAdmin();
