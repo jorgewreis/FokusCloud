@@ -230,22 +230,17 @@ class SubscriptionController extends Controller
         }
 
         if ($cancelImmediately) {
-            // Assinaturas antigas ou ainda pendentes podem não ter mais um
-            // catálogo completo disponível para reconstruir o snapshot.
-            // Nesses casos, o snapshot comercial persistido é suficiente para
-            // registrar o encerramento sem impedir o cancelamento.
-            try {
-                $before = $subscriptionChanges->snapshot($current);
-            } catch (\Throwable $exception) {
-                report($exception);
-                $before = json_decode((string) ($current->commercial_snapshot ?? ''), true);
-                $before = is_array($before) ? $before : [
-                    'subscription_id' => $current->id,
-                    'company_id' => $current->company_id,
-                    'product_id' => $current->product_id,
-                    'items' => [],
-                ];
-            }
+            // No cancelamento imediato, não é necessário consultar o catálogo:
+            // o snapshot persistido já contém o estado comercial da assinatura.
+            $before = json_decode((string) ($current->commercial_snapshot ?? ''), true);
+            $before = is_array($before) ? $before : [
+                'subscription_id' => $current->id,
+                'company_id' => $current->company_id,
+                'product_id' => $current->product_id,
+                'items' => [],
+            ];
+            $before['status'] = $current->status;
+            $before['cancel_at'] = $current->cancel_at;
             $effectiveAt = now();
             $after = [...$before, 'status' => 'encerrada', 'cancel_at' => $effectiveAt->toISOString()];
             DB::transaction(function () use ($current, $subscription, $effectiveAt, $before, $after, $data, $request): void {
