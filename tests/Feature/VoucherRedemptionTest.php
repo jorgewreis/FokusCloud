@@ -126,6 +126,38 @@ class VoucherRedemptionTest extends TestCase
         $this->assertDatabaseCount('payments', 0);
     }
 
+    public function test_repeated_checkout_with_the_same_idempotency_key_returns_the_original_result(): void
+    {
+        [$user, $companyId] = $this->customerContext();
+        $admin = $this->platformAdmin();
+        [$product, $plan] = $this->voucher($admin, 'CHECKOUTREPLAY');
+        Http::fake([
+            'https://api.mercadopago.com/preapproval' => Http::response([
+                'id' => 'preapproval-replay',
+                'init_point' => 'https://mercadopago.test/checkout',
+            ], 201),
+        ]);
+        $payload = [
+            'product_code' => $product->code,
+            'items' => $this->planItems(),
+            'cycle' => 'monthly',
+            'selection_mode' => 'plan',
+            'plan_code' => $plan->code,
+            'voucher_code' => 'CHECKOUTREPLAY',
+        ];
+        $headers = ['Idempotency-Key' => 'checkout-replay-key'];
+
+        $first = $this->actingAs($user)->withSession(['active_company_id' => $companyId])
+            ->withHeaders($headers)->postJson('/api/subscriptions/checkout', $payload)->assertCreated();
+        $second = $this->actingAs($user)->withSession(['active_company_id' => $companyId])
+            ->withHeaders($headers)->postJson('/api/subscriptions/checkout', $payload)->assertCreated();
+
+        $this->assertSame($first->json(), $second->json());
+        $this->assertDatabaseCount('subscriptions', 1);
+        $this->assertDatabaseCount('payments', 1);
+        Http::assertSentCount(1);
+    }
+
     public function test_repeated_preapproval_webhook_does_not_change_subscription_version_or_duplicate_redemption(): void
     {
         [$user, $companyId] = $this->customerContext();

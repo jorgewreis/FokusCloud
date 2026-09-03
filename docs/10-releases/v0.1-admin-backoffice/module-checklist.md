@@ -65,13 +65,16 @@
 
 ## Billing e conciliacao
 
+As linhas abaixo refletem a implementação técnica atual. A criação de cobrança
+em sandbox real continua pendente até a homologação externa.
+
 - [ ] Criar checkout/preapproval em sandbox Mercado Pago.
-- [ ] Persistir assinatura e pagamento somente depois de sucesso no gateway.
-- [ ] Validar webhook e processar evento de forma idempotente.
-- [ ] Atualizar pagamentos e assinaturas por status interno alvo.
-- [ ] Criar alerta de inadimplencia e tolerancia expirada.
-- [ ] Criar divergencia de conciliacao quando status interno divergir do gateway.
-- [ ] Permitir correcao manual apenas por superadministrador, com auditoria.
+- [x] Persistir assinatura e pagamento somente depois de sucesso no gateway.
+- [x] Validar webhook e processar evento de forma idempotente.
+- [x] Atualizar pagamentos e assinaturas por status interno alvo.
+- [x] Criar alerta de inadimplencia e tolerancia expirada.
+- [x] Criar divergencia de conciliacao quando status interno divergir do gateway.
+- [x] Permitir correcao manual apenas por superadministrador, com auditoria.
 ## Marco 4 / 0.0.4
 
 - [x] Vouchers com trial, percentual, valor fixo e crédito comercial.

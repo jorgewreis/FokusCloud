@@ -369,6 +369,12 @@
     root.innerHTML = `<div class="auth-card"><p>Preparando sua assinatura...</p></div>`;
     try {
       catalog = await window.FokusCatalogReady;
+    } catch (_) {
+      root.innerHTML = `<div class="auth-card"><p>Não foi possível carregar o catálogo real. Tente novamente mais tarde.</p></div>`;
+      return;
+    }
+
+    try {
       const account = await FokusApi.request("/auth/me");
       if (!account.user.email_verified) {
         location.assign("/verificar-email");
@@ -388,8 +394,13 @@
         }
         state.step = 2;
       }
-    } catch (_) {
-      root.innerHTML = `<div class="auth-card"><p>Não foi possível carregar o catálogo real. Tente novamente mais tarde.</p></div>`;
+    } catch (error) {
+      if (error.status === 401) {
+        state.step = 1;
+        render();
+        return;
+      }
+      root.innerHTML = `<div class="auth-card"><p>Não foi possível carregar sua conta. Tente novamente mais tarde.</p></div>`;
       return;
     }
     render();

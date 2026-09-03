@@ -133,11 +133,10 @@ Entrega de vouchers com reserva e snapshot, crédito comercial na primeira cobra
 
 ## Status da pré-release `v0.0.4-alpha.1`
 
-A implementação foi validada na branch `develop` com 57 testes automatizados e
-271 asserções aprovados. O build frontend e `git diff --check` também foram
-aprovados. A homologação manual em navegador real permanece pendente, assim
-como a integração de `develop` com `origin/main` e a criação da tag
-`v0.0.4-alpha.1`.
+A implementação foi validada com 57 testes automatizados e 271 asserções
+aprovados no marco. O build frontend, git diff --check, a integração em main,
+a tag v0.0.4-alpha.1 e o workflow de publicação também foram confirmados. A
+homologação manual em navegador real permanece pendente.
 
 ## `v0.0.5-alpha.1` — Marco 5
 
@@ -152,6 +151,9 @@ Ficam fora desta alpha o billing sandbox completo do Mercado Pago,
 conciliacao, reembolsos, alertas financeiros e homologacao completa em
 navegador. O contrato publico do catalogo permanece 0.0.3.
 
+O workflow da tag v0.0.5-alpha.1 foi concluído com sucesso. A homologação
+manual em navegador real permanece pendente.
+
 ## `v0.0.6-alpha.1` — Billing sandbox
 
 Primeira camada operacional de Mercado Pago sandbox, com checkout idempotente,
@@ -159,3 +161,7 @@ webhooks HMAC, recorrência, tolerância de inadimplência, pagamentos,
 conciliação manual, reembolsos controlados e página administrativa de Pagamentos.
 Credenciais sandbox reais e homologação completa permanecem requisitos antes da
 promoção para beta.
+
+O workflow da tag v0.0.6-alpha.1 foi concluído com sucesso após a correção
+da primeira execução do pipeline. Permanecem pendentes os cenários
+automatizados complementares, o sandbox real e a homologação manual.

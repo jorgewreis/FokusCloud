@@ -149,4 +149,19 @@ class FormDesignSystemTest extends TestCase
             $this->assertStringContainsString($selector, $formCss, $selector);
         }
     }
+
+    public function test_payments_deep_links_return_the_backoffice_shell(): void
+    {
+        $this->get('/backoffice/pagamentos')->assertOk();
+        $this->get('/backoffice/billing')->assertOk();
+    }
+
+    public function test_subscription_flow_distinguishes_catalog_failure_from_unauthenticated_account(): void
+    {
+        $flow = file_get_contents(base_path('public/assets/js/subscription-flow.js'));
+
+        $this->assertStringContainsString('error.status === 401', $flow);
+        $this->assertStringContainsString('Não foi possível carregar sua conta.', $flow);
+        $this->assertStringContainsString('Não foi possível carregar o catálogo real.', $flow);
+    }
 }

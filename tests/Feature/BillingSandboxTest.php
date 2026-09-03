@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class BillingSandboxTest extends TestCase
@@ -51,6 +52,69 @@ class BillingSandboxTest extends TestCase
         Http::assertNothingSent();
         $this->assertDatabaseHas('payments', ['id' => $fixture['payment_id'], 'status' => 'aguardando_pagamento']);
         $this->assertDatabaseCount('billing_provider_events', 0);
+    }
+
+    public function test_authorized_payment_webhook_updates_payment_and_subscription(): void
+    {
+        $fixture = $this->fixture();
+        Http::fake([
+            'https://api.mercadopago.com/authorized_payments/auth-sandbox' => Http::response([
+                'id' => 'auth-sandbox',
+                'preapproval_id' => 'pre-sandbox',
+                'payment' => [
+                    'id' => 'pay-authorized',
+                    'status' => 'approved',
+                    'transaction_amount' => 64.70,
+                    'date_approved' => now()->toISOString(),
+                ],
+            ], 200),
+        ]);
+
+        $this->withHeaders($this->signedHeaders('auth-sandbox', 'req-authorized'))
+            ->postJson('/api/webhooks/mercado-pago?data.id=auth-sandbox', ['type' => 'subscription_authorized_payment'])
+            ->assertOk();
+
+        $this->assertDatabaseHas('payments', [
+            'id' => $fixture['payment_id'],
+            'status' => 'aprovado',
+            'provider_payment_id' => 'pay-authorized',
+            'provider_authorized_payment_id' => 'auth-sandbox',
+        ]);
+        $this->assertDatabaseHas('subscriptions', ['id' => $fixture['subscription_id'], 'status' => 'ativa']);
+    }
+
+    public function test_rejected_payment_starts_seven_day_tolerance_and_command_suspends_after_expiry(): void
+    {
+        $fixture = $this->fixture();
+        Http::fake([
+            'https://api.mercadopago.com/v1/payments/pay-rejected' => Http::response([
+                'id' => 'pay-rejected',
+                'status' => 'rejected',
+                'external_reference' => $fixture['payment_id'],
+                'preapproval_id' => 'pre-sandbox',
+            ], 200),
+        ]);
+
+        $this->withHeaders($this->signedHeaders('pay-rejected', 'req-rejected'))
+            ->postJson('/api/webhooks/mercado-pago?data.id=pay-rejected', ['type' => 'payment'])
+            ->assertOk();
+
+        $this->assertDatabaseHas('subscriptions', ['id' => $fixture['subscription_id'], 'status' => 'inadimplente']);
+        $graceEndsAt = Carbon::parse(DB::table('subscriptions')->where('id', $fixture['subscription_id'])->value('grace_ends_at'));
+        $this->assertTrue($graceEndsAt->greaterThan(now()->addDays(6)));
+
+        $this->travel(8)->days();
+        $this->artisan('fokus:expire-subscription-tolerance')->assertSuccessful();
+        $this->assertDatabaseHas('subscriptions', ['id' => $fixture['subscription_id'], 'status' => 'suspensa']);
+    }
+
+    private function signedHeaders(string $dataId, string $requestId): array
+    {
+        $timestamp = (string) now()->timestamp;
+        return [
+            'x-signature' => 'ts='.$timestamp.',v1='.hash_hmac('sha256', 'id:'.$dataId.';request-id:'.$requestId.';ts:'.$timestamp.';', 'test-secret'),
+            'x-request-id' => $requestId,
+        ];
     }
 
     private function fixture(): array

@@ -102,7 +102,10 @@ node --check public/backoffice/assets/js/currency-input.js
 git diff --check
 ```
 
-A cobertura inclui checkout idempotente, HMAC válido/inválido, eventos
-duplicados, recorrência, inadimplência, conciliação, permissões e reembolso.
+A cobertura atual inclui replay do checkout idempotente, HMAC válido/inválido,
+eventos duplicados, pagamento autorizado, inadimplência, expiração da
+tolerância, conciliação, permissões e reembolso principal. Ainda devem ser
+adicionados testes específicos para recorrência completa, recusa e reembolso
+parcial.
 Homologar posteriormente com credenciais sandbox, comprador/vendedor de teste,
 webhook público e reembolso de teste.

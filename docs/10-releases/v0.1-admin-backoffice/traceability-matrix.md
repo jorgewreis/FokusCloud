@@ -91,3 +91,10 @@ build, diff-check, workflow do GitHub Actions e commit publicado.
 | RF-BO-018 Conciliação | BillingReconciliationManager e comando manual | ReconciliationAndRefundTest |
 | RNF-BO-005 Idempotência | billing_checkout_attempts e billing_provider_events | BillingSandboxTest |
 | RF-BO-020 Auditoria financeira | PlatformAudit, reembolsos e correções | ReconciliationAndRefundTest |
+
+### Evidência de integração e pipeline
+
+- 0.0.4-alpha.1: workflow de publicação concluído com sucesso — [Actions run #179](https://github.com/jorgewreis/FokusCloud/actions/runs/33670427553).
+- 0.0.5-alpha.1: workflow de publicação concluído com sucesso — [Actions run #186](https://github.com/jorgewreis/FokusCloud/actions/runs/33689258285).
+- 0.0.6-alpha.1: workflow final concluído com sucesso — [Actions run #196](https://github.com/jorgewreis/FokusCloud/actions/runs/33695858746). A primeira execução falhou no [run #192](https://github.com/jorgewreis/FokusCloud/actions/runs/33695198095) e foi corrigida antes da tag final.
+- A homologação em navegador e o sandbox real permanecem pendentes.
