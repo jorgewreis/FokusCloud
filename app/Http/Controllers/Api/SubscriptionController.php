@@ -255,11 +255,22 @@ class SubscriptionController extends Controller
             $effectiveAt = now();
             $after = [...$before, 'status' => 'encerrada', 'cancel_at' => $effectiveAt->toISOString()];
             try {
-                DB::table('subscriptions')->where('id', $subscription)->update([
-                    'status' => 'encerrada',
-                    'cancel_at' => $effectiveAt,
-                    'updated_at' => now(),
-                ]);
+                try {
+                    DB::table('subscriptions')->where('id', $subscription)->update([
+                        'status' => 'encerrada',
+                        'cancel_at' => $effectiveAt,
+                        'updated_at' => now(),
+                    ]);
+                } catch (\Throwable $legacyStatusException) {
+                    // Compatibilidade com instalações que ainda possuem o
+                    // estado legado "cancelada" no ENUM de subscriptions.
+                    DB::table('subscriptions')->where('id', $subscription)->update([
+                        'status' => 'cancelada',
+                        'cancel_at' => $effectiveAt,
+                        'updated_at' => now(),
+                    ]);
+                    $after['status'] = 'cancelada';
+                }
             } catch (\Throwable $exception) {
                 Log::error('Falha ao cancelar assinatura localmente.', [
                     'subscription_id' => $subscription,
