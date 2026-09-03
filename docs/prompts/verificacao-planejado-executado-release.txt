@@ -1,0 +1,610 @@
+PROMPT REUTILIZÁVEL — VERIFICAÇÃO DO PLANEJADO, EXECUTADO E VALIDADO DE MARCOS E SUBVERSÕES
+
+CONTEXTO DO PROJETO
+
+Você está trabalhando no repositório FokusCloud. A etapa atual do produto é a
+release 0.1, documentada principalmente em:
+
+  docs/10-releases/v0.1-admin-backoffice/delivery-roadmap.md
+
+Use o roadmap como fonte principal para localizar o marco, a subversão, as
+dependências, os critérios de aceite, as saídas obrigatórias e a sequência de
+release. Consulte também os documentos diretamente relacionados, o código, o
+banco, os testes, o histórico Git, o GitHub Actions e, quando acessível, a
+aplicação publicada.
+
+OBJETIVO
+
+Audite uma versão, marco ou subversão já planejada para verificar e comparar:
+
+- o que foi planejado;
+- o que foi implementado;
+- o que foi integrado e publicado;
+- o que está funcionando com sucesso;
+- o que possui erros, divergências ou ausência de evidência;
+- o que mantém ou não a linguagem visual do projeto;
+- o que ainda precisa ser concluído por validação automática ou pelo usuário.
+
+Entregue um relatório confiável, rastreável e acionável. Para cada submódulo
+planejado, informe o estado, as evidências, os erros, as lacunas e o passo a
+passo detalhado para concluir o que ainda estiver pendente.
+
+ENTRADA OBRIGATÓRIA
+
+O usuário informará somente a versão ou subversão que deseja auditar, por
+exemplo:
+
+  0.0.4-alpha.1
+  0.0.5-alpha.1
+  0.0.6-alpha.1
+  0.0.6-beta.1
+  0.1.0
+
+Não exija que o usuário cole o plano completo. Localize o escopo planejado no
+repositório usando, nesta ordem, o documento específico da versão ou marco, o
+delivery-roadmap, a matriz de rastreabilidade, os critérios de aceite, os
+checklists, as decisões abertas, os planos de release, os commits, os PRs, as
+tags e as evidências disponíveis.
+
+Se o plano específico não existir, continue com o roadmap, os documentos do
+marco e as evidências encontradas. Marque o plano específico como ausente e
+limite a comparação ao que puder ser comprovado. Nunca invente requisitos,
+execuções, resultados ou decisões que não estejam evidenciados.
+
+PERGUNTAS DE ESCLARECIMENTO
+
+Quando uma informação não puder ser determinada com segurança pela inspeção
+do repositório, você pode fazer até 30 perguntas para melhorar a auditoria.
+
+Siga obrigatoriamente estas regras:
+
+1. Faça somente uma pergunta por vez e aguarde a resposta antes de formular a
+   próxima.
+2. Cada pergunta deve apresentar exatamente 5 alternativas compreensíveis e
+   relevantes ao contexto.
+3. Identifique claramente uma, e somente uma, alternativa como
+   "(Recomendada)".
+4. Explique de forma completa por que a alternativa recomendada é a mais
+   adequada, considerando o estado do projeto, o objetivo da auditoria, os
+   riscos, as dependências e as evidências disponíveis.
+5. Não pergunte algo que possa ser confirmado por inspeção do repositório,
+   Git, Actions, testes ou documentação.
+6. Conte cada pergunta enviada e nunca ultrapasse 30.
+7. Pare de perguntar assim que houver informação suficiente para uma
+   conclusão confiável.
+8. Se o usuário responder com o número ou texto de uma alternativa, registre
+   a decisão e prossiga somente se outra pergunta ainda for necessária.
+9. Se a pergunta não for bloqueante, recomende uma hipótese provisória,
+   identifique o impacto e continue sem bloquear o relatório.
+10. Registre no relatório final as respostas que influenciaram o escopo ou a
+    interpretação da auditoria.
+
+DECISÕES PADRÃO DESTA AUDITORIA
+
+Na ausência de decisão específica do usuário, aplique estas premissas:
+
+- a entrada principal é somente a versão ou subversão;
+- a auditoria é somente de verificação, comparação e relatório;
+- não altere arquivos, código, banco, configuração ou documentação;
+- não faça commit, push, merge, PR, tag ou deploy durante a auditoria;
+- use evidências em camadas: inspeção estática, testes, banco/API, navegador e
+  deploy, conforme disponibilidade;
+- compare a interface com todas as páginas existentes do mesmo Backoffice,
+  priorizando o shell compartilhado, a página funcionalmente mais próxima e os
+  componentes reutilizados;
+- consulte primeiro o repositório e use documentação oficial externa apenas
+  quando o contrato, a versão ou o comportamento de uma dependência exigir
+  confirmação;
+- entregue o relatório somente na resposta, sem criar ou atualizar arquivos;
+- trate credenciais, contas de teste e dados sensíveis somente por
+  placeholders seguros;
+- execute apenas verificações seguras e não destrutivas em ambiente isolado;
+- quando uma validação falhar, preserve a primeira evidência, faça somente
+  diagnósticos e repetições seguras e não corrija o problema;
+- para inconsistências repetidas, procure primeiro a origem compartilhada em
+  partials, helpers, componentes ou CSS antes de sugerir ajustes locais;
+- para cada pendência, indique somente uma capacidade: "Codex pode executar"
+  ou "somente o usuário pode executar". Não use a categoria "híbrida"; divida
+  uma pendência mista em tarefas separadas.
+
+LIMITE DA ATUAÇÃO
+
+Esta auditoria não autoriza alterações. Não:
+
+- edite, crie, remova ou renomeie arquivos;
+- altere banco, migrations, seeds, configurações ou variáveis de ambiente;
+- corrija código, testes, CSS, documentação ou contratos;
+- faça commit, push, PR, merge, tag ou deploy;
+- envie mensagens, publique comentários ou altere serviços externos;
+- leia, exponha ou reproduza segredos, tokens, senhas, chaves ou payloads
+  sensíveis.
+
+Você pode executar leituras e validações seguras quando o ambiente permitir,
+como inspeção de arquivos, `git status`, `git diff`, histórico, lint, análise
+estática, testes em banco descartável, build, `node --check`, consultas de
+status do GitHub Actions e conferência não destrutiva da aplicação. Se uma
+ação exigir credencial, aprovação, alteração de ambiente, decisão de negócio,
+acesso privilegiado ou execução manual que não esteja disponível, marque-a
+como "somente o usuário pode executar".
+
+INSPEÇÃO OBRIGATÓRIA
+
+Antes de concluir o relatório, faça uma auditoria ampla e baseada em
+evidências, quando aplicável:
+
+- localize a versão e o marco no `delivery-roadmap.md`;
+- consulte o documento específico do marco ou da subversão;
+- consulte `traceability-matrix.md`, `open-decisions.md`, Definition of Done,
+  `module-checklist.md`, `test-plan.md`, roteiro de homologação e release notes;
+- compare requisitos, critérios de aceite, tarefas e saídas planejadas;
+- inspecione a estrutura do repositório e as convenções existentes;
+- localize código, controllers, services, models, requests, resources,
+  policies, rotas, jobs, eventos, comandos, componentes e assets envolvidos;
+- inspecione migrations, tabelas, constraints, índices, relacionamentos,
+  seeders e configurações não sensíveis;
+- identifique testes existentes, testes executados, cobertura relacionada e
+  lacunas de cenários;
+- verifique contratos de API, integrações, webhooks, filas, auditoria e logs;
+- compare páginas, shell, cabeçalhos, formulários, cards, tabelas, botões,
+  diálogos, ícones, margens, padding, largura, tipografia, estados, responsivo
+  e componentes com as páginas já existentes;
+- verifique estado do Git, branch, commits, tags, PRs, remotes, diffs e
+  alterações locais;
+- consulte o workflow do GitHub Actions, jobs, resultado do deploy e logs de
+  falha quando houver execução relacionada;
+- acesse a aplicação publicada somente quando ela estiver disponível e o
+  acesso puder ser feito sem expor credenciais ou dados sensíveis.
+
+Inspecione o working tree antes de concluir qualquer diagnóstico. Se houver
+alterações locais, registre os caminhos e preserve-os integralmente. Nunca
+reverta, sobrescreva, limpe ou faça commit de alterações existentes.
+
+Não leia valores de `.env` nem exponha segredos. Use `.env.example`, nomes de
+variáveis, configuração não sensível e metadados para confirmar contratos. Não
+confunda a existência de uma variável com a confirmação do valor ou da
+validade da credencial.
+
+FONTES EXTERNAS
+
+Use primeiro as evidências do repositório. Consulte automaticamente somente
+documentação oficial quando uma integração, biblioteca, API, navegador,
+provedor ou regra externa precisar de confirmação atualizada. Registre a
+fonte, a data ou versão consultada e a conclusão influenciada.
+
+Peça autorização antes de consultar fontes não oficiais, como fóruns, blogs,
+vídeos, respostas de terceiros ou conteúdo sem autoridade identificada.
+
+CLASSIFICAÇÃO DE EVIDÊNCIAS
+
+Classifique explicitamente cada afirmação relevante com uma destas marcas:
+
+- CONFIRMADO POR INSPEÇÃO — observado diretamente em arquivo, código, Git ou
+  configuração não sensível;
+- VALIDADO ESTATICAMENTE — confirmado por lint, análise estática, build,
+  `node --check`, teste de estrutura ou comando que não substitui a execução
+  funcional completa;
+- VALIDADO EM NAVEGADOR — confirmado por inspeção ou interação real em
+  navegador;
+- VALIDADO FUNCIONALMENTE — confirmado por execução adequada em ambiente e
+  dados compatíveis;
+- PROPOSTO — recomendação ainda não aplicada;
+- PENDENTE — depende de ação, evidência, acesso ou decisão;
+- BLOQUEADO — não pode avançar por uma condição identificada;
+- NÃO CONFIRMADO — existe indício, mas a evidência disponível é insuficiente.
+
+ESTADOS OBRIGATÓRIOS DOS ITENS
+
+Para cada item planejado, use um destes estados:
+
+- CONCLUÍDO E FUNCIONANDO — implementação e funcionamento possuem evidência
+  adequada ao risco;
+- CONCLUÍDO MAS NÃO VALIDADO — há implementação, mas falta execução funcional,
+  navegador, ambiente, dados ou outra evidência necessária;
+- PARCIALMENTE EXECUTADO — somente parte do escopo foi implementada ou
+  comprovada;
+- EXECUTADO COM ERRO — o item foi implementado, mas uma validação reproduziu
+  falha;
+- NÃO EXECUTADO — não há evidência de implementação ou execução;
+- BLOQUEADO — uma condição externa ou técnica impede a validação ou conclusão;
+- FORA DE ESCOPO — o item não pertence à versão auditada, com justificativa
+  registrada.
+
+Nunca classifique como "concluído e funcionando" apenas porque:
+
+- o arquivo ou rota existe;
+- o teste foi criado, mas não foi executado;
+- o teste passou somente com mocks quando a integração real era necessária;
+- a página abriu sem validar os fluxos principais;
+- o deploy foi iniciado, mas não terminou com sucesso;
+- a documentação afirma que algo passou sem evidência atual;
+- uma implementação parece correta por inspeção visual parcial.
+
+COMPARAÇÃO COM O PLANEJADO
+
+Construa uma matriz que vincule cada item planejado às evidências reais. Para
+cada linha, informe:
+
+- ID ou descrição do requisito, tarefa ou critério;
+- fonte do planejamento e caminho exato;
+- submódulo responsável;
+- arquivo, classe, método, rota, migration, componente ou teste relacionado;
+- estado do item conforme a classificação obrigatória;
+- evidência encontrada;
+- validação realizada;
+- divergência entre o planejado e o executado;
+- erro reproduzido, quando houver;
+- impacto técnico, visual, comercial, de segurança ou operacional;
+- ação necessária;
+- capacidade: "Codex pode executar" ou "somente o usuário pode executar";
+- critério objetivo para considerar o item concluído;
+- evidência que deve ser registrada após a conclusão.
+
+Não repita como pendente uma tarefa comprovadamente concluída. Se a
+implementação existir, mas faltar prova de funcionamento, classifique como
+"concluído mas não validado" e explique exatamente qual evidência falta.
+
+VALIDAÇÃO EM CAMADAS
+
+Escolha as camadas aplicáveis ao escopo e registre as que não puderam ser
+executadas:
+
+1. Inspeção estática
+   - caminhos, símbolos, rotas, contratos e dependências;
+   - lint, sintaxe, tipos, build e checks disponíveis;
+   - análise de consistência entre código e documentação.
+
+2. Git e rastreabilidade
+   - branch e remote corretos;
+   - working tree e alterações locais;
+   - commits que implementaram cada parte;
+   - PR, merge, `origin/main`, tags e commit publicado;
+   - ausência de arquivos intencionais fora dos commits.
+
+3. Banco e migrations
+   - ambiente e conexão usados, sem revelar segredos;
+   - migration em banco isolado ou descartável;
+   - schema, dados, índices, constraints e compatibilidade;
+   - execução de testes sem alterar produção;
+   - resultado, duração, falhas e limitações.
+
+4. API e funcionalidade
+   - autenticação e permissões;
+   - respostas, status, validações, erros e idempotência;
+   - fluxos principais e alternativos;
+   - estados de sucesso, vazio, carregamento e falha;
+   - auditoria, logs e dados sensíveis.
+
+5. Frontend e linguagem visual
+   - shell, cabeçalho, menu e navegação;
+   - largura, margens, padding, alinhamento e espaçamento;
+   - tipografia, tamanhos, pesos, cores, ícones e status;
+   - formulários, inputs, máscaras, mensagens e botões;
+   - cards, tabelas, paginação, diálogos e estados de erro;
+   - acessibilidade básica e navegação por teclado;
+   - desktop, mobile e breakpoints aplicáveis.
+
+6. Integração e operação
+   - serviços externos, gateways, webhooks, jobs e comandos;
+   - credenciais e secrets apenas por presença não sensível;
+   - workflow, jobs, logs e resultado do GitHub Actions;
+   - aplicação publicada, cache-bust e rotas finais, quando acessíveis.
+
+Não apresente uma camada indisponível como aprovada. Registre a ausência e o
+passo necessário para que o usuário a valide.
+
+VALIDAÇÃO VISUAL OBRIGATÓRIA QUANDO HOUVER FRONTEND
+
+Compare todas as páginas existentes relevantes do Backoffice, priorizando:
+
+- o shell administrativo compartilhado;
+- a página funcionalmente mais próxima;
+- componentes e partials usados pelas páginas;
+- CSS global e CSS específico;
+- mockups e documentação visual, quando existirem.
+
+Verifique, para cada página ou componente afetado:
+
+- título, descrição, hierarquia e cabeçalho;
+- menu, item ativo, ícone e rota;
+- margem externa, largura máxima e alinhamento do conteúdo;
+- padding de painéis, cards, tabelas e diálogos;
+- altura, escala e proporção de inputs, checkboxes, selects e botões;
+- integração de prefixos, máscaras e campos monetários;
+- fonte, peso, tamanho, transformação de texto e contraste;
+- badges e nomes de status;
+- estados de carregamento, vazio, sucesso e erro;
+- responsividade e overflow;
+- foco, teclado, labels e atributos de acessibilidade;
+- erros do console, rede ou carregamento de assets, quando acessível.
+
+Se uma inconsistência se repetir, identifique primeiro a origem compartilhada
+e informe o arquivo comum que deve ser avaliado. Sugira ajuste específico
+somente quando a diferença for intencional ou quando a regra compartilhada
+não puder ser alterada sem regressão.
+
+ERROS E FALHAS
+
+Quando qualquer validação falhar:
+
+1. preserve a primeira saída completa da falha, sem incluir segredos;
+2. registre comando, rota, ambiente, pré-condições, data e contexto;
+3. classifique a falha como código, teste, banco, ambiente, integração,
+   visual, segurança, documentação ou operação;
+4. avalie se é reproduzível, intermitente ou não reproduzida;
+5. execute somente diagnósticos e repetições seguras, sem editar arquivos;
+6. não declare sucesso por uma tentativa posterior isolada;
+7. explique a causa provável, o impacto e o próximo passo;
+8. indique se "Codex pode executar" a correção em uma execução posterior ou se
+   "somente o usuário pode executar" por exigir acesso, credencial, decisão ou
+   operação manual.
+
+Não ignore falhas porque parecem não críticas. Se não bloquearem a promoção,
+marque-as como importantes ou não bloqueantes, justifique e indique onde devem
+ser registradas.
+
+PENDÊNCIAS E PASSO A PASSO
+
+Ao final, liste todas as pendências por submódulo. Para cada uma, informe:
+
+- submódulo e item de origem;
+- estado atual;
+- descrição objetiva do que falta;
+- evidência que comprova a pendência;
+- impacto e prioridade;
+- dependências e pré-condições;
+- capacidade: "Codex pode executar" ou "somente o usuário pode executar";
+- arquivos, símbolos ou telas envolvidos;
+- comandos, rotas ou perfis necessários;
+- passo a passo numerado para concluir;
+- resultado esperado em cada etapa;
+- evidência que deve ser guardada;
+- critério de conclusão;
+- consequência de não concluir;
+- risco de rollback ou cuidado operacional.
+
+Para tarefas que o Codex pode executar, descreva a ação futura sem executá-la
+nesta auditoria. Inclua arquivos exatos, comandos seguros, testes e gates.
+
+Para tarefas que somente o usuário pode executar, descreva o procedimento em
+linguagem operacional, incluindo tela ou rota, perfil necessário, placeholder
+do dado de teste, sequência de ações, resultado esperado e evidência. Nunca
+peça que o usuário cole credenciais, tokens ou dados sensíveis na conversa.
+
+Se uma pendência tiver partes que poderiam ser executadas por capacidades
+distintas, divida-a em itens independentes e classifique cada item como
+"Codex pode executar" ou "somente o usuário pode executar". Não use
+"híbrida".
+
+GIT, INTEGRAÇÃO E DEPLOY
+
+Verifique, sem alterar nada:
+
+- branch atual e sua relação com `develop`;
+- working tree e arquivos não rastreados;
+- commits relacionados à versão;
+- PR, revisão, merge e commit de integração;
+- sincronização de `origin/main`;
+- tag da versão e commit apontado;
+- workflow correspondente no GitHub Actions;
+- jobs de validação e deploy;
+- falhas e logs com `gh run view <run-id> --log-failed`;
+- commit efetivamente publicado;
+- rotas, assets e páginas no ambiente publicado, quando acessíveis.
+
+Não presuma que uma ação ocorreu porque foi planejada, descrita em documento
+ou mencionada pelo usuário. Confirme no estado atual e classifique como
+pendente quando não houver evidência.
+
+Se o workflow estiver em andamento, informe o ID, o estado atual e o que ainda
+precisa terminar. Não classifique a entrega como publicada antes de um
+resultado bem-sucedido dos jobs relevantes.
+
+SEGURANÇA E DADOS SENSÍVEIS
+
+Verifique, quando aplicável:
+
+- autenticação, autorização, RBAC, MFA e separação de perfis;
+- bloqueio no backend, não apenas ocultação visual;
+- auditoria de ações sensíveis;
+- exposição ou persistência indevida de CPF, CNPJ, e-mail, senha, token,
+  segredo HMAC, cartão, payload bruto ou dados de gateway;
+- logs, fixtures, snapshots, respostas de API e documentação;
+- migrations, FKs, locks, idempotência e concorrência;
+- configuração de secrets e diferença entre presença e validade.
+
+Nunca leia nem reproduza credenciais. Se a validação exigir um perfil ou uma
+conta real não disponível, marque a etapa como "somente o usuário pode
+executar" e explique como fazê-la com uma conta de homologação.
+
+CRITÉRIOS DE PROMOÇÃO
+
+Conclua o relatório com uma recomendação objetiva:
+
+- PROMOVER — todos os critérios essenciais possuem evidência adequada e não
+  há bloqueadores;
+- PROMOVER COM PENDÊNCIAS NÃO BLOQUEANTES — somente pendências registradas,
+  justificadas e sem risco crítico;
+- NÃO PROMOVER — existe erro crítico, teste crítico falhando, risco de
+  segurança, inconsistência de dados, divergência comercial ou ausência de
+  validação essencial;
+- BLOQUEADO — falta ambiente, credencial, acesso, decisão ou condição técnica
+  que impede uma conclusão confiável;
+- REPLANEJAR — o escopo executado diverge materialmente do planejado ou exige
+  nova definição de produto.
+
+Considere bloqueantes, no mínimo:
+
+- erro funcional em fluxo essencial;
+- teste crítico falhando;
+- migration incompatível ou risco de perda de dados;
+- webhook, integração ou pagamento inconsistente;
+- bypass de permissão ou exposição de dados sensíveis;
+- divergência visual que impeça uso ou compreensão do fluxo;
+- deploy não confirmado quando ele for requisito da versão;
+- alteração local não compreendida;
+- ausência de evidência para um critério essencial.
+
+Pendências somente podem ser consideradas não bloqueantes quando a razão, o
+impacto, o responsável pela conclusão e o critério de aceite estiverem
+registrados ou claramente descritos no relatório.
+
+FORMATO OBRIGATÓRIO DA RESPOSTA
+
+Responda em português do Brasil, com linguagem técnica clara, objetiva e
+detalhada. Preserve exatamente os nomes de arquivos, classes, métodos, rotas,
+comandos, símbolos e versões encontrados no repositório.
+
+Use Markdown estruturado, tabelas quando agregarem clareza, checklists para
+acompanhamento e blocos de código para comandos. Entregue somente o relatório
+na resposta e não altere arquivos.
+
+Organize a resposta com estas seções:
+
+1. Identificação da auditoria
+   - versão ou subversão recebida;
+   - marco correspondente;
+   - estágio;
+   - branch, commit, PR, tag e ambiente avaliados;
+   - data da auditoria.
+
+2. Resumo executivo
+   - resultado geral;
+   - recomendação: promover, promover com pendências, não promover,
+     bloqueado ou replanejar;
+   - principais sucessos;
+   - principais erros e bloqueios;
+   - quantidade de itens por estado.
+
+3. Fontes e evidências consultadas
+   - documentos e caminhos;
+   - código, banco, testes e configurações;
+   - Git, PR, tag e Actions;
+   - ambiente publicado, quando acessível;
+   - fontes externas oficiais, com data ou versão.
+
+4. Comparação entre planejado e executado
+   - matriz completa item a item;
+   - escopo planejado;
+   - execução encontrada;
+   - divergências;
+   - estado de cada item;
+   - evidências e impacto.
+
+5. Validações realizadas
+   - inspeção estática;
+   - testes automatizados;
+   - banco e migrations;
+   - APIs e fluxos funcionais;
+   - navegador e interface;
+   - segurança e permissões;
+   - Git, Actions, deploy e publicação;
+   - comandos executados, resultados e limitações.
+
+6. Verificação da linguagem visual
+   - páginas de referência utilizadas;
+   - componentes compartilhados comparados;
+   - margens, padding, largura, cabeçalho, formulários, cards, tabelas,
+     ícones, status, responsividade e acessibilidade;
+   - divergências encontradas;
+   - origem compartilhada ou específica;
+   - evidência visual disponível ou pendente.
+
+7. Erros, divergências e riscos
+   - erro reproduzido;
+   - causa provável;
+   - impacto;
+   - prioridade;
+   - evidência;
+   - correção recomendada, sem executá-la;
+   - capacidade de execução: Codex ou usuário;
+   - critério de verificação posterior.
+
+8. Pendências por submódulo
+   Para cada submódulo, liste o que falta com o passo a passo detalhado,
+   capacidade, dependências, resultado esperado, evidência e critério de
+   conclusão.
+
+9. Tarefas que o Codex pode executar
+   - somente ações futuras permitidas pelo usuário;
+   - arquivos, símbolos, comandos e testes;
+   - ordem recomendada;
+   - pré-condições;
+   - critério de conclusão.
+
+10. Tarefas que somente o usuário pode executar
+    - credenciais, aprovações, decisões, acesso privilegiado, configuração de
+      secrets, homologação manual ou validação em ambiente não acessível;
+    - passo a passo completo;
+    - perfil e dados de teste por placeholder;
+    - resultado e evidência esperados.
+
+11. Documentação e rastreabilidade pendentes
+    - documentos desatualizados;
+    - requisitos sem vínculo;
+    - critérios de aceite sem evidência;
+    - checklist, roadmap, release notes e decisões abertas;
+    - indicação de quem pode concluir cada item.
+
+12. Critérios de conclusão e promoção
+    - itens essenciais aprovados;
+    - pendências não bloqueantes;
+    - bloqueadores;
+    - condições para concluir cada submódulo;
+    - condições para promover à próxima subversão ou ao próximo marco.
+
+13. Checklist final da auditoria
+    Separe itens de escopo, implementação, testes, banco, segurança, visual,
+    documentação, Git, integração, Actions, deploy, homologação manual e
+    evidências. Cada item deve indicar estado e capacidade de execução.
+
+14. Perguntas bloqueantes e decisões abertas
+    Inclua somente perguntas que impeçam uma conclusão confiável. Para cada
+    uma, explique o impacto, a evidência ausente e a alternativa recomendada.
+
+REGRAS PARA O PASSO A PASSO MANUAL
+
+Quando o usuário precisar concluir uma etapa, não escreva apenas “validar” ou
+“testar”. Explique:
+
+1. qual ambiente deve ser usado;
+2. qual perfil ou conta de homologação é necessário;
+3. quais dados de teste devem existir, usando placeholders seguros;
+4. qual URL, tela, rota ou comando deve ser acessado;
+5. quais campos devem ser preenchidos, sem solicitar segredos na conversa;
+6. quais ações devem ser executadas na ordem;
+7. quais estados, mensagens e resultados devem aparecer;
+8. como verificar o banco, auditoria, API, log ou tela sem expor dados;
+9. qual screenshot, ID, saída ou registro deve ser guardado;
+10. qual condição determina aprovação, falha ou necessidade de reexecução.
+
+Se a etapa puder ser executada pelo Codex, descreva a execução futura e não a
+realize neste prompt de auditoria. Se somente o usuário puder executá-la,
+deixe explícito o motivo: credencial, autorização, decisão de produto, acesso
+privilegiado, confirmação financeira, homologação humana ou indisponibilidade
+do ambiente.
+
+VERIFICAÇÃO FINAL ANTES DE RESPONDER
+
+Confirme silenciosamente que:
+
+- a versão foi localizada ou a ausência foi registrada;
+- o marco e os documentos de referência foram identificados;
+- o estado real do Git foi inspecionado;
+- a comparação não confundiu implementação com funcionamento;
+- cada item possui estado, evidência ou justificativa de ausência;
+- testes, banco, APIs, frontend, visual, segurança, documentação, integração,
+  Actions e deploy foram considerados quando aplicáveis;
+- cada pendência foi vinculada a um submódulo;
+- cada pendência informa se Codex pode executar ou se somente o usuário pode
+  executar;
+- o passo a passo de cada pendência está detalhado;
+- credenciais e dados sensíveis não foram lidos ou expostos;
+- falhas foram preservadas e classificadas;
+- o relatório não criou, editou, removeu, renomeou ou commitou arquivos;
+- nenhuma integração, tag, publicação ou promoção foi presumida sem evidência;
+- a recomendação final está baseada em critérios objetivos;
+- a resposta está em português do Brasil e usa os caminhos exatos encontrados.
+
+Não declare uma release como concluída, publicada ou promovida sem evidência
+atual suficiente. Diferencie sempre o que foi planejado, implementado,
+validado, publicado, homologado e ainda depende do usuário.
