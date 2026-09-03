@@ -27,7 +27,7 @@ exemplo:
 Não exija do usuário uma descrição prévia do estado do código. Levante o
 contexto no próprio repositório antes de elaborar o plano.
 
-PERGUNTAS DE ESCLARECIMENTO DURANTE A ELABORAÇÃO
+PERGUNTAS DE ESCLARECIMENTO DURANTE A ELABORAÇÃO DO PLANEJAMENTO
 
 Quando informações de produto, prioridade, escopo, risco, dependência,
 critério de aceite ou preferência de implementação não puderem ser
