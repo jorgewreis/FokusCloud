@@ -172,4 +172,12 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('/produtos/fokus-law#planos', $index);
         $this->assertStringContainsString('noindex', $index);
     }
+
+    public function test_portal_index_redirects_to_the_user_dashboard(): void
+    {
+        $index = file_get_contents(base_path('public/portal/index.html'));
+
+        $this->assertStringContainsString('/portal/dashboard.html', $index);
+        $this->assertStringContainsString('noindex', $index);
+    }
 }
