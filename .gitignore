@@ -20,7 +20,8 @@ coverage/
 .phpunit.result.cache
 
 # Local editor and operating-system files
-.vscode/
+.vscode/*
+!.vscode/mcp.json
 .idea/
 .DS_Store
 Thumbs.db

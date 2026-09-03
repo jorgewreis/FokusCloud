@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "mercado-pago": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["tools/mercado-pago-mcp.mjs"],
+      "env": {
+        "MERCADO_PAGO_ACCESS_TOKEN": "${env:MERCADO_PAGO_ACCESS_TOKEN}",
+        "MERCADO_PAGO_API_BASE_URL": "${env:MERCADO_PAGO_API_BASE_URL}"
+      }
+    }
+  }
+}
