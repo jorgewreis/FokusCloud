@@ -46,7 +46,7 @@ jobs:
 
       - name: Build frontend assets
         run: |
-          npm ci
+          timeout 180s npm ci
           timeout 120s npm run build
 
   deploy:
