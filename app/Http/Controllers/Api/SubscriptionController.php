@@ -222,24 +222,6 @@ class SubscriptionController extends Controller
             abort_unless(in_array($current->status, ['ativa', 'suspensa'], true), 422, 'Esta alteração só pode ser feita em assinaturas ativas ou suspensas.');
         }
 
-        $providerCancellationPending = false;
-        if ($cancelImmediately && $current->provider_subscription_id) {
-            try {
-                app(MercadoPagoClient::class)->updatePreapproval(
-                    (string) $current->provider_subscription_id,
-                    ['status' => 'cancelled'],
-                    'user-immediate-cancel-'.$current->id,
-                );
-            } catch (\Throwable $exception) {
-                report($exception);
-                // O cancelamento da assinatura local não pode ficar bloqueado
-                // por uma indisponibilidade temporária do provedor. O estado
-                // local revoga imediatamente o acesso e o evento fica marcado
-                // para reconciliação posterior.
-                $providerCancellationPending = true;
-            }
-        }
-
         if ($cancelImmediately) {
             // No cancelamento imediato, não é necessário consultar o catálogo:
             // o snapshot persistido já contém o estado comercial da assinatura.
@@ -309,6 +291,20 @@ class SubscriptionController extends Controller
                     'exception' => $exception,
                 ]);
                 throw $exception;
+            }
+
+            $providerCancellationPending = false;
+            if ($current->provider_subscription_id) {
+                try {
+                    app(MercadoPagoClient::class)->updatePreapproval(
+                        (string) $current->provider_subscription_id,
+                        ['status' => 'cancelled'],
+                        'user-immediate-cancel-'.$current->id,
+                    );
+                } catch (\Throwable $exception) {
+                    report($exception);
+                    $providerCancellationPending = true;
+                }
             }
 
             return response()->json([
