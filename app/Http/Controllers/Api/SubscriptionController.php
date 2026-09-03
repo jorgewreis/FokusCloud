@@ -208,11 +208,15 @@ class SubscriptionController extends Controller
         $companyId = $request->attributes->get('active_company_id');
         $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->first();
         abort_unless($current && $current->status !== 'encerrada', 404, 'Assinatura não encontrada ou já encerrada.');
-        if (in_array($data['type'], ['upgrade', 'downgrade', 'cancelamento'], true)) {
+        $latestPayment = DB::table('payments')->where('company_id', $companyId)->where('subscription_id', $current->id)->latest('created_at')->first();
+        $cancelImmediately = $data['type'] === 'cancelamento_imediato'
+            || ($data['type'] === 'cancelamento' && $latestPayment?->status !== 'aprovado');
+
+        if (in_array($data['type'], ['upgrade', 'downgrade'], true) || ($data['type'] === 'cancelamento' && ! $cancelImmediately)) {
             abort_unless(in_array($current->status, ['ativa', 'suspensa'], true), 422, 'Esta alteração só pode ser feita em assinaturas ativas ou suspensas.');
         }
 
-        if ($data['type'] === 'cancelamento_imediato' && $current->provider_subscription_id) {
+        if ($cancelImmediately && $current->provider_subscription_id) {
             try {
                 app(MercadoPagoClient::class)->updatePreapproval(
                     (string) $current->provider_subscription_id,
@@ -225,7 +229,7 @@ class SubscriptionController extends Controller
             }
         }
 
-        if ($data['type'] === 'cancelamento_imediato') {
+        if ($cancelImmediately) {
             $before = $subscriptionChanges->snapshot($current);
             $effectiveAt = now();
             $after = [...$before, 'status' => 'encerrada', 'cancel_at' => $effectiveAt->toISOString()];
@@ -256,7 +260,7 @@ class SubscriptionController extends Controller
                 ]);
             });
 
-            return response()->json(['message' => 'Assinatura cancelada imediatamente.', 'effective_at' => $effectiveAt]);
+            return response()->json(['message' => $data['type'] === 'cancelamento_imediato' ? 'Assinatura cancelada imediatamente.' : 'Assinatura não paga cancelada imediatamente.', 'effective_at' => $effectiveAt]);
         }
 
         $effectiveAt = $data['type'] === 'upgrade' ? now() : ($current->current_period_ends_at ?: now());
@@ -267,7 +271,10 @@ class SubscriptionController extends Controller
             'items_snapshot' => isset($data['items']) ? json_encode($data['items']) : null, 'reason' => $data['reason'] ?? null,
             'requested_by_user_id' => $request->user()->id, 'created_at' => now(), 'updated_at' => now(),
         ]);
-        if ($data['type'] === 'cancelamento') DB::table('subscriptions')->where('id', $current->id)->update(['cancel_at' => $effectiveAt, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+        if ($data['type'] === 'cancelamento') {
+            DB::table('subscriptions')->where('id', $current->id)->update(['cancel_at' => $effectiveAt, 'updated_at' => now(), 'version' => DB::raw('version + 1')]);
+            return response()->json(['message' => 'Assinatura cancelada ao final do período vigente.', 'effective_at' => $effectiveAt]);
+        }
         return response()->json(['message' => $data['type'] === 'upgrade' ? 'Upgrade criado e aguardando a cobrança proporcional.' : 'Alteração programada para o fim do ciclo.', 'effective_at' => $effectiveAt]);
     }
 

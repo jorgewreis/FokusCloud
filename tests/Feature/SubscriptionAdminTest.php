@@ -127,6 +127,29 @@ class SubscriptionAdminTest extends TestCase
         Http::assertSent(fn ($request) => $request->url() === 'https://api.mercadopago.com/preapproval/pre-unpaid' && $request['status'] === 'cancelled');
     }
 
+    public function test_company_admin_cancel_button_schedules_paid_subscription_at_period_end(): void
+    {
+        $fixture = $this->subscriptionFixture(['status' => 'ativa']);
+        $user = User::find($fixture['user_id']);
+        DB::table('payments')->where('subscription_id', $fixture['subscription_id'])->update(['status' => 'aprovado']);
+        $periodEndsAt = DB::table('subscriptions')->where('id', $fixture['subscription_id'])->value('current_period_ends_at');
+
+        $this->actingAs($user)->withSession(['active_company_id' => $fixture['company_id']])
+            ->postJson('/api/subscriptions/'.$fixture['subscription_id'].'/change', ['type' => 'cancelamento'])
+            ->assertOk()->assertJsonPath('message', 'Assinatura cancelada ao final do período vigente.');
+
+        $this->assertDatabaseHas('subscriptions', [
+            'id' => $fixture['subscription_id'],
+            'status' => 'ativa',
+            'cancel_at' => $periodEndsAt,
+        ]);
+        $this->assertDatabaseHas('subscription_changes', [
+            'subscription_id' => $fixture['subscription_id'],
+            'type' => 'cancelamento',
+            'status' => 'agendada',
+        ]);
+    }
+
     public function test_downgrade_is_scheduled_and_command_applies_it_at_period_end(): void
     {
         $admin = $this->platformAdmin();
