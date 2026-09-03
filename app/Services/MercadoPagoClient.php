@@ -19,11 +19,6 @@ class MercadoPagoClient
             ->acceptJson()
             ->timeout((int) config('services.mercado_pago.timeout', 10));
 
-        $scope = (string) config('services.mercado_pago.scope');
-        if ($scope !== '') {
-            $request = $request->withHeaders(['X-scope' => $scope]);
-        }
-
         return $request;
     }
 
