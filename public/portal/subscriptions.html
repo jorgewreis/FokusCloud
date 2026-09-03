@@ -28,8 +28,10 @@
       const list = document.querySelector('#subscriptions');
       const statusLabels = { aguardando_pagamento: 'Aguardando pagamento', ativa: 'Ativa', suspensa: 'Suspensa', inadimplente: 'Inadimplente', cancelamento_agendado: 'Cancelamento agendado', encerrada: 'Cancelada', cancelada: 'Cancelada' };
       const paymentLabels = { aguardando_pagamento: 'Aguardando pagamento', aprovado: 'Pago', recusado: 'Pagamento recusado', cancelado: 'Cancelado', estornado: 'Estornado', em_disputa: 'Em análise' };
-      const conditionLabels = { usage_limit: 'Limite de utilização', plan_code: 'Plano', segment_code: 'Segmento', context_code: 'Contexto', variant_code: 'Configuração', cycle: 'Ciclo' };
-      const formatConditions = (conditions) => Object.entries(conditions || {}).filter(([key, value]) => value !== null && value !== '' && !['module_code', 'selection_mode'].includes(key)).map(([key, value]) => `<li>${conditionLabels[key] || key}: <b>${Array.isArray(value) ? value.join(', ') : value}</b></li>`).join('');
+      const conditionLabels = { usage_limit: 'Limite de utilização', plan_code: 'Plano', segment_code: 'Segmento', variant_code: 'Configuração', cycle: 'Ciclo' };
+      const cycleLabels = { monthly: 'Mensal', annual: 'Anual' };
+      const hiddenConditions = ['module_code', 'selection_mode', 'context_code', 'collaboration_code', 'collaboration'];
+      const formatConditions = (conditions) => Object.entries(conditions || {}).filter(([key, value]) => value !== null && value !== '' && !hiddenConditions.includes(key)).map(([key, value]) => `<li>${conditionLabels[key] || key}: <b>${key === 'cycle' ? (cycleLabels[value] || value) : (Array.isArray(value) ? value.join(', ') : value)}</b></li>`).join('');
       (async () => {
         try {
           const subscriptions = await FokusApi.request('/subscriptions');
