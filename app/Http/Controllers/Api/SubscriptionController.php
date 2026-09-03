@@ -257,11 +257,14 @@ class SubscriptionController extends Controller
                 'status' => 'encerrada',
                 'open_company_product' => null,
                 'cancel_at' => $effectiveAt,
-                'commercial_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
                 'updated_at' => now(),
                 'version' => DB::raw('version + 1'),
             ]);
             try {
+                DB::table('subscriptions')->where('id', $subscription)->update([
+                    'commercial_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
+                    'updated_at' => now(),
+                ]);
                 DB::table('subscription_changes')->insert([
                     'id' => PrefixedUlid::make('SCH'),
                     'company_id' => $current->company_id,
