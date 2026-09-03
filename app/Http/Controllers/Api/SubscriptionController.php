@@ -255,37 +255,44 @@ class SubscriptionController extends Controller
             $effectiveAt = now();
             $after = [...$before, 'status' => 'encerrada', 'cancel_at' => $effectiveAt->toISOString()];
             try {
-                DB::transaction(function () use ($subscription, $current, $effectiveAt, $after, $before, $data, $request): void {
-                    DB::table('subscriptions')->where('id', $subscription)->update([
-                        'status' => 'encerrada',
-                        'open_company_product' => null,
-                        'cancel_at' => $effectiveAt,
-                        'updated_at' => now(),
-                        'version' => DB::raw('version + 1'),
-                    ]);
-                    DB::table('subscriptions')->where('id', $subscription)->update([
-                        'commercial_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
-                        'updated_at' => now(),
-                    ]);
-                    DB::table('subscription_changes')->insert([
-                        'id' => PrefixedUlid::make('SCH'),
-                        'company_id' => $current->company_id,
-                        'subscription_id' => $subscription,
-                        'type' => 'cancelamento',
-                        'status' => 'aplicada',
-                        'effective_at' => $effectiveAt,
-                        'proration_amount' => 0,
-                        'items_snapshot' => json_encode($after['items'] ?? [], JSON_INVALID_UTF8_SUBSTITUTE),
-                        'before_snapshot' => json_encode($before, JSON_INVALID_UTF8_SUBSTITUTE),
-                        'after_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
-                        'reason' => $data['reason'] ?? 'Cancelamento imediato solicitado pelo administrador da empresa.',
-                        'requested_by_user_id' => $request->user()->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                });
+                DB::table('subscriptions')->where('id', $subscription)->update([
+                    'status' => 'encerrada',
+                    'cancel_at' => $effectiveAt,
+                    'updated_at' => now(),
+                ]);
             } catch (\Throwable $exception) {
-                Log::error('Falha ao persistir cancelamento imediato de assinatura.', [
+                Log::error('Falha ao cancelar assinatura localmente.', [
+                    'subscription_id' => $subscription,
+                    'company_id' => $companyId,
+                    'exception' => $exception,
+                ]);
+                throw $exception;
+            }
+
+            try {
+                DB::table('subscriptions')->where('id', $subscription)->update([
+                    'open_company_product' => null,
+                    'commercial_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
+                    'updated_at' => now(),
+                ]);
+                DB::table('subscription_changes')->insert([
+                    'id' => PrefixedUlid::make('SCH'),
+                    'company_id' => $current->company_id,
+                    'subscription_id' => $subscription,
+                    'type' => 'cancelamento',
+                    'status' => 'aplicada',
+                    'effective_at' => $effectiveAt,
+                    'proration_amount' => 0,
+                    'items_snapshot' => json_encode($after['items'] ?? [], JSON_INVALID_UTF8_SUBSTITUTE),
+                    'before_snapshot' => json_encode($before, JSON_INVALID_UTF8_SUBSTITUTE),
+                    'after_snapshot' => json_encode($after, JSON_INVALID_UTF8_SUBSTITUTE),
+                    'reason' => $data['reason'] ?? 'Cancelamento imediato solicitado pelo administrador da empresa.',
+                    'requested_by_user_id' => $request->user()->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            } catch (\Throwable $exception) {
+                Log::warning('Cancelamento local concluído, mas dados auxiliares não foram persistidos.', [
                     'subscription_id' => $subscription,
                     'company_id' => $companyId,
                     'exception' => $exception,
