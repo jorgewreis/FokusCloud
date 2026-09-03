@@ -340,7 +340,7 @@
   margin-top: 28px;
 }
 
-.text-danger { color: #b42318; }
+.subscription-page .admin-list-item p.text-danger { color: #b42318 !important; }
 
 .subscription-page .admin-list-item h3 {
   margin: 1rem 0 0.5rem;
