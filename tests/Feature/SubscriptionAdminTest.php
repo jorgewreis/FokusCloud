@@ -113,6 +113,7 @@ class SubscriptionAdminTest extends TestCase
 
     public function test_company_admin_can_cancel_unpaid_subscription_immediately(): void
     {
+        config(['services.mercado_pago.access_token' => 'test-token']);
         Http::fake(['https://api.mercadopago.com/preapproval/pre-unpaid' => Http::response(['status' => 'cancelled'], 200)]);
         $fixture = $this->subscriptionFixture(['status' => 'aguardando_pagamento', 'provider_subscription_id' => 'pre-unpaid']);
         $user = User::find($fixture['user_id']);
