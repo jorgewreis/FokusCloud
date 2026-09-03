@@ -29,6 +29,7 @@ Route::get('/portal/transferir-administracao', fn () => response()->file(public_
 Route::get('/backoffice/acesso', fn () => response()->file(public_path('backoffice/acesso.html')));
 Route::get('/backoffice/ativar', fn () => response()->file(public_path('backoffice/ativar.html')));
 Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|planos|catalogo|assinaturas|vouchers|pagamentos|billing|auditoria|seguranca');
+Route::permanentRedirect('/products', '/produtos/fokus-law#planos');
 Route::get('/produtos/fokus-law', fn () => response()->file(public_path('products/fokus-law.html')));
 Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('products/fokus-lead.html')));
 Route::get('/assinaturas/fokus-law', fn () => response()->file(public_path('products/fokus-law-subscription.html')));

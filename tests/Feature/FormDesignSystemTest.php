@@ -164,4 +164,12 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('Não foi possível carregar sua conta.', $flow);
         $this->assertStringContainsString('Não foi possível carregar o catálogo real.', $flow);
     }
+
+    public function test_legacy_products_index_redirects_to_the_public_law_plans(): void
+    {
+        $index = file_get_contents(base_path('public/products/index.html'));
+
+        $this->assertStringContainsString('/produtos/fokus-law#planos', $index);
+        $this->assertStringContainsString('noindex', $index);
+    }
 }
