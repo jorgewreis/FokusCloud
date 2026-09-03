@@ -74,7 +74,7 @@ class VoucherRedemptionTest extends TestCase
         ])->assertCreated();
 
         Http::assertSent(fn ($request) => $request->url() === 'https://api.mercadopago.com/preapproval'
-            && $request['payer_email'] === 'test@testuser.com');
+            && $request['payer_email'] === 'test_payer_3662781712@testuser.com');
 
         $subscriptionId = $response->json('subscription_id');
         $this->assertSame(0, DB::table('voucher_redemptions')->count());
