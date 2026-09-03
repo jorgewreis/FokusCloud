@@ -344,7 +344,8 @@
 
 .subscription-page .admin-list-item h3 {
   margin: 1rem 0 0.5rem;
-  font-size: 1rem;
+  font: 700 13px var(--font-title);
+  letter-spacing: 0;
   line-height: 1.3;
 }
 
@@ -371,7 +372,8 @@
 }
 
 .admin-list-item h2 {
-  font: 700 16px var(--font-title);
+  font: 800 22px var(--font-title);
+  letter-spacing: -0.4px;
 }
 
 .admin-list-item p,
