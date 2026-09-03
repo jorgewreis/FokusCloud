@@ -59,3 +59,12 @@ O Marco 2 esta pronto quando o documento `milestone-2-security.md`, testes de
 seguranca, migration limpa, commit, tag anotada `v0.0.2`, push e GitHub Actions
 aprovado estiverem registrados. Catalogo, vouchers, assinaturas, billing e
 alertas permanecem pendentes para os marcos seguintes.
+
+## Pronto para o Marco 3 - 0.0.3
+
+O Marco 3 esta pronto quando o documento `milestone-3-catalog.md`, testes do
+catalogo, migration limpa, publicacao controlada, snapshot publico versionado,
+commit, tag anotada `v0.0.3`, push e GitHub Actions aprovado estiverem
+registrados. O catalogo publico e o checkout devem consumir somente a ultima
+publicacao valida do backend, sem fallback estatico de preco ou composicao no
+frontend.

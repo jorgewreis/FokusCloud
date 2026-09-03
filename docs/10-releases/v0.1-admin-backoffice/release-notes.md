@@ -3,7 +3,10 @@
 ## Status da 0.0.1
 
 Concluida como release documental apos validacao, commit, tag anotada e push
-ao remoto.
+ao remoto. O workflow de deploy da tag registrou uma falha operacional durante
+a migration, porque a tabela `law_hearings` ja existia no banco enquanto a
+migration correspondente nao estava em estado compativel:
+`https://github.com/jorgewreis/FokusCloud/actions/runs/33505517110`.
 
 ## Status da 0.1
 
@@ -11,8 +14,8 @@ Planejada.
 
 ## Status da 0.0.2
 
-Concluida como entrega funcional do Marco 2. A validacao aprovada esta em
-`https://github.com/jorgewreis/FokusCloud/actions/runs/33564168328`, com
+Concluida como entrega funcional do Marco 2. A validacao aprovada da tag esta
+em `https://github.com/jorgewreis/FokusCloud/actions/runs/33564280938`, com
 migration/seeder SQLite, 36 testes, build e publicacao aprovados.
 
 ## Status da 0.0.3
@@ -20,7 +23,8 @@ migration/seeder SQLite, 36 testes, build e publicacao aprovados.
 Concluida como entrega funcional do Marco 3. O catalogo administrativo passa a
 gerir produtos, funcionalidades, planos, composicoes, precos e publicacao; o
 catalogo publico usa contrato versionado `0.0.3` a partir de snapshot publicado
-no backend.
+no backend. A validacao da tag foi aprovada em
+`https://github.com/jorgewreis/FokusCloud/actions/runs/33624520690`.
 
 ## Entrega prevista
 

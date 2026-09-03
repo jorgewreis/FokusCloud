@@ -57,3 +57,19 @@ versao, motivo, autor quando houver e data.
   publicacao.
 - O fluxo publico normaliza o contrato versionado sem catalogo estatico ou
   fallback de preco no frontend.
+
+## Evidencias de fechamento
+
+| Evidencia | Resultado |
+| --- | --- |
+| `php artisan migrate:fresh --seed --force` com SQLite em memoria | Concluido |
+| `php artisan test` | Concluido, 41 testes |
+| `npm run build` | Concluido |
+| `git diff --check` | Concluido |
+| Homologacao guiada do fluxo 3 | Validada pelo usuario |
+| GitHub Actions da tag `v0.0.3` | Aprovado: `https://github.com/jorgewreis/FokusCloud/actions/runs/33624520690` |
+| Falhas bloqueantes conhecidas | Nenhuma |
+
+O documento deve ser atualizado quando houver nova evolucao funcional do
+catalogo, incluindo commit, ambiente homologado, data de fechamento e
+restricoes conhecidas.

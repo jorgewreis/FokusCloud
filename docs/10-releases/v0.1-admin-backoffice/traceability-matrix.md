@@ -20,6 +20,14 @@ Esta matriz e o artefato central da release documental `0.0.1`.
 | 7 | Dashboard, alertas e auditoria | `../../09-operations/backoffice-monitoring-and-support.md`, `../../07-security/security-and-data.md`, `../../05-requirements/backoffice.md` | Painel operacional, filas, eventos sensiveis e auditoria filtrada por perfil | Testes de alertas, retencao, mascaramento e consulta por perfil |
 | 8 | Estabilizacao e release | `../../09-operations/release-process.md`, `acceptance-criteria.md`, `homologation-script.md` | Sem falhas bloqueantes, notas atualizadas e release registrada | Suite automatizada, homologacao guiada e evidencias finais |
 
+## Evidencias historicas das subversoes 0.0.1 a 0.0.3
+
+| Versao | Evidencia |
+| --- | --- |
+| `v0.0.1` | Tag e pacote documental concluidos; deploy registrou incidente de migration em `https://github.com/jorgewreis/FokusCloud/actions/runs/33505517110`. |
+| `v0.0.2` | Migration, 36 testes, build e deploy aprovados em `https://github.com/jorgewreis/FokusCloud/actions/runs/33564280938`. |
+| `v0.0.3` | Migration, 41 testes, build e deploy aprovados em `https://github.com/jorgewreis/FokusCloud/actions/runs/33624520690`. |
+
 ## Requisitos de Backoffice por area
 
 | Area | Requisitos principais |

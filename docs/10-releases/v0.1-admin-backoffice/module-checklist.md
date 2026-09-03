@@ -20,7 +20,9 @@
 - [x] Separar status operacional de estado de publicacao.
 - [x] Validar plano antes da publicacao.
 - [x] Permitir publicacao, pausa e arquivamento apenas para superadministrador.
-- [ ] Invalidar cache apos publicacao, quando houver cache.
+- [x] Registrar a invalidação de cache como não aplicável enquanto não houver
+  cache de aplicação; o purge do Cloudflare após a publicação foi validado no
+  workflow de deploy da `v0.0.3`.
 - [x] Garantir que catalogo publico e checkout ignorem rascunhos, pausados,
   arquivados e incompletos.
 
