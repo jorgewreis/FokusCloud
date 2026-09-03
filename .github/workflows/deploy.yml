@@ -123,7 +123,21 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "set -eu; cd '$DEPLOY_PATH'; test -f .env; mkdir -p resources/views storage/framework/cache storage/framework/sessions storage/framework/views storage/logs; chmod -R ug+rwX storage bootstrap/cache; rm -f bootstrap/cache/*.php; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader"
+          remote_log=/tmp/fokuscloud-composer-install.log
+          remote_status=/tmp/fokuscloud-composer-install.status
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -o ServerAliveInterval=5 -o ServerAliveCountMax=12 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "set -eu; cd '$DEPLOY_PATH'; test -f .env; mkdir -p resources/views storage/framework/cache storage/framework/sessions storage/framework/views storage/logs; chmod -R ug+rwX storage bootstrap/cache; rm -f bootstrap/cache/*.php '$remote_log' '$remote_status'; nohup sh -c 'composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader; result=\$?; printf \"%s\\n\" \"\$result\" > \"$remote_status\"' > '$remote_log' 2>&1 </dev/null &"
+          for attempt in {1..45}; do
+            status="$(ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -o ServerAliveInterval=5 -o ServerAliveCountMax=12 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "test -f '$remote_status' && cat '$remote_status' || true" || true)"
+            if [ -n "$status" ]; then
+              ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -o ServerAliveInterval=5 -o ServerAliveCountMax=12 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "cat '$remote_log'"
+              test "$status" = "0"
+              exit 0
+            fi
+            sleep 2
+          done
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -o ServerAliveInterval=5 -o ServerAliveCountMax=12 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "cat '$remote_log' 2>/dev/null || true" || true
+          echo "Composer did not finish within 90 seconds."
+          exit 1
 
       - name: Migrate database on server
         env:
