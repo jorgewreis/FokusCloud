@@ -22,7 +22,7 @@ return [
         'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
         'webhook_secret' => env('MERCADO_PAGO_WEBHOOK_SECRET'),
         'environment' => env('MERCADO_PAGO_ENVIRONMENT', 'sandbox'),
-        'test_payer_email' => env('MERCADO_PAGO_TEST_PAYER_EMAIL', 'test_payer_3662781712@testuser.com'),
+        'test_payer_email' => env('MERCADO_PAGO_TEST_PAYER_EMAIL', 'test_user_3662781712@testuser.com'),
         'api_base_url' => env('MERCADO_PAGO_API_BASE_URL', 'https://api.mercadopago.com'),
         'timeout' => (int) env('MERCADO_PAGO_TIMEOUT', 10),
         'webhook_tolerance' => (int) env('MERCADO_PAGO_WEBHOOK_TOLERANCE', 300),
