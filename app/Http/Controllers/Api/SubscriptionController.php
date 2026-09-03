@@ -60,8 +60,9 @@ class SubscriptionController extends Controller
         $product = DB::table('products')->where('code', $data['product_code'])->where('active', true)->first();
         abort_unless($product, 404, 'Produto não encontrado.');
         $quoted = $this->quote($product, $data, $catalog);
+        $payerEmail = $mercadoPago->payerEmail((string) $request->user()->email);
         $requestKey = (string) ($request->header('Idempotency-Key') ?: hash('sha256', implode('|', [
-            $request->user()->id, $companyId, json_encode($data),
+            $request->user()->id, $companyId, json_encode($data), $payerEmail,
         ])));
         $previousAttempt = DB::table('billing_checkout_attempts')->where('company_id', $companyId)->where('request_key', $requestKey)->first();
         if ($previousAttempt?->status === 'completed') {
@@ -130,7 +131,7 @@ class SubscriptionController extends Controller
             $response = $mercadoPago->createPreapproval([
                 'external_reference' => $paymentId,
                 'reason' => "Assinatura {$product->name}",
-                'payer_email' => $request->user()->email,
+                'payer_email' => $payerEmail,
                 'auto_recurring' => ['frequency' => $data['cycle'] === 'annual' ? 12 : 1, 'frequency_type' => 'months', 'transaction_amount' => $quoted['amount'], 'currency_id' => 'BRL'],
                 'status' => 'pending',
                 'back_url' => rtrim(config('app.url'), '/').'/portal/assinaturas',

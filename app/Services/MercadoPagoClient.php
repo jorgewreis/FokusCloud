@@ -32,6 +32,15 @@ class MercadoPagoClient
         return $this->send('post', '/preapproval', $payload, $idempotencyKey);
     }
 
+    public function payerEmail(string $customerEmail): string
+    {
+        if (config('services.mercado_pago.environment') === 'sandbox') {
+            return (string) config('services.mercado_pago.test_payer_email', 'test@testuser.com');
+        }
+
+        return $customerEmail;
+    }
+
     public function getPreapproval(string $providerId): array
     {
         return $this->send('get', '/preapproval/'.rawurlencode($providerId));

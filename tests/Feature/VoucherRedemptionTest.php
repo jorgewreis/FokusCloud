@@ -73,6 +73,9 @@ class VoucherRedemptionTest extends TestCase
             'voucher_code' => 'CREDITO500',
         ])->assertCreated();
 
+        Http::assertSent(fn ($request) => $request->url() === 'https://api.mercadopago.com/preapproval'
+            && $request['payer_email'] === 'test@testuser.com');
+
         $subscriptionId = $response->json('subscription_id');
         $this->assertSame(0, DB::table('voucher_redemptions')->count());
         $this->assertDatabaseHas('voucher_redemption_reservations', [
