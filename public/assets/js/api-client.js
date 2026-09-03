@@ -16,12 +16,23 @@ window.FokusApi = (() => {
     if (body && typeof body === 'object' && !(body instanceof FormData)) body = JSON.stringify(body);
     if (body && !headers['Content-Type'] && !(body instanceof FormData)) headers['Content-Type'] = 'application/json';
     const response = await fetch(`/api${path}`, { ...options, body, method, headers, credentials: 'same-origin', cache: 'no-store' });
-    const payload = response.status === 204 ? null : await response.json();
+    const responseBody = response.status === 204 ? '' : await response.text();
+    let payload = null;
+    if (responseBody) {
+      try {
+        payload = JSON.parse(responseBody);
+      } catch (_) {
+        payload = null;
+      }
+    }
     if (!response.ok) {
       const validationMessage = payload?.errors
         ? Object.values(payload.errors).flat().find(Boolean)
         : null;
-      const error = new Error(validationMessage || payload?.message || 'Não foi possível concluir a solicitação.');
+      const fallback = response.status
+        ? `Não foi possível concluir a solicitação (HTTP ${response.status}).`
+        : 'Não foi possível concluir a solicitação.';
+      const error = new Error(validationMessage || payload?.message || fallback);
       error.status = response.status;
       error.errors = payload?.errors || {};
       error.payload = payload;
