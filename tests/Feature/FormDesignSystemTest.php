@@ -51,7 +51,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260902-page-spacing', $panel);
+        $this->assertStringContainsString('20260902-pagamentos-spacing', $panel);
         foreach ([$access, $activate] as $contents) {
             $this->assertStringContainsString('20260901-live-controls', $contents);
         }
