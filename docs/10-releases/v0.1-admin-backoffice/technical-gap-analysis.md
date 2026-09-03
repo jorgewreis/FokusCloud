@@ -63,6 +63,13 @@ O projeto ja possui base relevante para o Backoffice:
 
 ## Marco 6 — atualização da alpha
 
+## `v0.0.6-alpha.2` — portal cliente/empresa
+
+O portal cliente passou a reutilizar a arquitetura visual modular do backoffice
+com tema azul, mantendo o backoffice laranja. O shell compartilhado e as seis
+áreas do portal foram padronizados; a homologação visual em navegador real ainda
+é necessária.
+
 Concluídos na implementação local: camada REST do Mercado Pago, HMAC pelo
 contrato oficial, idempotência persistida, recorrência, tolerância de
 inadimplência, consulta de pagamentos, conciliação manual, reembolso controlado

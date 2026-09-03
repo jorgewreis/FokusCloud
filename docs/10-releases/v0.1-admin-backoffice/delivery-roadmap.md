@@ -81,3 +81,10 @@ checkout idempotente, webhooks assinados, recorrência, tolerância de
 inadimplência, pagamentos, conciliação manual e reembolsos controlados. A saída
 depende de testes automatizados, deploy aprovado e homologação sandbox real;
 emissão fiscal, chargeback e indicadores avançados permanecem posteriores.
+
+## Marco 6 — `v0.0.6-alpha.2`
+
+A subversão padroniza o modelo visual do portal cliente/empresa, reutilizando o
+design system modular do backoffice com `data-role="user"` e tema azul. Inclui
+shell compartilhado e as áreas de dashboard, assinaturas, empresas, usuários,
+perfil e transferência, sem alterar rotas ou contratos das APIs.

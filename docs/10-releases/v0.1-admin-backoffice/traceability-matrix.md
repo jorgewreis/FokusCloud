@@ -98,3 +98,11 @@ build, diff-check, workflow do GitHub Actions e commit publicado.
 - 0.0.5-alpha.1: workflow de publicação concluído com sucesso — [Actions run #186](https://github.com/jorgewreis/FokusCloud/actions/runs/33689258285).
 - 0.0.6-alpha.1: workflow final concluído com sucesso — [Actions run #196](https://github.com/jorgewreis/FokusCloud/actions/runs/33695858746). A primeira execução falhou no [run #192](https://github.com/jorgewreis/FokusCloud/actions/runs/33695198095) e foi corrigida antes da tag final.
 - A homologação em navegador e o sandbox real permanecem pendentes.
+
+## Marco 6 / release `v0.0.6-alpha.2`
+
+| Requisito | Implementacao | Evidencia |
+| --- | --- | --- |
+| Modelo visual do portal cliente | Shell compartilhado, layout responsivo e tema azul `data-role="user"` | `portal.css`, `portal-shell.js` |
+| Paginas cliente/empresa | Dashboard, empresas, perfil, usuarios, assinaturas e transferencia | Inspecao estatica; navegador pendente |
+| Compatibilidade | Rotas, APIs, autenticacao e permissoes preservadas | `git diff --check` e testes existentes |

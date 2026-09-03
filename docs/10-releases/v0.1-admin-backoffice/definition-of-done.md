@@ -68,3 +68,10 @@ commit, tag anotada `v0.0.3`, push e GitHub Actions aprovado estiverem
 registrados. O catalogo publico e o checkout devem consumir somente a ultima
 publicacao valida do backend, sem fallback estatico de preco ou composicao no
 frontend.
+
+## Pronto para `v0.0.6-alpha.2`
+
+O modelo visual do portal cliente/empresa está implementado com shell
+compartilhado, tema azul, páginas padronizadas, testes automatizados e build
+aprovado. A homologação em navegador real e a publicação da tag permanecem
+pendentes até existir um navegador disponível para validação visual.

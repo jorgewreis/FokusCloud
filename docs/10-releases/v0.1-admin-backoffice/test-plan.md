@@ -107,5 +107,12 @@ eventos duplicados, pagamento autorizado, inadimplência, expiração da
 tolerância, conciliação, permissões e reembolso principal. Ainda devem ser
 adicionados testes específicos para recorrência completa, recusa e reembolso
 parcial.
+
+## Testes da release `v0.0.6-alpha.2`
+
+Validar shell azul, isolamento em relacao ao backoffice, responsividade, foco
+por teclado, estados de carregamento/erro/vazio, permissoes por perfil e os
+estados de assinatura pendente, paga, cancelada e encerrada. Confirmar numero,
+modulos, configuracoes, status humanizados e acoes condicionais.
 Homologar posteriormente com credenciais sandbox, comprador/vendedor de teste,
 webhook público e reembolso de teste.
