@@ -22,12 +22,18 @@ class MercadoPagoClientTest extends TestCase
         $this->assertSame('[REDACTED]', $client->sanitizePayload(['access_token' => 'secret'])['access_token']);
     }
 
-    public function test_sandbox_payer_requires_a_configured_test_email(): void
+    public function test_sandbox_uses_the_documented_test_email_when_not_configured(): void
     {
         Config::set('services.mercado_pago.environment', 'sandbox');
         Config::set('services.mercado_pago.test_payer_email', null);
 
-        $this->expectException(\RuntimeException::class);
-        app(MercadoPagoClient::class)->payerEmail('customer@example.com');
+        $this->assertSame('test@testuser.com', app(MercadoPagoClient::class)->payerEmail('customer@example.com'));
+    }
+
+    public function test_production_uses_the_verified_customer_email(): void
+    {
+        Config::set('services.mercado_pago.environment', 'production');
+
+        $this->assertSame('customer@example.com', app(MercadoPagoClient::class)->payerEmail(' customer@example.com '));
     }
 }

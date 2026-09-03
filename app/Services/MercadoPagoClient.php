@@ -35,12 +35,19 @@ class MercadoPagoClient
     public function payerEmail(string $customerEmail): string
     {
         if (config('services.mercado_pago.environment') === 'sandbox') {
-            $testPayerEmail = trim((string) config('services.mercado_pago.test_payer_email'));
-            if (! filter_var($testPayerEmail, FILTER_VALIDATE_EMAIL)) {
-                throw new RuntimeException('Configure MERCADO_PAGO_TEST_PAYER_EMAIL com o e-mail de uma conta compradora de teste.');
-            }
+            // O Mercado Pago não aceita o e-mail real do cliente no sandbox.
+            // O fallback documentado permite que o checkout continue funcional
+            // mesmo quando a variável opcional não foi definida no servidor.
+            $testPayerEmail = trim((string) config('services.mercado_pago.test_payer_email', 'test@testuser.com'));
 
-            return $testPayerEmail;
+            return filter_var($testPayerEmail, FILTER_VALIDATE_EMAIL)
+                ? $testPayerEmail
+                : 'test@testuser.com';
+        }
+
+        $customerEmail = trim($customerEmail);
+        if (! filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new RuntimeException('O e-mail do cliente não é válido para criar a assinatura.');
         }
 
         return $customerEmail;
