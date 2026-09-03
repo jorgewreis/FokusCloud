@@ -44,11 +44,6 @@ jobs:
       - name: Run automated tests
         run: php artisan test
 
-      - name: Build frontend assets
-        run: |
-          timeout 180s npm ci
-          timeout 120s npm run build
-
   deploy:
     name: Publish Laravel application
     needs: validate
