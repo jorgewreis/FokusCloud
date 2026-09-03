@@ -35,7 +35,12 @@ class MercadoPagoClient
     public function payerEmail(string $customerEmail): string
     {
         if (config('services.mercado_pago.environment') === 'sandbox') {
-            return (string) config('services.mercado_pago.test_payer_email', 'test@testuser.com');
+            $testPayerEmail = trim((string) config('services.mercado_pago.test_payer_email'));
+            if (! filter_var($testPayerEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new RuntimeException('Configure MERCADO_PAGO_TEST_PAYER_EMAIL com o e-mail de uma conta compradora de teste.');
+            }
+
+            return $testPayerEmail;
         }
 
         return $customerEmail;

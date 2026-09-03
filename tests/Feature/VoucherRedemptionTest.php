@@ -26,6 +26,7 @@ class VoucherRedemptionTest extends TestCase
         Mail::fake();
         Config::set('services.mercado_pago.access_token', 'test-token');
         Config::set('services.mercado_pago.webhook_secret', 'test-secret');
+        Config::set('services.mercado_pago.test_payer_email', 'test_user_1234567890@testuser.com');
     }
 
     public function test_checkout_reserves_voucher_and_webhook_confirms_full_snapshot(): void
@@ -74,7 +75,7 @@ class VoucherRedemptionTest extends TestCase
         ])->assertCreated();
 
         Http::assertSent(fn ($request) => $request->url() === 'https://api.mercadopago.com/preapproval'
-            && $request['payer_email'] === 'test_user_3662781712@testuser.com');
+            && $request['payer_email'] === 'test_user_1234567890@testuser.com');
 
         $subscriptionId = $response->json('subscription_id');
         $this->assertSame(0, DB::table('voucher_redemptions')->count());

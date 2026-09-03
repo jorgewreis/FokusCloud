@@ -21,4 +21,13 @@ class MercadoPagoClientTest extends TestCase
         Http::assertSent(fn ($request) => $request->hasHeader('Authorization', 'Bearer sandbox-token') && $request->hasHeader('X-Idempotency-Key', 'refund-key'));
         $this->assertSame('[REDACTED]', $client->sanitizePayload(['access_token' => 'secret'])['access_token']);
     }
+
+    public function test_sandbox_payer_requires_a_configured_test_email(): void
+    {
+        Config::set('services.mercado_pago.environment', 'sandbox');
+        Config::set('services.mercado_pago.test_payer_email', null);
+
+        $this->expectException(\RuntimeException::class);
+        app(MercadoPagoClient::class)->payerEmail('customer@example.com');
+    }
 }
