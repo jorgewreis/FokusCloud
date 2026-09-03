@@ -340,6 +340,16 @@
   margin-top: 28px;
 }
 
+.review-actions .btn-danger {
+  border: 2px solid #c84b57;
+  background: transparent;
+  color: #a92f3d;
+}
+
+.review-actions .btn-danger:hover {
+  background: #fff1f2;
+}
+
 .admin-list {
   display: grid;
   gap: 12px;

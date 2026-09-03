@@ -196,18 +196,69 @@ class SubscriptionController extends Controller
         return response()->json(['checkout_url' => $response['init_point'] ?? null, 'subscription_id' => $subscriptionId, 'amount' => $quoted['amount']], 201);
     }
 
-    public function change(Request $request, string $subscription)
+    public function change(Request $request, string $subscription, SubscriptionChangeManager $subscriptionChanges)
     {
         $membership = $request->attributes->get('active_membership');
         abort_unless($membership->role === 'admin', 403, 'Apenas o administrador pode alterar a assinatura.');
         $data = $request->validate([
-            'type' => ['required', Rule::in(['upgrade', 'downgrade', 'cancelamento'])],
+            'type' => ['required', Rule::in(['upgrade', 'downgrade', 'cancelamento', 'cancelamento_imediato'])],
             'items' => ['nullable', 'array'],
             'reason' => ['nullable', 'string', 'max:1000'],
         ]);
         $companyId = $request->attributes->get('active_company_id');
-        $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->whereIn('status', ['ativa', 'suspensa'])->first();
-        abort_unless($current, 404, 'Assinatura ativa não encontrada.');
+        $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->first();
+        abort_unless($current && $current->status !== 'encerrada', 404, 'Assinatura não encontrada ou já encerrada.');
+        if (in_array($data['type'], ['upgrade', 'downgrade', 'cancelamento'], true)) {
+            abort_unless(in_array($current->status, ['ativa', 'suspensa'], true), 422, 'Esta alteração só pode ser feita em assinaturas ativas ou suspensas.');
+        }
+
+        if ($data['type'] === 'cancelamento_imediato' && $current->provider_subscription_id) {
+            try {
+                app(MercadoPagoClient::class)->updatePreapproval(
+                    (string) $current->provider_subscription_id,
+                    ['status' => 'cancelled'],
+                    'user-immediate-cancel-'.$current->id,
+                );
+            } catch (\Throwable $exception) {
+                report($exception);
+                return response()->json(['message' => 'Não foi possível cancelar a assinatura no Mercado Pago. Tente novamente.'], 502);
+            }
+        }
+
+        if ($data['type'] === 'cancelamento_imediato') {
+            $before = $subscriptionChanges->snapshot($current);
+            $effectiveAt = now();
+            $after = [...$before, 'status' => 'encerrada', 'cancel_at' => $effectiveAt->toISOString()];
+            DB::transaction(function () use ($current, $subscription, $effectiveAt, $before, $after, $data, $request): void {
+                DB::table('subscriptions')->where('id', $subscription)->update([
+                    'status' => 'encerrada',
+                    'open_company_product' => null,
+                    'cancel_at' => $effectiveAt,
+                    'commercial_snapshot' => json_encode($after),
+                    'updated_at' => now(),
+                    'version' => DB::raw('version + 1'),
+                ]);
+                DB::table('subscription_changes')->insert([
+                    'id' => PrefixedUlid::make('SCH'),
+                    'company_id' => $current->company_id,
+                    'subscription_id' => $subscription,
+                    'type' => 'cancelamento',
+                    'status' => 'aplicada',
+                    'effective_at' => $effectiveAt,
+                    'proration_amount' => 0,
+                    'items_snapshot' => json_encode($after['items'] ?? []),
+                    'before_snapshot' => json_encode($before),
+                    'after_snapshot' => json_encode($after),
+                    'reason' => $data['reason'] ?? 'Cancelamento imediato solicitado pelo administrador da empresa.',
+                    'requested_by_user_id' => $request->user()->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            });
+
+            return response()->json(['message' => 'Assinatura cancelada imediatamente.', 'effective_at' => $effectiveAt]);
+        }
+
         $effectiveAt = $data['type'] === 'upgrade' ? now() : ($current->current_period_ends_at ?: now());
         $status = $data['type'] === 'upgrade' ? 'aguardando_pagamento' : 'agendada';
         DB::table('subscription_changes')->insert([

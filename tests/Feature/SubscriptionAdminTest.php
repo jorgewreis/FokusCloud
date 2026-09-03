@@ -9,6 +9,7 @@ use App\Services\PrefixedUlid;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class SubscriptionAdminTest extends TestCase
@@ -110,6 +111,21 @@ class SubscriptionAdminTest extends TestCase
         ]);
     }
 
+    public function test_company_admin_can_cancel_unpaid_subscription_immediately(): void
+    {
+        Http::fake(['https://api.mercadopago.com/preapproval/pre-unpaid' => Http::response(['status' => 'cancelled'], 200)]);
+        $fixture = $this->subscriptionFixture(['status' => 'aguardando_pagamento', 'provider_subscription_id' => 'pre-unpaid']);
+        $user = User::find($fixture['user_id']);
+
+        $this->actingAs($user)->withSession(['active_company_id' => $fixture['company_id']])
+            ->postJson('/api/subscriptions/'.$fixture['subscription_id'].'/change', ['type' => 'cancelamento_imediato'])
+            ->assertOk()->assertJsonPath('message', 'Assinatura cancelada imediatamente.');
+
+        $this->assertDatabaseHas('subscriptions', ['id' => $fixture['subscription_id'], 'status' => 'encerrada', 'open_company_product' => null]);
+        $this->assertDatabaseHas('subscription_changes', ['subscription_id' => $fixture['subscription_id'], 'requested_by_user_id' => $user->id, 'status' => 'aplicada']);
+        Http::assertSent(fn ($request) => $request->url() === 'https://api.mercadopago.com/preapproval/pre-unpaid' && $request['status'] === 'cancelled');
+    }
+
     public function test_downgrade_is_scheduled_and_command_applies_it_at_period_end(): void
     {
         $admin = $this->platformAdmin();
@@ -169,10 +185,10 @@ class SubscriptionAdminTest extends TestCase
         $subscriptionId = PrefixedUlid::make('ASS');
         $endsAt = $options['period_ends_at'] ?? now()->addMonth();
         $snapshot = ['plan_id' => DB::table('plans')->where('code', 'law-advocacia')->value('id'), 'plan_code' => 'law-advocacia', 'plan_name' => 'Advocacia', 'billing_cycle' => 'monthly', 'monthly_amount' => 64.70, 'amount' => 64.70, 'current_period_starts_at' => now()->toISOString(), 'current_period_ends_at' => $endsAt->toISOString(), 'status' => 'ativa', 'items' => [['module_id' => $module->id, 'name' => $module->name, 'quantity' => 1, 'unit_price' => (float) $module->monthly_price, 'conditions' => ['plan_code' => 'law-advocacia']]]];
-        DB::table('subscriptions')->insert(['id' => $subscriptionId, 'company_id' => $companyId, 'product_id' => $product->id, 'status' => 'ativa', 'open_company_product' => $companyId.'-'.$product->id, 'version' => 1, 'billing_cycle' => 'monthly', 'current_period_starts_at' => now(), 'current_period_ends_at' => $endsAt, 'commercial_snapshot' => json_encode($snapshot), 'created_by' => $user->id, 'updated_by' => $user->id, 'created_at' => now(), 'updated_at' => now()]);
+        DB::table('subscriptions')->insert(['id' => $subscriptionId, 'company_id' => $companyId, 'product_id' => $product->id, 'status' => $options['status'] ?? 'ativa', 'open_company_product' => $companyId.'-'.$product->id, 'version' => 1, 'billing_cycle' => 'monthly', 'current_period_starts_at' => now(), 'current_period_ends_at' => $endsAt, 'provider_subscription_id' => $options['provider_subscription_id'] ?? null, 'commercial_snapshot' => json_encode($snapshot), 'created_by' => $user->id, 'updated_by' => $user->id, 'created_at' => now(), 'updated_at' => now()]);
         DB::table('subscription_items')->insert(['id' => PrefixedUlid::make('ITM'), 'company_id' => $companyId, 'subscription_id' => $subscriptionId, 'module_id' => $module->id, 'name_snapshot' => $module->name, 'quantity' => 1, 'unit_price_snapshot' => $module->monthly_price, 'conditions_snapshot' => json_encode(['plan_code' => 'law-advocacia']), 'version' => 1, 'created_by' => $user->id, 'updated_by' => $user->id, 'created_at' => now(), 'updated_at' => now()]);
         DB::table('payments')->insert(['id' => PrefixedUlid::make('PAG'), 'company_id' => $companyId, 'subscription_id' => $subscriptionId, 'provider' => 'mercado_pago', 'status' => 'aguardando_pagamento', 'amount' => 64.70, 'currency' => 'BRL', 'provider_payload_sanitized' => json_encode(['test' => true]), 'version' => 1, 'created_by' => $user->id, 'updated_by' => $user->id, 'created_at' => now(), 'updated_at' => now()]);
 
-        return ['company_id' => $companyId, 'subscription_id' => $subscriptionId];
+        return ['company_id' => $companyId, 'subscription_id' => $subscriptionId, 'user_id' => $user->id];
     }
 }
