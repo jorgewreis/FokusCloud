@@ -36,6 +36,11 @@ class SubscriptionController extends Controller
         foreach ($subscriptions as $subscription) {
             $subscription->items = DB::table('subscription_items')->where('company_id', $companyId)->where('subscription_id', $subscription->id)
                 ->select('name_snapshot as name', 'quantity', 'unit_price_snapshot as unit_price', 'conditions_snapshot')->get();
+            $subscription->items->transform(function (object $item): object {
+                $item->conditions = json_decode((string) $item->conditions_snapshot, true) ?: [];
+                unset($item->conditions_snapshot);
+                return $item;
+            });
             $subscription->payment = DB::table('payments')->where('company_id', $companyId)->where('subscription_id', $subscription->id)
                 ->latest('created_at')->select('status', 'amount', 'currency', 'created_at')->first();
         }
@@ -296,7 +301,20 @@ class SubscriptionController extends Controller
         $current = DB::table('subscriptions')->where('id', $subscription)->where('company_id', $companyId)->first();
         abort_unless($current && in_array($current->status, ['encerrada', 'cancelada'], true), 422, 'Somente assinaturas canceladas ou encerradas podem ser excluídas.');
 
-        DB::transaction(function () use ($subscription): void {
+        DB::transaction(function () use ($subscription, $current): void {
+            $paymentIds = DB::table('payments')->where('subscription_id', $subscription)->pluck('id')->all();
+            $changeIds = DB::table('subscription_changes')->where('subscription_id', $subscription)->pluck('id')->all();
+            $refundIds = DB::table('refund_requests')->where('subscription_id', $subscription)->pluck('id')->all();
+            $historyEntityIds = array_values(array_unique(array_merge([$subscription], $paymentIds, $changeIds, $refundIds)));
+
+            foreach (['audit_events', 'platform_audit_events'] as $auditTable) {
+                if (DB::getSchemaBuilder()->hasTable($auditTable)) {
+                    DB::table($auditTable)->whereIn('entity_id', $historyEntityIds)->delete();
+                }
+            }
+            if ($current->provider_subscription_id && DB::getSchemaBuilder()->hasTable('billing_provider_events')) {
+                DB::table('billing_provider_events')->where('resource_id', $current->provider_subscription_id)->delete();
+            }
             foreach (['voucher_redemption_reservations', 'voucher_redemptions', 'subscription_changes', 'refund_requests', 'payment_reconciliation_alerts', 'billing_checkout_attempts', 'subscription_items', 'payments'] as $table) {
                 if (DB::getSchemaBuilder()->hasTable($table)) DB::table($table)->where('subscription_id', $subscription)->delete();
             }

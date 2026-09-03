@@ -340,6 +340,8 @@
   margin-top: 28px;
 }
 
+.text-danger { color: #b42318; }
+
 .review-actions .btn-danger {
   border: 2px solid #c84b57;
   background: transparent;
