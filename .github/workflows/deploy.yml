@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup PHP with SQLite
         uses: shivammathur/setup-php@v2
@@ -62,7 +62,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configure SSH
         env:
@@ -106,6 +106,15 @@ jobs:
             --exclude 'storage/' \
             -e "ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p $DEPLOY_PORT" \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+
+      - name: Check server runtime
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh -o ConnectTimeout=20 -o ConnectionAttempts=1 -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" "set -eu; cd '$DEPLOY_PATH'; printf 'user='; id -un; printf 'php='; php -r 'echo PHP_VERSION, PHP_EOL;'; printf 'composer='; composer --version; test -f composer.json; test -f composer.lock; test -f .env"
 
       - name: Install dependencies on server
         env:
