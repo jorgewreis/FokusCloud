@@ -1,0 +1,103 @@
+/* THEME - DARK MODE */
+
+[data-theme="dark"] {
+    /* -- COR PRINCIPAL */
+    --color-primary: var(--color-blue-400);
+    --color-primary-hover: var(--color-blue-300);
+    --color-primary-active: var(--color-blue-200);
+    --color-primary-light: var(--color-blue-100);
+    --color-primary-contrast: var(--color-gray-900);
+    --color-link: var(--color-blue-300);
+    --color-link-hover: var(--color-blue-200);
+    --color-focus: var(--color-blue-300);
+
+    /* -- COR SECUNDÁRIA */
+    --color-secondary: var(--color-gray-400);
+    --color-secondary-hover: var(--color-gray-300);
+    --color-secondary-active: var(--color-gray-200);
+    --color-secondary-light: var(--color-gray-500);
+    --color-secondary-contrast: var(--color-gray-900);
+
+    /* -- SUPERFÍCIES */
+    --color-bg: var(--color-gray-900);
+    --color-surface: var(--color-gray-800);
+    --color-surface-hover: var(--color-gray-700);
+    --color-surface-card: var(--color-gray-800);
+
+    /* -- TEXTO */
+    --color-text: var(--color-gray-100);
+    --color-text-muted: var(--color-gray-400);
+    --color-text-inverted: var(--color-gray-900);
+    --color-text-placeholder: var(--color-gray-500);
+    --color-text-disabled: var(--color-gray-600);
+
+    /* -- BORDAS E DIVISORES */
+    --color-border: var(--color-gray-700);
+    --color-border-light: var(--color-gray-800);
+    --color-border-dark: var(--color-gray-600);
+    --color-border-focus: var(--color-blue-300);
+
+    /* -- FEEDBACK */
+    --color-success: var(--color-green-400);
+    --color-success-hover: var(--color-green-300);
+    --color-success-active: var(--color-green-200);
+    --color-success-bg: var(--color-green-900);
+    --color-success-text: var(--color-green-300);
+    --color-success-border: var(--color-green-400);
+    --color-error: var(--color-red-400);
+    --color-error-hover: var(--color-red-300);
+    --color-error-active: var(--color-red-200);
+    --color-error-bg: var(--color-red-900);
+    --color-error-text: var(--color-red-300);
+    --color-error-border: var(--color-red-400);
+    --color-warning: var(--color-yellow-400);
+    --color-warning-hover: var(--color-yellow-300);
+    --color-warning-active: var(--color-yellow-200);
+    --color-warning-bg: var(--color-yellow-900);
+    --color-warning-text: var(--color-yellow-300);
+    --color-warning-border: var(--color-yellow-400);
+    --color-info: var(--color-cyan-400);
+    --color-info-hover: var(--color-cyan-300);
+    --color-info-active: var(--color-cyan-200);
+    --color-info-bg: var(--color-cyan-900);
+    --color-info-text: var(--color-cyan-300);
+    --color-info-border: var(--color-cyan-400);
+
+    /* -- TRANSPARÊNCIAS E OVERLAYS */
+    --color-overlay-10: rgba(0, 0, 0, 0.1);
+    --color-overlay-20: rgba(0, 0, 0, 0.2);
+    --color-overlay-30: rgba(0, 0, 0, 0.3);
+    --color-overlay-40: rgba(0, 0, 0, 0.4);
+    --color-overlay-50: rgba(0, 0, 0, 0.5);
+    --color-primary-alpha-10: rgba(61, 139, 253, 0.1);
+    --color-primary-alpha-20: rgba(61, 139, 253, 0.2);
+    --color-primary-alpha-30: rgba(61, 139, 253, 0.3);
+    --color-primary-alpha-40: rgba(61, 139, 253, 0.4);
+    --color-primary-alpha-50: rgba(61, 139, 253, 0.5);
+    --color-secondary-alpha-10: rgba(206, 212, 218, 0.1);
+    --color-secondary-alpha-20: rgba(206, 212, 218, 0.2);
+    --color-secondary-alpha-30: rgba(206, 212, 218, 0.3);
+    --color-secondary-alpha-40: rgba(206, 212, 218, 0.4);
+    --color-secondary-alpha-50: rgba(206, 212, 218, 0.5);
+    --color-success-alpha-10: rgba(71, 159, 118, 0.1);
+    --color-success-alpha-20: rgba(71, 159, 118, 0.2);
+    --color-success-alpha-30: rgba(71, 159, 118, 0.3);
+    --color-success-alpha-40: rgba(71, 159, 118, 0.4);
+    --color-success-alpha-50: rgba(71, 159, 118, 0.5);
+    --color-error-alpha-10: rgba(227, 93, 106, 0.1);
+    --color-error-alpha-20: rgba(227, 93, 106, 0.2);
+    --color-error-alpha-30: rgba(227, 93, 106, 0.3);
+    --color-error-alpha-40: rgba(227, 93, 106, 0.4);
+    --color-error-alpha-50: rgba(227, 93, 106, 0.5);
+    --color-warning-alpha-10: rgba(255, 205, 57, 0.1);
+    --color-warning-alpha-20: rgba(255, 205, 57, 0.2);
+    --color-warning-alpha-30: rgba(255, 205, 57, 0.3);
+    --color-warning-alpha-40: rgba(255, 205, 57, 0.4);
+    --color-warning-alpha-50: rgba(255, 205, 57, 0.5);
+    --color-info-alpha-10: rgba(61, 213, 243, 0.1);
+    --color-info-alpha-20: rgba(61, 213, 243, 0.2);
+    --color-info-alpha-30: rgba(61, 213, 243, 0.3);
+    --color-info-alpha-40: rgba(61, 213, 243, 0.4);
+    --color-info-alpha-50: rgba(61, 213, 243, 0.5);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}

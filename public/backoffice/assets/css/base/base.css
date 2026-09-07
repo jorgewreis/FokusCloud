@@ -1,3 +1,6 @@
+/* LOAD SHARED DESIGN TOKENS */
+@import url("../../../../assets/css/shared/main.css");
+
 /* NORMALIZE BROWSER DEFAULTS */
 @import url("reset.css?v=20260901-live-controls");
 
