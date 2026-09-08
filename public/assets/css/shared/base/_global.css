@@ -1,0 +1,104 @@
+/* GLOBAL BASE STYLES */
+
+:root {
+    color-scheme: light;
+    font-family: var(--font-family-base);
+    font-size: 100%;
+    font-synthesis: none;
+}
+
+:root[data-theme="dark"],
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html,
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-family-base);
+    font-size: var(--text-body);
+    font-weight: var(--text-body-weight);
+    line-height: var(--text-body-line-height);
+    letter-spacing: var(--text-body-letter-spacing);
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+    color: var(--color-text);
+    font-family: var(--text-heading-family);
+    font-weight: var(--text-heading-weight);
+    line-height: var(--text-heading-line-height);
+    letter-spacing: var(--text-heading-letter-spacing);
+}
+
+h1 { font-size: var(--text-heading-1); }
+h2 { font-size: var(--text-heading-2); }
+h3 { font-size: var(--text-heading-3); }
+h4 { font-size: var(--text-heading-4); }
+h5 { font-size: var(--text-heading-5); }
+h6 { font-size: var(--text-heading-6); }
+
+:where(a) {
+    color: var(--color-link);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: var(--text-link-underline-offset);
+    transition: var(--transition-color);
+}
+
+:where(a:hover) {
+    color: var(--color-link-hover);
+}
+
+:where(button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+:where(input, textarea, select)::placeholder {
+    color: var(--color-text-placeholder);
+    opacity: 1;
+}
+
+:where(code, kbd, samp, pre) {
+    font-family: var(--font-family-code);
+}
+
+:where(code, kbd, samp) {
+    font-size: var(--text-code-size);
+}
+
+:where(abbr[title]) {
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: var(--text-underline-offset);
+}
+
+:where([hidden]) {
+    display: none !important;
+}
+
+.u-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.u-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.u-text-wrap {
+    overflow-wrap: var(--text-overflow-wrap);
+    text-wrap: var(--text-wrap);
+}
