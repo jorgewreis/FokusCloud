@@ -26,7 +26,7 @@
 
         <div class="container-page expanded">
 
-            <div class="sidebar expanded" id="sidebar">
+            <div class="fs-sidebar expanded" id="sidebar">
                 <div class="top">
                     <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
                         <img src="/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png" alt="">
@@ -70,13 +70,13 @@
                     <div class="line-hr-single"></div>
                     <div class="sidebar-button">
                         <img src="/backoffice/assets/icons/Cog--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm text-muted">Configurações</span>
+                        <span class="sidebar-button-label text-subtitle-sm fs-u-color-secondary">Configurações</span>
                     </div>
                     <div class="sidebar-button">
                         <img src="/backoffice/assets/icons/Settings-User--Streamline-Ultimate.png">
-                        <div class="d-flex col">
-                            <span class="sidebar-button-label text-caption text-muted">Administrador logado</span>
-                            <span class="sidebar-button-label text-subtitle-sm text-primary" id="admin-name">Jorge Reis</span>
+                        <div class="fs-u-d-flex fs-col">
+                            <span class="sidebar-button-label text-caption fs-u-color-secondary">Administrador logado</span>
+                            <span class="sidebar-button-label text-subtitle-sm fs-u-color-primary" id="admin-name">Jorge Reis</span>
                         </div>
                         <img class="mini-icon" id="logout" src="/backoffice/assets/icons/Download-Square-3--Streamline-Ultimate.png">
                     </div>
@@ -94,7 +94,7 @@
     <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
     <script>
         function sidebarHide() {
-            let sidebar = document.querySelector(".sidebar");
+            let sidebar = document.querySelector(".fs-sidebar");
             let icon = document.querySelector("#sidebar-expand img");
             let button = document.querySelector("#sidebar-expand");
             let isSingle = sidebar.classList.contains("single");
@@ -172,7 +172,7 @@
         }
 
         async function loadSidebarPage(pageName) {
-            pageContent.innerHTML = '<div class="text-body text-muted">Carregando...</div>';
+            pageContent.innerHTML = '<div class="text-body fs-u-color-secondary">Carregando...</div>';
 
             try {
                 const response = await fetch(`${pagePath}/${pageName}.html?v=${pageVersion}`);

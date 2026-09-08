@@ -3,7 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "styles:sync": "node tools/sync-fokus-styles.mjs",
+        "build": "npm run styles:sync && vite build",
         "dev": "vite",
         "tokens:check": "node tools/validate-css-tokens.mjs"
     },
@@ -15,6 +16,6 @@
         "vite": "^8.0.0"
     },
     "dependencies": {
-        "fokus-styles": "^2.5.0"
+        "fokus-styles": "^2.6.0"
     }
 }

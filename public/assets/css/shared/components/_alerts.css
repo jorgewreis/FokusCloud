@@ -1,0 +1,40 @@
+/* ALERT COMPONENTS */
+
+.alert {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-3);
+    border: var(--border-width-thin) solid var(--alert-border, var(--color-border));
+    border-radius: var(--radius-panel);
+    background: var(--alert-background, var(--color-surface));
+    color: var(--alert-color, var(--color-text));
+}
+
+.alert-title {
+    display: block;
+    margin-block-end: var(--space-1);
+    font-weight: var(--font-weight-bold);
+}
+
+.alert-content {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.alert-description {
+    color: inherit;
+    font-size: var(--text-description);
+    line-height: var(--text-description-line-height);
+}
+
+.alert-close {
+    flex: 0 0 auto;
+    color: inherit;
+}
+
+.alert-success { --alert-background: var(--color-success-bg); --alert-border: var(--color-success-border); --alert-color: var(--color-success-text); }
+.alert-error,
+.alert-danger { --alert-background: var(--color-error-bg); --alert-border: var(--color-error-border); --alert-color: var(--color-error-text); }
+.alert-warning { --alert-background: var(--color-warning-bg); --alert-border: var(--color-warning-border); --alert-color: var(--color-warning-text); }
+.alert-info { --alert-background: var(--color-info-bg); --alert-border: var(--color-info-border); --alert-color: var(--color-info-text); }

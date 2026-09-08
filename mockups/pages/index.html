@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <!-- -- -- STYLE-SHARED -->
     <link rel="stylesheet" href="./../../public/assets/css/shared/main.css">
     <!-- -- -- STYLE-MODULES -->
-    <link rel="stylesheet" href="./../../public/assets/css/modules/index.css">
+    <link rel="stylesheet" href="./../../public/assets/css/modules/loading/loading.css">
     <!-- -- -- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +18,20 @@
     <title>Fokus Cloud</title>
 </head>
 <body>
+
+    <div class="point-loading offscreen visible"></div>
+    <div class="word-loading">
+        <span class="primary">F</span>
+        <span class="secondary"></span>
+    </div>
+
+
+<script src="./../../public/assets/js/modules/loading.js"></script>
+<script>
+
+    pointLoading();
+
+</script>
 
 </body>
 </html>

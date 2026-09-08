@@ -1,0 +1,4 @@
+/* COLLAPSE */
+[data-collapse-panel][hidden] { display: none; }
+[data-collapse-panel] { overflow: hidden; block-size: auto; transition: block-size var(--duration-normal) var(--ease-standard); }
+.collapse-trigger[aria-expanded="false"] { opacity: .85; }

@@ -2,7 +2,7 @@
 .w-fit {
     width: fit-content;
 }
-.w-auto {
+.fs-u-w-auto {
     width: auto;
 }
 .w-min {
@@ -38,7 +38,7 @@
 .w-9 {
     width: 500px;
 }
-.w-full {
+.fs-u-w-100 {
     width: 100%;
 }
 .max-w-full {

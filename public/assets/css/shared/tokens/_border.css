@@ -1,0 +1,19 @@
+/* BORDER TOKENS */
+
+/* -- LARGURAS PRIMITIVAS */
+:root {
+    --border-width-0: 0;
+    --border-width-1: 1px;
+    --border-width-2: 2px;
+    --border-width-3: 3px;
+    --border-width-4: 4px;
+}
+
+/* -- LARGURAS SEMÂNTICAS */
+:root {
+    --border-width-none: var(--border-width-0);
+    --border-width-thin: var(--border-width-1);
+    --border-width-medium: var(--border-width-2);
+    --border-width-thick: var(--border-width-3);
+    --border-width-emphasis: var(--border-width-4);
+}

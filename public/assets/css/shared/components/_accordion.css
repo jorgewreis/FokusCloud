@@ -1,0 +1,58 @@
+/* ACCORDION COMPONENTS */
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    border: var(--border-width-thin) solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-card);
+    color: var(--color-text);
+    overflow: hidden;
+}
+
+.accordion-item + .accordion-item {
+    border-block-start: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.accordion-trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-card-padding);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+}
+
+.accordion-trigger:hover {
+    background: var(--color-surface-hover);
+}
+
+.accordion-trigger::after {
+    flex: 0 0 auto;
+    color: var(--color-text-muted);
+    content: "+";
+    font-size: var(--font-size-xl);
+    line-height: 1;
+}
+
+.accordion-item[open] > .accordion-trigger::after {
+    content: "−";
+}
+
+.accordion-content {
+    padding: 0 var(--space-card-padding) var(--space-card-padding);
+    color: var(--color-text-muted);
+}
+
+.accordion-content > :first-child {
+    margin-block-start: 0;
+}
+
+.accordion-compact .accordion-trigger {
+    padding-block: var(--space-2);
+}

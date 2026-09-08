@@ -1,0 +1,25 @@
+/* STACK LAYOUT */
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-stack-gap);
+}
+
+.stack-xs { gap: var(--space-1); }
+.stack-sm { gap: var(--space-2); }
+.stack-md { gap: var(--space-3); }
+.stack-lg { gap: var(--space-4); }
+.stack-xl { gap: var(--space-6); }
+
+.fc-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-stack-gap);
+}
+
+.fc-stack-xs { gap: var(--space-1); }
+.fc-stack-sm { gap: var(--space-2); }
+.fc-stack-md { gap: var(--space-3); }
+.fc-stack-lg { gap: var(--space-4); }
+.fc-stack-xl { gap: var(--space-6); }

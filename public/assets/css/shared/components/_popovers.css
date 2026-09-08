@@ -1,0 +1,4 @@
+/* POPOVERS */
+.popover { position: absolute; z-index: var(--z-popover); max-width: min(20rem, calc(100vw - var(--space-4))); padding: var(--space-3); border: var(--border-width-thin) solid var(--color-border); border-radius: var(--radius-popover); background: var(--color-surface-card); box-shadow: var(--shadow-popover); color: var(--color-text); }
+.popover[hidden] { display: none; }
+.popover-title { margin-block-end: var(--space-1); font-weight: var(--font-weight-semibold); }

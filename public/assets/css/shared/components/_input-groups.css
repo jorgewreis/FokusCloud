@@ -1,0 +1,12 @@
+/* INPUT GROUPS */
+.input-group { display: flex; width: 100%; align-items: stretch; }
+.input-group > .form-control, .input-group > .form-select { min-width: 0; flex: 1 1 auto; border-radius: 0; }
+.input-group > :first-child { border-start-start-radius: var(--radius-input-group); border-end-start-radius: var(--radius-input-group); }
+.input-group > :last-child { border-start-end-radius: var(--radius-input-group); border-end-end-radius: var(--radius-input-group); }
+.input-group-text { display: inline-flex; align-items: center; padding-inline: var(--space-3); border: var(--border-width-thin) solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); white-space: nowrap; }
+.input-group > .input-group-text + .form-control, .input-group > .form-control + .input-group-text { margin-inline-start: -1px; }
+.input-group > .btn { border-radius: 0; }
+.input-group > .btn:first-child { border-start-start-radius: var(--radius-button); border-end-start-radius: var(--radius-button); }
+.input-group > .btn:last-child { border-start-end-radius: var(--radius-button); border-end-end-radius: var(--radius-button); }
+.input-group:focus-within .form-control, .input-group:focus-within .form-select { border-color: var(--color-border-focus); box-shadow: var(--control-focus-ring); }
+.input-group.has-error .form-control, .input-group.has-error .input-group-text { border-color: var(--color-error-border); }

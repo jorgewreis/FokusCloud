@@ -1,4 +1,4 @@
-.modal {
+.fs-modal {
     position: fixed;
     inset: 0;
     z-index: var(--z-modal);
@@ -11,15 +11,15 @@
     pointer-events: none;
     transition: opacity 180ms ease, visibility 180ms ease;
 }
-.modal.is-open, .modal[aria-hidden="false"] { opacity: 1; visibility: visible; pointer-events: auto; }
-.modal-dialog { width: min(560px, 100%); max-height: min(720px, calc(100vh - 32px)); overflow: auto; border: 1px solid var(--theme-border-alt); border-radius: var(--radius-md); background: var(--theme-surface); box-shadow: var(--shadow-lg); }
-.modal-sm .modal-dialog { width: min(380px, 100%); }
-.modal-lg .modal-dialog { width: min(800px, 100%); }
-.modal-fullscreen .modal-dialog { width: 100%; max-height: 100%; height: 100%; border-radius: 0; }
-.modal-header, .modal-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3); }
-.modal-header { border-bottom: 1px solid var(--theme-border-alt); }
-.modal-body { padding: var(--space-3); }
-.modal-footer { justify-content: flex-end; border-top: 1px solid var(--theme-border-alt); }
+.fs-modal.is-open, .fs-modal[aria-hidden="false"] { opacity: 1; visibility: visible; pointer-events: auto; }
+.fs-modal-dialog { width: min(560px, 100%); max-height: min(720px, calc(100vh - 32px)); overflow: auto; border: 1px solid var(--theme-border-alt); border-radius: var(--radius-md); background: var(--theme-surface); box-shadow: var(--shadow-lg); }
+.fs-modal-sm .fs-modal-dialog { width: min(380px, 100%); }
+.fs-modal-lg .fs-modal-dialog { width: min(800px, 100%); }
+.fs-modal-fullscreen .fs-modal-dialog { width: 100%; max-height: 100%; height: 100%; border-radius: 0; }
+.fs-modal-header, .fs-modal-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3); }
+.fs-modal-header { border-bottom: 1px solid var(--theme-border-alt); }
+.fs-modal-body { padding: var(--space-3); }
+.fs-modal-footer { justify-content: flex-end; border-top: 1px solid var(--theme-border-alt); }
 .modal-close { flex: 0 0 auto; }
 
 /* Existing dialog remains usable and gains the shared panel treatment. */

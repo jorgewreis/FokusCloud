@@ -1,0 +1,12 @@
+/* LAYOUT TOKENS */
+:root {
+    --layout-container-sm: 36rem;
+    --layout-container-md: 48rem;
+    --layout-container-lg: 64rem;
+    --layout-container-xl: 75rem;
+    --layout-container-wide: 90rem;
+    --layout-readable-width: 70ch;
+    --layout-min-touch-target: 2.75rem;
+    --layout-header-height: 4rem;
+    --layout-sidebar-width: 16rem;
+}

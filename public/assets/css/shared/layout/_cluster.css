@@ -1,0 +1,29 @@
+/* CLUSTER LAYOUT */
+
+.cluster,
+.fc-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-inline-gap);
+}
+
+.cluster-start,
+.fc-cluster-start { justify-content: flex-start; }
+.cluster-center,
+.fc-cluster-center { justify-content: center; }
+.cluster-end,
+.fc-cluster-end { justify-content: flex-end; }
+.cluster-between,
+.fc-cluster-between { justify-content: space-between; }
+
+.cluster-xs,
+.fc-cluster-xs { gap: var(--space-1); }
+.cluster-sm,
+.fc-cluster-sm { gap: var(--space-2); }
+.cluster-md,
+.fc-cluster-md { gap: var(--space-3); }
+.cluster-lg,
+.fc-cluster-lg { gap: var(--space-4); }
+.cluster-xl,
+.fc-cluster-xl { gap: var(--space-6); }

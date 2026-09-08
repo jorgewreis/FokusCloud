@@ -1,17 +1,17 @@
 /* DISPLAY */
-.d-flex {
+.fs-u-d-flex {
     display: flex;
 }
-.d-grid {
+.fs-u-d-grid {
     display: grid;
 }
-.d-block {
+.fs-u-d-block {
     display: block;
 }
-.d-inline {
+.fs-u-d-inline {
     display: inline;
 }
-.d-inline-block {
+.fs-u-d-inline-block {
     display: inline-block;
 }
 .d-inline-flex {
@@ -20,6 +20,6 @@
 .d-inline-grid {
     display: inline-grid;
 }
-.d-none {
+.fs-u-d-none {
     display: none;
 }

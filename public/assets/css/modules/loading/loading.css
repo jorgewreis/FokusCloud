@@ -1,0 +1,91 @@
+
+
+/* POINT LOADING */ 
+.point-loading {
+    /* position */
+    position: absolute;
+    left: 50%;
+
+
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    background-color: gold;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 1200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+    .point-loading.visible {
+        opacity: 1;
+    }
+    .point-loading.offscreen {
+        top: -50px;
+        transform: top;
+    }
+    .point-loading.onscreen {
+        top: 50%;
+        transform: top;
+    }
+    /* efeito de piscar suavemente */
+    .point-loading.blink {        
+        animation: blink 1s infinite;
+    }   
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.1; }
+  100% { opacity: 1; }
+}
+
+/* CONTAINER SYSTEM */
+.word-loading {
+    /* position */
+    position: absolute;
+    left: calc(50% + 0px);
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    /* size */
+    width: 500px;
+    height: 200px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 600;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: rgb(106, 243, 106);
+
+    opacity: 0;
+    transition: all 1200ms ease-in-out;
+}
+    .word-loading.visible {
+        opacity: 1;
+        font-size: 80px;
+        left: calc(50% + 6px);
+    }
+    .word-loading .secondary {
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 600;
+        font-size: 80px;
+        color: gray;
+        opacity: 0.5;
+    }
+    .word-loading .primary {
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 600;
+        font-size: 80px;
+        color: rgb(109, 255, 109);
+    }
+    .word-loading.top {
+        top: 4vh;
+        left: 0;
+        transform: translate(-20%, -40%) scale(0.7);
+    }

@@ -41,13 +41,13 @@
           <button class="access-modal-close" data-client-modal-close type="button" aria-label="Fechar acesso à conta">×</button>
           <div class="card-heading">
             <p class="section-kicker">Acesso à plataforma</p>
-            <h2 class="card-title" id="client-modal-title">Entre na sua conta.</h2>
+            <h2 class="fs-card-title" id="client-modal-title">Entre na sua conta.</h2>
             <p class="card-description">Use seu CPF ou CNPJ e sua senha para continuar.</p>
           </div>
           <form data-client-login>
-            <label class="form-field"><span class="form-label" data-client-document-label>CPF ou CNPJ</span><input class="form-control field-size-md" data-client-document name="document" inputmode="numeric" autocomplete="username" maxlength="18" required></label>
-            <label class="form-field"><span class="form-label">Senha</span><input class="form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
-            <div class="login-actions"><button class="btn btn-green" type="submit">Entrar</button><a class="btn btn-outline" href="/cadastro">Criar conta</a></div>
+            <label class="form-field"><span class="fs-form-label" data-client-document-label>CPF ou CNPJ</span><input class="fs-form-control field-size-md" data-client-document name="document" inputmode="numeric" autocomplete="username" maxlength="18" required></label>
+            <label class="form-field"><span class="fs-form-label">Senha</span><input class="fs-form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
+            <div class="login-actions"><button class="fs-btn fs-btn-success" type="submit">Entrar</button><a class="fs-btn fs-btn-outline-primary" href="/cadastro">Criar conta</a></div>
           </form>
           <p class="form-message" data-client-message role="status"></p>
           <a class="auth-recovery-link" href="/recuperar-senha">Esqueci minha senha</a>
@@ -157,21 +157,21 @@
           <button class="access-modal-close" data-backoffice-modal-close type="button" aria-label="Fechar acesso administrativo">×</button>
           <div class="card-heading">
             <p class="section-kicker">Acesso restrito</p>
-            <h2 class="card-title" id="backoffice-modal-title">Backoffice</h2>
+            <h2 class="fs-card-title" id="backoffice-modal-title">Backoffice</h2>
             <p class="card-description">Use exclusivamente suas credenciais internas da Fokus Cloud.</p>
           </div>
           <form data-backoffice-login>
-            <label class="form-field"><span class="form-label">E-mail interno</span><input class="form-control field-size-md" name="email" type="email" autocomplete="username" required></label>
-            <label class="form-field"><span class="form-label">Senha</span><input class="form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
-            <div class="login-actions"><button class="btn btn-green" type="submit">Continuar</button></div>
+            <label class="form-field"><span class="fs-form-label">E-mail interno</span><input class="fs-form-control field-size-md" name="email" type="email" autocomplete="username" required></label>
+            <label class="form-field"><span class="fs-form-label">Senha</span><input class="fs-form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
+            <div class="login-actions"><button class="fs-btn fs-btn-success" type="submit">Continuar</button></div>
           </form>
           <form data-backoffice-mfa hidden aria-hidden="true">
             <div class="card-heading">
               <p class="section-kicker">Código enviado</p>
               <p class="card-description">Informe o código de seis dígitos enviado ao seu e-mail para concluir o acesso.</p>
             </div>
-            <label class="form-field"><span class="form-label">Código</span><input class="form-control field-size-sm" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
-            <div class="login-actions"><button class="btn btn-green" type="submit">Validar acesso</button></div>
+            <label class="form-field"><span class="fs-form-label">Código</span><input class="fs-form-control field-size-sm" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
+            <div class="login-actions"><button class="fs-btn fs-btn-success" type="submit">Validar acesso</button></div>
           </form>
           <p class="form-message" data-backoffice-message role="status"></p>
         </section>

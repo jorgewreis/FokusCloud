@@ -1,0 +1,56 @@
+/* TABS COMPONENTS */
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.tabs-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.tabs-center .tabs-list { justify-content: center; }
+.tabs-end .tabs-list { justify-content: flex-end; }
+.tabs-stretch .tabs-list > * { flex: 1 1 0; }
+
+.tab {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2) var(--space-3);
+    border: var(--border-width-thin) solid transparent;
+    border-radius: var(--radius-button);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+}
+
+.tab[aria-selected="true"] {
+    color: var(--color-primary);
+}
+
+.tabs-underline .tabs-list { border-block-end: var(--border-width-thin) solid var(--color-border); }
+.tabs-underline .tab { border-radius: 0; border-block-end: var(--border-width-2) solid transparent; }
+.tabs-underline .tab[aria-selected="true"] { border-block-end-color: var(--color-primary); }
+
+.tabs-pills .tab[aria-selected="true"] { background: var(--color-primary); color: var(--color-primary-contrast); }
+.tabs-bordered .tabs-list { gap: 0; }
+.tabs-bordered .tab { border-color: var(--color-border); border-radius: 0; }
+.tabs-bordered .tab + .tab { margin-inline-start: calc(var(--border-width-thin) * -1); }
+.tabs-bordered .tab:first-child { border-start-start-radius: var(--radius-button); border-end-start-radius: var(--radius-button); }
+.tabs-bordered .tab:last-child { border-start-end-radius: var(--radius-button); border-end-end-radius: var(--radius-button); }
+
+.tabs-sm .tab { min-height: 2rem; padding: var(--space-1) var(--space-2); font-size: var(--font-size-xs); }
+.tabs-lg .tab { min-height: 3rem; padding: var(--space-3) var(--space-4); font-size: var(--font-size-md); }
+
+.tab-panel { min-width: 0; }
+.tab-panel[hidden] { display: none; }

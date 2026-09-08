@@ -1,24 +1,2 @@
-/* IMPORT CSS */
-
-/* -- TOKENS */
-@import url("./tokens/_colors.css");
-@import url("./tokens/_spacing.css");
-@import url("./tokens/_radius.css");
-@import url("./tokens/_shadow.css");
-@import url("./tokens/_typography.css");
-@import url("./tokens/_z-index.css");
-@import url("./tokens/_motion.css");
-
-/* -- THEMES */
-@import url("./themes/_theme-light.css");
-@import url("./themes/_theme-dark.css");
-
-/* -- BASE */
-@import url("./base/_reset.css");
-@import url("./base/_global.css");
-
-/* -- LAYOUT */
-
-/* -- COMPONENTS */
-
-/* -- UTILITIES */
+/* The shared entrypoint is now provided by the installed Fokus Styles package. */
+@import url("../../vendor/fokus-styles/fokus.css");

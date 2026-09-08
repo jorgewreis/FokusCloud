@@ -15,18 +15,18 @@
         <a class="brand" href="/portal">Fokus<span>Cloud</span></a>
         <div class="card-heading">
           <p class="section-kicker">Usuários da empresa</p>
-          <h1 class="card-title">Convide e administre acessos</h1>
+          <h1 class="fs-card-title">Convide e administre acessos</h1>
           <p class="card-description">Defina o perfil de cada pessoa que acessa a sua empresa.</p>
         </div>
         <form id="invite-form">
-          <label class="form-field"><span class="form-label">Nome completo</span><input class="field-size-md" name="name" autocomplete="name" required /></label>
-          <label class="form-field"><span class="form-label">CPF</span><input class="field-size-md" name="cpf" inputmode="numeric" required /></label>
-          <label class="form-field"><span class="form-label">E-mail</span><input class="field-size-md" name="email" type="email" autocomplete="email" required /></label>
-          <label class="form-field"><span class="form-label">Perfil</span><select class="field-size-md" name="role"><option value="usuario">Usuário</option><option value="gestor">Gestor</option></select></label>
+          <label class="form-field"><span class="fs-form-label">Nome completo</span><input class="field-size-md" name="name" autocomplete="name" required /></label>
+          <label class="form-field"><span class="fs-form-label">CPF</span><input class="field-size-md" name="cpf" inputmode="numeric" required /></label>
+          <label class="form-field"><span class="fs-form-label">E-mail</span><input class="field-size-md" name="email" type="email" autocomplete="email" required /></label>
+          <label class="form-field"><span class="fs-form-label">Perfil</span><select class="field-size-md" name="role"><option value="usuario">Usuário</option><option value="gestor">Gestor</option></select></label>
         </form>
-        <div class="login-actions"><button class="btn btn-green" form="invite-form" type="submit">Enviar convite</button></div>
+        <div class="login-actions"><button class="fs-btn fs-btn-success" form="invite-form" type="submit">Enviar convite</button></div>
         <p id="message" class="form-message" role="status"></p>
-        <div class="review-actions"><a class="btn btn-outline" href="/portal/transferir-administracao">Transferir administração</a></div>
+        <div class="review-actions"><a class="fs-btn fs-btn-outline-primary" href="/portal/transferir-administracao">Transferir administração</a></div>
         <div id="users" class="admin-list"></div>
       </section>
     </main>
@@ -50,7 +50,7 @@
       async function load() {
         try {
           const users = await FokusApi.request('/portal/users');
-          list.innerHTML = users.map((user) => `<article class="admin-list-item"><h2>${user.name}</h2><p>${maskCpf(user.cpf)} · ${user.email} · ${user.role} · <b>${user.status}</b></p>${user.role === 'admin' ? '' : `<div class="review-actions"><button class="btn btn-white" data-action="gestor" data-id="${user.id}" data-version="${user.version}">Gestor</button><button class="btn btn-white" data-action="usuario" data-id="${user.id}" data-version="${user.version}">Usuário</button>${user.status === 'removido' ? `<button class="btn btn-white" data-action="restore" data-id="${user.id}" data-version="${user.version}">Restaurar</button>` : `<button class="btn btn-outline" data-action="${user.status === 'suspenso' ? 'ativo' : 'suspenso'}" data-id="${user.id}" data-version="${user.version}">${user.status === 'suspenso' ? 'Reativar' : 'Suspender'}</button><button class="btn btn-outline" data-action="removido" data-id="${user.id}" data-version="${user.version}">Remover</button>`}</div>`}</article>`).join('');
+          list.innerHTML = users.map((user) => `<article class="admin-list-item"><h2>${user.name}</h2><p>${maskCpf(user.cpf)} · ${user.email} · ${user.role} · <b>${user.status}</b></p>${user.role === 'admin' ? '' : `<div class="review-actions"><button class="fs-btn fs-btn-secondary" data-action="gestor" data-id="${user.id}" data-version="${user.version}">Gestor</button><button class="fs-btn fs-btn-secondary" data-action="usuario" data-id="${user.id}" data-version="${user.version}">Usuário</button>${user.status === 'removido' ? `<button class="fs-btn fs-btn-secondary" data-action="restore" data-id="${user.id}" data-version="${user.version}">Restaurar</button>` : `<button class="fs-btn fs-btn-outline-primary" data-action="${user.status === 'suspenso' ? 'ativo' : 'suspenso'}" data-id="${user.id}" data-version="${user.version}">${user.status === 'suspenso' ? 'Reativar' : 'Suspender'}</button><button class="fs-btn fs-btn-outline-primary" data-action="removido" data-id="${user.id}" data-version="${user.version}">Remover</button>`}</div>`}</article>`).join('');
           list.querySelectorAll('[data-action]').forEach((button) => button.onclick = async () => {
             const action = button.dataset.action;
             try {

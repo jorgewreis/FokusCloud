@@ -5,6 +5,6 @@
 @media (max-width: 640px) { [data-tooltip]::after { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
-    .modal, .modal-dialog, [data-tooltip]::after, .progress-bar { transition: none; }
-    .skeleton, .progress-indeterminate .progress-bar { animation: none; }
+    .fs-modal, .fs-modal-dialog, [data-tooltip]::after, .fs-progress-bar { transition: none; }
+    .fs-skeleton, .fs-progress-indeterminate .fs-progress-bar { animation: none; }
 }

@@ -1,4 +1,4 @@
-.badge {
+.fs-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -11,14 +11,14 @@
     line-height: 1.2;
     white-space: nowrap;
 }
-.badge:empty { display: none; }
-.badge-success { border-color: var(--color-green-200); background: var(--color-green-050); color: var(--color-green-700); }
-.badge-warning { border-color: var(--color-yellow-200); background: var(--color-yellow-050); color: var(--color-yellow-700); }
-.badge-danger { border-color: var(--color-red-200); background: var(--color-red-050); color: var(--color-red-600); }
-.badge-info { border-color: var(--role-color-200); background: var(--role-color-050); color: var(--role-color-700); }
+.fs-badge:empty { display: none; }
+.fs-badge-success { border-color: var(--color-green-200); background: var(--color-green-050); color: var(--color-green-700); }
+.fs-badge-warning { border-color: var(--color-yellow-200); background: var(--color-yellow-050); color: var(--color-yellow-700); }
+.fs-badge-danger { border-color: var(--color-red-200); background: var(--color-red-050); color: var(--color-red-600); }
+.fs-badge-info { border-color: var(--role-color-200); background: var(--role-color-050); color: var(--role-color-700); }
 .badge-neutral { border-color: var(--color-gray-200); background: var(--color-gray-100); color: var(--color-gray-700); }
-.badge-sm { min-height: 18px; padding: 1px 6px; border-radius: 4px; font-size: 10px; }
-.badge-lg { min-height: 26px; padding: 4px 10px; border-radius: 8px; font-size: 12px; }
+.fs-badge-sm { min-height: 18px; padding: 1px 6px; border-radius: 4px; font-size: 10px; }
+.fs-badge-lg { min-height: 26px; padding: 4px 10px; border-radius: 8px; font-size: 12px; }
 
 /* Compatibility bridge for existing status markup. */
 .status-pill { border-radius: 6px; }

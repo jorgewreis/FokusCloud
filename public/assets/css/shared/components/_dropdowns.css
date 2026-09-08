@@ -1,0 +1,7 @@
+/* DROPDOWNS */
+.dropdown { position: relative; display: inline-block; }
+.dropdown-menu { position: absolute; inset-block-start: calc(100% + var(--space-1)); inset-inline-end: 0; z-index: var(--z-dropdown); min-inline-size: 12rem; padding: var(--space-1); border: var(--border-width-thin) solid var(--color-border); border-radius: var(--radius-dropdown); background: var(--color-surface-card); box-shadow: var(--shadow-dropdown); }
+.dropdown-menu[hidden] { display: none; }
+.dropdown-item { display: flex; width: 100%; min-block-size: var(--control-height-sm); align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-1); background: transparent; color: var(--color-text); text-align: start; cursor: pointer; }
+.dropdown-item:hover, .dropdown-item:focus-visible, .dropdown-item[aria-selected="true"] { background: var(--color-surface-hover); color: var(--color-primary); }
+.dropdown-divider { height: 1px; margin: var(--space-1) 0; background: var(--color-border); }

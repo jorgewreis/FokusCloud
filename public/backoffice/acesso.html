@@ -3,15 +3,15 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Acesso administrativo | Fokus Cloud</title><link rel="stylesheet" href="/backoffice/assets/css/main.css?v=20260901-live-controls"></head>
 <body class="auth-shell" data-theme="light" data-role="admin">
   <main class="auth-panel">
-    <header class="stack stack-sm"><h1 class="text-heading-2">Fokus Admin</h1><p class="text-body text-muted">Acesso exclusivo para administração interna da plataforma.</p></header>
-    <form class="fc-form stack" id="credentials-form">
-      <div class="form-field"><label class="form-label form-label-required" for="email">E-mail</label><input class="form-input-text" id="email" name="email" type="email" autocomplete="username" aria-describedby="email-help" required><small class="form-help" id="email-help">Use o e-mail vinculado a sua conta interna.</small></div>
-      <div class="form-field"><label class="form-label form-label-required" for="password">Senha</label><input class="form-input-text" id="password" name="password" type="password" autocomplete="current-password" required></div>
+    <header class="fs-stack stack-sm"><h1 class="text-heading-2">Fokus Admin</h1><p class="text-body fs-u-color-secondary">Acesso exclusivo para administração interna da plataforma.</p></header>
+    <form class="fc-form fs-stack" id="credentials-form">
+      <div class="form-field"><label class="fs-form-label form-label-required" for="email">E-mail</label><input class="form-input-text" id="email" name="email" type="email" autocomplete="username" aria-describedby="email-help" required><small class="form-help" id="email-help">Use o e-mail vinculado a sua conta interna.</small></div>
+      <div class="form-field"><label class="fs-form-label form-label-required" for="password">Senha</label><input class="form-input-text" id="password" name="password" type="password" autocomplete="current-password" required></div>
       <div class="form-actions"><button class="submit" type="submit">Continuar</button></div>
     </form>
-    <form class="fc-form stack" id="mfa-form" hidden>
-      <div class="form-field"><label class="form-label form-label-required" for="code">Codigo enviado por e-mail</label><input class="form-input-text" id="code" name="code" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" aria-describedby="code-help" required><small class="form-help" id="code-help">Informe o codigo de seis digitos. Ele expira em 10 minutos.</small></div>
-      <div class="form-actions"><button class="submit" type="submit">Validar acesso</button><button class="button button-secondary" id="resend" type="button">Reenviar codigo</button></div>
+    <form class="fc-form fs-stack" id="mfa-form" hidden>
+      <div class="form-field"><label class="fs-form-label form-label-required" for="code">Codigo enviado por e-mail</label><input class="form-input-text" id="code" name="code" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" aria-describedby="code-help" required><small class="form-help" id="code-help">Informe o codigo de seis digitos. Ele expira em 10 minutos.</small></div>
+      <div class="form-actions"><button class="submit" type="submit">Validar acesso</button><button class="fs-btn button-secondary" id="resend" type="button">Reenviar codigo</button></div>
     </form>
     <div class="system-notice" id="message" role="alert" aria-live="polite" aria-atomic="true" hidden></div>
   </main>

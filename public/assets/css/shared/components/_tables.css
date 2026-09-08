@@ -1,0 +1,7 @@
+/* TABLES */
+.table-responsive { width: 100%; overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; color: var(--color-text); }
+.table th, .table td { padding: var(--space-3); border-block-end: var(--border-width-thin) solid var(--color-border); text-align: start; vertical-align: middle; }
+.table th { background: var(--color-surface); font-weight: var(--font-weight-semibold); }
+.table tbody tr:hover { background: var(--color-surface-hover); }
+.table-striped tbody tr:nth-child(even) { background: var(--color-surface); }

@@ -1,22 +1,22 @@
-<div class="plan-page d-flex col">
-    <div class="col gap-3 mb-3">
+<div class="plan-page fs-u-d-flex fs-col">
+    <div class="fs-col fs-u-gap-3 fs-u-mb-3">
         <h1 class="text-display-4">Catálogo</h1>
-        <p class="text-heading-5 text-muted">Gerencie sistemas, funcionalidades, planos, composição e publicação do catálogo comercial.</p>
+        <p class="text-heading-5 fs-u-color-secondary">Gerencie sistemas, funcionalidades, planos, composição e publicação do catálogo comercial.</p>
     </div>
 
     <hr>
 
     <div id="catalog-destructive-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="catalog-dialog-title" aria-describedby="catalog-dialog-description">
-        <form class="fc-form dialog-panel card card-static form-panel" id="catalog-destructive-form">
+        <form class="fc-form dialog-panel fs-card card-static form-panel" id="catalog-destructive-form">
             <div class="title dialog-header"><span id="catalog-dialog-title">Confirmar remoção</span></div>
-            <div class="content dialog-content stack">
+            <div class="content dialog-content fs-stack">
                 <p id="catalog-dialog-description">A remoção física só será concluída se não houver dependências.</p>
                 <label class="form-field" for="catalog-dialog-reason">Motivo obrigatório
                     <textarea id="catalog-dialog-reason" name="reason" maxlength="1000" required></textarea>
                 </label>
                 <div class="dialog-actions">
-                    <button class="button button-secondary" type="button" data-catalog-dialog-close>Cancelar</button>
-                    <button class="submit button-danger" type="submit">Confirmar remoção</button>
+                    <button class="fs-btn button-secondary" type="button" data-catalog-dialog-close>Cancelar</button>
+                    <button class="submit fs-btn-danger" type="submit">Confirmar remoção</button>
                 </div>
             </div>
         </form>
@@ -24,10 +24,10 @@
 
     <div class="form-panel">
         <div class="form-actions">
-            <button class="button button-secondary" type="button" data-catalog-tab="products">Produtos</button>
-            <button class="button button-secondary" type="button" data-catalog-tab="modules">Funcionalidades</button>
-            <button class="button button-secondary" type="button" data-catalog-tab="plans">Planos</button>
-            <button class="button button-secondary" type="button" data-catalog-tab="publish">Publicação</button>
+            <button class="fs-btn button-secondary" type="button" data-catalog-tab="products">Produtos</button>
+            <button class="fs-btn button-secondary" type="button" data-catalog-tab="modules">Funcionalidades</button>
+            <button class="fs-btn button-secondary" type="button" data-catalog-tab="plans">Planos</button>
+            <button class="fs-btn button-secondary" type="button" data-catalog-tab="publish">Publicação</button>
         </div>
         <div class="system-notice" id="catalog-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </div>
@@ -44,10 +44,10 @@
                 <div class="form-field w-6"><label for="product-technical-description">Descrição técnica</label><textarea id="product-technical-description" name="technical_description"></textarea></div>
                 <div class="form-field w-6"><label for="product-commercial-content">Conteúdo comercial</label><textarea id="product-commercial-content" name="commercial_content"></textarea></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar produto</button><button class="button button-secondary" type="reset">Novo produto</button></div>
+            <div class="form-actions"><button class="submit" type="submit">Salvar produto</button><button class="fs-btn button-secondary" type="reset">Novo produto</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Produtos do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Status</th><th>Publicação</th><th>Ordem</th><th>Versão</th><th>Ações</th></tr></thead><tbody id="product-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
-        <nav class="pagination catalog-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
+        <nav class="fs-pagination catalog-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="modules" hidden>
@@ -59,7 +59,7 @@
                 <div class="form-field w-3"><label for="module-name">Nome</label><input id="module-name" name="name" type="text" required></div>
             </div>
             <div class="form-line">
-                <div class="form-field w-3"><label for="module-price">Preço mensal</label><div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="module-price" name="monthly_price" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input required></div></div>
+                <div class="form-field w-3"><label for="module-price">Preço mensal</label><div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="module-price" name="monthly_price" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input required></div></div>
                 <div class="form-field w-3"><label for="module-segment">Segmento</label><input id="module-segment" name="segment_code" type="text"></div>
                 <div class="form-field w-3"><label for="module-context">Contexto</label><input id="module-context" name="context_code" type="text"></div>
                 <div class="form-field w-3"><label for="module-status">Status</label><select id="module-status" name="status"><option value="ativo">Ativo</option><option value="rascunho">Rascunho</option><option value="pausado">Pausado</option><option value="arquivado">Arquivado</option></select></div>
@@ -68,10 +68,10 @@
                 <div class="form-field w-6"><label for="module-dependencies">Dependências</label><input id="module-dependencies" name="dependencies" type="text" placeholder="contatos, processos"></div>
                 <div class="form-field w-6"><label for="module-incompatibilities">Incompatibilidades</label><input id="module-incompatibilities" name="incompatibilities" type="text" placeholder="codigo-a, codigo-b"></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar funcionalidade</button><button class="button button-secondary" type="reset">Nova funcionalidade</button></div>
+            <div class="form-actions"><button class="submit" type="submit">Salvar funcionalidade</button><button class="fs-btn button-secondary" type="reset">Nova funcionalidade</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Funcionalidades do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Produto</th><th>Preço</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="module-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
-        <nav class="pagination catalog-pagination" id="module-pagination" aria-label="Paginação de funcionalidades"></nav>
+        <nav class="fs-pagination catalog-pagination" id="module-pagination" aria-label="Paginação de funcionalidades"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="plans" hidden>
@@ -84,15 +84,15 @@
             </div>
             <div class="form-line">
                 <div class="form-field w-3"><label for="plan-segment">Segmento</label><input id="plan-segment" name="segment" type="text" maxlength="16"></div>
-                <div class="form-field w-3"><label for="plan-monthly">Valor mensal</label><div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="plan-monthly" name="monthly_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div></div>
+                <div class="form-field w-3"><label for="plan-monthly">Valor mensal</label><div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="plan-monthly" name="monthly_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div></div>
                 <div class="form-field w-3"><label for="plan-order">Ordem</label><input id="plan-order" name="display_order" type="number" min="0" step="1" value="1"></div>
                 <div class="form-field w-3"><label for="plan-featured">Destaque</label><select id="plan-featured" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></div>
             </div>
             <div class="form-field"><label>Composição</label><div class="form-panel" id="plan-module-options"></div></div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar plano</button><button class="button button-secondary" type="reset">Novo plano</button></div>
+            <div class="form-actions"><button class="submit" type="submit">Salvar plano</button><button class="fs-btn button-secondary" type="reset">Novo plano</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Planos do catálogo"><thead><tr><th>Código</th><th>Plano</th><th>Produto</th><th>Mensal</th><th>Módulos</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="plan-list"><tr><td colspan="8">Carregando...</td></tr></tbody></table></div>
-        <nav class="pagination catalog-pagination" id="plan-pagination" aria-label="Paginação de planos"></nav>
+        <nav class="fs-pagination catalog-pagination" id="plan-pagination" aria-label="Paginação de planos"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="publish" hidden>
@@ -104,7 +104,7 @@
             <div class="form-actions"><button class="submit" type="submit">Publicar catálogo</button></div>
         </form>
         <div class="table-panel"><table class="data-table" aria-label="Publicações do catálogo"><thead><tr><th>Produto</th><th>Versão</th><th>Publicado em</th><th>Autor</th><th>Motivo</th><th>Ações</th></tr></thead><tbody id="publication-list"><tr><td colspan="6">Carregando...</td></tr></tbody></table></div>
-        <nav class="pagination catalog-pagination" id="publication-pagination" aria-label="Paginação de publicações"></nav>
+        <nav class="fs-pagination catalog-pagination" id="publication-pagination" aria-label="Paginação de publicações"></nav>
     </section>
 </div>
 
@@ -192,7 +192,7 @@
                 ? '<span class="pagination-ellipsis" aria-hidden="true">…</span>'
                 : `<button class="pagination-item${token === pageData.page ? " is-active" : ""}" type="button" data-catalog-page="${key}" data-page="${token}" ${token === pageData.page ? 'aria-current="page"' : ""}>${token}</button>`).join("");
 
-            root.innerHTML = `<span class="pagination-info">${pageData.from}–${pageData.to} de ${pageData.total} ${label}</span><button class="pagination-item" type="button" data-catalog-page="${key}" data-page="${pageData.page - 1}" aria-label="Página anterior" ${pageData.page === 1 ? "disabled" : ""}>‹</button>${controls}<button class="pagination-item" type="button" data-catalog-page="${key}" data-page="${pageData.page + 1}" aria-label="Próxima página" ${pageData.page === pageData.totalPages ? "disabled" : ""}>›</button>`;
+            root.innerHTML = `<span class="pagination-info">${pageData.from}–${pageData.to} de ${pageData.total} ${label}</span><button class="fs-page-item" type="button" data-catalog-page="${key}" data-page="${pageData.page - 1}" aria-label="Página anterior" ${pageData.page === 1 ? "disabled" : ""}>‹</button>${controls}<button class="fs-page-item" type="button" data-catalog-page="${key}" data-page="${pageData.page + 1}" aria-label="Próxima página" ${pageData.page === pageData.totalPages ? "disabled" : ""}>›</button>`;
         }
 
         function renderSelects() {
@@ -205,7 +205,7 @@
         function renderPlanModuleOptions(selected = []) {
             const productId = document.querySelector("#plan-product").value;
             const modules = allModules().filter((module) => module.product_id === productId);
-            document.querySelector("#plan-module-options").innerHTML = modules.length ? modules.map((module) => `<label class="form-check plan-module-choice"><input class="form-check-input plan-module-checkbox" type="checkbox" name="module_ids" value="${escapeHtml(module.id)}" ${selected.includes(module.id) ? "checked" : ""}><span>${escapeHtml(module.name)} - ${money(module.monthly_amount || module.monthly_price)}</span></label>`).join("") : '<p class="text-body text-muted">Cadastre funcionalidades ativas para compor planos.</p>';
+            document.querySelector("#plan-module-options").innerHTML = modules.length ? modules.map((module) => `<label class="form-check plan-module-choice"><input class="form-check-input plan-module-checkbox" type="checkbox" name="module_ids" value="${escapeHtml(module.id)}" ${selected.includes(module.id) ? "checked" : ""}><span>${escapeHtml(module.name)} - ${money(module.monthly_amount || module.monthly_price)}</span></label>`).join("") : '<p class="text-body fs-u-color-secondary">Cadastre funcionalidades ativas para compor planos.</p>';
         }
 
         function render() {
@@ -214,10 +214,10 @@
             const modulePage = paginate("modules", allModules());
             const planPage = paginate("plans", allPlans());
             const publicationPage = paginate("publications", publications());
-            document.querySelector("#product-list").innerHTML = productPage.total ? productPage.rows.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
-            document.querySelector("#module-list").innerHTML = modulePage.total ? modulePage.rows.map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
+            document.querySelector("#product-list").innerHTML = productPage.total ? productPage.rows.map((product) => `<tr><td>${escapeHtml(product.fs-code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
+            document.querySelector("#module-list").innerHTML = modulePage.total ? modulePage.rows.map((module) => `<tr><td>${escapeHtml(module.fs-code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
-            document.querySelector("#plan-list").innerHTML = planPage.total ? planPage.rows.map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
+            document.querySelector("#plan-list").innerHTML = planPage.total ? planPage.rows.map((plan) => `<tr><td>${escapeHtml(plan.fs-code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
             document.querySelector("#publication-list").innerHTML = publicationPage.total ? publicationPage.rows.map((publication) => `<tr><td>${escapeHtml(publication.product_name)}</td><td>${publication.version}</td><td>${publication.published_at ? new Date(publication.published_at).toLocaleString("pt-BR") : "-"}</td><td>${escapeHtml(publication.published_by || "-")}</td><td>${escapeHtml(publication.reason || "-")}</td><td class="voucher-actions">${actionButton("publication", "remove", publication.id, "Excluir publicação", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="6">Nenhuma publicação registrada.</td></tr>';
             renderPagination("products", productPage, "produtos");
             renderPagination("modules", modulePage, "funcionalidades");

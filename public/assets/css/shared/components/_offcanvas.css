@@ -1,0 +1,6 @@
+/* OFFCANVAS */
+.offcanvas { position: fixed; inset-block: 0; inset-inline-end: 0; z-index: var(--z-modal); width: min(24rem, 100vw); padding: var(--space-4); overflow-y: auto; transform: translateX(100%); border-inline-start: var(--border-width-thin) solid var(--color-border); background: var(--color-surface-card); box-shadow: var(--shadow-xl); transition: transform var(--duration-normal) var(--ease-standard); }
+.offcanvas.is-open, .offcanvas[aria-hidden="false"] { transform: translateX(0); }
+.offcanvas-backdrop { position: fixed; inset: 0; z-index: calc(var(--z-modal) - 1); background: var(--color-overlay-50); }
+.offcanvas-backdrop[hidden] { display: none; }
+body.has-offcanvas-open { overflow: hidden; }

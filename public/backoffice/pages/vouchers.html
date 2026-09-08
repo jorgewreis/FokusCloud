@@ -1,15 +1,15 @@
 
-<div class="voucher-page d-flex col">
+<div class="voucher-page fs-u-d-flex fs-col">
 
-    <div class="col gap-3 mb-3">
+    <div class="fs-col fs-u-gap-3 fs-u-mb-3">
         <h1 class="text-display-4">Vouchers</h1>
-        <p class="text-heading-5 text-muted">Crie e acompanhe vouchers promocionais.</p>
+        <p class="text-heading-5 fs-u-color-secondary">Crie e acompanhe vouchers promocionais.</p>
     </div>
 
     <hr>
 
     <form class="fc-form form-panel" id="voucher-form">
-        <div class="col">
+        <div class="fs-col">
             <div class="form-line">
                 <div class="form-field w-6">
                     <label for="voucher-name">Nome do voucher</label>
@@ -18,7 +18,7 @@
 
                 <div class="form-field w-3">
                     <label for="voucher-code">Código</label>
-                    <input id="voucher-code" name="code" type="text" class="text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
+                    <input id="voucher-code" name="code" type="text" class="fs-u-text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
 
             </div>
@@ -40,7 +40,7 @@
 
                 <div class="form-field w-3" id="voucher-base-field">
                     <label for="voucher-base-value">Valor da assinatura</label>
-                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input readonly required></div>
+                    <div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input readonly required></div>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
 
                 <div class="form-field w-2" id="voucher-discount-value-field">
                     <label for="voucher-discount-value">Desconto R$</label>
-                    <div class="input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div>
+                    <div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div>
                 </div>
 
                 <div class="form-field w-3">
@@ -116,23 +116,23 @@
 
         <div class="form-actions">
             <button class="submit" type="submit">Cadastrar voucher</button>
-            <button class="button button-secondary" type="reset">Limpar</button>
+            <button class="fs-btn button-secondary" type="reset">Limpar</button>
         </div>
 
         <div class="system-notice" id="voucher-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </form>
 
     <div id="voucher-destructive-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="voucher-dialog-title">
-        <form class="fc-form dialog-panel card card-static form-panel" id="voucher-destructive-form">
+        <form class="fc-form dialog-panel fs-card card-static form-panel" id="voucher-destructive-form">
             <div class="title dialog-header"><span id="voucher-dialog-title">Confirmar ação</span></div>
-            <div class="content dialog-content stack">
+            <div class="content dialog-content fs-stack">
                 <p>Informe o motivo. A ação será registrada no histórico administrativo.</p>
                 <label class="form-field" for="voucher-dialog-reason">Motivo obrigatório
                     <textarea id="voucher-dialog-reason" name="reason" maxlength="1000" required></textarea>
                 </label>
                 <div class="dialog-actions">
-                    <button class="button button-secondary" type="button" data-voucher-dialog-close>Cancelar</button>
-                    <button class="submit button-danger" type="submit">Confirmar</button>
+                    <button class="fs-btn button-secondary" type="button" data-voucher-dialog-close>Cancelar</button>
+                    <button class="submit fs-btn-danger" type="submit">Confirmar</button>
                 </div>
             </div>
         </form>
@@ -474,7 +474,7 @@
         function editVoucher(voucher) {
             editingVoucher = voucher;
             name.value = voucher.name || "";
-            code.value = voucher.code || "";
+            code.value = voucher.fs-code || "";
             products.value = voucher.product_id || "";
             updatePlans();
             plans.value = voucher.plan_id || "__all__";
@@ -593,8 +593,8 @@
                         : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}${voucherMinusIcon}" alt=""></button>`;
 
                 return `<tr>
-                    <td>${escapeHtml(voucher.code)}</td>
-                    <td>${escapeHtml(voucher.name || voucher.code)}</td>
+                    <td>${escapeHtml(voucher.fs-code)}</td>
+                    <td>${escapeHtml(voucher.name || voucher.fs-code)}</td>
                     <td>${escapeHtml(voucher.product_name || "-")}</td>
                     <td>${escapeHtml(discount)}</td>
                     <td>${escapeHtml(used)}</td>
@@ -617,7 +617,7 @@
             const discountMode = values.discount_mode;
             const payload = {
                 name: values.name,
-                code: values.code || null,
+                code: values.fs-code || null,
                 product_id: values.product_id,
                 plan_id: values.plan_id === "__all__" ? null : values.plan_id,
                 base_amount: values.plan_id === "__all__" ? null : parseInputMoney(values.base_amount),

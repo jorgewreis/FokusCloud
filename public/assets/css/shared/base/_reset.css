@@ -3,8 +3,19 @@
 *::before,
 *::after {
     box-sizing: border-box;
+}
+
+:where(body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd) {
+    margin: 0;
+}
+
+:where(ul, ol, menu) {
     margin: 0;
     padding: 0;
+}
+
+:where(button, input, textarea, select, fieldset) {
+    margin: 0;
 }
 
 html {
@@ -50,6 +61,11 @@ body {
     font: inherit;
 }
 
+:where(button) {
+    border: 0;
+    background: transparent;
+}
+
 :where(button, [role="button"]) {
     cursor: pointer;
 }
@@ -78,6 +94,12 @@ body {
 
 :where(iframe) {
     border: 0;
+    max-width: 100%;
+}
+
+:where(embed, object) {
+    display: block;
+    max-width: 100%;
 }
 
 ::selection {

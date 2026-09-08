@@ -1,0 +1,9 @@
+/* FORM VALIDATION */
+.form-feedback { margin-block-start: var(--space-1); }
+.form-feedback[hidden] { display: none; }
+.was-validated :where(input, select, textarea):invalid, :where(input, select, textarea).is-invalid { border-color: var(--color-error-border); }
+.was-validated :where(input, select, textarea):valid, :where(input, select, textarea).is-valid { border-color: var(--color-success-border); }
+.was-validated :where(input, select, textarea):invalid:focus-visible, :where(input, select, textarea).is-invalid:focus-visible { box-shadow: 0 0 0 .2rem var(--color-error-alpha-20); }
+.was-validated :where(input, select, textarea):valid:focus-visible, :where(input, select, textarea).is-valid:focus-visible { box-shadow: 0 0 0 .2rem var(--color-success-alpha-20); }
+.form-field.is-invalid .form-feedback-error, .form-field.is-valid .form-feedback-success { display: block; }
+.form-error-summary { padding: var(--space-3); border: 1px solid var(--color-error-border); border-radius: var(--radius-card); background: var(--color-error-bg); color: var(--color-error-text); }

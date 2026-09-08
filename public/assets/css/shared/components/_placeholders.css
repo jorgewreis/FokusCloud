@@ -1,0 +1,6 @@
+/* PLACEHOLDERS */
+.placeholder { display: inline-block; min-height: 1em; border-radius: var(--radius-1); background: var(--color-surface-hover); color: transparent; vertical-align: middle; }
+.placeholder-glow .placeholder { animation: placeholder-glow 1.5s ease-in-out infinite; }
+.placeholder-wave .placeholder { animation: placeholder-wave 1.5s linear infinite; }
+@keyframes placeholder-glow { 50% { opacity: .45; } }
+@keyframes placeholder-wave { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }

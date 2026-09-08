@@ -1,4 +1,4 @@
-.tabs { display: flex; flex-wrap: wrap; gap: var(--space-3); border-bottom: 1px solid var(--theme-border-alt); }
+.fs-tabs { display: flex; flex-wrap: wrap; gap: var(--space-3); border-bottom: 1px solid var(--theme-border-alt); }
 .tab { position: relative; padding: 10px 2px; border: 0; background: transparent; color: var(--theme-text-muted); cursor: pointer; }
 .tab:hover, .tab:focus-visible { color: var(--role-color-600); }
 .tab[aria-selected="true"], .tab.is-active { color: var(--role-color-600); }

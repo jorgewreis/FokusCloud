@@ -8,6 +8,7 @@ const files = fs.readdirSync(tokenDir).filter((name) => name.endsWith('.css')).s
 const definitions = new Map();
 const references = [];
 const failures = [];
+const warnings = [];
 
 for (const file of files) {
     const fullPath = path.join(tokenDir, file);
@@ -46,6 +47,29 @@ for (const reference of references) {
     }
 }
 
+const extractClasses = (directory) => {
+    if (!fs.existsSync(directory)) return new Map();
+    const result = new Map();
+    for (const file of fs.readdirSync(directory).filter((name) => name.endsWith('.css'))) {
+        const source = fs.readFileSync(path.join(directory, file), 'utf8')
+            .replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/^\s*@import[^;]+;/gm, '');
+        for (const match of source.matchAll(/\.([a-zA-Z_][a-zA-Z0-9_-]*)/g)) {
+            const name = match[1];
+            if (!result.has(name)) result.set(name, file);
+        }
+    }
+    return result;
+};
+
+const sharedClasses = extractClasses(path.join(root, 'public', 'assets', 'css', 'shared', 'layout'));
+const backofficeClasses = extractClasses(path.join(root, 'public', 'backoffice', 'assets', 'css', 'layout'));
+for (const [name, file] of sharedClasses) {
+    if (backofficeClasses.has(name)) {
+        warnings.push(`class overlap .${name}: shared/layout/${file} and backoffice/layout/${backofficeClasses.get(name)}`);
+    }
+}
+
 const report = [
     `Checked ${files.length} token files`,
     `Definitions: ${definitions.size}`,
@@ -58,4 +82,7 @@ if (failures.length) {
     process.exitCode = 1;
 } else {
     console.log(`${report.join('\n')}\nToken validation passed.`);
+    if (warnings.length) {
+        console.warn(`\nLayout overlap warnings:\n${warnings.map((warning) => `- ${warning}`).join('\n')}`);
+    }
 }

@@ -1,0 +1,65 @@
+/* BREADCRUMB COMPONENTS */
+
+.breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--text-description);
+}
+
+.breadcrumbs-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: inherit;
+    gap: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--color-text-muted);
+    content: "/";
+}
+
+.breadcrumb-link {
+    color: var(--color-link);
+    text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+}
+
+.breadcrumb-current {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+}
+
+.breadcrumbs-center { justify-content: center; }
+.breadcrumbs-end { justify-content: flex-end; }
+.breadcrumbs-start { justify-content: flex-start; }
+
+.breadcrumbs-center .breadcrumbs-list { justify-content: center; }
+.breadcrumbs-end .breadcrumbs-list { justify-content: flex-end; }
+
+.breadcrumbs-chevron .breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
+
+.breadcrumbs-dot .breadcrumb-item + .breadcrumb-item::before {
+    content: "•";
+}
+
+.breadcrumbs-minimal .breadcrumb-item + .breadcrumb-item::before {
+    content: "";
+}

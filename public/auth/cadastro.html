@@ -14,41 +14,41 @@
         <a class="brand" href="/">Fokus<span>Cloud</span></a>
         <div class="card-heading">
           <p class="section-kicker">Cadastro inicial</p>
-          <h1 class="card-title">Crie sua empresa.</h1>
+          <h1 class="fs-card-title">Crie sua empresa.</h1>
           <p class="card-description">Informe os dados da empresa e do administrador responsável.</p>
         </div>
         <form id="register-form">
           <label class="form-field">
-            <span class="form-label">Tipo de documento</span>
+            <span class="fs-form-label">Tipo de documento</span>
             <select class="field-size-md" name="document_type" id="document-type">
               <option value="cnpj">CNPJ</option>
               <option value="cpf">CPF</option>
             </select>
           </label>
           <label class="form-field">
-            <span class="form-label">CPF ou CNPJ</span>
+            <span class="fs-form-label">CPF ou CNPJ</span>
             <input class="field-size-md" id="company-document" name="document_number" inputmode="numeric" required aria-describedby="company-document-error" />
             <span id="company-document-error" class="field-error" role="alert"></span>
           </label>
           <label class="form-field" id="company-name-label">
-            <span class="form-label" id="company-name-label-text">Razão social</span>
+            <span class="fs-form-label" id="company-name-label-text">Razão social</span>
             <input class="field-size-md" name="legal_name" required />
           </label>
           <label class="form-field">
-            <span class="form-label">Nome completo do administrador</span>
+            <span class="fs-form-label">Nome completo do administrador</span>
             <input class="field-size-md" name="name" required />
           </label>
           <label class="form-field">
-            <span class="form-label">CPF do administrador</span>
+            <span class="fs-form-label">CPF do administrador</span>
             <input class="field-size-md" id="admin-cpf" name="cpf" inputmode="numeric" required aria-describedby="admin-cpf-error" />
             <span id="admin-cpf-error" class="field-error" role="alert"></span>
           </label>
           <label class="form-field">
-            <span class="form-label">E-mail profissional</span>
+            <span class="fs-form-label">E-mail profissional</span>
             <input class="field-size-md" name="email" type="email" required />
           </label>
           <label class="form-field">
-            <span class="form-label">Senha</span>
+            <span class="fs-form-label">Senha</span>
             <input class="field-size-md" name="password" type="password" minlength="12" required />
           </label>
           <label class="consent-field">
@@ -60,7 +60,7 @@
             <span>Li e aceito a Política de Privacidade.</span>
           </label>
         </form>
-        <div class="login-actions"><button class="btn btn-green" form="register-form" type="submit">Criar conta</button></div>
+        <div class="login-actions"><button class="fs-btn fs-btn-success" form="register-form" type="submit">Criar conta</button></div>
         <p id="feedback" class="form-message" role="status"></p>
       </section>
     </main>

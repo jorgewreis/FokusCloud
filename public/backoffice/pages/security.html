@@ -1,14 +1,14 @@
-<div class="security-page d-flex col">
-    <div class="col gap-3 mb-3">
+<div class="security-page fs-u-d-flex fs-col">
+    <div class="fs-col fs-u-gap-3 fs-u-mb-3">
         <h1 class="text-display-4">Seguranca e perfis</h1>
-        <p class="text-heading-5 text-muted">Gerencie contas internas, papeis e eventos de acesso do Backoffice.</p>
+        <p class="text-heading-5 fs-u-color-secondary">Gerencie contas internas, papeis e eventos de acesso do Backoffice.</p>
     </div>
 
     <hr>
 
     <div class="form-panel">
         <div class="form-actions">
-            <button class="button" id="invite-admin" type="button">Convidar administrador</button>
+            <button class="fs-btn" id="invite-admin" type="button">Convidar administrador</button>
         </div>
     </div>
 
@@ -20,13 +20,13 @@
         </table>
     </div>
     <div id="invite-dialog" hidden role="dialog" aria-modal="false" aria-labelledby="invite-dialog-title" aria-hidden="true">
-        <form class="fc-form dialog-panel card card-static form-panel invite-admin-card" id="invite-form" novalidate>
+        <form class="fc-form dialog-panel fs-card card-static form-panel invite-admin-card" id="invite-form" novalidate>
             <div class="title dialog-header" id="invite-dialog-title">Convidar administrador</div>
-            <div class="content dialog-content stack m-3">
+            <div class="content dialog-content fs-stack fs-u-m-3">
                 <div class="form-field"><label for="invite-admin-name">Nome</label><input class="form-input-text" id="invite-admin-name" name="name" required></div>
                 <div class="form-field"><label for="invite-admin-email">E-mail</label><input class="form-input-text" id="invite-admin-email" name="email" type="email" required></div>
-                <div class="form-field"><label for="invite-admin-role">Perfil</label><select class="form-select" id="invite-admin-role" name="role" required><option value="administrador_comercial">Administrador comercial</option><option value="superadministrador">Superadministrador</option></select></div>
-                <div class="form-actions"><button class="button" type="submit">Enviar convite</button><button class="button button-secondary" id="close-invite" type="button">Cancelar</button></div>
+                <div class="form-field"><label for="invite-admin-role">Perfil</label><select class="fs-form-select" id="invite-admin-role" name="role" required><option value="administrador_comercial">Administrador comercial</option><option value="superadministrador">Superadministrador</option></select></div>
+                <div class="form-actions"><button class="fs-btn" type="submit">Enviar convite</button><button class="fs-btn button-secondary" id="close-invite" type="button">Cancelar</button></div>
             </div>
         </form>
     </div>
@@ -51,7 +51,7 @@
                         const actions = canManage
                             ? `${isBlocked ? actionButton("unblock", admin.id, "Desbloquear", "Single-Man-Actions-Key--Streamline-Ultimate.png") : admin.status === "ativo" ? actionButton("block", admin.id, "Bloquear", "Single-Man-Actions-Lock--Streamline-Ultimate.png") : ""}${admin.status !== "desativado" ? actionButton("deactivate", admin.id, "Desativar", "Single-Man-Actions-Block--Streamline-Ultimate.png", true) : ""}`
                             : "";
-                        return `<tr><td>${escapeHtml(admin.name)}<br><small class="text-muted">${escapeHtml(admin.email)}</small></td><td>${escapeHtml(admin.role)}</td><td>${escapeHtml(admin.status)}</td><td>${admin.last_login_at ? new Date(admin.last_login_at).toLocaleString("pt-BR") : "-"}</td><td class="voucher-actions">${actions}</td></tr>`;
+                        return `<tr><td>${escapeHtml(admin.name)}<br><small class="fs-u-color-secondary">${escapeHtml(admin.email)}</small></td><td>${escapeHtml(admin.role)}</td><td>${escapeHtml(admin.status)}</td><td>${admin.last_login_at ? new Date(admin.last_login_at).toLocaleString("pt-BR") : "-"}</td><td class="voucher-actions">${actions}</td></tr>`;
                     }).join("");
                 } catch (error) { message(error.message || "Nao foi possivel carregar as contas internas.", "danger"); }
             }
