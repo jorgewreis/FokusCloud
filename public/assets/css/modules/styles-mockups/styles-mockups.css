@@ -292,12 +292,29 @@
     color: var(--fs-color-muted);
     font-size: 13px;
 }
+.styles-footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+.styles-footer-brand {
+    color: var(--fs-color-text) !important;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    transition: color var(--fs-transition-fast) var(--fs-ease-standard);
+}
+.styles-footer-brand span { color: var(--styles-green); }
+.styles-footer-brand:hover,
+.styles-footer-brand:focus-visible { color: var(--styles-green) !important; }
 @media (max-width: 760px) {
     .styles-shell {
         width: min(calc(100% - 32px), 620px);
     }
     .styles-topbar-inner,
-    .styles-section-heading {
+    .styles-section-heading,
+    .styles-footer-inner {
         align-items: start;
         flex-direction: column;
     }
