@@ -168,6 +168,21 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringNotContainsString('/produtos/fokus-lead', $index);
     }
 
+    public function test_styles_layout_documentation_is_complete_and_uses_official_layout_classes(): void
+    {
+        $page = file_get_contents(base_path('public/styles/docs/layout/index.html'));
+        $script = file_get_contents(base_path('public/assets/js/styles-layout-doc.js'));
+
+        $this->assertStringContainsString('Layout', $page);
+        $this->assertStringContainsString('fs-container', $page);
+        $this->assertStringContainsString('fs-row', $page);
+        $this->assertStringContainsString('fs-stack', $page);
+        $this->assertStringContainsString('Use assim', $page);
+        $this->assertStringContainsString('Evite assim', $page);
+        $this->assertStringContainsString('data-copy-target', $page);
+        $this->assertStringContainsString('IntersectionObserver', $script);
+    }
+
     public function test_portal_index_redirects_to_the_user_dashboard(): void
     {
         $index = file_get_contents(base_path('public/portal/index.html'));

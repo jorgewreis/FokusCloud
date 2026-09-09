@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260909-typography" />
+        <link rel="stylesheet" href="/assets/css/modules/styles-mockups/styles-mockups.css?v=20260909-technology-padding" />
+        <link rel="stylesheet" href="/assets/css/modules/styles-layout/styles-layout.css?v=20260909-layout-docs" />
+        <title>Layout | Fokus Styles</title>
+    </head>
+    <body class="styles-mockup styles-layout-doc">
+        <header class="styles-topbar">
+            <div class="styles-shell styles-topbar-inner">
+                <a class="styles-brand" href="/" aria-label="Fokus Styles, início">FOKUS <span>STYLES</span></a>
+                <span class="styles-eyebrow">Documentação · Layout</span>
+            </div>
+        </header>
+
+        <div class="styles-shell styles-sidebar-layout">
+            <aside class="styles-sidebar" aria-label="Navegação da documentação">
+                <strong>Layout</strong>
+                <a href="#intro">Visão geral</a>
+                <a href="#fundamentos">01 · Fundamentos</a>
+                <a href="#container">02 · Container</a>
+                <a href="#grid">03 · Grid</a>
+                <a href="#flex">04 · Flex</a>
+                <a href="#espacamento">05 · Espaçamento</a>
+                <a href="#responsividade">06 · Responsividade</a>
+                <a href="#laboratorio">07 · Laboratório</a>
+            </aside>
+
+            <main>
+                <section class="styles-hero layout-doc-hero" id="intro">
+                    <span class="styles-eyebrow">Documentação do sistema de layout</span>
+                    <h1>Estruturas que <span>respiram</span>.</h1>
+                    <p>Layout é a forma como o conteúdo encontra espaço, ordem e prioridade. No Fokus Styles, a composição começa pela estrutura do documento e evolui com classes previsíveis para containers, linhas, colunas, pilhas e espaçamentos.</p>
+                    <p>Este guia parte dos fundamentos e chega ao laboratório. Em cada etapa, você verá o que o padrão resolve, uma demonstração visual, o HTML correspondente e uma comparação entre uma aplicação recomendada e uma aplicação que deve ser evitada.</p>
+                </section>
+
+                <section class="layout-doc-section layout-doc-foundations" id="fundamentos">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">01 · Fundamentos</span><h2>Antes da classe, vem a intenção.</h2><p>Um bom layout não começa escolhendo uma classe ao acaso. Começa entendendo a relação entre o conteúdo, a largura disponível, a ordem de leitura e as ações que a pessoa precisa realizar.</p></div>
+                    <div class="layout-doc-principles">
+                        <article><strong>Fluxo natural</strong><p>Deixe o conteúdo seguir o fluxo do documento sempre que possível. Isso melhora zoom, leitura assistiva e adaptação para diferentes telas.</p></article>
+                        <article><strong>Relações explícitas</strong><p>Use containers para limitar leitura, linhas para agrupar colunas e stacks para declarar uma sequência vertical.</p></article>
+                        <article><strong>Adaptação progressiva</strong><p>Comece com uma composição funcional em uma coluna e adicione variações apenas quando o espaço justificar.</p></article>
+                    </div>
+                    <div class="layout-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Escolha a estrutura pelo papel que ela desempenha no conteúdo. Um container organiza a largura; uma linha organiza colunas; uma pilha organiza a sequência vertical.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Use dezenas de margens arbitrárias para compensar uma estrutura que não foi definida. O resultado fica frágil quando o texto muda ou a tela diminui.</p></div></div>
+                </section>
+
+                <section class="layout-doc-section layout-doc-container" id="container">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">02 · Container</span><h2>Uma largura que respeita a leitura.</h2><p>O `.fs-container` centraliza o conteúdo e limita sua largura máxima nos breakpoints do sistema. Ele evita linhas excessivamente longas sem exigir que cada página invente seus próprios limites.</p></div>
+                    <div class="layout-demo-frame"><div class="layout-demo-container"><span>Conteúdo dentro de `.fs-container`</span><small>Largura fluida no início; largura máxima conforme o viewport.</small></div></div>
+                    <div class="layout-code-block"><div class="layout-code-heading"><span>HTML · Container</span><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-copy-target="code-container">Copiar</button></div><pre class="styles-code" id="code-container"><code>&lt;main class="fs-container"&gt;
+    &lt;h1&gt;Título da página&lt;/h1&gt;
+    &lt;p&gt;Conteúdo com largura confortável para leitura.&lt;/p&gt;
+&lt;/main&gt;</code></pre><p class="layout-copy-status" role="status" aria-live="polite"></p></div>
+                    <div class="layout-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Aplique o container como uma moldura semântica para o conteúdo principal, seções de documentação e áreas que precisam manter uma largura confortável.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Fixe uma largura em pixels no conteúdo inteiro ou crie um container diferente para cada tela. A largura máxima oficial já responde aos breakpoints do sistema.</p></div></div>
+                </section>
+
+                <section class="layout-doc-section layout-doc-grid" id="grid">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">03 · Grid</span><h2>Colunas que se reorganizam.</h2><p>As classes de grid do Fokus Styles usam `.fs-row` e classes de coluna responsivas. O padrão permite começar com uma coluna e distribuir o conteúdo em telas maiores, sem duplicar markup.</p></div>
+                    <div class="layout-demo-grid"><div>01</div><div>02</div><div>03</div></div>
+                    <div class="layout-code-block"><div class="layout-code-heading"><span>HTML · Grid responsivo</span><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-copy-target="code-grid">Copiar</button></div><pre class="styles-code" id="code-grid"><code>&lt;div class="fs-container"&gt;
+    &lt;div class="fs-row fs-row-cols-1 fs-row-cols-md-3"&gt;
+        &lt;article&gt;Primeiro bloco&lt;/article&gt;
+        &lt;article&gt;Segundo bloco&lt;/article&gt;
+        &lt;article&gt;Terceiro bloco&lt;/article&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre><p class="layout-copy-status" role="status" aria-live="polite"></p></div>
+                    <div class="layout-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Defina a quantidade de colunas pelo conteúdo e declare a variação responsiva com as classes oficiais. Mantenha cada item independente e compreensível fora da grade.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Use posições absolutas para simular colunas ou dependa de quebras manuais de linha. O grid deve responder ao espaço disponível.</p></div></div>
+                </section>
+
+                <section class="layout-doc-section layout-doc-flex" id="flex">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">04 · Flex</span><h2>Linhas para relações simples.</h2><p>O `.fs-row` é baseado em Flexbox e pode organizar grupos horizontais que precisam compartilhar espaço. Use-o para relações diretas, como ações, métricas ou itens de uma mesma linha.</p></div>
+                    <div class="layout-demo-flex"><span>Marca</span><span>Conteúdo principal</span><span>Ação</span></div>
+                    <div class="layout-code-block"><div class="layout-code-heading"><span>HTML · Linha flexível</span><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-copy-target="code-flex">Copiar</button></div><pre class="styles-code" id="code-flex"><code>&lt;div class="fs-row"&gt;
+    &lt;div class="fs-col"&gt;Conteúdo principal&lt;/div&gt;
+    &lt;div class="fs-col-auto"&gt;Ação&lt;/div&gt;
+&lt;/div&gt;</code></pre><p class="layout-copy-status" role="status" aria-live="polite"></p></div>
+                    <div class="layout-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Use a linha quando os elementos têm uma relação horizontal clara e podem compartilhar o mesmo contexto de leitura.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Force toda a página a ser uma única linha flexível. Isso dificulta a leitura, cria dependências entre áreas e pode gerar overflow.</p></div></div>
+                </section>
+
+                <section class="layout-doc-section layout-doc-spacing" id="espacamento">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">05 · Espaçamento</span><h2>Ritmo antes de distância.</h2><p>Espaçamento não é um conjunto de empurrões visuais. Ele comunica agrupamento, separação e prioridade. Para sequências verticais, o `.fs-stack` torna explícita a relação entre os elementos e evita margens especiais no último filho.</p></div>
+                    <div class="layout-demo-stack fs-stack fs-stack-gap-3"><div>Contexto</div><div>Conteúdo relacionado</div><div>Ação seguinte</div></div>
+                    <div class="layout-code-block"><div class="layout-code-heading"><span>HTML · Stack</span><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-copy-target="code-stack">Copiar</button></div><pre class="styles-code" id="code-stack"><code>&lt;section class="fs-stack fs-stack-gap-3"&gt;
+    &lt;p&gt;Contexto da tarefa&lt;/p&gt;
+    &lt;div&gt;Conteúdo relacionado&lt;/div&gt;
+    &lt;a href="/proximo-passo"&gt;Continuar&lt;/a&gt;
+&lt;/section&gt;</code></pre><p class="layout-copy-status" role="status" aria-live="polite"></p></div>
+                    <div class="layout-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Use uma escala de espaçamento consistente e aplique o gap pelo relacionamento entre os filhos, não por exceções isoladas.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Empilhe margens diferentes sem uma regra clara. Isso gera colapsos, ritmos imprevisíveis e correções difíceis de manter.</p></div></div>
+                </section>
+
+                <section class="layout-doc-section layout-doc-responsive" id="responsividade">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">06 · Responsividade</span><h2>O mesmo conteúdo, três leituras.</h2><p>Responsividade não é esconder conteúdo para caber. É permitir que a estrutura se reorganize sem perder significado. O exemplo abaixo começa empilhado e passa a usar três colunas a partir do breakpoint `md`.</p></div>
+                    <div class="layout-responsive-demos"><article><span>Mobile</span><div class="responsive-card-stack"><i>01</i><i>02</i><i>03</i></div><small>Uma coluna, leitura linear.</small></article><article><span>Tablet</span><div class="responsive-card-grid is-tablet"><i>01</i><i>02</i><i>03</i></div><small>Mais espaço, duas relações lado a lado.</small></article><article><span>Desktop</span><div class="responsive-card-grid is-desktop"><i>01</i><i>02</i><i>03</i></div><small>Três colunas, maior distribuição.</small></article></div>
+                    <div class="layout-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Comece pela menor largura, preserve a ordem semântica e amplie a composição apenas quando os elementos tiverem espaço real para respirar.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Projete primeiro para desktop e tente consertar o mobile escondendo conteúdo ou reduzindo o texto até ele perder sentido.</p></div></div>
+                </section>
+
+                <section class="layout-doc-section layout-doc-lab" id="laboratorio">
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">07 · Laboratório</span><h2>Uma composição completa.</h2><p>Este laboratório reúne as decisões do guia em uma pequena página: container para limitar a leitura, stack para organizar o contexto e grid para distribuir os cartões.</p></div>
+                    <div class="layout-lab-canvas fs-container"><div class="fs-stack fs-stack-gap-3"><span class="styles-eyebrow">Resumo semanal</span><h3>Uma estrutura pode ser simples e expressiva.</h3><p>O conteúdo continua legível quando a largura muda porque cada relação foi declarada pelo papel que desempenha.</p><div class="fs-row fs-row-cols-1 fs-row-cols-md-3"><article>Conteúdo</article><article>Contexto</article><article>Próxima ação</article></div></div></div>
+                    <div class="layout-doc-note"><strong>Checklist rápido</strong><span>O conteúdo continua na ordem certa sem CSS?</span><span>As colunas podem virar uma coluna sem quebrar?</span><span>O espaçamento revela quais elementos pertencem ao mesmo grupo?</span><span>A composição funciona com zoom e teclado?</span></div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="styles-footer"><div class="styles-shell styles-footer-inner"><a class="styles-footer-brand" href="https://fokuscloud.com.br/" aria-label="Fokus Cloud, página inicial">FOKUS <span>CLOUD</span></a><span>Fokus Styles · Documentação de Layout.</span></div></footer>
+        <script type="module" src="/assets/js/styles-layout-doc.js?v=20260909-layout-docs"></script>
+    </body>
+</html>

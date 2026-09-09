@@ -6,6 +6,10 @@ Route::domain('styles.fokuscloud.com.br')->group(function () {
     Route::get('/', function () {
         return response()->file(public_path('styles/index.html'));
     });
+
+    Route::get('/layout', function () {
+        return response()->file(public_path('styles/docs/layout/index.html'));
+    });
 });
 
 Route::get('/', function () {
