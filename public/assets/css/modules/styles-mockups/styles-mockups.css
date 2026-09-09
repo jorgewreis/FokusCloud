@@ -262,7 +262,7 @@
 .styles-principle > span,
 .styles-roadmap-grid span { color: var(--styles-green); font-family: var(--fs-font-mono); font-size: 13px; }
 .styles-principle h3 { margin: 0 0 8px; font-size: 21px; }
-.styles-principle p { max-width: 680px; margin: 0; color: var(--fs-color-muted); line-height: 1.65; }
+.styles-principle p { max-width: 760px; margin: 0; color: var(--fs-color-muted); font-size: 17px; line-height: 1.75; }
 .styles-technology { display: grid; grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr); gap: 64px; background: linear-gradient(90deg, var(--styles-green-soft), transparent 65%); }
 .styles-technology-heading p { max-width: 380px; }
 .styles-tech-columns { display: grid; gap: 0; }
