@@ -1,0 +1,13 @@
+{
+  "$schema": "https://fokuscloud.com.br/schemas/fokus-project.json",
+  "id": "cloud",
+  "name": "Fokus Cloud",
+  "type": "platform",
+  "repository": "fokus-cloud",
+  "canonicalUrl": "https://fokuscloud.com.br",
+  "documentationUrl": "https://fokuscloud.com.br/docs",
+  "version": "0.0.4-alpha.1",
+  "status": "active",
+  "consumes": ["styles"],
+  "provides": ["identity", "catalog", "subscriptions", "billing", "backoffice"]
+}
