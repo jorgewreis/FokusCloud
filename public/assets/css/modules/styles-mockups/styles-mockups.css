@@ -264,7 +264,7 @@
 .styles-roadmap-grid span { color: var(--styles-green); font-family: var(--fs-font-mono); font-size: 13px; }
 .styles-principle h3 { margin: 0 0 8px; font-size: 21px; }
 .styles-principle p { max-width: 760px; margin: 0; color: var(--fs-color-muted); font-size: 17px; line-height: 1.75; }
-.styles-technology { display: grid; grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr); gap: 64px; background: linear-gradient(90deg, var(--styles-green-soft), transparent 65%); }
+.styles-technology { display: grid; grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr); gap: 64px; padding: 80px 48px; background: linear-gradient(90deg, var(--styles-green-soft), transparent 65%); }
 .styles-technology-heading p { max-width: 380px; }
 .styles-tech-columns { display: grid; gap: 0; }
 .styles-tech-columns > div { padding: 22px 0; border-top: 1px solid var(--fs-color-border); }
@@ -326,6 +326,7 @@
     .styles-technology,
     .styles-accessibility,
     .styles-install { grid-template-columns: 1fr; gap: 28px; }
+    .styles-technology { padding: 48px 24px; }
     .styles-accessibility { padding: 48px 24px; }
     .styles-principle { grid-template-columns: 48px 1fr; gap: 14px; }
     .styles-roadmap-grid { grid-template-columns: 1fr 1fr; }
