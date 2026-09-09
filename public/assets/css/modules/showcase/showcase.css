@@ -64,7 +64,8 @@
 .showcase-card p, .showcase-card li { color: var(--fs-color-muted); font-size: 13px; line-height: 1.55; }
 .showcase-card ul { display: grid; gap: 7px; padding: 0; list-style: none; }
 .showcase-card-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 24px; }.showcase-card-actions .fs-btn { min-height: 38px; font-family: "Google Sans", sans-serif; font-size: 12px; }
-.showcase-card li::before { content: "→"; margin-right: 8px; color: var(--fs-color-primary); }
+.showcase-card li { display: flex; align-items: flex-start; gap: 10px; }
+.showcase-card li::before { content: ""; flex: 0 0 7px; width: 7px; height: 7px; margin-top: 6px; border-top: 2px solid var(--fs-color-primary); border-right: 2px solid var(--fs-color-primary); transform: rotate(45deg); }
 .showcase-mark { display: inline-grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: var(--fs-color-primary); color: var(--fs-color-primary-contrast); font-weight: 800; }
 .showcase-card.law h2 { color: var(--fs-color-warning); }.showcase-card.styles h2 { color: var(--fs-color-success); }.showcase-card.lead h2 { color: var(--fs-color-primary); }
 .showcase-card.law .showcase-mark { background: var(--fs-color-warning); }.showcase-card.styles .showcase-mark { background: var(--fs-color-success); }.showcase-card.lead .showcase-mark { background: var(--fs-color-primary); }
