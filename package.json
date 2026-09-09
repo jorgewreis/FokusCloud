@@ -4,6 +4,7 @@
     "type": "module",
     "scripts": {
         "styles:sync": "node tools/sync-fokus-styles.mjs",
+        "predev": "npm run styles:sync",
         "build": "npm run styles:sync && vite build",
         "dev": "vite",
         "tokens:check": "node tools/validate-css-tokens.mjs"

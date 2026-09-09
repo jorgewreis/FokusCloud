@@ -3,35 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#202124">
 
     <!-- IMPORTS -->
     <!-- -- STYLES -->
     <!-- -- -- STYLE-SHARED -->
-    <link rel="stylesheet" href="./../../public/assets/css/shared/main.css">
+    <link rel="stylesheet" href="/assets/css/shared/fokus.css">
     <!-- -- -- STYLE-MODULES -->
-    <link rel="stylesheet" href="./../../public/assets/css/modules/loading/loading.css">
-    <!-- -- -- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Bebas+Neue&family=Outfit:wght@100..900&family=Syne+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/modules/showcase/showcase.css">
+    <link rel="stylesheet" href="/assets/css/modules/loading/loading.css">
 
     <title>Fokus Cloud</title>
 </head>
-<body>
-
-    <div class="point-loading offscreen visible"></div>
-    <div class="word-loading">
-        <span class="primary">F</span>
-        <span class="secondary"></span>
-    </div>
-
-
-<script src="./../../public/assets/js/modules/loading.js"></script>
-<script>
-
-    pointLoading();
-
-</script>
-
+<body class="showcase-page">
+    <a class="showcase-skip-link" href="#content">Pular para o conteúdo</a>
+    <header class="showcase-nav"><a class="showcase-brand" href="#content" aria-label="Fokus Cloud, início">FOKUS <span>CLOUD</span></a><span>Um ecossistema. Muitos focos.</span></header>
+    <main id="content"><section class="showcase-hero" aria-labelledby="page-title"><span class="showcase-kicker">A porta de entrada</span><h1 id="page-title">Escolha o seu <span>foco.</span></h1><p>Uma plataforma comum para experiências especializadas. Encontre a solução que acompanha o seu trabalho.</p></section>
+        <section class="showcase-grid">
+            <article class="showcase-card styles"><span class="showcase-kicker">A fundação</span><h2>Styles</h2><p>Framework de interface do Fokus Cloud para padronizar estilos, componentes e interações dos subsistemas.</p><ul><li>Tokens e temas claro/escuro</li><li>Componentes de interface reutilizáveis</li><li>Layouts, formulários e utilitários CSS</li><li>Interações JavaScript e ícones</li></ul><div class="showcase-card-actions"><a class="fs-btn fs-btn-primary" href="#styles">Conheça as funcionalidades</a><a class="fs-btn fs-btn-outline-primary" href="https://www.npmjs.com/package/fokus-styles">Acessar NPM</a></div></article>
+            <article class="showcase-card law"><span class="showcase-kicker">O controle</span><h2>Law</h2><p>Sistema jurídico de gestão cartorária modular para organizar processos e rotinas operacionais judiciais.</p><ul><li>Gestão de processos</li><li>Gestão de contatos e partes</li><li>Expedientes, documentos e ofícios</li><li>Tarefas, fluxos, prazos e pendências</li><li>Gestão de audiências</li><li>Indicadores e auditoria operacional</li></ul><div class="showcase-card-actions"><a class="fs-btn fs-btn-primary" href="#law">Conheça o sistema</a><a class="fs-btn fs-btn-outline-primary" href="/acesso">Efetuar login</a></div></article>
+            <article class="showcase-card lead"><span class="showcase-kicker">O movimento</span><h2>Lead</h2><p>Sistema imobiliário de gestão comercial para organizar relacionamentos, leads e automações de vendas.</p><ul><li>CRM e gestão de leads</li><li>Rotinas imobiliárias</li><li>Automações comerciais</li></ul><div class="showcase-card-actions"><a class="fs-btn fs-btn-primary" href="#lead">Conheça o sistema</a><a class="fs-btn fs-btn-outline-primary" href="/acesso">Efetuar login</a></div></article>
+        </section>
+    </main>
+    <footer class="showcase-footer">
+        <span>Fokus Cloud · uma base comum para produtos que evoluem juntos.</span>
+        <span>© 2026 Jorge Reis. Todos os direitos reservados - Proibida a reprodução total ou parcial de qualquer conteúdo visual ou textual sem autorização.</span>
+        <!-- link para painel administrativo -->
+        <a class="showcase-admin-link" data-header-backoffice-access href="#admin" aria-label="Abrir acesso ao painel administrativo">Acesso ao Painel Administrativo (Interno)</a>
+    </footer>
+    <script>
+        (() => {
+            const releasePage = () => document.body.classList.add("fonts-ready");
+            const waitForFonts = async () => {
+                if (document.fonts) {
+                    await document.fonts.ready;
+                    await Promise.all([
+                        document.fonts.load('400 1em "Google Sans"'),
+                        document.fonts.load('400 1em "Bebas Neue"'),
+                    ]);
+                }
+                releasePage();
+            };
+            if (document.readyState === "complete") waitForFonts();
+            else window.addEventListener("load", waitForFonts, { once: true });
+            window.setTimeout(releasePage, 3000);
+        })();
+    </script>
+    <script src="/assets/js/header-account.js"></script>
 </body>
 </html>

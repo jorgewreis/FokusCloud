@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return response()->file(public_path('index.html'));
+    return response()->file(base_path('mockups/pages/index.html'));
 });
 
 // These endpoints intentionally inherit the web group: session cookies and

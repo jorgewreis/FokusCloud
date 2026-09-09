@@ -157,13 +157,13 @@
           <button class="access-modal-close" data-backoffice-modal-close type="button" aria-label="Fechar acesso administrativo">×</button>
           <div class="card-heading">
             <p class="section-kicker">Acesso restrito</p>
-            <h2 class="fs-card-title" id="backoffice-modal-title">Backoffice</h2>
-            <p class="card-description">Use exclusivamente suas credenciais internas da Fokus Cloud.</p>
+            <h2 class="fs-card-title" id="backoffice-modal-title">ADMIN</h2>
+            <p class="card-description">Login administrativo destinado exclusivamente a usuários autorizados da Fokus Cloud.</p>
           </div>
           <form data-backoffice-login>
-            <label class="form-field"><span class="fs-form-label">E-mail interno</span><input class="fs-form-control field-size-md" name="email" type="email" autocomplete="username" required></label>
+            <label class="form-field"><span class="fs-form-label">E-mail</span><input class="fs-form-control field-size-md" name="email" type="email" autocomplete="username" required></label>
             <label class="form-field"><span class="fs-form-label">Senha</span><input class="fs-form-control field-size-md" name="password" type="password" autocomplete="current-password" required></label>
-            <div class="login-actions"><button class="fs-btn fs-btn-success" type="submit">Continuar</button></div>
+            <div class="login-actions"><button class="fs-btn fs-btn-danger" type="submit">Continuar</button></div>
           </form>
           <form data-backoffice-mfa hidden aria-hidden="true">
             <div class="card-heading">
@@ -171,7 +171,7 @@
               <p class="card-description">Informe o código de seis dígitos enviado ao seu e-mail para concluir o acesso.</p>
             </div>
             <label class="form-field"><span class="fs-form-label">Código</span><input class="fs-form-control field-size-sm" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
-            <div class="login-actions"><button class="fs-btn fs-btn-success" type="submit">Validar acesso</button></div>
+            <div class="login-actions"><button class="fs-btn fs-btn-danger" type="submit">Validar acesso</button></div>
           </form>
           <p class="form-message" data-backoffice-message role="status"></p>
         </section>
