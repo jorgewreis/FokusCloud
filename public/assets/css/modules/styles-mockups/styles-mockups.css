@@ -129,6 +129,7 @@
     max-width: 480px;
     margin: 0;
     color: var(--fs-color-muted);
+    font-size: 17px;
     line-height: 1.55;
 }
 .styles-grid {
@@ -149,7 +150,7 @@
 .styles-panel p {
     margin: 0;
     color: var(--fs-color-muted);
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.6;
 }
 .styles-list {
@@ -248,7 +249,7 @@
 .styles-story-body p,
 .styles-technology p,
 .styles-accessibility p,
-.styles-install p { color: var(--fs-color-muted); font-size: 16px; line-height: 1.75; }
+.styles-install p { color: var(--fs-color-muted); font-size: 17px; line-height: 1.75; }
 .styles-story-body p + p,
 .styles-accessibility p + p,
 .styles-install p + p { margin-top: 18px; }
@@ -275,7 +276,7 @@
 .styles-install { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr); gap: 56px; align-items: center; }
 .styles-install-card { padding: 28px; border: 1px solid var(--styles-green); background: #17191d; transform: rotate(1deg); }
 .styles-install-card > span { color: var(--styles-green); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
-.styles-install-card p { margin: 16px 0 0; font-size: 14px; }
+.styles-install-card p { margin: 16px 0 0; font-size: 17px; }
 .styles-install-card .styles-actions { margin-top: 22px; }
 .styles-roadmap { padding-bottom: 96px; }
 .styles-roadmap-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--fs-color-border); border: 1px solid var(--fs-color-border); }
@@ -283,7 +284,7 @@
 .styles-roadmap-grid article:nth-child(1),
 .styles-roadmap-grid article:nth-child(4) { grid-column: span 2; }
 .styles-roadmap-grid h3 { margin: 34px 0 10px; font-size: 19px; }
-.styles-roadmap-grid p { margin: 0; color: var(--fs-color-muted); font-size: 14px; line-height: 1.55; }
+.styles-roadmap-grid p { margin: 0; color: var(--fs-color-muted); font-size: 17px; line-height: 1.55; }
 .styles-footer {
     padding: 28px 0;
     border-top: 1px solid var(--fs-color-border);
