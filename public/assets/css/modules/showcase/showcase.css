@@ -208,6 +208,20 @@
     min-height: 38px;
     font-family: "Google Sans", sans-serif;
 }
+.showcase-card-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    margin: 0;
+    padding: 0 14px;
+    border: 1px solid color-mix(in srgb, var(--fs-color-primary) 48%, transparent);
+    border-radius: 999px;
+    color: var(--fs-color-primary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
 .showcase-card li {
     display: flex;
     align-items: flex-start;

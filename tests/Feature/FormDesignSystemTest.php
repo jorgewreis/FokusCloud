@@ -156,22 +156,16 @@ class FormDesignSystemTest extends TestCase
         $this->get('/backoffice/billing')->assertOk();
     }
 
-    public function test_subscription_flow_distinguishes_catalog_failure_from_unauthenticated_account(): void
-    {
-        $flow = file_get_contents(base_path('public/assets/js/subscription-flow.js'));
-
-        $this->assertStringContainsString('error.status === 401', $flow);
-        $this->assertStringContainsString('Não foi possível carregar sua conta.', $flow);
-        $this->assertStringContainsString('Não foi possível carregar o catálogo real.', $flow);
-    }
-
     public function test_public_products_index_lists_the_portfolio(): void
     {
         $index = file_get_contents(base_path('public/marketing/products/index.html'));
 
         $this->assertStringContainsString('/produtos/fokus-styles', $index);
-        $this->assertStringContainsString('/produtos/fokus-law', $index);
-        $this->assertStringContainsString('/produtos/fokus-lead', $index);
+        $this->assertStringContainsString('Fokus Law', $index);
+        $this->assertStringContainsString('Fokus Lead', $index);
+        $this->assertSame(2, substr_count($index, 'Em breve'));
+        $this->assertStringNotContainsString('/produtos/fokus-law', $index);
+        $this->assertStringNotContainsString('/produtos/fokus-lead', $index);
     }
 
     public function test_portal_index_redirects_to_the_user_dashboard(): void

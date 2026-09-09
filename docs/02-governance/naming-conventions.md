@@ -114,11 +114,11 @@ Arquivos de portfolio devem usar o prefixo do projeto quando estiverem em uma pa
 
 ```text
 public/marketing/products/fokus-styles.html
-public/marketing/products/fokus-law.html
-public/marketing/products/fokus-lead.html
-public/marketing/subscriptions/fokus-law.html
-public/marketing/subscriptions/fokus-lead.html
 ```
+
+As paginas comerciais de Fokus Law e Fokus Lead pertencem aos seus repositorios
+proprios. O Fokus Cloud exibe o portfolio e o status de disponibilidade, sem
+duplicar paginas de produto ou checkout.
 
 ## Mockups
 

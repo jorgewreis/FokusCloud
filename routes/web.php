@@ -37,10 +37,6 @@ Route::get('/backoffice/ativar', fn () => response()->file(public_path('backoffi
 Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|planos|catalogo|assinaturas|vouchers|pagamentos|billing|auditoria|seguranca');
 Route::get('/produtos', fn () => response()->file(public_path('marketing/products/index.html')));
 Route::get('/produtos/fokus-styles', fn () => response()->file(public_path('marketing/products/fokus-styles.html')));
-Route::get('/produtos/fokus-law', fn () => response()->file(public_path('marketing/products/fokus-law.html')));
-Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('marketing/products/fokus-lead.html')));
-Route::get('/assinaturas/fokus-law', fn () => response()->file(public_path('marketing/subscriptions/fokus-law-subscription.html')));
-Route::get('/assinaturas/fokus-lead', fn () => response()->file(public_path('marketing/subscriptions/fokus-lead-subscription.html')));
 
 // Development-server fallback. Production NGINX redirects these physical legacy paths before serving static files.
 Route::permanentRedirect('/admin', '/acesso');
