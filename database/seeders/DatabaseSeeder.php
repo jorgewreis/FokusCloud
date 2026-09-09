@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             $this->upsertCatalog('roles', ['code' => $code], ['name' => $name], 'PFL');
         }
 
-        foreach (['law' => 'Fokus Cloud Law', 'lead' => 'Fokus Cloud Lead'] as $code => $name) {
+        foreach (['law' => 'Fokus Law', 'lead' => 'Fokus Lead'] as $code => $name) {
             $this->upsertCatalog('products', ['code' => $code], ['name' => $name, 'active' => true], 'PRD');
             DB::table('products')->where('code', $code)->update([
                 'technical_description' => "Sistema comercial {$name} com catálogo administrável pelo Backoffice.",

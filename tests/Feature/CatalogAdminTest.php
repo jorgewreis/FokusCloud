@@ -96,8 +96,8 @@ class CatalogAdminTest extends TestCase
 
         $after = $this->getJson('/api/catalog/law')->assertOk()->json();
         $this->assertSame($before['published_version'], $after['published_version']);
-        $this->assertContains('Fokus Cloud Law - Advocacia', collect($after['plans'])->pluck('name')->all());
-        $this->assertNotContains('Fokus Cloud Law - Advocacia Alterada', collect($after['plans'])->pluck('name')->all());
+        $this->assertContains('Fokus Law - Advocacia', collect($after['plans'])->pluck('name')->all());
+        $this->assertNotContains('Fokus Law - Advocacia Alterada', collect($after['plans'])->pluck('name')->all());
     }
 
     public function test_product_display_order_is_persisted_and_reflected_in_catalog_listing(): void

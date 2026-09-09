@@ -9,7 +9,7 @@ Route::domain('styles.fokuscloud.com.br')->group(function () {
 });
 
 Route::get('/', function () {
-    return response()->file(base_path('mockups/pages/index.html'));
+    return response()->file(public_path('index.html'));
 });
 
 // These endpoints intentionally inherit the web group: session cookies and
@@ -35,22 +35,17 @@ Route::get('/portal/transferir-administracao', fn () => response()->file(public_
 Route::get('/backoffice/acesso', fn () => response()->file(public_path('backoffice/acesso.html')));
 Route::get('/backoffice/ativar', fn () => response()->file(public_path('backoffice/ativar.html')));
 Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|planos|catalogo|assinaturas|vouchers|pagamentos|billing|auditoria|seguranca');
-Route::permanentRedirect('/products', '/produtos/fokus-law#planos');
-Route::get('/produtos/fokus-law', fn () => response()->file(public_path('products/fokus-law.html')));
-Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('products/fokus-lead.html')));
-Route::get('/assinaturas/fokus-law', fn () => response()->file(public_path('products/fokus-law-subscription.html')));
-Route::get('/assinaturas/fokus-lead', fn () => response()->file(public_path('products/fokus-lead-subscription.html')));
+Route::get('/produtos', fn () => response()->file(public_path('marketing/products/index.html')));
+Route::get('/produtos/fokus-styles', fn () => response()->file(public_path('marketing/products/fokus-styles.html')));
+Route::get('/produtos/fokus-law', fn () => response()->file(public_path('marketing/products/fokus-law.html')));
+Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('marketing/products/fokus-lead.html')));
+Route::get('/assinaturas/fokus-law', fn () => response()->file(public_path('marketing/subscriptions/fokus-law-subscription.html')));
+Route::get('/assinaturas/fokus-lead', fn () => response()->file(public_path('marketing/subscriptions/fokus-lead-subscription.html')));
 
 // Development-server fallback. Production NGINX redirects these physical legacy paths before serving static files.
-Route::permanentRedirect('/index.html', '/');
 Route::permanentRedirect('/admin', '/acesso');
 Route::permanentRedirect('/admin/painel', '/portal');
 Route::permanentRedirect('/admin/perfil', '/portal/perfil');
-Route::permanentRedirect('/src/pages/', '/produtos/fokus-law#planos');
-Route::permanentRedirect('/src/pages/fokus-law.html', '/produtos/fokus-law');
-Route::permanentRedirect('/src/pages/fokus-lead.html', '/produtos/fokus-lead');
-Route::permanentRedirect('/src/pages/fokus-law-assinatura.html', '/assinaturas/fokus-law');
-Route::permanentRedirect('/src/pages/fokus-lead-assinatura.html', '/assinaturas/fokus-lead');
 Route::permanentRedirect('/auth/cadastro.html', '/cadastro');
 Route::permanentRedirect('/auth/verificar-email.html', '/verificar-email');
 Route::permanentRedirect('/auth/criar-senha.html', '/criar-senha');

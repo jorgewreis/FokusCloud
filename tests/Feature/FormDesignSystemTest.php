@@ -165,12 +165,13 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('Não foi possível carregar o catálogo real.', $flow);
     }
 
-    public function test_legacy_products_index_redirects_to_the_public_law_plans(): void
+    public function test_public_products_index_lists_the_portfolio(): void
     {
-        $index = file_get_contents(base_path('public/products/index.html'));
+        $index = file_get_contents(base_path('public/marketing/products/index.html'));
 
-        $this->assertStringContainsString('/produtos/fokus-law#planos', $index);
-        $this->assertStringContainsString('noindex', $index);
+        $this->assertStringContainsString('/produtos/fokus-styles', $index);
+        $this->assertStringContainsString('/produtos/fokus-law', $index);
+        $this->assertStringContainsString('/produtos/fokus-lead', $index);
     }
 
     public function test_portal_index_redirects_to_the_user_dashboard(): void

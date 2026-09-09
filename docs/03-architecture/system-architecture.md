@@ -6,13 +6,14 @@ O Fokus Cloud e a plataforma base. Ele nao deve ser tratado como apenas mais um 
 
 Os produtos derivados sao sistemas verticais que utilizam essa base comum e adicionam funcionalidades especificas de dominio.
 
-## Hierarquia
+## Hierarquia do ecossistema
 
 | Nivel | Nome | Responsabilidade |
 | --- | --- | --- |
-| Plataforma | Fokus Cloud | Sustenta identidade, empresas, usuarios, assinaturas, catalogo, vouchers, auditoria, billing, backoffice e governanca. |
-| Produto derivado | Fokus Law | Atende rotinas juridicas e administrativas ligadas a advocacia, cartorios, audiencias, expedientes, prazos, contatos, partes e documentos. |
-| Produto derivado | Fokus Lead | Atende rotinas imobiliarias ligadas a CRM, leads, imoveis, corretores, funil comercial, RT, distribuicao e automacoes. |
+| Plataforma e hub | Fokus Cloud | Sustenta identidade, empresas, usuarios, assinaturas, catalogo, vouchers, auditoria, billing, marketing e backoffice. |
+| Projeto do portfolio | Fokus Styles | Framework CSS open source para a experiencia visual compartilhada. |
+| Projeto do portfolio | Fokus Law | Atende rotinas juridicas e administrativas ligadas a advocacia, cartorios, audiencias, expedientes, prazos, contatos, partes e documentos. |
+| Projeto do portfolio | Fokus Lead | Atende rotinas imobiliarias ligadas a CRM, leads, imoveis, corretores, funil comercial, RT, distribuicao e automacoes. |
 
 ## Regra de pertencimento
 
@@ -21,6 +22,7 @@ Uma funcionalidade deve ser classificada pela seguinte regra:
 | Pergunta | Destino |
 | --- | --- |
 | Serve para qualquer produto atual ou futuro? | Fokus Cloud |
+| Depende de tokens, componentes ou comportamento visual comum? | Fokus Styles |
 | Depende de regra, linguagem ou fluxo juridico? | Fokus Law |
 | Depende de regra, linguagem ou fluxo imobiliario? | Fokus Lead |
 | Mistura base e dominio? | Separar em servico comum no Fokus Cloud e modulo especifico no produto derivado. |
@@ -47,7 +49,9 @@ Fokus Cloud
     Permissoes por produto
     Limites contratados
 
-  Product Modules
+    Portfolio Projects
+    Fokus Styles
+      Framework CSS open source
     Fokus Law
       Modulos juridicos
 
@@ -123,10 +127,12 @@ O catalogo deve ser a fonte oficial de produtos, planos, funcionalidades, precos
 
 Cada produto deve possuir codigo tecnico estavel. Exemplos:
 
-| Produto | Codigo sugerido |
+| Projeto | Codigo estavel |
 | --- | --- |
-| Fokus Cloud Law | `law` |
-| Fokus Cloud Lead | `lead` |
+| Fokus Cloud | `cloud` |
+| Fokus Styles | `styles` |
+| Fokus Law | `law` |
+| Fokus Lead | `lead` |
 
 Linhas comerciais internas podem ser usadas quando um produto possuir ofertas para publicos diferentes, como `lead-one` e `lead-team`.
 

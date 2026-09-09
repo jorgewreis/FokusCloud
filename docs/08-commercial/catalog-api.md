@@ -29,7 +29,7 @@ Resposta resumida:
     {
       "id": "PRD...",
       "code": "law",
-      "name": "Fokus Cloud Law",
+      "name": "Fokus Law",
       "publication_state": "publicado",
       "published_version": 1,
       "modules": [],
@@ -82,7 +82,7 @@ Contrato `0.0.3`, em forma resumida:
   "published_at": "2026-09-02 10:00:00",
   "product": {
     "code": "law",
-    "name": "Fokus Cloud Law"
+    "name": "Fokus Law"
   },
   "modules": [
     {
@@ -94,7 +94,7 @@ Contrato `0.0.3`, em forma resumida:
   "plans": [
     {
       "code": "law-advocacia",
-      "name": "Fokus Cloud Law - Advocacia",
+      "name": "Fokus Law - Advocacia",
       "module_codes": ["processos-advocacia"],
       "monthly_amount": 94.9,
       "annual_amount": 949

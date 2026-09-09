@@ -4,7 +4,7 @@
 
 Este documento define o padrao oficial de nomenclatura do Fokus Cloud. A regra vale para novos modulos, documentos, paginas, assets, rotas e componentes internos do projeto.
 
-O objetivo e manter o crescimento organizado desde o inicio, preservando a separacao entre plataforma base, produtos derivados e mockups.
+O objetivo e manter o crescimento organizado desde o inicio, preservando a separacao entre plataforma, os tres projetos do portfolio e mockups.
 
 ## Principio de decisao
 
@@ -62,11 +62,11 @@ docs/
 
 Use as pastas numeradas para manter ordem visual estavel. O numero define a ordem de leitura; o nome define o dominio documental.
 
-Novos produtos derivados poderao receber suas proprias pastas quando houver documentacao suficiente:
+Produtos com documentacao especifica podem receber subpastas dentro das areas numeradas quando houver volume suficiente:
 
 ```text
-docs/products/fokus-law/
-docs/products/fokus-lead/
+docs/04-products/law/
+docs/04-products/lead/
 ```
 
 ## Public
@@ -84,7 +84,9 @@ public/
   auth/
   portal/
   backoffice/
-  products/
+  marketing/
+    products/
+    subscriptions/
 ```
 
 Responsabilidades:
@@ -95,24 +97,27 @@ Responsabilidades:
 | `public/auth` | Telas de cadastro, verificacao, senha e convites. |
 | `public/portal` | Telas do cliente e administracao da empresa. |
 | `public/backoffice` | Backoffice interno da plataforma. |
-| `public/products` | Paginas comerciais e fluxos de assinatura por produto. |
+| `public/marketing` | Paginas institucionais, portfolio e fluxos comerciais do Cloud. |
 
 ## Produtos
 
-Produtos derivados devem usar codigos tecnicos estaveis:
+Os projetos do portfolio devem usar codigos tecnicos estaveis:
 
 | Produto | Codigo |
 | --- | --- |
-| Fokus Law | `fokus-law` |
-| Fokus Lead | `fokus-lead` |
+| Fokus Cloud | `cloud` |
+| Fokus Styles | `styles` |
+| Fokus Law | `law` |
+| Fokus Lead | `lead` |
 
-Arquivos de produto devem usar o prefixo do produto:
+Arquivos de portfolio devem usar o prefixo do projeto quando estiverem em uma pasta compartilhada:
 
 ```text
-fokus-law.html
-fokus-law-subscription.html
-fokus-lead.html
-fokus-lead-subscription.html
+public/marketing/products/fokus-styles.html
+public/marketing/products/fokus-law.html
+public/marketing/products/fokus-lead.html
+public/marketing/subscriptions/fokus-law.html
+public/marketing/subscriptions/fokus-lead.html
 ```
 
 ## Mockups

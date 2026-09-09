@@ -2,6 +2,9 @@
 
 Esta pasta concentra a documentacao funcional, comercial e tecnica do Fokus Cloud e de seus produtos derivados.
 
+As fronteiras entre os repositorios independentes do ecossistema estao definidas
+em [Fronteiras dos repositorios Fokus](03-architecture/repository-boundaries.md).
+
 ## Visao geral
 
 O Fokus Cloud e a plataforma base. Ele concentra autenticacao, empresas, usuarios, permissoes, catalogo comercial, assinaturas, vouchers, auditoria, billing, backoffice e governanca.

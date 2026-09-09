@@ -29,13 +29,13 @@ Cada sistema deve possuir:
 
 Os sistemas comerciais oficiais sao:
 
-- `law`: Fokus Cloud Law;
-- `lead`: Fokus Cloud Lead.
+- `law`: Fokus Law;
+- `lead`: Fokus Lead.
 
 O produto `lead` possui duas linhas comerciais identificadas nos planos:
 
-- `one`: Fokus Cloud Lead One, para corretores independentes;
-- `team`: Fokus Cloud Lead Team, para imobiliarias e grupos de corretores.
+- `one`: Fokus Lead One, para corretores independentes;
+- `team`: Fokus Lead Team, para imobiliarias e grupos de corretores.
 
 O nome exibido pode evoluir sem alterar o codigo interno.
 
@@ -55,15 +55,15 @@ Planos comerciais aprovados:
 
 | Sistema | Planos |
 | --- | --- |
-| Fokus Cloud Law | Advocacia, Cartorio Criminal, Cartorio Civel, Gestao de Audiencias, Gestao de Expedientes |
-| Fokus Cloud Lead One | Essencial, Profissional, Avancado, Premium |
-| Fokus Cloud Lead Team | Essencial, Premium |
+| Fokus Law | Advocacia, Cartorio Criminal, Cartorio Civel, Gestao de Audiencias, Gestao de Expedientes |
+| Fokus Lead One | Essencial, Profissional, Avancado, Premium |
+| Fokus Lead Team | Essencial, Premium |
 
 O nome completo exibido no catalogo segue o formato `Sistema - Plano`. Exemplos:
 
-- `Fokus Cloud Law - Advocacia`;
-- `Fokus Cloud Lead One - Essencial`;
-- `Fokus Cloud Lead Team - Premium`.
+- `Fokus Law - Advocacia`;
+- `Fokus Lead One - Essencial`;
+- `Fokus Lead Team - Premium`.
 
 Os codigos tecnicos devem ser slugs estaveis, independentes do texto exibido. Exemplos: `law-advocacia`, `lead-one-essencial` e `lead-team-premium`.
 
@@ -82,7 +82,7 @@ Tambem podera possuir configuracao de capacidade:
 
 Uma funcionalidade pode ser marcada como disponivel para contratacao avulsa.
 
-O catalogo do Fokus Cloud Law deve contemplar, conforme a matriz de ofertas:
+O catalogo do Fokus Law deve contemplar, conforme a matriz de ofertas:
 
 - os cinco modulos comerciais: Gestao de Processos, Gestao de Contatos,
   Gestao de Expedicoes, Gestao de Tarefas e Gestao de Audiencias;

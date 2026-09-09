@@ -18,7 +18,7 @@ Legenda:
 
 Quando um modulo existente aparece com uma variante de contexto, isso significa que a base tecnica pode ser reutilizada, mas suas regras, campos, permissoes e limites ainda precisam ser configurados para aquele modelo.
 
-## Fokus Cloud Law
+## Fokus Law
 
 O catalogo Law comercializa exclusivamente `processos`, `contatos`,
 `expedicoes`, `tarefas` e `audiencias`. Os segmentos comerciais sao `advocacia` e
@@ -86,7 +86,7 @@ honorários, financeiro, presos, monitoramento, medidas, penas, relatórios,
 notificações, prazos e agenda, pertencem ao contexto funcional dos cinco
 módulos e não devem ser cadastradas como módulos Law independentes.
 
-## Fokus Cloud Lead One
+## Fokus Lead One
 
 A linha One evolui por capacidade crescente para corretores independentes.
 
@@ -102,7 +102,7 @@ A linha One evolui por capacidade crescente para corretores independentes.
 | `whatsapp` | Integracao com WhatsApp | Existente |  |  |  | X |
 | `notificacoes` | Notificacoes Comerciais | Novo | X | X | X | X |
 
-## Fokus Cloud Lead Team
+## Fokus Lead Team
 
 A linha Team deve possuir recursos de colaboracao e governanca de equipes, alem dos modulos comerciais compartilhados com o One.
 

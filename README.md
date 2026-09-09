@@ -9,8 +9,9 @@ A plataforma foi desenhada para crescer por modulos. Em vez de criar sistemas is
 | Camada | Responsabilidade |
 | --- | --- |
 | Fokus Cloud | Plataforma base, autenticação, empresas, usuarios, permissoes, assinaturas, catalogo, vouchers, auditoria e backoffice. |
-| Fokus Law | Produto juridico derivado, voltado a rotinas de advocacia, cartorios, audiencias, expedientes, prazos e documentos. |
-| Fokus Lead | Produto imobiliario derivado, voltado a CRM, leads, imoveis, corretores, funil comercial, distribuicao e automacoes. |
+| Fokus Styles | Framework CSS open source do portfolio, com tokens, componentes, temas e documentacao. |
+| Fokus Law | Produto juridico pago, voltado a rotinas de advocacia, cartorios, audiencias, expedientes, prazos e documentos. |
+| Fokus Lead | Produto imobiliario pago, voltado a CRM, leads, imoveis, corretores, funil comercial, distribuicao e automacoes. |
 
 ## Principio de arquitetura
 
@@ -30,7 +31,8 @@ Fokus Cloud
     Auditoria
     Backoffice
 
-  Produtos
+    Portfolio
+    Fokus Styles
     Fokus Law
       Modulos juridicos
 
@@ -60,6 +62,7 @@ Fokus Cloud
 | `resources/` | Entradas de CSS/JS e views Laravel. |
 | `docs/` | Documentacao funcional, comercial e tecnica. |
 | `mockups/` | Prototipos e estudos visuais preservados. |
+| `fokus-project.json` | Manifesto de identidade, URLs, tipo, versao e status do repositorio. |
 | `.github/workflows/` | Automacao de deploy. |
 
 ## Execucao local
@@ -94,6 +97,9 @@ composer run dev
 Este repositorio esta em desenvolvimento ativo. A base atual ja contempla autenticacao, empresa ativa, isolamento por vinculo, catalogo comercial, backoffice, assinaturas, vouchers, auditoria, testes e deploy inicial.
 
 A prioridade arquitetural e manter o Fokus Cloud como plataforma comum e evoluir os produtos derivados por modulos independentes.
+
+As fronteiras entre os repositorios estao definidas em
+[`docs/03-architecture/repository-boundaries.md`](docs/03-architecture/repository-boundaries.md).
 
 ## Documentacao
 
