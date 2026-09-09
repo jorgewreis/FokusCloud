@@ -188,8 +188,18 @@ class FormDesignSystemTest extends TestCase
         $home = file_get_contents(base_path('public/styles/index.html'));
 
         $this->assertStringContainsString('href="/layout">Layout</a>', $home);
-        $this->assertSame(4, substr_count($home, 'class="styles-sidebar-planned"'));
+        $this->assertStringContainsString('href="/forms">Forms</a>', $home);
+        $this->assertSame(3, substr_count($home, 'class="styles-sidebar-planned"'));
         $this->assertStringNotContainsString('href="#layout"', $home);
+    }
+
+    public function test_styles_forms_documentation_covers_semantic_fields_and_validation(): void
+    {
+        $page = file_get_contents(base_path('public/styles/docs/forms/index.html'));
+
+        foreach (['fs-form-control', 'fs-form-select', 'fs-form-fieldset', 'fs-form-label', 'fs-check', 'fs-radio', 'fs-invalid-feedback', 'fs-valid-feedback', 'aria-invalid="true"', 'required', 'Use assim', 'Evite assim', 'data-copy-target'] as $fragment) {
+            $this->assertStringContainsString($fragment, $page, $fragment);
+        }
     }
 
     public function test_portal_index_redirects_to_the_user_dashboard(): void

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/assets/css/shared/fokus.css?v=9ff9167fd11b" />
+        <link rel="stylesheet" href="/assets/css/modules/styles-mockups/styles-mockups.css?v=c279093db893" />
+        <link rel="stylesheet" href="/assets/css/modules/styles-layout/styles-layout.css?v=d4f49b63ed67" />
+        <link rel="stylesheet" href="/assets/css/modules/styles-forms/styles-forms.css?v=d304c3411815" />
+        <title>Forms | Fokus Styles</title>
+    </head>
+    <body class="styles-mockup styles-forms-doc">
+        <header class="styles-topbar"><div class="styles-shell styles-topbar-inner"><a class="styles-brand" href="/" aria-label="Fokus Styles, início">FOKUS <span>STYLES</span></a><span class="styles-eyebrow">Documentação · Forms</span></div></header>
+
+        <div class="styles-shell styles-sidebar-layout">
+            <aside class="styles-sidebar" aria-label="Navegação da documentação">
+                <strong>Forms</strong>
+                <a href="#intro">Visão geral</a>
+                <a href="#fundamentos">01 · Fundamentos</a>
+                <a href="#estrutura">02 · Estrutura</a>
+                <a href="#campos">03 · Campos</a>
+                <a href="#agrupamento">04 · Agrupamento</a>
+                <a href="#validacao">05 · Validação</a>
+                <a href="#estados">06 · Estados</a>
+                <a href="#acessibilidade">07 · Acessibilidade</a>
+                <a href="#laboratorio">08 · Laboratório</a>
+            </aside>
+
+            <main>
+                <section class="styles-hero forms-doc-hero" id="intro">
+                    <span class="styles-eyebrow">Documentação do sistema de formulários</span>
+                    <h1>Formulários que <span>orientam</span>.</h1>
+                    <p>Um formulário é uma conversa: pede uma informação, explica por que ela é necessária, confirma quando tudo está certo e ajuda a pessoa a corrigir o caminho quando algo dá errado. O Fokus Styles organiza essa conversa com semântica, estados previsíveis e mensagens que respeitam o contexto.</p>
+                    <p>Este guia acompanha a construção de um cadastro completo de pessoa usuária, dos fundamentos da estrutura até o laboratório final. Os exemplos usam as classes oficiais do framework e mostram a relação entre HTML, aparência, interação e acessibilidade.</p>
+                </section>
+
+                <section class="forms-doc-section forms-foundations" id="fundamentos">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">01 · Fundamentos</span><h2>Preencher não deve ser adivinhar.</h2><p>Antes de escolher um componente, deixe claro qual decisão está sendo solicitada. Um bom formulário reduz memória, apresenta o contexto no momento certo e permite revisar os dados antes de concluir.</p></div>
+                    <div class="forms-foundation-quote"><strong>Um campo por decisão.</strong><p>Quando duas informações têm significados diferentes, elas devem poder ser lidas, preenchidas e corrigidas separadamente.</p></div>
+                    <div class="forms-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Explique o que precisa ser informado, associe um label visível ao campo e ofereça ajuda antes que o erro aconteça.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Peça dados sem contexto, esconda instruções em placeholders ou faça a pessoa descobrir as regras apenas depois de falhar.</p></div></div>
+                </section>
+
+                <section class="forms-doc-section forms-structure" id="estrutura">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">02 · Estrutura</span><h2>O HTML conta a história do formulário.</h2><p>Use `form` para a tarefa, `label` para nomear campos, `fieldset` e `legend` para agrupar decisões relacionadas. A estrutura semântica continua compreensível mesmo quando o CSS muda, a tela aumenta ou uma tecnologia assistiva assume a leitura.</p></div>
+                    <div class="forms-structure-demo"><form class="fs-stack fs-stack-gap-3" aria-label="Exemplo de estrutura"><fieldset class="fs-form-fieldset"><legend>Dados de contato</legend><div class="fs-form-row"><div class="fs-form-col"><label class="fs-form-label" for="structure-name">Nome completo</label><input class="fs-form-control" id="structure-name" type="text" autocomplete="name" /></div><div class="fs-form-col"><label class="fs-form-label" for="structure-email">Email</label><input class="fs-form-control" id="structure-email" type="email" autocomplete="email" /></div></div></fieldset><button class="fs-btn fs-btn-primary" type="button">Continuar</button></form></div>
+                    <div class="layout-code-block"><div class="layout-code-heading"><span>HTML · Estrutura semântica</span><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-copy-target="code-form-structure">Copiar</button></div><pre class="styles-code" id="code-form-structure"><code>&lt;form&gt;
+    &lt;fieldset class="fs-form-fieldset"&gt;
+        &lt;legend&gt;Dados de contato&lt;/legend&gt;
+        &lt;label class="fs-form-label" for="email"&gt;Email&lt;/label&gt;
+        &lt;input class="fs-form-control" id="email" type="email" required /&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre><p class="layout-copy-status" role="status" aria-live="polite"></p></div>
+                    <div class="forms-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Faça a ordem do HTML acompanhar a ordem de preenchimento e use atributos nativos como `type`, `autocomplete` e `required`.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Construa o formulário apenas com divs, labels visuais soltos ou elementos que parecem campos, mas não funcionam como controles nativos.</p></div></div>
+                </section>
+
+                <section class="forms-doc-section forms-fields" id="campos">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">03 · Campos</span><h2>Cada informação tem seu controle.</h2><p>Escolha o tipo de campo que corresponde ao dado e ao dispositivo. O navegador pode oferecer teclado, preenchimento automático e validações adequadas quando a semântica é correta.</p></div>
+                    <div class="forms-field-showcase"><div><label class="fs-form-label" for="field-text">Nome</label><input class="fs-form-control" id="field-text" type="text" placeholder="Ana Souza" /></div><div><label class="fs-form-label" for="field-email">Email</label><input class="fs-form-control" id="field-email" type="email" placeholder="ana@exemplo.com" /></div><div><label class="fs-form-label" for="field-number">Número</label><input class="fs-form-control" id="field-number" type="number" min="0" placeholder="10" /></div><div><label class="fs-form-label" for="field-role">Perfil</label><select class="fs-form-select" id="field-role"><option>Selecione uma opção</option><option>Administrador</option><option>Colaborador</option></select></div><div class="forms-field-wide"><label class="fs-form-label" for="field-about">Sobre você</label><textarea class="fs-form-control" id="field-about" rows="3" placeholder="Conte brevemente..."></textarea></div></div>
+                    <div class="forms-check-showcase"><div class="fs-check"><input class="fs-check-input" id="field-news" type="checkbox" /><label class="fs-check-label" for="field-news">Quero receber novidades por email.</label></div><div class="fs-radio"><input class="fs-radio-input" id="field-person" name="field-type" type="radio" checked /><label class="fs-radio-label" for="field-person">Pessoa física</label></div><div class="fs-radio"><input class="fs-radio-input" id="field-company" name="field-type" type="radio" /><label class="fs-radio-label" for="field-company">Pessoa jurídica</label></div></div>
+                    <div class="forms-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Escolha `email` para email, `number` para números e `select` quando as opções forem conhecidas. Dê ao controle um label permanente.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Use um input de texto para tudo, substitua labels por placeholders ou obrigue a pessoa a lembrar o formato esperado.</p></div></div>
+                </section>
+
+                <section class="forms-doc-section forms-grouping" id="agrupamento">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">04 · Agrupamento</span><h2>Grupos tornam decisões longas menores.</h2><p>Quando vários controles respondem à mesma pergunta, o agrupamento deve ser percebido visualmente e anunciado semanticamente. `fieldset` e `legend` criam essa relação sem depender de bordas ou títulos decorativos.</p></div>
+                    <div class="forms-group-demo"><fieldset class="fs-form-fieldset"><legend>Preferências de comunicação</legend><div class="forms-group-options"><div class="fs-check"><input class="fs-check-input" id="group-email" type="checkbox" checked /><label class="fs-check-label" for="group-email">Email</label></div><div class="fs-check"><input class="fs-check-input" id="group-sms" type="checkbox" /><label class="fs-check-label" for="group-sms">SMS</label></div><div class="fs-check"><input class="fs-check-input" id="group-phone" type="checkbox" /><label class="fs-check-label" for="group-phone">Telefone</label></div></div></fieldset></div>
+                    <div class="forms-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Use `legend` para explicar a pergunta comum e mantenha cada opção com seu próprio input e label.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Use apenas um título visual ou misture opções de assuntos diferentes dentro do mesmo grupo.</p></div></div>
+                </section>
+
+                <section class="forms-doc-section forms-validation" id="validacao">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">05 · Validação</span><h2>O erro precisa dizer o próximo passo.</h2><p>Validação não é uma punição no final do formulário. Ela deve explicar o problema em linguagem humana, apontar o campo afetado e preservar tudo que já foi preenchido corretamente.</p></div>
+                    <div class="forms-validation-demo"><div><label class="fs-form-label" for="invalid-email">Email <span aria-hidden="true">*</span></label><input class="fs-form-control is-invalid" id="invalid-email" type="email" value="ana@" aria-invalid="true" aria-describedby="invalid-email-error" /><p class="fs-invalid-feedback" id="invalid-email-error">Informe um email completo, como ana@exemplo.com.</p></div><div><label class="fs-form-label" for="valid-name">Nome completo</label><input class="fs-form-control is-valid" id="valid-name" type="text" value="Ana Souza" aria-describedby="valid-name-ok" /><p class="fs-valid-feedback" id="valid-name-ok">Nome preenchido corretamente.</p></div></div>
+                    <div class="forms-error-summary" role="alert"><strong>Revise os campos destacados</strong><a href="#invalid-email">Email: informe um endereço completo.</a></div>
+                    <div class="forms-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Associe a mensagem ao campo com `aria-describedby`, use `aria-invalid` e permita que a pessoa retorne diretamente ao controle.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Mostre apenas “campo inválido”, apague todos os dados ou use um alerta distante sem indicar qual campo precisa de atenção.</p></div></div>
+                </section>
+
+                <section class="forms-doc-section forms-states" id="estados">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">06 · Estados</span><h2>O campo também comunica pelo estado.</h2><p>Normal, foco, preenchido, erro, sucesso, desabilitado e somente leitura são momentos diferentes. A cor ajuda, mas nunca deve ser a única forma de comunicar o estado.</p></div>
+                    <div class="forms-state-grid"><div><span>Normal</span><input class="fs-form-control" type="text" value="Pronto para preencher" /></div><div><span>Foco</span><input class="fs-form-control forms-force-focus" type="text" value="Recebendo atenção" /></div><div><span>Sucesso</span><input class="fs-form-control is-valid" type="text" value="Confirmado" /></div><div><span>Erro</span><input class="fs-form-control is-invalid" type="text" value="Corrigir informação" /></div><div><span>Desabilitado</span><input class="fs-form-control" type="text" value="Indisponível" disabled /></div><div><span>Somente leitura</span><input class="fs-form-control" type="text" value="Identificador gerado" readonly /></div></div>
+                    <div class="forms-doc-guidance"><div><span class="layout-doc-label is-good">Use assim</span><p>Combine mudança visual, texto e atributos apropriados. O foco deve ser evidente e o estado deve continuar compreensível em alto contraste.</p></div><div><span class="layout-doc-label is-bad">Evite assim</span><p>Use apenas verde e vermelho para diferenciar sucesso e erro, ou retire o foco porque ele “deixa a tela feia”.</p></div></div>
+                </section>
+
+                <section class="forms-doc-section forms-accessibility" id="acessibilidade">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">07 · Acessibilidade</span><h2>Um formulário para pessoas reais.</h2><p>Labels visíveis, foco, ordem de tabulação, mensagens associadas, contraste e alvos confortáveis formam o mínimo esperado. O formulário também deve funcionar com zoom, teclado, leitor de tela e diferentes formas de entrada.</p></div>
+                    <ul class="forms-checklist"><li>Todo controle possui um label associado por `for` e `id`.</li><li>Campos obrigatórios usam `required` e uma indicação textual clara.</li><li>Mensagens de erro não dependem somente de cor ou posição.</li><li>Grupos relacionados usam `fieldset` e `legend`.</li><li>O foco permanece visível em todos os estados.</li></ul>
+                    <div class="forms-doc-note"><strong>Regra de ouro</strong><span>Se a pessoa não consegue entender o que preencher, por que preencher e como corrigir, o formulário ainda não está pronto.</span></div>
+                </section>
+
+                <section class="forms-doc-section forms-lab" id="laboratorio">
+                    <div class="forms-doc-heading"><span class="styles-eyebrow">08 · Laboratório</span><h2>Cadastro de pessoa usuária.</h2><p>O laboratório combina campos, grupos, estados, consentimentos e ações em um fluxo completo. A demonstração é estática para que o código e a composição permaneçam fáceis de comparar.</p></div>
+                    <form class="forms-lab-form fs-stack fs-stack-gap-3" novalidate aria-label="Cadastro de pessoa usuária"><div class="forms-lab-error" role="alert"><strong>Há informações que precisam de revisão.</strong><span>Confira os campos destacados antes de continuar.</span></div><fieldset class="fs-form-fieldset"><legend>Identificação</legend><div class="fs-form-row"><div class="fs-form-col"><label class="fs-form-label" for="lab-name">Nome completo <span aria-hidden="true">*</span></label><input class="fs-form-control" id="lab-name" name="name" type="text" autocomplete="name" required /></div><div class="fs-form-col"><label class="fs-form-label" for="lab-email">Email <span aria-hidden="true">*</span></label><input class="fs-form-control is-invalid" id="lab-email" name="email" type="email" autocomplete="email" aria-invalid="true" aria-describedby="lab-email-error" required /><p class="fs-invalid-feedback" id="lab-email-error">Informe um email válido.</p></div></div></fieldset><fieldset class="fs-form-fieldset"><legend>Segurança</legend><div class="fs-form-row"><div class="fs-form-col"><label class="fs-form-label" for="lab-password">Senha <span aria-hidden="true">*</span></label><input class="fs-form-control" id="lab-password" type="password" autocomplete="new-password" required /><p class="fs-form-text">Use pelo menos 8 caracteres, uma letra e um número.</p></div><div class="fs-form-col"><label class="fs-form-label" for="lab-password-confirm">Confirmar senha <span aria-hidden="true">*</span></label><input class="fs-form-control" id="lab-password-confirm" type="password" autocomplete="new-password" required /></div></div></fieldset><fieldset class="fs-form-fieldset"><legend>Preferências</legend><div class="fs-check"><input class="fs-check-input" id="lab-news" type="checkbox" /><label class="fs-check-label" for="lab-news">Desejo receber novidades e conteúdos do Fokus Styles.</label></div></fieldset><fieldset class="fs-form-fieldset"><legend>Consentimentos</legend><div class="fs-check"><input class="fs-check-input" id="lab-terms" type="checkbox" required /><label class="fs-check-label" for="lab-terms">Li e aceito os <a href="#termos">Termos de uso</a>. <span aria-hidden="true">*</span></label></div><div class="fs-check"><input class="fs-check-input" id="lab-privacy" type="checkbox" required /><label class="fs-check-label" for="lab-privacy">Li a <a href="#privacidade">Política de privacidade</a>. <span aria-hidden="true">*</span></label></div></fieldset><div class="forms-lab-actions"><button class="fs-btn fs-btn-primary" type="button">Criar cadastro</button><button class="fs-btn fs-btn-outline-primary" type="button">Cancelar</button></div></form>
+                </section>
+            </main>
+        </div>
+
+        <footer class="styles-footer"><div class="styles-shell styles-footer-inner"><a class="styles-footer-brand" href="https://fokuscloud.com.br/" aria-label="Fokus Cloud, página inicial">FOKUS <span>CLOUD</span></a><span>Fokus Styles · Documentação de Forms.</span></div></footer>
+        <script type="module" src="/assets/js/styles-layout-doc.js?v=43fa24c8fc8c"></script>
+    </body>
+</html>
