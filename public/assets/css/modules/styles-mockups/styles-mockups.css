@@ -235,6 +235,55 @@
         var(--fs-color-black)
     );
 }
+.styles-hero-editorial { max-width: 900px; }
+.styles-hero-editorial p + p { margin-top: 16px; }
+.styles-story { display: grid; grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr); gap: 72px; }
+.styles-story-lead h2,
+.styles-technology h2,
+.styles-accessibility h2,
+.styles-install h2,
+.styles-roadmap h2 { margin: 14px 0 18px; font-family: "Bebas Neue", sans-serif; font-size: clamp(38px, 5vw, 64px); font-weight: 400; line-height: 0.98; letter-spacing: 0.04em; }
+.styles-lead-text { color: var(--styles-green); font-size: 20px; line-height: 1.45; }
+.styles-story-body { max-width: 700px; padding-top: 8px; }
+.styles-story-body p,
+.styles-technology p,
+.styles-accessibility p,
+.styles-install p { color: var(--fs-color-muted); font-size: 16px; line-height: 1.75; }
+.styles-story-body p + p,
+.styles-accessibility p + p,
+.styles-install p + p { margin-top: 18px; }
+.styles-story-note { display: grid; gap: 8px; margin-top: 28px; padding: 22px 24px; border-left: 3px solid var(--styles-green); background: var(--styles-green-soft); }
+.styles-story-note strong { color: var(--fs-color-text); }
+.styles-story-note span { color: var(--fs-color-muted); line-height: 1.5; }
+.styles-principles .styles-section-heading { align-items: start; }
+.styles-principle-list { border-top: 1px solid var(--fs-color-border); }
+.styles-principle { display: grid; grid-template-columns: 90px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--fs-color-border); }
+.styles-principle > span,
+.styles-roadmap-grid span { color: var(--styles-green); font-family: var(--fs-font-mono); font-size: 13px; }
+.styles-principle h3 { margin: 0 0 8px; font-size: 21px; }
+.styles-principle p { max-width: 680px; margin: 0; color: var(--fs-color-muted); line-height: 1.65; }
+.styles-technology { display: grid; grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr); gap: 64px; background: linear-gradient(90deg, var(--styles-green-soft), transparent 65%); }
+.styles-technology-heading p { max-width: 380px; }
+.styles-tech-columns { display: grid; gap: 0; }
+.styles-tech-columns > div { padding: 22px 0; border-top: 1px solid var(--fs-color-border); }
+.styles-tech-columns strong { display: block; margin-bottom: 8px; color: var(--fs-color-text); font-size: 19px; }
+.styles-tech-columns p { margin: 0; }
+.styles-accessibility { display: grid; grid-template-columns: 180px 1fr; gap: 48px; padding: 80px 48px; border: 1px solid var(--fs-color-border); background: var(--fs-color-subtle); }
+.styles-accessibility-mark { color: var(--styles-green); font-family: "Bebas Neue", sans-serif; font-size: clamp(58px, 9vw, 118px); line-height: 0.8; letter-spacing: 0.04em; }
+.styles-accessibility-content { max-width: 720px; }
+.styles-accessibility-content h2 { max-width: 620px; }
+.styles-install { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr); gap: 56px; align-items: center; }
+.styles-install-card { padding: 28px; border: 1px solid var(--styles-green); background: #17191d; transform: rotate(1deg); }
+.styles-install-card > span { color: var(--styles-green); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+.styles-install-card p { margin: 16px 0 0; font-size: 14px; }
+.styles-install-card .styles-actions { margin-top: 22px; }
+.styles-roadmap { padding-bottom: 96px; }
+.styles-roadmap-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--fs-color-border); border: 1px solid var(--fs-color-border); }
+.styles-roadmap-grid article { min-height: 190px; padding: 22px; background: var(--fs-color-surface); }
+.styles-roadmap-grid article:nth-child(1),
+.styles-roadmap-grid article:nth-child(4) { grid-column: span 2; }
+.styles-roadmap-grid h3 { margin: 34px 0 10px; font-size: 19px; }
+.styles-roadmap-grid p { margin: 0; color: var(--fs-color-muted); font-size: 14px; line-height: 1.55; }
 .styles-footer {
     padding: 28px 0;
     border-top: 1px solid var(--fs-color-border);
@@ -254,6 +303,16 @@
     .styles-sidebar-layout {
         grid-template-columns: 1fr;
     }
+    .styles-story,
+    .styles-technology,
+    .styles-accessibility,
+    .styles-install { grid-template-columns: 1fr; gap: 28px; }
+    .styles-accessibility { padding: 48px 24px; }
+    .styles-principle { grid-template-columns: 48px 1fr; gap: 14px; }
+    .styles-roadmap-grid { grid-template-columns: 1fr 1fr; }
+    .styles-roadmap-grid article,
+    .styles-roadmap-grid article:nth-child(1),
+    .styles-roadmap-grid article:nth-child(4) { grid-column: span 1; }
     .styles-sidebar {
         position: static;
     }

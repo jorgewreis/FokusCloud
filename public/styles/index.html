@@ -19,7 +19,10 @@
             <aside class="styles-sidebar" aria-label="Navegação da documentação">
                 <strong>Documentação</strong>
                 <a href="#intro">Introdução</a>
+                <a href="#historia">Nossa história</a>
                 <a href="#fundamentos">Fundamentos</a>
+                <a href="#acessibilidade">Acessibilidade</a>
+                <a href="#instalacao">Instalação</a>
                 <a href="#layout">Layout</a>
                 <a href="#forms">Forms</a>
                 <a href="#components">Components</a>
@@ -28,13 +31,14 @@
             </aside>
 
             <main>
-                <section class="styles-hero" id="intro">
+                <section class="styles-hero styles-hero-editorial" id="intro">
                     <span class="styles-eyebrow">A fundação do ecossistema Fokus</span>
                     <h1>Interface que <span>fala</span> a mesma língua.</h1>
                     <p>
-                        Fokus Styles é um framework CSS de código livre para construir
-                        experiências consistentes, acessíveis e responsivas em todos
-                        os subsistemas Fokus.
+                        Toda experiência digital começa antes do primeiro botão: começa na escolha de uma linguagem, na forma como o conteúdo se organiza e na confiança que a interface transmite. O Fokus Styles nasceu para transformar essas decisões em uma base compartilhada, clara e viva.
+                    </p>
+                    <p>
+                        Ele é um framework CSS de código livre, acompanhado de padrões de interface e interações em JavaScript vanilla, criado para que equipes possam construir produtos distintos sem perder coerência, acessibilidade ou personalidade.
                     </p>
                     <div class="styles-actions">
                         <a class="fs-btn fs-btn-primary" href="#fundamentos">Conheça o sistema</a>
@@ -42,80 +46,59 @@
                     </div>
                 </section>
 
-                <section class="styles-section" id="fundamentos">
-                    <div class="styles-section-heading">
-                        <h2>O que é o Fokus Styles?</h2>
-                        <p>Uma base visual e técnica compartilhada para produtos digitais que precisam evoluir juntos.</p>
+                <section class="styles-section styles-story" id="historia">
+                    <div class="styles-story-lead">
+                        <span class="styles-eyebrow">De onde viemos</span>
+                        <h2>Uma história sobre consistência.</h2>
+                        <p class="styles-lead-text">O framework não começou como um catálogo de componentes. Começou como uma pergunta simples: por que cada produto precisa reaprender a mesma lição visual?</p>
                     </div>
-                    <div class="styles-grid">
-                        <article class="styles-panel">
-                            <span class="styles-eyebrow">01</span>
-                            <h3>Design system</h3>
-                            <p>Tokens semânticos, temas claro e escuro, tipografia, cores, espaçamento e padrões de interface.</p>
-                        </article>
-                        <article class="styles-panel">
-                            <span class="styles-eyebrow">02</span>
-                            <h3>Feito para a web</h3>
-                            <p>HTML semântico, CSS moderno e JavaScript vanilla, sem exigir um framework de aplicação.</p>
-                        </article>
-                        <article class="styles-panel">
-                            <span class="styles-eyebrow">03</span>
-                            <h3>Open source</h3>
-                            <p>Disponível no GitHub e distribuído pelo NPM para uso, estudo, colaboração e evolução contínua.</p>
-                        </article>
+                    <div class="styles-story-body">
+                        <p>Ao criar o ecossistema Fokus, percebemos que diferentes domínios — jurídico, imobiliário, administrativo e educacional — exigem vocabulários próprios. Ainda assim, todos compartilham necessidades fundamentais: uma navegação que faça sentido, formulários que não criem insegurança, mensagens que orientem e uma hierarquia visual que respeite o tempo de quem usa.</p>
+                        <p>Sem uma base comum, pequenas decisões se multiplicam. Um espaçamento muda de tela para tela, uma cor perde significado, um estado de erro é apresentado de maneira diferente e a acessibilidade fica dependente da memória individual de cada pessoa desenvolvedora. O trabalho deixa de ser resolver o problema do público e passa a ser reconstruir infraestrutura.</p>
+                        <p>O Fokus Styles foi criado para interromper esse ciclo. Ele reúne decisões que podem ser compartilhadas, documentadas e melhoradas. Assim, cada produto pode concentrar sua energia no contexto que o torna especial, enquanto a fundação cuida da previsibilidade que torna a experiência confortável.</p>
+                        <div class="styles-story-note"><strong>O objetivo não é uniformizar produtos.</strong><span>É dar a eles uma gramática comum para que cada um possa contar sua própria história.</span></div>
                     </div>
                 </section>
 
-                <section class="styles-section" id="tecnologias">
+                <section class="styles-section styles-principles" id="fundamentos">
                     <div class="styles-section-heading">
-                        <h2>Tecnologias e definições</h2>
-                        <p>As escolhas que orientam a construção e o uso do sistema.</p>
+                        <div><span class="styles-eyebrow">Por que ele existe</span><h2>Princípios que guiam o sistema.</h2></div>
+                        <p>Mais do que classes prontas, o framework oferece critérios para tomar decisões melhores e manter essas decisões compreensíveis ao longo do tempo.</p>
                     </div>
-                    <div class="styles-grid">
-                        <article class="styles-panel"><h3>HTML semântico</h3><p>Elementos nativos e relações corretas entre títulos, navegação, conteúdo, formulários e ações.</p></article>
-                        <article class="styles-panel"><h3>CSS moderno</h3><p>Custom properties, Grid, Flexbox, media queries e camadas de composição com nomes previsíveis.</p></article>
-                        <article class="styles-panel"><h3>JavaScript vanilla</h3><p>Interações progressivas, eventos acessíveis e APIs nativas sem dependência obrigatória de biblioteca.</p></article>
+                    <div class="styles-principle-list">
+                        <article class="styles-principle"><span>01</span><div><h3>Clareza antes da decoração</h3><p>Uma interface bonita não deve esconder sua intenção. Cores, tamanhos e espaços existem para organizar a informação, revelar relações e conduzir a pessoa até a próxima decisão.</p></div></article>
+                        <article class="styles-principle"><span>02</span><div><h3>Reutilizar é cuidar</h3><p>Reutilização reduz divergências, acelera a manutenção e permite que melhorias de acessibilidade cheguem a muitos lugares ao mesmo tempo. O padrão compartilhado é um compromisso com o futuro do projeto.</p></div></article>
+                        <article class="styles-principle"><span>03</span><div><h3>Contexto sem dependência</h3><p>O Styles não obriga o produto a adotar um framework de aplicação. Seu núcleo trabalha com tecnologias abertas e próximas da plataforma web, para que a base permaneça leve, portátil e compreensível.</p></div></article>
                     </div>
                 </section>
 
-                <section class="styles-section" id="acessibilidade">
-                    <div class="styles-section-heading">
-                        <h2>Acessibilidade e responsividade</h2>
-                        <p>Os padrões devem funcionar para mais pessoas, dispositivos e formas de interação.</p>
-                    </div>
-                    <div class="styles-grid">
-                        <article class="styles-panel"><h3>Acessibilidade</h3><p>Contraste, foco visível, navegação por teclado, textos compreensíveis, rótulos e estados anunciáveis.</p></article>
-                        <article class="styles-panel"><h3>Responsividade</h3><p>Conteúdo adaptável do celular ao desktop, sem depender de uma largura ou dispositivo específico.</p></article>
-                        <article class="styles-panel"><h3>Tags e atributos</h3><p>Use a tag adequada para cada finalidade, com atributos ARIA apenas quando o HTML nativo não for suficiente.</p></article>
+                <section class="styles-section styles-technology" id="tecnologias">
+                    <div class="styles-technology-heading"><span class="styles-eyebrow">A caixa de ferramentas</span><h2>Construído com a web que você já conhece.</h2><p>As tecnologias foram escolhidas para diminuir barreiras, não para criar uma nova camada de complexidade entre a equipe e o produto.</p></div>
+                    <div class="styles-tech-columns">
+                        <div><strong>HTML semântico</strong><p>Tags corretas comunicam estrutura para pessoas, navegadores, mecanismos de busca e tecnologias assistivas. Um link navega; um botão executa uma ação; um título anuncia uma seção.</p></div>
+                        <div><strong>CSS moderno</strong><p>Custom properties, Grid, Flexbox, media queries e camadas de composição formam uma base expressiva para layouts que se adaptam sem perder ritmo ou legibilidade.</p></div>
+                        <div><strong>JavaScript vanilla</strong><p>Interações progressivas usam APIs nativas e respeitam o HTML. A experiência continua útil mesmo quando uma camada opcional de comportamento não está disponível.</p></div>
                     </div>
                 </section>
 
-                <section class="styles-section" id="instalacao">
-                    <div class="styles-section-heading">
-                        <h2>Instalação e recursos</h2>
-                        <p>Comece pelo pacote publicado ou consulte o código-fonte para conhecer o projeto.</p>
-                    </div>
-                    <div class="styles-panel">
-                        <h3>Instalar pelo NPM</h3>
-                        <pre class="styles-code"><code>npm install fokus-styles</code></pre>
-                        <div class="styles-actions">
-                            <a class="fs-btn fs-btn-primary" href="https://github.com/jorgewreis/fokus-styles" target="_blank" rel="noopener">Ver no GitHub</a>
-                            <a class="fs-btn fs-btn-outline-success" href="https://www.npmjs.com/package/fokus-styles" target="_blank" rel="noopener">Abrir pacote NPM</a>
-                        </div>
-                    </div>
+                <section class="styles-section styles-accessibility" id="acessibilidade">
+                    <div class="styles-accessibility-mark">A11Y</div>
+                    <div class="styles-accessibility-content"><span class="styles-eyebrow">Um compromisso, não um recurso extra</span><h2>Acessibilidade faz parte da definição de pronto.</h2><p>O Fokus Styles trata acessibilidade como critério de qualidade desde a primeira decisão. Contraste suficiente, foco visível, navegação por teclado, rótulos associados, mensagens compreensíveis e estados anunciáveis são partes do comportamento esperado, não uma etapa para depois.</p><p>Responsividade segue a mesma lógica. O conteúdo deve se reorganizar para telas pequenas, grandes, touch, teclado e diferentes níveis de zoom. Em vez de desenhar para um dispositivo específico, construímos relações flexíveis que acompanham a pessoa onde ela estiver.</p><ul class="styles-list"><li>Use HTML nativo antes de recorrer a ARIA.</li><li>Não esconda informação essencial apenas por causa do tamanho da tela.</li><li>Teste foco, contraste, zoom e navegação sem mouse.</li></ul></div>
                 </section>
 
-                <section class="styles-section" id="documentacao">
-                    <div class="styles-section-heading">
-                        <h2>Próximas páginas</h2>
-                        <p>Esta documentação será ampliada passo a passo com exemplos, atributos, laboratório, boas práticas e casos de uso.</p>
-                    </div>
-                    <div class="styles-grid">
-                        <article class="styles-panel" id="layout"><h3>Layout</h3><p>Estrutura de páginas, containers, grids, flexibilidade e composição responsiva.</p></article>
-                        <article class="styles-panel" id="forms"><h3>Forms</h3><p>Campos, validação, mensagens, estados, agrupamento e experiência de preenchimento.</p></article>
-                        <article class="styles-panel" id="components"><h3>Components</h3><p>Catálogo completo de componentes, propriedades, estados e critérios de uso.</p></article>
-                        <article class="styles-panel" id="helpers"><h3>Helpers</h3><p>Classes auxiliares para composição, acessibilidade, visibilidade e comportamento.</p></article>
-                        <article class="styles-panel" id="utilities"><h3>Utilities</h3><p>Utilitários de cor, espaçamento, tipografia, dimensões e responsividade.</p></article>
+                <section class="styles-section styles-install" id="instalacao">
+                    <div><span class="styles-eyebrow">Comece em poucos minutos</span><h2>Aberto para usar, estudar e melhorar.</h2><p>O framework é gratuito porque uma boa fundação se torna mais forte quando pode ser examinada, adaptada e compartilhada. O acesso livre permite que estudantes aprendam com um sistema real, que equipes evitem dependências desnecessárias e que a comunidade aponte melhorias que talvez não víssemos sozinhos.</p><p>Gratuito não significa sem direção. O projeto tem convenções, documentação, versionamento e um compromisso explícito com qualidade. Você pode começar pequeno, usar apenas os tokens ou adotar gradualmente os padrões que fizerem sentido para seu produto.</p></div>
+                    <div class="styles-install-card"><span>Instalação</span><pre class="styles-code"><code>npm install fokus-styles</code></pre><p>Consulte o código, as versões e os exemplos nos canais oficiais.</p><div class="styles-actions"><a class="fs-btn fs-btn-primary" href="https://github.com/jorgewreis/fokus-styles" target="_blank" rel="noopener">Ver no GitHub</a><a class="fs-btn fs-btn-outline-primary" href="https://www.npmjs.com/package/fokus-styles" target="_blank" rel="noopener">Abrir pacote NPM</a></div></div>
+                </section>
+
+                <section class="styles-section styles-roadmap" id="documentacao">
+                    <div class="styles-section-heading"><div><span class="styles-eyebrow">A documentação está começando</span><h2>Uma página de cada vez.</h2></div><p>Esta home apresenta a visão do sistema. As próximas páginas vão aprofundar atributos, exemplos corretos e incorretos, laboratório, estados, combinações e critérios de uso.</p></div>
+                    <div class="styles-roadmap-grid">
+                        <article id="layout"><span>01</span><h3>Layout</h3><p>Containers, grids, flexibilidade, ritmo e composição responsiva.</p></article>
+                        <article id="forms"><span>02</span><h3>Forms</h3><p>Campos, validação, mensagens, estados e experiência de preenchimento.</p></article>
+                        <article id="components"><span>03</span><h3>Components</h3><p>Catálogo, atributos, estados e critérios para cada componente.</p></article>
+                        <article id="helpers"><span>04</span><h3>Helpers</h3><p>Classes auxiliares para composição, acessibilidade e comportamento.</p></article>
+                        <article id="utilities"><span>05</span><h3>Utilities</h3><p>Cores, espaçamento, tipografia, dimensões e responsividade.</p></article>
                     </div>
                 </section>
             </main>
