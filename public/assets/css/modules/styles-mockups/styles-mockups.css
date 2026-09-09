@@ -29,6 +29,7 @@
     color: var(--fs-color-text);
     background: var(--fs-color-surface);
     font-family: "Google Sans", sans-serif;
+    font-size: var(--fs-font-size-lg, 1rem);
 }
 .styles-mockup a {
     color: inherit;
