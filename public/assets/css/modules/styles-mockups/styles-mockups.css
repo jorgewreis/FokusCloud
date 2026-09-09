@@ -223,6 +223,18 @@
 .styles-actions .fs-btn {
     font-size: 14px;
 }
+.styles-actions .fs-btn-primary {
+    --fs-btn-hover-bg: color-mix(
+        in srgb,
+        var(--fs-color-primary) 88%,
+        var(--fs-color-black)
+    );
+    --fs-btn-active-bg: color-mix(
+        in srgb,
+        var(--fs-color-primary) 76%,
+        var(--fs-color-black)
+    );
+}
 .styles-footer {
     padding: 28px 0;
     border-top: 1px solid var(--fs-color-border);
