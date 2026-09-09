@@ -4,210 +4,123 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/assets/css/shared/fokus.css" />
-        <link
-            rel="stylesheet"
-            href="/assets/css/modules/styles-mockups/styles-mockups.css"
-        />
-        <title>Fokus Styles · Modelo 6</title>
+        <link rel="stylesheet" href="/assets/css/modules/styles-mockups/styles-mockups.css" />
+        <title>Fokus Styles</title>
     </head>
     <body class="styles-mockup">
         <header class="styles-topbar">
             <div class="styles-shell styles-topbar-inner">
-                <a class="styles-brand" href="#intro"
-                    >FOKUS <span>STYLES</span></a
-                >
-                <span class="styles-eyebrow"
-                    >O sistema visual do Fokus Cloud</span
-                >
-                <nav class="styles-nav" aria-label="Ações principais">
-                    <a href="https://www.npmjs.com/package/fokus-styles">NPM</a>
-                    <a class="fs-btn fs-btn-success" href="#componentes"
-                        >Começar</a
-                    >
-                </nav>
+                <a class="styles-brand" href="#intro" aria-label="Fokus Styles, início">FOKUS <span>STYLES</span></a>
+                <span class="styles-eyebrow">O sistema visual do Fokus Cloud</span>
             </div>
         </header>
 
         <div class="styles-shell styles-sidebar-layout">
-            <aside
-                class="styles-sidebar"
-                aria-label="Navegação da documentação"
-            >
-                <strong>Explorar</strong>
+            <aside class="styles-sidebar" aria-label="Navegação da documentação">
+                <strong>Documentação</strong>
                 <a href="#intro">Introdução</a>
                 <a href="#fundamentos">Fundamentos</a>
-                <a href="#componentes">Componentes</a>
-                <a href="#formularios">Formulários</a>
-                <a href="#feedback">Feedback</a>
-                <a href="#utilitarios">Utilitários</a>
+                <a href="#layout">Layout</a>
+                <a href="#forms">Forms</a>
+                <a href="#components">Components</a>
+                <a href="#helpers">Helpers</a>
+                <a href="#utilities">Utilities</a>
             </aside>
 
             <main>
                 <section class="styles-hero" id="intro">
-                    <span class="styles-eyebrow"
-                        >A fundação do ecossistema Fokus</span
-                    >
+                    <span class="styles-eyebrow">A fundação do ecossistema Fokus</span>
                     <h1>Interface que <span>fala</span> a mesma língua.</h1>
                     <p>
-                        Fokus Styles é o framework de interface para construir
-                        experiências consistentes, acessíveis e responsivas em
-                        todos os subsistemas.
+                        Fokus Styles é um framework CSS de código livre para construir
+                        experiências consistentes, acessíveis e responsivas em todos
+                        os subsistemas Fokus.
                     </p>
                     <div class="styles-actions">
-                        <a class="fs-btn fs-btn-success" href="#componentes">
-                            Explorar componentes
-                        </a>
-                        <a
-                            class="fs-btn fs-btn-outline-success"
-                            href="https://www.npmjs.com/package/fokus-styles"
-                        >
-                            Ver no NPM
-                        </a>
+                        <a class="fs-btn fs-btn-primary" href="#fundamentos">Conheça o sistema</a>
+                        <a class="fs-btn fs-btn-outline-success" href="https://www.npmjs.com/package/fokus-styles" target="_blank" rel="noopener">Ver no NPM</a>
                     </div>
                 </section>
 
                 <section class="styles-section" id="fundamentos">
                     <div class="styles-section-heading">
-                        <h2>Fundamentos</h2>
-                        <p>
-                            As decisões compartilhadas que dão consistência a
-                            cada produto Fokus.
-                        </p>
+                        <h2>O que é o Fokus Styles?</h2>
+                        <p>Uma base visual e técnica compartilhada para produtos digitais que precisam evoluir juntos.</p>
                     </div>
                     <div class="styles-grid">
                         <article class="styles-panel">
                             <span class="styles-eyebrow">01</span>
-                            <h3>Tokens de design</h3>
-                            <p>
-                                Cores, espaçamentos, tipografia e elevação com
-                                nomes semânticos.
-                            </p>
+                            <h3>Design system</h3>
+                            <p>Tokens semânticos, temas claro e escuro, tipografia, cores, espaçamento e padrões de interface.</p>
                         </article>
                         <article class="styles-panel">
                             <span class="styles-eyebrow">02</span>
-                            <h3>Temas</h3>
-                            <p>
-                                Modos claro e escuro com estados previsíveis e
-                                contraste adequado.
-                            </p>
+                            <h3>Feito para a web</h3>
+                            <p>HTML semântico, CSS moderno e JavaScript vanilla, sem exigir um framework de aplicação.</p>
                         </article>
                         <article class="styles-panel">
                             <span class="styles-eyebrow">03</span>
-                            <h3>Acessibilidade</h3>
-                            <p>
-                                Foco visível, navegação por teclado e
-                                componentes responsivos.
-                            </p>
+                            <h3>Open source</h3>
+                            <p>Disponível no GitHub e distribuído pelo NPM para uso, estudo, colaboração e evolução contínua.</p>
                         </article>
                     </div>
                 </section>
 
-                <section class="styles-section" id="componentes">
+                <section class="styles-section" id="tecnologias">
                     <div class="styles-section-heading">
-                        <h2>Componentes</h2>
-                        <p>
-                            Blocos reutilizáveis para montar experiências sem
-                            reinventar padrões.
-                        </p>
+                        <h2>Tecnologias e definições</h2>
+                        <p>As escolhas que orientam a construção e o uso do sistema.</p>
                     </div>
                     <div class="styles-grid">
-                        <article class="styles-panel styles-component-demo">
-                            <h3>Buttons</h3>
-                            <div class="styles-actions">
-                                <button class="fs-btn fs-btn-success">
-                                    Primary
-                                </button>
-                                <button class="fs-btn fs-btn-outline-success">
-                                    Outline
-                                </button>
-                            </div>
-                        </article>
-                        <article class="styles-panel styles-component-demo">
-                            <h3>Cards</h3>
-                            <p>
-                                Superfícies organizadas para conteúdo, ações e
-                                estados de produto.
-                            </p>
-                            <button class="fs-btn fs-btn-success">
-                                Ver exemplo
-                            </button>
-                        </article>
-                        <article class="styles-panel styles-component-demo">
-                            <h3>Navigation</h3>
-                            <p>
-                                Menus e links que ajudam as pessoas a entender
-                                onde estão.
-                            </p>
-                            <button class="fs-btn fs-btn-outline-success">
-                                Ver padrão
-                            </button>
-                        </article>
+                        <article class="styles-panel"><h3>HTML semântico</h3><p>Elementos nativos e relações corretas entre títulos, navegação, conteúdo, formulários e ações.</p></article>
+                        <article class="styles-panel"><h3>CSS moderno</h3><p>Custom properties, Grid, Flexbox, media queries e camadas de composição com nomes previsíveis.</p></article>
+                        <article class="styles-panel"><h3>JavaScript vanilla</h3><p>Interações progressivas, eventos acessíveis e APIs nativas sem dependência obrigatória de biblioteca.</p></article>
                     </div>
                 </section>
 
-                <section class="styles-section" id="formularios">
+                <section class="styles-section" id="acessibilidade">
                     <div class="styles-section-heading">
-                        <h2>Formulários</h2>
-                        <p>
-                            Campos claros e consistentes para coletar
-                            informações com segurança.
-                        </p>
+                        <h2>Acessibilidade e responsividade</h2>
+                        <p>Os padrões devem funcionar para mais pessoas, dispositivos e formas de interação.</p>
                     </div>
-                    <div class="styles-panel styles-component-demo">
-                        <label class="fs-form-label" for="styles-model-6-email"
-                            >E-mail</label
-                        >
-                        <input
-                            class="fs-form-control"
-                            id="styles-model-6-email"
-                            type="email"
-                            placeholder="nome@empresa.com"
-                        />
-                        <label class="fs-form-label" for="styles-model-6-role"
-                            >Perfil de acesso</label
-                        >
-                        <select class="fs-form-select" id="styles-model-6-role">
-                            <option>Administrador</option>
-                            <option>Colaborador</option>
-                        </select>
+                    <div class="styles-grid">
+                        <article class="styles-panel"><h3>Acessibilidade</h3><p>Contraste, foco visível, navegação por teclado, textos compreensíveis, rótulos e estados anunciáveis.</p></article>
+                        <article class="styles-panel"><h3>Responsividade</h3><p>Conteúdo adaptável do celular ao desktop, sem depender de uma largura ou dispositivo específico.</p></article>
+                        <article class="styles-panel"><h3>Tags e atributos</h3><p>Use a tag adequada para cada finalidade, com atributos ARIA apenas quando o HTML nativo não for suficiente.</p></article>
                     </div>
                 </section>
 
-                <section class="styles-section" id="feedback">
+                <section class="styles-section" id="instalacao">
                     <div class="styles-section-heading">
-                        <h2>Feedback</h2>
-                        <p>
-                            Estados que orientam a pessoa durante cada etapa da
-                            experiência.
-                        </p>
+                        <h2>Instalação e recursos</h2>
+                        <p>Comece pelo pacote publicado ou consulte o código-fonte para conhecer o projeto.</p>
                     </div>
-                    <div class="fs-alert fs-alert-success">
-                        Operação concluída. O componente está pronto para ser
-                        reutilizado.
+                    <div class="styles-panel">
+                        <h3>Instalar pelo NPM</h3>
+                        <pre class="styles-code"><code>npm install fokus-styles</code></pre>
+                        <div class="styles-actions">
+                            <a class="fs-btn fs-btn-primary" href="https://github.com/jorgewreis/fokus-styles" target="_blank" rel="noopener">Ver no GitHub</a>
+                            <a class="fs-btn fs-btn-outline-success" href="https://www.npmjs.com/package/fokus-styles" target="_blank" rel="noopener">Abrir pacote NPM</a>
+                        </div>
                     </div>
                 </section>
 
-                <section class="styles-section" id="utilitarios">
+                <section class="styles-section" id="documentacao">
                     <div class="styles-section-heading">
-                        <h2>Utilitários</h2>
-                        <p>
-                            Classes auxiliares para ajustar composição,
-                            espaçamento e comportamento.
-                        </p>
+                        <h2>Próximas páginas</h2>
+                        <p>Esta documentação será ampliada passo a passo com exemplos, atributos, laboratório, boas práticas e casos de uso.</p>
                     </div>
-                    <pre
-                        class="styles-code"
-                    ><code>&lt;button class="fs-btn fs-btn-success"&gt;
-    Ação principal
-&lt;/button&gt;</code></pre>
+                    <div class="styles-grid">
+                        <article class="styles-panel" id="layout"><h3>Layout</h3><p>Estrutura de páginas, containers, grids, flexibilidade e composição responsiva.</p></article>
+                        <article class="styles-panel" id="forms"><h3>Forms</h3><p>Campos, validação, mensagens, estados, agrupamento e experiência de preenchimento.</p></article>
+                        <article class="styles-panel" id="components"><h3>Components</h3><p>Catálogo completo de componentes, propriedades, estados e critérios de uso.</p></article>
+                        <article class="styles-panel" id="helpers"><h3>Helpers</h3><p>Classes auxiliares para composição, acessibilidade, visibilidade e comportamento.</p></article>
+                        <article class="styles-panel" id="utilities"><h3>Utilities</h3><p>Utilitários de cor, espaçamento, tipografia, dimensões e responsividade.</p></article>
+                    </div>
                 </section>
             </main>
         </div>
 
-        <footer class="styles-footer">
-            <div class="styles-shell">
-                Fokus Styles · Uma base comum para produtos que evoluem juntos.
-            </div>
-        </footer>
+        <footer class="styles-footer"><div class="styles-shell">Fokus Styles · Uma base comum para produtos que evoluem juntos.</div></footer>
     </body>
 </html>
