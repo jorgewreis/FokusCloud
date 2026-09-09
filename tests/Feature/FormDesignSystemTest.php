@@ -183,6 +183,15 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('IntersectionObserver', $script);
     }
 
+    public function test_styles_home_links_to_available_layout_documentation(): void
+    {
+        $home = file_get_contents(base_path('public/styles/index.html'));
+
+        $this->assertStringContainsString('href="/layout">Layout</a>', $home);
+        $this->assertSame(4, substr_count($home, 'class="styles-sidebar-planned"'));
+        $this->assertStringNotContainsString('href="#layout"', $home);
+    }
+
     public function test_portal_index_redirects_to_the_user_dashboard(): void
     {
         $index = file_get_contents(base_path('public/portal/index.html'));
