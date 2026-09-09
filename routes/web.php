@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::domain('styles.fokuscloud.com.br')->group(function () {
+    Route::get('/', function () {
+        return response()->file(base_path('mockups/pages/styles-model-6.html'));
+    });
+});
+
 Route::get('/', function () {
     return response()->file(base_path('mockups/pages/index.html'));
 });
