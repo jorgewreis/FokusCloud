@@ -216,12 +216,14 @@
 }
 .styles-sidebar-planned {
     display: flex;
+    width: 100%;
     align-items: baseline;
     justify-content: space-between;
     gap: 12px;
     padding: 9px 0;
     color: color-mix(in srgb, var(--fs-color-muted) 64%, transparent);
     font-size: 14px;
+    line-height: 1.4;
 }
 .styles-sidebar-planned small {
     color: color-mix(in srgb, var(--fs-color-muted) 72%, transparent);
