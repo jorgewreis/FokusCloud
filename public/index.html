@@ -88,14 +88,13 @@
         <!-- -- -- STYLE-SHARED -->
         <link
             rel="stylesheet"
-            href="/assets/css/shared/fokus.css?v=20260909-showcase"
+            href="/assets/css/shared/fokus.css?v=20260910-performance"
         />
         <!-- -- -- STYLE-MODULES -->
         <link
             rel="stylesheet"
-            href="/assets/css/modules/showcase/showcase.css?v=20260909-showcase-icons"
+            href="/assets/css/modules/showcase/showcase.css?v=20260910-performance"
         />
-        <link rel="stylesheet" href="/assets/css/modules/loading/loading.css" />
 
         <title>Fokus Cloud | Plataforma modular para produtos digitais</title>
     </head>
@@ -206,28 +205,6 @@
                 >Acesso ao Painel Administrativo (Interno)</a
             >
         </footer>
-        <script>
-            (() => {
-                const releasePage = () =>
-                    document.body.classList.add("fonts-ready");
-                const waitForFonts = async () => {
-                    if (document.fonts) {
-                        await document.fonts.ready;
-                        await Promise.all([
-                            document.fonts.load('400 1em "Google Sans"'),
-                            document.fonts.load('400 1em "Bebas Neue"'),
-                        ]);
-                    }
-                    releasePage();
-                };
-                if (document.readyState === "complete") waitForFonts();
-                else
-                    window.addEventListener("load", waitForFonts, {
-                        once: true,
-                    });
-                window.setTimeout(releasePage, 3000);
-            })();
-        </script>
-        <script src="/assets/js/header-account.js?v=20260909-showcase"></script>
+        <script src="/assets/js/header-account.js?v=20260910-performance"></script>
     </body>
 </html>

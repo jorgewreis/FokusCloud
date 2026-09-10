@@ -346,8 +346,10 @@
       window.requestAnimationFrame(() => open(opener));
     }
   }
-  syncAccount();
-  window.addEventListener("pageshow", syncAccount);
-  window.addEventListener("focus", syncAccount);
-  window.addEventListener("fokus:session-changed", syncAccount);
+  if (userMenus.length || clientAccessButtons.length || contactButtons.length) {
+    syncAccount();
+    window.addEventListener("pageshow", syncAccount);
+    window.addEventListener("focus", syncAccount);
+    window.addEventListener("fokus:session-changed", syncAccount);
+  }
 })();

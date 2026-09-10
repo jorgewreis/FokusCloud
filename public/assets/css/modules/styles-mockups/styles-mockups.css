@@ -2,19 +2,19 @@
     font-family: "Google Sans";
     src: url("../../../fonts/google/google-sans-400.ttf") format("truetype");
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
 }
 @font-face {
     font-family: "Google Sans";
     src: url("../../../fonts/google/google-sans-600.ttf") format("truetype");
     font-weight: 600;
-    font-display: block;
+    font-display: swap;
 }
 @font-face {
     font-family: "Bebas Neue";
     src: url("../../../fonts/google/bebas-neue.ttf") format("truetype");
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
 }
 :root {
     --styles-green: var(--fs-color-success);

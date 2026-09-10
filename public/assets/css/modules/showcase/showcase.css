@@ -4,28 +4,28 @@
     src: url("../../../fonts/google/google-sans-400.ttf") format("truetype");
     font-style: normal;
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
 }
 @font-face {
     font-family: "Google Sans";
     src: url("../../../fonts/google/google-sans-600.ttf") format("truetype");
     font-style: normal;
     font-weight: 600;
-    font-display: block;
+    font-display: swap;
 }
 @font-face {
     font-family: "Google Sans";
     src: url("../../../fonts/google/google-sans-700.ttf") format("truetype");
     font-style: normal;
     font-weight: 700;
-    font-display: block;
+    font-display: swap;
 }
 @font-face {
     font-family: "Bebas Neue";
     src: url("../../../fonts/google/bebas-neue.ttf") format("truetype");
     font-style: normal;
     font-weight: 400;
-    font-display: block;
+    font-display: swap;
 }
 .showcase-skip-link {
     position: absolute;
@@ -65,8 +65,10 @@
 .showcase-page .fs-btn {
     font-size: 14px;
 }
-.showcase-page:not(.fonts-ready) {
-    visibility: hidden;
+.showcase-page .fs-btn-primary {
+    --fs-btn-bg: #1b55c7;
+    --fs-btn-hover-bg: #1448ad;
+    --fs-btn-active-bg: #103b8e;
 }
 @keyframes showcase-rise {
     from {
@@ -254,7 +256,7 @@
     color: var(--fs-color-success);
 }
 .showcase-card.lead h2 {
-    color: var(--fs-color-primary);
+    color: #7eaaff;
 }
 .showcase-card.law .showcase-mark {
     background: var(--fs-color-warning);
