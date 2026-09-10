@@ -329,6 +329,28 @@
     color: var(--fs-color-muted);
     font-size: 13px;
 }
+.showcase-information {
+    max-width: 1180px;
+    margin: 48px auto 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--fs-color-border);
+}
+.showcase-information h2 {
+    font-size: clamp(24px, 4vw, 32px);
+}
+.showcase-information h3 {
+    margin-top: 28px;
+    font-size: 20px;
+}
+.showcase-information p {
+    max-width: 80ch;
+    color: var(--fs-color-muted);
+    line-height: 1.7;
+}
+.showcase-information a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
 .showcase-footer {
     display: flex;
     flex-direction: column;

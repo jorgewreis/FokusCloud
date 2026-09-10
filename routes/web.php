@@ -1,6 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchDiscoveryController;
+
+// These resources must reach Laravel: both sites share the same public directory.
+Route::withoutMiddleware('web')->group(function () {
+    Route::get('/robots.txt', [SearchDiscoveryController::class, 'robots']);
+    Route::get('/sitemap.xml', [SearchDiscoveryController::class, 'sitemap']);
+    Route::get('/sitemap-styles.xml', fn () => redirect()->away('https://styles.fokuscloud.com.br/sitemap.xml', 301));
+});
 
 Route::domain('styles.fokuscloud.com.br')->group(function () {
     Route::get('/', function () {

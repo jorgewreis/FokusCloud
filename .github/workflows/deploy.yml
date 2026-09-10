@@ -44,6 +44,14 @@ jobs:
       - name: Run automated tests
         run: php artisan test
 
+      - name: Setup Node for SEO validation
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Validate published SEO metadata
+        run: npm run seo:check
+
   deploy:
     name: Publish Laravel application
     needs: validate

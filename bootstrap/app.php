@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prepend(\App\Http\Middleware\SearchVisibility::class);
         // The API shares Laravel's encrypted, HttpOnly session cookie. Webhooks
         // are authenticated by their provider signature, not by a browser CSRF token.
         $middleware->validateCsrfTokens(except: ['api/webhooks/mercado-pago', 'api/integrations/usage']);

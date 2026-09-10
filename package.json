@@ -3,10 +3,12 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "seo:sync": "node tools/sync-seo.mjs",
+        "seo:check": "node tools/sync-seo.mjs --check",
         "styles:sync": "node tools/sync-fokus-styles.mjs",
         "styles:cache-bust": "node tools/cache-bust-styles-pages.mjs",
         "predev": "npm run styles:sync",
-        "build": "npm run styles:sync && npm run styles:cache-bust && vite build",
+        "build": "npm run seo:sync && npm run styles:sync && npm run styles:cache-bust && vite build",
         "dev": "vite",
         "tokens:check": "node tools/validate-css-tokens.mjs"
     },
