@@ -1,3 +1,4 @@
 User-agent: *
 Disallow:
 Sitemap: https://www.fokuscloud.com.br/sitemap.xml
+Sitemap: https://www.fokuscloud.com.br/sitemap-styles.xml
