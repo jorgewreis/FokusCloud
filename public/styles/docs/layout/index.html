@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/assets/css/shared/fokus.css?v=9ff9167fd11b" />
+        <link rel="stylesheet" href="/assets/css/shared/fokus.css?v=9d6d2ffd3e16" />
         <link rel="stylesheet" href="/assets/css/modules/styles-mockups/styles-mockups.css?v=106400dabfa3" />
-        <link rel="stylesheet" href="/assets/css/modules/styles-layout/styles-layout.css?v=d4f49b63ed67" />
+        <link rel="stylesheet" href="/assets/css/modules/styles-layout/styles-layout.css?v=7a9291a80716" />
         <title>Layout | Fokus Styles</title>
     </head>
     <body class="styles-mockup styles-layout-doc">
@@ -98,14 +98,42 @@
                 </section>
 
                 <section class="layout-doc-section layout-doc-lab" id="laboratorio">
-                    <div class="layout-doc-heading"><span class="styles-eyebrow">07 · Laboratório</span><h2>Uma composição completa.</h2><p>Este laboratório reúne as decisões do guia em uma pequena página: container para limitar a leitura, stack para organizar o contexto e grid para distribuir os cartões.</p></div>
-                    <div class="layout-lab-canvas fs-container"><div class="fs-stack fs-stack-gap-3"><span class="styles-eyebrow">Resumo semanal</span><h3>Uma estrutura pode ser simples e expressiva.</h3><p>O conteúdo continua legível quando a largura muda porque cada relação foi declarada pelo papel que desempenha.</p><div class="fs-row fs-row-cols-1 fs-row-cols-md-3"><article>Conteúdo</article><article>Contexto</article><article>Próxima ação</article></div></div></div>
-                    <div class="layout-doc-note"><strong>Checklist rápido</strong><span>O conteúdo continua na ordem certa sem CSS?</span><span>As colunas podem virar uma coluna sem quebrar?</span><span>O espaçamento revela quais elementos pertencem ao mesmo grupo?</span><span>A composição funciona com zoom e teclado?</span></div>
+                    <div class="layout-doc-heading"><span class="styles-eyebrow">07 · Laboratório</span><h2>Uma interface que se adapta ao trabalho.</h2><p>Este é um workspace realista, montado com as mesmas decisões que sustentam um produto: navegação, métricas, filtros, contexto e próxima ação. Experimente as configurações e veja a composição responder sem duplicar o conteúdo.</p></div>
+                    <div class="layout-lab-playground" data-layout-lab>
+                        <div class="layout-lab-toolbar" aria-label="Controles do laboratório de layout">
+                            <div><span class="layout-lab-kicker">Playground Fokus Styles</span><strong>Workspace responsivo</strong><small>API oficial · sem CSS de aplicação</small></div>
+                            <div class="layout-lab-controls">
+                                <label>Composição <select data-layout-mode><option value="grid">Grid</option><option value="flex">Flex</option><option value="stack">Stack</option></select></label>
+                                <label>Viewport <select data-layout-viewport><option value="desktop">Desktop</option><option value="tablet">Tablet</option><option value="mobile">Mobile</option></select></label>
+                                <label>Densidade <select data-layout-density><option value="comfortable">Confortável</option><option value="compact">Compacta</option></select></label>
+                                <label class="layout-lab-toggle"><input type="checkbox" data-layout-long-content /> Conteúdo longo</label>
+                                <button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-layout-reset>Restaurar</button>
+                            </div>
+                        </div>
+                        <div class="layout-lab-stage" data-layout-stage>
+                            <aside class="layout-lab-sidebar" aria-label="Navegação do workspace"><span class="layout-lab-mark">F</span><strong>Fokus Desk</strong><a class="is-current" href="#laboratorio">Visão geral</a><a href="#laboratorio">Projetos</a><a href="#laboratorio">Equipe</a><span class="layout-lab-sidebar-note">Sistema em sincronia</span></aside>
+                            <main class="layout-lab-main">
+                                <div class="layout-lab-header"><div><span class="layout-lab-kicker">Segunda-feira · 10 de setembro</span><h3>Bom dia, equipe.</h3><p data-layout-copy>Você tem três decisões importantes para acompanhar hoje.</p></div><button class="fs-btn fs-btn-primary fs-btn-sm" type="button">Nova tarefa</button></div>
+                                <div class="layout-lab-metrics" data-layout-metrics><article><span>Entregas</span><strong>24</strong><small>+18% esta semana</small></article><article><span>Em andamento</span><strong>08</strong><small>2 precisam de atenção</small></article><article><span>Conclusão</span><strong>86%</strong><small>acima da meta mensal</small></article></div>
+                                <div class="layout-lab-content" data-layout-content>
+                                    <section class="layout-lab-panel layout-lab-projects"><div class="layout-lab-panel-heading"><div><span class="layout-lab-kicker">Acompanhe o ritmo</span><h4>Projetos em destaque</h4></div><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button">Ver todos</button></div><div class="layout-lab-project-grid"><article><span class="layout-lab-status is-green">No ritmo</span><h5>Portal do cliente</h5><p>Experiência de entrada e acompanhamento.</p><div class="layout-lab-progress"><i style="width: 78%"></i></div><small>78% concluído · 12 pessoas</small></article><article><span class="layout-lab-status is-yellow">Atenção</span><h5>Área de relatórios</h5><p>Filtros, exportações e visão executiva.</p><div class="layout-lab-progress"><i style="width: 54%"></i></div><small>54% concluído · 6 pessoas</small></article><article class="layout-lab-project-long"><span class="layout-lab-status is-blue">Planejamento</span><h5>Biblioteca de padrões</h5><p data-layout-project-description>Documentação viva para acelerar novas interfaces e reduzir decisões repetidas.</p><div class="layout-lab-progress"><i style="width: 31%"></i></div><small>31% concluído · 4 pessoas</small></article></div></section>
+                                    <aside class="layout-lab-panel layout-lab-next"><span class="layout-lab-kicker">Próxima ação</span><h4>Revisar a experiência</h4><p>Ana deixou uma observação no fluxo de cadastro. Uma resposta agora mantém o projeto em movimento.</p><div class="layout-lab-person"><span>AS</span><div><strong>Ana Souza</strong><small>há 12 minutos</small></div></div><button class="fs-btn fs-btn-primary" type="button">Abrir revisão</button></aside>
+                                </div>
+                            </main>
+                        </div>
+                        <div class="layout-lab-footer"><div><strong>O que você está vendo</strong><span data-layout-explanation>Grid local distribui os projetos em duas dimensões; o container e o stack preservam a leitura da página.</span></div><span class="layout-lab-api">fs-container · fs-row · fs-u-grid · fs-u-gap · fs-stack</span></div>
+                    </div>
+                    <div class="layout-code-block"><div class="layout-code-heading"><span>HTML · Composição atual</span><button class="fs-btn fs-btn-outline-primary fs-btn-sm" type="button" data-copy-target="layout-lab-code">Copiar código</button></div><pre class="styles-code" id="layout-lab-code"><code>&lt;section class="fs-container"&gt;
+    &lt;div class="fs-row fs-row-cols-1 fs-row-cols-md-3"&gt;
+        &lt;article class="fs-u-grid fs-u-gap-3"&gt;Projeto&lt;/article&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre><p class="layout-copy-status" role="status" aria-live="polite"></p></div>
+                    <div class="layout-doc-note"><strong>Por que funciona</strong><span>O conteúdo continua na ordem certa sem CSS?</span><span>Grid e Flex mudam a apresentação, não o significado.</span><span>Stack e gap tornam o ritmo explícito.</span><span>O workspace se adapta antes de esconder conteúdo.</span></div>
                 </section>
             </main>
         </div>
 
         <footer class="styles-footer"><div class="styles-shell styles-footer-inner"><a class="styles-footer-brand" href="https://fokuscloud.com.br/" aria-label="Fokus Cloud, página inicial">FOKUS <span>CLOUD</span></a><span>Fokus Styles · Documentação de Layout.</span></div></footer>
-        <script type="module" src="/assets/js/styles-layout-doc.js?v=43fa24c8fc8c"></script>
+        <script type="module" src="/assets/js/styles-layout-doc.js?v=c4be3c0e32ad"></script>
     </body>
 </html>
