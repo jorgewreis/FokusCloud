@@ -1,21 +1,21 @@
 /* Variações da vitrine de entrada do Fokus Cloud. */
 @font-face {
     font-family: "Google Sans";
-    src: url("../../../fonts/google/google-sans.woff2") format("woff2");
+    src: url("../../../fonts/google/google-sans-400.woff2") format("woff2");
     font-style: normal;
     font-weight: 400;
     font-display: swap;
 }
 @font-face {
     font-family: "Google Sans";
-    src: url("../../../fonts/google/google-sans.woff2") format("woff2");
+    src: url("../../../fonts/google/google-sans-600.woff2") format("woff2");
     font-style: normal;
     font-weight: 600;
     font-display: swap;
 }
 @font-face {
     font-family: "Google Sans";
-    src: url("../../../fonts/google/google-sans.woff2") format("woff2");
+    src: url("../../../fonts/google/google-sans-700.woff2") format("woff2");
     font-style: normal;
     font-weight: 700;
     font-display: swap;
