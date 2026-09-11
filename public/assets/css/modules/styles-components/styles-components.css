@@ -1,3 +1,4 @@
+@import url("../styles-layout/styles-layout.css");
 .styles-reference-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--fs-color-border); background: var(--fs-color-border); }
 .styles-reference-grid > article { min-width: 0; padding: 24px; background: var(--fs-color-surface); }
 .styles-reference-grid h3 { margin: 0 0 10px; font-size: 20px; }
@@ -5,7 +6,10 @@
 .styles-component-demo { display: grid; gap: 18px; margin-top: 24px; padding: 28px; border: 1px solid var(--fs-color-border); background: var(--fs-color-subtle); }
 .styles-component-demo .fs-btn, .styles-component-demo .fs-badge { width: fit-content; }
 .styles-component-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.styles-component-stack { display: grid; gap: 10px; }
+.styles-component-stack { display: grid; gap: 12px; }
+.styles-component-stack .fs-alert { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; width: 100%; box-sizing: border-box; align-items: start; }
+.styles-component-stack .fs-alert-heading { margin-block-end: var(--fs-alert-heading-gap); }
+.styles-component-stack .fs-alert-actions { margin-block-start: var(--fs-alert-actions-gap); }
 .styles-component-code { margin-top: 18px; }
 .styles-component-code pre { margin: 0; padding: 18px; overflow: auto; border: 1px solid var(--fs-color-border); background: #17191d; color: var(--fs-color-muted); font: 13px/1.6 var(--fs-font-mono); }
 .styles-component-code code { color: var(--styles-green); }
