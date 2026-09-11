@@ -22,6 +22,18 @@ Route::domain('styles.fokuscloud.com.br')->group(function () {
     Route::get('/forms', function () {
         return response()->file(public_path('styles/docs/forms/index.html'));
     });
+
+    Route::get('/components', function () {
+        return response()->file(public_path('styles/docs/components/index.html'));
+    });
+
+    Route::get('/helpers', function () {
+        return response()->file(public_path('styles/docs/helpers/index.html'));
+    });
+
+    Route::get('/utilities', function () {
+        return response()->file(public_path('styles/docs/utilities/index.html'));
+    });
 });
 
 Route::get('/', function () {

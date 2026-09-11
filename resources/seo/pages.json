@@ -46,5 +46,29 @@
     "title": "Formulários CSS: campos, validação e estados | Fokus Styles",
     "description": "Construa formulários com Fokus Styles: campos, labels, validação, estados e acessibilidade. Exemplos de HTML e laboratório interativo em português.",
     "type": "TechArticle"
+  },
+  {
+    "file": "styles/docs/components/index.html",
+    "url": "https://styles.fokuscloud.com.br/components",
+    "site": "Fokus Styles",
+    "title": "Components CSS: componentes e estados | Fokus Styles",
+    "description": "Explore os componentes do Fokus Styles com exemplos de botões, alertas, cards, badges, navegação, feedback e estados acessíveis.",
+    "type": "TechArticle"
+  },
+  {
+    "file": "styles/docs/helpers/index.html",
+    "url": "https://styles.fokuscloud.com.br/helpers",
+    "site": "Fokus Styles",
+    "title": "Helpers CSS: classes auxiliares | Fokus Styles",
+    "description": "Aprenda a usar os helpers do Fokus Styles para composição, espaçamento, containers, agrupamento e acessibilidade.",
+    "type": "TechArticle"
+  },
+  {
+    "file": "styles/docs/utilities/index.html",
+    "url": "https://styles.fokuscloud.com.br/utilities",
+    "site": "Fokus Styles",
+    "title": "Utilities CSS: tokens e utilitários | Fokus Styles",
+    "description": "Consulte os utilities do Fokus Styles para cores, tipografia, dimensões, bordas, foco e responsividade com tokens reutilizáveis.",
+    "type": "TechArticle"
   }
 ]
