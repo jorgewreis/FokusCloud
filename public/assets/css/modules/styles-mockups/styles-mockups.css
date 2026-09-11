@@ -214,6 +214,19 @@
 .styles-sidebar a:hover {
     color: var(--styles-green);
 }
+.styles-sidebar .styles-sidebar-page.is-active {
+    color: var(--styles-green);
+    font-weight: 600;
+}
+.styles-sidebar-subnav {
+    margin: -2px 0 8px 12px;
+    padding-left: 12px;
+    border-left: 1px solid var(--fs-color-border);
+}
+.styles-sidebar-subnav a {
+    padding: 6px 0;
+    font-size: 12px;
+}
 .styles-sidebar-planned {
     display: flex;
     width: 100%;
