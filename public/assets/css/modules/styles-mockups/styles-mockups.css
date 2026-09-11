@@ -256,6 +256,7 @@
     font-size: 14px;
 }
 .styles-actions .fs-btn-primary {
+    color: var(--fs-color-on-primary);
     --fs-btn-hover-bg: color-mix(
         in srgb,
         var(--fs-color-primary) 88%,
@@ -266,6 +267,9 @@
         var(--fs-color-primary) 76%,
         var(--fs-color-black)
     );
+}
+.styles-actions .fs-btn-outline-primary {
+    color: var(--fs-alert-primary-text);
 }
 .styles-hero-editorial { max-width: 900px; }
 .styles-hero-editorial p + p { margin-top: 16px; }
@@ -309,6 +313,20 @@
 .styles-install-card > span { color: var(--styles-green); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
 .styles-install-card p { margin: 16px 0 0; font-size: 17px; }
 .styles-install-card .styles-actions { margin-top: 22px; }
+[data-theme="light"] .styles-install-card,
+[data-fs-theme="light"] .styles-install-card {
+    background: var(--fs-color-surface);
+    color: var(--fs-color-text);
+}
+[data-theme="light"] .styles-install-card p,
+[data-fs-theme="light"] .styles-install-card p {
+    color: var(--fs-color-muted);
+}
+[data-theme="light"] .styles-code,
+[data-fs-theme="light"] .styles-code {
+    background: var(--fs-color-subtle);
+    color: var(--fs-color-text);
+}
 .styles-roadmap { padding-bottom: 96px; }
 .styles-roadmap-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--fs-color-border); border: 1px solid var(--fs-color-border); }
 .styles-roadmap-grid article { min-height: 190px; padding: 22px; background: var(--fs-color-surface); }
