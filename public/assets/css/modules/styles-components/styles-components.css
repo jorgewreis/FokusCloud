@@ -41,6 +41,8 @@
 .styles-lab-stage { display: grid; gap: 18px; padding: 28px; background: var(--fs-color-bg); }
 .styles-lab-stage .styles-component-demo { margin-top: 0; }
 .styles-lab-stage.fs-stack { gap: var(--fs-stack-gap, 18px); }
+.styles-lab [data-components-output] .fs-alert-content { display: grid; gap: var(--fs-alert-heading-gap); }
+.styles-lab [data-components-output] .fs-alert-heading { margin-block-end: 0; }
 .styles-lab-output { min-height: 42px; padding: 14px 16px; border: 1px solid var(--fs-color-border); background: var(--fs-color-surface); color: var(--fs-color-muted); font-size: 14px; line-height: 1.5; }
 .styles-lab-code { margin: 0; padding: 18px; overflow: auto; background: #17191d; color: var(--fs-color-muted); font: 12px/1.6 var(--fs-font-mono); }
 .styles-lab-code code { color: var(--styles-green); }
