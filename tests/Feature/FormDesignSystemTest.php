@@ -189,7 +189,10 @@ class FormDesignSystemTest extends TestCase
 
         $this->assertStringContainsString('href="/layout">Layout</a>', $home);
         $this->assertStringContainsString('href="/forms">Forms</a>', $home);
-        $this->assertSame(3, substr_count($home, 'class="styles-sidebar-planned"'));
+        $this->assertStringContainsString('href="/components">Components</a>', $home);
+        $this->assertStringContainsString('href="/helpers">Helpers</a>', $home);
+        $this->assertStringContainsString('href="/utilities">Utilities</a>', $home);
+        $this->assertSame(0, substr_count($home, 'class="styles-sidebar-planned"'));
         $this->assertStringNotContainsString('href="#layout"', $home);
     }
 
