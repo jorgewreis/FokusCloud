@@ -33,6 +33,10 @@ return [
         'ingestion_secret' => env('FOKUS_USAGE_INGESTION_SECRET'),
     ],
 
+    'ga4' => [
+        'measurement_id' => env('FOKUS_GA4_MEASUREMENT_ID'),
+    ],
+
     'resend' => [
         'key' => env('RESEND_API_KEY'),
     ],

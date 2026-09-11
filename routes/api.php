@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\PlatformAdminController;
 use App\Http\Controllers\Api\PlatformAuthController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\UsageSnapshotController;
+use App\Http\Controllers\Api\ProductInterestController;
+use App\Http\Controllers\Api\ProductInterestBackofficeController;
 use App\Http\Middleware\EnsureCompanyContext;
 use App\Http\Middleware\EnsurePlatformAdmin;
 use App\Http\Middleware\EnsurePlatformPermission;
@@ -24,6 +26,8 @@ Route::post('/auth/accept-admin-transfer', [AuthController::class, 'acceptAdminT
 Route::post('/webhooks/mercado-pago', [SubscriptionController::class, 'webhook']);
 Route::post('/integrations/usage', [UsageSnapshotController::class, 'store'])->middleware('throttle:60,1');
 Route::get('/catalog/{product}', [SubscriptionController::class, 'publicCatalog']);
+Route::get('/analytics/config', fn () => response()->json(['measurement_id' => config('services.ga4.measurement_id')]))->middleware('throttle:30,1');
+Route::post('/product-interests', [ProductInterestController::class, 'store'])->middleware('throttle:5,10');
 
 Route::prefix('backoffice/auth')->group(function () {
     Route::post('/login', [PlatformAuthController::class, 'login'])->middleware('throttle:5,1');
@@ -116,4 +120,7 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::get('/admins/{admin}/security-events', [PlatformAdminController::class, 'securityEvents'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
     Route::post('/users/{user}/force-password-reset', [BackofficeController::class, 'forcePasswordReset'])->middleware(EnsurePlatformPermission::class.':platform.security.manage');
     Route::get('/audit', [BackofficeController::class, 'audit'])->middleware(EnsurePlatformPermission::class.':platform.audit.view_commercial');
+    Route::get('/product-interests', [ProductInterestBackofficeController::class, 'index'])->middleware(EnsurePlatformPermission::class.':platform.product_interests.manage');
+    Route::get('/product-interests/{interest}', [ProductInterestBackofficeController::class, 'show'])->middleware(EnsurePlatformPermission::class.':platform.product_interests.manage');
+    Route::patch('/product-interests/{interest}', [ProductInterestBackofficeController::class, 'update'])->middleware(EnsurePlatformPermission::class.':platform.product_interests.manage');
 });

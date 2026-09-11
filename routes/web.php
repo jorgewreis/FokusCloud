@@ -62,9 +62,12 @@ Route::get('/portal/assinaturas', fn () => response()->file(public_path('portal/
 Route::get('/portal/transferir-administracao', fn () => response()->file(public_path('portal/admin-transfer.html')));
 Route::get('/backoffice/acesso', fn () => response()->file(public_path('backoffice/acesso.html')));
 Route::get('/backoffice/ativar', fn () => response()->file(public_path('backoffice/ativar.html')));
-Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|planos|catalogo|assinaturas|vouchers|pagamentos|billing|auditoria|seguranca');
+Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|planos|catalogo|assinaturas|vouchers|pagamentos|billing|auditoria|seguranca|interesses|product-interests');
 Route::get('/produtos', fn () => response()->file(public_path('marketing/products/index.html')));
 Route::get('/produtos/fokus-styles', fn () => response()->file(public_path('marketing/products/fokus-styles.html')));
+Route::get('/produtos/fokus-law', fn () => response()->file(public_path('marketing/products/fokus-law.html')));
+Route::get('/produtos/fokus-lead', fn () => response()->file(public_path('marketing/products/fokus-lead.html')));
+Route::get('/privacidade', fn () => response()->file(public_path('marketing/privacy.html')));
 
 // Development-server fallback. Production NGINX redirects these physical legacy paths before serving static files.
 Route::permanentRedirect('/admin', '/acesso');

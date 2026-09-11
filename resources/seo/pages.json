@@ -12,7 +12,7 @@
     "url": "https://www.fokuscloud.com.br/produtos",
     "site": "Fokus Cloud",
     "title": "Produtos Fokus Cloud | Styles, Law e Lead",
-    "description": "Explore o portfólio Fokus Cloud: Fokus Styles disponível no npm, Fokus Law para rotinas judiciais e Fokus Lead para operações imobiliárias, ambos em breve.",
+    "description": "Explore o portfólio Fokus Cloud: Fokus Styles disponível no npm e os projetos Fokus Law, para gestão jurídica, e Fokus Lead, para operações imobiliárias, em desenvolvimento.",
     "type": "CollectionPage"
   },
   {
@@ -21,6 +21,30 @@
     "site": "Fokus Cloud",
     "title": "Fokus Styles no ecossistema Fokus Cloud | Framework CSS",
     "description": "Entenda o papel do Fokus Styles no Fokus Cloud. Framework CSS gratuito com licença MIT, temas, componentes e documentação de layouts e formulários.",
+    "type": "WebPage"
+  },
+  {
+    "file": "marketing/products/fokus-law.html",
+    "url": "https://www.fokuscloud.com.br/produtos/fokus-law",
+    "site": "Fokus Cloud",
+    "title": "Fokus Law | Gestão de tarefas e processos jurídicos",
+    "description": "Conheça o Fokus Law, projeto em desenvolvimento para organizar tarefas, processos e rotinas do ecossistema jurídico.",
+    "type": "SoftwareApplication"
+  },
+  {
+    "file": "marketing/products/fokus-lead.html",
+    "url": "https://www.fokuscloud.com.br/produtos/fokus-lead",
+    "site": "Fokus Cloud",
+    "title": "Fokus Lead | Gestão imobiliária para corretores",
+    "description": "Conheça o Fokus Lead, projeto em desenvolvimento para corretores e grupos de corretores organizarem clientes, leads, imóveis e funil.",
+    "type": "SoftwareApplication"
+  },
+  {
+    "file": "marketing/privacy.html",
+    "url": "https://www.fokuscloud.com.br/privacidade",
+    "site": "Fokus Cloud",
+    "title": "Política de privacidade | Fokus Cloud",
+    "description": "Política de privacidade do Fokus Cloud para o cadastro de interesse nos produtos Fokus Law e Fokus Lead.",
     "type": "WebPage"
   },
   {

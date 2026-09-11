@@ -3,6 +3,10 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /backoffice/
+Disallow: /portal/
+Disallow: /cadastro
+Disallow: /acesso
 
 User-agent: GPTBot
 User-agent: Google-Extended

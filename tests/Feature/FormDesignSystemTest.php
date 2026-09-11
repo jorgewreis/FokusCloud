@@ -163,9 +163,9 @@ class FormDesignSystemTest extends TestCase
         $this->assertStringContainsString('/produtos/fokus-styles', $index);
         $this->assertStringContainsString('Fokus Law', $index);
         $this->assertStringContainsString('Fokus Lead', $index);
-        $this->assertSame(2, substr_count($index, 'Em breve'));
-        $this->assertStringNotContainsString('/produtos/fokus-law', $index);
-        $this->assertStringNotContainsString('/produtos/fokus-lead', $index);
+        $this->assertSame(0, substr_count($index, 'Em breve'));
+        $this->assertStringContainsString('/produtos/fokus-law', $index);
+        $this->assertStringContainsString('/produtos/fokus-lead', $index);
     }
 
     public function test_styles_layout_documentation_is_complete_and_uses_official_layout_classes(): void
