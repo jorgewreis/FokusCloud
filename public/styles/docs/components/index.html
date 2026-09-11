@@ -242,10 +242,15 @@
 <span aria-hidden="true">/</span>
 <span class="fs-breadcrumb-item" aria-current="page">Navegação</span>
 </nav>
-<div class="fs-tabs" role="tablist" aria-label="Exemplo de abas">
-<button class="fs-tab is-active" role="tab" aria-selected="true" type="button">Resumo</button>
-<button class="fs-tab" role="tab" aria-selected="false" type="button">Atividade</button>
-<button class="fs-tab" role="tab" aria-selected="false" type="button">Permissões</button>
+<div class="fs-tabs" data-fs="tabs" role="tablist" aria-label="Exemplo de abas">
+<a class="fs-nav-link is-active" href="#tab-resumo" data-fs-target="#tab-resumo">Resumo</a>
+<a class="fs-nav-link" href="#tab-atividade" data-fs-target="#tab-atividade">Atividade</a>
+<a class="fs-nav-link" href="#tab-permissoes" data-fs-target="#tab-permissoes">Permissões</a>
+</div>
+<div class="fs-tab-content">
+<div class="fs-tab-pane is-active" id="tab-resumo">Resumo do projeto e próximos passos.</div>
+<div class="fs-tab-pane" id="tab-atividade">Atividade recente da equipe.</div>
+<div class="fs-tab-pane" id="tab-permissoes">Permissões e pessoas com acesso.</div>
 </div>
 </div>
 </section>
