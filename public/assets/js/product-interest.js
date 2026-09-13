@@ -31,8 +31,10 @@
         profileFields.innerHTML = activeProducts.flatMap((key) => profiles[key].map((label) => `<label class="check-option"><input type="checkbox" name="profiles[]" value="${label}"> <span>${label}</span></label>`)).join("");
         moduleFields.innerHTML = activeProducts.flatMap((key) => modules[key].map((label) => `<label class="check-option"><input type="checkbox" name="modules[]" value="${label}"> <span>${label}</span></label>`)).join("");
     };
-    productFields.querySelector(`input[value="${product}"]`).checked = true;
-    productFields.addEventListener("change", renderOptions);
+    if (productFields) {
+        productFields.querySelector(`input[value="${product}"]`).checked = true;
+        productFields.addEventListener("change", renderOptions);
+    }
     renderOptions();
     const track = (event, params = {}) => window.FokusAnalytics?.track(event, { product, ...params });
     document.querySelectorAll('[data-analytics="interest_cta_click"]').forEach((link) => link.addEventListener("click", () => track("interest_cta_click")));
@@ -54,7 +56,7 @@
             if (!response.ok) throw new Error(body.message || Object.values(body.errors || {}).flat()[0] || "Revise os campos e tente novamente.");
             feedback.className = "product-form-feedback is-success";
             feedback.textContent = "Interesse registrado. Obrigado por ajudar a orientar a evolução do produto; manteremos suas informações para contato enquanto houver essa finalidade.";
-            form.reset(); productFields.querySelector(`input[value="${product}"]`).checked = true; renderOptions(); track("interest_form_submit_success", { products: payload.products });
+            form.reset(); if (productFields) productFields.querySelector(`input[value="${product}"]`).checked = true; renderOptions(); track("interest_form_submit_success", { products: payload.products });
         } catch (error) { feedback.className = "product-form-feedback is-error"; feedback.textContent = error.message; track("interest_form_submit_error"); }
         button.disabled = false;
     });
