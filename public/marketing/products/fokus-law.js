@@ -23,6 +23,7 @@
     const password = form.elements.password;
     const submit = form.querySelector('button[type="submit"]');
     const status = form.querySelector('[data-law-login-status]');
+    const profileField = profile.closest('div');
     let lookupTimer;
     let systems = [];
     submit.textContent = 'Entrar';
@@ -32,6 +33,7 @@
       system.disabled = true;
       system.innerHTML = '<option value="">Aguardando identificação</option>';
       profile.disabled = true;
+      profileField.hidden = true;
       profile.innerHTML = '<option value="">Selecione o sistema primeiro</option>';
       password.disabled = true;
       password.value = '';
@@ -43,11 +45,17 @@
       const selected = systems.find((item) => item.value === system.value);
       const availableProfiles = selected?.profiles || [];
       profile.innerHTML = '<option value="">Escolha seu perfil</option>' + availableProfiles.map((item) => `<option value="${item.value}">${item.label}</option>`).join('');
-      profile.disabled = availableProfiles.length === 0;
-      password.disabled = true;
+      profileField.hidden = availableProfiles.length < 2;
+      profile.disabled = availableProfiles.length < 2;
+      password.disabled = availableProfiles.length === 0;
       password.value = '';
-      submit.disabled = true;
-      status.textContent = availableProfiles.length ? 'Sistema localizado. Escolha o perfil para liberar a senha.' : 'Nenhum perfil disponível para este sistema.';
+      submit.disabled = availableProfiles.length === 0;
+      if (availableProfiles.length === 1) {
+        profile.value = availableProfiles[0].value;
+        status.textContent = 'Perfil confirmado. Digite sua senha.';
+      } else {
+        status.textContent = availableProfiles.length ? 'Sistema localizado. Escolha o perfil para liberar a senha.' : 'Nenhum perfil disponível para este sistema.';
+      }
     };
 
     const renderSystems = (items) => {
