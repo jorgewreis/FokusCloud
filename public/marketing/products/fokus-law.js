@@ -70,6 +70,8 @@
       }
     };
 
+    reset();
+
     email.addEventListener('input', () => {
       clearTimeout(lookupTimer);
       reset('Informe um e-mail válido para consultar seu cadastro.');
