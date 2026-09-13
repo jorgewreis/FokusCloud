@@ -18,6 +18,54 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    public function lawContext(Request $request)
+    {
+        $email = Str::lower(trim((string) $request->validate([
+            'email' => ['required', 'email:rfc', 'max:255'],
+        ])['email']));
+
+        $user = User::where('email', $email)->first();
+        $lawSystems = $user ? DB::table('company_memberships as membership')
+            ->join('companies as company', 'company.id', '=', 'membership.company_id')
+            ->join('roles as role', 'role.id', '=', 'membership.role_id')
+            ->join('subscriptions as subscription', 'subscription.company_id', '=', 'company.id')
+            ->join('products as product', 'product.id', '=', 'subscription.product_id')
+            ->leftJoin('subscription_items as item', 'item.subscription_id', '=', 'subscription.id')
+            ->leftJoin('modules as module', 'module.id', '=', 'item.module_id')
+            ->where('membership.user_id', $user->id)
+            ->where('membership.status', 'ativo')
+            ->whereNull('membership.deleted_at')
+            ->where('company.status', 'ativa')
+            ->whereNull('company.deleted_at')
+            ->where('subscription.status', 'ativa')
+            ->where('product.code', 'law')
+            ->select('company.id as company_id', 'company.legal_name as company_name', 'role.code as profile_code', 'role.name as profile_name', 'module.segment_code')
+            ->orderBy('company.legal_name')
+            ->get() : collect();
+
+        abort_if($lawSystems->isEmpty(), 404, 'Usuário não encontrado.');
+
+        $systems = $lawSystems->groupBy('company_id')->map(function ($rows): array {
+            $segment = $rows->pluck('segment_code')->filter()->first() ?: 'juridico';
+            $segmentLabel = match ($segment) {
+                'advocacia' => 'Advocacia',
+                'setor_publico' => 'Setor Público',
+                default => 'Jurídico',
+            };
+
+            return [
+                'value' => (string) $rows->first()->company_id,
+                'label' => $segmentLabel.' - '.$rows->first()->company_name,
+                'profiles' => $rows->map(fn (object $row): array => [
+                    'value' => (string) $row->profile_code,
+                    'label' => (string) $row->profile_name,
+                ])->unique('value')->values()->all(),
+            ];
+        })->values()->all();
+
+        return response()->json(['systems' => $systems]);
+    }
+
     public function registerCompany(Request $request, PasswordSecurity $passwordSecurity)
     {
         $data = $this->companyRegistrationData($request, true);
