@@ -20,7 +20,7 @@ const software = {
 let failures = 0;
 for (const page of pages) {
   const path = resolve(root, 'public', page.file);
-  const original = readFileSync(path, 'utf8');
+  const original = readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
   const siteUrl = `${new URL(page.url).origin}/`;
   const graph = [organization,
     { '@type': 'WebSite', '@id': `${siteUrl}#website`, url: siteUrl, name: page.site, inLanguage: 'pt-BR', publisher: { '@id': organization['@id'] } },

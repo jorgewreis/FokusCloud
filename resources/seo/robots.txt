@@ -1,6 +1,7 @@
 # Public pages may be indexed and cited by search and answer engines.
 # Training preferences are separate from search visibility.
 User-agent: *
+Content-Signal: search=yes,ai-input=yes,ai-train=no
 Allow: /
 Disallow: /api/
 Disallow: /backoffice/
