@@ -2,18 +2,31 @@
   const form = document.querySelector('[data-law-login-form]');
 
   const showToast = (message) => {
-    let toast = document.querySelector('[data-law-toast]');
+    let container = document.querySelector('[data-law-toast-container]');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'fs-toast-container';
+      container.dataset.lawToastContainer = '';
+      container.setAttribute('aria-live', 'polite');
+      document.body.append(container);
+    }
+
+    let toast = container.querySelector('[data-law-toast]');
     if (!toast) {
       toast = document.createElement('div');
-      toast.className = 'law-toast';
+      toast.className = 'fs-toast fs-toast-danger is-progressing';
       toast.dataset.lawToast = '';
+      toast.dataset.toastProgress = 'true';
+      toast.dataset.autohide = 'true';
       toast.setAttribute('role', 'alert');
-      document.body.append(toast);
+      toast.innerHTML = '<div class="fs-toast-header"><div class="fs-toast-heading"><strong class="fs-toast-title">Não foi possível continuar</strong></div><button type="button" class="icon-button icon-button-close fs-toast-close" aria-label="Fechar">×</button></div><div class="fs-toast-body"><span class="fs-toast-message"></span></div><span class="fs-toast-progress"></span>';
+      toast.querySelector('.fs-toast-close').addEventListener('click', () => { toast.hidden = true; });
+      container.append(toast);
     }
-    toast.textContent = message;
-    toast.classList.add('is-visible');
+    toast.querySelector('.fs-toast-message').textContent = message;
+    toast.hidden = false;
     clearTimeout(showToast.timer);
-    showToast.timer = setTimeout(() => toast.classList.remove('is-visible'), 4200);
+    showToast.timer = setTimeout(() => { toast.hidden = true; }, 4200);
   };
 
   if (form) {
