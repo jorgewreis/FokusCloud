@@ -19,7 +19,7 @@
       toast.dataset.toastProgress = 'true';
       toast.dataset.autohide = 'true';
       toast.setAttribute('role', 'alert');
-      toast.innerHTML = '<div class="fs-toast-header"><div class="fs-toast-heading"><strong class="fs-toast-title">Não foi possível continuar</strong></div><button type="button" class="icon-button icon-button-close fs-toast-close" aria-label="Fechar">×</button></div><div class="fs-toast-body"><span class="fs-toast-message"></span></div><span class="fs-toast-progress"></span>';
+      toast.innerHTML = '<div><strong class="fs-toast-title">Não foi possível continuar</strong><span class="fs-toast-message"></span></div><button type="button" class="icon-button icon-button-close fs-toast-close" aria-label="Fechar">×</button><span class="fs-toast-progress"></span>';
       toast.querySelector('.fs-toast-close').addEventListener('click', () => { toast.hidden = true; });
       container.append(toast);
     }
