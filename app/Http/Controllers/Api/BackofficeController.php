@@ -27,6 +27,7 @@ class BackofficeController extends Controller
     public function dashboard(Request $request, PlatformAudit $audit)
     {
         $audit->record($request->user()->id, 'backoffice.dashboard_viewed', request: $request);
+        $admin = $request->user()->loadMissing('role');
 
         $activeSubscriptions = DB::table('subscriptions')
             ->where('status', 'ativa')
@@ -82,7 +83,19 @@ class BackofficeController extends Controller
             ],
         ];
 
+        $activityLabels = [
+            'backoffice.dashboard_viewed' => 'Dashboard visualizado no backoffice',
+            'backoffice.companies_viewed' => 'Empresas visualizadas no backoffice',
+            'backoffice.company_viewed' => 'Empresa visualizada no backoffice',
+            'backoffice.subscription_viewed' => 'Assinatura visualizada no backoffice',
+            'backoffice.payment_viewed' => 'Pagamento visualizado no backoffice',
+        ];
+
         return response()->json([
+            'user' => [
+                'name' => $admin->name,
+                'role' => $admin->role?->name ?? 'Administrador',
+            ],
             'metrics' => [
                 'active_companies' => DB::table('companies')->whereNull('deleted_at')->where('status', 'ativa')->count(),
                 'active_people' => DB::table('company_memberships as membership')->join('companies as company', 'company.id', '=', 'membership.company_id')->join('users as user', 'user.id', '=', 'membership.user_id')->whereNull('membership.deleted_at')->whereNull('company.deleted_at')->where('membership.status', 'ativo')->where('user.status', 'ativa')->distinct('user.id')->count('user.id'),
@@ -97,7 +110,7 @@ class BackofficeController extends Controller
                 ->limit(5)
                 ->get()
                 ->map(fn (object $event): array => [
-                    'title' => $event->action,
+                    'title' => $activityLabels[$event->action] ?? 'Atividade registrada no backoffice',
                     'description' => 'Evento registrado na auditoria da plataforma.',
                     'created_at' => $event->created_at,
                 ])->values(),

@@ -792,6 +792,17 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     opacity: 1;
     cursor: pointer;
 }
+
+@font-face {
+    font-family: "Bebas Neue";
+    src: url("/assets/fonts/google/bebas-neue-original.woff2") format("woff2");
+    font-display: swap;
+}
+.admin-final-dashboard .admin-dashboard-intro h1 {
+    font-family: "Bebas Neue", sans-serif !important;
+    font-weight: 400;
+    letter-spacing: 0.035em;
+}
 html[data-role="admin"] .fs-sidebar {
     box-sizing: border-box;
     top: 0;
