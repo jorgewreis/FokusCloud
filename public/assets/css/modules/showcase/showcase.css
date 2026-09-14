@@ -715,22 +715,23 @@
 .immersive-hero h1 { margin: 0; color: #f6f1e8; font: 400 clamp(84px, 13vw, 190px) / .78 "Bebas Neue", sans-serif; letter-spacing: .025em; text-shadow: 2px 3px 18px rgb(0 0 0 / 38%); }
 .immersive-hero-content p { margin: 22px 0 0; color: #f6f1e8; font-size: 9px; font-weight: 700; letter-spacing: .34em; }
 .immersive-hero-caption { position: absolute; right: 26px; bottom: 48px; z-index: 1; color: rgb(246 241 232 / 80%); font-size: 8px; letter-spacing: .2em; line-height: 1.7; text-align: right; }
-.platform-access-card { position: absolute; top: 112px; right: 34px; z-index: 4; width: min(380px, calc(100% - 68px)); padding: 26px; border: 1px solid rgb(246 241 232 / 24%); background: rgb(16 17 15 / 94%); color: #f6f1e8; box-shadow: 18px 22px 0 rgb(214 180 119 / 72%), 0 24px 70px rgb(0 0 0 / 38%); backdrop-filter: blur(14px); animation: showcase-panel-in 220ms ease both; }
+.platform-access-card { position: absolute; top: 112px; right: 34px; z-index: 4; width: min(400px, calc(100% - 68px)); padding: 30px; border: 1px solid rgb(246 241 232 / 62%); background: rgb(245 240 231 / 96%); color: #242723; box-shadow: 0 25px 70px rgb(0 0 0 / 32%); backdrop-filter: blur(16px); animation: showcase-panel-in 220ms ease both; }
 .platform-access-card[hidden] { display: none; }
-.platform-access-close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; color: rgb(246 241 232 / 70%); font-size: 25px; line-height: 1; cursor: pointer; }
-.platform-access-close:hover { color: #d6b477; }
-.platform-access-kicker { margin: 0 0 10px; color: #d6b477; font-size: 8px; font-weight: 700; letter-spacing: .2em; }
-.platform-access-card h2 { margin: 0 0 8px; font: 400 42px / .9 "Bebas Neue", sans-serif; letter-spacing: .04em; }
-.platform-access-description { margin: 0 0 22px; color: rgb(246 241 232 / 68%); font-size: 12px; line-height: 1.55; }
+.platform-access-close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; color: #67655f; font-size: 25px; line-height: 1; cursor: pointer; }
+.platform-access-close:hover { color: #242723; }
+.platform-access-kicker { margin: 0 0 12px; color: #8b6a3d; font-size: 9px; font-weight: 700; letter-spacing: .2em; }
+.platform-access-card h2 { margin: 0 0 10px; color: #242723; font: 400 44px / .9 "Bebas Neue", sans-serif; letter-spacing: .04em; text-transform: uppercase; }
+.platform-access-description { margin: 0 0 24px; color: #67655f; font-size: 12px; line-height: 1.6; }
 .platform-access-card form { display: grid; gap: 8px; }
 .platform-access-card form[hidden] { display: none; }
-.platform-access-card label { color: rgb(246 241 232 / 78%); font-size: 10px; font-weight: 700; letter-spacing: .08em; }
-.platform-access-card input { width: 100%; min-height: 42px; padding: 10px; border: 1px solid rgb(246 241 232 / 28%); border-radius: 0; background: rgb(246 241 232 / 7%); color: #f6f1e8; font: 13px "Google Sans", sans-serif; }
-.platform-access-card input:focus { border-color: #d6b477; outline: 2px solid rgb(214 180 119 / 30%); outline-offset: 2px; }
-.platform-access-card form button { margin-top: 10px; padding: 11px 13px; border: 1px solid #d6b477; background: #d6b477; color: #10110f; font: 700 11px "Google Sans", sans-serif; letter-spacing: .08em; text-align: left; cursor: pointer; }
-.platform-access-card form button:hover { background: #f6f1e8; }
-.platform-access-message { min-height: 18px; margin: 14px 0 0; color: rgb(246 241 232 / 70%); font-size: 11px; line-height: 1.45; }
-.platform-access-message.is-error { color: #f0a39b; }
+.platform-access-card label { color: #4f524e; font-size: 10px; font-weight: 700; letter-spacing: .08em; }
+.platform-access-card input { width: 100%; min-height: 44px; padding: 10px 11px; border: 1px solid rgb(36 39 35 / 22%); border-radius: 0; background: rgb(255 255 255 / 72%); color: #242723; font: 13px "Google Sans", sans-serif; }
+.platform-access-card input::placeholder { color: #8b8982; }
+.platform-access-card input:focus { border-color: #8b6a3d; outline: 2px solid rgb(139 106 61 / 25%); outline-offset: 2px; }
+.platform-access-card form button { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding: 13px 14px; border: 0; background: #242723; color: #f6f1e8; font: 700 11px "Google Sans", sans-serif; letter-spacing: .08em; text-align: left; cursor: pointer; }
+.platform-access-card form button:hover, .platform-access-card form button:focus-visible { background: #8b6a3d; color: #fff; }
+.platform-access-message { min-height: 18px; margin: 14px 0 0; color: #67655f; font-size: 11px; line-height: 1.45; }
+.platform-access-message.is-error { color: #a84b42; }
 .immersive-products { position: absolute; right: 25px; bottom: 145px; z-index: 2; display: flex; align-items: center; gap: 24px; color: #f6f1e8; }
 .immersive-products-label { margin-right: 12px; color: rgb(246 241 232 / 76%); font-size: 8px; font-weight: 700; letter-spacing: .18em; }
 .immersive-products a { color: #f6f1e8; font: 400 25px "Bebas Neue", sans-serif; letter-spacing: .2em; text-shadow: 0 1px 12px rgb(0 0 0 / 45%); }
