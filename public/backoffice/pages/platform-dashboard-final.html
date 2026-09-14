@@ -1,462 +1,563 @@
-<main
-    class="admin-dashboard admin-final-dashboard"
-    aria-labelledby="dashboard-title"
->
-    <header class="admin-dashboard-header">
-        <a
-            class="admin-wordmark"
-            href="/backoffice/painel"
-            aria-label="Fokus Cloud, painel administrativo"
-            >FOKUS <span>CLOUD</span></a
-        >
-        <span class="admin-product-label">PLATAFORMA ADMINISTRATIVA</span>
-        <label class="admin-search">
-            <span aria-hidden="true">⌕</span>
-            <input
+<main class="admin-dashboard admin-final-dashboard">
+    <header class="admin-final-header">
+        <div class="admin-header-context">
+            <img
+                src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png"
+                alt=""
+            />
+            <div>
+                <span>Plataforma administrativa</span
+                ><strong>Fokus Admin</strong>
+            </div>
+        </div>
+        <label class="admin-global-search"
+            ><img
+                src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png"
+                alt=""
+            /><input
                 type="search"
                 placeholder="Buscar empresas, pessoas, documentos, planos..."
-                aria-label="Buscar no backoffice"
-            />
-            <kbd>⌘ K</kbd>
-        </label>
-        <div class="admin-header-actions">
+                aria-label="Buscar na plataforma"
+            /><kbd>Ctrl K</kbd></label
+        >
+        <div class="admin-header-user">
+            <div class="admin-user-avatar" id="dashboard-user-initials">AD</div>
+            <div class="admin-user-details">
+                <strong id="dashboard-user-name">Administrador</strong
+                ><span>Administrador</span>
+            </div>
             <button
-                class="admin-icon-button"
+                class="admin-logout-button"
                 type="button"
-                aria-label="Central de notificações"
+                data-dashboard-logout
+                title="Sair"
             >
-                ♧
+                <img
+                    src="/backoffice/assets/icons/Download-Square-3--Streamline-Ultimate.png"
+                    alt=""
+                /><span>Sair</span>
             </button>
-            <span class="admin-avatar" aria-hidden="true" id="admin-avatar"
-                >JR</span
-            >
-            <span class="admin-header-user"
-                ><strong id="dashboard-admin-name">Administrador</strong
-                ><small>Administrador</small></span
-            >
-            <span class="admin-chevron" aria-hidden="true">⌄</span>
         </div>
     </header>
-
-    <section class="admin-dashboard-content">
+    <section class="admin-final-content">
         <div class="admin-dashboard-intro">
             <div>
-                <p class="admin-overline">PAINEL ADMINISTRATIVO</p>
-                <h1 id="dashboard-title">Visão geral</h1>
-                <p class="admin-dashboard-lede">
-                    Acompanhe o desempenho da plataforma e gerencie empresas e
-                    assinaturas em um só lugar.
+                <p class="admin-kicker">
+                    BEM-VINDO,
+                    <span id="dashboard-greeting-name">ADMINISTRADOR</span>
+                </p>
+                <h1>Visão geral</h1>
+                <p class="admin-dashboard-subtitle">
+                    Acompanhe o desempenho da sua operação e gerencie empresas,
+                    pessoas e assinaturas em um só lugar.
                 </p>
             </div>
-            <div class="admin-intro-note">
-                <span>FOCO EM<br />OPERAÇÕES<br />REAIS</span
-                ><strong>Dados atualizados agora</strong>
-            </div>
+            <p class="admin-editorial-message">
+                Pessoas, tecnologia e propósito para um amanhã mais consciente.
+            </p>
         </div>
-
-        <section
-            class="admin-highlight-strip"
-            aria-label="Destaque da plataforma"
-        >
-            <span class="admin-highlight-icon">♧</span>
+        <section class="admin-feature-banner">
+            <div class="admin-feature-icon">
+                <img
+                    src="/backoffice/assets/icons/Single-Man-Actions-Information--Streamline-Ultimate.png"
+                    alt=""
+                />
+            </div>
             <div>
-                <small>DESTAQUE DA PLATAFORMA</small
-                ><strong>Mais eficiência para a sua operação</strong
-                ><span
+                <p>DESTAQUE DA PLATAFORMA</p>
+                <h2>Mais eficiência para a sua operação</h2>
+                <span
                     >Consulte empresas, assinaturas e alterações comerciais com
                     segurança.</span
                 >
             </div>
-            <a href="/backoffice/empresas">Conhecer agora →</a>
+            <a href="/backoffice/empresas">Conhecer agora</a>
         </section>
-
-        <section
-            class="admin-final-stat-grid"
-            aria-label="Indicadores do backoffice"
-        >
-            <article class="admin-final-stat">
-                <div>
-                    <span>Empresas cadastradas</span
-                    ><strong id="status-companies">—</strong
-                    ><small>Base não excluída</small>
+        <section class="admin-metrics-grid" aria-label="Métricas da plataforma">
+            <article class="admin-metric-card admin-metric-companies">
+                <div class="admin-metric-icon">
+                    <img
+                        src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png"
+                        alt=""
+                    />
                 </div>
-                <span class="admin-final-stat-icon">▦</span>
+                <div>
+                    <span>Empresas ativas</span
+                    ><strong id="metric-active-companies">0</strong
+                    ><small>Sem histórico comparável</small>
+                </div>
             </article>
-            <article class="admin-final-stat">
+            <article class="admin-metric-card admin-metric-people">
+                <div class="admin-metric-icon">
+                    <img
+                        src="/backoffice/assets/icons/Settings-User--Streamline-Ultimate.png"
+                        alt=""
+                    />
+                </div>
+                <div>
+                    <span>Pessoas ativas</span
+                    ><strong id="metric-active-people">0</strong
+                    ><small>Sem histórico comparável</small>
+                </div>
+            </article>
+            <article class="admin-metric-card admin-metric-subscriptions">
+                <div class="admin-metric-icon">
+                    <img
+                        src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png"
+                        alt=""
+                    />
+                </div>
                 <div>
                     <span>Assinaturas ativas</span
-                    ><strong id="status-subscriptions">—</strong
-                    ><small>Status atual: ativa</small>
+                    ><strong id="metric-active-subscriptions">0</strong
+                    ><small>Sem histórico comparável</small>
                 </div>
-                <span class="admin-final-stat-icon stat-blue">▤</span>
             </article>
-            <article class="admin-final-stat">
-                <div>
-                    <span>Uso reportado (7 dias)</span
-                    ><strong id="status-usage">—</strong
-                    ><small>Snapshots registrados</small>
+            <article class="admin-metric-card admin-metric-mrr">
+                <div class="admin-metric-icon">
+                    <img
+                        src="/backoffice/assets/icons/Accounting-Coins--Streamline-Ultimate.png"
+                        alt=""
+                    />
                 </div>
-                <span class="admin-final-stat-icon stat-green">◫</span>
-            </article>
-            <article class="admin-final-stat">
                 <div>
-                    <span>Alterações agendadas</span
-                    ><strong id="status-pending">—</strong
-                    ><small>Requerem acompanhamento</small>
+                    <span>Receita recorrente (MRR)</span
+                    ><strong id="metric-mrr">R$ 0,00</strong
+                    ><small>Sem histórico comparável</small>
                 </div>
-                <span class="admin-final-stat-icon stat-warn">!</span>
             </article>
         </section>
-
-        <div class="admin-final-main-grid">
-            <section class="admin-panel admin-final-chart-panel">
-                <div class="admin-panel-heading">
+        <section class="admin-dashboard-overview-grid">
+            <article class="admin-panel-card admin-subscription-chart-card">
+                <div class="admin-card-heading">
                     <div>
-                        <h2>Visão das assinaturas</h2>
+                        <h2>Novas assinaturas ativas</h2>
                         <p>
-                            Assinaturas que permanecem ativas, agrupadas pela
-                            data de cadastro.
+                            Assinaturas criadas por mês que permanecem ativas.
                         </p>
                     </div>
-                    <span class="admin-final-period">Atualizado agora</span>
+                    <span>Últimos 6 meses</span>
                 </div>
-                <div class="admin-final-chart" id="subscription-chart">
-                    <strong id="chart-subscriptions">—</strong
-                    ><span>cadastros ativos nos últimos 30 dias</span
-                    ><svg
-                        id="subscription-chart-graphic"
-                        viewBox="0 0 500 128"
+                <div class="admin-subscription-chart" id="subscription-chart">
+                    <div
+                        class="admin-chart-axis"
+                        id="subscription-chart-axis"
+                    ></div>
+                    <svg
+                        id="subscription-chart-svg"
+                        viewBox="0 0 720 248"
                         preserveAspectRatio="none"
-                        aria-hidden="true"
-                    >
-                        <path id="subscription-chart-area"></path>
-                        <polyline id="subscription-chart-line"></polyline></svg
-                    ><small id="subscription-chart-note"
-                        >Carregando a série de dados reais.</small
-                    >
+                        role="img"
+                    ></svg>
+                    <div
+                        class="admin-chart-labels"
+                        id="subscription-chart-labels"
+                    ></div>
                 </div>
-            </section>
-            <section class="admin-panel admin-final-attention">
-                <div class="admin-panel-heading">
-                    <div>
-                        <h2>Resumo operacional</h2>
-                        <p>Indicadores atuais derivados da base do sistema.</p>
-                    </div>
-                    <a class="admin-panel-link" href="/backoffice/assinaturas"
-                        >Ver assinaturas →</a
-                    >
-                </div>
-                <ul class="admin-final-list">
-                    <li>
-                        <span class="attention-icon">!</span>
-                        <div>
-                            <strong>Alterações comerciais agendadas</strong
-                            ><small>Aguardando processamento</small>
-                        </div>
-                        <b id="attention-changes">—</b>
-                    </li>
-                    <li>
-                        <span class="attention-icon attention-blue">▤</span>
-                        <div>
-                            <strong>Assinaturas ativas</strong
-                            ><small>Contratos vigentes na plataforma</small>
-                        </div>
-                        <b id="attention-subscriptions">—</b>
-                    </li>
-                    <li>
-                        <span class="attention-icon attention-green">◫</span>
-                        <div>
-                            <strong>Uso recente registrado</strong
-                            ><small>Snapshots nos últimos 7 dias</small>
-                        </div>
-                        <b id="attention-usage">—</b>
-                    </li>
-                    <li>
-                        <span class="attention-icon attention-neutral">▦</span>
-                        <div>
-                            <strong>Empresas na base</strong
-                            ><small>Registros não excluídos</small>
-                        </div>
-                        <b id="attention-companies">—</b>
-                    </li>
-                </ul>
-            </section>
-        </div>
-
-        <section class="admin-panel admin-final-companies">
-            <div class="admin-panel-heading">
-                <div>
-                    <h2>Empresas</h2>
-                    <p>
-                        Gerencie as empresas e consulte o contexto comercial de
-                        cada organização.
-                    </p>
-                </div>
-                <div class="admin-table-actions">
-                    <label class="admin-table-search"
-                        ><span aria-hidden="true">⌕</span
-                        ><input
-                            id="company-query"
-                            type="search"
-                            placeholder="Buscar empresa..."
-                            aria-label="Buscar empresa" /></label
-                    ><a class="admin-new-company" href="/backoffice/empresas"
-                        >＋ Nova empresa</a
-                    >
-                </div>
-            </div>
-            <div class="admin-table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Empresa</th>
-                            <th>Documento</th>
-                            <th>Status</th>
-                            <th>Assinaturas ativas</th>
-                            <th>Administrador responsável</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dashboard-companies">
-                        <tr>
-                            <td colspan="6">Carregando empresas...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="admin-table-footer">
-                <span id="dashboard-company-count"
-                    >Carregando paginação...</span
+                <p
+                    class="admin-chart-empty"
+                    id="subscription-chart-empty"
+                    hidden
                 >
-                <div class="admin-pagination" id="dashboard-pagination"></div>
-            </div>
+                    Não há assinaturas ativas registradas nos últimos seis
+                    meses.
+                </p>
+            </article>
+            <aside class="admin-panel-card admin-attention-card">
+                <div class="admin-card-heading">
+                    <div>
+                        <h2>Atenção necessária</h2>
+                        <p>Itens que exigem acompanhamento.</p>
+                    </div>
+                </div>
+                <div id="dashboard-alerts" class="admin-attention-list"></div>
+                <p id="dashboard-alerts-empty" class="admin-panel-empty" hidden>
+                    Nenhum alerta operacional no momento.
+                </p>
+            </aside>
         </section>
-
-        <div class="admin-final-bottom-grid">
-            <section class="admin-panel admin-final-activity">
-                <div class="admin-panel-heading">
-                    <h2>Atividade recente</h2>
+        <section class="admin-dashboard-workspace-grid">
+            <article class="admin-panel-card admin-companies-card">
+                <div class="admin-card-heading admin-companies-heading">
+                    <div>
+                        <h2>Empresas</h2>
+                        <p>Gerencie as empresas da sua organização.</p>
+                    </div>
+                    <div class="admin-companies-controls">
+                        <label class="admin-table-search"
+                            ><img
+                                src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png"
+                                alt="" /><input
+                                id="company-search"
+                                type="search"
+                                placeholder="Buscar empresa..." /></label
+                        ><select
+                            id="company-status-filter"
+                            aria-label="Filtrar empresas por status"
+                        >
+                            <option value="">Todos os status</option>
+                            <option value="ativa">Ativas</option>
+                            <option value="suspensa">Suspensas</option>
+                            <option value="pendente">Pendentes</option>
+                            <option value="encerrando">Em encerramento</option>
+                            <option value="encerrada">
+                                Encerradas
+                            </option></select
+                        ><a
+                            class="admin-primary-action"
+                            href="/backoffice/empresas"
+                            ><img
+                                src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png"
+                                alt=""
+                            />Nova empresa</a
+                        >
+                    </div>
                 </div>
-                <ul class="admin-activity-list" id="dashboard-activity">
-                    <li><small>Carregando atividades registradas...</small></li>
-                </ul>
-            </section>
-            <section class="admin-panel admin-final-quick">
-                <h2>Ações rápidas</h2>
-                <div>
-                    <a href="/backoffice/empresas">＋ Nova empresa</a
-                    ><a href="/backoffice/seguranca">♙ Administradores</a
-                    ><a href="/backoffice/assinaturas">▤ Ver assinaturas</a
-                    ><a href="/backoffice/catalogo">◫ Abrir catálogo</a>
+                <div class="admin-table-scroll">
+                    <table class="admin-companies-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <button
+                                        type="button"
+                                        data-company-sort="company"
+                                    >
+                                        Empresa
+                                    </button>
+                                </th>
+                                <th>Plano</th>
+                                <th>
+                                    <button
+                                        type="button"
+                                        data-company-sort="status"
+                                    >
+                                        Status
+                                    </button>
+                                </th>
+                                <th>
+                                    <button
+                                        type="button"
+                                        data-company-sort="users"
+                                    >
+                                        Usuários
+                                    </button>
+                                </th>
+                                <th>
+                                    <button
+                                        type="button"
+                                        data-company-sort="last_activity"
+                                    >
+                                        Último acesso
+                                    </button>
+                                </th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="companies-table-body"></tbody>
+                    </table>
                 </div>
-            </section>
-        </div>
+                <div class="admin-table-footer">
+                    <span id="companies-table-summary"
+                        >Carregando empresas...</span
+                    >
+                    <nav
+                        id="companies-pagination"
+                        aria-label="Paginação de empresas"
+                    ></nav>
+                </div>
+            </article>
+            <aside class="admin-dashboard-side-column">
+                <article class="admin-panel-card admin-recent-activity-card">
+                    <div class="admin-card-heading">
+                        <div>
+                            <h2>Atividade recente</h2>
+                            <p>Eventos registrados na plataforma.</p>
+                        </div>
+                    </div>
+                    <div
+                        id="dashboard-recent-activity"
+                        class="admin-recent-activity-list"
+                    ></div>
+                    <p
+                        id="dashboard-recent-activity-empty"
+                        class="admin-panel-empty"
+                        hidden
+                    >
+                        Nenhuma atividade recente disponível.
+                    </p>
+                </article>
+                <article class="admin-panel-card admin-quick-actions-card">
+                    <div class="admin-card-heading">
+                        <div><h2>Ações rápidas</h2></div>
+                    </div>
+                    <div class="admin-quick-actions-grid">
+                        <a href="/backoffice/empresas"
+                            ><img
+                                src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png"
+                                alt=""
+                            />Nova empresa</a
+                        ><a href="/backoffice/admins"
+                            ><img
+                                src="/backoffice/assets/icons/Settings-User--Streamline-Ultimate.png"
+                                alt=""
+                            />Convidar administrador</a
+                        ><a href="/backoffice/assinaturas"
+                            ><img
+                                src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png"
+                                alt=""
+                            />Ver assinaturas</a
+                        ><a href="/backoffice/catalogo"
+                            ><img
+                                src="/backoffice/assets/icons/Shopping-Basket-Edit--Streamline-Ultimate.png"
+                                alt=""
+                            />Abrir catálogo</a
+                        >
+                    </div>
+                </article>
+            </aside>
+        </section>
     </section>
 </main>
 <script>
     (() => {
-        const api = window.FokusApi;
-        const state = { page: 1, query: "" };
-        const escapeHtml = (value) =>
-            String(value ?? "-").replace(
-                /[&<>'"]/g,
-                (char) =>
-                    ({
-                        "&": "&amp;",
-                        "<": "&lt;",
-                        ">": "&gt;",
-                        "'": "&#039;",
-                        '"': "&quot;",
-                    })[char],
-            );
-        const number = (value) => Number(value || 0).toLocaleString("pt-BR");
-        const status = (value) =>
-            String(value || "").toLowerCase() === "ativo"
-                ? '<span class="admin-badge admin-badge-success"><i></i>Ativa</span>'
-                : '<span class="admin-badge admin-badge-warning"><i></i>Inativa</span>';
-        const setNumber = (selector, value) => {
-            const element = document.querySelector(selector);
-            if (element) element.textContent = number(value);
+        const B = "/backoffice/assets/icons/",
+            I = {
+                alert: "Single-Man-Actions-Warning--Streamline-Ultimate.png",
+                company: "Small-Office-Tall-Building--Streamline-Ultimate.png",
+                change: "Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png",
+                cancellation: "Lock-Unlock--Streamline-Ultimate.png",
+                activity:
+                    "Single-Man-Actions-Information--Streamline-Ultimate.png",
+                actions: "Multiple-Actions-Setting--Streamline-Ultimate.png",
+            },
+            S = {
+                page: 1,
+                perPage: 5,
+                query: "",
+                status: "",
+                sort: "company",
+                direction: "asc",
+            },
+            N = new Intl.NumberFormat("pt-BR"),
+            C = new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+            }),
+            e = (v) =>
+                String(v ?? "").replace(
+                    /[&<>'"]/g,
+                    (x) =>
+                        ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            "'": "&#039;",
+                            '"': "&quot;",
+                        })[x],
+                ),
+            img = (n, c = "") => `<img class="${c}" src="${B}${I[n]}" alt="">`,
+            date = (v) => {
+                if (!v) return "Sem acesso registrado";
+                const d = new Date(v);
+                return Number.isNaN(d)
+                    ? "Sem acesso registrado"
+                    : new Intl.DateTimeFormat("pt-BR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                      }).format(d);
+            },
+            status = (v) =>
+                ({
+                    ativa: "Ativa",
+                    suspensa: "Suspensa",
+                    pendente: "Pendente",
+                    encerrando: "Em encerramento",
+                    encerrada: "Encerrada",
+                })[v] || "Sem status";
+        const user = (u) => {
+            let a = String(u?.name || "Administrador")
+                    .trim()
+                    .split(/\s+/),
+                f = a[0] || "Administrador";
+            document.querySelector("#dashboard-user-name").textContent =
+                a.join(" ");
+            document.querySelector("#dashboard-user-initials").textContent = a
+                .slice(0, 2)
+                .map((x) => x[0])
+                .join("")
+                .toUpperCase();
+            document.querySelector("#dashboard-greeting-name").textContent =
+                f.toUpperCase();
         };
-        const renderSubscriptionChart = (series) => {
-            const chart = document.querySelector("#subscription-chart");
-            const graphic = document.querySelector(
-                "#subscription-chart-graphic",
-            );
-            const line = document.querySelector("#subscription-chart-line");
-            const area = document.querySelector("#subscription-chart-area");
-            const note = document.querySelector("#subscription-chart-note");
-            const values = Array.isArray(series)
-                ? series.map((entry) => Math.max(0, Number(entry.value) || 0))
-                : [];
-            const total = values.reduce((sum, value) => sum + value, 0);
-
-            setNumber("#chart-subscriptions", total);
-            if (!values.length || total === 0) {
-                chart.classList.add("is-empty");
-                graphic.hidden = true;
-                line.setAttribute("points", "");
-                area.setAttribute("d", "");
-                note.textContent =
-                    "Nenhuma assinatura ativa foi cadastrada nos últimos 30 dias.";
+        const chart = (series) => {
+            let v = series.map((x) => +x.value || 0),
+                svg = document.querySelector("#subscription-chart-svg"),
+                axis = document.querySelector("#subscription-chart-axis"),
+                labels = document.querySelector("#subscription-chart-labels"),
+                empty = document.querySelector("#subscription-chart-empty");
+            labels.innerHTML = series
+                .map((x) => `<span>${e(x.label)}</span>`)
+                .join("");
+            if (!v.some(Boolean)) {
+                svg.innerHTML = "";
+                axis.innerHTML = "";
+                empty.hidden = false;
                 return;
             }
-
-            const maximum = Math.max(...values, 1);
-            const chartWidth = 500;
-            const chartHeight = 128;
-            const top = 12;
-            const bottom = 112;
-            const points = values.map((value, index) => {
-                const x = (index / Math.max(values.length - 1, 1)) * chartWidth;
-                const y = bottom - (value / maximum) * (bottom - top);
-                return `${x.toFixed(2)},${y.toFixed(2)}`;
-            });
-
-            chart.classList.remove("is-empty");
-            graphic.hidden = false;
-            line.setAttribute("points", points.join(" "));
-            area.setAttribute(
-                "d",
-                `M0 ${chartHeight} L${points.join(" L")} L${chartWidth} ${chartHeight} Z`,
-            );
-            note.textContent =
-                "Registros reais de assinaturas que permanecem ativas.";
+            empty.hidden = true;
+            let W = 720,
+                H = 248,
+                L = 44,
+                R = 18,
+                T = 18,
+                D = 18,
+                max = Math.max(5, Math.ceil(Math.max(...v) / 5) * 5),
+                x = (i) => L + ((W - L - R) * i) / Math.max(v.length - 1, 1),
+                y = (n) => H - D - ((H - T - D) * n) / max,
+                p = v.map((n, i) => `${x(i)},${y(n)}`),
+                grid = Array.from(
+                    { length: 6 },
+                    (_, i) =>
+                        `<line x1="${L}" y1="${T + ((H - T - D) * i) / 5}" x2="${W - R}" y2="${T + ((H - T - D) * i) / 5}" class="admin-chart-grid-line"></line>`,
+                ).join("");
+            axis.innerHTML = Array.from(
+                { length: 6 },
+                (_, i) =>
+                    `<span>${N.format(Math.round(max - (max * i) / 5))}</span>`,
+            ).join("");
+            svg.innerHTML = `${grid}<polygon points="${L},${H - D} ${p.join(" ")} ${x(v.length - 1)},${H - D}" class="admin-chart-area"></polygon><polyline points="${p.join(" ")}" class="admin-chart-line"></polyline>${v.map((n, i) => `<circle cx="${x(i)}" cy="${y(n)}" r="4" class="admin-chart-point"><title>${e(series[i].label)}: ${N.format(n)}</title></circle>`).join("")}`;
         };
-        const auditLabel = (action) =>
-            ({
-                "backoffice.dashboard_viewed":
-                    "Painel administrativo consultado",
-                "backoffice.companies_viewed": "Empresas consultadas",
-                "backoffice.subscriptions_viewed": "Assinaturas consultadas",
-                "backoffice.catalog_published": "Catálogo publicado",
-                "backoffice.voucher_created": "Voucher criado",
-            })[action] || "Ação administrativa registrada";
-        const relativeTime = (value) => {
-            const date = new Date(value);
-            const elapsed = Date.now() - date.getTime();
-            if (Number.isNaN(date.getTime()) || elapsed < 60_000)
-                return "Agora";
-            if (elapsed < 3_600_000)
-                return `${Math.floor(elapsed / 60_000)} min`;
-            if (elapsed < 86_400_000)
-                return `${Math.floor(elapsed / 3_600_000)} h`;
-            return new Intl.DateTimeFormat("pt-BR", {
-                day: "2-digit",
-                month: "2-digit",
-            }).format(date);
+        const alerts = (a) => {
+            let l = document.querySelector("#dashboard-alerts"),
+                z = document.querySelector("#dashboard-alerts-empty");
+            z.hidden = !!a.length;
+            l.innerHTML = a
+                .map(
+                    (x) =>
+                        `<a class="admin-attention-item" href="${e(x.href || "/backoffice/painel")}"><span class="admin-attention-icon admin-attention-${e(x.icon || "alert")}">${img(x.icon || "alert")}</span><span><strong>${N.format(x.value || 0)} ${e(x.label || "")}</strong><small>${e(x.description || "")}</small></span></a>`,
+                )
+                .join("");
         };
-        const renderActivity = (activity) => {
-            const target = document.querySelector("#dashboard-activity");
-            const items = Array.isArray(activity) ? activity : [];
-            target.innerHTML = items.length
-                ? items
+        const activity = (a) => {
+            let l = document.querySelector("#dashboard-recent-activity"),
+                z = document.querySelector("#dashboard-recent-activity-empty");
+            z.hidden = !!a.length;
+            l.innerHTML = a
+                .map(
+                    (x) =>
+                        `<div class="admin-activity-item">${img("activity", "admin-activity-icon")}<span><strong>${e(x.title || "Atividade registrada")}</strong><small>${e(x.description || "")}</small></span><time>${date(x.created_at)}</time></div>`,
+                )
+                .join("");
+        };
+        const companies = (p) => {
+            let b = document.querySelector("#companies-table-body"),
+                a = p.data || [];
+            b.innerHTML = a.length
+                ? a
                       .map(
-                          (item) =>
-                              `<li><span class="status-dot status-dot-success"></span><div><strong>${escapeHtml(auditLabel(item.action))}</strong><small>Registro de auditoria da plataforma.</small></div><time>${escapeHtml(relativeTime(item.created_at))}</time></li>`,
+                          (x) =>
+                              `<tr><td><span class="admin-company-name">${img("company", "admin-company-icon")}${e(x.legal_name)}</span></td><td>${e(x.plan_name || "Sem assinatura ativa")}</td><td><span class="admin-company-status admin-company-status-${e(x.status)}">${status(x.status)}</span></td><td>${N.format(x.active_users || 0)}</td><td>${date(x.last_activity_at)}</td><td><a href="/backoffice/empresas" class="admin-table-action" aria-label="Abrir empresa">${img("actions")}</a></td></tr>`,
                       )
                       .join("")
-                : "<li><small>Nenhuma atividade administrativa registrada.</small></li>";
-        };
-        const renderPagination = (meta) => {
-            const target = document.querySelector("#dashboard-pagination");
-            if (!meta || meta.last_page <= 1) {
-                target.innerHTML = "";
-                return;
-            }
-            target.innerHTML = `<button type="button" data-page="${Math.max(1, meta.current_page - 1)}" aria-label="Página anterior">‹</button>${Array.from(
-                { length: Math.min(meta.last_page, 5) },
-                (_, index) => index + 1,
-            )
-                .map(
-                    (page) =>
-                        `<button type="button" data-page="${page}" class="${page === meta.current_page ? "is-active" : ""}">${page}</button>`,
-                )
-                .join(
-                    "",
-                )}<button type="button" data-page="${Math.min(meta.last_page, meta.current_page + 1)}" aria-label="Próxima página">›</button>`;
+                : '<tr><td colspan="6" class="admin-table-empty">Nenhuma empresa encontrada para os filtros selecionados.</td></tr>';
+            let from = p.total ? (p.current_page - 1) * p.per_page + 1 : 0,
+                to = p.total
+                    ? Math.min(p.current_page * p.per_page, p.total)
+                    : 0;
+            document.querySelector("#companies-table-summary").textContent =
+                p.total
+                    ? `Mostrando ${from} a ${to} de ${p.total} empresas`
+                    : "Nenhuma empresa encontrada";
+            document.querySelector("#companies-pagination").innerHTML =
+                Array.from(
+                    { length: p.last_page || 1 },
+                    (_, i) =>
+                        `<button type="button" class="${i + 1 === p.current_page ? "is-active" : ""}" data-company-page="${i + 1}">${i + 1}</button>`,
+                ).join("");
         };
         const loadCompanies = async () => {
-            const params = new URLSearchParams({
-                page: String(state.page),
-                per_page: "5",
-            });
-            if (state.query) params.set("q", state.query);
-            const response = await api.request(
-                `/backoffice/companies?${params}`,
-            );
-            const rows = response.data || [];
-            document.querySelector("#dashboard-companies").innerHTML =
-                rows.length
-                    ? rows
-                          .map(
-                              (company) =>
-                                  `<tr><td><strong>${escapeHtml(company.legal_name)}</strong></td><td>${escapeHtml(company.document_masked)}</td><td>${status(company.status)}</td><td>${number(company.active_subscriptions)}</td><td>${escapeHtml(company.admin_name || "Não informado")}<small class="admin-table-secondary">${escapeHtml(company.admin_email_masked || "")}</small></td><td><a class="admin-row-action" href="/backoffice/empresas">•••</a></td></tr>`,
-                          )
-                          .join("")
-                    : '<tr><td colspan="6">Nenhuma empresa encontrada.</td></tr>';
-            const first = rows.length
-                ? (response.meta.current_page - 1) * response.meta.per_page + 1
-                : 0;
-            const last = rows.length ? first + rows.length - 1 : 0;
-            document.querySelector("#dashboard-company-count").textContent =
-                response.meta
-                    ? `Mostrando ${first} a ${last} de ${response.meta.total || 0} empresas`
-                    : "Nenhuma empresa encontrada";
-            renderPagination(response.meta);
-        };
-        const loadDashboard = async () => {
-            const data = await api.request("/backoffice/dashboard");
-            const entries = {
-                companies: data.companies,
-                subscriptions: data.active_subscriptions,
-                usage: data.recent_usage,
-                changes: data.scheduled_changes,
+                let p = new URLSearchParams({
+                    page: S.page,
+                    per_page: S.perPage,
+                    sort: S.sort,
+                    direction: S.direction,
+                });
+                if (S.query) p.set("q", S.query);
+                if (S.status) p.set("status", S.status);
+                let r = await fetch(`/api/backoffice/companies?${p}`, {
+                    credentials: "same-origin",
+                });
+                if (!r.ok) throw Error();
+                const data = await r.json();
+                companies({ ...data, ...data.meta });
+            },
+            load = async () => {
+                let r = await fetch("/api/backoffice/dashboard", {
+                    credentials: "same-origin",
+                });
+                if (!r.ok) throw Error();
+                let p = await r.json();
+                user(p.user);
+                document.querySelector("#metric-active-companies").textContent =
+                    N.format(p.metrics.active_companies || 0);
+                document.querySelector("#metric-active-people").textContent =
+                    N.format(p.metrics.active_people || 0);
+                document.querySelector(
+                    "#metric-active-subscriptions",
+                ).textContent = N.format(p.metrics.active_subscriptions || 0);
+                document.querySelector("#metric-mrr").textContent = C.format(
+                    +p.metrics.mrr || 0,
+                );
+                chart(p.subscription_registrations_6m || []);
+                alerts(p.alerts || []);
+                activity(p.recent_activity || []);
             };
-            setNumber("#status-companies", entries.companies);
-            setNumber("#status-subscriptions", entries.subscriptions);
-            setNumber("#status-usage", entries.usage);
-            setNumber("#status-pending", entries.changes);
-            renderSubscriptionChart(data.active_subscription_registrations_30d);
-            renderActivity(data.recent_activity);
-            Object.entries(entries).forEach(([key, value]) =>
-                setNumber(`#attention-${key}`, value),
-            );
-        };
-        api.request("/backoffice/auth/me")
-            .then((data) => {
-                const name = data?.admin?.name || "Administrador";
-                document.querySelector("#dashboard-admin-name").textContent =
-                    name;
-                document.querySelector("#admin-avatar").textContent = name
-                    .trim()
-                    .split(/\s+/)
-                    .map((part) => part[0])
-                    .slice(0, 2)
-                    .join("")
-                    .toUpperCase();
-            })
-            .catch(() => {});
+        let timer;
         document
-            .querySelector("#company-query")
-            .addEventListener("input", (event) => {
-                state.query = event.target.value.trim();
-                state.page = 1;
-                clearTimeout(window.__finalDashboardSearch);
-                window.__finalDashboardSearch = setTimeout(loadCompanies, 250);
+            .querySelector("#company-search")
+            .addEventListener("input", (x) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    S.query = x.target.value.trim();
+                    S.page = 1;
+                    loadCompanies().catch(() => {});
+                }, 250);
             });
         document
-            .querySelector("#dashboard-pagination")
-            .addEventListener("click", (event) => {
-                const button = event.target.closest("[data-page]");
-                if (!button) return;
-                state.page = Number(button.dataset.page);
-                loadCompanies();
+            .querySelector("#company-status-filter")
+            .addEventListener("change", (x) => {
+                S.status = x.target.value;
+                S.page = 1;
+                loadCompanies().catch(() => {});
             });
-        Promise.all([loadDashboard(), loadCompanies()]).catch((error) => {
-            document.querySelector("#dashboard-companies").innerHTML =
-                '<tr><td colspan="6">Não foi possível carregar os dados do painel.</td></tr>';
-            console.error(error);
+        document.addEventListener("click", (x) => {
+            let p = x.target.closest("[data-company-page]"),
+                s = x.target.closest("[data-company-sort]");
+            if (p) {
+                S.page = +p.dataset.companyPage;
+                loadCompanies().catch(() => {});
+            }
+            if (s) {
+                let v = s.dataset.companySort;
+                S.direction =
+                    S.sort === v && S.direction === "asc" ? "desc" : "asc";
+                S.sort = v;
+                S.page = 1;
+                loadCompanies().catch(() => {});
+            }
         });
+        document
+            .querySelector("[data-dashboard-logout]")
+            .addEventListener("click", async () => {
+                await fetch("/backoffice/auth/logout", {
+                    method: "POST",
+                    credentials: "same-origin",
+                });
+                location.assign("/backoffice/login");
+            });
+        Promise.all([load(), loadCompanies()]).catch(() => {});
     })();
 </script>

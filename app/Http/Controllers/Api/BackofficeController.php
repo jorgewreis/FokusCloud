@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 
 class BackofficeController extends Controller
@@ -27,29 +28,79 @@ class BackofficeController extends Controller
     {
         $audit->record($request->user()->id, 'backoffice.dashboard_viewed', request: $request);
 
-        $trendStart = now()->startOfDay()->subDays(29);
-        $subscriptionsByDate = DB::table('subscriptions')
+        $activeSubscriptions = DB::table('subscriptions')
             ->where('status', 'ativa')
-            ->where('created_at', '>=', $trendStart)
-            ->selectRaw('DATE(created_at) as date, count(*) as total')
-            ->groupByRaw('DATE(created_at)')
-            ->pluck('total', 'date');
+            ->get(['id', 'created_at', 'commercial_snapshot']);
+        $trendStart = now()->startOfMonth()->subMonths(5);
+        $trend = collect(range(0, 5))->map(function (int $offset) use ($activeSubscriptions, $trendStart): array {
+            $month = $trendStart->copy()->addMonths($offset);
+
+            return [
+                'month' => $month->format('Y-m'),
+                'label' => ucfirst($month->locale('pt_BR')->translatedFormat('M Y')),
+                'value' => $activeSubscriptions->filter(fn (object $subscription): bool => Carbon::parse($subscription->created_at)->format('Y-m') === $month->format('Y-m'))->count(),
+            ];
+        })->values();
+        $mrr = $activeSubscriptions->sum(function (object $subscription): float {
+            $snapshot = json_decode((string) $subscription->commercial_snapshot, true) ?: [];
+
+            return (float) ($snapshot['monthly_amount'] ?? 0);
+        });
+
+        $alerts = [
+            [
+                'key' => 'declined_payments',
+                'label' => 'Pagamentos recusados',
+                'description' => 'Pagamentos que exigem acompanhamento comercial.',
+                'value' => DB::table('payments')->where('status', 'recusado')->count(),
+                'href' => '/backoffice/pagamentos?status=recusado',
+                'icon' => 'warning',
+            ],
+            [
+                'key' => 'pending_companies',
+                'label' => 'Empresas pendentes',
+                'description' => 'Cadastros que ainda não foram ativados.',
+                'value' => DB::table('companies')->whereNull('deleted_at')->where('status', 'pendente')->count(),
+                'href' => '/backoffice/empresas?status=pendente',
+                'icon' => 'company',
+            ],
+            [
+                'key' => 'scheduled_changes',
+                'label' => 'Alterações comerciais agendadas',
+                'description' => 'Mudanças comerciais aguardando processamento.',
+                'value' => DB::table('subscription_changes')->where('status', 'agendada')->where('type', '!=', 'cancelamento')->count(),
+                'href' => '/backoffice/assinaturas',
+                'icon' => 'change',
+            ],
+            [
+                'key' => 'scheduled_cancellations',
+                'label' => 'Cancelamentos agendados',
+                'description' => 'Assinaturas com encerramento programado.',
+                'value' => DB::table('subscription_changes')->where('status', 'agendada')->where('type', 'cancelamento')->count(),
+                'href' => '/backoffice/assinaturas',
+                'icon' => 'lock',
+            ],
+        ];
 
         return response()->json([
-            'companies' => DB::table('companies')->whereNull('deleted_at')->count(),
-            'active_subscriptions' => DB::table('subscriptions')->where('status', 'ativa')->count(),
-            'scheduled_changes' => DB::table('subscription_changes')->where('status', 'agendada')->count(),
-            'recent_usage' => DB::table('usage_snapshots')->where('reported_on', '>=', now()->subDays(7)->toDateString())->count(),
-            'active_subscription_registrations_30d' => collect(range(0, 29))->map(function (int $offset) use ($trendStart, $subscriptionsByDate): array {
-                $date = $trendStart->copy()->addDays($offset)->toDateString();
-
-                return ['date' => $date, 'value' => (int) ($subscriptionsByDate[$date] ?? 0)];
-            })->values(),
+            'metrics' => [
+                'active_companies' => DB::table('companies')->whereNull('deleted_at')->where('status', 'ativa')->count(),
+                'active_people' => DB::table('company_memberships as membership')->join('companies as company', 'company.id', '=', 'membership.company_id')->join('users as user', 'user.id', '=', 'membership.user_id')->whereNull('membership.deleted_at')->whereNull('company.deleted_at')->where('membership.status', 'ativo')->where('user.status', 'ativa')->distinct('user.id')->count('user.id'),
+                'active_subscriptions' => $activeSubscriptions->count(),
+                'mrr' => $mrr,
+            ],
+            'subscription_registrations_6m' => $trend,
+            'alerts' => collect($alerts)->filter(fn (array $alert): bool => $alert['value'] > 0)->values(),
             'recent_activity' => DB::table('platform_audit_events')
                 ->select('action', 'created_at')
                 ->orderByDesc('created_at')
-                ->limit(3)
-                ->get(),
+                ->limit(5)
+                ->get()
+                ->map(fn (object $event): array => [
+                    'title' => $event->action,
+                    'description' => 'Evento registrado na auditoria da plataforma.',
+                    'created_at' => $event->created_at,
+                ])->values(),
         ]);
     }
 
@@ -57,18 +108,58 @@ class BackofficeController extends Controller
     {
         $query = trim((string) $request->query('q', ''));
         $perPage = min(max((int) $request->query('per_page', 25), 1), 100);
+        $status = $request->query('status');
+        $sorts = [
+            'company' => 'company.legal_name',
+            'status' => 'company.status',
+            'users' => 'active_users',
+            'last_activity' => 'last_activity_at',
+        ];
+        $sort = $sorts[$request->query('sort', 'company')] ?? $sorts['company'];
+        $direction = strtolower((string) $request->query('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
+        $latestSubscription = DB::table('subscriptions as subscription')
+            ->select('subscription.commercial_snapshot')
+            ->whereColumn('subscription.company_id', 'company.id')
+            ->where('subscription.status', 'ativa')
+            ->orderByDesc('subscription.created_at')
+            ->limit(1);
+        $activeUsers = DB::table('company_memberships as membership')
+            ->selectRaw('count(distinct membership.user_id)')
+            ->whereColumn('membership.company_id', 'company.id')
+            ->whereNull('membership.deleted_at')
+            ->where('membership.status', 'ativo');
+        $lastActivity = DB::table('usage_snapshots as usage')
+            ->selectRaw('max(usage.last_activity_at)')
+            ->whereColumn('usage.company_id', 'company.id');
+        $companyAdmin = DB::table('company_memberships as membership')
+            ->join('users as user', 'user.id', '=', 'membership.user_id')
+            ->select('user.name')
+            ->whereColumn('membership.company_id', 'company.id')
+            ->whereNotNull('membership.active_admin_company_id')
+            ->limit(1);
+        $companyAdminEmail = DB::table('company_memberships as membership')
+            ->join('users as user', 'user.id', '=', 'membership.user_id')
+            ->select('user.email')
+            ->whereColumn('membership.company_id', 'company.id')
+            ->whereNotNull('membership.active_admin_company_id')
+            ->limit(1);
+
         $paginator = DB::table('companies as company')
-            ->leftJoin('company_memberships as membership', fn ($join) => $join->on('membership.company_id', '=', 'company.id')->whereNotNull('membership.active_admin_company_id'))
-            ->leftJoin('users as admin', 'admin.id', '=', 'membership.user_id')
-            ->leftJoin('subscriptions as subscription', fn ($join) => $join->on('subscription.company_id', '=', 'company.id')->where('subscription.status', 'ativa'))
             ->whereNull('company.deleted_at')
             ->when($query, fn ($builder) => $builder->where(fn ($filter) => $filter->where('company.legal_name', 'like', "%{$query}%")->orWhere('company.document_number', 'like', "%{$query}%")))
-            ->groupBy('company.id', 'company.legal_name', 'company.document_type', 'company.document_number', 'company.status', 'admin.name', 'admin.email')
-            ->select('company.id', 'company.legal_name', 'company.document_type', 'company.document_number', 'company.status', 'admin.name as admin_name', 'admin.email as admin_email', DB::raw('count(distinct subscription.id) as active_subscriptions'))
-            ->orderBy('company.legal_name')->paginate($perPage);
+            ->when(in_array($status, ['pendente', 'ativa', 'suspensa', 'encerrando', 'encerrada'], true), fn ($builder) => $builder->where('company.status', $status))
+            ->select('company.id', 'company.legal_name', 'company.document_type', 'company.document_number', 'company.status')
+            ->selectSub($latestSubscription, 'plan_snapshot')
+            ->selectSub($activeUsers, 'active_users')
+            ->selectSub($lastActivity, 'last_activity_at')
+            ->selectSub($companyAdmin, 'admin_name')
+            ->selectSub($companyAdminEmail, 'admin_email')
+            ->orderBy($sort, $direction)
+            ->orderBy('company.legal_name')
+            ->paginate($perPage);
         $audit->record($request->user()->id, 'backoffice.companies_viewed', request: $request);
         return response()->json([
-            'data' => collect($paginator->items())->map(fn (object $row): array => $this->companyListPayload($row))->values(),
+            'data' => collect($paginator->items())->map(fn (object $row): array => $this->dashboardCompanyListPayload($row))->values(),
             'meta' => $this->paginationMeta($paginator),
         ]);
     }
@@ -572,6 +663,24 @@ class BackofficeController extends Controller
             'admin_name' => $row->admin_name,
             'admin_email_masked' => $this->maskEmail($row->admin_email),
             'active_subscriptions' => (int) $row->active_subscriptions,
+        ];
+    }
+
+    private function dashboardCompanyListPayload(object $row): array
+    {
+        $snapshot = json_decode((string) ($row->plan_snapshot ?? ''), true) ?: [];
+
+        return [
+            'id' => $row->id,
+            'legal_name' => $row->legal_name,
+            'document_type' => $row->document_type,
+            'document_masked' => $this->maskDocument($row->document_type, $row->document_number),
+            'admin_name' => $row->admin_name,
+            'admin_email_masked' => $this->maskEmail($row->admin_email),
+            'plan_name' => $snapshot['plan_name'] ?? 'Sem assinatura ativa',
+            'status' => $row->status,
+            'active_users' => (int) ($row->active_users ?? 0),
+            'last_activity_at' => $row->last_activity_at,
         ];
     }
 

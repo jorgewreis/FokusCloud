@@ -70,21 +70,9 @@
         <div class="container-page expanded">
             <div class="fs-sidebar expanded" id="sidebar">
                 <div class="top">
-                    <button
-                        class="sidebar-button"
-                        id="sidebar-expand"
-                        type="button"
-                        aria-controls="sidebar"
-                        aria-expanded="false"
-                    >
-                        <img
-                            src="/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png"
-                            alt=""
-                        />
-                        <span class="sidebar-button-label title"
-                            >Fokus <strong>Cloud</strong></span
-                        >
-                    </button>
+                    <div class="sidebar-brand">
+                        FOKUS <strong>CLOUD</strong>
+                    </div>
                     <div class="line-hr-single"></div>
                 </div>
 
@@ -191,39 +179,31 @@
                             >Interesses</span
                         >
                     </button>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        disabled
+                        title="Configurações em breve"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Cog--Streamline-Ultimate.png"
+                            alt=""
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Configurações</span
+                        >
+                    </button>
                 </nav>
 
                 <div class="bottom">
                     <div class="line-hr-single"></div>
-                    <div class="sidebar-button">
+                    <span id="admin-name" hidden></span>
+                    <div class="sidebar-institutional">
                         <img
-                            src="/backoffice/assets/icons/Cog--Streamline-Ultimate.png"
+                            src="/backoffice/assets/icons/Single-Man-Actions-Information--Streamline-Ultimate.png"
+                            alt=""
                         />
-                        <span
-                            class="sidebar-button-label text-subtitle-sm fs-u-color-secondary"
-                            >Configurações</span
-                        >
-                    </div>
-                    <div class="sidebar-button">
-                        <img
-                            src="/backoffice/assets/icons/Settings-User--Streamline-Ultimate.png"
-                        />
-                        <div class="fs-u-d-flex fs-col">
-                            <span
-                                class="sidebar-button-label text-caption fs-u-color-secondary"
-                                >Administrador logado</span
-                            >
-                            <span
-                                class="sidebar-button-label text-subtitle-sm fs-u-color-primary"
-                                id="admin-name"
-                                >Jorge Reis</span
-                            >
-                        </div>
-                        <img
-                            class="mini-icon"
-                            id="logout"
-                            src="/backoffice/assets/icons/Download-Square-3--Streamline-Ultimate.png"
-                        />
+                        <span>Tecnologia para um futuro mais humano.</span>
                     </div>
                 </div>
             </div>
@@ -236,44 +216,12 @@
         <script src="/backoffice/assets/js/form-system.js?v=20260901-live-controls"></script>
         <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
         <script>
-            function sidebarHide() {
-                let sidebar = document.querySelector(".fs-sidebar");
-                let icon = document.querySelector("#sidebar-expand img");
-                let button = document.querySelector("#sidebar-expand");
-                let isSingle = sidebar.classList.contains("single");
-                let container = document.querySelector(".container-page");
-
-                if (isSingle) {
-                    sidebar.classList.replace("single", "expanded");
-                    container.classList.replace("single", "expanded");
-                    icon.setAttribute(
-                        "src",
-                        "/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png",
-                    );
-                    button.setAttribute("aria-expanded", "true");
-                } else {
-                    container.classList.replace("expanded", "single");
-                    sidebar.classList.replace("expanded", "single");
-                    icon.setAttribute(
-                        "src",
-                        "/backoffice/assets/icons/Sidebar-Collapes--Streamline-Ultimate.png",
-                    );
-                    button.setAttribute("aria-expanded", "false");
-                }
-            }
-
-            document
-                .querySelector("#sidebar-expand")
-                .addEventListener("click", sidebarHide);
-        </script>
-
-        <script>
             const pageContent = document.querySelector("#page-content");
             const sidebarButtons = document.querySelectorAll(
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260914-admin-dashboard-v9";
+            const pageVersion = "20260914-admin-dashboard-v10";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -382,10 +330,6 @@
                     const response = await FokusApi.request(
                         "/backoffice/auth/me",
                     );
-                    if (response?.admin?.name) {
-                        document.querySelector("#admin-name").textContent =
-                            formatSidebarAdminName(response.admin.name);
-                    }
                     document
                         .querySelectorAll("[data-platform-permission]")
                         .forEach((element) => {
@@ -397,15 +341,6 @@
                     location.replace("/?acesso=administrativo");
                 }
             }
-
-            document
-                .querySelector("#logout")
-                .addEventListener("click", async () => {
-                    await FokusApi.request("/backoffice/auth/logout", {
-                        method: "POST",
-                    });
-                    location.replace("/?acesso=administrativo");
-                });
 
             hydrateAdmin();
             loadSidebarPage(
