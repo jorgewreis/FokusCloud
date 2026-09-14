@@ -1,13 +1,14 @@
-body[data-role="admin"] { --admin-navy:#071b2d; --admin-navy-soft:#102a43; --admin-terracotta:#c96f4a; --admin-cream:#f5efe7; --admin-ink:#102a43; --admin-line:rgba(16,42,67,.12); --admin-success:#00965f; --admin-warning:#c96f4a; }
-body[data-role="admin"] .fs-sidebar { background:linear-gradient(180deg,var(--admin-navy-soft),var(--admin-navy)); color:#fff; border-radius:0; box-shadow:12px 0 35px rgba(7,27,45,.16); }
-body[data-role="admin"] .fs-sidebar .sidebar-button { color:rgba(255,255,255,.78); border-radius:4px; }
-body[data-role="admin"] .fs-sidebar .sidebar-button.active { background:var(--admin-terracotta); color:#fff; }
-body[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(.active) { background:rgba(255,255,255,.08); color:#fff; }
-body[data-role="admin"] .fs-sidebar .sidebar-button-label.title { font-family:var(--font-display); letter-spacing:.04em; }
-body[data-role="admin"] .fs-sidebar .sidebar-button-label.title strong { color:#e9a27f !important; }
-body[data-role="admin"] .container-content { top:0; left:0; width:100% !important; height:100%; padding:0; border-radius:0; background:var(--admin-cream); box-shadow:none; }
-body[data-role="admin"] .container-page.expanded .container-content { left:0; }
-.admin-dashboard { min-height:100%; color:var(--admin-ink); font-family:var(--font-body); background:linear-gradient(120deg,rgba(245,239,231,.95),rgba(255,255,255,.98)),url('/assets/mockups/admin/admin-proposta-05.png') center/cover fixed; }
+html[data-role="admin"] { --admin-navy:#071b2d; --admin-navy-soft:#102a43; --admin-terracotta:#c96f4a; --admin-cream:#f5efe7; --admin-ink:#102a43; --admin-line:rgba(16,42,67,.12); --admin-success:#00965f; --admin-warning:#c96f4a; }
+html[data-role="admin"] .fs-sidebar { background:linear-gradient(180deg,var(--admin-navy-soft),var(--admin-navy)); color:#fff; border-radius:0; box-shadow:12px 0 35px rgba(7,27,45,.16); }
+html[data-role="admin"] .fs-sidebar .sidebar-button { color:rgba(255,255,255,.78); border-radius:4px; }
+html[data-role="admin"] .fs-sidebar .sidebar-button.active { background:var(--admin-terracotta); color:#fff; }
+html[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(.active) { background:rgba(255,255,255,.08); color:#fff; }
+html[data-role="admin"] .fs-sidebar .sidebar-button-label.title { font-family:var(--font-display); letter-spacing:.04em; }
+html[data-role="admin"] .fs-sidebar .sidebar-button-label.title strong { color:#e9a27f !important; }
+html[data-role="admin"] .container-content { top:0; height:100%; padding:0; border-radius:0; background:var(--admin-cream); box-shadow:none; }
+html[data-role="admin"] .container-page.expanded .container-content { left:320px; width:calc(100% - 330px); }
+html[data-role="admin"] .container-page.single .container-content { left:100px; width:calc(100% - 110px); }
+.admin-dashboard { min-height:100%; color:var(--admin-ink); font-family:var(--font-body); background:linear-gradient(110deg,rgba(7,27,45,.94) 0%,rgba(16,42,67,.78) 32%,rgba(245,239,231,.92) 72%),url('/backoffice/assets/images/admin-dashboard-background.png') center/cover fixed; }
 .admin-dashboard-header { min-height:76px; display:flex; align-items:center; gap:28px; padding:0 38px; color:#fff; background:linear-gradient(100deg,var(--admin-navy),var(--admin-navy-soft) 70%,#3c2b2e); }
 .admin-wordmark { color:#fff; font-family:var(--font-body); font-size:20px; font-weight:700; letter-spacing:.03em; white-space:nowrap; text-decoration:none; }.admin-wordmark span { font-weight:400; }
 .admin-search { flex:1; max-width:710px; min-height:42px; display:flex; align-items:center; gap:12px; padding:0 14px; border:1px solid rgba(255,255,255,.24); border-radius:8px; color:#fff; background:rgba(255,255,255,.07); }.admin-search span { font-size:25px; line-height:1; }.admin-search input { flex:1; min-width:0; border:0; outline:0; color:#fff; background:transparent; font:inherit; font-size:13px; }.admin-search input::placeholder { color:rgba(255,255,255,.72); }.admin-search kbd { padding:3px 7px; border:1px solid rgba(255,255,255,.2); border-radius:4px; font-size:10px; color:rgba(255,255,255,.72); }
