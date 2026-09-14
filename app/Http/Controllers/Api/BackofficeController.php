@@ -110,6 +110,7 @@ class BackofficeController extends Controller
                 ->limit(5)
                 ->get()
                 ->map(fn (object $event): array => [
+                    'kind' => $event->action,
                     'title' => $activityLabels[$event->action] ?? 'Atividade registrada no backoffice',
                     'description' => 'Evento registrado na auditoria da plataforma.',
                     'created_at' => $event->created_at,

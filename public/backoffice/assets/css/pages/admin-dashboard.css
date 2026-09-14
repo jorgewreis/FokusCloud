@@ -793,6 +793,212 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Final table/activity source-order guard. */
+.admin-final-dashboard .admin-companies-table {
+    min-width: 820px;
+}
+.admin-final-dashboard .admin-companies-table th,
+.admin-final-dashboard .admin-companies-table td {
+    padding: 8px 14px;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-companies-table th {
+    font-size: 9px;
+    letter-spacing: 0.02em;
+}
+.admin-final-dashboard .admin-companies-table td {
+    font-size: 11px;
+}
+.admin-final-dashboard .admin-companies-table th:first-child,
+.admin-final-dashboard .admin-companies-table td:first-child {
+    padding-left: 20px;
+}
+.admin-final-dashboard .admin-card-link {
+    color: #cf603c;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-recent-activity-card {
+    padding-bottom: 10px;
+}
+.admin-final-dashboard .admin-recent-activity-list {
+    position: relative;
+}
+.admin-final-dashboard .admin-recent-activity-list::before {
+    position: absolute;
+    top: 17px;
+    bottom: 17px;
+    left: 4px;
+    width: 1px;
+    background: #dce5eb;
+    content: "";
+}
+.admin-final-dashboard .admin-activity-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 10px 32px minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+    min-height: 48px;
+    padding: 6px 0;
+    border-top: 0;
+}
+.admin-final-dashboard .admin-activity-marker {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #109c61;
+}
+.admin-final-dashboard .admin-activity-company .admin-activity-marker {
+    background: #ef8a15;
+}
+.admin-final-dashboard .admin-activity-change .admin-activity-marker {
+    background: #178f9c;
+}
+.admin-final-dashboard .admin-activity-warning .admin-activity-marker {
+    background: #c9613d;
+}
+.admin-final-dashboard .admin-activity-symbol {
+    display: grid;
+    width: 31px;
+    height: 31px;
+    place-items: center;
+    border-radius: 6px;
+    background: #f3f6f8;
+}
+.admin-final-dashboard .admin-activity-symbol img {
+    width: 18px;
+    height: 18px;
+}
+.admin-final-dashboard .admin-activity-item strong {
+    overflow: hidden;
+    color: #17345c;
+    font-size: 11px;
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-activity-item small {
+    overflow: hidden;
+    margin-top: 2px;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-activity-item time {
+    padding-left: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* Approved table and recent-activity density. */
+.admin-final-dashboard .admin-companies-table {
+    min-width: 820px;
+}
+.admin-final-dashboard .admin-companies-table th,
+.admin-final-dashboard .admin-companies-table td {
+    padding: 8px 14px;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-companies-table th {
+    font-size: 9px;
+    letter-spacing: 0.02em;
+}
+.admin-final-dashboard .admin-companies-table td {
+    font-size: 11px;
+}
+.admin-final-dashboard .admin-companies-table th:first-child,
+.admin-final-dashboard .admin-companies-table td:first-child {
+    padding-left: 20px;
+}
+.admin-final-dashboard .admin-card-link {
+    color: #cf603c;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-recent-activity-card {
+    padding-bottom: 10px;
+}
+.admin-final-dashboard .admin-recent-activity-list {
+    position: relative;
+}
+.admin-final-dashboard .admin-recent-activity-list::before {
+    position: absolute;
+    top: 17px;
+    bottom: 17px;
+    left: 4px;
+    width: 1px;
+    background: #dce5eb;
+    content: "";
+}
+.admin-final-dashboard .admin-activity-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 10px 32px minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+    min-height: 48px;
+    padding: 6px 0;
+    border-top: 0;
+}
+.admin-final-dashboard .admin-activity-marker {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #109c61;
+}
+.admin-final-dashboard .admin-activity-company .admin-activity-marker {
+    background: #ef8a15;
+}
+.admin-final-dashboard .admin-activity-change .admin-activity-marker {
+    background: #178f9c;
+}
+.admin-final-dashboard .admin-activity-warning .admin-activity-marker {
+    background: #c9613d;
+}
+.admin-final-dashboard .admin-activity-symbol {
+    display: grid;
+    width: 31px;
+    height: 31px;
+    place-items: center;
+    border-radius: 6px;
+    background: #f3f6f8;
+}
+.admin-final-dashboard .admin-activity-symbol img {
+    width: 18px;
+    height: 18px;
+}
+.admin-final-dashboard .admin-activity-item strong {
+    overflow: hidden;
+    color: #17345c;
+    font-size: 11px;
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-activity-item small {
+    overflow: hidden;
+    margin-top: 2px;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-activity-item time {
+    padding-left: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
 @font-face {
     font-family: "Bebas Neue";
     src: url("/assets/fonts/google/bebas-neue-original.woff2") format("woff2");

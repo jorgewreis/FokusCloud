@@ -225,6 +225,7 @@
                                         Empresa
                                     </button>
                                 </th>
+                                <th>CNPJ</th>
                                 <th>Plano</th>
                                 <th>
                                     <button
@@ -273,6 +274,9 @@
                             <h2>Atividade recente</h2>
                             <p>Eventos registrados na plataforma.</p>
                         </div>
+                        <a class="admin-card-link" href="/backoffice/seguranca"
+                            >Ver todas</a
+                        >
                     </div>
                     <div
                         id="dashboard-recent-activity"
@@ -449,10 +453,16 @@
                 z = document.querySelector("#dashboard-recent-activity-empty");
             z.hidden = !!a.length;
             l.innerHTML = a
-                .map(
-                    (x) =>
-                        `<div class="admin-activity-item">${img("activity", "admin-activity-icon")}<span><strong>${e(x.title || "Atividade registrada")}</strong><small>${e(x.description || "")}</small></span><time>${date(x.created_at)}</time></div>`,
-                )
+                .map((x) => {
+                    const style = x.kind?.includes("companies")
+                        ? "company"
+                        : x.kind?.includes("subscription")
+                          ? "change"
+                          : x.kind?.includes("payment")
+                            ? "warning"
+                            : "activity";
+                    return `<div class="admin-activity-item admin-activity-${style}"><span class="admin-activity-marker" aria-hidden="true"></span><span class="admin-activity-symbol">${img(style === "company" ? "company" : style === "change" ? "change" : style === "warning" ? "alert" : "activity")}</span><span><strong>${e(x.title || "Atividade registrada")}</strong><small>${e(x.description || "")}</small></span><time>${date(x.created_at)}</time></div>`;
+                })
                 .join("");
         };
         const companies = (p) => {
@@ -462,10 +472,10 @@
                 ? a
                       .map(
                           (x) =>
-                              `<tr><td><span class="admin-company-name">${img("company", "admin-company-icon")}${e(x.legal_name)}</span></td><td>${e(x.plan_name || "Sem assinatura ativa")}</td><td><span class="admin-company-status admin-company-status-${e(x.status)}">${status(x.status)}</span></td><td>${N.format(x.active_users || 0)}</td><td>${date(x.last_activity_at)}</td><td><a href="/backoffice/empresas" class="admin-table-action" aria-label="Abrir empresa">${img("actions")}</a></td></tr>`,
+                              `<tr><td><span class="admin-company-name">${img("company", "admin-company-icon")}${e(x.legal_name)}</span></td><td>${e(x.document_masked || "Não informado")}</td><td>${e(x.plan_name || "Sem assinatura ativa")}</td><td><span class="admin-company-status admin-company-status-${e(x.status)}">${status(x.status)}</span></td><td>${N.format(x.active_users || 0)}</td><td>${date(x.last_activity_at)}</td><td><a href="/backoffice/empresas" class="admin-table-action" aria-label="Abrir empresa">${img("actions")}</a></td></tr>`,
                       )
                       .join("")
-                : '<tr><td colspan="6" class="admin-table-empty">Nenhuma empresa encontrada para os filtros selecionados.</td></tr>';
+                : '<tr><td colspan="7" class="admin-table-empty">Nenhuma empresa encontrada para os filtros selecionados.</td></tr>';
             let from = p.total ? (p.current_page - 1) * p.per_page + 1 : 0,
                 to = p.total
                     ? Math.min(p.current_page * p.per_page, p.total)
