@@ -23,3 +23,44 @@
         min-height: auto;
     }
 }
+
+/* Mantém os componentes internos dentro da moldura fixa do hero. */
+.lead-page .lead-hero {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.72fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    padding: 7rem clamp(1.25rem, 6vw, 6rem) 3rem;
+}
+
+.lead-page .lead-hero-content,
+.lead-page .lead-login {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.lead-page .lead-hero h1 {
+    max-width: 100%;
+    margin-bottom: 1rem;
+    font-size: clamp(4rem, 7.2vw, 7.2rem);
+}
+
+.lead-page .lead-proof {
+    margin-top: 2.5rem;
+}
+
+.lead-page .lead-login {
+    width: 100%;
+    max-width: 400px;
+    justify-self: end;
+    padding: 1.35rem;
+}
+
+@media (max-width: 900px) {
+    .lead-page .lead-hero {
+        grid-template-columns: 1fr;
+        padding-top: 8rem;
+    }
+
+    .lead-page .lead-login {
+        justify-self: start;
+    }
+}
