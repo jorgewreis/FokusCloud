@@ -45,9 +45,12 @@ jobs:
         run: php artisan test
 
       - name: Setup Node for SEO validation
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '24'
+
+      - name: Verify Node.js runtime
+        run: node --version
 
       - name: Validate published SEO metadata
         run: npm run seo:check
