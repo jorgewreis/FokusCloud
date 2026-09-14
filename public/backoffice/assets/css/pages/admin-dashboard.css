@@ -744,6 +744,11 @@ html[data-role="admin"] .sidebar-institutional img {
     display: flex !important;
     align-items: center;
     gap: 11px;
+    min-height: 44px;
+    padding: 8px 13px;
+    border: 1px solid #f0ece7;
+    border-radius: 7px;
+    background: #fff;
     white-space: nowrap;
 }
 .admin-final-dashboard .admin-header-user {
@@ -2623,6 +2628,11 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     display: flex !important;
     align-items: center;
     gap: 11px;
+    min-height: 44px;
+    padding: 8px 13px;
+    border: 1px solid #f0ece7;
+    border-radius: 7px;
+    background: #fff;
     white-space: nowrap;
 }
 .admin-final-dashboard .admin-header-user {
