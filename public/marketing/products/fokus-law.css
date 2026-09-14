@@ -18,12 +18,13 @@
 @media(max-width:900px){.law-hero{grid-template-columns:1fr;min-height:auto;padding-top:8rem}.law-login-card{justify-self:start}.law-audience-grid,.law-module-grid,.law-plan-grid{grid-template-columns:1fr}.law-contact-section{grid-template-columns:1fr}.law-contact-visual{min-height:260px}.law-final-cta{align-items:flex-start;flex-direction:column}.law-live-plan-grid{grid-template-columns:1fr}}@media(max-width:640px){.law-nav nav{display:none}.law-hero{padding-inline:1.1rem}.law-section{padding-inline:1.1rem}.law-hero h1{font-size:4.2rem}.law-login-card{padding:1.35rem}.law-field-grid{grid-template-columns:1fr}.law-proof-line{margin-top:2.5rem}.law-variant-list>div{grid-template-columns:1fr;gap:.2rem}.law-footer{flex-direction:column;gap:.5rem}}
 /* Mantém a mesma moldura visual da home e do Fokus Lead. */
 .law-page .law-hero {
-    height: 100svh;
-    min-height: 100svh;
+    height: 940px;
+    min-height: 940px;
 }
 
 @media (max-width: 900px) {
     .law-page .law-hero {
         height: auto;
+        min-height: auto;
     }
 }

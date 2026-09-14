@@ -13,12 +13,13 @@
 @media(max-width:900px){.lead-page .lead-hero{grid-template-columns:1fr;gap:2rem}}
 /* Mantém a mesma moldura visual da home e do Fokus Law. */
 .lead-page .lead-hero {
-    height: 100svh;
-    min-height: 100svh;
+    height: 940px;
+    min-height: 940px;
 }
 
 @media (max-width: 900px) {
     .lead-page .lead-hero {
         height: auto;
+        min-height: auto;
     }
 }
