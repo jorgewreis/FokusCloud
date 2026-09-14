@@ -14,6 +14,26 @@ assinaturas, catalogo comercial, vouchers, billing, auditoria de plataforma e
 Backoffice pertencem ao Fokus Cloud. O Fokus Law adiciona regras, dados,
 permissoes e fluxos especificos do dominio juridico.
 
+## Paleta visual do modelo publico
+
+A pagina publica do Fokus Law usa seis cores principais. Os tokens abaixo sao
+definidos em `public/marketing/products/fokus-law.css` e devem ser reutilizados
+em vez de novos valores locais:
+
+| Token | Hex | Definicao de uso |
+| --- | --- | --- |
+| `--law-plum` | `#2b173d` | Cor primaria escura para titulos, botoes, superficies e destaque institucional. |
+| `--law-plum-deep` | `#1b1028` | Fundo mais profundo para navegacao e rodape. |
+| `--law-purple` | `#7352a5` | Cor de acento para links, marcadores, bordas e estados de destaque. |
+| `--law-purple-light` | `#a58bc8` | Acento claro para marca e elementos sobre fundos escuros. |
+| `--law-sage` | `#718b7b` | Cor de apoio para secoes, linhas de destaque e estados positivos. |
+| `--law-sage-light` | `#b5cfb9` | Variacao clara para textos, bordas e detalhes sobre fundos escuros. |
+
+Os seis quadrados exibidos no rodape seguem essa mesma ordem. Tons de apoio
+como `--law-ivory` (`#f5f0e7`) e `--law-ink` (`#241c29`) continuam reservados
+para superficies e texto de leitura, mas nao fazem parte da faixa de seis
+amostras do rodape.
+
 ## Objetivo da v1
 
 O objetivo central da v1 e permitir que uma unidade cartoraria acompanhe sua
