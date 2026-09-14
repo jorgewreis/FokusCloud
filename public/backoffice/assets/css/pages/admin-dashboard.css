@@ -9,17 +9,38 @@ html[data-role="admin"] {
     --admin-warning: #c96f4a;
 }
 html[data-role="admin"] .fs-sidebar {
-    background: linear-gradient(
-        180deg,
-        var(--admin-navy-soft),
-        var(--admin-navy)
-    );
-    color: #fff;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    width: 248px;
+    height: 100%;
+    padding: 22px 0;
+    border: 0;
     border-radius: 0;
-    box-shadow: 12px 0 35px rgba(7, 27, 45, 0.16);
+    background: linear-gradient(160deg, #143b5c 0%, #061d32 100%);
+    color: #fff;
+    box-shadow: none;
+}
+html[data-role="admin"] .fs-sidebar.expanded {
+    width: 248px;
+}
+html[data-role="admin"] .fs-sidebar .top {
+    flex: 0 0 49px;
+}
+html[data-role="admin"] .fs-sidebar #sidebar-expand {
+    width: auto;
+    height: 35px;
+    min-height: 35px;
+    margin: 0 30px;
+    padding: 0;
+    gap: 0;
+}
+html[data-role="admin"] .fs-sidebar #sidebar-expand > img,
+html[data-role="admin"] .fs-sidebar .line-hr-single {
+    display: none;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button {
-    min-height: 44px;
+    min-height: 43px;
     color: rgba(255, 255, 255, 0.78);
     border-radius: 6px;
     transition:
@@ -27,8 +48,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-button {
         color 160ms ease;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button.active {
-    border-left: 3px solid #e39a77;
-    background: #275a85;
+    border-left: 0;
+    background: linear-gradient(105deg, #1a5f94, #1a4f7d);
     color: #fff;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(.active) {
@@ -38,14 +59,55 @@ html[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(.active) {
 html[data-role="admin"] .fs-sidebar .sidebar-button-label.title {
     color: #fff;
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 800;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button-label.title strong {
     color: #fff !important;
-    font-weight: 400;
+    font-weight: 300;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-nav {
+    gap: 5px;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button {
+    width: calc(100% - 30px);
+    height: 42px;
+    margin: 0 15px;
+    padding: 5px 15px;
+    gap: 16px;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-button img {
+    width: 22px;
+    height: 22px;
+    margin-right: 0;
+    filter: grayscale(1) brightness(0) invert(1);
+    opacity: 0.88;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-button.active img {
+    filter: brightness(0) invert(1);
+    opacity: 1;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 14px;
+    font-weight: 500;
+}
+html[data-role="admin"] .fs-sidebar .bottom {
+    padding: 0 15px;
+}
+html[data-role="admin"] .fs-sidebar .bottom .sidebar-button {
+    width: 100%;
+    margin: 0;
+    padding: 5px 15px;
+    gap: 16px;
+}
+html[data-role="admin"] .fs-sidebar .bottom .sidebar-button-label {
+    color: rgba(255, 255, 255, 0.56) !important;
+}
+html[data-role="admin"] .fs-sidebar .bottom #admin-name {
+    color: #e39a77 !important;
 }
 html[data-role="admin"] .container-content {
     top: 0;
@@ -56,8 +118,8 @@ html[data-role="admin"] .container-content {
     box-shadow: none;
 }
 html[data-role="admin"] .container-page.expanded .container-content {
-    left: 320px;
-    width: calc(100% - 330px);
+    left: 248px;
+    width: calc(100% - 248px);
 }
 html[data-role="admin"] .container-page.single .container-content {
     left: 100px;
