@@ -5,7 +5,7 @@
 | Ambiente | Entrada | Identidade | Escopo |
 | --- | --- | --- | --- |
 | Portal do cliente | `/acesso` e `/portal` | `users`, CPF e senha | Perfil, empresa ativa, usuários e assinaturas próprias. |
-| Backoffice Fokus | `/backoffice/acesso` e `/backoffice` | `platform_admins`, e-mail, senha e MFA por e-mail | Operação da plataforma. |
+| Backoffice Fokus | `/?acesso=administrativo` e `/backoffice` | `platform_admins`, e-mail, senha e MFA por e-mail | Operação da plataforma. |
 
 As sessões usam guards diferentes (`web` e `platform`). Uma sessão de cliente
 não autoriza rotas `/api/backoffice`, e uma conta interna não aparece como

@@ -11,7 +11,7 @@
 
 ## Fluxo 1 - Acesso interno
 
-1. Acessar `/backoffice/acesso`.
+1. Acessar `/?acesso=administrativo`.
 2. Entrar com e-mail e senha de superadministrador.
 3. Confirmar recebimento e validacao de MFA.
 4. Verificar acesso ao painel.

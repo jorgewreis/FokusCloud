@@ -2,7 +2,7 @@
 
 ## Aceite funcional
 
-- Backoffice acessivel por `/backoffice/acesso` com MFA por e-mail.
+- Backoffice acessivel pelo cartão administrativo da home (`/?acesso=administrativo`) com MFA por e-mail.
 - Conta cliente nao acessa `/backoffice` nem `/api/backoffice`.
 - Conta interna nao autentica no portal do cliente.
 - Superadministrador gerencia usuarios internos, seguranca, publicacao,

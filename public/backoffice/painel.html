@@ -227,13 +227,13 @@
                     element.hidden = !(response?.admin?.permissions || []).includes(element.dataset.platformPermission);
                 });
             } catch (error) {
-                location.replace("/backoffice/acesso");
+                location.replace("/?acesso=administrativo");
             }
         }
 
         document.querySelector("#logout").addEventListener("click", async () => {
             await FokusApi.request("/backoffice/auth/logout", { method: "POST" });
-            location.replace("/backoffice/acesso");
+            location.replace("/?acesso=administrativo");
         });
 
         hydrateAdmin();

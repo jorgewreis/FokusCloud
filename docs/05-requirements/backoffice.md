@@ -20,7 +20,7 @@ auditoria.
 
 ### Dentro do escopo
 
-- Login interno separado em `/backoffice/acesso`.
+- Login interno separado, exibido no cartão administrativo da home por `/?acesso=administrativo`.
 - Perfis internos `superadministrador` e `administrador_comercial`.
 - Dashboard com operacao comercial, governanca, risco e indicadores
   financeiros.
@@ -44,7 +44,7 @@ auditoria.
 
 | Codigo | Requisito | Criterio de aceite |
 | --- | --- | --- |
-| RF-BO-001 | Permitir login interno em `/backoffice/acesso` com `platform_admins`, e-mail, senha e MFA obrigatorio por e-mail. | Uma conta de cliente em `users` nao autentica no Backoffice, e uma conta interna nao autentica no portal do cliente. |
+| RF-BO-001 | Permitir login interno no cartão administrativo da home (`/?acesso=administrativo`) com `platform_admins`, e-mail, senha e MFA obrigatorio por e-mail. | Uma conta de cliente em `users` nao autentica no Backoffice, e uma conta interna nao autentica no portal do cliente. |
 | RF-BO-002 | Bloquear rigidamente conta interna apos tentativas invalidas conforme politica definida. | Conta bloqueada nao acessa o Backoffice ate desbloqueio por superadministrador, com auditoria. |
 | RF-BO-003 | Permitir que superadministrador gerencie usuarios internos e perfis do Backoffice. | Administrador comercial nao consegue criar, alterar, bloquear ou desbloquear usuarios internos. |
 | RF-BO-004 | Permitir que administrador comercial crie e edite produtos, planos, funcionalidades, precos e vouchers. | Dados ficam salvos em estado nao publicado ate acao final permitida. |

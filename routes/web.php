@@ -60,7 +60,6 @@ Route::get('/portal/empresas', fn () => response()->file(public_path('portal/com
 Route::get('/portal/usuarios', fn () => response()->file(public_path('portal/users.html')));
 Route::get('/portal/assinaturas', fn () => response()->file(public_path('portal/subscriptions.html')));
 Route::get('/portal/transferir-administracao', fn () => response()->file(public_path('portal/admin-transfer.html')));
-Route::get('/backoffice/acesso', fn () => response()->file(public_path('backoffice/acesso.html')));
 Route::get('/backoffice/ativar', fn () => response()->file(public_path('backoffice/ativar.html')));
 Route::get('/backoffice/{page?}', fn () => response()->file(public_path('backoffice/painel.html')))->where('page', 'painel|empresas|planos|catalogo|assinaturas|vouchers|pagamentos|billing|auditoria|seguranca|interesses|product-interests');
 Route::get('/produtos', fn () => response()->file(public_path('marketing/products/index.html')));

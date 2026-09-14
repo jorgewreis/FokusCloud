@@ -106,7 +106,7 @@
                 <a href="#manifesto">Sobre</a>
                 <a href="#contato">Contato</a>
             </nav>
-            <a class="showcase-nav-access" href="/backoffice/acesso">Acessar plataforma</a>
+            <button class="showcase-nav-access" type="button" data-platform-access aria-controls="platform-access-card" aria-expanded="false">Acessar plataforma</button>
         </header>
         <main id="content">
             <section class="immersive-hero" aria-labelledby="page-title">
@@ -117,6 +117,25 @@
                     <p>MAIS LIBERDADE PARA GRANDES CONQUISTAS</p>
                 </div>
                 <div class="immersive-hero-caption">03 / 04<br />DA ROTINA<br />AO EXTRAORDINÁRIO.</div>
+                <aside class="platform-access-card" id="platform-access-card" data-platform-access-card aria-labelledby="platform-access-title" hidden>
+                    <button class="platform-access-close" type="button" data-platform-access-close aria-label="Fechar acesso à plataforma">×</button>
+                    <p class="platform-access-kicker">ÁREA DE ACESSO</p>
+                    <h2 id="platform-access-title">Entrar na plataforma.</h2>
+                    <p class="platform-access-description">Use seu e-mail e senha. O código de segurança será enviado por e-mail para concluir o acesso administrativo.</p>
+                    <form data-platform-access-login>
+                        <label for="platform-access-email">E-mail</label>
+                        <input id="platform-access-email" name="email" type="email" autocomplete="username" required />
+                        <label for="platform-access-password">Senha</label>
+                        <input id="platform-access-password" name="password" type="password" autocomplete="current-password" required />
+                        <button type="submit">Continuar <span aria-hidden="true">→</span></button>
+                    </form>
+                    <form data-platform-access-mfa hidden>
+                        <label for="platform-access-code">Código enviado por e-mail</label>
+                        <input id="platform-access-code" name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required />
+                        <button type="submit">Validar acesso <span aria-hidden="true">→</span></button>
+                    </form>
+                    <p class="platform-access-message" data-platform-access-message role="status" aria-live="polite"></p>
+                </aside>
                 <nav class="immersive-products" id="produtos" aria-label="Produtos Fokus Cloud">
                     <span class="immersive-products-label">EXPLORE O ECOSSISTEMA</span>
                     <a href="https://styles.fokuscloud.com.br/">STYLES</a>
@@ -152,6 +171,7 @@
                 textual sem autorização.</span
             >
         </footer>
-        <script src="assets/js/header-account.js?v=20260910-performance"></script>
+        <script src="assets/js/api-client.js?v=20260910-performance"></script>
+        <script src="assets/js/platform-access.js?v=20260914-platform-access1"></script>
     </body>
 </html>

@@ -17,7 +17,7 @@
 
 ## Testes manuais no navegador
 
-- Abrir `/backoffice/acesso` e completar login com MFA.
+- Abrir `/?acesso=administrativo` e completar login com MFA.
 - Navegar por todas as paginas do menu administrativo.
 - Validar que tabelas carregam dados reais via API.
 - Confirmar que botoes proibidos por perfil nao aparecem e que o backend

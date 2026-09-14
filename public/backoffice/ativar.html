@@ -17,7 +17,7 @@
     const form = document.querySelector("#activation");
     const message = document.querySelector("#message");
     const token = new URLSearchParams(location.search).get("token");
-    form.addEventListener("submit", async (event) => { event.preventDefault(); if (!FokusForm.validate(form)) return; FokusForm.setLoading(form, true); try { const data = await FokusApi.request("/backoffice/auth/activate-invitation", { method: "POST", body: { ...Object.fromEntries(new FormData(form)), token } }); message.dataset.tone = "success"; message.textContent = data.message; setTimeout(() => location.replace("/backoffice/acesso"), 1200); } catch (error) { message.dataset.tone = "danger"; message.textContent = error.message || "Nao foi possivel ativar a conta."; } finally { FokusForm.setLoading(form, false); } });
+    form.addEventListener("submit", async (event) => { event.preventDefault(); if (!FokusForm.validate(form)) return; FokusForm.setLoading(form, true); try { const data = await FokusApi.request("/backoffice/auth/activate-invitation", { method: "POST", body: { ...Object.fromEntries(new FormData(form)), token } }); message.dataset.tone = "success"; message.textContent = data.message; setTimeout(() => location.replace("/?acesso=administrativo"), 1200); } catch (error) { message.dataset.tone = "danger"; message.textContent = error.message || "Nao foi possivel ativar a conta."; } finally { FokusForm.setLoading(form, false); } });
   </script>
 </body>
 </html>

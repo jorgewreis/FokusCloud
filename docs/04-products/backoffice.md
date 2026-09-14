@@ -47,7 +47,8 @@ entrar no Backoffice.
 
 ## Acesso e identidade interna
 
-O acesso ao Backoffice usa entrada propria em `/backoffice/acesso` e area
+O acesso ao Backoffice usa o cartão administrativo exibido na home por
+`/?acesso=administrativo` e a area
 protegida em `/backoffice`.
 
 A identidade interna deve usar `platform_admins`, e-mail, senha e MFA

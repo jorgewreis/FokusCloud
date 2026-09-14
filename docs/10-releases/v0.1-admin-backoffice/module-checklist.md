@@ -48,7 +48,7 @@
 ## Usuarios internos, perfis e seguranca
 
 - [x] Usar `platform_admins` separado de `users`.
-- [x] Exigir login interno em `/backoffice/acesso`.
+- [x] Exigir login interno no cartão administrativo da home (`/?acesso=administrativo`).
 - [x] Exigir MFA por e-mail.
 - [x] Bloquear conta interna apos tentativas invalidas conforme politica.
 - [x] Permitir desbloqueio apenas por superadministrador.
