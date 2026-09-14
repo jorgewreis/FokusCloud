@@ -1,244 +1,418 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR" data-theme="light" data-role="admin">
     <head>
-    <meta name="robots" content="noindex, nofollow" />
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex, nofollow" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <!-- IMPORT CSS -->
-        <link rel="stylesheet" href="/backoffice/assets/css/base/reset.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/base/colors.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/base/variables.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/base/typography.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/themes/theme.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/layout/layout.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/components/cards.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/components/form-admin.css?v=20260902-pagamentos-spacing">
-        <link rel="stylesheet" href="/backoffice/assets/css/pages/pages.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/responsive/responsive.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/main.css?v=20260901-live-controls">
-        <link rel="stylesheet" href="/backoffice/assets/css/components/refinements.css?v=20260902-currency-prefix-fix">
-        <link rel="stylesheet" href="/backoffice/assets/css/pages/mockup.css?v=20260902-pagamentos-spacing">
-        <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260914-admin-dashboard-v3">
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/base/reset.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/base/colors.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/base/variables.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/base/typography.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/themes/theme.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/layout/layout.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/components/cards.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/components/form-admin.css?v=20260902-pagamentos-spacing"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/pages/pages.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/responsive/responsive.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/main.css?v=20260901-live-controls"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/components/refinements.css?v=20260902-currency-prefix-fix"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/pages/mockup.css?v=20260902-pagamentos-spacing"
+        />
+        <link
+            rel="stylesheet"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260914-admin-dashboard-v6"
+        />
     </head>
     <body>
-
         <div class="container-page expanded">
-
             <div class="fs-sidebar expanded" id="sidebar">
                 <div class="top">
-                    <button class="sidebar-button" id="sidebar-expand" type="button" aria-controls="sidebar" aria-expanded="false">
-                        <img src="/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png" alt="">
-                        <span class="sidebar-button-label title">Fokus<strong>Admin</strong></span>
+                    <button
+                        class="sidebar-button"
+                        id="sidebar-expand"
+                        type="button"
+                        aria-controls="sidebar"
+                        aria-expanded="false"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png"
+                            alt=""
+                        />
+                        <span class="sidebar-button-label title"
+                            >Fokus<strong>Admin</strong></span
+                        >
                     </button>
                     <div class="line-hr-single"></div>
                 </div>
 
-                <nav class="content sidebar-nav" aria-label="Navegação administrativa">
-                    <button class="sidebar-button active" type="button" data-sidebar-item="platform-dashboard">
-                        <img src="/backoffice/assets/icons/Layout-Dashboard-1--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Painel geral</span>
+                <nav
+                    class="content sidebar-nav"
+                    aria-label="Navegação administrativa"
+                >
+                    <button
+                        class="sidebar-button active"
+                        type="button"
+                        data-sidebar-item="platform-dashboard-final"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Layout-Dashboard-1--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Painel geral</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="companies">
-                        <img src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Empresas</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="companies"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Empresas</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="subscription-plans">
-                        <img src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Catálogo</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="subscription-plans"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Catálogo</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="subscriptions">
-                        <img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Assinaturas</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="subscriptions"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Assinaturas</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="pagamentos" data-platform-permission="platform.payments.view">
-                        <img src="/backoffice/assets/icons/Accounting-Coins--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Pagamentos</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="pagamentos"
+                        data-platform-permission="platform.payments.view"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Accounting-Coins--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Pagamentos</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="vouchers">
-                        <img src="/backoffice/assets/icons/Tickets--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Vouchers</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="vouchers"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Tickets--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Vouchers</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="security" data-platform-permission="platform.security.manage">
-                        <img src="/backoffice/assets/icons/Multiple-Actions-Setting--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Admins</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="security"
+                        data-platform-permission="platform.security.manage"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Multiple-Actions-Setting--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Admins</span
+                        >
                     </button>
-                    <button class="sidebar-button" type="button" data-sidebar-item="product-interests" data-platform-permission="platform.product_interests.manage">
-                        <img src="/backoffice/assets/icons/Tags-Add--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm">Interesses</span>
+                    <button
+                        class="sidebar-button"
+                        type="button"
+                        data-sidebar-item="product-interests"
+                        data-platform-permission="platform.product_interests.manage"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Tags-Add--Streamline-Ultimate.png"
+                        />
+                        <span class="sidebar-button-label text-subtitle-sm"
+                            >Interesses</span
+                        >
                     </button>
                 </nav>
 
                 <div class="bottom">
                     <div class="line-hr-single"></div>
                     <div class="sidebar-button">
-                        <img src="/backoffice/assets/icons/Cog--Streamline-Ultimate.png">
-                        <span class="sidebar-button-label text-subtitle-sm fs-u-color-secondary">Configurações</span>
+                        <img
+                            src="/backoffice/assets/icons/Cog--Streamline-Ultimate.png"
+                        />
+                        <span
+                            class="sidebar-button-label text-subtitle-sm fs-u-color-secondary"
+                            >Configurações</span
+                        >
                     </div>
                     <div class="sidebar-button">
-                        <img src="/backoffice/assets/icons/Settings-User--Streamline-Ultimate.png">
+                        <img
+                            src="/backoffice/assets/icons/Settings-User--Streamline-Ultimate.png"
+                        />
                         <div class="fs-u-d-flex fs-col">
-                            <span class="sidebar-button-label text-caption fs-u-color-secondary">Administrador logado</span>
-                            <span class="sidebar-button-label text-subtitle-sm fs-u-color-primary" id="admin-name">Jorge Reis</span>
+                            <span
+                                class="sidebar-button-label text-caption fs-u-color-secondary"
+                                >Administrador logado</span
+                            >
+                            <span
+                                class="sidebar-button-label text-subtitle-sm fs-u-color-primary"
+                                id="admin-name"
+                                >Jorge Reis</span
+                            >
                         </div>
-                        <img class="mini-icon" id="logout" src="/backoffice/assets/icons/Download-Square-3--Streamline-Ultimate.png">
+                        <img
+                            class="mini-icon"
+                            id="logout"
+                            src="/backoffice/assets/icons/Download-Square-3--Streamline-Ultimate.png"
+                        />
                     </div>
                 </div>
-
             </div>
 
             <!-- PAGE CONTENT -->
-            <div class="container-content" id="page-content">
-            </div>
+            <div class="container-content" id="page-content"></div>
         </div>
 
-    <script src="/assets/js/api-client.js?v=20260828-19"></script>
-    <script src="/backoffice/assets/js/form-system.js?v=20260901-live-controls"></script>
-    <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
-    <script>
-        function sidebarHide() {
-            let sidebar = document.querySelector(".fs-sidebar");
-            let icon = document.querySelector("#sidebar-expand img");
-            let button = document.querySelector("#sidebar-expand");
-            let isSingle = sidebar.classList.contains("single");
-            let container = document.querySelector(".container-page");
+        <script src="/assets/js/api-client.js?v=20260828-19"></script>
+        <script src="/backoffice/assets/js/form-system.js?v=20260901-live-controls"></script>
+        <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
+        <script>
+            function sidebarHide() {
+                let sidebar = document.querySelector(".fs-sidebar");
+                let icon = document.querySelector("#sidebar-expand img");
+                let button = document.querySelector("#sidebar-expand");
+                let isSingle = sidebar.classList.contains("single");
+                let container = document.querySelector(".container-page");
 
-            if (isSingle) {
-                sidebar.classList.replace("single", "expanded");
-                container.classList.replace("single", "expanded");
-                icon.setAttribute("src", "/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png");
-                button.setAttribute("aria-expanded", "true");
-            } else {
-                container.classList.replace("expanded", "single");
-                sidebar.classList.replace("expanded", "single");
-                icon.setAttribute("src", "/backoffice/assets/icons/Sidebar-Collapes--Streamline-Ultimate.png");
-                button.setAttribute("aria-expanded", "false");
-            }
-        }
-
-        document.querySelector("#sidebar-expand").addEventListener("click", sidebarHide);
-    </script>
-
-    <script>
-        const pageContent = document.querySelector("#page-content");
-        const sidebarButtons = document.querySelectorAll("[data-sidebar-item]");
-        const pagePath = "./pages";
-        const pageVersion = "20260914-admin-dashboard-v2";
-        const routePageMap = {
-            painel: "platform-dashboard",
-            empresas: "companies",
-            planos: "subscription-plans",
-            catalogo: "subscription-plans",
-            assinaturas: "subscriptions",
-            pagamentos: "pagamentos",
-            billing: "pagamentos",
-            vouchers: "vouchers",
-            seguranca: "security",
-            interesses: "product-interests",
-            "product-interests": "product-interests",
-        };
-        const nameParticles = new Set(["de", "da", "do", "das", "dos", "e"]);
-
-        function formatSidebarAdminName(fullName) {
-            const words = String(fullName || "").trim().split(/\s+/).filter(Boolean);
-
-            if (!words.length) {
-                return "";
+                if (isSingle) {
+                    sidebar.classList.replace("single", "expanded");
+                    container.classList.replace("single", "expanded");
+                    icon.setAttribute(
+                        "src",
+                        "/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png",
+                    );
+                    button.setAttribute("aria-expanded", "true");
+                } else {
+                    container.classList.replace("expanded", "single");
+                    sidebar.classList.replace("expanded", "single");
+                    icon.setAttribute(
+                        "src",
+                        "/backoffice/assets/icons/Sidebar-Collapes--Streamline-Ultimate.png",
+                    );
+                    button.setAttribute("aria-expanded", "false");
+                }
             }
 
-            const parts = [words[0]];
+            document
+                .querySelector("#sidebar-expand")
+                .addEventListener("click", sidebarHide);
+        </script>
 
-            for (let index = 1; index < words.length; index += 1) {
-                const word = words[index];
-                const lower = word.toLowerCase();
+        <script>
+            const pageContent = document.querySelector("#page-content");
+            const sidebarButtons = document.querySelectorAll(
+                "[data-sidebar-item]",
+            );
+            const pagePath = "./pages";
+            const pageVersion = "20260914-admin-dashboard-v6";
+            const routePageMap = {
+                painel: "platform-dashboard-final",
+                empresas: "companies",
+                planos: "subscription-plans",
+                catalogo: "subscription-plans",
+                assinaturas: "subscriptions",
+                pagamentos: "pagamentos",
+                billing: "pagamentos",
+                vouchers: "vouchers",
+                seguranca: "security",
+                interesses: "product-interests",
+                "product-interests": "product-interests",
+            };
+            const nameParticles = new Set([
+                "de",
+                "da",
+                "do",
+                "das",
+                "dos",
+                "e",
+            ]);
 
-                if (nameParticles.has(lower)) {
-                    const next = words[index + 1];
-                    if (next && !nameParticles.has(next.toLowerCase())) {
-                        parts.push(`${word} ${next}`);
-                        break;
+            function formatSidebarAdminName(fullName) {
+                const words = String(fullName || "")
+                    .trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+                if (!words.length) {
+                    return "";
+                }
+
+                const parts = [words[0]];
+
+                for (let index = 1; index < words.length; index += 1) {
+                    const word = words[index];
+                    const lower = word.toLowerCase();
+
+                    if (nameParticles.has(lower)) {
+                        const next = words[index + 1];
+                        if (next && !nameParticles.has(next.toLowerCase())) {
+                            parts.push(`${word} ${next}`);
+                            break;
+                        }
+                        continue;
                     }
-                    continue;
+
+                    parts.push(word);
+                    break;
                 }
 
-                parts.push(word);
-                break;
+                return parts.join(" ").trim();
             }
 
-            return parts.join(" ").trim();
-        }
+            function runPageScripts(container) {
+                container.querySelectorAll("script").forEach((script) => {
+                    const nextScript = document.createElement("script");
+                    nextScript.textContent = script.textContent;
+                    script.replaceWith(nextScript);
+                });
+            }
 
-        function runPageScripts(container) {
-            container.querySelectorAll("script").forEach((script) => {
-                const nextScript = document.createElement("script");
-                nextScript.textContent = script.textContent;
-                script.replaceWith(nextScript);
-            });
-        }
+            async function loadSidebarPage(pageName) {
+                pageContent.innerHTML =
+                    '<div class="text-body fs-u-color-secondary">Carregando...</div>';
 
-        async function loadSidebarPage(pageName) {
-            pageContent.innerHTML = '<div class="text-body fs-u-color-secondary">Carregando...</div>';
-
-            try {
-                const response = await fetch(`${pagePath}/${pageName}.html?v=${pageVersion}`);
-
-                if (!response.ok) {
-                    throw new Error(`Pagina nao encontrada: ${pageName}`);
-                }
-
-                pageContent.innerHTML = await response.text();
-                window.FokusForm?.enhance(pageContent);
-                runPageScripts(pageContent);
-
-                sidebarButtons.forEach((button) => {
-                    button.classList.toggle(
-                        "active",
-                        button.dataset.sidebarItem === pageName
+                try {
+                    const response = await fetch(
+                        `${pagePath}/${pageName}.html?v=${pageVersion}`,
                     );
-                });
-            } catch (error) {
-                pageContent.innerHTML = "";
-                sidebarButtons.forEach((button) => {
-                    button.classList.toggle(
-                        "active",
-                        button.dataset.sidebarItem === pageName
-                    );
-                });
-                console.error(error);
-            }
-        }
 
-        sidebarButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                loadSidebarPage(button.dataset.sidebarItem);
-            });
-        });
+                    if (!response.ok) {
+                        throw new Error(`Pagina nao encontrada: ${pageName}`);
+                    }
 
-        async function hydrateAdmin() {
-            try {
-                const response = await FokusApi.request("/backoffice/auth/me");
-                if (response?.admin?.name) {
-                    document.querySelector("#admin-name").textContent = formatSidebarAdminName(response.admin.name);
+                    pageContent.innerHTML = await response.text();
+                    window.FokusForm?.enhance(pageContent);
+                    runPageScripts(pageContent);
+
+                    sidebarButtons.forEach((button) => {
+                        button.classList.toggle(
+                            "active",
+                            button.dataset.sidebarItem === pageName,
+                        );
+                    });
+                } catch (error) {
+                    pageContent.innerHTML = "";
+                    sidebarButtons.forEach((button) => {
+                        button.classList.toggle(
+                            "active",
+                            button.dataset.sidebarItem === pageName,
+                        );
+                    });
+                    console.error(error);
                 }
-                document.querySelectorAll("[data-platform-permission]").forEach((element) => {
-                    element.hidden = !(response?.admin?.permissions || []).includes(element.dataset.platformPermission);
-                });
-            } catch (error) {
-                location.replace("/?acesso=administrativo");
             }
-        }
 
-        document.querySelector("#logout").addEventListener("click", async () => {
-            await FokusApi.request("/backoffice/auth/logout", { method: "POST" });
-            location.replace("/?acesso=administrativo");
-        });
+            sidebarButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    loadSidebarPage(button.dataset.sidebarItem);
+                });
+            });
 
-        hydrateAdmin();
-        loadSidebarPage(routePageMap[location.pathname.split("/").filter(Boolean).pop()] || "platform-dashboard");
-    </script>
-        
+            async function hydrateAdmin() {
+                try {
+                    const response = await FokusApi.request(
+                        "/backoffice/auth/me",
+                    );
+                    if (response?.admin?.name) {
+                        document.querySelector("#admin-name").textContent =
+                            formatSidebarAdminName(response.admin.name);
+                    }
+                    document
+                        .querySelectorAll("[data-platform-permission]")
+                        .forEach((element) => {
+                            element.hidden = !(
+                                response?.admin?.permissions || []
+                            ).includes(element.dataset.platformPermission);
+                        });
+                } catch (error) {
+                    location.replace("/?acesso=administrativo");
+                }
+            }
+
+            document
+                .querySelector("#logout")
+                .addEventListener("click", async () => {
+                    await FokusApi.request("/backoffice/auth/logout", {
+                        method: "POST",
+                    });
+                    location.replace("/?acesso=administrativo");
+                });
+
+            hydrateAdmin();
+            loadSidebarPage(
+                routePageMap[
+                    location.pathname.split("/").filter(Boolean).pop()
+                ] || "platform-dashboard-final",
+            );
+        </script>
     </body>
 </html>
