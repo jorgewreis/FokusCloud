@@ -1,0 +1,98 @@
+<main class="admin-dashboard" aria-labelledby="dashboard-title">
+    <header class="admin-dashboard-header">
+        <a class="admin-wordmark" href="/backoffice/painel">FOKUS <span>CLOUD</span></a>
+        <label class="admin-search">
+            <span aria-hidden="true">⌕</span>
+            <input type="search" placeholder="Buscar usuários, sistemas, atividades..." aria-label="Buscar no backoffice">
+            <kbd>⌘ K</kbd>
+        </label>
+        <div class="admin-header-actions">
+            <button class="admin-icon-button" type="button" aria-label="Notificações">♧<b>3</b></button>
+            <span class="admin-avatar" aria-hidden="true" id="admin-avatar">JR</span>
+            <span class="admin-header-user"><strong id="dashboard-admin-name">Administrador</strong><small>Administrador</small></span>
+            <span class="admin-chevron" aria-hidden="true">⌄</span>
+        </div>
+    </header>
+
+    <section class="admin-dashboard-content">
+        <div class="admin-dashboard-intro">
+            <div>
+                <p class="admin-overline">BEM-VINDO, <span id="dashboard-greeting">ADMINISTRADOR</span></p>
+                <h1 id="dashboard-title">Visão geral</h1>
+                <p class="admin-system-status"><span class="status-dot status-dot-success"></span>Todos os sistemas operacionais</p>
+            </div>
+            <div class="admin-intro-note"><span>ORGANIZAÇÃO<br>EM FOCO</span><strong>Fokus Cloud</strong></div>
+        </div>
+
+        <div class="admin-stat-grid" id="dashboard-stats" aria-live="polite">
+            <article class="admin-stat-card"><span class="admin-stat-icon">▦</span><div><span>Empresas ativas</span><strong>—</strong><small>cadastros na plataforma</small></div></article>
+            <article class="admin-stat-card"><span class="admin-stat-icon">▤</span><div><span>Assinaturas ativas</span><strong>—</strong><small>contratos vigentes</small></div></article>
+            <article class="admin-stat-card"><span class="admin-stat-icon">◷</span><div><span>Mudanças agendadas</span><strong>—</strong><small>ações para acompanhar</small></div></article>
+            <article class="admin-stat-card"><span class="admin-stat-icon">↗</span><div><span>Uso recente</span><strong>—</strong><small>registros nos últimos 7 dias</small></div></article>
+        </div>
+
+        <div class="admin-dashboard-grid admin-dashboard-grid-top">
+            <section class="admin-panel admin-health-panel">
+                <div class="admin-panel-heading"><div><h2>Saúde dos sistemas</h2><p>Status operacional dos serviços principais.</p></div><span class="admin-panel-link">Em tempo real</span></div>
+                <div class="admin-health-list">
+                    <div><span class="status-dot status-dot-success"></span><strong>API Principal</strong><span>Operacional</span><b>99,9%</b><i>⌁⌁⌁⌁</i></div>
+                    <div><span class="status-dot status-dot-success"></span><strong>Banco de dados</strong><span>Operacional</span><b>99,8%</b><i>⌁⌁⌁⌁</i></div>
+                    <div><span class="status-dot status-dot-success"></span><strong>Armazenamento</strong><span>Operacional</span><b>100%</b><i>⌁⌁⌁⌁</i></div>
+                    <div><span class="status-dot status-dot-warning"></span><strong>Serviço de integração</strong><span>Monitorado</span><b>97,1%</b><i class="health-warning">⌁⌁⌁⌁</i></div>
+                </div>
+            </section>
+            <section class="admin-panel">
+                <div class="admin-panel-heading"><div><h2>Tarefas pendentes</h2><p>Itens que precisam de atenção.</p></div><a href="/backoffice/assinaturas" class="admin-panel-link">Ver todas →</a></div>
+                <ul class="admin-task-list">
+                    <li><span class="admin-task-icon">▣</span><div><strong>Revisar alterações agendadas</strong><small>Assinaturas · prioridade normal</small></div><b id="pending-changes">—</b></li>
+                    <li><span class="admin-task-icon admin-task-icon-warn">!</span><div><strong>Acompanhar integrações</strong><small>Infraestrutura · monitoramento</small></div><b>1</b></li>
+                    <li><span class="admin-task-icon admin-task-icon-blue">♙</span><div><strong>Validar acessos administrativos</strong><small>Segurança · revisão periódica</small></div><b>3</b></li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="admin-dashboard-grid admin-dashboard-grid-bottom">
+            <section class="admin-panel">
+                <div class="admin-panel-heading"><div><h2>Atividades recentes</h2><p>Últimas ações registradas na plataforma.</p></div><a href="/backoffice/empresas" class="admin-panel-link">Ver todas →</a></div>
+                <ul class="admin-activity-list" id="dashboard-activities"><li><span class="status-dot status-dot-success"></span><strong>Dashboard consultado</strong><small>Agora</small></li><li><span class="status-dot status-dot-blue"></span><strong>Dados operacionais sincronizados</strong><small>Hoje</small></li><li><span class="status-dot status-dot-warning"></span><strong>Monitoramento atualizado</strong><small>Hoje</small></li></ul>
+            </section>
+            <section class="admin-panel admin-table-panel">
+                <div class="admin-panel-heading"><div><h2>Status dos sistemas</h2><p>Visão consolidada das empresas cadastradas.</p></div><a href="/backoffice/empresas" class="admin-panel-link">Ver todas →</a></div>
+                <div class="admin-table-wrap"><table><thead><tr><th>Sistema</th><th>Assinaturas</th><th>Última atividade</th><th>Status</th></tr></thead><tbody id="dashboard-companies"><tr><td colspan="4">Carregando dados...</td></tr></tbody></table></div>
+            </section>
+        </div>
+    </section>
+</main>
+
+<script>
+(() => {
+    const api = window.FokusApi;
+    const esc = (value) => String(value ?? "-").replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[char]));
+    const date = (value) => value ? new Date(value).toLocaleDateString("pt-BR") : "—";
+    const status = (value) => String(value || "ativo").toLowerCase() === "ativo" ? '<span class="admin-badge admin-badge-success">Operacional</span>' : '<span class="admin-badge admin-badge-warning">Atenção</span>';
+    const setStats = (data) => {
+        const values = [data.companies, data.active_subscriptions, data.scheduled_changes, data.recent_usage];
+        document.querySelectorAll("#dashboard-stats .admin-stat-card strong").forEach((element, index) => { element.textContent = Number(values[index] || 0).toLocaleString("pt-BR"); });
+        document.querySelector("#pending-changes").textContent = Number(data.scheduled_changes || 0).toLocaleString("pt-BR");
+    };
+    const load = async () => {
+        try {
+            const [dashboard, companies] = await Promise.all([api.request("/backoffice/dashboard"), api.request("/backoffice/companies?per_page=5")]);
+            setStats(dashboard);
+            const rows = companies.data || [];
+            document.querySelector("#dashboard-companies").innerHTML = rows.length ? rows.map((company) => `<tr><td><strong>${esc(company.legal_name)}</strong></td><td>${esc(company.active_subscriptions)}</td><td>Monitoramento atual</td><td>${status(company.status)}</td></tr>`).join("") : '<tr><td colspan="4">Nenhuma empresa cadastrada.</td></tr>';
+        } catch (error) {
+            document.querySelector("#dashboard-companies").innerHTML = '<tr><td colspan="4">Não foi possível carregar o status dos sistemas.</td></tr>';
+            console.error(error);
+        }
+    };
+    api.request("/backoffice/auth/me").then((data) => {
+        const name = data?.admin?.name || "Administrador";
+        const firstName = name.trim().split(/\s+/)[0] || "Administrador";
+        document.querySelector("#dashboard-admin-name").textContent = name;
+        document.querySelector("#dashboard-greeting").textContent = firstName.toUpperCase();
+        document.querySelector("#admin-avatar").textContent = name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase();
+    }).catch(() => {});
+    load();
+})();
+</script>
