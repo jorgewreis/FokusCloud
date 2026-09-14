@@ -19,11 +19,16 @@ html[data-role="admin"] .fs-sidebar {
     box-shadow: 12px 0 35px rgba(7, 27, 45, 0.16);
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button {
+    min-height: 44px;
     color: rgba(255, 255, 255, 0.78);
-    border-radius: 4px;
+    border-radius: 6px;
+    transition:
+        background-color 160ms ease,
+        color 160ms ease;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button.active {
-    background: var(--admin-terracotta);
+    border-left: 3px solid #e39a77;
+    background: #275a85;
     color: #fff;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(.active) {
@@ -31,11 +36,16 @@ html[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(.active) {
     color: #fff;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button-label.title {
-    font-family: var(--font-display);
-    letter-spacing: 0.04em;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button-label.title strong {
-    color: #e9a27f !important;
+    color: #fff !important;
+    font-weight: 400;
 }
 html[data-role="admin"] .container-content {
     top: 0;
@@ -1113,18 +1123,6 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     color: #ae6816;
     background: #fff0d3;
 }
-.admin-final-stat svg {
-    position: absolute;
-    right: 14px;
-    bottom: 10px;
-    width: 86px;
-    height: 24px;
-}
-.admin-final-stat polyline {
-    fill: none;
-    stroke: #c9663f;
-    stroke-width: 2.2;
-}
 .admin-final-main-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.75fr);
@@ -1153,7 +1151,7 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     color: #718198;
     font-size: 10px;
 }
-.admin-final-chart-empty {
+.admin-final-chart {
     position: relative;
     min-height: 154px;
     display: grid;
@@ -1164,29 +1162,32 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     border-radius: 6px;
     background: #fffaf7;
 }
-.admin-final-chart-empty strong {
+.admin-final-chart strong {
     color: #172b4d;
     font-size: 28px;
 }
-.admin-final-chart-empty > span,
-.admin-final-chart-empty small {
+.admin-final-chart > span,
+.admin-final-chart small {
     color: #718198;
     font-size: 10px;
 }
-.admin-final-chart-empty svg {
+.admin-final-chart svg {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 68%;
     height: 100%;
 }
-.admin-final-chart-empty path {
+.admin-final-chart path {
     fill: rgba(201, 102, 63, 0.14);
 }
-.admin-final-chart-empty polyline {
+.admin-final-chart polyline {
     fill: none;
     stroke: #c9663f;
     stroke-width: 3;
+}
+.admin-final-chart.is-empty {
+    justify-content: center;
 }
 .admin-final-list {
     margin: 0;

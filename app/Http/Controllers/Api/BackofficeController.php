@@ -26,11 +26,30 @@ class BackofficeController extends Controller
     public function dashboard(Request $request, PlatformAudit $audit)
     {
         $audit->record($request->user()->id, 'backoffice.dashboard_viewed', request: $request);
+
+        $trendStart = now()->startOfDay()->subDays(29);
+        $subscriptionsByDate = DB::table('subscriptions')
+            ->where('status', 'ativa')
+            ->where('created_at', '>=', $trendStart)
+            ->selectRaw('DATE(created_at) as date, count(*) as total')
+            ->groupByRaw('DATE(created_at)')
+            ->pluck('total', 'date');
+
         return response()->json([
             'companies' => DB::table('companies')->whereNull('deleted_at')->count(),
             'active_subscriptions' => DB::table('subscriptions')->where('status', 'ativa')->count(),
             'scheduled_changes' => DB::table('subscription_changes')->where('status', 'agendada')->count(),
             'recent_usage' => DB::table('usage_snapshots')->where('reported_on', '>=', now()->subDays(7)->toDateString())->count(),
+            'active_subscription_registrations_30d' => collect(range(0, 29))->map(function (int $offset) use ($trendStart, $subscriptionsByDate): array {
+                $date = $trendStart->copy()->addDays($offset)->toDateString();
+
+                return ['date' => $date, 'value' => (int) ($subscriptionsByDate[$date] ?? 0)];
+            })->values(),
+            'recent_activity' => DB::table('platform_audit_events')
+                ->select('action', 'created_at')
+                ->orderByDesc('created_at')
+                ->limit(3)
+                ->get(),
         ]);
     }
 
