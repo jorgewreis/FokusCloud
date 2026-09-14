@@ -732,6 +732,66 @@ html[data-role="admin"] .sidebar-institutional img {
         flex: 1;
     }
 }
+
+/* Header and sidebar source-order guard: these elements are shared with legacy dashboard rules. */
+.admin-final-dashboard .admin-final-header {
+    display: grid !important;
+    grid-template-columns: 270px minmax(280px, 1fr) auto !important;
+    min-height: 76px;
+    height: 76px;
+}
+.admin-final-dashboard .admin-header-context {
+    display: flex !important;
+    align-items: center;
+    gap: 11px;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-header-user {
+    display: flex !important;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 11px;
+    min-width: 0;
+}
+.admin-final-dashboard .admin-user-details {
+    display: block !important;
+    min-width: 145px;
+}
+.admin-final-dashboard .admin-user-details strong,
+.admin-final-dashboard .admin-user-details span {
+    display: block !important;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-logout-button {
+    display: flex !important;
+    flex: 0 0 auto;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 9px;
+    border: 1px solid #dbe2e8 !important;
+    border-radius: 6px;
+    color: #526781 !important;
+    background: #fff !important;
+    white-space: nowrap;
+}
+html[data-role="admin"] .sidebar-brand {
+    display: block !important;
+    width: 190px;
+    margin: 0 15px 25px;
+    font-size: 24px;
+    line-height: 1;
+    white-space: nowrap !important;
+}
+html[data-role="admin"] .sidebar-brand strong {
+    display: inline !important;
+    white-space: nowrap;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
+    opacity: 1;
+    cursor: pointer;
+}
 html[data-role="admin"] .fs-sidebar {
     box-sizing: border-box;
     top: 0;
@@ -2333,4 +2393,64 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     .admin-final-dashboard .admin-table-search {
         flex: 1;
     }
+}
+
+/* Final legacy-conflict override. */
+.admin-final-dashboard .admin-final-header {
+    display: grid !important;
+    grid-template-columns: 270px minmax(280px, 1fr) auto !important;
+    height: 76px;
+    min-height: 76px;
+}
+.admin-final-dashboard .admin-header-context {
+    display: flex !important;
+    align-items: center;
+    gap: 11px;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-header-user {
+    display: flex !important;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 11px;
+    min-width: 0;
+}
+.admin-final-dashboard .admin-user-details {
+    display: block !important;
+    min-width: 145px;
+}
+.admin-final-dashboard .admin-user-details strong,
+.admin-final-dashboard .admin-user-details span {
+    display: block !important;
+    white-space: nowrap;
+}
+.admin-final-dashboard .admin-logout-button {
+    display: flex !important;
+    flex: 0 0 auto;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 9px;
+    border: 1px solid #dbe2e8 !important;
+    border-radius: 6px;
+    color: #526781 !important;
+    background: #fff !important;
+    white-space: nowrap;
+}
+html[data-role="admin"] .sidebar-brand {
+    display: block !important;
+    width: 190px;
+    margin: 0 15px 25px;
+    font-size: 24px;
+    line-height: 1;
+    white-space: nowrap !important;
+}
+html[data-role="admin"] .sidebar-brand strong {
+    display: inline !important;
+    white-space: nowrap;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
+    opacity: 1;
+    cursor: pointer;
 }
