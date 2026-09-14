@@ -11,3 +11,14 @@
 .lead-page .lead-brand a,.lead-page .lead-brand a:hover,.lead-page .lead-brand a:focus-visible{text-decoration:none!important}
 .lead-page .lead-skip-link{position:absolute;left:-999px;z-index:20}.lead-page .lead-skip-link:focus{left:1rem;top:1rem;padding:.7rem 1rem;background:#fff;color:var(--lead-navy);text-decoration:none}.lead-page .lead-hero{grid-template-columns:minmax(0,1.08fr) minmax(330px,.72fr);gap:clamp(2rem,8vw,8rem)}
 @media(max-width:900px){.lead-page .lead-hero{grid-template-columns:1fr;gap:2rem}}
+/* Mantém a mesma moldura visual da home e do Fokus Law. */
+.lead-page .lead-hero {
+    height: 100svh;
+    min-height: 100svh;
+}
+
+@media (max-width: 900px) {
+    .lead-page .lead-hero {
+        height: auto;
+    }
+}

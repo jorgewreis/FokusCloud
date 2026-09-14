@@ -6,6 +6,10 @@
         <meta name="theme-color" content="#10131C" />
         <meta name="author" content="Fokus Cloud" />
         <link rel="icon" href="favicon.ico" sizes="any" />
+        <script>
+            if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+            window.addEventListener("pageshow", () => window.scrollTo(0, 0));
+        </script>
 
         <!-- Google tag (gtag.js) -->
         <script
