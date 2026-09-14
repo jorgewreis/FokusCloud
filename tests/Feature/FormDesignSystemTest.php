@@ -9,7 +9,6 @@ class FormDesignSystemTest extends TestCase
     public function test_backoffice_forms_use_the_shared_form_contract(): void
     {
         $pages = [
-            'public/backoffice/acesso.html',
             'public/backoffice/ativar.html',
             'public/backoffice/pages/security.html',
             'public/backoffice/pages/subscription-plans.html',
@@ -46,15 +45,15 @@ class FormDesignSystemTest extends TestCase
     public function test_backoffice_required_fields_are_auto_marked_and_cache_busted(): void
     {
         $panel = file_get_contents(base_path('public/backoffice/painel.html'));
-        $access = file_get_contents(base_path('public/backoffice/acesso.html'));
+        $home = file_get_contents(base_path('public/index.html'));
         $activate = file_get_contents(base_path('public/backoffice/ativar.html'));
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
         $this->assertStringContainsString('20260902-pagamentos-spacing', $panel);
-        foreach ([$access, $activate] as $contents) {
-            $this->assertStringContainsString('20260901-live-controls', $contents);
-        }
+        $this->assertStringContainsString('data-platform-access-card', $home);
+        $this->assertStringContainsString('platform-access.js?v=20260914-platform-access1', $home);
+        $this->assertStringContainsString('20260901-live-controls', $activate);
 
         $this->assertStringContainsString('MutationObserver', $script);
         $this->assertStringContainsString('markRequiredFields', $script);

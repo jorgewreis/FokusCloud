@@ -35,10 +35,15 @@ class BackofficeSecurityTest extends TestCase
         $this->assertDatabaseHas('platform_login_challenges', ['platform_admin_id' => $admin->id]);
     }
 
-    public function test_backoffice_access_uses_a_dedicated_internal_login_page(): void
+    public function test_backoffice_access_uses_the_home_platform_card(): void
     {
         $this->get('/acesso')->assertRedirect('/?acesso=cliente');
-        $this->get('/backoffice/acesso')->assertOk();
+        $this->get('/')->assertOk();
+        $this->assertStringContainsString(
+            'data-platform-access-card',
+            file_get_contents(base_path('public/index.html'))
+        );
+        $this->get('/backoffice/acesso')->assertNotFound();
     }
 
     public function test_usage_integration_requires_shared_secret(): void

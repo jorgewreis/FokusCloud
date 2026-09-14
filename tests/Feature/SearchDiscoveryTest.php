@@ -35,10 +35,11 @@ class SearchDiscoveryTest extends TestCase
 
     public function test_account_pages_are_excluded_without_blocking_public_content(): void
     {
-        foreach (['portal', 'portal/perfil', 'cadastro', 'recuperar-senha', 'backoffice/acesso'] as $path) {
+        foreach (['portal', 'portal/perfil', 'cadastro', 'recuperar-senha'] as $path) {
             $this->get("https://www.fokuscloud.com.br/{$path}")->assertOk()
                 ->assertHeader('X-Robots-Tag', 'noindex, nofollow');
         }
+        $this->get('https://www.fokuscloud.com.br/backoffice/acesso')->assertNotFound();
         $this->get('https://styles.fokuscloud.com.br/does-not-exist')->assertNotFound();
     }
 
