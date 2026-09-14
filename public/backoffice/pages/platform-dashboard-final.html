@@ -367,9 +367,13 @@
                           )
                           .join("")
                     : '<tr><td colspan="6">Nenhuma empresa encontrada.</td></tr>';
+            const first = rows.length
+                ? (response.meta.current_page - 1) * response.meta.per_page + 1
+                : 0;
+            const last = rows.length ? first + rows.length - 1 : 0;
             document.querySelector("#dashboard-company-count").textContent =
                 response.meta
-                    ? `Mostrando ${response.meta.from || 0} a ${response.meta.to || 0} de ${response.meta.total || 0} empresas`
+                    ? `Mostrando ${first} a ${last} de ${response.meta.total || 0} empresas`
                     : "Nenhuma empresa encontrada";
             renderPagination(response.meta);
         };
