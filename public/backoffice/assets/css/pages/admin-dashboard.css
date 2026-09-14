@@ -781,6 +781,21 @@ html[data-role="admin"] .sidebar-institutional img {
     background: #fff !important;
     white-space: nowrap;
 }
+.admin-final-dashboard .admin-notifications-button {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 0;
+    border-right: 1px solid #e5e8eb;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.admin-final-dashboard .admin-notifications-button img {
+    width: 23px;
+    height: 23px;
+}
 html[data-role="admin"] .sidebar-brand {
     display: block !important;
     width: 190px;
