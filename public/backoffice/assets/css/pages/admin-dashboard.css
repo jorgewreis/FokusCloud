@@ -916,6 +916,27 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     white-space: nowrap;
 }
 
+html[data-role="admin"] .fs-sidebar .bottom .line-hr-single {
+    display: block;
+    height: 1px;
+    margin: 0 0 20px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.34);
+}
+html[data-role="admin"] .fs-sidebar .sidebar-institutional {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 10px;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-institutional img {
+    display: block;
+    flex: 0 0 31px;
+    width: 31px;
+    height: 31px;
+    filter: brightness(0) invert(1);
+}
+
 /* Approved table and recent-activity density. */
 .admin-final-dashboard .admin-companies-table {
     min-width: 820px;

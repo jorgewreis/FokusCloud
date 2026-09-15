@@ -98,7 +98,7 @@
             --text-color-primary: var(--role-color-400);
         }
 
-        /* ADMIN - ORANGE */
+        /* ADMIN - COBALT SAND */
         [data-role="admin"] {
             --role-color-050: var(--color-orange-050);
             --role-color-100: var(--color-orange-100);
