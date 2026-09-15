@@ -3269,13 +3269,32 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
 
     html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional > span {
         display: block;
+        max-width: 0;
         margin-left: 45px;
+        overflow: hidden;
+        white-space: nowrap;
+        transform: translateX(-8px) scale(0.94);
+        transform-origin: left center;
+        transition:
+            max-width 220ms ease,
+            margin-left 220ms ease,
+            opacity 180ms ease,
+            transform 220ms ease,
+            visibility 0s linear 180ms !important;
     }
 
     html[data-role="admin"] .fs-sidebar.sidebar-footer-ready .bottom .sidebar-institutional > span {
+        max-width: 220px;
+        margin-left: 45px;
         visibility: visible !important;
         opacity: 1 !important;
-        transition: opacity 180ms ease, visibility 0s linear 0s !important;
+        transform: none;
+        transition:
+            max-width 220ms ease,
+            margin-left 220ms ease,
+            opacity 180ms ease,
+            transform 220ms ease,
+            visibility 0s linear 0s !important;
     }
 
     html[data-role="admin"] .fs-sidebar.single .bottom .sidebar-institutional {
@@ -3285,8 +3304,16 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     }
 
     html[data-role="admin"] .fs-sidebar.single .bottom .sidebar-institutional > span {
+        max-width: 0;
+        margin-left: 45px;
         visibility: hidden !important;
         opacity: 0 !important;
+        transform: translateX(-8px) scale(0.94);
+    }
+
+    html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button[data-sidebar-item="product-interests"] img {
+        filter: grayscale(1) brightness(0) invert(1) !important;
+        opacity: 0.88 !important;
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {

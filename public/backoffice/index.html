@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v47-static-footer-layout"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v48-sidebar-fade"
         />
     </head>
     <body>
@@ -233,7 +233,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v47-static-footer-layout";
+            const pageVersion = "20260915-admin-dashboard-v48-sidebar-fade";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -270,6 +270,7 @@
             const sidebarRevealDelay = 320;
             let sidebarCollapseTimer;
             let sidebarFooterRevealTimer;
+            let sidebarCollapseTransitionTimer;
 
             function isSidebarResponsive() {
                 return responsiveSidebarQuery.matches;
@@ -278,6 +279,12 @@
             function cancelSidebarCollapse() {
                 window.clearTimeout(sidebarCollapseTimer);
                 sidebarCollapseTimer = undefined;
+            }
+
+            function cancelSidebarCollapseTransition() {
+                window.clearTimeout(sidebarCollapseTransitionTimer);
+                sidebarCollapseTransitionTimer = undefined;
+                sidebar.classList.remove("is-collapsing");
             }
 
             function cancelSidebarFooterReveal() {
@@ -293,6 +300,7 @@
                 }
 
                 cancelSidebarCollapse();
+                cancelSidebarCollapseTransition();
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
                 if (!sidebar.classList.contains("sidebar-labels-ready")) {
@@ -316,9 +324,19 @@
                     return;
                 }
 
-                sidebar.classList.add("single");
-                sidebar.classList.remove("expanded");
                 cancelSidebarFooterReveal();
+                if (window.innerWidth > 700 && sidebar.classList.contains("expanded")) {
+                    sidebar.classList.add("is-collapsing");
+                    sidebarCollapseTransitionTimer = window.setTimeout(() => {
+                        sidebar.classList.add("single");
+                        sidebar.classList.remove("expanded");
+                        sidebar.classList.remove("is-collapsing");
+                        sidebarCollapseTransitionTimer = undefined;
+                    }, sidebarRevealDelay);
+                } else {
+                    sidebar.classList.add("single");
+                    sidebar.classList.remove("expanded");
+                }
                 mobileSidebarToggle.setAttribute("aria-expanded", "false");
                 mobileSidebarToggle.setAttribute(
                     "aria-label",
