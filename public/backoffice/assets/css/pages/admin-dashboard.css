@@ -847,6 +847,123 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Effective responsive override must remain after the legacy source-order blocks. */
+@media (max-width: 1919px) {
+    html[data-role="admin"] .fs-sidebar,
+    html[data-role="admin"] .fs-sidebar.expanded,
+    html[data-role="admin"] .fs-sidebar.single {
+        display: flex !important;
+        position: fixed;
+        z-index: 20;
+        top: 0;
+        left: 0;
+        width: 248px;
+        height: 100%;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 5px 0 16px rgba(7, 27, 45, 0.18);
+        transition: width 300ms ease, box-shadow 300ms ease;
+    }
+    html[data-role="admin"] .fs-sidebar.single {
+        width: 80px;
+    }
+    html[data-role="admin"] .fs-sidebar.single .sidebar-brand {
+        max-width: 0;
+        margin-right: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+    html[data-role="admin"] .fs-sidebar.single .sidebar-nav .sidebar-button,
+    html[data-role="admin"] .fs-sidebar.single .bottom .sidebar-button {
+        width: 50px;
+        justify-content: center;
+        padding-right: 0;
+        padding-left: 0;
+        gap: 0;
+    }
+    html[data-role="admin"] .fs-sidebar.single .sidebar-button img {
+        margin: 0;
+    }
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 0;
+        width: 100%;
+    }
+}
+
+@media (min-width: 1920px) {
+    html[data-role="admin"] .fs-sidebar,
+    html[data-role="admin"] .fs-sidebar.expanded {
+        width: 248px;
+        box-shadow: none;
+    }
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content {
+        left: 248px;
+        width: calc(100% - 248px);
+    }
+}
+
+@media (max-width: 700px) {
+    html[data-role="admin"] .fs-sidebar,
+    html[data-role="admin"] .fs-sidebar.expanded,
+    html[data-role="admin"] .fs-sidebar.single {
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        padding: 22px 0;
+        border-radius: 0;
+    }
+    html[data-role="admin"] .fs-sidebar.single {
+        width: 56px;
+        height: 56px;
+        padding: 0;
+        border-radius: 8px;
+    }
+    html[data-role="admin"] .fs-sidebar.single .top {
+        width: 100%;
+        height: 100%;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: center;
+    }
+    html[data-role="admin"] .fs-sidebar.single .sidebar-brand,
+    html[data-role="admin"] .fs-sidebar.single .sidebar-nav,
+    html[data-role="admin"] .fs-sidebar.single .bottom {
+        display: none !important;
+    }
+    html[data-role="admin"] .mobile-sidebar-toggle {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        cursor: pointer;
+    }
+    html[data-role="admin"] .mobile-sidebar-toggle img {
+        width: 22px;
+        height: 22px;
+        filter: grayscale(1) brightness(0) invert(1);
+        opacity: 0.88;
+    }
+    html[data-role="admin"] .fs-sidebar.expanded .top {
+        position: relative;
+    }
+    html[data-role="admin"] .fs-sidebar.expanded .mobile-sidebar-toggle {
+        position: absolute;
+        top: -10px;
+        right: 16px;
+    }
+    html[data-role="admin"] .fs-sidebar.expanded .mobile-sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+}
+
 /* Keep navigation labels quiet and consistent across every admin model. */
 html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label,
 html[data-role="admin"] .fs-sidebar .bottom .sidebar-button-label {
