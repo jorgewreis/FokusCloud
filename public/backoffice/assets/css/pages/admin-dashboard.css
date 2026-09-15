@@ -852,8 +852,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     html[data-role="admin"] .container-page .container-content,
     html[data-role="admin"] .container-page.expanded .container-content,
     html[data-role="admin"] .container-page.single .container-content {
-        left: 80px !important;
-        width: calc(100% - 80px) !important;
+        left: 248px !important;
+        width: calc(100% - 248px) !important;
     }
 }
 @media (max-width: 700px) {
@@ -1062,8 +1062,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-button-label {
     html[data-role="admin"] .container-page .container-content,
     html[data-role="admin"] .container-page.expanded .container-content,
     html[data-role="admin"] .container-page.single .container-content {
-        left: 80px !important;
-        width: calc(100% - 80px) !important;
+        left: 248px !important;
+        width: calc(100% - 248px) !important;
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button,
@@ -1077,6 +1077,12 @@ html[data-role="admin"] .fs-sidebar .sidebar-button-label {
         flex: 0 0 22px !important;
         margin: 0 !important;
         transform: translateY(-50%) !important;
+    }
+    html[data-role="admin"] .fs-sidebar:not(.single) .sidebar-button-label {
+        margin-left: 38px !important;
+    }
+    html[data-role="admin"] .fs-sidebar.single .sidebar-button-label {
+        margin-left: 0 !important;
     }
 }
 
