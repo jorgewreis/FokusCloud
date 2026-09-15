@@ -3388,6 +3388,16 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     }
 }
 
+/* The wide sidebar occupies 248px on large desktop screens. */
+@media (min-width: 1920px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 248px !important;
+        width: calc(100% - 248px) !important;
+    }
+}
+
 @media (max-width: 700px) {
     html[data-role="admin"] .container-page .container-content,
     html[data-role="admin"] .container-page.expanded .container-content,
