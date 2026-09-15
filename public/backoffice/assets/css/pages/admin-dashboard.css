@@ -3240,6 +3240,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     }
 
     html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional {
+        display: flex !important;
         visibility: hidden !important;
         opacity: 0 !important;
         transform: none !important;
@@ -3249,6 +3250,12 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     html[data-role="admin"] .fs-sidebar.sidebar-footer-ready .bottom .sidebar-institutional {
         visibility: visible !important;
         opacity: 1 !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar.single .bottom .sidebar-institutional {
+        display: flex !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {
