@@ -1217,8 +1217,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button:hover:not(.acti
     html[data-role="admin"] .container-page .container-content,
     html[data-role="admin"] .container-page.expanded .container-content,
     html[data-role="admin"] .container-page.single .container-content {
-        left: 0 !important;
-        width: 100% !important;
+        left: 248px !important;
+        width: calc(100% - 248px) !important;
     }
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label,
     html[data-role="admin"] .fs-sidebar .bottom .sidebar-button-label {
@@ -1304,6 +1304,15 @@ html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button:hover:not(.acti
 }
 
 /* Final table/activity source-order guard. */
+@media (max-width: 700px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 0 !important;
+        width: 100% !important;
+    }
+}
+
 .admin-final-dashboard .admin-companies-table {
     min-width: 820px;
 }
