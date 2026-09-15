@@ -1647,9 +1647,6 @@ html[data-role="admin"] .fs-sidebar .bottom .sidebar-button {
 html[data-role="admin"] .fs-sidebar .bottom .sidebar-button-label {
     color: rgba(255, 255, 255, 0.56) !important;
 }
-html[data-role="admin"] .fs-sidebar .bottom #admin-name {
-    color: #e39a77 !important;
-}
 html[data-role="admin"] .container-content {
     top: 0;
     height: 100%;
@@ -3251,6 +3248,28 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         visibility: hidden !important;
         opacity: 0 !important;
         transition: opacity 180ms ease, visibility 0s linear 180ms !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional {
+        position: relative !important;
+        min-height: 31px;
+        padding: 0 10px !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional > img {
+        position: absolute !important;
+        top: 0;
+        left: 10px;
+        flex: 0 0 31px !important;
+        width: 31px !important;
+        height: 31px !important;
+        margin: 0 !important;
+        transform: none !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional > span {
+        display: block;
+        margin-left: 45px;
     }
 
     html[data-role="admin"] .fs-sidebar.sidebar-footer-ready .bottom .sidebar-institutional > span {

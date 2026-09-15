@@ -66,7 +66,7 @@ class FormDesignSystemTest extends TestCase
         $panel = file_get_contents(base_path('public/backoffice/painel.html'));
         $security = file_get_contents(base_path('public/backoffice/pages/security.html'));
 
-        $this->assertStringContainsString('id="admin-name"', $panel);
+        $this->assertStringNotContainsString('id="admin-name"', $panel);
         $this->assertStringNotContainsString('id="admin-name"', $security);
         $this->assertStringContainsString('id="invite-admin-name"', $security);
     }
