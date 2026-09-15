@@ -6,7 +6,7 @@
 .styles-theme-toggle:focus-visible { outline: var(--fs-focus-width) solid var(--fs-color-primary); outline-offset: 4px; }
 .styles-theme-toggle-icon { width: 22px; height: 22px; background-color: currentColor; -webkit-mask-position: center; -webkit-mask-repeat: no-repeat; -webkit-mask-size: contain; mask-position: center; mask-repeat: no-repeat; mask-size: contain; }
 .styles-theme-toggle-icon-sunny { display: block; -webkit-mask-image: url('/assets/icons/Light-Mode-Sunny--Streamline-Ultimate.png'); mask-image: url('/assets/icons/Light-Mode-Sunny--Streamline-Ultimate.png'); }
-.styles-theme-toggle-icon-cloud { display: none; -webkit-mask-image: url('/assets/icons/Ai-Cloud-Spark--Streamline-Ultimate.png'); mask-image: url('/assets/icons/Ai-Cloud-Spark--Streamline-Ultimate.png'); }
+.styles-theme-toggle-icon-cloud { display: none; -webkit-mask-image: url('/assets/icons/Do-Not-Disturb-Sleep-Mode--Streamline-Ultimate.png'); mask-image: url('/assets/icons/Do-Not-Disturb-Sleep-Mode--Streamline-Ultimate.png'); }
 html[data-theme="light"] .styles-theme-toggle-icon-sunny { display: none; }
 html[data-theme="light"] .styles-theme-toggle-icon-cloud { display: block; }
 .styles-doc-pager { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
