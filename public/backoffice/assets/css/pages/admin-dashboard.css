@@ -9,6 +9,19 @@ html[data-role="admin"] {
     --admin-warning: #c96f4a;
 }
 
+@font-face {
+    font-family: "Google Sans";
+    src: url("/assets/fonts/google/google-sans-400.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Google Sans";
+    src: url("/assets/fonts/google/google-sans-700.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+}
+
 /* Approved dashboard composition: isolated from shared backoffice components. */
 html[data-role="admin"] .fs-sidebar {
     width: 248px;
@@ -25,15 +38,16 @@ html[data-role="admin"] .fs-sidebar .top {
 html[data-role="admin"] .sidebar-brand {
     margin: 0 15px 28px;
     color: #fff;
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 28px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
+    font-family: "Google Sans", system-ui, sans-serif;
+    font-size: 0.83rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1.55;
     white-space: nowrap;
 }
 html[data-role="admin"] .sidebar-brand strong {
-    font-weight: 400;
-    color: #d6b477;
+    font-weight: 700;
+    color: #e9a27f;
 }
 html[data-role="admin"] .fs-sidebar .line-hr-single {
     margin: 0 4px 18px;
@@ -820,8 +834,8 @@ html[data-role="admin"] .sidebar-brand {
     display: block !important;
     width: 190px;
     margin: 0 15px 25px;
-    font-size: 24px;
-    line-height: 1;
+    font-size: 0.83rem;
+    line-height: 1.55;
     white-space: nowrap !important;
 }
 html[data-role="admin"] .sidebar-brand strong {
@@ -2717,8 +2731,8 @@ html[data-role="admin"] .sidebar-brand {
     display: block !important;
     width: 190px;
     margin: 0 15px 25px;
-    font-size: 24px;
-    line-height: 1;
+    font-size: 0.83rem;
+    line-height: 1.55;
     white-space: nowrap !important;
 }
 html[data-role="admin"] .sidebar-brand strong {
