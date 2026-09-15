@@ -1,3 +1,4 @@
+/* Styles theme toggle and PNG icon controls. */
 .styles-layout-doc main { min-width: 0; }
 .styles-topbar-inner { position: relative; }
 .styles-theme-toggle { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-left: 8px; padding: 0; border: 1px solid var(--fs-color-border); color: var(--fs-color-muted); background: var(--fs-color-surface); cursor: pointer; transition: color .2s ease, border-color .2s ease, background-color .2s ease; }
