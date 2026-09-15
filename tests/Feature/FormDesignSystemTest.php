@@ -44,7 +44,7 @@ class FormDesignSystemTest extends TestCase
 
     public function test_backoffice_required_fields_are_auto_marked_and_cache_busted(): void
     {
-        $panel = file_get_contents(base_path('public/backoffice/painel.html'));
+        $panel = file_get_contents(base_path('public/backoffice/index.html'));
         $home = file_get_contents(base_path('public/index.html'));
         $activate = file_get_contents(base_path('public/backoffice/ativar.html'));
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
@@ -63,7 +63,7 @@ class FormDesignSystemTest extends TestCase
 
     public function test_admin_invite_form_does_not_reuse_sidebar_admin_id(): void
     {
-        $panel = file_get_contents(base_path('public/backoffice/painel.html'));
+        $panel = file_get_contents(base_path('public/backoffice/index.html'));
         $security = file_get_contents(base_path('public/backoffice/pages/security.html'));
 
         $this->assertStringNotContainsString('id="admin-name"', $panel);
