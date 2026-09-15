@@ -11,7 +11,9 @@ const css = await readFile(source, 'utf8');
 const sanitizedCss = css
     .replace(/[→←↑↓➜➝➞➤⟶⟹↗↘↙↖↕]/gu, '')
     .replace(/text-decoration:\s*underline(?:\s+dotted)?/gu, 'text-decoration: none')
-    .replace(/background-image:\s*url\("data:image\/svg\+xml,[^"]+"\);/gu, 'background-image: none;');
+    .replace(/background-image:\s*url\("data:image\/svg\+xml,[^"]+"\);/gu, 'background-image: none;')
+    .replace(/,\s*\n\s*[^{}\n]*svg[^{}\n]*/giu, '')
+    .replace(/^[^{}\n]*svg[^{}\n]*\{[^{}]*\}\s*/gimu, '');
 const linkPolicy = `
 
 /* Product-wide link presentation policy. */
