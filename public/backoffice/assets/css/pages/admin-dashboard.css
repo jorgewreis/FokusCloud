@@ -847,6 +847,80 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Final authority: the page keeps one fixed margin in both sidebar states. */
+@media (max-width: 1919px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 80px !important;
+        width: calc(100% - 80px) !important;
+    }
+}
+@media (max-width: 700px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Keep the page margin fixed while the responsive sidebar opens or closes. */
+@media (max-width: 1919px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 80px !important;
+        width: calc(100% - 80px) !important;
+    }
+}
+
+@media (max-width: 700px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Keep sidebar icons anchored while labels enter or leave the flex row. */
+html[data-role="admin"] .fs-sidebar .sidebar-button img {
+    flex: 0 0 22px;
+    position: relative;
+    inset: auto;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-button-label {
+    min-width: 0;
+}
+
+/* Final mobile authority: align the launcher icon inside its blue square. */
+@media (max-width: 700px) {
+    html[data-role="admin"] .fs-sidebar.single .mobile-sidebar-toggle {
+        position: fixed !important;
+        top: 90px !important;
+        left: 5px !important;
+        display: grid !important;
+        width: 40px !important;
+        height: 40px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        place-items: center !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+    }
+    html[data-role="admin"] .fs-sidebar.single .mobile-sidebar-toggle img {
+        display: block !important;
+        width: 24px !important;
+        height: 24px !important;
+        margin: 0 !important;
+        align-self: center !important;
+        justify-self: center !important;
+    }
+}
+
 /* Final mobile authority: the floating launcher must not reserve page space. */
 @media (max-width: 700px) {
     html[data-role="admin"] .container-page .container-content,
