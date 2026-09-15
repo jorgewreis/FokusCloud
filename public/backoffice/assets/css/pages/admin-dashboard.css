@@ -870,6 +870,11 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         height: 56px !important;
         box-shadow: 3px 0 12px rgba(7, 27, 45, 0.2) !important;
     }
+    html[data-role="admin"] .fs-sidebar.single .mobile-sidebar-toggle {
+        position: fixed;
+        top: 90px;
+        left: 5px;
+    }
 }
 
 /* Effective responsive override must remain after the legacy source-order blocks. */
