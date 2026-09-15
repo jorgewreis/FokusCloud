@@ -737,16 +737,16 @@
 .immersive-products a { color: #f6f1e8; font: 400 25px "Bebas Neue", sans-serif; letter-spacing: .2em; text-shadow: 0 1px 12px rgb(0 0 0 / 45%); }
 .immersive-products a:hover { color: #d6b477; }
 .immersive-divider { color: #d6b477; font-size: 20px; }
-.immersive-details { display: grid; grid-template-columns: .8fr 1.1fr .9fr; gap: 30px; max-width: 1180px; margin: 0 auto; padding: 80px 10px; border-top: 1px solid #c9c4b9; color: #242723; }
-.immersive-details-kicker { color: #8b6a3d; font-size: 9px; font-weight: 700; letter-spacing: .18em; }
-.immersive-details h2 { margin: 0; font: 400 54px / .95 "Bebas Neue", sans-serif; letter-spacing: .04em; }
-.immersive-details p { margin: 0; color: #67655f; font-size: 14px; line-height: 1.7; }
-.immersive-product-stories { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.immersive-product-story { padding-top: 14px; border-top: 1px solid #c9c4b9; }
+.immersive-details { max-width: 1180px; margin: 0 auto; padding: 80px 10px; border-top: 1px solid #c9c4b9; color: #242723; }
+.immersive-details-kicker { display: block; margin-bottom: 18px; color: #8b6a3d; font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.immersive-details h2 { max-width: 600px; margin: 0; font: 400 54px / .95 "Bebas Neue", sans-serif; letter-spacing: .04em; }
+.immersive-details > p:not(.immersive-details-cta) { max-width: 650px; margin: 22px 0 0; color: #67655f; font-size: 14px; line-height: 1.7; }
+.immersive-product-stories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 56px; }
+.immersive-product-story { min-height: 270px; padding: 16px 20px 0 0; border-top: 1px solid #c9c4b9; }
 .immersive-product-story > span { color: #8b6a3d; font-size: 8px; font-weight: 700; letter-spacing: .16em; }
 .immersive-product-story h3 { margin: 14px 0 10px; color: #242723; font: 400 30px / .95 "Bebas Neue", sans-serif; letter-spacing: .08em; }
 .immersive-product-story p { color: #67655f; font-size: 13px; line-height: 1.65; }
-.immersive-details-cta { grid-column: 2 / -1; max-width: 640px; margin-top: 8px !important; color: #242723 !important; font-size: 16px !important; line-height: 1.45 !important; }
+.immersive-details-cta { max-width: 760px; margin: 48px 0 0 !important; color: #242723 !important; font-size: 16px !important; line-height: 1.45 !important; }
 .showcase-page .showcase-footer { max-width: 1180px; margin: 0 auto; padding: 18px 10px 26px; color: #67655f; }
 .showcase-page .showcase-admin-link { color: #67655f; }
 .immersive-contact { display: flex; justify-content: space-between; align-items: center; max-width: 1180px; margin: 0 auto; padding: 28px 10px; border-top: 1px solid #c9c4b9; color: #8b6a3d; font-size: 9px; font-weight: 700; letter-spacing: .18em; }
@@ -767,10 +767,10 @@
     .immersive-products { right: 20px; bottom: 86px; left: 20px; justify-content: flex-end; gap: 13px; }
     .immersive-products a { font-size: 20px; }
     .immersive-products-label { display: none; }
-    .immersive-details { grid-template-columns: 1fr; padding: 52px 4px; }
+    .immersive-details { padding: 52px 4px; }
     .immersive-details h2 { font-size: 44px; }
-    .immersive-product-stories { grid-column: auto; grid-template-columns: 1fr; gap: 26px; }
-    .immersive-details-cta { grid-column: auto; }
+    .immersive-product-stories { grid-template-columns: 1fr; gap: 26px; margin-top: 42px; }
+    .immersive-product-story { min-height: 0; padding-right: 0; }
     .immersive-contact { align-items: flex-start; flex-direction: column; gap: 12px; padding-inline: 4px; }
 }
 @media (max-width: 420px) {
