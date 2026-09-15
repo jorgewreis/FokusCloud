@@ -1211,8 +1211,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button:hover:not(.acti
     html[data-role="admin"] .container-page .container-content,
     html[data-role="admin"] .container-page.expanded .container-content,
     html[data-role="admin"] .container-page.single .container-content {
-        left: 0;
-        width: 100%;
+        left: 0 !important;
+        width: 100% !important;
     }
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label,
     html[data-role="admin"] .fs-sidebar .bottom .sidebar-button-label {
