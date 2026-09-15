@@ -3250,6 +3250,18 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         visibility: visible !important;
         opacity: 1 !important;
     }
+
+    html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {
+        display: none !important;
+        transition: none !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar.sidebar-labels-ready .sidebar-nav .sidebar-button-label {
+        display: inline-flex !important;
+        max-width: 180px !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 }
 
 @media (max-width: 700px) {

@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v39-footer-stable"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v41-sidebar-stable"
         />
     </head>
     <body>
@@ -234,7 +234,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v39-footer-stable";
+            const pageVersion = "20260915-admin-dashboard-v41-sidebar-stable";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -285,6 +285,7 @@
                 window.clearTimeout(sidebarFooterRevealTimer);
                 sidebarFooterRevealTimer = undefined;
                 sidebar.classList.remove("sidebar-footer-ready");
+                sidebar.classList.remove("sidebar-labels-ready");
             }
 
             function expandSidebar() {
@@ -295,10 +296,13 @@
                 cancelSidebarCollapse();
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
-                cancelSidebarFooterReveal();
-                sidebarFooterRevealTimer = window.setTimeout(() => {
-                    sidebar.classList.add("sidebar-footer-ready");
-                }, sidebarRevealDelay);
+                if (!sidebar.classList.contains("sidebar-labels-ready")) {
+                    cancelSidebarFooterReveal();
+                    sidebarFooterRevealTimer = window.setTimeout(() => {
+                        sidebar.classList.add("sidebar-footer-ready");
+                        sidebar.classList.add("sidebar-labels-ready");
+                    }, sidebarRevealDelay);
+                }
                 mobileSidebarToggle.setAttribute("aria-expanded", "true");
                 mobileSidebarToggle.setAttribute(
                     "aria-label",
@@ -352,6 +356,7 @@
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
                 sidebar.classList.add("sidebar-footer-ready");
+                sidebar.classList.add("sidebar-labels-ready");
             }
 
             sidebar.addEventListener("mouseenter", expandSidebar);
