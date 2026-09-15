@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v50-sidebar-opacity"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v51-sidebar-sequence"
         />
     </head>
     <body>
@@ -233,7 +233,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v50-sidebar-opacity";
+            const pageVersion = "20260915-admin-dashboard-v51-sidebar-sequence";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -268,8 +268,13 @@
             );
             const sidebarCollapseDelay = 60_000;
             const sidebarRevealDelay = 320;
+            const sidebarOpacityDelay = 260;
+            const sidebarScaleDelay = 300;
+            const sidebarCollapseTransitionDelay = 520;
             let sidebarCollapseTimer;
             let sidebarFooterRevealTimer;
+            let sidebarFooterOpacityTimer;
+            let sidebarFooterScaleTimer;
             let sidebarCollapseTransitionTimer;
 
             function isSidebarResponsive() {
@@ -284,14 +289,22 @@
             function cancelSidebarCollapseTransition() {
                 window.clearTimeout(sidebarCollapseTransitionTimer);
                 sidebarCollapseTransitionTimer = undefined;
+                window.clearTimeout(sidebarFooterScaleTimer);
+                sidebarFooterScaleTimer = undefined;
                 sidebar.classList.remove("is-collapsing");
             }
 
             function cancelSidebarFooterReveal() {
                 window.clearTimeout(sidebarFooterRevealTimer);
+                window.clearTimeout(sidebarFooterOpacityTimer);
+                window.clearTimeout(sidebarFooterScaleTimer);
                 sidebarFooterRevealTimer = undefined;
+                sidebarFooterOpacityTimer = undefined;
+                sidebarFooterScaleTimer = undefined;
                 sidebar.classList.remove("sidebar-footer-ready");
+                sidebar.classList.remove("sidebar-footer-visible");
                 sidebar.classList.remove("sidebar-labels-ready");
+                sidebar.classList.remove("sidebar-labels-visible");
             }
 
             function expandSidebar() {
@@ -308,7 +321,20 @@
                     sidebarFooterRevealTimer = window.setTimeout(() => {
                         sidebar.classList.add("sidebar-footer-ready");
                         sidebar.classList.add("sidebar-labels-ready");
+                        sidebarFooterOpacityTimer = window.setTimeout(() => {
+                            sidebar.classList.add("sidebar-footer-visible");
+                            sidebar.classList.add("sidebar-labels-visible");
+                            sidebarFooterOpacityTimer = undefined;
+                        }, sidebarOpacityDelay);
+                        sidebarFooterRevealTimer = undefined;
                     }, sidebarRevealDelay);
+                } else if (!sidebar.classList.contains("sidebar-labels-visible")) {
+                    window.clearTimeout(sidebarFooterOpacityTimer);
+                    sidebarFooterOpacityTimer = window.setTimeout(() => {
+                        sidebar.classList.add("sidebar-footer-visible");
+                        sidebar.classList.add("sidebar-labels-visible");
+                        sidebarFooterOpacityTimer = undefined;
+                    }, sidebarOpacityDelay);
                 }
                 mobileSidebarToggle.setAttribute("aria-expanded", "true");
                 mobileSidebarToggle.setAttribute(
@@ -324,16 +350,29 @@
                     return;
                 }
 
-                cancelSidebarFooterReveal();
+                window.clearTimeout(sidebarFooterRevealTimer);
+                window.clearTimeout(sidebarFooterOpacityTimer);
+                sidebarFooterRevealTimer = undefined;
+                sidebarFooterOpacityTimer = undefined;
+                sidebar.classList.remove("sidebar-footer-visible");
+                sidebar.classList.remove("sidebar-labels-visible");
                 if (window.innerWidth > 700 && sidebar.classList.contains("expanded")) {
                     sidebar.classList.add("is-collapsing");
+                    sidebarFooterScaleTimer = window.setTimeout(() => {
+                        sidebar.classList.remove("sidebar-footer-ready");
+                        sidebar.classList.remove("sidebar-labels-ready");
+                        sidebarFooterScaleTimer = undefined;
+                    }, sidebarScaleDelay);
                     sidebarCollapseTransitionTimer = window.setTimeout(() => {
                         sidebar.classList.add("single");
                         sidebar.classList.remove("expanded");
+                        sidebar.classList.remove("sidebar-footer-ready");
+                        sidebar.classList.remove("sidebar-labels-ready");
                         sidebar.classList.remove("is-collapsing");
                         sidebarCollapseTransitionTimer = undefined;
-                    }, sidebarRevealDelay);
+                    }, sidebarCollapseTransitionDelay);
                 } else {
+                    cancelSidebarFooterReveal();
                     sidebar.classList.add("single");
                     sidebar.classList.remove("expanded");
                 }
@@ -374,6 +413,8 @@
                 sidebar.classList.remove("single");
                 sidebar.classList.add("sidebar-footer-ready");
                 sidebar.classList.add("sidebar-labels-ready");
+                sidebar.classList.add("sidebar-footer-visible");
+                sidebar.classList.add("sidebar-labels-visible");
             }
 
             sidebar.addEventListener("mouseenter", expandSidebar);

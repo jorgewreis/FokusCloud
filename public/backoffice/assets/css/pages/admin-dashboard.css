@@ -3268,6 +3268,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         margin: 0 !important;
         transform: none !important;
         filter: grayscale(1) brightness(0) invert(1) !important;
+        transition: filter 1000ms ease !important;
     }
 
     html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional > span {
@@ -3278,7 +3279,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         overflow: hidden;
         white-space: normal;
         line-height: 1.35;
-        transform: translateX(-8px) scale(0.94);
+        transform: translateX(-8px) scale(0.1);
         transform-origin: left center;
         transition:
             width 220ms ease,
@@ -3294,8 +3295,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         max-width: calc(100% - 45px);
         margin-left: 45px;
         visibility: visible !important;
-        opacity: 1 !important;
-        transform: none;
+        opacity: 0 !important;
+        transform: translateX(0) scale(1);
         transition:
             width 220ms ease,
             max-width 220ms ease,
@@ -3317,7 +3318,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         margin-left: 45px;
         visibility: hidden !important;
         opacity: 0 !important;
-        transform: translateX(-8px) scale(0.94);
+        transform: translateX(-8px) scale(0.1);
     }
 
     html[data-role="admin"] .fs-sidebar.single .bottom .sidebar-institutional > img {
@@ -3325,8 +3326,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button img {
-        filter: grayscale(1) brightness(0) invert(1) !important;
-        opacity: 0.88 !important;
+        filter: brightness(0) invert(1) !important;
+        opacity: 1 !important;
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button.active img {
@@ -3335,8 +3336,8 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button[data-sidebar-item="product-interests"] img {
-        filter: grayscale(1) brightness(0) invert(1) !important;
-        opacity: 0.88 !important;
+        filter: brightness(0) invert(1) !important;
+        opacity: 1 !important;
     }
 
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {
@@ -3344,7 +3345,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         max-width: 0 !important;
         visibility: hidden !important;
         opacity: 0 !important;
-        transform: translateX(-6px) !important;
+        transform: translateX(-6px) scale(0.1) !important;
         pointer-events: none;
         transition:
             max-width 220ms ease,
@@ -3356,26 +3357,19 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     html[data-role="admin"] .fs-sidebar.sidebar-labels-ready .sidebar-nav .sidebar-button-label {
         max-width: 180px !important;
         visibility: visible !important;
-        opacity: 1 !important;
-        transform: none !important;
+        opacity: 0 !important;
+        transform: translateX(0) scale(1) !important;
         pointer-events: auto;
-        animation: admin-sidebar-label-fade-in 300ms ease both;
         transition:
             max-width 220ms ease,
             opacity 300ms ease,
-            transform 220ms ease,
+            transform 260ms ease,
             visibility 0s linear 0s !important;
     }
-}
 
-@keyframes admin-sidebar-label-fade-in {
-    from {
-        opacity: 0;
-        transform: translateX(-6px) !important;
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0) !important;
+    html[data-role="admin"] .fs-sidebar.sidebar-labels-visible .sidebar-nav .sidebar-button-label,
+    html[data-role="admin"] .fs-sidebar.sidebar-footer-visible .bottom .sidebar-institutional > span {
+        opacity: 1 !important;
     }
 }
 
