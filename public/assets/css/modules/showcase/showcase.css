@@ -232,7 +232,7 @@
     letter-spacing: 0.02em;
 }
 .showcase-hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: 30px; }
-.showcase-text-link { border-bottom: 1px solid var(--fs-color-secondary); color: var(--fs-color-secondary) !important; font-size: 13px; }
+.showcase-text-link { border-bottom: 0; color: var(--fs-color-secondary) !important; font-size: 13px; }
 .showcase-hero-art { position: relative; display: grid; min-height: 520px; place-items: center; }
 .showcase-hero-orbit { position: absolute; border: 1px solid color-mix(in srgb, var(--fs-color-primary) 55%, transparent); border-radius: 50%; transform: rotate(-22deg); }
 .showcase-hero-orbit-outer { width: min(35vw, 440px); height: min(35vw, 440px); border-style: dashed; }
@@ -292,8 +292,8 @@
     letter-spacing: 0.08em;
 }
 .showcase-card h3 { margin: 16px 0 10px; font: 42px/1 "Bebas Neue", sans-serif; letter-spacing: .08em; }
-.showcase-product-link { display: inline-flex; align-items: center; min-height: 38px; color: var(--fs-color-text) !important; font-size: 13px; font-weight: 700; text-decoration: underline !important; text-decoration-color: var(--fs-color-primary) !important; text-underline-offset: 5px; }
-.showcase-secondary-link { align-self: center; color: var(--fs-color-muted) !important; font-size: 12px; text-decoration: underline !important; text-underline-offset: 3px; }
+.showcase-product-link { display: inline-flex; align-items: center; min-height: 38px; color: var(--fs-color-text) !important; font-size: 13px; font-weight: 700; text-decoration: none !important; text-decoration-color: var(--fs-color-primary) !important; text-underline-offset: 5px; }
+.showcase-secondary-link { align-self: center; color: var(--fs-color-muted) !important; font-size: 12px; text-decoration: none !important; text-underline-offset: 3px; }
 .showcase-card p,
 .showcase-card li {
     color: var(--fs-color-muted);
@@ -460,7 +460,7 @@
     line-height: 1.7;
 }
 .showcase-information a {
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 3px;
 }
 .showcase-footer {

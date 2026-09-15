@@ -37,7 +37,7 @@
 
 .breadcrumb-link:hover {
     color: var(--color-link-hover);
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .breadcrumb-current {
@@ -53,7 +53,7 @@
 .breadcrumbs-end .breadcrumbs-list { justify-content: flex-end; }
 
 .breadcrumbs-chevron .breadcrumb-item + .breadcrumb-item::before {
-    content: ">";
+    content: "/";
 }
 
 .breadcrumbs-dot .breadcrumb-item + .breadcrumb-item::before {

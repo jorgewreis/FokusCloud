@@ -623,7 +623,7 @@ textarea,
 }
 
 .form-error-summary ul { margin: var(--space-2) 0 0 var(--space-4); padding: 0; }
-.form-error-summary a { color: inherit; text-decoration: underline; }
+.form-error-summary a { color: inherit; text-decoration: none; }
 
 .form-error { color: var(--form-feedback-error-text, var(--text-color-danger, var(--color-red-600))); }
 .form-success { color: var(--text-color-success, var(--color-green-700)); }

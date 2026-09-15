@@ -25,7 +25,7 @@
 .forms-validation-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 28px; border: 1px solid var(--fs-color-border); background: var(--fs-color-subtle); }
 .forms-error-summary { display: grid; gap: 8px; margin-top: 20px; padding: 20px 24px; border-left: 4px solid var(--fs-color-danger); background: color-mix(in srgb, var(--fs-color-danger) 12%, transparent); }
 .forms-error-summary strong { color: var(--fs-color-danger); }
-.forms-error-summary a { color: var(--fs-color-text); text-decoration: underline; }
+.forms-error-summary a { color: var(--fs-color-text); text-decoration: none; }
 .forms-state-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 16px; }
 .forms-state-grid > div { display: grid; gap: 8px; }
 .forms-state-grid span { color: var(--fs-color-muted); font-family: var(--fs-font-mono); font-size: 12px; text-transform: uppercase; }
@@ -57,7 +57,7 @@
 .forms-lab-form[aria-busy="true"] { opacity: .78; }
 .forms-lab-form [hidden] { display: none !important; }
 .forms-lab-error, .forms-lab-success { position: relative; }
-.forms-lab-error a { color: var(--fs-color-text); font-size: 13px; text-decoration: underline; }
+.forms-lab-error a { color: var(--fs-color-text); font-size: 13px; text-decoration: none; }
 .forms-lab-success { display: grid; gap: 8px; padding: 18px 20px; border-left: 4px solid var(--styles-green); background: var(--styles-green-soft); }
 .forms-lab-success strong { color: var(--styles-green); }
 .forms-lab-success span { color: var(--fs-color-muted); }

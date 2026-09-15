@@ -2821,7 +2821,7 @@
   .fs-alert-link {
     color: inherit;
     font-weight: 500;
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 2px;
   }
   .fs-alert-close {
@@ -3573,15 +3573,15 @@
     padding-left: 4px;
     color: var(--fs-color-muted);
     font-size: 0.6875rem;
-    content: "↕";
+    content: "";
   }
   th[aria-sort=ascending] .fs-datatable-sort-btn::after {
     color: var(--fs-color-text);
-    content: "↑";
+    content: "";
   }
   th[aria-sort=descending] .fs-datatable-sort-btn::after {
     color: var(--fs-color-text);
-    content: "↓";
+    content: "";
   }
   .fs-datatable [data-fs-datatable-pagination] {
     display: flex;
@@ -3942,7 +3942,7 @@
   }
   .fs-dropdown-rich-footer a:hover,
   .fs-dropdown-rich-footer a:focus-visible {
-    text-decoration: underline;
+    text-decoration: none;
   }
   .fs-dropdown-item.fs-dropdown-item-danger {
     color: var(--fs-color-danger);
@@ -5035,7 +5035,7 @@
   .fs-toast-link {
     color: inherit;
     font-weight: 500;
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 2px;
   }
   .fs-toast-progress {
@@ -5277,7 +5277,7 @@
     text-decoration: none;
   }
   .fs-breadcrumb-item a:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
   .fs-breadcrumb-item.is-active {
     color: var(--fs-color-text);
@@ -17358,3 +17358,21 @@
   }
 }
 /*# sourceMappingURL=fokus.css.map */
+
+
+/* Product-wide link presentation policy. */
+:where(a, a:hover, a:focus-visible, a:active) {
+    text-decoration: none !important;
+}
+
+
+/* Directional icons are intentionally disabled across published interfaces. */
+.fs-tooltip-arrow,
+.fs-popover-arrow,
+.fs-dropdown-rich-chevron,
+.fs-tree-toggle,
+.fs-datatable-sort-btn::after,
+.fs-accordion-button::after {
+    display: none !important;
+    content: none !important;
+}
