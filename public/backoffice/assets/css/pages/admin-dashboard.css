@@ -847,6 +847,61 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Last responsive authority: the compact shell reserves space while the sidebar overlays only when open. */
+@media (max-width: 1919px) {
+    html[data-role="admin"] .fs-sidebar.single {
+        top: 0;
+        left: 0;
+        width: 80px !important;
+        box-shadow: 5px 0 16px rgba(7, 27, 45, 0.18) !important;
+    }
+    html[data-role="admin"] .fs-sidebar.single .sidebar-institutional {
+        display: none !important;
+    }
+    html[data-role="admin"] .fs-sidebar .sidebar-institutional {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 160ms ease;
+    }
+    html[data-role="admin"] .fs-sidebar.sidebar-footer-ready .sidebar-institutional {
+        visibility: visible;
+        opacity: 1;
+    }
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 80px !important;
+        width: calc(100% - 80px) !important;
+    }
+}
+
+@media (max-width: 700px) {
+    html[data-role="admin"] .fs-sidebar.single {
+        top: 90px !important;
+        left: 5px !important;
+        width: 56px !important;
+        height: 56px !important;
+        box-shadow: 3px 0 12px rgba(7, 27, 45, 0.2) !important;
+    }
+    html[data-role="admin"] .fs-sidebar.single .mobile-sidebar-toggle {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+    }
+    html[data-role="admin"] .fs-sidebar.expanded {
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 0 !important;
+        width: 100% !important;
+    }
+}
+
 /* Final responsive corrections: compact footer and full-width content behind the sidebar. */
 @media (max-width: 1919px) {
     html[data-role="admin"] .fs-sidebar.single {

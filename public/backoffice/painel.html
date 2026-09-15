@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v26"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v29"
         />
     </head>
     <body>
@@ -234,7 +234,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v26";
+            const pageVersion = "20260915-admin-dashboard-v29";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -268,7 +268,9 @@
                 "(max-width: 1919px)",
             );
             const sidebarCollapseDelay = 60_000;
+            const sidebarRevealDelay = 320;
             let sidebarCollapseTimer;
+            let sidebarFooterRevealTimer;
 
             function isSidebarResponsive() {
                 return responsiveSidebarQuery.matches;
@@ -277,6 +279,12 @@
             function cancelSidebarCollapse() {
                 window.clearTimeout(sidebarCollapseTimer);
                 sidebarCollapseTimer = undefined;
+            }
+
+            function cancelSidebarFooterReveal() {
+                window.clearTimeout(sidebarFooterRevealTimer);
+                sidebarFooterRevealTimer = undefined;
+                sidebar.classList.remove("sidebar-footer-ready");
             }
 
             function expandSidebar() {
@@ -289,6 +297,10 @@
                 sidebar.classList.remove("single");
                 containerPage.classList.add("expanded");
                 containerPage.classList.remove("single");
+                cancelSidebarFooterReveal();
+                sidebarFooterRevealTimer = window.setTimeout(() => {
+                    sidebar.classList.add("sidebar-footer-ready");
+                }, sidebarRevealDelay);
                 mobileSidebarToggle.setAttribute("aria-expanded", "true");
                 mobileSidebarToggle.setAttribute(
                     "aria-label",
@@ -307,6 +319,7 @@
                 sidebar.classList.remove("expanded");
                 containerPage.classList.add("single");
                 containerPage.classList.remove("expanded");
+                cancelSidebarFooterReveal();
                 mobileSidebarToggle.setAttribute("aria-expanded", "false");
                 mobileSidebarToggle.setAttribute(
                     "aria-label",
@@ -342,6 +355,9 @@
 
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
+                containerPage.classList.add("expanded");
+                containerPage.classList.remove("single");
+                sidebar.classList.add("sidebar-footer-ready");
             }
 
             sidebar.addEventListener("mouseenter", expandSidebar);
