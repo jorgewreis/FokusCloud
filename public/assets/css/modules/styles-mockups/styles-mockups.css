@@ -384,4 +384,26 @@
     .styles-sidebar {
         position: static;
     }
+    .styles-topbar-inner {
+        align-items: center;
+        flex-direction: row;
+        gap: 12px;
+        min-height: 64px;
+    }
+    .styles-topbar .styles-brand {
+        flex: 0 1 auto;
+        font-size: 24px;
+        letter-spacing: 0.12em;
+        white-space: nowrap;
+    }
+    .styles-topbar .styles-eyebrow {
+        max-width: 138px;
+        margin-left: auto;
+        font-size: 9px;
+        line-height: 1.25;
+        text-align: right;
+    }
+    .styles-sidebar-layout {
+        padding-top: 32px;
+    }
 }
