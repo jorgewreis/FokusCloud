@@ -53,9 +53,10 @@
     --breakpoint-xl: 1200px;
 
     /* FONT FAMILIES */
-    --font-body: "Poppins", sans-serif;
+    --font-body: "Outfit", sans-serif;
     --font-display: "Bebas Neue", sans-serif;
-    --font-ui: "Inter", "Poppins", sans-serif;
+    --font-ui: "Outfit", sans-serif;
+    --font-mono: "Syne Mono", monospace;
 
     /* FONT WEIGHTS */
     --font-weight-regular: 400;

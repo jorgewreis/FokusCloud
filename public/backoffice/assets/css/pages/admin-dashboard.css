@@ -25,13 +25,15 @@ html[data-role="admin"] .fs-sidebar .top {
 html[data-role="admin"] .sidebar-brand {
     margin: 0 15px 28px;
     color: #fff;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: -1.2px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     white-space: nowrap;
 }
 html[data-role="admin"] .sidebar-brand strong {
     font-weight: 400;
+    color: #d6b477;
 }
 html[data-role="admin"] .fs-sidebar .line-hr-single {
     margin: 0 4px 18px;
@@ -74,13 +76,14 @@ html[data-role="admin"] .fs-sidebar.expanded .sidebar-button-label {
     opacity: 1;
     color: inherit;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
 }
 html[data-role="admin"] .fs-sidebar .bottom {
     padding: 0 4px;
 }
 html[data-role="admin"] .sidebar-institutional {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 14px;
     color: #dceaf5;
@@ -89,6 +92,8 @@ html[data-role="admin"] .sidebar-institutional {
     padding: 22px 10px 0;
 }
 html[data-role="admin"] .sidebar-institutional img {
+    display: block;
+    flex: 0 0 31px;
     width: 31px;
     height: 31px;
     filter: brightness(0) invert(1);
@@ -98,7 +103,7 @@ html[data-role="admin"] .sidebar-institutional img {
     min-height: 100vh;
     background: #f7f4ef;
     color: #112b50;
-    font-family: var(--font-sans, Arial, sans-serif);
+    font-family: var(--font-body);
 }
 .admin-final-dashboard * {
     box-sizing: border-box;
@@ -136,6 +141,12 @@ html[data-role="admin"] .sidebar-institutional img {
     font-size: 14px;
     color: #102b51;
 }
+.admin-header-context strong {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: 0.035em;
+}
 .admin-global-search {
     height: 40px;
     display: flex;
@@ -167,7 +178,8 @@ html[data-role="admin"] .sidebar-institutional img {
     border-radius: 4px;
     color: #576983;
     background: #f6f8fa;
-    font: 11px Arial;
+    font: inherit;
+    font-size: 11px;
 }
 .admin-header-user {
     justify-content: flex-end;
@@ -220,9 +232,8 @@ html[data-role="admin"] .sidebar-institutional img {
     letter-spacing: 1.25px;
 }
 .admin-dashboard-intro h1,
-.admin-feature-banner h2,
-.admin-editorial-message {
-    font-family: Georgia, "Times New Roman", serif;
+.admin-feature-banner h2 {
+    font-family: var(--font-display);
 }
 .admin-dashboard-intro h1 {
     margin: 0;
@@ -2477,9 +2488,7 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     margin: 0;
     color: #102952;
     font:
-        48px/0.98 Georgia,
-        "Times New Roman",
-        serif;
+        48px/0.98 var(--font-display);
 }
 .admin-final-dashboard .admin-feature-banner {
     display: flex;
@@ -2530,7 +2539,9 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-final-dashboard .admin-card-heading h2 {
     margin: 0;
     color: #122e57;
+    font-family: var(--font-display);
     font-size: 18px;
+    font-weight: 400;
 }
 .admin-final-dashboard .admin-card-heading p {
     margin: 3px 0 0;
