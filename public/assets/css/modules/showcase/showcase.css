@@ -769,7 +769,8 @@
     .showcase-page .showcase-nav { inset: 20px 20px auto; }
     .showcase-page .showcase-nav-links { display: none; }
     .showcase-page .showcase-nav-access { margin-left: auto; }
-    .immersive-hero { height: max(760px, 100svh); min-height: 760px; background-position: 60% center; }
+    .immersive-hero { height: max(760px, 100svh); min-height: 760px; background-position: 65% center; }
+    .immersive-hero-overlay { background: linear-gradient(90deg, rgb(6 13 18 / 62%) 0%, rgb(10 17 21 / 24%) 48%, rgb(8 13 15 / 0%) 100%), linear-gradient(0deg, rgb(5 9 11 / 58%) 0%, transparent 46%, rgb(8 13 15 / 12%) 100%); }
     .immersive-hero-content { position: absolute; right: 20px; bottom: 170px; left: 20px; padding: 0; }
     .immersive-hero h1 { max-width: 100%; font-size: clamp(58px, 18vw, 96px); line-height: .82; }
     .immersive-hero-content p { font-size: 7px; letter-spacing: .23em; }
