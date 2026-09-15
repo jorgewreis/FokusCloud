@@ -747,6 +747,17 @@
 .immersive-product-story h3 { margin: 14px 0 10px; color: #242723; font: 400 30px / .95 "Bebas Neue", sans-serif; letter-spacing: .08em; }
 .immersive-product-story p { color: #67655f; font-size: 13px; line-height: 1.65; }
 .immersive-details-cta { max-width: 760px; margin: 48px 0 0 !important; color: #242723 !important; font-size: 16px !important; line-height: 1.45 !important; }
+.immersive-about { padding-top: 72px; }
+.immersive-about-intro { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 72px; align-items: start; }
+.immersive-about-intro .immersive-details-kicker { margin-bottom: 18px; }
+.immersive-about-copy { padding-top: 3px; }
+.immersive-about-copy p { max-width: 600px; margin: 0; color: #67655f; font-size: 14px; line-height: 1.7; }
+.immersive-about-copy p + p { margin-top: 22px; }
+.immersive-about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 64px; }
+.immersive-about-principle { padding: 16px 20px 0 0; border-top: 1px solid #c9c4b9; }
+.immersive-about-principle > span { color: #8b6a3d; font-size: 8px; font-weight: 700; letter-spacing: .16em; }
+.immersive-about-principle h3 { margin: 14px 0 10px; color: #242723; font: 400 30px / .95 "Bebas Neue", sans-serif; letter-spacing: .08em; }
+.immersive-about-principle p { color: #67655f; font-size: 13px; line-height: 1.65; }
 .showcase-page .showcase-footer { max-width: 1180px; margin: 0 auto; padding: 18px 10px 26px; color: #67655f; }
 .showcase-page .showcase-admin-link { color: #67655f; }
 .immersive-contact { display: flex; justify-content: space-between; align-items: center; max-width: 1180px; margin: 0 auto; padding: 28px 10px; border-top: 1px solid #c9c4b9; color: #8b6a3d; font-size: 9px; font-weight: 700; letter-spacing: .18em; }
@@ -771,6 +782,11 @@
     .immersive-details h2 { font-size: 44px; }
     .immersive-product-stories { grid-template-columns: 1fr; gap: 26px; margin-top: 42px; }
     .immersive-product-story { min-height: 0; padding-right: 0; }
+    .immersive-about { padding-top: 52px; }
+    .immersive-about-intro { grid-template-columns: 1fr; gap: 28px; }
+    .immersive-about-copy { padding-top: 0; }
+    .immersive-about-principles { grid-template-columns: 1fr; gap: 26px; margin-top: 42px; }
+    .immersive-about-principle { padding-right: 0; }
     .immersive-contact { align-items: flex-start; flex-direction: column; gap: 12px; padding-inline: 4px; }
 }
 @media (max-width: 420px) {
