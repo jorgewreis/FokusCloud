@@ -122,17 +122,18 @@ do Streamline em `public/assets/icons/`:
 
 | Arquivo | Fonte oficial |
 | --- | --- |
-| `Arrow-Left-1--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/arrow-left-1--9664 |
-| `Arrow-Right-1--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/arrow-right-1--9664 |
+| `Keyboard-Arrow-Left--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/keyboard-arrow-left--9024 |
+| `Keyboard-Arrow-Right--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/keyboard-arrow-right--9024 |
+| `Keyboard-Arrow-Previous--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/keyboard-arrow-previous--9024 |
+| `Keyboard-Arrow-Next--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/keyboard-arrow-next--9024 |
 | `Light-Mode-Sunny--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/light-mode-sunny--9176 |
 | `Do-Not-Disturb-Sleep-Mode--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/do-not-disturb-sleep-mode--9252 |
 
 Antes de adicionar outro icone, confirmar no fornecedor que o download selecionado e
 PNG e manter a referencia da pagina oficial no registro da mudanca.
 
-Graficos, diagramas e outras visualizacoes vetoriais podem continuar usando SVG
-quando o vetor fizer parte da propria visualizacao e nao representar um icone de
-interface reutilizavel.
+Graficos e diagramas devem usar elementos HTML e CSS do projeto, mantendo o padrao
+PNG exclusivo para icones de interface reutilizaveis.
 
 ## Produtos
 
