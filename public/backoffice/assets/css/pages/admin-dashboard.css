@@ -842,6 +842,9 @@ html[data-role="admin"] .sidebar-brand strong {
     display: inline !important;
     white-space: nowrap;
 }
+html[data-role="admin"] body {
+    overflow: hidden !important;
+}
 html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     opacity: 1;
     cursor: pointer;
