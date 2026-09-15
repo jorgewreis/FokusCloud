@@ -56,9 +56,11 @@
 }
 .styles-brand {
     color: var(--fs-color-text);
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 30px;
-    letter-spacing: 0.14em;
+    font-family: var(--font-family-base);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-decoration: none;
 }
 .styles-brand span {
     color: var(--styles-green);
@@ -392,8 +394,8 @@
     }
     .styles-topbar .styles-brand {
         flex: 0 1 auto;
-        font-size: 24px;
-        letter-spacing: 0.12em;
+        font-size: 0.82rem;
+        letter-spacing: 0.16em;
         white-space: nowrap;
     }
     .styles-topbar .styles-eyebrow {
