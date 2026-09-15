@@ -73,6 +73,17 @@
         <div class="container-page expanded">
             <div class="fs-sidebar expanded" id="sidebar">
                 <div class="top">
+                    <button
+                        class="mobile-sidebar-toggle"
+                        type="button"
+                        aria-label="Abrir menu lateral"
+                        aria-expanded="false"
+                    >
+                        <img
+                            src="/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png"
+                            alt=""
+                        />
+                    </button>
                     <div class="sidebar-brand">
                         FOKUS CLOUD <strong>ADMIN</strong>
                     </div>
@@ -176,7 +187,7 @@
                         data-platform-permission="platform.product_interests.manage"
                     >
                         <img
-                            src="/backoffice/assets/icons/Tags-Add--Streamline-Ultimate.png"
+                            src="/backoffice/assets/icons/Tags-Cash--Streamline-Ultimate.png"
                         />
                         <span class="sidebar-button-label text-subtitle-sm"
                             >Interesses</span
@@ -223,7 +234,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v20";
+            const pageVersion = "20260915-admin-dashboard-v22";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -245,6 +256,132 @@
                 "dos",
                 "e",
             ]);
+            const sidebar = document.querySelector("#sidebar");
+            const mobileSidebarToggle = document.querySelector(
+                ".mobile-sidebar-toggle",
+            );
+            const mobileSidebarToggleIcon = mobileSidebarToggle.querySelector(
+                "img",
+            );
+            const responsiveSidebarQuery = window.matchMedia(
+                "(max-width: 1919px)",
+            );
+            const sidebarCollapseDelay = 60_000;
+            let sidebarCollapseTimer;
+
+            function isSidebarResponsive() {
+                return responsiveSidebarQuery.matches;
+            }
+
+            function cancelSidebarCollapse() {
+                window.clearTimeout(sidebarCollapseTimer);
+                sidebarCollapseTimer = undefined;
+            }
+
+            function expandSidebar() {
+                if (!isSidebarResponsive()) {
+                    return;
+                }
+
+                cancelSidebarCollapse();
+                sidebar.classList.add("expanded");
+                sidebar.classList.remove("single");
+                mobileSidebarToggle.setAttribute("aria-expanded", "true");
+                mobileSidebarToggle.setAttribute(
+                    "aria-label",
+                    "Fechar menu lateral",
+                );
+                mobileSidebarToggleIcon.src =
+                    "/backoffice/assets/icons/Sidebar-Collapes--Streamline-Ultimate.png";
+            }
+
+            function collapseSidebar() {
+                if (!isSidebarResponsive()) {
+                    return;
+                }
+
+                sidebar.classList.add("single");
+                sidebar.classList.remove("expanded");
+                mobileSidebarToggle.setAttribute("aria-expanded", "false");
+                mobileSidebarToggle.setAttribute(
+                    "aria-label",
+                    "Abrir menu lateral",
+                );
+                mobileSidebarToggleIcon.src =
+                    "/backoffice/assets/icons/Sidebar-Expand--Streamline-Ultimate.png";
+            }
+
+            function scheduleSidebarCollapse() {
+                if (!isSidebarResponsive()) {
+                    return;
+                }
+
+                cancelSidebarCollapse();
+                sidebarCollapseTimer = window.setTimeout(() => {
+                    if (
+                        !sidebar.matches(":hover") &&
+                        !sidebar.contains(document.activeElement)
+                    ) {
+                        collapseSidebar();
+                    }
+                }, sidebarCollapseDelay);
+            }
+
+            function syncSidebarToViewport() {
+                cancelSidebarCollapse();
+
+                if (isSidebarResponsive()) {
+                    collapseSidebar();
+                    return;
+                }
+
+                sidebar.classList.add("expanded");
+                sidebar.classList.remove("single");
+            }
+
+            sidebar.addEventListener("mouseenter", expandSidebar);
+            sidebar.addEventListener("mouseleave", scheduleSidebarCollapse);
+            sidebar.addEventListener("focusin", expandSidebar);
+            sidebar.addEventListener("focusout", (event) => {
+                if (!sidebar.contains(event.relatedTarget)) {
+                    scheduleSidebarCollapse();
+                }
+            });
+            sidebar.addEventListener("pointerdown", (event) => {
+                if (!event.target.closest(".mobile-sidebar-toggle")) {
+                    expandSidebar();
+                }
+            });
+            sidebar.addEventListener("click", () => {
+                if (isSidebarResponsive()) {
+                    expandSidebar();
+                    scheduleSidebarCollapse();
+                }
+            });
+            mobileSidebarToggle.addEventListener("click", (event) => {
+                event.stopPropagation();
+
+                if (isSidebarResponsive() && window.innerWidth <= 700) {
+                    if (sidebar.classList.contains("expanded")) {
+                        cancelSidebarCollapse();
+                        collapseSidebar();
+                    } else {
+                        expandSidebar();
+                        scheduleSidebarCollapse();
+                    }
+                }
+            });
+            document.addEventListener("pointerdown", (event) => {
+                if (isSidebarResponsive() && !sidebar.contains(event.target)) {
+                    cancelSidebarCollapse();
+                    collapseSidebar();
+                }
+            });
+            responsiveSidebarQuery.addEventListener(
+                "change",
+                syncSidebarToViewport,
+            );
+            syncSidebarToViewport();
 
             function formatSidebarAdminName(fullName) {
                 const words = String(fullName || "")
