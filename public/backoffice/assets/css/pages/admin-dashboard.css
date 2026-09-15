@@ -847,6 +847,16 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Final mobile authority: the floating launcher must not reserve page space. */
+@media (max-width: 700px) {
+    html[data-role="admin"] .container-page .container-content,
+    html[data-role="admin"] .container-page.expanded .container-content,
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 0 !important;
+        width: 100% !important;
+    }
+}
+
 /* Last responsive authority: the compact shell reserves space while the sidebar overlays only when open. */
 @media (max-width: 1919px) {
     html[data-role="admin"] .fs-sidebar.single {
