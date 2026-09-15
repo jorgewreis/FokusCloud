@@ -847,6 +847,25 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Keep navigation labels quiet and consistent across every admin model. */
+html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label,
+html[data-role="admin"] .fs-sidebar .bottom .sidebar-button-label {
+    font-family: "Google Sans", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {
+    color: rgba(255, 255, 255, 0.72);
+}
+html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button.active .sidebar-button-label {
+    color: rgba(255, 255, 255, 0.94);
+    font-weight: 500;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button:hover:not(.active) .sidebar-button-label {
+    color: rgba(255, 255, 255, 0.86);
+}
+
 /* Final table/activity source-order guard. */
 .admin-final-dashboard .admin-companies-table {
     min-width: 820px;
