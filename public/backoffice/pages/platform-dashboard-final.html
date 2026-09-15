@@ -154,12 +154,12 @@
                         class="admin-chart-axis"
                         id="subscription-chart-axis"
                     ></div>
-                    <svg
-                        id="subscription-chart-svg"
-                        viewBox="0 0 720 248"
-                        preserveAspectRatio="none"
+                    <div
+                        class="admin-chart-plot"
+                        id="subscription-chart-plot"
                         role="img"
-                    ></svg>
+                        aria-label="Gráfico de novas assinaturas ativas"
+                    ></div>
                     <div
                         class="admin-chart-labels"
                         id="subscription-chart-labels"
@@ -412,7 +412,7 @@
         };
         const chart = (series) => {
             let v = series.map((x) => +x.value || 0),
-                svg = document.querySelector("#subscription-chart-svg"),
+                plot = document.querySelector("#subscription-chart-plot"),
                 axis = document.querySelector("#subscription-chart-axis"),
                 labels = document.querySelector("#subscription-chart-labels"),
                 empty = document.querySelector("#subscription-chart-empty");
@@ -420,7 +420,7 @@
                 .map((x) => `<span>${e(x.label)}</span>`)
                 .join("");
             if (!v.some(Boolean)) {
-                svg.innerHTML = "";
+                plot.innerHTML = "";
                 axis.innerHTML = "";
                 empty.hidden = false;
                 return;
@@ -435,18 +435,18 @@
                 max = Math.max(5, Math.ceil(Math.max(...v) / 5) * 5),
                 x = (i) => L + ((W - L - R) * i) / Math.max(v.length - 1, 1),
                 y = (n) => H - D - ((H - T - D) * n) / max,
-                p = v.map((n, i) => `${x(i)},${y(n)}`),
                 grid = Array.from(
                     { length: 6 },
                     (_, i) =>
-                        `<line x1="${L}" y1="${T + ((H - T - D) * i) / 5}" x2="${W - R}" y2="${T + ((H - T - D) * i) / 5}" class="admin-chart-grid-line"></line>`,
+                        `<span class="admin-chart-grid-line" style="top:${((T + ((H - T - D) * i) / 5) / H) * 100}%"></span>`,
                 ).join("");
             axis.innerHTML = Array.from(
                 { length: 6 },
                 (_, i) =>
                     `<span>${N.format(Math.round(max - (max * i) / 5))}</span>`,
             ).join("");
-            svg.innerHTML = `${grid}<polygon points="${L},${H - D} ${p.join(" ")} ${x(v.length - 1)},${H - D}" class="admin-chart-area"></polygon><polyline points="${p.join(" ")}" class="admin-chart-line"></polyline>${v.map((n, i) => `<circle cx="${x(i)}" cy="${y(n)}" r="4" class="admin-chart-point"><title>${e(series[i].label)}: ${N.format(n)}</title></circle>`).join("")}`;
+            const points = v.map((n, i) => ({ left: `${(x(i) / W) * 100}%`, top: `${(y(n) / H) * 100}%` }));
+            plot.innerHTML = `${grid}${points.map((point, i) => `<span class="admin-chart-point" style="left:${point.left};top:${point.top}" title="${e(series[i].label)}: ${N.format(v[i])}"></span>`).join("")}`;
         };
         const alerts = (a) => {
             let l = document.querySelector("#dashboard-alerts"),

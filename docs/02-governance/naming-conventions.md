@@ -110,7 +110,7 @@ aplicavel.
 
 | Regra | Padrao |
 | --- | --- |
-| Formato | `.png` para icones de interface, sem uso de `.svg` como substituto. |
+| Formato | `.png` para icones de interface, sem uso de formato vetorial alternativo como substituto. |
 | Localizacao compartilhada | `public/assets/icons/`. |
 | Localizacao do Backoffice | `public/backoffice/assets/icons/`. |
 | Origem | Baixar o PNG oficial na pagina do fornecedor; registrar a URL de origem quando o icone for introduzido ou substituido. |

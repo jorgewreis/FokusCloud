@@ -385,14 +385,18 @@ html[data-role="admin"] .sidebar-institutional img {
     height: 205px;
     padding-left: 42px;
 }
-.admin-subscription-chart svg {
+.admin-chart-plot {
+    position: relative;
     width: 100%;
     height: 174px;
     overflow: visible;
 }
 .admin-chart-grid-line {
-    stroke: #e8edf0;
-    stroke-width: 1;
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 1px;
+    background: #e8edf0;
 }
 .admin-chart-area {
     fill: rgba(207, 96, 57, 0.14);
@@ -403,9 +407,14 @@ html[data-role="admin"] .sidebar-institutional img {
     stroke-width: 3;
 }
 .admin-chart-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
     fill: #dc4d20;
-    stroke: #fff;
-    stroke-width: 2;
+    background: #dc4d20;
+    box-shadow: 0 0 0 2px #fff;
 }
 .admin-chart-axis {
     position: absolute;
@@ -2275,20 +2284,12 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     color: #718198;
     font-size: 10px;
 }
-.admin-final-chart svg {
+.admin-final-chart .admin-chart-plot {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 68%;
     height: 100%;
-}
-.admin-final-chart path {
-    fill: rgba(201, 102, 63, 0.14);
-}
-.admin-final-chart polyline {
-    fill: none;
-    stroke: #c9663f;
-    stroke-width: 3;
 }
 .admin-final-chart.is-empty {
     justify-content: center;
@@ -2541,7 +2542,7 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     height: 205px;
     padding-left: 42px;
 }
-.admin-final-dashboard .admin-subscription-chart svg {
+.admin-final-dashboard .admin-chart-plot {
     width: 100%;
     height: 174px;
     overflow: visible;
