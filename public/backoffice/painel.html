@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v33"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v34"
         />
     </head>
     <body>
@@ -234,7 +234,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v33";
+            const pageVersion = "20260915-admin-dashboard-v34";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -295,8 +295,6 @@
                 cancelSidebarCollapse();
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
-                containerPage.classList.add("expanded");
-                containerPage.classList.remove("single");
                 cancelSidebarFooterReveal();
                 sidebarFooterRevealTimer = window.setTimeout(() => {
                     sidebar.classList.add("sidebar-footer-ready");
@@ -317,8 +315,6 @@
 
                 sidebar.classList.add("single");
                 sidebar.classList.remove("expanded");
-                containerPage.classList.add("single");
-                containerPage.classList.remove("expanded");
                 cancelSidebarFooterReveal();
                 mobileSidebarToggle.setAttribute("aria-expanded", "false");
                 mobileSidebarToggle.setAttribute(
@@ -355,8 +351,6 @@
 
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
-                containerPage.classList.add("expanded");
-                containerPage.classList.remove("single");
                 sidebar.classList.add("sidebar-footer-ready");
             }
 
