@@ -857,10 +857,13 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         display: none !important;
     }
     html[data-role="admin"] .container-page .container-content,
-    html[data-role="admin"] .container-page.expanded .container-content,
-    html[data-role="admin"] .container-page.single .container-content {
+    html[data-role="admin"] .container-page.expanded .container-content {
         left: 0 !important;
         width: 100% !important;
+    }
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 80px !important;
+        width: calc(100% - 80px) !important;
     }
 }
 
@@ -874,6 +877,10 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         position: fixed;
         top: 90px;
         left: 5px;
+    }
+    html[data-role="admin"] .container-page.single .container-content {
+        left: 56px !important;
+        width: calc(100% - 56px) !important;
     }
 }
 

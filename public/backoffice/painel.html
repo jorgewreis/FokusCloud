@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v25"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v26"
         />
     </head>
     <body>
@@ -234,7 +234,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260915-admin-dashboard-v25";
+            const pageVersion = "20260915-admin-dashboard-v26";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -257,6 +257,7 @@
                 "e",
             ]);
             const sidebar = document.querySelector("#sidebar");
+            const containerPage = document.querySelector(".container-page");
             const mobileSidebarToggle = document.querySelector(
                 ".mobile-sidebar-toggle",
             );
@@ -286,6 +287,8 @@
                 cancelSidebarCollapse();
                 sidebar.classList.add("expanded");
                 sidebar.classList.remove("single");
+                containerPage.classList.add("expanded");
+                containerPage.classList.remove("single");
                 mobileSidebarToggle.setAttribute("aria-expanded", "true");
                 mobileSidebarToggle.setAttribute(
                     "aria-label",
@@ -302,6 +305,8 @@
 
                 sidebar.classList.add("single");
                 sidebar.classList.remove("expanded");
+                containerPage.classList.add("single");
+                containerPage.classList.remove("expanded");
                 mobileSidebarToggle.setAttribute("aria-expanded", "false");
                 mobileSidebarToggle.setAttribute(
                     "aria-label",
