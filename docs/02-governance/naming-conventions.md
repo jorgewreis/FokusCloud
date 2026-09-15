@@ -99,6 +99,24 @@ Responsabilidades:
 | `public/backoffice` | Backoffice interno da plataforma. |
 | `public/marketing` | Paginas institucionais, portfolio e fluxos comerciais do Cloud. |
 
+## Icones de interface
+
+O formato padrao para icones de interface no projeto e PNG. Novos icones devem ser
+armazenados em uma pasta `icons/` da area que os consome e devem preservar o nome
+oficial do asset, incluindo a familia do Streamline quando aplicavel.
+
+| Regra | Padrao |
+| --- | --- |
+| Formato | `.png` para icones de interface, sem uso de `.svg` como substituto. |
+| Localizacao compartilhada | `public/assets/icons/`. |
+| Localizacao do Backoffice | `public/backoffice/assets/icons/`. |
+| Referencia | Usar o caminho do arquivo PNG; nao reconstruir o desenho com CSS, fonte ou SVG inline. |
+| Acessibilidade | Imagens decorativas devem usar `alt=""` e `aria-hidden="true"`; imagens informativas devem ter texto alternativo. |
+
+Graficos, diagramas e outras visualizacoes vetoriais podem continuar usando SVG
+quando o vetor fizer parte da propria visualizacao e nao representar um icone de
+interface reutilizavel.
+
 ## Produtos
 
 Os projetos do portfolio devem usar codigos tecnicos estaveis:
