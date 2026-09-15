@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v53-footer-filter-transition"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260915-admin-dashboard-v54-mobile-toggle"
         />
     </head>
     <body>
@@ -305,6 +305,7 @@
                 sidebar.classList.remove("sidebar-footer-visible");
                 sidebar.classList.remove("sidebar-labels-ready");
                 sidebar.classList.remove("sidebar-labels-visible");
+                sidebar.classList.remove("sidebar-interactive-ready");
             }
 
             function expandSidebar() {
@@ -324,6 +325,7 @@
                         sidebarFooterOpacityTimer = window.setTimeout(() => {
                             sidebar.classList.add("sidebar-footer-visible");
                             sidebar.classList.add("sidebar-labels-visible");
+                            sidebar.classList.add("sidebar-interactive-ready");
                             sidebarFooterOpacityTimer = undefined;
                         }, sidebarOpacityDelay);
                         sidebarFooterRevealTimer = undefined;
@@ -333,6 +335,7 @@
                     sidebarFooterOpacityTimer = window.setTimeout(() => {
                         sidebar.classList.add("sidebar-footer-visible");
                         sidebar.classList.add("sidebar-labels-visible");
+                        sidebar.classList.add("sidebar-interactive-ready");
                         sidebarFooterOpacityTimer = undefined;
                     }, sidebarOpacityDelay);
                 }
@@ -356,11 +359,13 @@
                 sidebarFooterOpacityTimer = undefined;
                 sidebar.classList.remove("sidebar-footer-visible");
                 sidebar.classList.remove("sidebar-labels-visible");
+                sidebar.classList.remove("sidebar-interactive-ready");
                 if (window.innerWidth > 700 && sidebar.classList.contains("expanded")) {
                     sidebar.classList.add("is-collapsing");
                     sidebarFooterScaleTimer = window.setTimeout(() => {
                         sidebar.classList.remove("sidebar-footer-ready");
                         sidebar.classList.remove("sidebar-labels-ready");
+                        sidebar.classList.remove("sidebar-interactive-ready");
                         sidebarFooterScaleTimer = undefined;
                     }, sidebarScaleDelay);
                     sidebarCollapseTransitionTimer = window.setTimeout(() => {
@@ -415,6 +420,7 @@
                 sidebar.classList.add("sidebar-labels-ready");
                 sidebar.classList.add("sidebar-footer-visible");
                 sidebar.classList.add("sidebar-labels-visible");
+                sidebar.classList.add("sidebar-interactive-ready");
             }
 
             sidebar.addEventListener("mouseenter", expandSidebar);
@@ -437,6 +443,7 @@
                 }
             });
             mobileSidebarToggle.addEventListener("click", (event) => {
+                event.preventDefault();
                 event.stopPropagation();
 
                 if (isSidebarResponsive() && window.innerWidth <= 700) {

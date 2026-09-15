@@ -857,6 +857,21 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     }
 }
 @media (max-width: 700px) {
+    html[data-role="admin"] .fs-sidebar:not(.sidebar-interactive-ready) .sidebar-nav {
+        pointer-events: none !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar.single {
+        opacity: 0.8 !important;
+        transition: opacity 180ms ease !important;
+    }
+
+    html[data-role="admin"] .fs-sidebar.single:hover,
+    html[data-role="admin"] .fs-sidebar.single:active,
+    html[data-role="admin"] .fs-sidebar.single:focus-within {
+        opacity: 1 !important;
+    }
+
     html[data-role="admin"] .container-page .container-content,
     html[data-role="admin"] .container-page.expanded .container-content,
     html[data-role="admin"] .container-page.single .container-content {
