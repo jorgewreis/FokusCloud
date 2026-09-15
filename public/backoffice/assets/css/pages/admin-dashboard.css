@@ -3223,30 +3223,32 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
 /* Keep the sidebar footer anchored and free of hover/open flicker. */
 @media (min-width: 701px) {
     html[data-role="admin"] .fs-sidebar .bottom {
-        flex: 0 0 auto !important;
-        min-height: 72px;
+        position: absolute !important;
+        right: 0;
+        bottom: 20px;
+        left: 0;
+        width: auto !important;
+        min-height: 0 !important;
+        padding: 0 15px !important;
     }
 
     html[data-role="admin"] .fs-sidebar .bottom .line-hr-single {
         display: block !important;
-        flex: 0 0 1px;
         height: 1px !important;
         margin: 0 0 20px !important;
         transform: none !important;
     }
 
-    html[data-role="admin"] .fs-sidebar .sidebar-institutional,
-    html[data-role="admin"] .fs-sidebar.sidebar-footer-ready .sidebar-institutional {
-        visibility: visible !important;
-        opacity: 1 !important;
+    html[data-role="admin"] .fs-sidebar .bottom .sidebar-institutional {
+        visibility: hidden !important;
+        opacity: 0 !important;
         transform: none !important;
         transition: none !important;
     }
 
-    html[data-role="admin"] .fs-sidebar.single .sidebar-institutional {
-        visibility: hidden !important;
-        opacity: 0 !important;
-        transition: none !important;
+    html[data-role="admin"] .fs-sidebar.sidebar-footer-ready .bottom .sidebar-institutional {
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 }
 
