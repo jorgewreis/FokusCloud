@@ -102,16 +102,33 @@ Responsabilidades:
 ## Icones de interface
 
 O formato padrao para icones de interface no projeto e PNG. Novos icones devem ser
-armazenados em uma pasta `icons/` da area que os consome e devem preservar o nome
-oficial do asset, incluindo a familia do Streamline quando aplicavel.
+baixados como PNG diretamente da fonte oficial do asset (por exemplo, o botao PNG do
+Streamline), nunca redesenhados, gerados, convertidos de SVG ou substituidos por um
+desenho em CSS. Devem ser armazenados em uma pasta `icons/` da area que os consome e
+devem preservar o nome oficial do asset, incluindo a familia do Streamline quando
+aplicavel.
 
 | Regra | Padrao |
 | --- | --- |
 | Formato | `.png` para icones de interface, sem uso de `.svg` como substituto. |
 | Localizacao compartilhada | `public/assets/icons/`. |
 | Localizacao do Backoffice | `public/backoffice/assets/icons/`. |
-| Referencia | Usar o caminho do arquivo PNG; nao reconstruir o desenho com CSS, fonte ou SVG inline. |
+| Origem | Baixar o PNG oficial na pagina do fornecedor; registrar a URL de origem quando o icone for introduzido ou substituido. |
+| Referencia | Usar o caminho do arquivo PNG; nao reconstruir, rasterizar ou converter o desenho com CSS, fonte, canvas ou SVG inline. |
 | Acessibilidade | Imagens decorativas devem usar `alt=""` e `aria-hidden="true"`; imagens informativas devem ter texto alternativo. |
+
+Os icones de navegacao e tema do Fokus Styles seguem essa regra e usam os PNGs oficiais
+do Streamline em `public/assets/icons/`:
+
+| Arquivo | Fonte oficial |
+| --- | --- |
+| `Arrow-Left-1--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/arrow-left-1--9664 |
+| `Arrow-Right-1--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/arrow-right-1--9664 |
+| `Light-Mode-Sunny--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/light-mode-sunny--9176 |
+| `Do-Not-Disturb-Sleep-Mode--Streamline-Ultimate.png` | https://www.streamlinehq.com/icons/download/do-not-disturb-sleep-mode--9252 |
+
+Antes de adicionar outro icone, confirmar no fornecedor que o download selecionado e
+PNG e manter a referencia da pagina oficial no registro da mudanca.
 
 Graficos, diagramas e outras visualizacoes vetoriais podem continuar usando SVG
 quando o vetor fizer parte da propria visualizacao e nao representar um icone de
