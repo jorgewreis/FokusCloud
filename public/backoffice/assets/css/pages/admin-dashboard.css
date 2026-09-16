@@ -848,6 +848,14 @@ html[data-role="admin"] .sidebar-institutional img {
 .admin-final-dashboard .admin-user-menu button:focus-visible {
     background: #f2f6fa !important;
 }
+.admin-final-dashboard .admin-user-menu button:disabled {
+    color: #9ba8b7 !important;
+    cursor: not-allowed;
+    opacity: 0.72;
+}
+.admin-final-dashboard .admin-user-menu button:disabled:hover {
+    background: transparent !important;
+}
 .admin-final-dashboard .admin-user-menu button[data-dashboard-logout] { color: #c53d35 !important; }
 .admin-final-dashboard .admin-user-menu button[data-dashboard-logout]:hover,
 .admin-final-dashboard .admin-user-menu button[data-dashboard-logout]:focus-visible { background: #fff0ee !important; }
