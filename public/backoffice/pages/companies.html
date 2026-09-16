@@ -148,6 +148,30 @@
     pagination.addEventListener("click", (event) => { const button = event.target.closest("[data-company-page]"); if (!button) return; state.page = Number(button.dataset.companyPage); load(); });
     list.addEventListener("click", async (event) => { const button = event.target.closest("[data-company-action]"); if (!button) return; const id = button.dataset.companyId; const type = button.dataset.companyAction; if (type === "details" || type === "edit") { const company = await loadCompany(id); if (company) openDrawer(company, type === "details" ? "view" : "edit"); return; } const labels = { deactivate: "desativar", activate: "reativar", remove: "remover" }; if (!window.confirm(`Deseja ${labels[type]} esta empresa?`)) return; try { const endpoint = type === "remove" ? `/backoffice/companies/${id}` : `/backoffice/companies/${id}/${type}`; await api.request(endpoint, { method: type === "remove" ? "DELETE" : "POST" }); showMessage(type === "remove" ? "Empresa removida da listagem." : type === "activate" ? "Empresa reativada." : "Empresa desativada.", "success"); await load(); } catch (error) { showMessage(error.message || "Não foi possível concluir a ação."); } });
     document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !drawer.hidden) closeDrawer(); });
+    const syncDrawerFields = () => {
+        if (drawer.hidden) return;
+        const mode = drawer.dataset.mode;
+        const type = document.querySelector("#company-document-type").value;
+        const documentNumber = document.querySelector("#company-document-number");
+        if (mode === "edit") {
+            const title = document.querySelector("#company-drawer-title");
+            const description = document.querySelector("#company-drawer-description");
+            if (title.textContent !== "Editar dados da empresa") title.textContent = "Editar dados da empresa";
+            if (description.textContent !== "Altere somente os dados cadastrais e do administrador permitidos.") description.textContent = "Altere somente os dados cadastrais e do administrador permitidos.";
+            document.querySelector("#company-document-type").disabled = true;
+            documentNumber.disabled = true;
+            documentNumber.value = formatDocument(documentNumber.value, type);
+        }
+        if (mode === "view") {
+            const viewDocument = document.querySelector("#company-view-document");
+            const viewAdminCpf = document.querySelector("#company-view-admin-cpf");
+            const formattedDocument = formatDocument(viewDocument.textContent, type);
+            const formattedAdminCpf = formatDocument(viewAdminCpf.textContent, "cpf");
+            if (viewDocument.textContent !== formattedDocument) viewDocument.textContent = formattedDocument;
+            if (viewAdminCpf.textContent !== formattedAdminCpf) viewAdminCpf.textContent = formattedAdminCpf;
+        }
+    };
+    new MutationObserver(syncDrawerFields).observe(drawer, { attributes: true, childList: true, subtree: true, characterData: true });
     load();
 })();
 </script>

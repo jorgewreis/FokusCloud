@@ -126,9 +126,15 @@
 }
 
 .admin-company-page .admin-company-view-section h3 {
-    font-family: "Google Sans", sans-serif !important;
+    font-family: "Bebas Neue", sans-serif !important;
     font-size: 20px !important;
     font-weight: 500 !important;
+}
+
+.admin-company-page .admin-company-form input,
+.admin-company-page .admin-company-form button,
+.admin-company-page .admin-company-form select {
+    font-family: "Google Sans", sans-serif !important;
 }
 
 .admin-company-page .admin-company-name-button,

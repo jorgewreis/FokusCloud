@@ -1571,6 +1571,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button:hover:not(.acti
     white-space: nowrap;
 }
 .admin-final-dashboard .admin-activity-item time {
+    font-family: "Syne Mono", monospace;
     padding-left: 4px;
     font-size: 10px;
     white-space: nowrap;
