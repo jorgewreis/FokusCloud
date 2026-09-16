@@ -82,7 +82,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button:hover:not(:disabled) {
     background: rgba(53, 131, 183, 0.48);
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button:disabled {
-    opacity: 0.58;
+    opacity: 0.4;
     cursor: default;
 }
 html[data-role="admin"] .fs-sidebar.expanded .sidebar-button-label {
@@ -864,7 +864,7 @@ html[data-role="admin"] .sidebar-institutional img {
 .admin-final-dashboard .admin-user-menu button:disabled {
     color: #9ba8b7 !important;
     cursor: not-allowed;
-    opacity: 0.72;
+    opacity: 0.4;
 }
 .admin-final-dashboard .admin-user-menu button:disabled:hover {
     background: transparent !important;
@@ -3746,7 +3746,7 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 }
 .admin-company-page .admin-form-field {
     display: grid;
-    gap: 6px;
+    gap: 2px;
     color: #526b88;
     font-size: 11px;
     font-weight: 700;

@@ -171,10 +171,22 @@
 
 .fc-form label,
 .fs-form-label {
-    margin-left: 4px;
+    margin-left: 15px;
     font-size: 10px;
-    font-weight: 400;
+    font-family: "Syne Mono", monospace;
+    font-weight: 500;
     color: var(--text-color-muted, var(--theme-text-muted, var(--color-gray-700)));
+    text-transform: uppercase;
+}
+
+.fc-form label > span,
+.fs-form-label > span,
+.metric-label,
+.admin-product-label {
+    margin-left: 15px;
+    font-family: "Syne Mono", monospace;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 
 .fc-form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
@@ -240,6 +252,11 @@ textarea,
     background-color: var(--theme-surface-alt);
     color: var(--theme-text-muted);
     opacity: var(--form-control-disabled-opacity);
+}
+
+/* Disabled form controls share one predictable accessibility state everywhere. */
+:where(input, select, textarea, button):disabled {
+    opacity: 0.4 !important;
 }
 
 .form-help {
@@ -387,7 +404,7 @@ textarea,
 .fs-btn:disabled,
 .submit:disabled {
     cursor: not-allowed;
-    opacity: 0.55;
+    opacity: 0.4;
 }
 
 .button-secondary {
@@ -559,7 +576,7 @@ textarea,
 
 .icon-button:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 /* FORM DESIGN SYSTEM */

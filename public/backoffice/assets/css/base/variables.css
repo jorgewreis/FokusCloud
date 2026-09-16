@@ -33,7 +33,7 @@
     --form-control-border: var(--theme-border-alt);
     --form-control-focus-border: var(--role-color-400);
     --form-control-focus-ring: var(--role-color-100);
-    --form-control-disabled-opacity: 0.75;
+    --form-control-disabled-opacity: 0.4;
     --form-control-gap: 8px;
     --form-feedback-size: 10px;
     --form-feedback-error-border: var(--role-color-500);

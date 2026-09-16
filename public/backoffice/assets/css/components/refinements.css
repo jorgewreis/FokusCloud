@@ -112,11 +112,11 @@ body.has-modal-open { overflow: hidden; }
 .dropdown-group-title { padding: 6px 10px 4px; color: var(--theme-text-muted); font-size: 10px; font-weight: var(--font-weight-semibold); text-transform: uppercase; }
 .fs-dropdown-divider { height: 1px; margin: var(--space-1) 0; background: var(--theme-border-alt); }
 .dropdown-item-danger { color: var(--color-red-600); }
-.fs-dropdown-item:disabled, .fs-dropdown-item[aria-disabled="true"] { cursor: not-allowed; opacity: .5; }
+.fs-dropdown-item:disabled, .fs-dropdown-item[aria-disabled="true"] { cursor: not-allowed; opacity: .4; }
 
 /* TABS AND PAGINATION */
 .fs-tabs.is-scrollable { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: thin; }
-.tab.is-disabled, .tab:disabled { cursor: not-allowed; opacity: .5; }
+.tab.is-disabled, .tab:disabled { cursor: not-allowed; opacity: .4; }
 .tab.has-error { color: var(--color-red-600); }
 .tab-panel { padding-top: var(--space-3); }
 .tab-panel[hidden] { display: none; }
@@ -225,7 +225,7 @@ html[data-theme="dark"] .fs-modal { background: rgb(0 0 0 / .68); }
 .form-input-text, .fs-form-select, .fs-form-control { height: 40px; }
 .fs-form-control { height: auto; min-height: 88px; padding-block: 10px; resize: vertical; }
 .fs-form-control[readonly], .fs-form-control.is-readonly, .select-control[readonly] { background: var(--theme-surface-alt); color: var(--theme-text-muted); }
-.fs-form-control:disabled, .select-control:disabled { background: var(--theme-surface-alt); cursor: not-allowed; opacity: .65; }
+.fs-form-control:disabled, .select-control:disabled { background: var(--theme-surface-alt); cursor: not-allowed; opacity: .4; }
 .form-control-error, .fs-form-control[aria-invalid="true"] { border-color: var(--form-feedback-error-border); }
 .form-control-error:focus, .fs-form-control[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px var(--form-feedback-error-background); }
 .form-control-success { border-color: var(--form-feedback-success-border); }
@@ -423,7 +423,7 @@ html[data-theme="dark"] .fs-modal { background: rgb(0 0 0 / .68); }
     background-color: var(--theme-surface-alt);
     color: var(--theme-text-muted);
     cursor: not-allowed;
-    opacity: .86;
+    opacity: .4;
 }
 
 .container-content :is(.fs-btn, .submit, button:not(.sidebar-button):not(.icon-button):not(.fs-page-item):not(.tab):not(.fs-dropdown-item):not(.dropdown-trigger)),
@@ -483,7 +483,7 @@ html[data-theme="dark"] .fs-modal { background: rgb(0 0 0 / .68); }
 .container-content :is(.fs-btn, .submit, button:not(.sidebar-button):not(.icon-button)):disabled,
 .auth-panel :is(.fs-btn, .submit, button):disabled {
     cursor: not-allowed;
-    opacity: .56;
+    opacity: .4;
     transform: none;
 }
 

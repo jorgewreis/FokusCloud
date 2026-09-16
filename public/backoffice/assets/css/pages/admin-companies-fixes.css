@@ -168,10 +168,13 @@
 }
 
 .admin-company-page .admin-company-form .admin-form-field {
+    margin-left: 0;
     align-content: start;
 }
 
 .admin-company-page .admin-company-form .admin-form-field > span {
+    margin-left: 15px;
+    text-transform: uppercase;
     font-family: "Syne Mono", monospace !important;
     font-weight: 500 !important;
 }
