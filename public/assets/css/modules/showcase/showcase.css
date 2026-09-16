@@ -732,7 +732,7 @@
 .platform-access-card form button:hover, .platform-access-card form button:focus-visible { background: #8b6a3d; color: #fff; }
 .platform-access-message { min-height: 18px; margin: 14px 0 0; color: #67655f; font-size: 11px; line-height: 1.45; }
 .platform-access-message.is-error { color: #a84b42; }
-.immersive-products { position: absolute; right: 25px; bottom: 145px; z-index: 2; display: flex; align-items: center; gap: 24px; color: #f6f1e8; }
+.immersive-products { position: absolute; right: 25px; bottom: 190px; z-index: 2; display: flex; align-items: center; gap: 24px; color: #f6f1e8; }
 .immersive-products-label { margin-right: 12px; color: rgb(246 241 232 / 76%); font-size: 8px; font-weight: 700; letter-spacing: .18em; }
 .immersive-products a { color: #f6f1e8; font: 400 25px "Bebas Neue", sans-serif; letter-spacing: .2em; text-shadow: 0 1px 12px rgb(0 0 0 / 45%); }
 .immersive-products a:hover { color: #d6b477; }
