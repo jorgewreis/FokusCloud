@@ -48,7 +48,7 @@
 
 /* Render the icon on its own layer so legacy hover background shorthands cannot hide it. */
 .admin-company-page .admin-company-row-action::before {
-    display: block;
+    display: none !important;
     width: 18px;
     height: 18px;
     content: "";
