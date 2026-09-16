@@ -8,7 +8,7 @@
                 type="search"
                 placeholder="Buscar empresas, usuários, clientes, assinaturas..."
                 aria-label="Buscar na plataforma"
-            /><kbd>Ctrl K</kbd></label
+            /></label
         >
         <div class="admin-global-search-results" id="admin-global-search-results" hidden></div>
         <div class="admin-header-user">
@@ -605,13 +605,6 @@
         document.addEventListener("click", (event) => {
             if (!event.target.closest(".admin-global-search") && !event.target.closest(".admin-global-search-results")) {
                 document.querySelector("#admin-global-search-results").hidden = true;
-            }
-        });
-        document.addEventListener("keydown", (event) => {
-            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-                event.preventDefault();
-                globalSearch.focus();
-                globalSearch.select();
             }
         });
         document
