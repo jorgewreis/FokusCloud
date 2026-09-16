@@ -838,9 +838,10 @@ html[data-role="admin"] .sidebar-institutional img {
     background: transparent !important;
     font: inherit;
     font-size: 12px;
-    text-align: left;
+    text-align: left !important;
     text-decoration: none;
     cursor: pointer;
+    justify-content: flex-start !important;
 }
 .admin-final-dashboard .admin-user-menu a:hover,
 .admin-final-dashboard .admin-user-menu a:focus-visible,
