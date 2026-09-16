@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Http;
 
 class CompanyAdminTest extends TestCase
 {
@@ -19,6 +20,7 @@ class CompanyAdminTest extends TestCase
     {
         parent::setUp();
         $this->seed();
+        Http::fake(['api.pwnedpasswords.com/*' => Http::response('', 200)]);
     }
 
     public function test_company_query_is_paginated_and_masks_document_and_email(): void
@@ -42,6 +44,65 @@ class CompanyAdminTest extends TestCase
             ->where('platform_permission_id', DB::table('platform_permissions')->where('code', 'platform.companies.view')->value('id'))->delete();
 
         $this->actingAs($admin, 'platform')->getJson('/api/backoffice/companies')->assertForbidden();
+    }
+
+    public function test_superadmin_can_create_company_with_immediate_access_and_legal_acceptances(): void
+    {
+        $admin = $this->platformAdmin();
+
+        $this->actingAs($admin, 'platform')->postJson('/api/backoffice/companies', [
+            'document_type' => 'cnpj',
+            'document_number' => '11.222.333/0001-81',
+            'legal_name' => 'Empresa Criada no Backoffice',
+            'name' => 'Administrador Criado',
+            'cpf' => '11144477735',
+            'email' => 'criado@example.test',
+            'password' => 'SenhaSegura!2026',
+            'terms' => '1',
+            'privacy' => '1',
+        ])->assertCreated();
+
+        $this->assertDatabaseHas('companies', ['legal_name' => 'Empresa Criada no Backoffice', 'status' => 'ativa']);
+        $this->assertDatabaseHas('users', ['email' => 'criado@example.test', 'status' => 'ativa']);
+        $this->assertDatabaseCount('legal_acceptances', 2);
+    }
+
+    public function test_superadmin_can_edit_deactivate_reactivate_and_remove_company_without_subscriptions(): void
+    {
+        $admin = $this->platformAdmin();
+        $companyId = $this->companyFixture('Empresa Editável', '98765432000100', 'editavel@example.test');
+        $version = DB::table('companies')->where('id', $companyId)->value('version');
+
+        $this->actingAs($admin, 'platform')->patchJson("/api/backoffice/companies/{$companyId}", [
+            'legal_name' => 'Empresa Editada', 'name' => 'Administrador Editado', 'cpf' => '11144477735', 'email' => 'editado@example.test', 'version' => $version,
+        ])->assertOk();
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/companies/{$companyId}/deactivate")->assertOk();
+        $this->assertDatabaseHas('companies', ['id' => $companyId, 'legal_name' => 'Empresa Editada', 'status' => 'suspensa']);
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/companies/{$companyId}/activate")->assertOk();
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/companies/{$companyId}")->assertOk();
+        $this->assertSoftDeleted('companies', ['id' => $companyId]);
+        $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.company_deleted', 'entity_id' => $companyId]);
+    }
+
+    public function test_company_with_subscription_cannot_be_removed(): void
+    {
+        $admin = $this->platformAdmin();
+        $companyId = $this->companyFixture('Empresa Com Assinatura', '11222333000181', 'assinatura@example.test');
+        $productId = DB::table('products')->value('id');
+        DB::table('subscriptions')->insert([
+            'id' => PrefixedUlid::make('SUB'), 'company_id' => $companyId, 'product_id' => $productId, 'status' => 'ativa', 'open_company_product' => $companyId.'-'.$productId,
+            'version' => 1, 'billing_cycle' => 'monthly', 'created_by' => $admin->id, 'updated_by' => $admin->id, 'created_at' => now(), 'updated_at' => now(),
+        ]);
+
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/companies/{$companyId}")->assertUnprocessable();
+        $this->assertDatabaseHas('companies', ['id' => $companyId, 'deleted_at' => null]);
+    }
+
+    public function test_commercial_admin_cannot_mutate_companies(): void
+    {
+        $admin = $this->platformAdmin('administrador_comercial');
+
+        $this->actingAs($admin, 'platform')->postJson('/api/backoffice/companies', [])->assertForbidden();
     }
 
     private function platformAdmin(string $role = 'superadministrador'): PlatformAdmin

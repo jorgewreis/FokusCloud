@@ -14,6 +14,8 @@ use App\Services\SubscriptionChangeManager;
 use App\Services\MercadoPagoClient;
 use App\Services\BillingReconciliationManager;
 use App\Services\RefundManager;
+use App\Services\PasswordSecurity;
+use App\Support\BrazilianDocuments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -171,11 +173,169 @@ class BackofficeController extends Controller
             ->orderBy($sort, $direction)
             ->orderBy('company.legal_name')
             ->paginate($perPage);
+        $summary = DB::table('companies')->whereNull('deleted_at')->selectRaw('count(*) as total, sum(status = ?) as active, sum(status = ?) as suspended, sum(status = ?) as pending', ['ativa', 'suspensa', 'pendente'])->first();
         $audit->record($request->user()->id, 'backoffice.companies_viewed', request: $request);
         return response()->json([
             'data' => collect($paginator->items())->map(fn (object $row): array => $this->dashboardCompanyListPayload($row))->values(),
             'meta' => $this->paginationMeta($paginator),
+            'summary' => [
+                'total' => (int) ($summary->total ?? 0),
+                'active' => (int) ($summary->active ?? 0),
+                'suspended' => (int) ($summary->suspended ?? 0),
+                'pending' => (int) ($summary->pending ?? 0),
+            ],
         ]);
+    }
+
+    public function createCompany(Request $request, PlatformAudit $audit, PasswordSecurity $passwordSecurity)
+    {
+        $data = $request->validate([
+            'document_type' => ['required', Rule::in(['cpf', 'cnpj'])],
+            'document_number' => ['required', 'string'],
+            'legal_name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'cpf' => ['required', 'string'],
+            'email' => ['required', 'email:rfc', 'max:255'],
+            'password' => ['required', 'string', 'min:12'],
+            'terms' => ['accepted'],
+            'privacy' => ['accepted'],
+        ]);
+        $document = BrazilianDocuments::digits($data['document_number']);
+        $cpf = BrazilianDocuments::digits($data['cpf']);
+        $email = Str::lower(trim($data['email']));
+        abort_unless($data['document_type'] === 'cpf' ? BrazilianDocuments::cpf($document) : BrazilianDocuments::cnpj($document), 422, 'Documento empresarial inválido.');
+        abort_unless(BrazilianDocuments::cpf($cpf), 422, 'CPF inválido.');
+        abort_if(DB::table('companies')->where('document_type', $data['document_type'])->where('document_number', $document)->exists(), 409, 'Esta empresa já possui cadastro.');
+        abort_if(User::where('cpf', $cpf)->exists(), 409, 'Este CPF já possui uma conta.');
+        abort_if(User::where('email', $email)->exists(), 409, 'Este e-mail já está vinculado a outra conta.');
+        $passwordSecurity->validate($data['password']);
+
+        $companyId = DB::transaction(function () use ($data, $document, $cpf, $email, $audit, $request) {
+            $adminId = PrefixedUlid::make('USR');
+            $companyId = PrefixedUlid::make('EMP');
+            $now = now();
+            $user = User::create([
+                'id' => $adminId,
+                'name' => trim($data['name']),
+                'cpf' => $cpf,
+                'email' => $email,
+                'password' => Hash::make($data['password']),
+                'status' => 'ativa',
+                'email_verified_at' => $now,
+            ]);
+            DB::table('companies')->insert([
+                'id' => $companyId,
+                'document_type' => $data['document_type'],
+                'document_number' => $document,
+                'legal_name' => trim($data['legal_name']),
+                'status' => 'ativa',
+                'version' => 1,
+                'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+            $roleId = DB::table('roles')->where('code', 'admin')->value('id');
+            abort_unless($roleId, 503, 'Perfil de administrador ainda não foi configurado.');
+            DB::table('company_memberships')->insert([
+                'id' => PrefixedUlid::make('VNC'),
+                'company_id' => $companyId,
+                'user_id' => $user->id,
+                'role_id' => $roleId,
+                'status' => 'ativo',
+                'active_admin_company_id' => $companyId,
+                'version' => 1,
+                'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+            foreach (['terms', 'privacy'] as $type) {
+                DB::table('legal_acceptances')->insert([
+                    'id' => PrefixedUlid::make('ACE'),
+                    'user_id' => $user->id,
+                    'document_type' => $type,
+                    'document_version' => '1.0',
+                    'accepted_at' => $now,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+            }
+
+            $audit->record($request->user()->id, 'backoffice.company_created', 'company', $companyId, $companyId, metadata: ['admin_id' => $user->id], after: ['id' => $companyId, 'legal_name' => $data['legal_name'], 'status' => 'ativa'], request: $request);
+
+            return $companyId;
+        });
+
+        return response()->json(['company_id' => $companyId, 'message' => 'Empresa criada com acesso imediato.'], 201);
+    }
+
+    public function updateCompany(Request $request, string $company, PlatformAudit $audit)
+    {
+        $data = $request->validate([
+            'legal_name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'cpf' => ['required', 'string'],
+            'email' => ['required', 'email:rfc', 'max:255'],
+            'version' => ['required', 'integer', 'min:1'],
+        ]);
+        $cpf = BrazilianDocuments::digits($data['cpf']);
+        abort_unless(BrazilianDocuments::cpf($cpf), 422, 'CPF inválido.');
+        $email = Str::lower(trim($data['email']));
+
+        $result = DB::transaction(function () use ($data, $company, $cpf, $email, $audit, $request) {
+            $current = DB::table('companies')->where('id', $company)->whereNull('deleted_at')->lockForUpdate()->first();
+            abort_unless($current, 404, 'Empresa não encontrada.');
+            abort_if((int) $current->version !== (int) $data['version'], 409, 'A empresa foi alterada por outro administrador. Atualize a página e tente novamente.');
+            $membership = DB::table('company_memberships as membership')->join('users as user', 'user.id', '=', 'membership.user_id')->where('membership.company_id', $company)->whereIn('membership.status', ['ativo', 'pendente'])->whereNull('membership.deleted_at')->orderByRaw("case when membership.status = 'ativo' then 0 else 1 end")->select('membership.id as membership_id', 'membership.user_id', 'user.cpf', 'user.email')->lockForUpdate()->first();
+            abort_unless($membership, 422, 'A empresa não possui administrador ativo.');
+            abort_if(User::where('cpf', $cpf)->where('id', '!=', $membership->user_id)->exists(), 409, 'Este CPF já possui uma conta.');
+            abort_if(User::where('email', $email)->where('id', '!=', $membership->user_id)->exists(), 409, 'Este e-mail já está vinculado a outra conta.');
+            $now = now();
+            User::where('id', $membership->user_id)->update(['name' => trim($data['name']), 'cpf' => $cpf, 'email' => $email, 'updated_at' => $now]);
+            $updated = DB::table('companies')->where('id', $company)->where('version', $data['version'])->update(['legal_name' => trim($data['legal_name']), 'updated_by' => $request->user()->id, 'version' => DB::raw('version + 1'), 'updated_at' => $now]);
+            abort_unless($updated, 409, 'A empresa foi alterada por outro administrador. Atualize a página e tente novamente.');
+            $audit->record($request->user()->id, 'backoffice.company_updated', 'company', $company, $company, before: ['legal_name' => $current->legal_name, 'admin_id' => $membership->user_id, 'admin_email' => $membership->email], after: ['legal_name' => $data['legal_name'], 'admin_id' => $membership->user_id, 'admin_email' => $email], request: $request);
+            return true;
+        });
+
+        return response()->json(['message' => 'Dados da empresa atualizados.']);
+    }
+
+    public function deactivateCompany(Request $request, string $company, PlatformAudit $audit)
+    {
+        return $this->setCompanyStatus($request, $company, 'suspensa', $audit);
+    }
+
+    public function activateCompany(Request $request, string $company, PlatformAudit $audit)
+    {
+        return $this->setCompanyStatus($request, $company, 'ativa', $audit);
+    }
+
+    private function setCompanyStatus(Request $request, string $company, string $status, PlatformAudit $audit)
+    {
+        $current = DB::table('companies')->where('id', $company)->whereNull('deleted_at')->first();
+        abort_unless($current, 404, 'Empresa não encontrada.');
+        abort_if($current->status === 'encerrada', 422, 'Empresa encerrada não pode ser reativada ou desativada.');
+        if ($current->status === $status) {
+            return response()->json(['message' => 'A empresa já está neste status.']);
+        }
+        DB::table('companies')->where('id', $company)->where('version', $current->version)->update(['status' => $status, 'updated_by' => $request->user()->id, 'version' => DB::raw('version + 1'), 'updated_at' => now()]);
+        $audit->record($request->user()->id, 'backoffice.company_status_changed', 'company', $company, $company, before: ['status' => $current->status], after: ['status' => $status], request: $request);
+        return response()->json(['message' => $status === 'ativa' ? 'Empresa reativada.' : 'Empresa desativada.']);
+    }
+
+    public function deleteCompany(Request $request, string $company, PlatformAudit $audit)
+    {
+        DB::transaction(function () use ($request, $company, $audit) {
+            $current = DB::table('companies')->where('id', $company)->whereNull('deleted_at')->lockForUpdate()->first();
+            abort_unless($current, 404, 'Empresa não encontrada.');
+            abort_if(DB::table('subscriptions')->where('company_id', $company)->exists(), 422, 'Não é possível remover uma empresa que possui assinaturas.');
+            DB::table('companies')->where('id', $company)->update(['deleted_at' => now(), 'deleted_by' => $request->user()->id, 'updated_by' => $request->user()->id, 'version' => DB::raw('version + 1'), 'updated_at' => now()]);
+            $audit->record($request->user()->id, 'backoffice.company_deleted', 'company', $company, $company, before: ['legal_name' => $current->legal_name, 'status' => $current->status], after: ['deleted' => true], request: $request);
+        });
+
+        return response()->json(['message' => 'Empresa removida da listagem.']);
     }
 
     public function search(Request $request, PlatformAudit $audit)
@@ -765,7 +925,7 @@ class BackofficeController extends Controller
             ->where('membership.company_id', $company->id)
             ->whereIn('membership.status', ['ativo', 'pendente'])
             ->orderByRaw("case when membership.status = 'ativo' then 0 else 1 end")
-            ->select('user.name', 'user.email')
+            ->select('user.name', 'user.email', 'user.cpf')
             ->first();
 
         return [
@@ -774,7 +934,8 @@ class BackofficeController extends Controller
             'document_type' => $company->document_type,
             'document_masked' => $this->maskDocument($company->document_type, $company->document_number),
             'status' => $company->status,
-            'admin' => $admin ? ['name' => $admin->name, 'email_masked' => $this->maskEmail($admin->email)] : null,
+            'version' => (int) ($company->version ?? 1),
+            'admin' => $admin ? ['name' => $admin->name, 'cpf' => $admin->cpf, 'email' => $admin->email, 'email_masked' => $this->maskEmail($admin->email)] : null,
             'created_at' => $company->created_at,
         ];
     }
