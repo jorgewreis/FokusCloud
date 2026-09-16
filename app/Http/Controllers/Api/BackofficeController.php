@@ -938,6 +938,7 @@ class BackofficeController extends Controller
             'document_masked' => $this->maskDocument($company->document_type, $company->document_number),
             'status' => $company->status,
             'version' => (int) ($company->version ?? 1),
+            'subscriptions_count' => (int) DB::table('subscriptions')->where('company_id', $company->id)->count(),
             'admin' => $admin ? ['name' => $admin->name, 'cpf' => $admin->cpf, 'email' => $admin->email, 'email_masked' => $this->maskEmail($admin->email)] : null,
             'created_at' => $company->created_at,
         ];
