@@ -801,7 +801,7 @@ html[data-role="admin"] .sidebar-institutional img {
     white-space: nowrap;
 }
 .admin-final-dashboard #dashboard-user-name {
-    border-bottom: 5px solid #ef8a15;
+    margin-bottom: 5px;
 }
 .admin-final-dashboard .admin-user-details {
     position: relative;
