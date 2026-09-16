@@ -46,6 +46,32 @@
     background-image: url("/backoffice/assets/icons/Remove-Circle-1--Streamline-Ultimate.png") !important;
 }
 
+/* Render the icon on its own layer so legacy hover background shorthands cannot hide it. */
+.admin-company-page .admin-company-row-action::before {
+    display: block;
+    width: 18px;
+    height: 18px;
+    content: "";
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.admin-company-page .admin-company-row-action[data-company-action="details"]::before {
+    background-image: url("/backoffice/assets/icons/View-Circle--Streamline-Ultimate.png");
+}
+.admin-company-page .admin-company-row-action[data-company-action="edit"]::before {
+    background-image: url("/backoffice/assets/icons/Pencil-Circle--Streamline-Ultimate.png");
+}
+.admin-company-page .admin-company-row-action[data-company-action="deactivate"]::before {
+    background-image: url("/backoffice/assets/icons/Button-Pause-1--Streamline-Ultimate.png");
+}
+.admin-company-page .admin-company-row-action[data-company-action="activate"]::before {
+    background-image: url("/backoffice/assets/icons/Power-Button-1--Streamline-Ultimate.png");
+}
+.admin-company-page .admin-company-row-action[data-company-action="remove"]::before {
+    background-image: url("/backoffice/assets/icons/Remove-Circle-1--Streamline-Ultimate.png");
+}
+
 /* Typography hierarchy for the company details drawer. */
 .admin-company-page .admin-company-view-section dt {
     font-family: "Syne Mono", monospace !important;
