@@ -1,53 +1,53 @@
 
-<div class="voucher-page fs-u-d-flex fs-col">
+<div class="voucher-page fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4">
 
     <div class="fs-col fs-u-gap-3 fs-u-mb-3">
-        <h1 class="text-display-4">Vouchers</h1>
-        <p class="text-heading-5 fs-u-color-secondary">Crie e acompanhe vouchers promocionais.</p>
+        <h1 class="fs-u-fs-h1">Vouchers</h1>
+        <p class="fs-u-fs-h5 fs-u-color-secondary">Crie e acompanhe vouchers promocionais.</p>
     </div>
 
     <hr>
 
-    <form class="fc-form form-panel" id="voucher-form">
+    <form class="fs-form fs-card fs-u-p-3" id="voucher-form">
         <div class="fs-col">
-            <div class="form-line">
-                <div class="form-field w-6">
-                    <label for="voucher-name">Nome do voucher</label>
-                    <input id="voucher-name" name="name" type="text" autocomplete="off" required>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-6">
+                    <label class="fs-form-label" for="voucher-name">Nome do voucher</label>
+                    <input class="fs-form-control" id="voucher-name" name="name" type="text" autocomplete="off" required>
                 </div>
 
-                <div class="form-field w-3">
-                    <label for="voucher-code">Código</label>
-                    <input id="voucher-code" name="code" type="text" class="fs-u-text-uppercase" placeholder="ONEYEAR10" autocomplete="off" readonly required>
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-code">Código</label>
+                    <input id="voucher-code" name="code" type="text" class="fs-u-text-uppercase fs-form-control" placeholder="ONEYEAR10" autocomplete="off" readonly required>
                 </div>
 
             </div>
 
-            <div class="form-line">
-                <div class="form-field w-5">
-                    <label for="voucher-system">Sistema</label>
-                    <select id="voucher-system" name="product_id" required>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-5">
+                    <label class="fs-form-label" for="voucher-system">Sistema</label>
+                    <select class="fs-form-select" id="voucher-system" name="product_id" required>
                         <option value="" selected disabled>Carregando...</option>
                     </select>
                 </div>
 
-                <div class="form-field w-4">
-                    <label for="voucher-plans">Planos aplicáveis</label>
-                    <select id="voucher-plans" name="plan_id" required disabled>
+                <div class="fs-form-col fs-col-4">
+                    <label class="fs-form-label" for="voucher-plans">Planos aplicáveis</label>
+                    <select class="fs-form-select" id="voucher-plans" name="plan_id" required disabled>
                         <option value="" selected disabled>Selecione um sistema</option>
                     </select>
                 </div>
 
-                <div class="form-field w-3" id="voucher-base-field">
-                    <label for="voucher-base-value">Valor da assinatura</label>
-                    <div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input readonly required></div>
+                <div class="fs-form-col fs-col-3" id="voucher-base-field">
+                    <label class="fs-form-label" for="voucher-base-value">Valor da assinatura</label>
+                    <div class="fs-input-group"><span class="fs-input-group-text" aria-hidden="true">R$</span><input id="voucher-base-value" name="base_amount" class="fs-form-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input readonly required></div>
                 </div>
             </div>
 
-            <div class="form-line">
-                <div class="form-field w-4">
-                    <label for="voucher-discount-type">Tipo de desconto</label>
-                    <select id="voucher-discount-type" name="discount_mode" required>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-4">
+                    <label class="fs-form-label" for="voucher-discount-type">Tipo de desconto</label>
+                    <select class="fs-form-select" id="voucher-discount-type" name="discount_mode" required>
                         <option value="" selected disabled>Selecione aqui</option>
                         <option value="trial_free">Assinatura gratuita</option>
                         <option value="percentage">Desconto percentual</option>
@@ -56,19 +56,19 @@
                     </select>
                 </div>
 
-                <div class="form-field w-3">
-                    <label for="voucher-discount-percent">Desconto %</label>
-                    <input id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-discount-percent">Desconto %</label>
+                    <input class="fs-form-control" id="voucher-discount-percent" name="discount_percent" type="number" min="0" max="100" step="0.01" placeholder="0,00">
                 </div>
 
-                <div class="form-field w-2" id="voucher-discount-value-field">
-                    <label for="voucher-discount-value">Desconto R$</label>
-                    <div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div>
+                <div class="fs-form-col fs-col-2" id="voucher-discount-value-field">
+                    <label class="fs-form-label" for="voucher-discount-value">Desconto R$</label>
+                    <div class="fs-input-group"><span class="fs-input-group-text" aria-hidden="true">R$</span><input id="voucher-discount-value" name="discount_value_display" class="fs-form-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div>
                 </div>
 
-                <div class="form-field w-3">
-                    <label for="voucher-duration">Duração do benefício após ativação</label>
-                    <select id="voucher-duration" name="benefit_duration" required>
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-duration">Duração do benefício após ativação</label>
+                    <select class="fs-form-select" id="voucher-duration" name="benefit_duration" required>
                         <option value="" selected disabled>Selecione aqui</option>
                         <option value="d7">7 dias</option>
                         <option value="m1">1 mês</option>
@@ -79,67 +79,65 @@
                 </div>
             </div>
 
-            <div class="form-line">
-                <div class="form-field w-3">
-                    <label for="voucher-start-date">Início da validade do voucher</label>
-                    <input id="voucher-start-date" name="starts_at" type="date" required>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-start-date">Início da validade do voucher</label>
+                    <input class="fs-form-control" id="voucher-start-date" name="starts_at" type="date" required>
                 </div>
 
-                <div class="form-field w-3">
-                    <label for="voucher-end-date">Fim da validade do voucher</label>
-                    <input id="voucher-end-date" name="ends_at" type="date" required>
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-end-date">Fim da validade do voucher</label>
+                    <input class="fs-form-control" id="voucher-end-date" name="ends_at" type="date" required>
                 </div>
 
-                <div class="form-field w-3">
-                    <label for="voucher-total">Quantidade total</label>
-                    <input id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-total">Quantidade total</label>
+                    <input class="fs-form-control" id="voucher-total" name="redemption_limit" type="number" min="1" step="1" required>
                 </div>
 
-                <div class="form-field w-3">
-                    <label for="voucher-company-limit">Limite por empresa</label>
-                    <input id="voucher-company-limit" name="redemption_limit_per_company" type="number" min="1" step="1" value="1" required>
+                <div class="fs-form-col fs-col-3">
+                    <label class="fs-form-label" for="voucher-company-limit">Limite por empresa</label>
+                    <input class="fs-form-control" id="voucher-company-limit" name="redemption_limit_per_company" type="number" min="1" step="1" value="1" required>
                 </div>
             </div>
 
-            <div class="form-line">
-                <div class="form-field w-4">
-                    <label for="voucher-origin">Campanha/origem</label>
-                    <input id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-4">
+                    <label class="fs-form-label" for="voucher-origin">Campanha/origem</label>
+                    <input class="fs-form-control" id="voucher-origin" name="origin" type="text" placeholder="Lançamento, parceria, retenção">
                 </div>
 
-                <div class="form-field w-8">
-                    <label for="voucher-notes">Observações internas</label>
-                    <textarea id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
+                <div class="fs-form-col fs-col-8">
+                    <label class="fs-form-label" for="voucher-notes">Observações internas</label>
+                    <textarea class="fs-form-control" id="voucher-notes" name="notes" placeholder="Regras comerciais, exceções e contexto do benefício"></textarea>
                 </div>
             </div>
         </div>
 
-        <div class="form-actions">
-            <button class="submit" type="submit">Cadastrar voucher</button>
-            <button class="fs-btn button-secondary" type="reset">Limpar</button>
+        <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2">
+            <button class="fs-btn fs-btn-primary" type="submit">Cadastrar voucher</button>
+            <button class="fs-btn fs-btn-outline-primary" type="reset">Limpar</button>
         </div>
 
-        <div class="system-notice" id="voucher-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+        <div class="fs-alert" id="voucher-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </form>
 
-    <div id="voucher-destructive-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="voucher-dialog-title">
-        <form class="fc-form dialog-panel fs-card card-static form-panel" id="voucher-destructive-form">
-            <div class="title dialog-header"><span id="voucher-dialog-title">Confirmar ação</span></div>
-            <div class="content dialog-content fs-stack">
+    <button id="voucher-destructive-trigger" type="button" data-fs="modal" data-fs-target="#voucher-destructive-dialog" hidden aria-hidden="true"></button>
+    <div id="voucher-destructive-dialog" class="fs-modal" tabindex="-1">
+        <div class="fs-modal-dialog"><div class="fs-modal-content">
+            <div class="fs-modal-header"><h2 class="fs-modal-title" id="voucher-dialog-title">Confirmar ação</h2><button class="fs-btn-close" type="button" data-fs-dismiss="modal" aria-label="Fechar"></button></div>
+            <form class="fs-form fs-modal-body fs-u-d-flex fs-u-flex-column fs-u-gap-3" id="voucher-destructive-form">
                 <p>Informe o motivo. A ação será registrada no histórico administrativo.</p>
-                <label class="form-field" for="voucher-dialog-reason">Motivo obrigatório
-                    <textarea id="voucher-dialog-reason" name="reason" maxlength="1000" required></textarea>
+                <label class="fs-form-col fs-form-label" for="voucher-dialog-reason">Motivo obrigatório
+                    <textarea class="fs-form-control" id="voucher-dialog-reason" name="reason" maxlength="1000" required></textarea>
                 </label>
-                <div class="dialog-actions">
-                    <button class="fs-btn button-secondary" type="button" data-voucher-dialog-close>Cancelar</button>
-                    <button class="submit fs-btn-danger" type="submit">Confirmar</button>
-                </div>
-            </div>
-        </form>
+                <div class="fs-modal-footer"><button class="fs-btn fs-btn-outline-primary" type="button" data-voucher-dialog-close data-fs-dismiss="modal">Cancelar</button><button class="fs-btn fs-btn-danger" type="submit">Confirmar</button></div>
+            </form>
+        </div></div>
     </div>
 
-    <div class="table-panel">
-        <table class="data-table" aria-label="Vouchers cadastrados">
+    <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
+        <table class="fs-table" aria-label="Vouchers cadastrados">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -353,10 +351,10 @@
         function statusMeta(status) {
             const normalized = status === "expirada" ? "expired" : status === "suspensa" ? "paused" : status === "encerrada" ? "cancelled" : "active";
             return {
-                active: ["Ativo", "status-active"],
-                paused: ["Pausado", "status-paused"],
-                expired: ["Expirado", "status-expired"],
-                cancelled: ["Cancelado", "status-cancelled"],
+                active: ["Ativo", "fs-badge-soft-success"],
+                paused: ["Pausado", "fs-badge-soft-warning"],
+                expired: ["Expirado", "fs-badge-soft-secondary"],
+                cancelled: ["Cancelado", "fs-badge-soft-danger"],
             }[normalized];
         }
 
@@ -474,7 +472,7 @@
         function editVoucher(voucher) {
             editingVoucher = voucher;
             name.value = voucher.name || "";
-            code.value = voucher.fs-code || "";
+            code.value = voucher.code || "";
             products.value = voucher.product_id || "";
             updatePlans();
             plans.value = voucher.plan_id || "__all__";
@@ -509,20 +507,17 @@
 
         const destructiveDialog = document.querySelector("#voucher-destructive-dialog");
         const destructiveForm = document.querySelector("#voucher-destructive-form");
+        const destructiveModal = window.FokusStyles?.Modal?.getOrCreateInstance(document.querySelector("#voucher-destructive-trigger"));
         const closeDestructiveDialog = () => {
-            destructiveDialog.classList.remove("is-open");
-            destructiveDialog.setAttribute("aria-hidden", "true");
-            destructiveDialog.hidden = true;
+            destructiveModal?.hide();
             pendingVoucherAction = null;
             destructiveForm.reset();
         };
         const openDestructiveDialog = (action, voucherId) => {
             pendingVoucherAction = { action, voucherId };
             document.querySelector("#voucher-dialog-title").textContent = "Confirmar exclusão ou arquivamento do voucher";
-            destructiveDialog.hidden = false;
-            destructiveDialog.setAttribute("aria-hidden", "false");
-            destructiveDialog.classList.add("is-open");
-            document.querySelector("#voucher-dialog-reason").focus();
+            destructiveModal?.show();
+            window.setTimeout(() => document.querySelector("#voucher-dialog-reason")?.focus(), 0);
         };
         document.querySelector("[data-voucher-dialog-close]").addEventListener("click", closeDestructiveDialog);
         destructiveForm.addEventListener("submit", async (event) => {
@@ -570,7 +565,7 @@
         async function loadVouchers() {
             const rows = await api.request("/backoffice/vouchers");
             if (!rows.length) {
-                voucherList.innerHTML = '<tr><td colspan="8">Nenhum voucher cadastrado.</td></tr>';
+                voucherList.innerHTML = '<tr><td colspan="8">Nenhum voucher cadastrado.</td></tr>'; window.refreshFokusDataTables?.(document.querySelector(".vouchers-page"));
                 return;
             }
 
@@ -589,24 +584,24 @@
                 const actionButton = currentStatus === "expirada"
                     ? ""
                     : voucher.status === "suspensa"
-                        ? `<button class="icon-button" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}${voucherAddIcon}" alt=""></button>`
-                        : `<button class="icon-button" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}${voucherMinusIcon}" alt=""></button>`;
+                        ? `<button class="fs-btn fs-btn-icon" type="button" data-voucher-action="reactivate" data-voucher-id="${escapeHtml(voucher.id)}" title="Reativar voucher" aria-label="Reativar voucher"><img src="${iconBasePath}${voucherAddIcon}" alt=""></button>`
+                        : `<button class="fs-btn fs-btn-icon" type="button" data-voucher-action="pause" data-voucher-id="${escapeHtml(voucher.id)}" title="Pausar voucher" aria-label="Pausar voucher"><img src="${iconBasePath}${voucherMinusIcon}" alt=""></button>`;
 
                 return `<tr>
-                    <td>${escapeHtml(voucher.fs-code)}</td>
-                    <td>${escapeHtml(voucher.name || voucher.fs-code)}</td>
+                    <td>${escapeHtml(voucher.code)}</td>
+                    <td>${escapeHtml(voucher.name || voucher.code)}</td>
                     <td>${escapeHtml(voucher.product_name || "-")}</td>
                     <td>${escapeHtml(discount)}</td>
                     <td>${escapeHtml(used)}</td>
                     <td>${escapeHtml(validity)}</td>
-                    <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
-                    <td class="voucher-actions">
-                        ${Number(voucher.redemptions_count || 0) === 0 && voucher.status !== "encerrada" ? `<button class="icon-button" type="button" data-voucher-action="edit" data-voucher-id="${escapeHtml(voucher.id)}" title="Editar voucher" aria-label="Editar voucher"><img src="${iconBasePath}${voucherEditIcon}" alt=""></button>` : ""}
+                    <td><span class="fs-badge ${statusClass}">${statusLabel}</span></td>
+                    <td class="fs-u-d-flex fs-u-gap-2">
+                        ${Number(voucher.redemptions_count || 0) === 0 && voucher.status !== "encerrada" ? `<button class="fs-btn fs-btn-icon" type="button" data-voucher-action="edit" data-voucher-id="${escapeHtml(voucher.id)}" title="Editar voucher" aria-label="Editar voucher"><img src="${iconBasePath}${voucherEditIcon}" alt=""></button>` : ""}
                         ${actionButton}
-                        ${voucher.status !== "encerrada" ? `<button class="icon-button ${Number(voucher.redemptions_count || 0) === 0 ? "icon-button-danger" : ""}" type="button" data-voucher-action="remove-or-archive" data-voucher-id="${escapeHtml(voucher.id)}" title="${Number(voucher.redemptions_count || 0) === 0 ? "Excluir voucher" : "Arquivar voucher"}" aria-label="${Number(voucher.redemptions_count || 0) === 0 ? "Excluir voucher" : "Arquivar voucher"}"><img src="${iconBasePath}${Number(voucher.redemptions_count || 0) === 0 ? voucherRemoveIcon : voucherMinusIcon}" alt=""></button>` : ""}
+                        ${voucher.status !== "encerrada" ? `<button class="fs-btn fs-btn-icon ${Number(voucher.redemptions_count || 0) === 0 ?"fs-btn-danger" : ""}" type="button" data-voucher-action="remove-or-archive" data-voucher-id="${escapeHtml(voucher.id)}" title="${Number(voucher.redemptions_count || 0) === 0 ? "Excluir voucher" : "Arquivar voucher"}" aria-label="${Number(voucher.redemptions_count || 0) === 0 ? "Excluir voucher" : "Arquivar voucher"}"><img src="${iconBasePath}${Number(voucher.redemptions_count || 0) === 0 ? voucherRemoveIcon : voucherMinusIcon}" alt=""></button>` : ""}
                     </td>
                 </tr>`;
-            }).join("");
+            }).join(""); window.refreshFokusDataTables?.(document.querySelector(".vouchers-page"));
         }
 
         async function submitVoucher(event) {
@@ -617,7 +612,7 @@
             const discountMode = values.discount_mode;
             const payload = {
                 name: values.name,
-                code: values.fs-code || null,
+                code: values.code || null,
                 product_id: values.product_id,
                 plan_id: values.plan_id === "__all__" ? null : values.plan_id,
                 base_amount: values.plan_id === "__all__" ? null : parseInputMoney(values.base_amount),

@@ -16,7 +16,8 @@
         document.getElementById(feedbackId(field))?.remove();
         field.removeAttribute("aria-invalid");
         field.removeAttribute("aria-describedby");
-        field.closest(".form-field")?.classList.remove("is-invalid", "is-valid");
+        field.classList.remove("is-invalid", "is-valid");
+        field.closest(".fs-form-col")?.classList.remove("is-invalid", "is-valid");
     }
 
     function setFeedback(field, message, type = "error") {
@@ -24,23 +25,25 @@
         clearField(field);
         const feedback = document.createElement("small");
         feedback.id = feedbackId(field);
-        feedback.className = `form-${type}`;
+        feedback.className = type === "error" ? "fs-invalid-feedback" : "fs-valid-feedback";
         feedback.setAttribute("role", type === "error" ? "alert" : "status");
         feedback.textContent = message;
         field.insertAdjacentElement("afterend", feedback);
         field.setAttribute("aria-invalid", type === "error" ? "true" : "false");
         field.setAttribute("aria-describedby", feedback.id);
-        field.closest(".form-field")?.classList.add(type === "error" ? "is-invalid" : "is-valid");
+        field.classList.add(type === "error" ? "is-invalid" : "is-valid");
+        field.closest(".fs-form-col")?.classList.add(type === "error" ? "is-invalid" : "is-valid");
     }
 
-    function clearSummary(form) { form.querySelector(".form-error-summary")?.remove(); }
+    function clearSummary(form) { form.querySelector("[data-fs-form-error-summary]")?.remove(); }
 
     function renderSummary(form, errors) {
         clearSummary(form);
         const entries = Object.entries(errors).filter(([, message]) => message);
         if (!entries.length) return;
         const summary = document.createElement("div");
-        summary.className = "form-error-summary";
+        summary.className = "fs-alert fs-alert-danger";
+        summary.dataset.fsFormErrorSummary = "true";
         summary.setAttribute("role", "alert");
         summary.innerHTML = "<strong>Revise os campos destacados.</strong>";
         const list = document.createElement("ul");
@@ -59,7 +62,7 @@
 
     function validate(form) {
         const errors = {};
-        form.classList.add("is-validated");
+        form.classList.add("fs-was-validated");
         form.querySelectorAll(controls).forEach((field) => {
             clearField(field);
             if (!field.checkValidity()) {
@@ -96,14 +99,14 @@
 
     function clear(form) {
         clearSummary(form);
-        form.classList.remove("is-validated");
+        form.classList.remove("fs-was-validated");
         form.querySelectorAll(controls).forEach(clearField);
     }
 
     function markRequiredFields(root = document) {
-        const fields = root.matches?.(".form-field")
-            ? [root, ...root.querySelectorAll(".form-field")]
-            : [...root.querySelectorAll(".form-field")];
+        const fields = root.matches?.(".fs-form-col")
+            ? [root, ...root.querySelectorAll(".fs-form-col")]
+            : [...root.querySelectorAll(".fs-form-col")];
 
         fields.forEach((field) => {
             const required = field.querySelector(requiredControls);
@@ -120,7 +123,6 @@
                 return;
             }
 
-            label.classList.add("form-label-required");
             label.setAttribute("data-required", "true");
         });
     }
@@ -136,12 +138,12 @@
                     return;
                 }
 
-                if (node.matches?.(".form-field, form, .fc-form")) {
+                if (node.matches?.(".fs-form-col, form, .fs-form")) {
                     enhance(node);
                     return;
                 }
 
-                if (node.querySelector?.(".form-field")) {
+                if (node.querySelector?.(".fs-form-col")) {
                     enhance(node);
                 }
             });

@@ -1,110 +1,108 @@
-<div class="plan-page fs-u-d-flex fs-col">
+<div class="plan-page fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4">
     <div class="fs-col fs-u-gap-3 fs-u-mb-3">
-        <h1 class="text-display-4">Catálogo</h1>
-        <p class="text-heading-5 fs-u-color-secondary">Gerencie sistemas, funcionalidades, planos, composição e publicação do catálogo comercial.</p>
+        <h1 class="fs-u-fs-h1">Catálogo</h1>
+        <p class="fs-u-fs-h5 fs-u-color-secondary">Gerencie sistemas, funcionalidades, planos, composição e publicação do catálogo comercial.</p>
     </div>
 
     <hr>
 
-    <div id="catalog-destructive-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="catalog-dialog-title" aria-describedby="catalog-dialog-description">
-        <form class="fc-form dialog-panel fs-card card-static form-panel" id="catalog-destructive-form">
-            <div class="title dialog-header"><span id="catalog-dialog-title">Confirmar remoção</span></div>
-            <div class="content dialog-content fs-stack">
+    <button id="catalog-destructive-trigger" type="button" data-fs="modal" data-fs-target="#catalog-destructive-dialog" hidden aria-hidden="true"></button>
+    <div id="catalog-destructive-dialog" class="fs-modal" tabindex="-1" aria-describedby="catalog-dialog-description">
+        <div class="fs-modal-dialog"><div class="fs-modal-content">
+            <div class="fs-modal-header"><h2 class="fs-modal-title" id="catalog-dialog-title">Confirmar remoção</h2><button class="fs-btn-close" type="button" data-fs-dismiss="modal" aria-label="Fechar"></button></div>
+            <form class="fs-form fs-modal-body fs-u-d-flex fs-u-flex-column fs-u-gap-3" id="catalog-destructive-form">
                 <p id="catalog-dialog-description">A remoção física só será concluída se não houver dependências.</p>
-                <label class="form-field" for="catalog-dialog-reason">Motivo obrigatório
-                    <textarea id="catalog-dialog-reason" name="reason" maxlength="1000" required></textarea>
+                <label class="fs-form-col fs-form-label" for="catalog-dialog-reason">Motivo obrigatório
+                    <textarea class="fs-form-control" id="catalog-dialog-reason" name="reason" maxlength="1000" required></textarea>
                 </label>
-                <div class="dialog-actions">
-                    <button class="fs-btn button-secondary" type="button" data-catalog-dialog-close>Cancelar</button>
-                    <button class="submit fs-btn-danger" type="submit">Confirmar remoção</button>
-                </div>
-            </div>
-        </form>
+                <div class="fs-modal-footer"><button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-dialog-close data-fs-dismiss="modal">Cancelar</button><button class="fs-btn fs-btn-danger" type="submit">Confirmar remoção</button></div>
+            </form>
+        </div></div>
     </div>
 
-    <div class="form-panel">
-        <div class="form-actions">
-            <button class="fs-btn button-secondary" type="button" data-catalog-tab="products">Produtos</button>
-            <button class="fs-btn button-secondary" type="button" data-catalog-tab="modules">Funcionalidades</button>
-            <button class="fs-btn button-secondary" type="button" data-catalog-tab="plans">Planos</button>
-            <button class="fs-btn button-secondary" type="button" data-catalog-tab="publish">Publicação</button>
+    <div class="fs-card fs-u-p-3">
+        <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2">
+            <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="products">Produtos</button>
+            <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="modules">Funcionalidades</button>
+            <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="plans">Planos</button>
+            <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="publish">Publicação</button>
         </div>
-        <div class="system-notice" id="catalog-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+        <div class="fs-alert" id="catalog-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </div>
 
     <section class="catalog-section" data-catalog-panel="products">
-        <form class="fc-form form-panel" id="product-form">
-            <div class="form-line">
-                <div class="form-field w-3"><label for="product-code">Código</label><input id="product-code" name="code" type="text" required></div>
-                <div class="form-field w-5"><label for="product-name">Nome</label><input id="product-name" name="name" type="text" required></div>
-                <div class="form-field w-2"><label for="product-status">Status</label><select id="product-status" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
-                <div class="form-field w-2"><label for="product-order">Ordem</label><input id="product-order" name="display_order" type="number" min="0" step="1" value="1"></div>
+        <form class="fs-form fs-card fs-u-p-3" id="product-form">
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="product-code">Código</label><input class="fs-form-control" id="product-code" name="code" type="text" required></div>
+                <div class="fs-form-col fs-col-5"><label class="fs-form-label" for="product-name">Nome</label><input class="fs-form-control" id="product-name" name="name" type="text" required></div>
+                <div class="fs-form-col fs-col-2"><label class="fs-form-label" for="product-status">Status</label><select class="fs-form-select" id="product-status" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
+                <div class="fs-form-col fs-col-2"><label class="fs-form-label" for="product-order">Ordem</label><input class="fs-form-control" id="product-order" name="display_order" type="number" min="0" step="1" value="1"></div>
             </div>
-            <div class="form-line">
-                <div class="form-field w-6"><label for="product-technical-description">Descrição técnica</label><textarea id="product-technical-description" name="technical_description"></textarea></div>
-                <div class="form-field w-6"><label for="product-commercial-content">Conteúdo comercial</label><textarea id="product-commercial-content" name="commercial_content"></textarea></div>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-6"><label class="fs-form-label" for="product-technical-description">Descrição técnica</label><textarea class="fs-form-control" id="product-technical-description" name="technical_description"></textarea></div>
+                <div class="fs-form-col fs-col-6"><label class="fs-form-label" for="product-commercial-content">Conteúdo comercial</label><textarea class="fs-form-control" id="product-commercial-content" name="commercial_content"></textarea></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar produto</button><button class="fs-btn button-secondary" type="reset">Novo produto</button></div>
+            <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2"><button class="fs-btn fs-btn-primary" type="submit">Salvar produto</button><button class="fs-btn fs-btn-outline-primary" type="reset">Novo produto</button></div>
         </form>
-        <div class="table-panel"><table class="data-table" aria-label="Produtos do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Status</th><th>Publicação</th><th>Ordem</th><th>Versão</th><th>Ações</th></tr></thead><tbody id="product-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
-        <nav class="fs-pagination catalog-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
+        <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000"><table class="fs-table" aria-label="Produtos do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Status</th><th>Publicação</th><th>Ordem</th><th>Versão</th><th>Ações</th></tr></thead><tbody id="product-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
+        <nav class="fs-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="modules" hidden>
-        <form class="fc-form form-panel" id="module-form">
-            <div class="form-line">
-                <div class="form-field w-3"><label for="module-product">Produto</label><select id="module-product" name="product_id" required></select></div>
-                <div class="form-field w-3"><label for="module-code">Código</label><input id="module-code" name="code" type="text" required></div>
-                <div class="form-field w-3"><label for="module-core">Módulo técnico</label><input id="module-core" name="module_code" type="text" required></div>
-                <div class="form-field w-3"><label for="module-name">Nome</label><input id="module-name" name="name" type="text" required></div>
+        <form class="fs-form fs-card fs-u-p-3" id="module-form">
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-product">Produto</label><select class="fs-form-select" id="module-product" name="product_id" required></select></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-code">Código</label><input class="fs-form-control" id="module-code" name="code" type="text" required></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-core">Módulo técnico</label><input class="fs-form-control" id="module-core" name="module_code" type="text" required></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-name">Nome</label><input class="fs-form-control" id="module-name" name="name" type="text" required></div>
             </div>
-            <div class="form-line">
-                <div class="form-field w-3"><label for="module-price">Preço mensal</label><div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="module-price" name="monthly_price" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input required></div></div>
-                <div class="form-field w-3"><label for="module-segment">Segmento</label><input id="module-segment" name="segment_code" type="text"></div>
-                <div class="form-field w-3"><label for="module-context">Contexto</label><input id="module-context" name="context_code" type="text"></div>
-                <div class="form-field w-3"><label for="module-status">Status</label><select id="module-status" name="status"><option value="ativo">Ativo</option><option value="rascunho">Rascunho</option><option value="pausado">Pausado</option><option value="arquivado">Arquivado</option></select></div>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-price">Preço mensal</label><div class="fs-input-group"><span class="fs-input-group-text" aria-hidden="true">R$</span><input id="module-price" name="monthly_price" class="fs-form-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input required></div></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-segment">Segmento</label><input class="fs-form-control" id="module-segment" name="segment_code" type="text"></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-context">Contexto</label><input class="fs-form-control" id="module-context" name="context_code" type="text"></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="module-status">Status</label><select class="fs-form-select" id="module-status" name="status"><option value="ativo">Ativo</option><option value="rascunho">Rascunho</option><option value="pausado">Pausado</option><option value="arquivado">Arquivado</option></select></div>
             </div>
-            <div class="form-line">
-                <div class="form-field w-6"><label for="module-dependencies">Dependências</label><input id="module-dependencies" name="dependencies" type="text" placeholder="contatos, processos"></div>
-                <div class="form-field w-6"><label for="module-incompatibilities">Incompatibilidades</label><input id="module-incompatibilities" name="incompatibilities" type="text" placeholder="codigo-a, codigo-b"></div>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-6"><label class="fs-form-label" for="module-dependencies">Dependências</label><input class="fs-form-control" id="module-dependencies" name="dependencies" type="text" placeholder="contatos, processos"></div>
+                <div class="fs-form-col fs-col-6"><label class="fs-form-label" for="module-incompatibilities">Incompatibilidades</label><input class="fs-form-control" id="module-incompatibilities" name="incompatibilities" type="text" placeholder="codigo-a, codigo-b"></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar funcionalidade</button><button class="fs-btn button-secondary" type="reset">Nova funcionalidade</button></div>
+            <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2"><button class="fs-btn fs-btn-primary" type="submit">Salvar funcionalidade</button><button class="fs-btn fs-btn-outline-primary" type="reset">Nova funcionalidade</button></div>
         </form>
-        <div class="table-panel"><table class="data-table" aria-label="Funcionalidades do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Produto</th><th>Preço</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="module-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
-        <nav class="fs-pagination catalog-pagination" id="module-pagination" aria-label="Paginação de funcionalidades"></nav>
+        <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000"><table class="fs-table" aria-label="Funcionalidades do catálogo"><thead><tr><th>Código</th><th>Nome</th><th>Produto</th><th>Preço</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="module-list"><tr><td colspan="7">Carregando...</td></tr></tbody></table></div>
+        <nav class="fs-pagination" id="module-pagination" aria-label="Paginação de funcionalidades"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="plans" hidden>
-        <form class="fc-form form-panel" id="plan-form">
-            <div class="form-line">
-                <div class="form-field w-3"><label for="plan-product">Produto</label><select id="plan-product" name="product_id" required></select></div>
-                <div class="form-field w-3"><label for="plan-code">Código</label><input id="plan-code" name="code" type="text" maxlength="64" required></div>
-                <div class="form-field w-3"><label for="plan-name">Nome-base</label><input id="plan-name" name="base_name" type="text" maxlength="120" required></div>
-                <div class="form-field w-3"><label for="plan-status">Status</label><select id="plan-status" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
+        <form class="fs-form fs-card fs-u-p-3" id="plan-form">
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-product">Produto</label><select class="fs-form-select" id="plan-product" name="product_id" required></select></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-code">Código</label><input class="fs-form-control" id="plan-code" name="code" type="text" maxlength="64" required></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-name">Nome-base</label><input class="fs-form-control" id="plan-name" name="base_name" type="text" maxlength="120" required></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-status">Status</label><select class="fs-form-select" id="plan-status" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
             </div>
-            <div class="form-line">
-                <div class="form-field w-3"><label for="plan-segment">Segmento</label><input id="plan-segment" name="segment" type="text" maxlength="16"></div>
-                <div class="form-field w-3"><label for="plan-monthly">Valor mensal</label><div class="fs-input-group currency-input"><span class="input-prefix" aria-hidden="true">R$</span><input id="plan-monthly" name="monthly_amount" class="currency-input-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div></div>
-                <div class="form-field w-3"><label for="plan-order">Ordem</label><input id="plan-order" name="display_order" type="number" min="0" step="1" value="1"></div>
-                <div class="form-field w-3"><label for="plan-featured">Destaque</label><select id="plan-featured" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></div>
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-segment">Segmento</label><input class="fs-form-control" id="plan-segment" name="segment" type="text" maxlength="16"></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-monthly">Valor mensal</label><div class="fs-input-group"><span class="fs-input-group-text" aria-hidden="true">R$</span><input id="plan-monthly" name="monthly_amount" class="fs-form-control" type="text" inputmode="decimal" autocomplete="off" data-currency-input></div></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-order">Ordem</label><input class="fs-form-control" id="plan-order" name="display_order" type="number" min="0" step="1" value="1"></div>
+                <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="plan-featured">Destaque</label><select class="fs-form-select" id="plan-featured" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></div>
             </div>
-            <div class="form-field"><label>Composição</label><div class="form-panel" id="plan-module-options"></div></div>
-            <div class="form-actions"><button class="submit" type="submit">Salvar plano</button><button class="fs-btn button-secondary" type="reset">Novo plano</button></div>
+            <div class="fs-form-col"><label class="fs-form-label">Composição</label><div class="fs-card fs-u-p-3" id="plan-module-options"></div></div>
+            <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2"><button class="fs-btn fs-btn-primary" type="submit">Salvar plano</button><button class="fs-btn fs-btn-outline-primary" type="reset">Novo plano</button></div>
         </form>
-        <div class="table-panel"><table class="data-table" aria-label="Planos do catálogo"><thead><tr><th>Código</th><th>Plano</th><th>Produto</th><th>Mensal</th><th>Módulos</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="plan-list"><tr><td colspan="8">Carregando...</td></tr></tbody></table></div>
-        <nav class="fs-pagination catalog-pagination" id="plan-pagination" aria-label="Paginação de planos"></nav>
+        <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000"><table class="fs-table" aria-label="Planos do catálogo"><thead><tr><th>Código</th><th>Plano</th><th>Produto</th><th>Mensal</th><th>Módulos</th><th>Status</th><th>Publicação</th><th>Ações</th></tr></thead><tbody id="plan-list"><tr><td colspan="8">Carregando...</td></tr></tbody></table></div>
+        <nav class="fs-pagination" id="plan-pagination" aria-label="Paginação de planos"></nav>
     </section>
 
     <section class="catalog-section" data-catalog-panel="publish" hidden>
-        <form class="fc-form form-panel" id="publish-form">
-            <div class="form-line">
-                <div class="form-field w-4"><label for="publish-product">Produto</label><select id="publish-product" name="product_id" required></select></div>
-                <div class="form-field w-8"><label for="publish-reason">Motivo</label><input id="publish-reason" name="reason" type="text" maxlength="1000" required></div>
+        <form class="fs-form fs-card fs-u-p-3" id="publish-form">
+            <div class="fs-form-row">
+                <div class="fs-form-col fs-col-4"><label class="fs-form-label" for="publish-product">Produto</label><select class="fs-form-select" id="publish-product" name="product_id" required></select></div>
+                <div class="fs-form-col fs-col-8"><label class="fs-form-label" for="publish-reason">Motivo</label><input class="fs-form-control" id="publish-reason" name="reason" type="text" maxlength="1000" required></div>
             </div>
-            <div class="form-actions"><button class="submit" type="submit">Publicar catálogo</button></div>
+            <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2"><button class="fs-btn fs-btn-primary" type="submit">Publicar catálogo</button></div>
         </form>
-        <div class="table-panel"><table class="data-table" aria-label="Publicações do catálogo"><thead><tr><th>Produto</th><th>Versão</th><th>Publicado em</th><th>Autor</th><th>Motivo</th><th>Ações</th></tr></thead><tbody id="publication-list"><tr><td colspan="6">Carregando...</td></tr></tbody></table></div>
-        <nav class="fs-pagination catalog-pagination" id="publication-pagination" aria-label="Paginação de publicações"></nav>
+        <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000"><table class="fs-table" aria-label="Publicações do catálogo"><thead><tr><th>Produto</th><th>Versão</th><th>Publicado em</th><th>Autor</th><th>Motivo</th><th>Ações</th></tr></thead><tbody id="publication-list"><tr><td colspan="6">Carregando...</td></tr></tbody></table></div>
+        <nav class="fs-pagination" id="publication-pagination" aria-label="Paginação de publicações"></nav>
     </section>
 </div>
 
@@ -127,7 +125,7 @@
         const iconBasePath = "/backoffice/assets/icons/";
         const editIcon = "Shopping-Basket-Edit--Streamline-Ultimate.png";
         const removeIcon = "Shopping-Basket-Subtract--Streamline-Ultimate.png";
-        const actionButton = (type, action, id, label, icon, danger = false) => `<button class="icon-button${danger ? " icon-button-danger" : ""}" type="button" data-catalog-type="${type}" data-catalog-action="${action}" data-catalog-id="${escapeHtml(id)}" title="${label}" aria-label="${label}"><img src="${iconBasePath}${icon}" alt=""></button>`;
+        const actionButton = (type, action, id, label, icon, danger = false) => `<button class="fs-btn fs-btn-icon${danger ?" fs-btn-danger" : ""}" type="button" data-catalog-type="${type}" data-catalog-action="${action}" data-catalog-id="${escapeHtml(id)}" title="${label}" aria-label="${label}"><img src="${iconBasePath}${icon}" alt=""></button>`;
 
         function showMessage(text, tone = "info") {
             message.textContent = text || "";
@@ -184,15 +182,15 @@
             if (!root) return;
 
             if (pageData.total <= pageSize) {
-                root.innerHTML = pageData.total ? `<span class="pagination-info">${pageData.total} ${label}</span>` : "";
+                root.innerHTML = pageData.total ? `<span class="fs-u-fs-sm fs-u-color-secondary">${pageData.total} ${label}</span>` : "";
                 return;
             }
 
             const controls = paginationTokens(pageData.page, pageData.totalPages).map((token) => token === "…"
                 ? '<span class="pagination-ellipsis" aria-hidden="true">…</span>'
-                : `<button class="pagination-item${token === pageData.page ? " is-active" : ""}" type="button" data-catalog-page="${key}" data-page="${token}" ${token === pageData.page ? 'aria-current="page"' : ""}>${token}</button>`).join("");
+                : `<li class="fs-page-item${token === pageData.page ? " is-active" : ""}"><button class="fs-page-link" type="button" data-catalog-page="${key}" data-page="${token}" ${token === pageData.page ? 'aria-current="page"' : ""}>${token}</button></li>`).join("");
 
-            root.innerHTML = `<span class="pagination-info">${pageData.from}–${pageData.to} de ${pageData.total} ${label}</span><button class="fs-page-item" type="button" data-catalog-page="${key}" data-page="${pageData.page - 1}" aria-label="Página anterior" ${pageData.page === 1 ? "disabled" : ""}>‹</button>${controls}<button class="fs-page-item" type="button" data-catalog-page="${key}" data-page="${pageData.page + 1}" aria-label="Próxima página" ${pageData.page === pageData.totalPages ? "disabled" : ""}>›</button>`;
+            root.innerHTML = `<span class="fs-u-fs-sm fs-u-color-secondary">${pageData.from}–${pageData.to} de ${pageData.total} ${label}</span><ul class="fs-pagination"><li class="fs-page-item"><button class="fs-page-link" type="button" data-catalog-page="${key}" data-page="${pageData.page - 1}" aria-label="Página anterior" ${pageData.page === 1 ? "disabled" : ""}>‹</button></li>${controls}<li class="fs-page-item"><button class="fs-page-link" type="button" data-catalog-page="${key}" data-page="${pageData.page + 1}" aria-label="Próxima página" ${pageData.page === pageData.totalPages ? "disabled" : ""}>›</button></li></ul>`;
         }
 
         function renderSelects() {
@@ -205,7 +203,7 @@
         function renderPlanModuleOptions(selected = []) {
             const productId = document.querySelector("#plan-product").value;
             const modules = allModules().filter((module) => module.product_id === productId);
-            document.querySelector("#plan-module-options").innerHTML = modules.length ? modules.map((module) => `<label class="form-check plan-module-choice"><input class="form-check-input plan-module-checkbox" type="checkbox" name="module_ids" value="${escapeHtml(module.id)}" ${selected.includes(module.id) ? "checked" : ""}><span>${escapeHtml(module.name)} - ${money(module.monthly_amount || module.monthly_price)}</span></label>`).join("") : '<p class="text-body fs-u-color-secondary">Cadastre funcionalidades ativas para compor planos.</p>';
+            document.querySelector("#plan-module-options").innerHTML = modules.length ? modules.map((module) => `<label class="fs-check"><input class="fs-check-input plan-module-checkbox" type="checkbox" name="module_ids" value="${escapeHtml(module.id)}" ${selected.includes(module.id) ? "checked" : ""}><span class="fs-check-label">${escapeHtml(module.name)} - ${money(module.monthly_amount || module.monthly_price)}</span></label>`).join("") : '<p class="fs-u-fs-md fs-u-color-secondary">Cadastre funcionalidades ativas para compor planos.</p>';
         }
 
         function render() {
@@ -214,15 +212,15 @@
             const modulePage = paginate("modules", allModules());
             const planPage = paginate("plans", allPlans());
             const publicationPage = paginate("publications", publications());
-            document.querySelector("#product-list").innerHTML = productPage.total ? productPage.rows.map((product) => `<tr><td>${escapeHtml(product.fs-code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="voucher-actions">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
-            document.querySelector("#module-list").innerHTML = modulePage.total ? modulePage.rows.map((module) => `<tr><td>${escapeHtml(module.fs-code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="voucher-actions">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
+            document.querySelector("#product-list").innerHTML = productPage.total ? productPage.rows.map((product) => `<tr><td>${escapeHtml(product.code)}</td><td>${escapeHtml(product.name)}</td><td>${escapeHtml(product.status)}</td><td>${escapeHtml(product.publication_state)}</td><td>${Number(product.display_order || 0)}</td><td>${product.published_version || 0}</td><td class="fs-u-d-flex fs-u-gap-2">${actionButton("product", "edit", product.id, "Editar produto", editIcon)}${actionButton("product", "remove", product.id, "Remover produto", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhum produto cadastrado.</td></tr>';
+            document.querySelector("#module-list").innerHTML = modulePage.total ? modulePage.rows.map((module) => `<tr><td>${escapeHtml(module.code)}</td><td>${escapeHtml(module.name)}</td><td>${escapeHtml(module.product_name)}</td><td>${money(module.monthly_amount || module.monthly_price)}</td><td>${escapeHtml(module.status)}</td><td>${escapeHtml(module.publication_state)}</td><td class="fs-u-d-flex fs-u-gap-2">${actionButton("module", "edit", module.id, "Editar funcionalidade", editIcon)}${actionButton("module", "remove", module.id, "Excluir funcionalidade", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="7">Nenhuma funcionalidade cadastrada.</td></tr>';
             renderPlanModuleOptions();
-            document.querySelector("#plan-list").innerHTML = planPage.total ? planPage.rows.map((plan) => `<tr><td>${escapeHtml(plan.fs-code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="voucher-actions">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
-            document.querySelector("#publication-list").innerHTML = publicationPage.total ? publicationPage.rows.map((publication) => `<tr><td>${escapeHtml(publication.product_name)}</td><td>${publication.version}</td><td>${publication.published_at ? new Date(publication.published_at).toLocaleString("pt-BR") : "-"}</td><td>${escapeHtml(publication.published_by || "-")}</td><td>${escapeHtml(publication.reason || "-")}</td><td class="voucher-actions">${actionButton("publication", "remove", publication.id, "Excluir publicação", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="6">Nenhuma publicação registrada.</td></tr>';
+            document.querySelector("#plan-list").innerHTML = planPage.total ? planPage.rows.map((plan) => `<tr><td>${escapeHtml(plan.code)}</td><td>${escapeHtml(plan.full_name || plan.name)}</td><td>${escapeHtml(plan.product_name)}</td><td>${money(plan.monthly_amount)}</td><td>${plan.modules_count || (plan.modules || []).length}</td><td>${escapeHtml(plan.status)}</td><td>${escapeHtml(plan.publication_state)}</td><td class="fs-u-d-flex fs-u-gap-2">${actionButton("plan", "edit", plan.id, "Editar plano", editIcon)}${actionButton("plan", "remove", plan.id, "Excluir plano", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="8">Nenhum plano cadastrado.</td></tr>';
+            document.querySelector("#publication-list").innerHTML = publicationPage.total ? publicationPage.rows.map((publication) => `<tr><td>${escapeHtml(publication.product_name)}</td><td>${publication.version}</td><td>${publication.published_at ? new Date(publication.published_at).toLocaleString("pt-BR") : "-"}</td><td>${escapeHtml(publication.published_by || "-")}</td><td>${escapeHtml(publication.reason || "-")}</td><td class="fs-u-d-flex fs-u-gap-2">${actionButton("publication", "remove", publication.id, "Excluir publicação", removeIcon, true)}</td></tr>`).join("") : '<tr><td colspan="6">Nenhuma publicação registrada.</td></tr>';
             renderPagination("products", productPage, "produtos");
             renderPagination("modules", modulePage, "funcionalidades");
             renderPagination("plans", planPage, "planos");
-            renderPagination("publications", publicationPage, "publicações");
+            renderPagination("publications", publicationPage, "publicações"); window.refreshFokusDataTables?.(document.querySelector(".subscription-plans-page"));
             window.FokusCurrency?.bind(document.querySelector(".plan-page"));
             window.FokusForm?.enhance(document.querySelector(".plan-page"));
         }
@@ -356,11 +354,10 @@
 
         const destructiveDialog = document.querySelector("#catalog-destructive-dialog");
         const destructiveForm = document.querySelector("#catalog-destructive-form");
+        const destructiveModal = window.FokusStyles?.Modal?.getOrCreateInstance(document.querySelector("#catalog-destructive-trigger"));
         let pendingDestructiveAction = null;
         const closeDestructiveDialog = () => {
-            destructiveDialog.classList.remove("is-open");
-            destructiveDialog.setAttribute("aria-hidden", "true");
-            destructiveDialog.hidden = true;
+            destructiveModal?.hide();
             pendingDestructiveAction = null;
             destructiveForm.reset();
         };
@@ -368,10 +365,8 @@
             const labels = { product: "produto", module: "funcionalidade", plan: "plano", publication: "publicação" };
             pendingDestructiveAction = { type, id };
             document.querySelector("#catalog-dialog-title").textContent = `Confirmar remoção de ${labels[type] || "item"}`;
-            destructiveDialog.hidden = false;
-            destructiveDialog.setAttribute("aria-hidden", "false");
-            destructiveDialog.classList.add("is-open");
-            document.querySelector("#catalog-dialog-reason").focus();
+            destructiveModal?.show();
+            window.setTimeout(() => document.querySelector("#catalog-dialog-reason")?.focus(), 0);
         };
         document.querySelector("[data-catalog-dialog-close]").addEventListener("click", closeDestructiveDialog);
         destructiveForm.addEventListener("submit", async (event) => {

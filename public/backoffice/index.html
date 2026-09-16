@@ -1,4 +1,4 @@
-+<!doctype html>
+<!doctype html>
 <html lang="pt-BR" data-theme="light" data-role="admin">
     <head>
         <meta name="robots" content="noindex, nofollow" />
@@ -14,62 +14,12 @@
         <!-- IMPORT CSS -->
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/base/reset.css?v=20260901-live-controls"
+            href="/backoffice/assets/css/main.css?v=20260916-fokus-styles-migration-v1"
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/base/colors.css?v=20260901-live-controls"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260916-fokus-styles-migration-v3"
         />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/base/variables.css?v=20260916-disabled-label-standard-v2"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/base/typography.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/themes/theme.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/layout/layout.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/components/cards.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/components/form-admin.css?v=20260916-disabled-label-standard-v2"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/pages/pages.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/responsive/responsive.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/main.css?v=20260901-live-controls"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/components/refinements.css?v=20260916-disabled-label-standard-v2"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/pages/mockup.css?v=20260902-pagamentos-spacing"
-        />
-        <link
-            rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260916-admin-dashboard-v100-catalog-subnav"
-        />
-        <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-companies-fixes.css?v=20260916-admin-companies-fixes-v18-disabled-label-standard" />
-        <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-products.css?v=20260916-admin-products-v2" />
     </head>
     <body>
         <div class="container-page expanded">
@@ -277,7 +227,8 @@
         </div>
 
         <script src="/assets/js/api-client.js?v=20260828-19"></script>
-        <script src="/backoffice/assets/js/form-system.js?v=20260901-live-controls"></script>
+        <script src="/assets/js/fokus.min.js?v=20260916-fokus-styles-2.7.0"></script>
+        <script src="/backoffice/assets/js/form-system.js?v=20260916-fokus-styles-migration-v1"></script>
         <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
         <script>
             const pageContent = document.querySelector("#page-content");
@@ -285,7 +236,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260916-admin-catalog-products-v3";
+            const pageVersion = "20260916-fokus-styles-migration-v3";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -299,6 +250,7 @@
                 seguranca: "security",
                 interesses: "product-interests",
                 "product-interests": "product-interests",
+                componentes: "ui-components",
             };
             const nameParticles = new Set([
                 "de",
@@ -573,6 +525,30 @@
                 });
             }
 
+            function initFokusStylesComponents() {
+                const definitions = [
+                    ["tooltip", window.FokusStyles?.Tooltip],
+                    ["modal", window.FokusStyles?.Modal],
+                    ["offcanvas", window.FokusStyles?.Offcanvas],
+                    ["datatable", window.FokusStyles?.DataTable],
+                    ["pagination", window.FokusStyles?.Pagination],
+                    ["select", window.FokusStyles?.Select],
+                    ["spinner", window.FokusStyles?.Spinner],
+                ];
+
+                definitions.forEach(([name, Constructor]) => {
+                    if (Constructor) {
+                        window.FokusStyles.core.autoInit(name, Constructor);
+                    }
+                });
+            }
+
+            window.refreshFokusDataTables = function (container = document) {
+                container.querySelectorAll?.('[data-fs="datatable"]').forEach((element) => {
+                    window.FokusStyles?.DataTable?.getInstance(element)?.refresh();
+                });
+            };
+
             async function loadSidebarPage(pageName) {
                 pageContent.innerHTML =
                     '<div class="text-body fs-u-color-secondary">Carregando...</div>';
@@ -588,6 +564,7 @@
 
                     pageContent.innerHTML = await response.text();
                     window.FokusForm?.enhance(pageContent);
+                    initFokusStylesComponents();
                     runPageScripts(pageContent);
 
                     sidebarButtons.forEach((button) => {

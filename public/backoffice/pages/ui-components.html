@@ -1,0 +1,43 @@
+<main class="fs-container-fluid fs-u-p-4" aria-labelledby="backoffice-components-title">
+    <div class="fs-stack fs-stack-gap-4">
+        <header class="fs-stack fs-stack-gap-1">
+            <span class="fs-u-text-uppercase fs-u-fw-semibold">Referência</span>
+            <h1 id="backoffice-components-title" class="fs-u-m-0">Componentes do backoffice</h1>
+            <p class="fs-u-color-secondary fs-u-m-0">Playground dos padrões oficiais reutilizáveis do Fokus Styles 2.7.0.</p>
+        </header>
+
+        <section class="fs-row fs-row-cols-4 fs-u-gap-3" aria-label="Cards de métricas">
+            <article class="fs-card fs-card-sm"><div class="fs-card-body"><span class="fs-u-color-secondary">Empresas</span><strong>24</strong></div></article>
+            <article class="fs-card fs-card-sm"><div class="fs-card-body"><span class="fs-u-color-secondary">Assinaturas</span><strong>38</strong></div></article>
+            <article class="fs-card fs-card-sm"><div class="fs-card-body"><span class="fs-u-color-secondary">Produtos</span><strong>06</strong></div></article>
+            <article class="fs-card fs-card-sm"><div class="fs-card-body"><span class="fs-u-color-secondary">MRR</span><strong>R$ 12.400</strong></div></article>
+        </section>
+
+        <section class="fs-card" aria-labelledby="component-controls-title">
+            <div class="fs-card-header"><h2 id="component-controls-title" class="fs-card-title">Controles e estados</h2><p class="fs-card-subtitle">Inputs, selects, labels, botões e mensagens.</p></div>
+            <div class="fs-card-body fs-stack fs-stack-gap-3">
+                <div class="fs-row fs-u-gap-3">
+                    <label class="fs-form-label fs-col-4" for="component-input">Buscar empresa<input class="fs-form-control" id="component-input" type="search" placeholder="Nome ou documento" /></label>
+                    <label class="fs-form-label fs-col-4" for="component-select">Status<select class="fs-form-select" id="component-select"><option>Todos os status</option><option>Ativa</option><option>Suspensa</option></select></label>
+                    <div class="fs-col-4 fs-u-d-flex fs-u-align-items-end fs-u-gap-2"><button class="fs-btn fs-btn-primary" type="button">Aplicar filtro</button><button class="fs-btn fs-btn-outline-primary" type="button">Cancelar</button></div>
+                </div>
+                <div class="fs-u-d-flex fs-u-flex-wrap fs-u-gap-2"><span class="fs-badge fs-badge-soft-success">Ativa</span><span class="fs-badge fs-badge-soft-warning">Pendente</span><span class="fs-badge fs-badge-soft-danger">Suspensa</span><span class="fs-badge fs-badge-soft-secondary">Rascunho</span></div>
+                <div class="fs-alert fs-alert-success" role="status"><div class="fs-alert-content"><strong class="fs-alert-heading">Operação concluída</strong><span class="fs-alert-text">O componente de feedback mantém mensagem e semântica acessíveis.</span></div></div>
+            </div>
+        </section>
+
+        <section class="fs-card fs-datatable" data-fs="datatable" data-fs-page-size="5" aria-labelledby="component-table-title">
+            <div class="fs-card-header fs-u-d-flex fs-u-justify-content-between fs-u-gap-2"><div><h2 id="component-table-title" class="fs-card-title">Tabela administrativa</h2><p class="fs-card-subtitle">Ordenação, filtro textual, estado vazio e paginação oficial.</p></div><label class="fs-form-label" for="component-table-filter">Filtrar tabela<input class="fs-form-control" id="component-table-filter" data-fs-datatable-filter type="search" placeholder="Digite para filtrar" /></label></div>
+            <div class="fs-table-responsive"><table class="fs-table fs-table-hover" aria-label="Empresas de exemplo"><thead><tr><th data-fs-sort="name">Empresa</th><th data-fs-sort="status">Status</th><th data-fs-sort="subscriptions" data-fs-sort-type="number">Assinaturas</th></tr></thead><tbody><tr><td>Fokus Cloud Law</td><td><span class="fs-badge fs-badge-soft-success">Ativa</span></td><td data-fs-sort-value="12">12</td></tr><tr><td>Fokus Cloud Lead</td><td><span class="fs-badge fs-badge-soft-warning">Pendente</span></td><td data-fs-sort-value="4">4</td></tr><tr><td>Fokus Styles</td><td><span class="fs-badge fs-badge-soft-info">Em revisão</span></td><td data-fs-sort-value="8">8</td></tr></tbody></table><p data-fs-datatable-empty class="fs-table-empty" hidden>Nenhum item encontrado.</p><p data-fs-datatable-loading class="fs-table-empty" hidden>Carregando...</p><div data-fs-datatable-error class="fs-alert fs-alert-danger" hidden><span data-fs-datatable-error-message></span></div></div>
+            <div data-fs-datatable-pagination class="fs-pagination" aria-label="Paginação de exemplo"></div>
+        </section>
+
+        <section class="fs-card" aria-labelledby="component-overlay-title">
+            <div class="fs-card-header"><h2 id="component-overlay-title" class="fs-card-title">Overlays</h2><p class="fs-card-subtitle">Painel lateral e confirmação usando o JavaScript oficial.</p></div>
+            <div class="fs-card-body fs-u-d-flex fs-u-flex-wrap fs-u-gap-2"><button class="fs-btn fs-btn-primary" type="button" data-fs="offcanvas" data-fs-target="#component-offcanvas">Abrir painel lateral</button><button class="fs-btn fs-btn-outline-danger" type="button" data-fs="modal" data-fs-target="#component-modal">Abrir confirmação</button><button class="fs-btn fs-btn-secondary" type="button" data-fs="tooltip" title="Texto de ajuda acessível">Passar o mouse</button></div>
+        </section>
+    </div>
+</main>
+
+<aside id="component-offcanvas" class="fs-offcanvas fs-offcanvas-end" tabindex="-1"><div class="fs-offcanvas-header"><h2 class="fs-offcanvas-title">Painel lateral</h2><button class="fs-btn-close" type="button" data-fs-dismiss="offcanvas" aria-label="Fechar painel"></button></div><div class="fs-offcanvas-body"><p>Use este padrão para criação e edição sem duplicar estilos.</p></div></aside>
+<div id="component-modal" class="fs-modal" tabindex="-1"><div class="fs-modal-dialog"><div class="fs-modal-content"><div class="fs-modal-header"><h2 class="fs-modal-title">Confirmar ação</h2><button class="fs-btn-close" type="button" data-fs-dismiss="modal" aria-label="Fechar confirmação"></button></div><div class="fs-modal-body"><p>Esta ação será registrada na auditoria.</p></div><div class="fs-modal-footer"><button class="fs-btn fs-btn-outline-secondary" type="button" data-fs-dismiss="modal">Cancelar</button><button class="fs-btn fs-btn-danger" type="button" data-fs-dismiss="modal">Confirmar</button></div></div></div></div>

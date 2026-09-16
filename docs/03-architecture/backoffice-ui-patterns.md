@@ -1,0 +1,83 @@
+# Padrões de interface do Backoffice
+
+O Backoffice usa o Fokus Styles `2.7.0` como fonte de componentes visuais. O
+HTML de cada página deve reutilizar a anatomia abaixo e alterar apenas conteúdo,
+dados, permissões e regras de negócio.
+
+## Regra de composição
+
+- Componentes reutilizáveis usam classes `fs-*` e utilitários `fs-u-*`.
+- Classes `admin-*` são reservadas ao shell exclusivo, a hooks de JavaScript e
+  a identificadores semânticos que não definem aparência.
+- CSS local não deve redefinir botões, campos, tabelas, cards, badges, alerts,
+  paginação ou overlays existentes no Fokus Styles.
+- A referência visual executável está em `/backoffice/componentes`.
+
+## Anatomia de uma página
+
+Use um container oficial, um stack vertical e um cabeçalho de conteúdo. Métricas
+ficam em cards; listagens ficam em `fs-datatable`; mensagens usam alert ou toast.
+
+```html
+<main class="fs-container-fluid fs-u-p-4">
+  <div class="fs-stack fs-stack-gap-3">
+    <header class="fs-stack fs-stack-gap-1">
+      <span class="fs-u-text-uppercase fs-u-fw-semibold">Contexto</span>
+      <h1 class="fs-u-m-0">Título da página</h1>
+      <p class="fs-u-color-secondary fs-u-m-0">Descrição operacional.</p>
+    </header>
+
+    <section class="fs-row fs-row-cols-4 fs-u-gap-3" aria-label="Resumo">
+      <article class="fs-card fs-card-sm"><div class="fs-card-body">Métrica</div></article>
+    </section>
+
+    <section class="fs-card">
+      <div class="fs-card-header fs-u-d-flex fs-u-justify-content-between fs-u-gap-2">
+        <div><h2 class="fs-card-title">Itens cadastrados</h2><p class="fs-card-subtitle">Resumo da operação.</p></div>
+        <button class="fs-btn fs-btn-primary" type="button">Novo cadastro</button>
+      </div>
+      <div class="fs-card-body">Conteúdo da página.</div>
+    </section>
+  </div>
+</main>
+```
+
+## Componentes obrigatórios
+
+| Necessidade | API Fokus Styles | Regra |
+| --- | --- | --- |
+| Botão | `fs-btn` + variante | Nunca usar `submit` ou botão visual local. |
+| Campo | `fs-form-label`, `fs-form-control`, `fs-form-select` | Labels devem estar associados aos controles. |
+| Card | `fs-card`, `fs-card-header`, `fs-card-body`, `fs-card-footer` | Usar utilitários para espaçamento. |
+| Tabela | `fs-datatable` + `fs-table` | Usar `data-fs-sort` quando a coluna for ordenável. |
+| Status | `fs-badge` + variante | O texto deve permanecer compreensível sem cor. |
+| Mensagem | `fs-alert` ou `fs-toast` | Informar sucesso, erro, vazio e carregamento. |
+| Paginação | `fs-pagination`, `fs-page-item`, `fs-page-link` | Preservar nome acessível e página atual. |
+| Painel lateral | `fs-offcanvas` | Usar foco contido, Escape e botão de fechamento. |
+| Confirmação | `fs-modal` | Ações destrutivas exigem confirmação clara. |
+
+## Listagens e estados
+
+Uma DataTable deve ter `data-fs="datatable"`, filtro opcional com
+`data-fs-datatable-filter`, mensagens com `data-fs-datatable-empty`,
+`data-fs-datatable-loading` e `data-fs-datatable-error`, e paginação com
+`data-fs-datatable-pagination`. Dados vindos de API podem ser inseridos no
+`tbody` pelo script da página e atualizados pelo método `refresh()` da instância.
+
+Filtros específicos do domínio permanecem no JavaScript da página; ordenação,
+filtragem textual, foco de células e paginação local devem usar a DataTable
+oficial quando o conjunto de dados permitir.
+
+## Acessibilidade
+
+Todo controle deve ter nome acessível, foco visível, estado de carregamento e
+mensagem de erro anunciável. Overlays devem usar os componentes oficiais para
+travar foco, fechar com Escape e devolver foco ao acionador.
+
+## Processo para novas páginas
+
+1. Copiar a anatomia do playground.
+2. Escolher somente classes oficiais e utilitários existentes.
+3. Adicionar os hooks de dados necessários sem criar classes visuais.
+4. Validar desktop, mobile, teclado e estados de erro.
+5. Criar CSS local apenas se o caso for exclusivo do shell e registrar a razão.

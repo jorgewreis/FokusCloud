@@ -1,53 +1,53 @@
-<div class="company-page d-flex col">
-<div class="admin-products-page admin-final-content">
-    <div class="admin-dashboard-intro">
+<div class="fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4">
+<div class="admin-products-page fs-u-d-flex fs-u-flex-column fs-u-gap-4">
+    <header class="fs-u-d-flex fs-u-justify-content-between fs-u-align-items-center fs-u-gap-3">
         <div>
-            <p class="admin-kicker">GESTÃO DO CATÁLOGO</p>
-            <h1>Produtos</h1>
-            <p class="admin-dashboard-subtitle">Gerencie os produtos comercializados pela plataforma e acompanhe sua publicação.</p>
+            <p class="fs-u-text-uppercase fs-u-fw-semibold fs-u-fs-sm">Gestão do catálogo</p>
+            <h1 class="fs-u-fs-h1 fs-u-m-0">Produtos</h1>
+            <p class="fs-u-fs-md fs-u-color-secondary fs-u-m-0">Gerencie os produtos comercializados pela plataforma e acompanhe sua publicação.</p>
         </div>
-        <button class="admin-primary-action" type="button" id="product-new"><img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt="" />Novo produto</button>
-    </div>
-    <hr>
-    <section class="admin-company-metrics admin-product-metrics" aria-label="Resumo dos produtos">
-        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Total de produtos</span><strong id="metric-total">0</strong></article>
-        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Produtos ativos</span><strong id="metric-active">0</strong></article>
-        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Em rascunho</span><strong id="metric-draft">0</strong></article>
-        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Produtos publicados</span><strong id="metric-published">0</strong></article>
+        <button class="fs-btn fs-btn-primary" type="button" id="product-new" data-fs-target="#product-drawer"><img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt="" />Novo produto</button>
+    </header>
+    <section class="fs-row fs-row-cols-4 fs-u-gap-3" aria-label="Resumo dos produtos">
+        <article class="fs-card fs-card-sm"><div class="fs-card-body fs-u-d-flex fs-u-flex-column fs-u-gap-1"><span class="fs-u-fs-sm fs-u-color-secondary">Total de produtos</span><strong class="fs-u-fs-h3" id="metric-total">0</strong></div></article>
+        <article class="fs-card fs-card-sm"><div class="fs-card-body fs-u-d-flex fs-u-flex-column fs-u-gap-1"><span class="fs-u-fs-sm fs-u-color-secondary">Produtos ativos</span><strong class="fs-u-fs-h3" id="metric-active">0</strong></div></article>
+        <article class="fs-card fs-card-sm"><div class="fs-card-body fs-u-d-flex fs-u-flex-column fs-u-gap-1"><span class="fs-u-fs-sm fs-u-color-secondary">Em rascunho</span><strong class="fs-u-fs-h3" id="metric-draft">0</strong></div></article>
+        <article class="fs-card fs-card-sm"><div class="fs-card-body fs-u-d-flex fs-u-flex-column fs-u-gap-1"><span class="fs-u-fs-sm fs-u-color-secondary">Produtos publicados</span><strong class="fs-u-fs-h3" id="metric-published">0</strong></div></article>
     </section>
-    <div class="admin-company-message" id="products-message" role="status" aria-live="polite" hidden></div>
-    <section class="admin-panel-card admin-company-list-card">
-        <div class="admin-card-heading admin-company-list-heading">
+    <div class="fs-alert" id="products-message" role="status" aria-live="polite" hidden></div>
+    <section class="fs-card">
+        <div class="fs-card-header fs-u-d-flex fs-u-justify-content-between fs-u-align-items-end fs-u-gap-3">
             <div>
-                <h2>Produtos cadastrados</h2>
-                <p>Acompanhe o status, a publicação e os vínculos de cada produto.</p>
+                <h2 class="fs-card-title">Produtos cadastrados</h2>
+                <p class="fs-card-subtitle">Acompanhe o status, a publicação e os vínculos de cada produto.</p>
             </div>
-            <div class="admin-company-controls admin-product-controls">
-                <label class="admin-table-search"><img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png" alt="" /><input class="admin-product-search" id="product-search" type="search" placeholder="Buscar produto ou código" aria-label="Buscar produto" /></label>
-                <select id="product-status-filter" aria-label="Filtrar por status"><option value="">Todos os status</option><option value="ativo">Ativos</option><option value="inativo">Inativos</option><option value="pausado">Pausados</option></select>
-                <select id="product-publication-filter" aria-label="Filtrar por publicação"><option value="">Todas as publicações</option><option value="rascunho">Rascunhos</option><option value="publicado">Publicados</option><option value="pausado">Pausados</option><option value="arquivado">Arquivados</option></select>
-                <button class="submit" type="button" id="product-filter">Filtrar</button>
+            <div class="fs-u-d-flex fs-u-align-items-center fs-u-flex-wrap fs-u-gap-2">
+                <label class="fs-input-group"><span class="fs-input-group-text" aria-hidden="true"><img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png" alt="" /></span><input class="fs-form-control" id="product-search" type="search" placeholder="Buscar produto ou código" aria-label="Buscar produto" /></label>
+                <select class="fs-form-select" id="product-status-filter" aria-label="Filtrar por status"><option value="">Todos os status</option><option value="ativo">Ativos</option><option value="inativo">Inativos</option><option value="pausado">Pausados</option></select>
+                <select class="fs-form-select" id="product-publication-filter" aria-label="Filtrar por publicação"><option value="">Todas as publicações</option><option value="rascunho">Rascunhos</option><option value="publicado">Publicados</option><option value="pausado">Pausados</option><option value="arquivado">Arquivados</option></select>
+                <button class="fs-btn fs-btn-primary" type="button" id="product-filter">Filtrar</button>
             </div>
         </div>
-        <div class="table-panel admin-table-scroll">
-            <table class="data-table admin-products-table" aria-label="Produtos do catálogo">
+        <div class="fs-card-body">
+        <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
+            <table class="fs-table fs-table-hover" aria-label="Produtos do catálogo">
                 <thead><tr><th>Produto</th><th>Código</th><th>Status</th><th>Publicação</th><th>Módulos</th><th>Planos</th><th>Versão</th><th>Destaque</th><th>Ações</th></tr></thead>
                 <tbody id="product-list"><tr><td colspan="9">Carregando...</td></tr></tbody>
             </table>
         </div>
-        <div class="admin-table-footer"><span class="pagination-info" id="product-table-summary"></span><nav class="fs-pagination admin-product-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav></div>
+        </div>
+        <div class="fs-card-footer fs-u-d-flex fs-u-align-items-center fs-u-justify-content-between fs-u-gap-3"><span class="fs-u-fs-sm fs-u-color-secondary" id="product-table-summary"></span><nav class="fs-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav></div>
     </section>
-    <div class="admin-product-drawer-backdrop" id="product-drawer-backdrop" hidden></div>
-    <aside class="admin-product-drawer" id="product-drawer" aria-labelledby="product-drawer-title" aria-hidden="true" hidden>
-        <div class="admin-product-drawer-header"><div><p class="admin-kicker">CATÁLOGO</p><h2 id="product-drawer-title">Novo produto</h2></div><button class="icon-button" type="button" id="product-drawer-close" aria-label="Fechar painel">×</button></div>
-        <form class="admin-product-form fc-form" id="product-form">
-            <div class="form-line"><label><span>Código técnico</span><input name="code" maxlength="64" required></label><label><span>Nome do produto</span><input name="name" maxlength="120" required></label></div>
-            <div class="form-line"><label><span>Status</span><select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label><span>Ordem de exibição</span><input name="display_order" type="number" min="0" step="1" value="0" required></label></div>
-            <label><span>Descrição técnica</span><textarea name="technical_description" maxlength="2000"></textarea></label>
-            <label><span>Descrição comercial</span><textarea name="commercial_content" maxlength="20000"></textarea></label>
-            <label><span>Produto em destaque</span><select name="featured"><option value="0">Não</option><option value="1">Sim</option></select></label>
-            <p class="text-body fs-u-color-secondary">A publicação do catálogo será realizada pela futura central de Publicações e versões.</p>
-            <div class="admin-product-form-actions"><button class="fs-btn button-secondary" type="button" id="product-form-cancel">Cancelar</button><button class="submit fs-btn" type="submit" id="product-form-submit">Salvar produto</button></div>
+    <aside class="fs-offcanvas fs-offcanvas-end" id="product-drawer" aria-labelledby="product-drawer-title" tabindex="-1">
+        <div class="fs-offcanvas-header"><div><p class="fs-u-text-uppercase fs-u-fw-semibold fs-u-fs-sm">Catálogo</p><h2 id="product-drawer-title" class="fs-offcanvas-title">Novo produto</h2></div><button class="fs-btn-close" type="button" id="product-drawer-close" data-fs-dismiss="offcanvas" aria-label="Fechar painel"></button></div>
+        <form class="fs-form fs-offcanvas-body fs-u-d-flex fs-u-flex-column fs-u-gap-3" id="product-form">
+            <div class="fs-form-row"><label class="fs-form-col fs-form-label"><span>Código técnico</span><input class="fs-form-control" name="code" maxlength="64" required></label><label class="fs-form-col fs-form-label"><span>Nome do produto</span><input class="fs-form-control" name="name" maxlength="120" required></label></div>
+            <div class="fs-form-row"><label class="fs-form-col fs-form-label"><span>Status</span><select class="fs-form-select" name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label class="fs-form-col fs-form-label"><span>Ordem de exibição</span><input class="fs-form-control" name="display_order" type="number" min="0" step="1" value="0" required></label></div>
+            <label class="fs-form-label"><span>Descrição técnica</span><textarea class="fs-form-control" name="technical_description" maxlength="2000"></textarea></label>
+            <label class="fs-form-label"><span>Descrição comercial</span><textarea class="fs-form-control" name="commercial_content" maxlength="20000"></textarea></label>
+            <label class="fs-form-label"><span>Produto em destaque</span><select class="fs-form-select" name="featured"><option value="0">Não</option><option value="1">Sim</option></select></label>
+            <p class="fs-u-fs-md fs-u-color-secondary">A publicação do catálogo será realizada pela futura central de Publicações e versões.</p>
+            <div class="fs-offcanvas-footer"><button class="fs-btn fs-btn-outline-primary" type="button" id="product-form-cancel">Cancelar</button><button class="fs-btn fs-btn-primary" type="submit" id="product-form-submit">Salvar produto</button></div>
         </form>
     </aside>
 </div>
@@ -57,7 +57,7 @@
     const root = document.querySelector('.admin-products-page');
     const form = root.querySelector('#product-form');
     const drawer = root.querySelector('#product-drawer');
-    const backdrop = root.querySelector('#product-drawer-backdrop');
+    const offcanvas = window.FokusStyles?.Offcanvas?.getOrCreateInstance(root.querySelector('#product-new'));
     const list = root.querySelector('#product-list');
     const tableSummary = root.querySelector('#product-table-summary');
     const message = root.querySelector('#products-message');
@@ -65,22 +65,22 @@
     const pageSize = 12;
     const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
     const icon = (name) => `/backoffice/assets/icons/${name}`;
-    const action = (type, id, label, image, danger = false) => `<button class="icon-button${danger ? ' icon-button-danger' : ''}" type="button" data-action="${type}" data-id="${esc(id)}" title="${label}" aria-label="${label}"><img src="${icon(image)}" alt=""></button>`;
+    const action = (type, id, label, image, danger = false) => `<button class="fs-btn fs-btn-icon${danger ? ' fs-btn-danger' : ''}" type="button" data-action="${type}" data-id="${esc(id)}" title="${label}" aria-label="${label}"><img src="${icon(image)}" alt=""></button>`;
     const show = (text, tone = 'info') => { message.textContent = text || ''; message.dataset.tone = tone; message.hidden = !text; };
     const filtered = () => { const query = root.querySelector('#product-search').value.trim().toLowerCase(); const status = root.querySelector('#product-status-filter').value; const publication = root.querySelector('#product-publication-filter').value; return state.products.filter((p) => (!query || `${p.name} ${p.code}`.toLowerCase().includes(query)) && (!status || p.status === status) && (!publication || p.publication_state === publication)); };
     const badge = (text) => `<span class="fs-badge">${esc(text || '-')}</span>`;
     function render() {
         const rows = filtered(); const pages = Math.max(1, Math.ceil(rows.length / pageSize)); state.page = Math.min(state.page, pages); const start = (state.page - 1) * pageSize; const current = rows.slice(start, start + pageSize);
-        list.innerHTML = current.length ? current.map((p) => `<tr><td><span class="product-name">${esc(p.name)}</span></td><td><span class="product-code">${esc(p.code)}</span></td><td><span class="product-status">${badge(p.status)}</span></td><td><span class="product-publication">${badge(p.publication_state)}</span></td><td class="product-count">${(p.modules || []).length}</td><td class="product-count">${(p.plans || []).length}</td><td class="product-version">${Number(p.published_version || 0)}</td><td>${p.featured ? 'Sim' : 'Não'}</td><td><div class="product-actions">${action('view', p.id, 'Visualizar produto', 'View-Circle--Streamline-Ultimate.png')}${action('edit', p.id, 'Editar produto', 'Pencil-Circle--Streamline-Ultimate.png')}${p.status === 'pausado' ? action('activate', p.id, 'Reativar produto', 'Power-Button-1--Streamline-Ultimate.png') : action('pause', p.id, 'Pausar produto', 'Button-Pause-1--Streamline-Ultimate.png')}${action('archive', p.id, 'Arquivar produto', 'Remove-Circle-1--Streamline-Ultimate.png', true)}${action('delete', p.id, 'Excluir produto', 'Remove-Square-1--Streamline-Ultimate.png', true)}</div></td></tr>`).join('') : '<tr><td colspan="9">Nenhum produto encontrado.</td></tr>';
+        list.innerHTML = current.length ? current.map((p) => `<tr><td><span class="fs-u-fw-semibold">${esc(p.name)}</span></td><td><span class="fs-u-fw-semibold">${esc(p.code)}</span></td><td><span class="fs-u-text-nowrap">${badge(p.status)}</span></td><td><span class="fs-u-text-nowrap">${badge(p.publication_state)}</span></td><td>${(p.modules || []).length}</td><td>${(p.plans || []).length}</td><td>${Number(p.published_version || 0)}</td><td>${p.featured ? 'Sim' : 'Não'}</td><td><div class="fs-u-d-flex fs-u-gap-2">${action('view', p.id, 'Visualizar produto', 'View-Circle--Streamline-Ultimate.png')}${action('edit', p.id, 'Editar produto', 'Pencil-Circle--Streamline-Ultimate.png')}${p.status === 'pausado' ? action('activate', p.id, 'Reativar produto', 'Power-Button-1--Streamline-Ultimate.png') : action('pause', p.id, 'Pausar produto', 'Button-Pause-1--Streamline-Ultimate.png')}${action('archive', p.id, 'Arquivar produto', 'Remove-Circle-1--Streamline-Ultimate.png', true)}${action('delete', p.id, 'Excluir produto', 'Remove-Square-1--Streamline-Ultimate.png', true)}</div></td></tr>`).join('') : '<tr><td colspan="9">Nenhum produto encontrado.</td></tr>';
         tableSummary.textContent = rows.length ? `${start + 1}–${Math.min(start + pageSize, rows.length)} de ${rows.length} produtos` : '';
-        root.querySelector('#product-pagination').innerHTML = rows.length > pageSize ? `<button class="fs-page-item" type="button" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''}>‹</button><span class="pagination-info">${state.page} / ${pages}</span><button class="fs-page-item" type="button" data-page="${state.page + 1}" ${state.page === pages ? 'disabled' : ''}>›</button>` : '';
-        root.querySelector('#metric-total').textContent = state.products.length; root.querySelector('#metric-active').textContent = state.products.filter((p) => p.status === 'ativo').length; root.querySelector('#metric-draft').textContent = state.products.filter((p) => p.publication_state === 'rascunho').length; root.querySelector('#metric-published').textContent = state.products.filter((p) => p.publication_state === 'publicado').length;
+        root.querySelector('#product-pagination').innerHTML = rows.length > pageSize ? `<ul class="fs-pagination"><li class="fs-page-item${state.page === 1 ? ' is-disabled' : ''}"><button class="fs-page-link" type="button" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''} aria-label="Página anterior">‹</button></li><li class="fs-page-item is-active"><span class="fs-page-link" aria-current="page">${state.page} / ${pages}</span></li><li class="fs-page-item${state.page === pages ? ' is-disabled' : ''}"><button class="fs-page-link" type="button" data-page="${state.page + 1}" ${state.page === pages ? 'disabled' : ''} aria-label="Próxima página">›</button></li></ul>` : '';
+        root.querySelector('#metric-total').textContent = state.products.length; root.querySelector('#metric-active').textContent = state.products.filter((p) => p.status === 'ativo').length; root.querySelector('#metric-draft').textContent = state.products.filter((p) => p.publication_state === 'rascunho').length; root.querySelector('#metric-published').textContent = state.products.filter((p) => p.publication_state === 'publicado').length; window.refreshFokusDataTables?.(root);
     }
-    function open(product = null, viewOnly = false) { state.editing = product?.id || null; root.querySelector('#product-drawer-title').textContent = product ? (viewOnly ? 'Visualizar produto' : 'Editar produto') : 'Novo produto'; form.reset(); if (product) ['code','name','status','display_order','technical_description','commercial_content'].forEach((key) => { if (form.elements[key]) form.elements[key].value = product[key] ?? ''; }); if (product) form.elements.featured.value = product.featured ? '1' : '0'; [...form.elements].forEach((field) => { field.disabled = viewOnly; }); root.querySelector('#product-form-submit').hidden = viewOnly; root.querySelector('#product-form-cancel').textContent = viewOnly ? 'Fechar' : 'Cancelar'; drawer.hidden = false; backdrop.hidden = false; drawer.setAttribute('aria-hidden', 'false'); if (!viewOnly) form.elements.name.focus(); }
-    function close() { drawer.hidden = true; backdrop.hidden = true; drawer.setAttribute('aria-hidden', 'true'); state.editing = null; }
+    function open(product = null, viewOnly = false) { state.editing = product?.id || null; root.querySelector('#product-drawer-title').textContent = product ? (viewOnly ? 'Visualizar produto' : 'Editar produto') : 'Novo produto'; form.reset(); if (product) ['code','name','status','display_order','technical_description','commercial_content'].forEach((key) => { if (form.elements[key]) form.elements[key].value = product[key] ?? ''; }); if (product) form.elements.featured.value = product.featured ? '1' : '0'; [...form.elements].forEach((field) => { field.disabled = viewOnly; }); root.querySelector('#product-form-submit').hidden = viewOnly; root.querySelector('#product-form-cancel').textContent = viewOnly ? 'Fechar' : 'Cancelar'; offcanvas?.show(); if (!viewOnly) form.elements.name.focus(); }
+    function close() { offcanvas?.hide(); state.editing = null; }
     async function load() { try { const response = await api.request('/backoffice/catalog'); state.products = response.products || []; render(); } catch (error) { list.innerHTML = '<tr><td colspan="9">Não foi possível carregar os produtos.</td></tr>'; show(error.message || 'Não foi possível carregar os produtos.', 'danger'); } }
     async function mutate(product, operation) { const labels = { pause: 'pausar', activate: 'reativar', archive: 'arquivar', delete: 'excluir' }; if (!window.confirm(`Deseja ${labels[operation]} este produto?`)) return; try { const method = operation === 'delete' ? 'DELETE' : 'POST'; const path = operation === 'delete' ? `/backoffice/catalog/products/${product.id}` : `/backoffice/catalog/products/${product.id}/${operation}`; await api.request(path, { method, body: { reason: `Ação administrativa: ${operation}` } }); show(`Produto ${operation === 'activate' ? 'reativado' : operation === 'pause' ? 'pausado' : operation === 'archive' ? 'arquivado' : 'excluído'} com sucesso.`, 'success'); await load(); } catch (error) { show(error.message || 'Não foi possível atualizar o produto.', 'danger'); } }
-    root.querySelector('#product-new').addEventListener('click', () => open()); root.querySelector('#product-drawer-close').addEventListener('click', close); root.querySelector('#product-form-cancel').addEventListener('click', close); backdrop.addEventListener('click', close);
+    root.querySelector('#product-new').addEventListener('click', (event) => { event.preventDefault(); open(); }); root.querySelector('#product-drawer-close').addEventListener('click', close); root.querySelector('#product-form-cancel').addEventListener('click', close);
     root.querySelector('#product-search').addEventListener('input', () => { state.page = 1; render(); }); root.querySelector('#product-status-filter').addEventListener('change', () => { state.page = 1; render(); }); root.querySelector('#product-publication-filter').addEventListener('change', () => { state.page = 1; render(); });
     root.addEventListener('click', async (event) => { const page = event.target.closest('[data-page]'); if (page && !page.disabled) { state.page = Number(page.dataset.page); render(); return; } const button = event.target.closest('[data-action]'); if (!button) return; const product = state.products.find((p) => p.id === button.dataset.id); if (!product) return; if (button.dataset.action === 'edit' || button.dataset.action === 'view') { open(product, button.dataset.action === 'view'); return; } mutate(product, button.dataset.action); });
     form.addEventListener('submit', async (event) => { event.preventDefault(); if (window.FokusForm && !FokusForm.validate(form)) return; FokusForm?.setLoading(form, true); try { const payload = Object.fromEntries(new FormData(form)); payload.display_order = Number(payload.display_order || 0); payload.featured = payload.featured === '1'; await api.request(state.editing ? `/backoffice/catalog/products/${state.editing}` : '/backoffice/catalog/products', { method: state.editing ? 'PATCH' : 'POST', body: payload }); close(); show('Produto salvo com sucesso.', 'success'); await load(); } catch (error) { FokusForm?.mapServerErrors(form, error.errors); show(error.message || 'Não foi possível salvar o produto.', 'danger'); } finally { FokusForm?.setLoading(form, false); } });

@@ -21,7 +21,7 @@ class FormDesignSystemTest extends TestCase
             $contents = file_get_contents(base_path($page));
 
             $this->assertNotFalse($contents, $page);
-            $this->assertStringContainsString('fc-form', $contents, $page);
+            $this->assertStringContainsString('fs-form', $contents, $page);
             $this->assertStringNotContainsString('<style', $contents, $page);
             $this->assertStringNotContainsString('style=', $contents, $page);
         }
@@ -50,15 +50,15 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260902-pagamentos-spacing', $panel);
+        $this->assertStringContainsString('20260916-fokus-styles-migration-v3', $panel);
         $this->assertStringContainsString('data-platform-access-card', $home);
         $this->assertStringContainsString('platform-access.js?v=20260914-platform-access1', $home);
-        $this->assertStringContainsString('20260901-live-controls', $activate);
+        $this->assertStringContainsString('20260916-fokus-styles-auth-shell', $activate);
 
         $this->assertStringContainsString('MutationObserver', $script);
         $this->assertStringContainsString('markRequiredFields', $script);
-        $this->assertStringContainsString('form-label-required', $script);
-        $this->assertStringContainsString('background: var(--theme-surface, #ffffff)', $css);
+        $this->assertStringContainsString('fs-invalid-feedback', $script);
+        $this->assertStringContainsString('fs-form-control', file_get_contents(base_path('public/assets/css/shared/fokus.css')));
     }
 
     public function test_admin_invite_form_does_not_reuse_sidebar_admin_id(): void
@@ -98,9 +98,8 @@ class FormDesignSystemTest extends TestCase
 
         $this->assertSame(2, substr_count($catalog, 'data-currency-input'));
         $this->assertStringContainsString('plan-module-checkbox', $catalog);
-        $this->assertStringContainsString('input:not([type="checkbox"]):not([type="radio"])', $css);
-        $this->assertStringContainsString('width: 16px !important', $pageCss);
-        $this->assertStringContainsString('height: 16px !important', $pageCss);
+        $this->assertStringContainsString('fs-input-group-text', $catalog);
+        $this->assertStringContainsString('fs-check-label', $catalog);
     }
 
     public function test_catalog_tables_expose_reusable_pagination_controls(): void
@@ -115,7 +114,7 @@ class FormDesignSystemTest extends TestCase
     public function test_company_and_subscription_pages_follow_live_backoffice_components(): void
     {
         $pages = [
-            'public/backoffice/pages/companies.html' => 'company-page',
+            'public/backoffice/pages/companies.html' => 'admin-company-page',
             'public/backoffice/pages/subscriptions.html' => 'subscription-page',
             'public/backoffice/pages/pagamentos.html' => 'pagamentos-page',
         ];
@@ -123,30 +122,26 @@ class FormDesignSystemTest extends TestCase
         foreach ($pages as $page => $rootClass) {
             $contents = file_get_contents(base_path($page));
 
-            $this->assertStringContainsString('class="'.$rootClass.' d-flex col"', $contents, $page);
-            $this->assertStringContainsString('<hr>', $contents, $page);
-            $this->assertStringContainsString('table-panel', $contents, $page);
-            $this->assertStringContainsString('data-table', $contents, $page);
-            $this->assertStringContainsString('class="submit"', $contents, $page);
+            $this->assertStringContainsString('fs-container-fluid', $contents, $page);
+            $this->assertStringContainsString('class="'.$rootClass, $contents, $page);
+            $this->assertStringContainsString('fs-table-responsive', $contents, $page);
+            $this->assertStringContainsString('fs-table', $contents, $page);
+            $this->assertStringContainsString('fs-btn', $contents, $page);
             $this->assertStringNotContainsString('class="btn', $contents, $page);
             $this->assertStringNotContainsString('table-container', $contents, $page);
         }
 
         $companies = file_get_contents(base_path('public/backoffice/pages/companies.html'));
         $subscriptions = file_get_contents(base_path('public/backoffice/pages/subscriptions.html'));
-        $this->assertStringContainsString('metric-label">STATUS', $companies);
-        $this->assertStringContainsString('metric-label">ADMINISTRADOR', $companies);
-        $this->assertStringContainsString('subscription-summary-card', $companies);
-        $this->assertStringContainsString('card-header', $companies);
+        $this->assertStringContainsString('fs-card-title">Dados da empresa', $companies);
+        $this->assertStringContainsString('fs-card-title">Administrador responsável', $companies);
+        $this->assertStringContainsString('fs-badge', $companies);
+        $this->assertStringContainsString('fs-offcanvas', $companies);
         $this->assertStringContainsString('card-body', $subscriptions);
         $this->assertStringContainsString('cancelamento_imediato', $subscriptions);
 
-        $pageCss = file_get_contents(base_path('public/backoffice/assets/css/pages/mockup.css'));
-        $formCss = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
-        foreach (['.company-page', '.subscription-page', '.pagamentos-page'] as $selector) {
-            $this->assertStringContainsString($selector, $pageCss, $selector);
-            $this->assertStringContainsString($selector, $formCss, $selector);
-        }
+        $this->assertStringNotContainsString('admin-company-page {', file_get_contents(base_path('public/backoffice/assets/css/pages/admin-dashboard.css')));
+        $this->assertFileDoesNotExist(base_path('public/backoffice/assets/css/pages/admin-products.css'));
     }
 
     public function test_payments_deep_links_return_the_backoffice_shell(): void

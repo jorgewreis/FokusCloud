@@ -1,14 +1,14 @@
 /* LOAD SHARED DESIGN TOKENS */
-@import url("../../../../assets/css/shared/main.css");
+@import url("../../../../assets/css/shared/main.css?v=20260916-fokus-styles-2.7.0");
 
 /* NORMALIZE BROWSER DEFAULTS */
-@import url("reset.css?v=20260901-live-controls");
+@import url("reset.css?v=20260916-fokus-styles-migration-v3");
 
 /* DEFINE COLOR TOKENS */
-@import url("colors.css?v=20260901-live-controls");
+@import url("colors.css?v=20260916-fokus-styles-migration-v3");
 
 /* DEFINE GLOBAL DESIGN TOKENS */
 @import url("variables.css?v=20260916-disabled-label-standard-v2");
 
 /* DEFINE TYPOGRAPHY SYSTEM */
-@import url("typography.css?v=20260901-live-controls");
+@import url("typography.css?v=20260916-fokus-styles-migration-v3");
