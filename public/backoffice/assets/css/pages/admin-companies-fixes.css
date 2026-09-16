@@ -84,6 +84,25 @@
     object-fit: contain !important;
 }
 
+/* Action icons have no filled hover state: never cover or tint the icon. */
+.admin-company-page .admin-company-row-action:hover,
+.admin-company-page .admin-company-row-action:focus,
+.admin-company-page .admin-company-row-action:focus-visible {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+}
+.admin-company-page .admin-company-row-action:hover img,
+.admin-company-page .admin-company-row-action:focus img,
+.admin-company-page .admin-company-row-action:focus-visible img {
+    display: block !important;
+    filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
 /* Typography hierarchy for the company details drawer. */
 .admin-company-page .admin-company-view-section dt {
     font-family: "Syne Mono", monospace !important;
