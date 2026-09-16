@@ -165,7 +165,8 @@
         if (mode === "view") {
             const viewDocument = document.querySelector("#company-view-document");
             const viewAdminCpf = document.querySelector("#company-view-admin-cpf");
-            const formattedDocument = formatDocument(viewDocument.textContent, type);
+            const viewDocumentType = digits(viewDocument.textContent).length === 11 ? "cpf" : type;
+            const formattedDocument = formatDocument(viewDocument.textContent, viewDocumentType);
             const formattedAdminCpf = formatDocument(viewAdminCpf.textContent, "cpf");
             if (viewDocument.textContent !== formattedDocument) viewDocument.textContent = formattedDocument;
             if (viewAdminCpf.textContent !== formattedAdminCpf) viewAdminCpf.textContent = formattedAdminCpf;
