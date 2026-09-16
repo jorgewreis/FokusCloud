@@ -147,5 +147,5 @@
 html[data-role="admin"] #sidebar,
 html[data-role="admin"] .fs-sidebar {
     position: fixed !important;
-    z-index: 100 !important;
+    z-index: 10000 !important;
 }
