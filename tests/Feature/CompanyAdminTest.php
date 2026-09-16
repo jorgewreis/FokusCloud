@@ -23,7 +23,7 @@ class CompanyAdminTest extends TestCase
         Http::fake(['api.pwnedpasswords.com/*' => Http::response('', 200)]);
     }
 
-    public function test_company_query_is_paginated_and_masks_document_and_email(): void
+    public function test_company_query_is_paginated_and_exposes_document_and_email(): void
     {
         $admin = $this->platformAdmin();
         $this->companyFixture('Empresa Beta', '98765432000100', 'beta@example.test');
@@ -32,9 +32,8 @@ class CompanyAdminTest extends TestCase
             ->assertOk()
             ->assertJsonPath('meta.current_page', 1)
             ->assertJsonPath('meta.per_page', 1)
-            ->assertJsonPath('data.0.document_masked', '**.***.***/****-00')
-            ->assertJsonPath('data.0.admin_email_masked', 'b***@example.test')
-            ->assertJsonMissing(['document_number' => '98765432000100']);
+            ->assertJsonPath('data.0.document_number', '98765432000100')
+            ->assertJsonPath('data.0.admin_email', 'beta@example.test');
     }
 
     public function test_user_without_company_permission_cannot_query_companies(): void

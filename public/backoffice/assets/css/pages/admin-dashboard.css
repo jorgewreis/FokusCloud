@@ -3455,12 +3455,19 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-company-page .admin-company-name-button {
     padding: 0;
     border: 0;
-    color: #17325a;
+    color: inherit;
     background: transparent;
     font: inherit;
-    font-weight: 700;
+    font-weight: 600;
     text-align: left;
     cursor: pointer;
+}
+.admin-company-page .admin-company-name-button:hover,
+.admin-company-page .admin-company-name-button:focus-visible {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: #9aa8b8;
+    text-underline-offset: 3px;
 }
 .admin-company-page .admin-company-status {
     display: inline-flex;

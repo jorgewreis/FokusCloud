@@ -30,8 +30,8 @@ class SubscriptionAdminTest extends TestCase
         $this->actingAs($admin, 'platform')->getJson('/api/backoffice/companies')
             ->assertOk()
             ->assertJsonPath('data.0.legal_name', 'Empresa Alpha')
-            ->assertJsonPath('data.0.document_masked', '**.***.***/****-00')
-            ->assertJsonMissing(['document_number' => '12345678000100']);
+            ->assertJsonPath('data.0.document_number', '12345678000100')
+            ->assertJsonPath('data.0.admin_email', 'cliente-0@example.test');
 
         $this->actingAs($admin, 'platform')->getJson('/api/backoffice/subscriptions/'.$fixture['subscription_id'])
             ->assertOk()
