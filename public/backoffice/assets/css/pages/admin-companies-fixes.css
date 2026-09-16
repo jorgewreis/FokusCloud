@@ -142,3 +142,10 @@
     font-family: "Syne Mono", monospace !important;
     font-weight: 600 !important;
 }
+
+/* Keep the persistent backoffice navigation above table actions and drawers. */
+html[data-role="admin"] #sidebar,
+html[data-role="admin"] .fs-sidebar {
+    position: fixed !important;
+    z-index: 100 !important;
+}
