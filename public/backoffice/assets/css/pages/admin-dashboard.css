@@ -3500,9 +3500,7 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-company-page .admin-secondary-action:hover,
 .admin-company-page .admin-secondary-action:focus-visible,
 .admin-company-page .admin-company-controls .submit:hover,
-.admin-company-page .admin-company-controls .submit:focus-visible,
-.admin-company-page .admin-icon-action:hover,
-.admin-company-page .admin-icon-action:focus-visible {
+.admin-company-page .admin-company-controls .submit:focus-visible {
     color: #173f68 !important;
     border-color: #b9c8d4 !important;
     background: #f5f8fa !important;
@@ -3521,10 +3519,6 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 }
 .admin-company-page .admin-company-name-button,
 .admin-company-page .admin-icon-action {
-    border: 0 !important;
-}
-.admin-company-page .admin-icon-action:hover,
-.admin-company-page .admin-icon-action:focus-visible {
     border: 0 !important;
 }
 .admin-company-page .table-panel.admin-table-scroll {
@@ -3640,11 +3634,6 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     color: #58708d;
     background: transparent;
     cursor: pointer;
-}
-.admin-company-page .admin-icon-action:hover,
-.admin-company-page .admin-icon-action:focus-visible {
-    border-color: #d9e0e5;
-    background: #f5f8fa;
 }
 .admin-company-page .admin-icon-action img {
     width: 17px;
