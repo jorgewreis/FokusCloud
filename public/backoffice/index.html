@@ -66,7 +66,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260916-admin-dashboard-v99-catalog-menu"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260916-admin-dashboard-v100-catalog-subnav"
         />
         <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-companies-fixes.css?v=20260916-admin-companies-fixes-v18-disabled-label-standard" />
         <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-products.css?v=20260916-admin-products-v1" />
@@ -132,27 +132,22 @@
                                 alt=""
                             />
                             <span class="sidebar-button-label text-subtitle-sm">Catálogo</span>
-                            <span class="sidebar-group-chevron" aria-hidden="true">⌄</span>
+                            <img class="sidebar-group-chevron" src="/backoffice/assets/icons/Arrow-Down-1--Streamline-Ultimate.png?v=20260916-catalog-arrow-v1" alt="" aria-hidden="true" />
                         </button>
                         <div class="sidebar-subnav" id="catalog-subnav" role="group" aria-label="Seções do catálogo">
                             <button class="sidebar-button sidebar-subnav-button" type="button" data-sidebar-item="products">
-                                <img src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
                                 <span class="sidebar-button-label text-subtitle-sm">Produtos</span>
                             </button>
                             <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
-                                <img src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
                                 <span class="sidebar-button-label text-subtitle-sm">Visão geral</span>
                             </button>
                             <button class="sidebar-button sidebar-subnav-button" type="button" data-sidebar-item="subscription-plans">
-                                <img src="/backoffice/assets/icons/Tags-Remove--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
                                 <span class="sidebar-button-label text-subtitle-sm">Planos de assinatura</span>
                             </button>
                             <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
-                                <img src="/backoffice/assets/icons/Multiple-Actions-Setting--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
                                 <span class="sidebar-button-label text-subtitle-sm">Módulos e funcionalidades</span>
                             </button>
                             <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
-                                <img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
                                 <span class="sidebar-button-label text-subtitle-sm">Publicações e versões</span>
                             </button>
                         </div>
@@ -290,7 +285,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260916-admin-catalog-products-v1";
+            const pageVersion = "20260916-admin-catalog-products-v2";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",

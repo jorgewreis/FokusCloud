@@ -1066,11 +1066,13 @@ html[data-role="admin"] .sidebar-group-toggle {
     width: 100%;
 }
 html[data-role="admin"] .sidebar-group-chevron {
+    flex: 0 0 12px;
+    width: 12px;
+    height: 12px;
     margin-left: auto;
-    color: currentColor;
-    font-size: 16px;
-    line-height: 1;
+    object-fit: contain;
     opacity: .75;
+    filter: brightness(0) invert(1);
     transition: transform 160ms ease;
 }
 html[data-role="admin"] .sidebar-group-toggle[aria-expanded="false"] .sidebar-group-chevron {
@@ -1080,7 +1082,7 @@ html[data-role="admin"] .sidebar-subnav {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    margin-left: 17px;
+    margin-left: 41px;
     padding-left: 8px;
     border-left: 1px solid rgba(255, 255, 255, .25);
 }
@@ -1089,9 +1091,12 @@ html[data-role="admin"] .sidebar-subnav[hidden] {
 }
 html[data-role="admin"] .sidebar-subnav-button {
     min-height: 38px;
-    padding-left: 11px;
-    gap: 12px;
-    font-size: 12px;
+    padding-left: 0;
+    gap: 0;
+    font-size: 12px !important;
+}
+html[data-role="admin"] .sidebar-subnav-button .sidebar-button-label {
+    font-size: 12px !important;
 }
 html[data-role="admin"] .sidebar-subnav-button img {
     width: 18px;
