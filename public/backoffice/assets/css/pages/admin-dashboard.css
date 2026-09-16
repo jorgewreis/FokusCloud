@@ -3353,11 +3353,6 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         opacity: 1 !important;
     }
 
-    html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button[data-sidebar-item="product-interests"] img {
-        filter: brightness(0) invert(1) !important;
-        opacity: 1 !important;
-    }
-
     html[data-role="admin"] .fs-sidebar .sidebar-nav .sidebar-button-label {
         display: inline-flex !important;
         max-width: 0 !important;
