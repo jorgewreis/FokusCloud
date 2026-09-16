@@ -72,10 +72,10 @@
     background-image: url("/backoffice/assets/icons/Remove-Circle-1--Streamline-Ultimate.png");
 }
 
-/* Keep the actual image above every button background and hover layer. */
+/* Keep the icon inside its action button and out of the drawer stacking context. */
 .admin-company-page .admin-company-row-action img {
-    position: relative !important;
-    z-index: 9999 !important;
+    position: static !important;
+    z-index: auto !important;
     display: block !important;
     width: 18px !important;
     height: 18px !important;
@@ -102,8 +102,8 @@
 .admin-company-page .admin-company-row-action:hover img,
 .admin-company-page .admin-company-row-action:focus img,
 .admin-company-page .admin-company-row-action:focus-visible img {
-    position: relative !important;
-    z-index: 9999 !important;
+    position: static !important;
+    z-index: auto !important;
     display: block !important;
     width: 18px !important;
     height: 18px !important;
@@ -148,4 +148,13 @@ html[data-role="admin"] #sidebar,
 html[data-role="admin"] .fs-sidebar {
     position: fixed !important;
     z-index: 10000 !important;
+}
+
+/* The drawer must cover table actions; only the persistent navigation stays above it. */
+.admin-company-page .admin-company-drawer-backdrop {
+    z-index: 9000 !important;
+}
+
+.admin-company-page .admin-company-drawer {
+    z-index: 9001 !important;
 }
