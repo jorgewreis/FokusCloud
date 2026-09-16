@@ -1,43 +1,51 @@
-<div class="admin-products-page">
-    <div class="admin-products-intro">
+<div class="company-page d-flex col">
+<div class="admin-products-page admin-final-content">
+    <div class="admin-dashboard-intro">
         <div>
-            <span class="admin-kicker">CATÁLOGO</span>
-            <h1 class="text-display-4">Produtos</h1>
-            <p class="text-heading-5">Gerencie os sistemas comercializados pela plataforma e acompanhe sua publicação.</p>
+            <p class="admin-kicker">GESTÃO DO CATÁLOGO</p>
+            <h1>Produtos</h1>
+            <p class="admin-dashboard-subtitle">Gerencie os produtos comercializados pela plataforma e acompanhe sua publicação.</p>
         </div>
-        <div class="admin-products-actions">
-            <button class="submit fs-btn" type="button" id="product-new">Novo produto</button>
-        </div>
+        <button class="admin-primary-action" type="button" id="product-new"><img src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png" alt="" />Novo produto</button>
     </div>
     <hr>
-    <div class="admin-product-metrics" aria-label="Resumo dos produtos">
-        <div class="admin-product-metric"><span>Total</span><strong id="metric-total">0</strong></div>
-        <div class="admin-product-metric"><span>Ativos</span><strong id="metric-active">0</strong></div>
-        <div class="admin-product-metric"><span>Em rascunho</span><strong id="metric-draft">0</strong></div>
-        <div class="admin-product-metric"><span>Publicados</span><strong id="metric-published">0</strong></div>
-    </div>
-    <div class="system-notice" id="products-message" role="status" aria-live="polite" hidden></div>
-    <div class="admin-product-controls">
-        <input class="admin-product-search" id="product-search" type="search" placeholder="Buscar por nome ou código" aria-label="Buscar produto">
-        <select id="product-status-filter" aria-label="Filtrar por status"><option value="">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="pausado">Pausado</option></select>
-        <select id="product-publication-filter" aria-label="Filtrar por publicação"><option value="">Todas as publicações</option><option value="rascunho">Rascunho</option><option value="publicado">Publicado</option><option value="pausado">Pausado</option><option value="arquivado">Arquivado</option></select>
-    </div>
-    <div class="table-panel">
-        <table class="data-table" aria-label="Produtos do catálogo">
-            <thead><tr><th>Produto</th><th>Código</th><th>Status</th><th>Publicação</th><th>Módulos</th><th>Planos</th><th>Versão</th><th>Destaque</th><th>Ações</th></tr></thead>
-            <tbody id="product-list"><tr><td colspan="9">Carregando...</td></tr></tbody>
-        </table>
-    </div>
-    <nav class="fs-pagination admin-product-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
+    <section class="admin-company-metrics admin-product-metrics" aria-label="Resumo dos produtos">
+        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Total de produtos</span><strong id="metric-total">0</strong></article>
+        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Produtos ativos</span><strong id="metric-active">0</strong></article>
+        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Em rascunho</span><strong id="metric-draft">0</strong></article>
+        <article class="admin-company-metric admin-product-metric"><span class="metric-label">Produtos publicados</span><strong id="metric-published">0</strong></article>
+    </section>
+    <div class="admin-company-message" id="products-message" role="status" aria-live="polite" hidden></div>
+    <section class="admin-panel-card admin-company-list-card">
+        <div class="admin-card-heading admin-company-list-heading">
+            <div>
+                <h2>Produtos cadastrados</h2>
+                <p>Acompanhe o status, a publicação e os vínculos de cada produto.</p>
+            </div>
+            <div class="admin-company-controls admin-product-controls">
+                <label class="admin-table-search"><img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png" alt="" /><input class="admin-product-search" id="product-search" type="search" placeholder="Buscar produto ou código" aria-label="Buscar produto" /></label>
+                <select id="product-status-filter" aria-label="Filtrar por status"><option value="">Todos os status</option><option value="ativo">Ativos</option><option value="inativo">Inativos</option><option value="pausado">Pausados</option></select>
+                <select id="product-publication-filter" aria-label="Filtrar por publicação"><option value="">Todas as publicações</option><option value="rascunho">Rascunhos</option><option value="publicado">Publicados</option><option value="pausado">Pausados</option><option value="arquivado">Arquivados</option></select>
+                <button class="submit" type="button" id="product-filter">Filtrar</button>
+            </div>
+        </div>
+        <div class="table-panel admin-table-scroll">
+            <table class="data-table admin-products-table" aria-label="Produtos do catálogo">
+                <thead><tr><th>Produto</th><th>Código</th><th>Status</th><th>Publicação</th><th>Módulos</th><th>Planos</th><th>Versão</th><th>Destaque</th><th>Ações</th></tr></thead>
+                <tbody id="product-list"><tr><td colspan="9">Carregando...</td></tr></tbody>
+            </table>
+        </div>
+        <div class="admin-table-footer"><span class="pagination-info" id="product-table-summary"></span><nav class="fs-pagination admin-product-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav></div>
+    </section>
     <div class="admin-product-drawer-backdrop" id="product-drawer-backdrop" hidden></div>
-        <aside class="admin-product-drawer" id="product-drawer" aria-labelledby="product-drawer-title" aria-hidden="true" hidden>
-        <div class="admin-product-drawer-header"><div><span class="admin-kicker">CATÁLOGO</span><h2 id="product-drawer-title">Novo produto</h2></div><button class="icon-button" type="button" id="product-drawer-close" aria-label="Fechar painel">×</button></div>
+    <aside class="admin-product-drawer" id="product-drawer" aria-labelledby="product-drawer-title" aria-hidden="true" hidden>
+        <div class="admin-product-drawer-header"><div><p class="admin-kicker">CATÁLOGO</p><h2 id="product-drawer-title">Novo produto</h2></div><button class="icon-button" type="button" id="product-drawer-close" aria-label="Fechar painel">×</button></div>
         <form class="admin-product-form fc-form" id="product-form">
-            <div class="form-line"><label>Código técnico<input name="code" maxlength="64" required></label><label>Nome<input name="name" maxlength="120" required></label></div>
-            <div class="form-line"><label>Status<select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label>Ordem de exibição<input name="display_order" type="number" min="0" step="1" value="0" required></label></div>
+            <div class="form-line"><label><span>Código técnico</span><input name="code" maxlength="64" required></label><label><span>Nome do produto</span><input name="name" maxlength="120" required></label></div>
+            <div class="form-line"><label><span>Status</span><select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label><span>Ordem de exibição</span><input name="display_order" type="number" min="0" step="1" value="0" required></label></div>
             <label><span>Descrição técnica</span><textarea name="technical_description" maxlength="2000"></textarea></label>
-            <label><span>Conteúdo comercial</span><textarea name="commercial_content" maxlength="20000"></textarea></label>
-            <label>Produto em destaque<select name="featured"><option value="0">Não</option><option value="1">Sim</option></select></label>
+            <label><span>Descrição comercial</span><textarea name="commercial_content" maxlength="20000"></textarea></label>
+            <label><span>Produto em destaque</span><select name="featured"><option value="0">Não</option><option value="1">Sim</option></select></label>
             <p class="text-body fs-u-color-secondary">A publicação do catálogo será realizada pela futura central de Publicações e versões.</p>
             <div class="admin-product-form-actions"><button class="fs-btn button-secondary" type="button" id="product-form-cancel">Cancelar</button><button class="submit fs-btn" type="submit" id="product-form-submit">Salvar produto</button></div>
         </form>
@@ -51,6 +59,7 @@
     const drawer = root.querySelector('#product-drawer');
     const backdrop = root.querySelector('#product-drawer-backdrop');
     const list = root.querySelector('#product-list');
+    const tableSummary = root.querySelector('#product-table-summary');
     const message = root.querySelector('#products-message');
     const state = { products: [], page: 1, editing: null };
     const pageSize = 12;
@@ -63,7 +72,8 @@
     function render() {
         const rows = filtered(); const pages = Math.max(1, Math.ceil(rows.length / pageSize)); state.page = Math.min(state.page, pages); const start = (state.page - 1) * pageSize; const current = rows.slice(start, start + pageSize);
         list.innerHTML = current.length ? current.map((p) => `<tr><td><span class="product-name">${esc(p.name)}</span></td><td><span class="product-code">${esc(p.code)}</span></td><td><span class="product-status">${badge(p.status)}</span></td><td><span class="product-publication">${badge(p.publication_state)}</span></td><td class="product-count">${(p.modules || []).length}</td><td class="product-count">${(p.plans || []).length}</td><td class="product-version">${Number(p.published_version || 0)}</td><td>${p.featured ? 'Sim' : 'Não'}</td><td><div class="product-actions">${action('view', p.id, 'Visualizar produto', 'View-Circle--Streamline-Ultimate.png')}${action('edit', p.id, 'Editar produto', 'Pencil-Circle--Streamline-Ultimate.png')}${p.status === 'pausado' ? action('activate', p.id, 'Reativar produto', 'Power-Button-1--Streamline-Ultimate.png') : action('pause', p.id, 'Pausar produto', 'Button-Pause-1--Streamline-Ultimate.png')}${action('archive', p.id, 'Arquivar produto', 'Remove-Circle-1--Streamline-Ultimate.png', true)}${action('delete', p.id, 'Excluir produto', 'Remove-Square-1--Streamline-Ultimate.png', true)}</div></td></tr>`).join('') : '<tr><td colspan="9">Nenhum produto encontrado.</td></tr>';
-        root.querySelector('#product-pagination').innerHTML = rows.length > pageSize ? `<span class="pagination-info">${start + 1}–${Math.min(start + pageSize, rows.length)} de ${rows.length} produtos</span><button class="fs-page-item" type="button" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''}>‹</button><span class="pagination-info">${state.page} / ${pages}</span><button class="fs-page-item" type="button" data-page="${state.page + 1}" ${state.page === pages ? 'disabled' : ''}>›</button>` : (rows.length ? `<span class="pagination-info">${rows.length} produtos</span>` : '');
+        tableSummary.textContent = rows.length ? `${start + 1}–${Math.min(start + pageSize, rows.length)} de ${rows.length} produtos` : '';
+        root.querySelector('#product-pagination').innerHTML = rows.length > pageSize ? `<button class="fs-page-item" type="button" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''}>‹</button><span class="pagination-info">${state.page} / ${pages}</span><button class="fs-page-item" type="button" data-page="${state.page + 1}" ${state.page === pages ? 'disabled' : ''}>›</button>` : '';
         root.querySelector('#metric-total').textContent = state.products.length; root.querySelector('#metric-active').textContent = state.products.filter((p) => p.status === 'ativo').length; root.querySelector('#metric-draft').textContent = state.products.filter((p) => p.publication_state === 'rascunho').length; root.querySelector('#metric-published').textContent = state.products.filter((p) => p.publication_state === 'publicado').length;
     }
     function open(product = null, viewOnly = false) { state.editing = product?.id || null; root.querySelector('#product-drawer-title').textContent = product ? (viewOnly ? 'Visualizar produto' : 'Editar produto') : 'Novo produto'; form.reset(); if (product) ['code','name','status','display_order','technical_description','commercial_content'].forEach((key) => { if (form.elements[key]) form.elements[key].value = product[key] ?? ''; }); if (product) form.elements.featured.value = product.featured ? '1' : '0'; [...form.elements].forEach((field) => { field.disabled = viewOnly; }); root.querySelector('#product-form-submit').hidden = viewOnly; root.querySelector('#product-form-cancel').textContent = viewOnly ? 'Fechar' : 'Cancelar'; drawer.hidden = false; backdrop.hidden = false; drawer.setAttribute('aria-hidden', 'false'); if (!viewOnly) form.elements.name.focus(); }
