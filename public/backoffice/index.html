@@ -221,7 +221,37 @@
             </div>
 
             <!-- PAGE CONTENT -->
-            <div class="container-content" id="page-content"></div>
+            <div class="container-content">
+                <div class="admin-final-dashboard admin-shell-content">
+                    <header class="admin-final-header">
+                        <label class="admin-global-search">
+                            <img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png" alt="" />
+                            <input type="search" placeholder="Buscar empresas, usuários, clientes, assinaturas..." aria-label="Buscar na plataforma" />
+                        </label>
+                        <div class="admin-global-search-results" id="admin-global-search-results" hidden></div>
+                        <div class="admin-header-user">
+                            <button class="admin-notifications-button" type="button" title="Avisos da plataforma" aria-label="Avisos da plataforma">
+                                <img src="/backoffice/assets/icons/Alarm-Bell--Streamline-Ultimate-Regular.png" alt="" aria-hidden="true" />
+                            </button>
+                            <div class="admin-user-avatar" id="dashboard-user-initials">AD</div>
+                            <button class="admin-user-details" type="button" aria-expanded="false" aria-controls="admin-user-menu">
+                                <strong id="dashboard-user-name">Administrador</strong>
+                                <span id="dashboard-user-role">Administrador</span>
+                            </button>
+                            <nav class="admin-user-menu" id="admin-user-menu" hidden aria-label="Menu do usuário">
+                                <button type="button" disabled>Editar perfil</button>
+                                <button type="button" disabled>Alterar senha</button>
+                                <button type="button" data-dashboard-logout>Sair</button>
+                            </nav>
+                        </div>
+                    </header>
+                    <div class="admin-header-toast" id="admin-header-toast" role="status" aria-live="polite" hidden>
+                        <button class="admin-header-toast-close" type="button" aria-label="Fechar notificações">×</button>
+                        <div id="admin-header-toast-content"></div>
+                    </div>
+                    <div id="page-content"></div>
+                </div>
+            </div>
         </div>
 
         <script src="/assets/js/api-client.js?v=20260828-19"></script>
@@ -233,7 +263,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260916-admin-dashboard-v71-companies-data-icons";
+            const pageVersion = "20260916-admin-dashboard-v72-shared-admin-header";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -554,6 +584,57 @@
                     console.error(error);
                 }
             }
+
+            window.__adminHeaderNotifications = [];
+            const adminHeaderEscape = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;","\"":"&quot;"}[char]));
+            const adminHeaderDisplayName = (value) => String(value || "Administrador").trim().split(/\s+/).filter(Boolean).slice(0, 2).join(" ") || "Administrador";
+            const adminHeaderSetUser = (admin) => {
+                const name = String(admin?.name || "Administrador").trim();
+                const words = name.split(/\s+/).filter(Boolean);
+                document.querySelector("#dashboard-user-name").textContent = adminHeaderDisplayName(name);
+                document.querySelector("#dashboard-user-role").textContent = String(admin?.role || "Administrador");
+                document.querySelector("#dashboard-user-initials").textContent = words.slice(0, 2).map((word) => word[0]).join("").toUpperCase() || "AD";
+            };
+            const adminHeaderHideToast = () => {
+                const toast = document.querySelector("#admin-header-toast");
+                toast.classList.remove("is-visible");
+                window.setTimeout(() => { toast.hidden = true; }, 220);
+            };
+            const adminHeaderShowToast = () => {
+                const toast = document.querySelector("#admin-header-toast");
+                const content = document.querySelector("#admin-header-toast-content");
+                const items = window.__adminHeaderNotifications || [];
+                content.innerHTML = items.length
+                    ? `<strong>Notificações</strong><ul>${items.map((item) => `<li><b>${adminHeaderEscape(item.label || "Aviso da plataforma")}</b><span>${adminHeaderEscape(item.description || "")}</span></li>`).join("")}</ul>`
+                    : `<strong>Notificações</strong><p>Você não tem nenhuma notificação.</p>`;
+                toast.hidden = false;
+                window.requestAnimationFrame(() => toast.classList.add("is-visible"));
+            };
+            const adminHeaderSearch = document.querySelector(".admin-global-search input");
+            let adminHeaderSearchTimer;
+            const adminHeaderLoadSearch = async (value) => {
+                const query = value.trim();
+                const panel = document.querySelector("#admin-global-search-results");
+                if (!query) { panel.hidden = true; return; }
+                try {
+                    const response = await FokusApi.request(`/backoffice/search?q=${encodeURIComponent(query)}`);
+                    const groups = response.groups || [];
+                    const items = groups.flatMap((group) => group.items || []);
+                    panel.innerHTML = items.length ? groups.filter((group) => group.items?.length).map((group) => `<section><strong>${adminHeaderEscape(group.label)}</strong>${group.items.map((item) => `<a href="${adminHeaderEscape(item.href || "#")}"><span>${adminHeaderEscape(item.title)}</span><small>${adminHeaderEscape(item.subtitle || "")}</small></a>`).join("")}</section>`).join("") : '<p class="admin-global-search-empty">Nenhum resultado encontrado.</p>';
+                    panel.hidden = false;
+                } catch { panel.hidden = true; }
+            };
+            adminHeaderSearch.addEventListener("input", (event) => { window.clearTimeout(adminHeaderSearchTimer); adminHeaderSearchTimer = window.setTimeout(() => adminHeaderLoadSearch(event.target.value), 220); });
+            adminHeaderSearch.addEventListener("keydown", (event) => { if (event.key === "Escape") { adminHeaderSearch.value = ""; document.querySelector("#admin-global-search-results").hidden = true; } });
+            document.querySelector(".admin-notifications-button").addEventListener("click", adminHeaderShowToast);
+            document.querySelector(".admin-header-toast-close").addEventListener("click", adminHeaderHideToast);
+            const adminHeaderUserDetails = document.querySelector(".admin-user-details");
+            const adminHeaderUserMenu = document.querySelector("#admin-user-menu");
+            adminHeaderUserDetails.addEventListener("click", () => { const open = adminHeaderUserMenu.hidden; adminHeaderUserMenu.hidden = !open; adminHeaderUserDetails.setAttribute("aria-expanded", String(open)); });
+            document.addEventListener("click", (event) => { if (!event.target.closest(".admin-global-search") && !event.target.closest(".admin-global-search-results")) document.querySelector("#admin-global-search-results").hidden = true; if (!event.target.closest(".admin-header-user")) { adminHeaderUserMenu.hidden = true; adminHeaderUserDetails.setAttribute("aria-expanded", "false"); } });
+            document.querySelector("[data-dashboard-logout]").addEventListener("click", async () => { await fetch("/backoffice/auth/logout", { method: "POST", credentials: "same-origin" }); location.assign("/backoffice/login"); });
+            window.__adminHeaderReady = true;
+            FokusApi.request("/backoffice/dashboard").then((response) => { adminHeaderSetUser(response.user); window.__adminHeaderNotifications = response.alerts || []; document.querySelector(".admin-notifications-button").classList.toggle("has-notifications", window.__adminHeaderNotifications.length > 0); }).catch(() => {});
 
             sidebarButtons.forEach((button) => {
                 button.addEventListener("click", (event) => {

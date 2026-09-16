@@ -119,6 +119,9 @@ html[data-role="admin"] .sidebar-institutional img {
     color: #112b50;
     font-family: var(--font-body);
 }
+.admin-shell-content {
+    min-height: 100%;
+}
 .admin-final-dashboard * {
     box-sizing: border-box;
 }

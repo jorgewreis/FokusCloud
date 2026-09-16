@@ -1,50 +1,4 @@
 <main class="admin-dashboard admin-final-dashboard">
-    <header class="admin-final-header">
-        <label class="admin-global-search"
-            ><img
-                src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png"
-                alt=""
-            /><input
-                type="search"
-                placeholder="Buscar empresas, usuários, clientes, assinaturas..."
-                aria-label="Buscar na plataforma"
-            /></label
-        >
-        <div class="admin-global-search-results" id="admin-global-search-results" hidden></div>
-        <div class="admin-header-user">
-            <button
-                class="admin-notifications-button"
-                type="button"
-                title="Avisos da plataforma"
-                aria-label="Avisos da plataforma"
-            >
-                <img
-                    src="/backoffice/assets/icons/Alarm-Bell--Streamline-Ultimate-Regular.png"
-                    alt=""
-                    aria-hidden="true"
-                />
-            </button>
-            <div class="admin-user-avatar" id="dashboard-user-initials">AD</div>
-            <button
-                class="admin-user-details"
-                type="button"
-                aria-expanded="false"
-                aria-controls="admin-user-menu"
-            >
-                <strong id="dashboard-user-name">Administrador</strong
-                ><span id="dashboard-user-role">Administrador</span>
-            </button>
-            <nav class="admin-user-menu" id="admin-user-menu" hidden aria-label="Menu do usuário">
-                <button type="button" disabled>Editar perfil</button>
-                <button type="button" disabled>Alterar senha</button>
-                <button type="button" data-dashboard-logout>Sair</button>
-            </nav>
-        </div>
-    </header>
-    <div class="admin-header-toast" id="admin-header-toast" role="status" aria-live="polite" hidden>
-        <button class="admin-header-toast-close" type="button" aria-label="Fechar notificações">×</button>
-        <div id="admin-header-toast-content"></div>
-    </div>
     <section class="admin-final-content">
         <div class="admin-dashboard-intro">
             <div>
@@ -401,6 +355,7 @@
             let l = document.querySelector("#dashboard-alerts"),
                 z = document.querySelector("#dashboard-alerts-empty");
             notifications = a;
+            window.__adminHeaderNotifications = a;
             document.querySelector(".admin-notifications-button").classList.toggle("has-notifications", a.length > 0);
             z.hidden = !!a.length;
             l.innerHTML = a
@@ -503,37 +458,6 @@
                 alerts(p.alerts || []);
                 activity(p.recent_activity || []);
             };
-        let timer;
-        const globalSearch = document.querySelector(".admin-global-search input");
-        const loadGlobalSearch = async (query) => {
-            const value = query.trim();
-            if (!value) {
-                document.querySelector("#admin-global-search-results").hidden = true;
-                return;
-            }
-            try {
-                const response = await fetch(`/api/backoffice/search?q=${encodeURIComponent(value)}`, { credentials: "same-origin" });
-                if (!response.ok) throw Error();
-                searchResults((await response.json()).groups || []);
-            } catch {
-                document.querySelector("#admin-global-search-results").hidden = true;
-            }
-        };
-        globalSearch.addEventListener("input", (event) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => loadGlobalSearch(event.target.value), 220);
-        });
-        globalSearch.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") {
-                globalSearch.value = "";
-                document.querySelector("#admin-global-search-results").hidden = true;
-            }
-        });
-        document.addEventListener("click", (event) => {
-            if (!event.target.closest(".admin-global-search") && !event.target.closest(".admin-global-search-results")) {
-                document.querySelector("#admin-global-search-results").hidden = true;
-            }
-        });
         document.addEventListener("click", (x) => {
             let p = x.target.closest("[data-subscription-page]");
             if (p) {
@@ -541,25 +465,6 @@
                 loadSubscriptions().catch(() => {});
             }
         });
-        document.querySelector(".admin-notifications-button").addEventListener("click", showHeaderToast);
-        document.querySelector(".admin-header-toast-close").addEventListener("click", hideHeaderToast);
-        const userDetails = document.querySelector(".admin-user-details");
-        const userMenu = document.querySelector("#admin-user-menu");
-        const setUserMenu = (open) => {
-            userMenu.hidden = !open;
-            userDetails.setAttribute("aria-expanded", String(open));
-        };
-        userDetails.addEventListener("click", () => setUserMenu(userMenu.hidden));
-        document.addEventListener("click", (event) => {
-            if (!event.target.closest(".admin-header-user")) setUserMenu(false);
-        });
-        document.querySelector("[data-dashboard-logout]").addEventListener("click", async () => {
-                await fetch("/backoffice/auth/logout", {
-                    method: "POST",
-                    credentials: "same-origin",
-                });
-                location.assign("/backoffice/login");
-            });
         Promise.all([load(), loadSubscriptions()]).catch(() => {});
     })();
 </script>
