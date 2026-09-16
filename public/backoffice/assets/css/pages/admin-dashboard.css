@@ -3149,6 +3149,15 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-final-dashboard .admin-dashboard-workspace-grid {
     margin-top: 12px;
 }
+.admin-final-dashboard .admin-dashboard-subscriptions-row {
+    margin-top: 12px;
+}
+.admin-final-dashboard .admin-dashboard-activity-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(310px, 0.65fr);
+    gap: 12px;
+    margin-top: 12px;
+}
 .admin-final-dashboard .admin-panel-card,
 .admin-final-dashboard .admin-metric-card {
     border: 1px solid #e2e6e9;
@@ -3227,6 +3236,47 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     border-collapse: collapse;
     min-width: 690px;
 }
+.admin-final-dashboard .admin-subscriptions-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 690px;
+}
+.admin-final-dashboard .admin-subscriptions-table th {
+    padding: 9px 19px;
+    background: #f7f9fa;
+    color: #71839d;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+}
+.admin-final-dashboard .admin-subscriptions-table td {
+    padding: 10px 19px;
+    border-top: 1px solid #edf0f2;
+    color: #314866;
+    font-size: 12px;
+}
+.admin-final-dashboard .admin-subscription-status {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #eef6f1;
+    color: #31704e;
+    font-size: 10px;
+    font-weight: 600;
+}
+.admin-final-dashboard .admin-subscription-status-inadimplente,
+.admin-final-dashboard .admin-subscription-status-encerrada {
+    background: #fff0ee;
+    color: #b34b43;
+}
+.admin-final-dashboard .admin-subscription-status-suspensa,
+.admin-final-dashboard .admin-subscription-status-cancelamento_agendado,
+.admin-final-dashboard .admin-subscription-status-aguardando_pagamento {
+    background: #fff7e8;
+    color: #9b6a20;
+}
 .admin-final-dashboard .admin-companies-table th {
     padding: 9px 19px;
     background: #f7f9fa;
@@ -3256,7 +3306,8 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
         grid-template-columns: repeat(2, 1fr);
     }
     .admin-final-dashboard .admin-dashboard-overview-grid,
-    .admin-final-dashboard .admin-dashboard-workspace-grid {
+    .admin-final-dashboard .admin-dashboard-workspace-grid,
+    .admin-final-dashboard .admin-dashboard-activity-row {
         grid-template-columns: 1fr;
     }
     .admin-final-dashboard .admin-final-header {

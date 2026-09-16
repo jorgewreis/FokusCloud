@@ -52,7 +52,7 @@
                     BEM-VINDO,
                     <span id="dashboard-greeting-name">ADMINISTRADOR</span>
                 </p>
-                <h1>Visão geral</h1>
+                <h1>Dashboard</h1>
                 <p class="admin-dashboard-subtitle">
                     Acompanhe o desempenho da sua operação e gerencie empresas,
                     pessoas e assinaturas em um só lugar.
@@ -62,23 +62,6 @@
                 Pessoas, tecnologia e propósito para um amanhã mais consciente.
             </p>
         </div>
-        <section class="admin-feature-banner">
-            <div class="admin-feature-icon">
-                <img
-                    src="/backoffice/assets/icons/Volume-Control-Full--Streamline-Ultimate-Regular.png"
-                    alt=""
-                />
-            </div>
-            <div>
-                <p>DESTAQUE DA PLATAFORMA</p>
-                <h2>Mais eficiência para a sua operação</h2>
-                <span
-                    >Consulte empresas, assinaturas e alterações comerciais com
-                    segurança.</span
-                >
-            </div>
-            <a href="/backoffice/empresas">Conhecer agora</a>
-        </section>
         <section class="admin-metrics-grid" aria-label="Métricas da plataforma">
             <article class="admin-metric-card admin-metric-companies">
                 <div class="admin-metric-icon">
@@ -182,99 +165,39 @@
                 </p>
             </aside>
         </section>
-        <section class="admin-dashboard-workspace-grid">
-            <article class="admin-panel-card admin-companies-card">
-                <div class="admin-card-heading admin-companies-heading">
+        <section class="admin-dashboard-subscriptions-row">
+            <article class="admin-panel-card admin-subscriptions-card">
+                <div class="admin-card-heading admin-subscriptions-heading">
                     <div>
-                        <h2>Empresas</h2>
-                        <p>Gerencie as empresas da sua organização.</p>
+                        <h2>Assinaturas</h2>
+                        <p>Acompanhe as assinaturas mais recentes da plataforma.</p>
                     </div>
-                    <div class="admin-companies-controls">
-                        <label class="admin-table-search"
-                            ><img
-                                src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png"
-                                alt="" /><input
-                                id="company-search"
-                                type="search"
-                                placeholder="Buscar empresa..." /></label
-                        ><select
-                            id="company-status-filter"
-                            aria-label="Filtrar empresas por status"
-                        >
-                            <option value="">Todos os status</option>
-                            <option value="ativa">Ativas</option>
-                            <option value="suspensa">Suspensas</option>
-                            <option value="pendente">Pendentes</option>
-                            <option value="encerrando">Em encerramento</option>
-                            <option value="encerrada">
-                                Encerradas
-                            </option></select
-                        ><a
-                            class="admin-primary-action"
-                            href="/backoffice/empresas"
-                            ><img
-                                src="/backoffice/assets/icons/Add-Square--Streamline-Ultimate.png"
-                                alt=""
-                            />Nova empresa</a
-                        >
-                    </div>
+                    <a class="admin-card-link" href="/backoffice/assinaturas">Ver todas</a>
                 </div>
                 <div class="admin-table-scroll">
-                    <table class="admin-companies-table">
+                    <table class="admin-subscriptions-table">
                         <thead>
                             <tr>
-                                <th>
-                                    <button
-                                        type="button"
-                                        data-company-sort="company"
-                                    >
-                                        Empresa
-                                    </button>
-                                </th>
-                                <th>CNPJ</th>
+                                <th>Empresa</th>
+                                <th>Produto</th>
                                 <th>Plano</th>
-                                <th>
-                                    <button
-                                        type="button"
-                                        data-company-sort="status"
-                                    >
-                                        Status
-                                    </button>
-                                </th>
-                                <th>
-                                    <button
-                                        type="button"
-                                        data-company-sort="users"
-                                    >
-                                        Usuários
-                                    </button>
-                                </th>
-                                <th>
-                                    <button
-                                        type="button"
-                                        data-company-sort="last_activity"
-                                    >
-                                        Último acesso
-                                    </button>
-                                </th>
+                                <th>Status</th>
+                                <th>Vigência</th>
+                                <th>Valor</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="companies-table-body"></tbody>
+                        <tbody id="subscriptions-table-body"></tbody>
                     </table>
                 </div>
                 <div class="admin-table-footer">
-                    <span id="companies-table-summary"
-                        >Carregando empresas...</span
-                    >
-                    <nav
-                        id="companies-pagination"
-                        aria-label="Paginação de empresas"
-                    ></nav>
+                    <span id="subscriptions-table-summary">Carregando assinaturas...</span>
+                    <nav id="subscriptions-pagination" aria-label="Paginação de assinaturas"></nav>
                 </div>
             </article>
-            <aside class="admin-dashboard-side-column">
-                <article class="admin-panel-card admin-recent-activity-card">
+        </section>
+        <section class="admin-dashboard-activity-row">
+            <article class="admin-panel-card admin-recent-activity-card">
                     <div class="admin-card-heading">
                         <div>
                             <h2>Atividade recente</h2>
@@ -295,8 +218,8 @@
                     >
                         Nenhuma atividade recente disponível.
                     </p>
-                </article>
-                <article class="admin-panel-card admin-quick-actions-card">
+            </article>
+            <article class="admin-panel-card admin-quick-actions-card">
                     <div class="admin-card-heading">
                         <div><h2>Ações rápidas</h2></div>
                     </div>
@@ -323,8 +246,7 @@
                             />Abrir catálogo</a
                         >
                     </div>
-                </article>
-            </aside>
+            </article>
         </section>
     </section>
 </main>
@@ -388,6 +310,15 @@
                     encerrando: "Em encerramento",
                     encerrada: "Encerrada",
                 })[v] || "Sem status";
+        const subscriptionStatus = (v) =>
+            ({
+                aguardando_pagamento: "Aguardando pagamento",
+                ativa: "Ativa",
+                inadimplente: "Inadimplente",
+                suspensa: "Suspensa",
+                cancelamento_agendado: "Cancelamento agendado",
+                encerrada: "Encerrada",
+            })[v] || "Sem status";
         const nameParticles = new Set(["de", "da", "do", "das", "dos", "e"]);
         const displayName = (value) => {
             const words = String(value || "Administrador")
@@ -513,47 +444,43 @@
                 })
                 .join("");
         };
-        const companies = (p) => {
-            let b = document.querySelector("#companies-table-body"),
+        const subscriptions = (p) => {
+            let b = document.querySelector("#subscriptions-table-body"),
                 a = p.data || [];
             b.innerHTML = a.length
                 ? a
                       .map(
                           (x) =>
-                              `<tr><td><span class="admin-company-name">${img("company", "admin-company-icon")}${e(x.legal_name)}</span></td><td>${e(x.document_masked || "Não informado")}</td><td>${e(x.plan_name || "Sem assinatura ativa")}</td><td><span class="admin-company-status admin-company-status-${e(x.status)}">${status(x.status)}</span></td><td>${N.format(x.active_users || 0)}</td><td>${date(x.last_activity_at)}</td><td><a href="/backoffice/empresas" class="admin-table-action" aria-label="Abrir empresa">${img("actions")}</a></td></tr>`,
+                              `<tr><td>${e(x.company_name || "Empresa não informada")}</td><td>${e(x.product_name || "Produto não informado")}</td><td>${e(x.plan_name || "Plano não informado")}</td><td><span class="admin-subscription-status admin-subscription-status-${e(x.status)}">${subscriptionStatus(x.status)}</span></td><td>${x.current_period_ends_at ? new Date(x.current_period_ends_at).toLocaleDateString("pt-BR") : "-"}</td><td>${C.format(+x.amount || 0)}</td><td><a href="/backoffice/assinaturas" class="admin-table-action" aria-label="Abrir assinatura">${img("actions")}</a></td></tr>`,
                       )
                       .join("")
-                : '<tr><td colspan="7" class="admin-table-empty">Nenhuma empresa encontrada para os filtros selecionados.</td></tr>';
+                : '<tr><td colspan="7" class="admin-table-empty">Nenhuma assinatura encontrada.</td></tr>';
             let from = p.total ? (p.current_page - 1) * p.per_page + 1 : 0,
                 to = p.total
                     ? Math.min(p.current_page * p.per_page, p.total)
                     : 0;
-            document.querySelector("#companies-table-summary").textContent =
+            document.querySelector("#subscriptions-table-summary").textContent =
                 p.total
-                    ? `Mostrando ${from} a ${to} de ${p.total} empresas`
-                    : "Nenhuma empresa encontrada";
-            document.querySelector("#companies-pagination").innerHTML =
+                    ? `Mostrando ${from} a ${to} de ${p.total} assinaturas`
+                    : "Nenhuma assinatura encontrada";
+            document.querySelector("#subscriptions-pagination").innerHTML =
                 Array.from(
                     { length: p.last_page || 1 },
                     (_, i) =>
-                        `<button type="button" class="${i + 1 === p.current_page ? "is-active" : ""}" data-company-page="${i + 1}">${i + 1}</button>`,
+                        `<button type="button" class="${i + 1 === p.current_page ? "is-active" : ""}" data-subscription-page="${i + 1}">${i + 1}</button>`,
                 ).join("");
         };
-        const loadCompanies = async () => {
+        const loadSubscriptions = async () => {
                 let p = new URLSearchParams({
                     page: S.page,
                     per_page: S.perPage,
-                    sort: S.sort,
-                    direction: S.direction,
                 });
-                if (S.query) p.set("q", S.query);
-                if (S.status) p.set("status", S.status);
-                let r = await fetch(`/api/backoffice/companies?${p}`, {
+                let r = await fetch(`/api/backoffice/subscriptions?${p}`, {
                     credentials: "same-origin",
                 });
                 if (!r.ok) throw Error();
                 const data = await r.json();
-                companies({ ...data, ...data.meta });
+                subscriptions({ ...data, ...data.meta });
             },
             load = async () => {
                 let r = await fetch("/api/backoffice/dashboard", {
@@ -607,37 +534,11 @@
                 document.querySelector("#admin-global-search-results").hidden = true;
             }
         });
-        document
-            .querySelector("#company-search")
-            .addEventListener("input", (x) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    S.query = x.target.value.trim();
-                    S.page = 1;
-                    loadCompanies().catch(() => {});
-                }, 250);
-            });
-        document
-            .querySelector("#company-status-filter")
-            .addEventListener("change", (x) => {
-                S.status = x.target.value;
-                S.page = 1;
-                loadCompanies().catch(() => {});
-            });
         document.addEventListener("click", (x) => {
-            let p = x.target.closest("[data-company-page]"),
-                s = x.target.closest("[data-company-sort]");
+            let p = x.target.closest("[data-subscription-page]");
             if (p) {
-                S.page = +p.dataset.companyPage;
-                loadCompanies().catch(() => {});
-            }
-            if (s) {
-                let v = s.dataset.companySort;
-                S.direction =
-                    S.sort === v && S.direction === "asc" ? "desc" : "asc";
-                S.sort = v;
-                S.page = 1;
-                loadCompanies().catch(() => {});
+                S.page = +p.dataset.subscriptionPage;
+                loadSubscriptions().catch(() => {});
             }
         });
         document.querySelector(".admin-notifications-button").addEventListener("click", showHeaderToast);
@@ -659,6 +560,6 @@
                 });
                 location.assign("/backoffice/login");
             });
-        Promise.all([load(), loadCompanies()]).catch(() => {});
+        Promise.all([load(), loadSubscriptions()]).catch(() => {});
     })();
 </script>
