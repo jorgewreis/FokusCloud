@@ -3536,6 +3536,48 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-company-page .data-table td {
     border-bottom: 0 !important;
 }
+.admin-company-page .table-panel.admin-table-scroll {
+    margin: 0px !important;
+}
+.admin-company-page .admin-table-footer {
+    margin-top: 20px !important;
+}
+.admin-company-page .admin-company-table,
+.admin-company-page .admin-company-table th,
+.admin-company-page .admin-company-table td {
+    font-family: var(--font-body) !important;
+}
+.admin-company-page .admin-company-row-action {
+    position: relative;
+    overflow: hidden;
+    border: 0 !important;
+    background-color: transparent !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 18px 18px !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="details"] {
+    background-image: url("/backoffice/assets/icons/View-Circle--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="edit"] {
+    background-image: url("/backoffice/assets/icons/Pencil-Circle--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="deactivate"] {
+    background-image: url("/backoffice/assets/icons/Button-Pause-1--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="activate"] {
+    background-image: url("/backoffice/assets/icons/Power-Button-1--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="remove"] {
+    background-image: url("/backoffice/assets/icons/Remove-Circle-1--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action img {
+    position: relative;
+    z-index: -1;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+}
 .admin-company-page .admin-company-status {
     display: inline-flex;
     padding: 4px 8px;
