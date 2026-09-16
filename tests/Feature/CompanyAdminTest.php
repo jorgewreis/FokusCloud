@@ -66,6 +66,29 @@ class CompanyAdminTest extends TestCase
         $this->assertDatabaseCount('legal_acceptances', 2);
     }
 
+    public function test_company_operations_are_listed_in_dashboard_recent_activity(): void
+    {
+        $admin = $this->platformAdmin();
+
+        $this->actingAs($admin, 'platform')->postJson('/api/backoffice/companies', [
+            'document_type' => 'cnpj',
+            'document_number' => '11.222.333/0001-81',
+            'legal_name' => 'Empresa Exibida na Atividade',
+            'name' => 'Administrador da Atividade',
+            'cpf' => '11144477735',
+            'email' => 'atividade@example.test',
+            'password' => 'SenhaSegura!2026',
+            'terms' => '1',
+            'privacy' => '1',
+        ])->assertCreated();
+
+        $this->actingAs($admin, 'platform')->getJson('/api/backoffice/dashboard')
+            ->assertOk()
+            ->assertJsonPath('recent_activity.0.kind', 'backoffice.company_created')
+            ->assertJsonPath('recent_activity.0.title', 'Empresa cadastrada no backoffice')
+            ->assertJsonPath('recent_activity.0.description', 'Empresa Exibida na Atividade cadastrada com acesso administrativo.');
+    }
+
     public function test_superadmin_can_edit_deactivate_reactivate_and_remove_company_without_subscriptions(): void
     {
         $admin = $this->platformAdmin();

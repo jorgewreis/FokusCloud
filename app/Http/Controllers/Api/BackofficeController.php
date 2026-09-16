@@ -86,12 +86,42 @@ class BackofficeController extends Controller
         ];
 
         $activityLabels = [
-            'backoffice.dashboard_viewed' => 'Dashboard visualizado no backoffice',
-            'backoffice.companies_viewed' => 'Empresas visualizadas no backoffice',
-            'backoffice.company_viewed' => 'Empresa visualizada no backoffice',
-            'backoffice.subscription_viewed' => 'Assinatura visualizada no backoffice',
-            'backoffice.payment_viewed' => 'Pagamento visualizado no backoffice',
+            'backoffice.company_created' => 'Empresa cadastrada no backoffice',
+            'backoffice.company_updated' => 'Dados da empresa atualizados',
+            'backoffice.company_status_changed' => 'Status da empresa alterado',
+            'backoffice.company_deleted' => 'Empresa removida do backoffice',
         ];
+
+        $recentActivity = DB::table('platform_audit_events')
+            ->select('action', 'created_at', 'before_masked', 'after_masked')
+            ->where('action', 'not like', '%_viewed')
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get()
+            ->map(function (object $event) use ($activityLabels): array {
+                $before = json_decode((string) $event->before_masked, true) ?: [];
+                $after = json_decode((string) $event->after_masked, true) ?: [];
+                $companyName = $after['legal_name'] ?? $before['legal_name'] ?? 'Empresa';
+                $statusBefore = $before['status'] ?? null;
+                $statusAfter = $after['status'] ?? null;
+                $description = match ($event->action) {
+                    'backoffice.company_created' => "{$companyName} cadastrada com acesso administrativo.",
+                    'backoffice.company_updated' => "Os dados de {$companyName} foram atualizados.",
+                    'backoffice.company_status_changed' => $statusBefore && $statusAfter
+                        ? "{$companyName}: {$statusBefore} para {$statusAfter}."
+                        : "O status de {$companyName} foi alterado.",
+                    'backoffice.company_deleted' => "{$companyName} removida da listagem ativa.",
+                    default => 'Evento registrado na auditoria da plataforma.',
+                };
+
+                return [
+                    'kind' => $event->action,
+                    'title' => $activityLabels[$event->action] ?? 'Atividade registrada no backoffice',
+                    'description' => $description,
+                    'created_at' => $event->created_at,
+                ];
+            })
+            ->values();
 
         return response()->json([
             'user' => [
@@ -106,17 +136,7 @@ class BackofficeController extends Controller
             ],
             'subscription_registrations_6m' => $trend,
             'alerts' => collect($alerts)->filter(fn (array $alert): bool => $alert['value'] > 0)->values(),
-            'recent_activity' => DB::table('platform_audit_events')
-                ->select('action', 'created_at')
-                ->orderByDesc('created_at')
-                ->limit(5)
-                ->get()
-                ->map(fn (object $event): array => [
-                    'kind' => $event->action,
-                    'title' => $activityLabels[$event->action] ?? 'Atividade registrada no backoffice',
-                    'description' => 'Evento registrado na auditoria da plataforma.',
-                    'created_at' => $event->created_at,
-                ])->values(),
+            'recent_activity' => $recentActivity,
         ]);
     }
 
