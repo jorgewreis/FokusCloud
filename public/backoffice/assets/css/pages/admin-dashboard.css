@@ -812,8 +812,8 @@ html[data-role="admin"] .sidebar-institutional img {
     cursor: pointer;
 }
 .admin-final-dashboard .admin-user-details:focus-visible {
-    outline: 2px solid #2d8fbe;
-    outline-offset: 4px;
+    outline: none !important;
+    box-shadow: none !important;
 }
 .admin-final-dashboard .admin-user-menu {
     position: absolute;
