@@ -3578,6 +3578,34 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     height: 1px !important;
     opacity: 0 !important;
 }
+
+/* Preserve the icon background while the neutral action button is hovered. */
+.admin-company-page .admin-company-row-action:hover,
+.admin-company-page .admin-company-row-action:focus-visible {
+    background-color: #f5f8fa !important;
+    background-image: inherit;
+}
+
+/* The native hidden attribute must win over the drawer layout declarations. */
+.admin-company-page [hidden] {
+    display: none !important;
+}
+
+/* Keep the page typography explicit: Outfit for UI/body and Bebas Neue for display headings. */
+.admin-company-page,
+.admin-company-page button,
+.admin-company-page input,
+.admin-company-page select,
+.admin-company-page table {
+    font-family: "Outfit", sans-serif !important;
+}
+.admin-company-page h1,
+.admin-company-page h2,
+.admin-company-page h3,
+.admin-company-page .admin-kicker,
+.admin-company-page .admin-company-metric strong {
+    font-family: "Bebas Neue", sans-serif !important;
+}
 .admin-company-page .admin-company-status {
     display: inline-flex;
     padding: 4px 8px;
