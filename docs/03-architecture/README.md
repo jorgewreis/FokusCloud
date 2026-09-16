@@ -10,6 +10,7 @@ Esta pasta documenta a arquitetura do Fokus Cloud, suas fronteiras, componentes,
 - [Portais e governanca](portals-and-governance.md)
 - [Decisoes arquiteturais](architecture-decisions.md)
 - [Design system de formularios](form-design-system.md)
+- [Iconografia do menu lateral do Backoffice](backoffice-sidebar-icons.md)
 
 ## Quando atualizar
 
