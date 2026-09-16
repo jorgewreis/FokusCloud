@@ -72,6 +72,18 @@
     background-image: url("/backoffice/assets/icons/Remove-Circle-1--Streamline-Ultimate.png");
 }
 
+/* Keep the actual image above every button background and hover layer. */
+.admin-company-page .admin-company-row-action img {
+    position: relative !important;
+    z-index: 2 !important;
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    object-fit: contain !important;
+}
+
 /* Typography hierarchy for the company details drawer. */
 .admin-company-page .admin-company-view-section dt {
     font-family: "Syne Mono", monospace !important;
