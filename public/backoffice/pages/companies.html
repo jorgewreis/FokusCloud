@@ -42,11 +42,12 @@
 <script>
 (() => {
     const api = window.FokusApi;
-    const state = { page: 1, query: "" };
+    const state = { page: 1, query: new URLSearchParams(location.search).get("q")?.trim() || "" };
     const list = document.querySelector("#company-list");
     const pagination = document.querySelector("#company-pagination");
     const detail = document.querySelector("#company-detail");
     const message = document.querySelector("#company-message");
+    document.querySelector("#company-query").value = state.query;
 
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;","\"":"&quot;"}[char]));
     const showMessage = (value, tone = "danger") => { message.textContent = value || ""; message.dataset.tone = tone; message.hidden = !value; };

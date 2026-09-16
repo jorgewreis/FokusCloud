@@ -123,45 +123,34 @@ html[data-role="admin"] .sidebar-institutional img {
     box-sizing: border-box;
 }
 .admin-final-header {
+    position: relative;
     height: 68px;
     display: grid;
-    grid-template-columns: 270px minmax(280px, 1fr) 300px;
+    grid-template-columns: minmax(280px, 1fr) auto;
     align-items: center;
     gap: 20px;
     padding: 0 28px;
     background: #fbfaf8;
     border-bottom: 1px solid #e9e3db;
 }
-.admin-header-context,
 .admin-header-user {
     display: flex;
     align-items: center;
     gap: 11px;
     min-width: 0;
 }
-.admin-header-context > img {
-    width: 25px;
-    height: 25px;
-}
-.admin-header-context span,
 .admin-user-details span {
     display: block;
     color: #71809a;
     font-size: 10px;
 }
-.admin-header-context strong,
 .admin-user-details strong {
     display: block;
     font-size: 14px;
     color: #102b51;
 }
-.admin-header-context strong {
-    font-family: var(--font-display);
-    font-size: 21px;
-    font-weight: 400;
-    letter-spacing: 0.035em;
-}
 .admin-global-search {
+    position: relative;
     height: 40px;
     display: flex;
     align-items: center;
@@ -171,6 +160,39 @@ html[data-role="admin"] .sidebar-institutional img {
     border-radius: 8px;
     background: #fff;
 }
+.admin-global-search-results {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    left: 28px;
+    width: min(620px, calc(100% - 56px));
+    padding: 8px;
+    border: 1px solid #dce0e5;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(16 43 81 / 14%);
+}
+.admin-global-search-results section + section { margin-top: 8px; }
+.admin-global-search-results section > strong {
+    display: block;
+    padding: 5px 8px;
+    color: #71809a;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+.admin-global-search-results a {
+    display: block;
+    padding: 8px;
+    border-radius: 5px;
+    color: #102b51;
+    text-decoration: none;
+}
+.admin-global-search-results a:hover,
+.admin-global-search-results a:focus-visible { background: #f2f6fa; }
+.admin-global-search-results a span,
+.admin-global-search-results a small { display: block; }
+.admin-global-search-results a small,
+.admin-global-search-empty { color: #71809a; font-size: 11px; }
 .admin-global-search img,
 .admin-table-search img {
     width: 17px;
@@ -770,20 +792,9 @@ html[data-role="admin"] .sidebar-institutional img {
 /* Header and sidebar source-order guard: these elements are shared with legacy dashboard rules. */
 .admin-final-dashboard .admin-final-header {
     display: grid !important;
-    grid-template-columns: 270px minmax(280px, 1fr) auto !important;
+    grid-template-columns: minmax(280px, 1fr) auto !important;
     min-height: 76px;
     height: 76px;
-}
-.admin-final-dashboard .admin-header-context {
-    display: flex !important;
-    align-items: center;
-    gap: 11px;
-    min-height: 44px;
-    padding: 8px 13px;
-    border: 1px solid #f0ece7;
-    border-radius: 7px;
-    background: #fff;
-    white-space: nowrap;
 }
 .admin-final-dashboard .admin-header-user {
     display: flex !important;
@@ -821,7 +832,7 @@ html[data-role="admin"] .sidebar-institutional img {
     height: 36px;
     place-items: center;
     border: 0;
-    border-right: 1px solid #e5e8eb;
+    border: 0 !important;
     border-radius: 0;
     background: transparent;
     cursor: pointer;
@@ -829,6 +840,8 @@ html[data-role="admin"] .sidebar-institutional img {
 .admin-final-dashboard .admin-notifications-button img {
     width: 23px;
     height: 23px;
+    display: block;
+    filter: invert(18%) sepia(34%) saturate(1077%) hue-rotate(174deg) brightness(86%) contrast(94%);
 }
 html[data-role="admin"] .sidebar-brand {
     display: block !important;
@@ -2960,7 +2973,7 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-final-dashboard .admin-final-header {
     height: 68px;
     display: grid;
-    grid-template-columns: 270px minmax(280px, 1fr) 300px;
+    grid-template-columns: minmax(280px, 1fr) auto;
     align-items: center;
     gap: 20px;
     padding: 0 28px;
@@ -3163,20 +3176,9 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 /* Final legacy-conflict override. */
 .admin-final-dashboard .admin-final-header {
     display: grid !important;
-    grid-template-columns: 270px minmax(280px, 1fr) auto !important;
+    grid-template-columns: minmax(280px, 1fr) auto !important;
     height: 76px;
     min-height: 76px;
-}
-.admin-final-dashboard .admin-header-context {
-    display: flex !important;
-    align-items: center;
-    gap: 11px;
-    min-height: 44px;
-    padding: 8px 13px;
-    border: 1px solid #f0ece7;
-    border-radius: 7px;
-    background: #fff;
-    white-space: nowrap;
 }
 .admin-final-dashboard .admin-header-user {
     display: flex !important;

@@ -74,6 +74,7 @@ Route::middleware(EnsurePlatformAdmin::class)->prefix('backoffice')->group(funct
     Route::get('/auth/me', [PlatformAuthController::class, 'me']);
     Route::post('/auth/logout', [PlatformAuthController::class, 'logout']);
     Route::get('/dashboard', [BackofficeController::class, 'dashboard'])->middleware(EnsurePlatformPermission::class.':platform.dashboard.view');
+    Route::get('/search', [BackofficeController::class, 'search'])->middleware(EnsurePlatformPermission::class.':platform.dashboard.view');
     Route::get('/catalog', [BackofficeController::class, 'catalog'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::post('/catalog/products', [BackofficeController::class, 'createProduct'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');
     Route::patch('/catalog/products/{product}', [BackofficeController::class, 'updateProduct'])->middleware(EnsurePlatformPermission::class.':platform.catalog.manage');

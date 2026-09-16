@@ -178,6 +178,66 @@ class BackofficeController extends Controller
         ]);
     }
 
+    public function search(Request $request, PlatformAudit $audit)
+    {
+        $query = trim((string) $request->query('q', ''));
+        if ($query === '') {
+            return response()->json(['groups' => []]);
+        }
+
+        $term = "%{$query}%";
+        $companies = DB::table('companies')
+            ->whereNull('deleted_at')
+            ->where(fn ($builder) => $builder->where('legal_name', 'like', $term)->orWhere('document_number', 'like', $term))
+            ->orderBy('legal_name')
+            ->limit(6)
+            ->get(['id', 'legal_name', 'document_number', 'status'])
+            ->map(fn (object $company): array => [
+                'title' => $company->legal_name,
+                'subtitle' => 'Empresa · '.strtoupper($company->status),
+                'href' => '/backoffice/empresas?q='.rawurlencode($company->legal_name),
+            ])->values();
+
+        $users = DB::table('users as user')
+            ->leftJoin('company_memberships as membership', function ($join): void {
+                $join->on('membership.user_id', '=', 'user.id')->whereNull('membership.deleted_at')->whereIn('membership.status', ['ativo', 'pendente']);
+            })
+            ->leftJoin('companies as company', function ($join): void {
+                $join->on('company.id', '=', 'membership.company_id')->whereNull('company.deleted_at');
+            })
+            ->where(fn ($builder) => $builder->where('user.name', 'like', $term)->orWhere('user.email', 'like', $term)->orWhere('user.cpf', 'like', $term))
+            ->orderBy('user.name')
+            ->limit(6)
+            ->get(['user.name', 'user.email', 'company.legal_name as company_name'])
+            ->map(fn (object $user): array => [
+                'title' => $user->name,
+                'subtitle' => 'Cliente/usuário · '.($user->company_name ?: $user->email),
+                'href' => $user->company_name ? '/backoffice/empresas?q='.rawurlencode($user->company_name) : '/backoffice/empresas',
+            ])->values();
+
+        $subscriptions = DB::table('subscriptions as subscription')
+            ->join('companies as company', 'company.id', '=', 'subscription.company_id')
+            ->join('products as product', 'product.id', '=', 'subscription.product_id')
+            ->whereNull('company.deleted_at')
+            ->where(fn ($builder) => $builder->where('company.legal_name', 'like', $term)->orWhere('product.name', 'like', $term)->orWhere('subscription.id', 'like', $term))
+            ->orderByDesc('subscription.created_at')
+            ->limit(6)
+            ->get(['subscription.id', 'subscription.status', 'company.legal_name as company_name', 'product.name as product_name'])
+            ->map(fn (object $subscription): array => [
+                'title' => $subscription->company_name,
+                'subtitle' => 'Assinatura · '.($subscription->product_name ?: 'Produto').' · '.$subscription->status,
+                'href' => '/backoffice/assinaturas?q='.rawurlencode($subscription->company_name),
+            ])->values();
+
+        $audit->record($request->user()->id, 'backoffice.global_search', request: $request);
+
+        return response()->json(['groups' => [
+            ['label' => 'Empresas', 'items' => $companies],
+            ['label' => 'Clientes e usuários', 'items' => $users],
+            ['label' => 'Assinaturas', 'items' => $subscriptions],
+        ]]);
+    }
+
     public function company(Request $request, string $company, PlatformAudit $audit)
     {
         $entity = DB::table('companies')->where('id', $company)->first();

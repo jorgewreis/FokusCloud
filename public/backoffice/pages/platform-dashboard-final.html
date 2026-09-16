@@ -1,25 +1,16 @@
 <main class="admin-dashboard admin-final-dashboard">
     <header class="admin-final-header">
-        <div class="admin-header-context">
-            <img
-                src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png"
-                alt=""
-            />
-            <div>
-                <span>Plataforma administrativa</span
-                ><strong>Fokus Cloud Admin</strong>
-            </div>
-        </div>
         <label class="admin-global-search"
             ><img
                 src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png"
                 alt=""
             /><input
                 type="search"
-                placeholder="Buscar empresas, pessoas, documentos, planos..."
+                placeholder="Buscar empresas, usuários, clientes, assinaturas..."
                 aria-label="Buscar na plataforma"
             /><kbd>Ctrl K</kbd></label
         >
+        <div class="admin-global-search-results" id="admin-global-search-results" hidden></div>
         <div class="admin-header-user">
             <button
                 class="admin-notifications-button"
@@ -30,6 +21,7 @@
                 <img
                     src="/backoffice/assets/icons/Alarm-Bell--Streamline-Ultimate-Regular.png"
                     alt=""
+                    aria-hidden="true"
                 />
             </button>
             <div class="admin-user-avatar" id="dashboard-user-initials">AD</div>
@@ -392,13 +384,27 @@
                     encerrando: "Em encerramento",
                     encerrada: "Encerrada",
                 })[v] || "Sem status";
+        const nameParticles = new Set(["de", "da", "do", "das", "dos", "e"]);
+        const displayName = (value) => {
+            const words = String(value || "Administrador")
+                    .trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+            const selected = words.slice(0, 2);
+            if (selected[1] && nameParticles.has(selected[1].toLowerCase()) && words[2]) {
+                selected.push(words[2]);
+            }
+            return (selected.join(" ") || "Administrador").slice(0, 25).trim();
+        };
         const user = (u) => {
             let a = String(u?.name || "Administrador")
                     .trim()
-                    .split(/\s+/),
+                    .split(/\s+/)
+                    .filter(Boolean),
+                name = displayName(u?.name),
                 f = a[0] || "Administrador";
             document.querySelector("#dashboard-user-name").textContent =
-                a.join(" ");
+                name;
             document.querySelector("#dashboard-user-role").textContent = String(
                 u?.role || "Administrador",
             );
@@ -409,6 +415,14 @@
                 .toUpperCase();
             document.querySelector("#dashboard-greeting-name").textContent =
                 f.toUpperCase();
+        };
+        const searchResults = (groups) => {
+            const panel = document.querySelector("#admin-global-search-results");
+            const results = groups.flatMap((group) => group.items || []);
+            panel.innerHTML = results.length
+                ? groups.filter((group) => group.items?.length).map((group) => `<section><strong>${e(group.label)}</strong>${group.items.map((item) => `<a href="${e(item.href || "#")}"><span>${e(item.title)}</span><small>${e(item.subtitle || "")}</small></a>`).join("")}</section>`).join("")
+                : '<p class="admin-global-search-empty">Nenhum resultado encontrado.</p>';
+            panel.hidden = false;
         };
         const chart = (series) => {
             let v = series.map((x) => +x.value || 0),
@@ -540,6 +554,43 @@
                 activity(p.recent_activity || []);
             };
         let timer;
+        const globalSearch = document.querySelector(".admin-global-search input");
+        const loadGlobalSearch = async (query) => {
+            const value = query.trim();
+            if (!value) {
+                document.querySelector("#admin-global-search-results").hidden = true;
+                return;
+            }
+            try {
+                const response = await fetch(`/api/backoffice/search?q=${encodeURIComponent(value)}`, { credentials: "same-origin" });
+                if (!response.ok) throw Error();
+                searchResults((await response.json()).groups || []);
+            } catch {
+                document.querySelector("#admin-global-search-results").hidden = true;
+            }
+        };
+        globalSearch.addEventListener("input", (event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => loadGlobalSearch(event.target.value), 220);
+        });
+        globalSearch.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                globalSearch.value = "";
+                document.querySelector("#admin-global-search-results").hidden = true;
+            }
+        });
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".admin-global-search") && !event.target.closest(".admin-global-search-results")) {
+                document.querySelector("#admin-global-search-results").hidden = true;
+            }
+        });
+        document.addEventListener("keydown", (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+                event.preventDefault();
+                globalSearch.focus();
+                globalSearch.select();
+            }
+        });
         document
             .querySelector("#company-search")
             .addEventListener("input", (x) => {

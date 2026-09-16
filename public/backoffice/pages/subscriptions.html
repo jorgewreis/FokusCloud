@@ -31,11 +31,12 @@
 <script>
 (() => {
     const api = window.FokusApi;
-    const state = { page: 1, query: "", status: "", current: null, plans: [] };
+    const state = { page: 1, query: new URLSearchParams(location.search).get("q")?.trim() || "", status: "", current: null, plans: [] };
     const list = document.querySelector("#subscription-list");
     const pagination = document.querySelector("#subscription-pagination");
     const detail = document.querySelector("#subscription-detail");
     const message = document.querySelector("#subscription-message");
+    document.querySelector("#subscription-query").value = state.query;
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;","\"":"&quot;"}[char]));
     const money = (value) => `R$ ${Number(value || 0).toFixed(2).replace(".", ",")}`;
     const showMessage = (value, tone = "danger") => { message.textContent = value || ""; message.dataset.tone = tone; message.hidden = !value; };
