@@ -41,7 +41,10 @@
             </nav>
         </div>
     </header>
-    <div class="admin-header-toast" id="admin-header-toast" role="status" aria-live="polite" hidden></div>
+    <div class="admin-header-toast" id="admin-header-toast" role="status" aria-live="polite" hidden>
+        <button class="admin-header-toast-close" type="button" aria-label="Fechar notificações">×</button>
+        <div id="admin-header-toast-content"></div>
+    </div>
     <section class="admin-final-content">
         <div class="admin-dashboard-intro">
             <div>
@@ -476,14 +479,22 @@
                 )
                 .join("");
         };
+        const hideHeaderToast = () => {
+            const toast = document.querySelector("#admin-header-toast");
+            toast.classList.remove("is-visible");
+            window.clearTimeout(showHeaderToast.timer);
+            window.setTimeout(() => { toast.hidden = true; }, 220);
+        };
         const showHeaderToast = () => {
             const toast = document.querySelector("#admin-header-toast");
-            toast.innerHTML = notifications.length
+            const content = document.querySelector("#admin-header-toast-content");
+            content.innerHTML = notifications.length
                 ? `<strong>Notificações</strong><ul>${notifications.map((item) => `<li><b>${e(item.label || "Aviso da plataforma")}</b><span>${e(item.description || "")}</span></li>`).join("")}</ul>`
                 : `<strong>Notificações</strong><p>Você não tem nenhuma notificação.</p>`;
             toast.hidden = false;
+            window.requestAnimationFrame(() => toast.classList.add("is-visible"));
             window.clearTimeout(showHeaderToast.timer);
-            showHeaderToast.timer = window.setTimeout(() => { toast.hidden = true; }, 6000);
+            showHeaderToast.timer = window.setTimeout(hideHeaderToast, 6000);
         };
         const activity = (a) => {
             let l = document.querySelector("#dashboard-recent-activity"),
@@ -637,6 +648,7 @@
             }
         });
         document.querySelector(".admin-notifications-button").addEventListener("click", showHeaderToast);
+        document.querySelector(".admin-header-toast-close").addEventListener("click", hideHeaderToast);
         const userDetails = document.querySelector(".admin-user-details");
         const userMenu = document.querySelector("#admin-user-menu");
         const setUserMenu = (open) => {

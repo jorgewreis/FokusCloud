@@ -871,6 +871,32 @@ html[data-role="admin"] .sidebar-institutional img {
     color: #233b5d;
     background: #fff;
     box-shadow: 0 12px 30px rgb(16 43 81 / 16%);
+    opacity: 0;
+    transform: translateX(18px);
+    transition: opacity 220ms ease, transform 220ms ease;
+}
+.admin-final-dashboard .admin-header-toast.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.admin-final-dashboard .admin-header-toast-close {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 24px !important;
+    height: 24px !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    color: #71809a !important;
+    background: transparent !important;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+.admin-final-dashboard .admin-header-toast-close:hover,
+.admin-final-dashboard .admin-header-toast-close:focus-visible {
+    color: #102b51 !important;
 }
 .admin-final-dashboard .admin-header-toast strong { display: block; color: #102b51; font-size: 13px; }
 .admin-final-dashboard .admin-header-toast p { margin: 6px 0 0; color: #71809a; font-size: 12px; }
@@ -918,6 +944,13 @@ html[data-role="admin"] .sidebar-institutional img {
     border-radius: 0 !important;
     color: #102b51 !important;
     background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.admin-final-dashboard .admin-header-user .admin-notifications-button:focus,
+.admin-final-dashboard .admin-header-user .admin-notifications-button:focus-visible,
+.admin-final-dashboard .admin-header-user .admin-notifications-button:active {
+    outline: none !important;
     box-shadow: none !important;
 }
 .admin-final-dashboard .admin-header-user .admin-notifications-button img {
