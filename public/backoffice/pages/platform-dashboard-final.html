@@ -25,23 +25,23 @@
                 />
             </button>
             <div class="admin-user-avatar" id="dashboard-user-initials">AD</div>
-            <div class="admin-user-details">
+            <button
+                class="admin-user-details"
+                type="button"
+                aria-expanded="false"
+                aria-controls="admin-user-menu"
+            >
                 <strong id="dashboard-user-name">Administrador</strong
                 ><span id="dashboard-user-role">Administrador</span>
-            </div>
-            <button
-                class="admin-logout-button"
-                type="button"
-                data-dashboard-logout
-                title="Sair"
-            >
-                <img
-                    src="/backoffice/assets/icons/User-Logout--Streamline-Ultimate-Regular.png"
-                    alt=""
-                /><span>Sair</span>
             </button>
+            <nav class="admin-user-menu" id="admin-user-menu" hidden aria-label="Menu do usuário">
+                <a href="/backoffice/admins">Editar perfil</a>
+                <a href="/recuperar-senha">Alterar senha</a>
+                <button type="button" data-dashboard-logout>Sair</button>
+            </nav>
         </div>
     </header>
+    <div class="admin-header-toast" id="admin-header-toast" role="status" aria-live="polite" hidden></div>
     <section class="admin-final-content">
         <div class="admin-dashboard-intro">
             <div>
@@ -345,6 +345,7 @@
                 sort: "company",
                 direction: "asc",
             },
+            notifications = [],
             N = new Intl.NumberFormat("pt-BR"),
             C = new Intl.NumberFormat("pt-BR", {
                 style: "currency",
@@ -465,6 +466,8 @@
         const alerts = (a) => {
             let l = document.querySelector("#dashboard-alerts"),
                 z = document.querySelector("#dashboard-alerts-empty");
+            notifications = a;
+            document.querySelector(".admin-notifications-button").classList.toggle("has-notifications", a.length > 0);
             z.hidden = !!a.length;
             l.innerHTML = a
                 .map(
@@ -472,6 +475,15 @@
                         `<a class="admin-attention-item" href="${e(x.href || "/backoffice/painel")}"><span class="admin-attention-icon admin-attention-${e(x.icon || "alert")}">${img(x.icon || "alert")}</span><span><strong>${N.format(x.value || 0)} ${e(x.label || "")}</strong><small>${e(x.description || "")}</small></span></a>`,
                 )
                 .join("");
+        };
+        const showHeaderToast = () => {
+            const toast = document.querySelector("#admin-header-toast");
+            toast.innerHTML = notifications.length
+                ? `<strong>Notificações</strong><ul>${notifications.map((item) => `<li><b>${e(item.label || "Aviso da plataforma")}</b><span>${e(item.description || "")}</span></li>`).join("")}</ul>`
+                : `<strong>Notificações</strong><p>Você não tem nenhuma notificação.</p>`;
+            toast.hidden = false;
+            window.clearTimeout(showHeaderToast.timer);
+            showHeaderToast.timer = window.setTimeout(() => { toast.hidden = true; }, 6000);
         };
         const activity = (a) => {
             let l = document.querySelector("#dashboard-recent-activity"),
@@ -624,9 +636,18 @@
                 loadCompanies().catch(() => {});
             }
         });
-        document
-            .querySelector("[data-dashboard-logout]")
-            .addEventListener("click", async () => {
+        document.querySelector(".admin-notifications-button").addEventListener("click", showHeaderToast);
+        const userDetails = document.querySelector(".admin-user-details");
+        const userMenu = document.querySelector("#admin-user-menu");
+        const setUserMenu = (open) => {
+            userMenu.hidden = !open;
+            userDetails.setAttribute("aria-expanded", String(open));
+        };
+        userDetails.addEventListener("click", () => setUserMenu(userMenu.hidden));
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".admin-header-user")) setUserMenu(false);
+        });
+        document.querySelector("[data-dashboard-logout]").addEventListener("click", async () => {
                 await fetch("/backoffice/auth/logout", {
                     method: "POST",
                     credentials: "same-origin",

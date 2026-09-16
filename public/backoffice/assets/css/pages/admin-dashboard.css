@@ -234,20 +234,6 @@ html[data-role="admin"] .sidebar-institutional img {
 .admin-user-details {
     min-width: 145px;
 }
-.admin-logout-button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    border: 0;
-    background: transparent;
-    color: #526781;
-    font-size: 12px;
-    cursor: pointer;
-}
-.admin-logout-button img {
-    width: 17px;
-    height: 17px;
-}
 .admin-final-content {
     max-width: 1320px;
     margin: 0 auto;
@@ -814,18 +800,76 @@ html[data-role="admin"] .sidebar-institutional img {
     display: block !important;
     white-space: nowrap;
 }
-.admin-final-dashboard .admin-logout-button {
-    display: flex !important;
-    flex: 0 0 auto;
-    align-items: center;
-    min-height: 34px;
-    padding: 0 9px;
-    border: 1px solid #dbe2e8 !important;
-    border-radius: 6px;
-    color: #526781 !important;
-    background: #fff !important;
-    white-space: nowrap;
+.admin-final-dashboard .admin-user-details {
+    position: relative;
+    z-index: 1;
+    min-width: 145px;
+    padding: 0;
+    border: 0 !important;
+    color: inherit;
+    background: transparent !important;
+    text-align: left;
+    cursor: pointer;
 }
+.admin-final-dashboard .admin-user-details:focus-visible {
+    outline: 2px solid #2d8fbe;
+    outline-offset: 4px;
+}
+.admin-final-dashboard .admin-user-menu {
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 8px);
+    right: 28px;
+    width: 190px;
+    padding: 6px;
+    border: 1px solid #dce0e5;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(16 43 81 / 14%);
+}
+.admin-final-dashboard .admin-user-menu a,
+.admin-final-dashboard .admin-user-menu button {
+    display: block;
+    width: 100%;
+    padding: 9px 10px;
+    border: 0 !important;
+    border-radius: 5px;
+    color: #233b5d !important;
+    background: transparent !important;
+    font: inherit;
+    font-size: 12px;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+.admin-final-dashboard .admin-user-menu a:hover,
+.admin-final-dashboard .admin-user-menu a:focus-visible,
+.admin-final-dashboard .admin-user-menu button:hover,
+.admin-final-dashboard .admin-user-menu button:focus-visible {
+    background: #f2f6fa !important;
+}
+.admin-final-dashboard .admin-user-menu button[data-dashboard-logout] { color: #c53d35 !important; }
+.admin-final-dashboard .admin-user-menu button[data-dashboard-logout]:hover,
+.admin-final-dashboard .admin-user-menu button[data-dashboard-logout]:focus-visible { background: #fff0ee !important; }
+.admin-final-dashboard .admin-header-toast {
+    position: fixed;
+    z-index: 40;
+    top: 88px;
+    right: 28px;
+    width: min(340px, calc(100vw - 32px));
+    padding: 14px 16px;
+    border: 1px solid #dce0e5;
+    border-radius: 8px;
+    color: #233b5d;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(16 43 81 / 16%);
+}
+.admin-final-dashboard .admin-header-toast strong { display: block; color: #102b51; font-size: 13px; }
+.admin-final-dashboard .admin-header-toast p { margin: 6px 0 0; color: #71809a; font-size: 12px; }
+.admin-final-dashboard .admin-header-toast ul { display: grid; gap: 9px; margin: 10px 0 0; }
+.admin-final-dashboard .admin-header-toast li { display: grid; gap: 2px; }
+.admin-final-dashboard .admin-header-toast li b { font-size: 12px; }
+.admin-final-dashboard .admin-header-toast li span { color: #71809a; font-size: 11px; }
 .admin-final-dashboard .admin-notifications-button {
     display: grid;
     width: 36px;
@@ -836,6 +880,18 @@ html[data-role="admin"] .sidebar-institutional img {
     border-radius: 0;
     background: transparent;
     cursor: pointer;
+}
+.admin-final-dashboard .admin-notifications-button.has-notifications { position: relative; }
+.admin-final-dashboard .admin-notifications-button.has-notifications::after {
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    width: 5px;
+    height: 5px;
+    border: 1px solid #fbfaf8;
+    border-radius: 50%;
+    background: #ef8a15;
+    content: "";
 }
 .admin-final-dashboard .admin-notifications-button img {
     width: 23px;
@@ -3216,18 +3272,6 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-final-dashboard .admin-user-details strong,
 .admin-final-dashboard .admin-user-details span {
     display: block !important;
-    white-space: nowrap;
-}
-.admin-final-dashboard .admin-logout-button {
-    display: flex !important;
-    flex: 0 0 auto;
-    align-items: center;
-    min-height: 34px;
-    padding: 0 9px;
-    border: 1px solid #dbe2e8 !important;
-    border-radius: 6px;
-    color: #526781 !important;
-    background: #fff !important;
     white-space: nowrap;
 }
 html[data-role="admin"] .sidebar-brand {
