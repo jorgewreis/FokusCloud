@@ -66,9 +66,10 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260916-admin-dashboard-v98-disabled-label-standard"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260916-admin-dashboard-v99-catalog-menu"
         />
         <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-companies-fixes.css?v=20260916-admin-companies-fixes-v18-disabled-label-standard" />
+        <link rel="stylesheet" href="/backoffice/assets/css/pages/admin-products.css?v=20260916-admin-products-v1" />
     </head>
     <body>
         <div class="container-page expanded">
@@ -119,18 +120,43 @@
                             >Empresas</span
                         >
                     </button>
-                    <button
-                        class="sidebar-button"
-                        type="button"
-                        data-sidebar-item="subscription-plans"
-                    >
-                        <img
-                            src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2"
-                        />
-                        <span class="sidebar-button-label text-subtitle-sm"
-                            >Catálogo</span
+                    <div class="sidebar-nav-group" data-sidebar-group="catalog">
+                        <button
+                            class="sidebar-button sidebar-group-toggle"
+                            type="button"
+                            aria-expanded="true"
+                            aria-controls="catalog-subnav"
                         >
-                    </button>
+                            <img
+                                src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2"
+                                alt=""
+                            />
+                            <span class="sidebar-button-label text-subtitle-sm">Catálogo</span>
+                            <span class="sidebar-group-chevron" aria-hidden="true">⌄</span>
+                        </button>
+                        <div class="sidebar-subnav" id="catalog-subnav" role="group" aria-label="Seções do catálogo">
+                            <button class="sidebar-button sidebar-subnav-button" type="button" data-sidebar-item="products">
+                                <img src="/backoffice/assets/icons/Small-Office-Tall-Building--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
+                                <span class="sidebar-button-label text-subtitle-sm">Produtos</span>
+                            </button>
+                            <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
+                                <img src="/backoffice/assets/icons/Customer-Relationship-Management-List-Document-Share--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
+                                <span class="sidebar-button-label text-subtitle-sm">Visão geral</span>
+                            </button>
+                            <button class="sidebar-button sidebar-subnav-button" type="button" data-sidebar-item="subscription-plans">
+                                <img src="/backoffice/assets/icons/Tags-Remove--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
+                                <span class="sidebar-button-label text-subtitle-sm">Planos de assinatura</span>
+                            </button>
+                            <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
+                                <img src="/backoffice/assets/icons/Multiple-Actions-Setting--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
+                                <span class="sidebar-button-label text-subtitle-sm">Módulos e funcionalidades</span>
+                            </button>
+                            <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
+                                <img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png?v=20260915-sidebar-icons-v2" alt="" />
+                                <span class="sidebar-button-label text-subtitle-sm">Publicações e versões</span>
+                            </button>
+                        </div>
+                    </div>
                     <button
                         class="sidebar-button"
                         type="button"
@@ -264,12 +290,13 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260916-admin-dashboard-v98-disabled-label-standard";
+            const pageVersion = "20260916-admin-catalog-products-v1";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
                 planos: "subscription-plans",
-                catalogo: "subscription-plans",
+                catalogo: "products",
+                produtos: "products",
                 assinaturas: "subscriptions",
                 pagamentos: "pagamentos",
                 billing: "pagamentos",
@@ -647,6 +674,17 @@
                         collapseSidebar();
                     }
                 });
+            });
+
+            const catalogGroup = document.querySelector("[data-sidebar-group=\"catalog\"]");
+            const catalogToggle = catalogGroup?.querySelector(".sidebar-group-toggle");
+            const catalogSubnav = catalogGroup?.querySelector(".sidebar-subnav");
+            catalogToggle?.addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                const expanded = catalogToggle.getAttribute("aria-expanded") === "true";
+                catalogToggle.setAttribute("aria-expanded", String(!expanded));
+                catalogSubnav.hidden = expanded;
             });
 
             async function hydrateAdmin() {

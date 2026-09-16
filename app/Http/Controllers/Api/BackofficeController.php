@@ -758,6 +758,42 @@ class BackofficeController extends Controller
         return response()->json(['message' => 'Item arquivado.']);
     }
 
+    public function pauseProduct(Request $request, string $product, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        [$before, $after] = $catalog->pauseOrArchive('products', $product, 'pausado');
+        $audit->record($request->user()->id, 'backoffice.catalog_product_paused', 'product', $product, reason: $data['reason'], before: $before, after: $after, request: $request);
+
+        return response()->json(['message' => 'Produto pausado.']);
+    }
+
+    public function activateProduct(Request $request, string $product, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        [$before, $after] = $catalog->activateProduct($product);
+        $audit->record($request->user()->id, 'backoffice.catalog_product_activated', 'product', $product, reason: $data['reason'], before: $before, after: $after, request: $request);
+
+        return response()->json(['message' => 'Produto ativado.']);
+    }
+
+    public function archiveProduct(Request $request, string $product, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        [$before, $after] = $catalog->pauseOrArchive('products', $product, 'arquivado');
+        $audit->record($request->user()->id, 'backoffice.catalog_product_archived', 'product', $product, reason: $data['reason'], before: $before, after: $after, request: $request);
+
+        return response()->json(['message' => 'Produto arquivado.']);
+    }
+
+    public function deleteProduct(Request $request, string $product, CatalogManager $catalog, PlatformAudit $audit)
+    {
+        $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);
+        $before = $catalog->deleteProduct($product);
+        $audit->record($request->user()->id, 'backoffice.catalog_product_deleted', 'product', $product, reason: $data['reason'], before: $before, request: $request);
+
+        return response()->json(['message' => 'Produto excluído.']);
+    }
+
     public function deleteModule(Request $request, string $module, CatalogManager $catalog, PlatformAudit $audit)
     {
         $data = $request->validate(['reason' => ['required', 'string', 'max:1000']]);

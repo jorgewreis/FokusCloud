@@ -1,0 +1,79 @@
+<div class="admin-products-page">
+    <div class="admin-products-intro">
+        <div>
+            <span class="admin-kicker">CATÁLOGO</span>
+            <h1 class="text-display-4">Produtos</h1>
+            <p class="text-heading-5">Gerencie os sistemas comercializados pela plataforma e acompanhe sua publicação.</p>
+        </div>
+        <div class="admin-products-actions">
+            <button class="submit fs-btn" type="button" id="product-new">Novo produto</button>
+        </div>
+    </div>
+    <hr>
+    <div class="admin-product-metrics" aria-label="Resumo dos produtos">
+        <div class="admin-product-metric"><span>Total</span><strong id="metric-total">0</strong></div>
+        <div class="admin-product-metric"><span>Ativos</span><strong id="metric-active">0</strong></div>
+        <div class="admin-product-metric"><span>Em rascunho</span><strong id="metric-draft">0</strong></div>
+        <div class="admin-product-metric"><span>Publicados</span><strong id="metric-published">0</strong></div>
+    </div>
+    <div class="system-notice" id="products-message" role="status" aria-live="polite" hidden></div>
+    <div class="admin-product-controls">
+        <input class="admin-product-search" id="product-search" type="search" placeholder="Buscar por nome ou código" aria-label="Buscar produto">
+        <select id="product-status-filter" aria-label="Filtrar por status"><option value="">Todos os status</option><option value="ativo">Ativo</option><option value="inativo">Inativo</option><option value="pausado">Pausado</option></select>
+        <select id="product-publication-filter" aria-label="Filtrar por publicação"><option value="">Todas as publicações</option><option value="rascunho">Rascunho</option><option value="publicado">Publicado</option><option value="pausado">Pausado</option><option value="arquivado">Arquivado</option></select>
+    </div>
+    <div class="table-panel">
+        <table class="data-table" aria-label="Produtos do catálogo">
+            <thead><tr><th>Produto</th><th>Código</th><th>Status</th><th>Publicação</th><th>Módulos</th><th>Planos</th><th>Versão</th><th>Destaque</th><th>Ações</th></tr></thead>
+            <tbody id="product-list"><tr><td colspan="9">Carregando...</td></tr></tbody>
+        </table>
+    </div>
+    <nav class="fs-pagination admin-product-pagination" id="product-pagination" aria-label="Paginação de produtos"></nav>
+    <div class="admin-product-drawer-backdrop" id="product-drawer-backdrop" hidden></div>
+        <aside class="admin-product-drawer" id="product-drawer" aria-labelledby="product-drawer-title" aria-hidden="true" hidden>
+        <div class="admin-product-drawer-header"><div><span class="admin-kicker">CATÁLOGO</span><h2 id="product-drawer-title">Novo produto</h2></div><button class="icon-button" type="button" id="product-drawer-close" aria-label="Fechar painel">×</button></div>
+        <form class="admin-product-form fc-form" id="product-form">
+            <div class="form-line"><label>Código técnico<input name="code" maxlength="64" required></label><label>Nome<input name="name" maxlength="120" required></label></div>
+            <div class="form-line"><label>Status<select name="status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></label><label>Ordem de exibição<input name="display_order" type="number" min="0" step="1" value="0" required></label></div>
+            <label><span>Descrição técnica</span><textarea name="technical_description" maxlength="2000"></textarea></label>
+            <label><span>Conteúdo comercial</span><textarea name="commercial_content" maxlength="20000"></textarea></label>
+            <label>Produto em destaque<select name="featured"><option value="0">Não</option><option value="1">Sim</option></select></label>
+            <p class="text-body fs-u-color-secondary">A publicação do catálogo será realizada pela futura central de Publicações e versões.</p>
+            <div class="admin-product-form-actions"><button class="fs-btn button-secondary" type="button" id="product-form-cancel">Cancelar</button><button class="submit fs-btn" type="submit" id="product-form-submit">Salvar produto</button></div>
+        </form>
+    </aside>
+</div>
+<script>
+(() => {
+    const api = window.FokusApi;
+    const root = document.querySelector('.admin-products-page');
+    const form = root.querySelector('#product-form');
+    const drawer = root.querySelector('#product-drawer');
+    const backdrop = root.querySelector('#product-drawer-backdrop');
+    const list = root.querySelector('#product-list');
+    const message = root.querySelector('#products-message');
+    const state = { products: [], page: 1, editing: null };
+    const pageSize = 12;
+    const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+    const icon = (name) => `/backoffice/assets/icons/${name}`;
+    const action = (type, id, label, image, danger = false) => `<button class="icon-button${danger ? ' icon-button-danger' : ''}" type="button" data-action="${type}" data-id="${esc(id)}" title="${label}" aria-label="${label}"><img src="${icon(image)}" alt=""></button>`;
+    const show = (text, tone = 'info') => { message.textContent = text || ''; message.dataset.tone = tone; message.hidden = !text; };
+    const filtered = () => { const query = root.querySelector('#product-search').value.trim().toLowerCase(); const status = root.querySelector('#product-status-filter').value; const publication = root.querySelector('#product-publication-filter').value; return state.products.filter((p) => (!query || `${p.name} ${p.code}`.toLowerCase().includes(query)) && (!status || p.status === status) && (!publication || p.publication_state === publication)); };
+    const badge = (text) => `<span class="fs-badge">${esc(text || '-')}</span>`;
+    function render() {
+        const rows = filtered(); const pages = Math.max(1, Math.ceil(rows.length / pageSize)); state.page = Math.min(state.page, pages); const start = (state.page - 1) * pageSize; const current = rows.slice(start, start + pageSize);
+        list.innerHTML = current.length ? current.map((p) => `<tr><td><span class="product-name">${esc(p.name)}</span></td><td><span class="product-code">${esc(p.code)}</span></td><td><span class="product-status">${badge(p.status)}</span></td><td><span class="product-publication">${badge(p.publication_state)}</span></td><td class="product-count">${(p.modules || []).length}</td><td class="product-count">${(p.plans || []).length}</td><td class="product-version">${Number(p.published_version || 0)}</td><td>${p.featured ? 'Sim' : 'Não'}</td><td><div class="product-actions">${action('view', p.id, 'Visualizar produto', 'View-Circle--Streamline-Ultimate.png')}${action('edit', p.id, 'Editar produto', 'Pencil-Circle--Streamline-Ultimate.png')}${p.status === 'pausado' ? action('activate', p.id, 'Reativar produto', 'Power-Button-1--Streamline-Ultimate.png') : action('pause', p.id, 'Pausar produto', 'Button-Pause-1--Streamline-Ultimate.png')}${action('archive', p.id, 'Arquivar produto', 'Remove-Circle-1--Streamline-Ultimate.png', true)}${action('delete', p.id, 'Excluir produto', 'Remove-Square-1--Streamline-Ultimate.png', true)}</div></td></tr>`).join('') : '<tr><td colspan="9">Nenhum produto encontrado.</td></tr>';
+        root.querySelector('#product-pagination').innerHTML = rows.length > pageSize ? `<span class="pagination-info">${start + 1}–${Math.min(start + pageSize, rows.length)} de ${rows.length} produtos</span><button class="fs-page-item" type="button" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''}>‹</button><span class="pagination-info">${state.page} / ${pages}</span><button class="fs-page-item" type="button" data-page="${state.page + 1}" ${state.page === pages ? 'disabled' : ''}>›</button>` : (rows.length ? `<span class="pagination-info">${rows.length} produtos</span>` : '');
+        root.querySelector('#metric-total').textContent = state.products.length; root.querySelector('#metric-active').textContent = state.products.filter((p) => p.status === 'ativo').length; root.querySelector('#metric-draft').textContent = state.products.filter((p) => p.publication_state === 'rascunho').length; root.querySelector('#metric-published').textContent = state.products.filter((p) => p.publication_state === 'publicado').length;
+    }
+    function open(product = null, viewOnly = false) { state.editing = product?.id || null; root.querySelector('#product-drawer-title').textContent = product ? (viewOnly ? 'Visualizar produto' : 'Editar produto') : 'Novo produto'; form.reset(); if (product) ['code','name','status','display_order','technical_description','commercial_content'].forEach((key) => { if (form.elements[key]) form.elements[key].value = product[key] ?? ''; }); if (product) form.elements.featured.value = product.featured ? '1' : '0'; [...form.elements].forEach((field) => { field.disabled = viewOnly; }); root.querySelector('#product-form-submit').hidden = viewOnly; root.querySelector('#product-form-cancel').textContent = viewOnly ? 'Fechar' : 'Cancelar'; drawer.hidden = false; backdrop.hidden = false; drawer.setAttribute('aria-hidden', 'false'); if (!viewOnly) form.elements.name.focus(); }
+    function close() { drawer.hidden = true; backdrop.hidden = true; drawer.setAttribute('aria-hidden', 'true'); state.editing = null; }
+    async function load() { try { const response = await api.request('/backoffice/catalog'); state.products = response.products || []; render(); } catch (error) { list.innerHTML = '<tr><td colspan="9">Não foi possível carregar os produtos.</td></tr>'; show(error.message || 'Não foi possível carregar os produtos.', 'danger'); } }
+    async function mutate(product, operation) { const labels = { pause: 'pausar', activate: 'reativar', archive: 'arquivar', delete: 'excluir' }; if (!window.confirm(`Deseja ${labels[operation]} este produto?`)) return; try { const method = operation === 'delete' ? 'DELETE' : 'POST'; const path = operation === 'delete' ? `/backoffice/catalog/products/${product.id}` : `/backoffice/catalog/products/${product.id}/${operation}`; await api.request(path, { method, body: { reason: `Ação administrativa: ${operation}` } }); show(`Produto ${operation === 'activate' ? 'reativado' : operation === 'pause' ? 'pausado' : operation === 'archive' ? 'arquivado' : 'excluído'} com sucesso.`, 'success'); await load(); } catch (error) { show(error.message || 'Não foi possível atualizar o produto.', 'danger'); } }
+    root.querySelector('#product-new').addEventListener('click', () => open()); root.querySelector('#product-drawer-close').addEventListener('click', close); root.querySelector('#product-form-cancel').addEventListener('click', close); backdrop.addEventListener('click', close);
+    root.querySelector('#product-search').addEventListener('input', () => { state.page = 1; render(); }); root.querySelector('#product-status-filter').addEventListener('change', () => { state.page = 1; render(); }); root.querySelector('#product-publication-filter').addEventListener('change', () => { state.page = 1; render(); });
+    root.addEventListener('click', async (event) => { const page = event.target.closest('[data-page]'); if (page && !page.disabled) { state.page = Number(page.dataset.page); render(); return; } const button = event.target.closest('[data-action]'); if (!button) return; const product = state.products.find((p) => p.id === button.dataset.id); if (!product) return; if (button.dataset.action === 'edit' || button.dataset.action === 'view') { open(product, button.dataset.action === 'view'); return; } mutate(product, button.dataset.action); });
+    form.addEventListener('submit', async (event) => { event.preventDefault(); if (window.FokusForm && !FokusForm.validate(form)) return; FokusForm?.setLoading(form, true); try { const payload = Object.fromEntries(new FormData(form)); payload.display_order = Number(payload.display_order || 0); payload.featured = payload.featured === '1'; await api.request(state.editing ? `/backoffice/catalog/products/${state.editing}` : '/backoffice/catalog/products', { method: state.editing ? 'PATCH' : 'POST', body: payload }); close(); show('Produto salvo com sucesso.', 'success'); await load(); } catch (error) { FokusForm?.mapServerErrors(form, error.errors); show(error.message || 'Não foi possível salvar o produto.', 'danger'); } finally { FokusForm?.setLoading(form, false); } });
+    load();
+})();
+</script>

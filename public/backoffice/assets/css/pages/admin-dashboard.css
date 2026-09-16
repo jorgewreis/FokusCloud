@@ -1055,6 +1055,53 @@ html[data-role="admin"] .fs-sidebar .sidebar-button-label {
     min-width: 0;
 }
 
+/* Catalog navigation is a grouped section; unavailable destinations remain visible but inert. */
+html[data-role="admin"] .sidebar-nav-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3px;
+}
+html[data-role="admin"] .sidebar-group-toggle {
+    width: 100%;
+}
+html[data-role="admin"] .sidebar-group-chevron {
+    margin-left: auto;
+    color: currentColor;
+    font-size: 16px;
+    line-height: 1;
+    opacity: .75;
+    transition: transform 160ms ease;
+}
+html[data-role="admin"] .sidebar-group-toggle[aria-expanded="false"] .sidebar-group-chevron {
+    transform: rotate(-90deg);
+}
+html[data-role="admin"] .sidebar-subnav {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-left: 17px;
+    padding-left: 8px;
+    border-left: 1px solid rgba(255, 255, 255, .25);
+}
+html[data-role="admin"] .sidebar-subnav[hidden] {
+    display: none;
+}
+html[data-role="admin"] .sidebar-subnav-button {
+    min-height: 38px;
+    padding-left: 11px;
+    gap: 12px;
+    font-size: 12px;
+}
+html[data-role="admin"] .sidebar-subnav-button img {
+    width: 18px;
+    height: 18px;
+    flex-basis: 18px;
+}
+html[data-role="admin"] .sidebar-subnav-button:disabled {
+    opacity: .36;
+}
+
 /* Final mobile authority: align the launcher icon inside its blue square. */
 @media (max-width: 700px) {
     html[data-role="admin"] .fs-sidebar.single .mobile-sidebar-toggle {

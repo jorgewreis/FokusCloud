@@ -180,6 +180,40 @@ class CatalogManager
         });
     }
 
+    public function activateProduct(string $productId): array
+    {
+        $current = DB::table('products')->where('id', $productId)->first();
+        abort_unless($current, 404, 'Produto não encontrado.');
+
+        DB::table('products')->where('id', $productId)->update([
+            'status' => 'ativo',
+            'active' => true,
+            'publication_state' => $current->publication_state === 'arquivado' ? 'rascunho' : $current->publication_state,
+            'updated_at' => now(),
+        ]);
+
+        return [(array) $current, (array) DB::table('products')->where('id', $productId)->first()];
+    }
+
+    public function deleteProduct(string $productId): array
+    {
+        $current = DB::table('products')->where('id', $productId)->first();
+        abort_unless($current, 404, 'Produto não encontrado.');
+
+        $dependencies = collect([
+            DB::table('modules')->where('product_id', $productId)->exists() ? 'módulos' : null,
+            DB::table('plans')->where('product_id', $productId)->exists() ? 'planos' : null,
+            DB::table('catalog_publications')->where('product_id', $productId)->exists() ? 'publicações' : null,
+            DB::table('subscriptions')->where('product_id', $productId)->exists() ? 'assinaturas' : null,
+            DB::table('vouchers')->where('product_id', $productId)->exists() ? 'vouchers' : null,
+        ])->filter()->values();
+        abort_if($dependencies->isNotEmpty(), 422, 'Não é possível excluir este produto porque existem vínculos: '.$dependencies->implode(', ').'. Arquive-o para preservar o histórico.');
+
+        DB::table('products')->where('id', $productId)->delete();
+
+        return (array) $current;
+    }
+
     public function createModule(array $data): string
     {
         $id = PrefixedUlid::make('MOD');

@@ -341,6 +341,43 @@ class CatalogAdminTest extends TestCase
         $this->assertDatabaseHas('modules', ['id' => $linkedModuleId]);
     }
 
+    public function test_product_lifecycle_is_audited_and_requires_publish_permission(): void
+    {
+        $commercial = $this->admin('administrador_comercial');
+        $super = $this->admin();
+        $productId = $this->actingAs($commercial, 'platform')->postJson('/api/backoffice/catalog/products', [
+            'code' => 'produto-ciclo',
+            'name' => 'Produto de ciclo',
+            'status' => 'ativo',
+        ])->assertCreated()->json('id');
+
+        $this->actingAs($commercial, 'platform')->postJson("/api/backoffice/catalog/products/{$productId}/pause", ['reason' => 'Sem permissão.'])->assertForbidden();
+        $this->actingAs($super, 'platform')->postJson("/api/backoffice/catalog/products/{$productId}/pause", ['reason' => 'Pausa homologada.'])->assertOk();
+        $this->assertDatabaseHas('products', ['id' => $productId, 'status' => 'pausado', 'publication_state' => 'pausado']);
+
+        $this->actingAs($super, 'platform')->postJson("/api/backoffice/catalog/products/{$productId}/activate", ['reason' => 'Reativação homologada.'])->assertOk();
+        $this->assertDatabaseHas('products', ['id' => $productId, 'status' => 'ativo']);
+        $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.catalog_product_paused']);
+        $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.catalog_product_activated']);
+    }
+
+    public function test_product_deletion_is_allowed_only_without_catalog_dependencies(): void
+    {
+        $admin = $this->admin();
+        $productId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/products', [
+            'code' => 'produto-exclusao',
+            'name' => 'Produto para exclusão',
+        ])->assertCreated()->json('id');
+
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/catalog/products/{$productId}", ['reason' => 'Limpeza homologada.'])->assertOk();
+        $this->assertDatabaseMissing('products', ['id' => $productId]);
+
+        $lawId = DB::table('products')->where('code', 'law')->value('id');
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/catalog/products/{$lawId}", ['reason' => 'Tentativa inválida.'])
+            ->assertUnprocessable()
+            ->assertJsonPath('message', fn ($message) => str_contains($message, 'vínculos'));
+    }
+
     private function admin(string $role = 'superadministrador'): PlatformAdmin
     {
         return PlatformAdmin::create([
