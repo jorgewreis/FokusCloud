@@ -3472,6 +3472,46 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     text-decoration-color: #9aa8b8;
     text-underline-offset: 3px;
 }
+
+/* Empresas: keep the action surface neutral even when legacy button tokens are loaded later. */
+.admin-company-page .admin-company-name-button,
+.admin-company-page .admin-primary-action,
+.admin-company-page .admin-secondary-action,
+.admin-company-page .admin-company-controls .submit,
+.admin-company-page .admin-icon-action {
+    color: #294669 !important;
+    border-color: #d9e0e5 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+}
+.admin-company-page .admin-company-name-button {
+    border: 0 !important;
+    background: transparent !important;
+    color: #294669 !important;
+}
+.admin-company-page .admin-primary-action:hover,
+.admin-company-page .admin-primary-action:focus-visible,
+.admin-company-page .admin-secondary-action:hover,
+.admin-company-page .admin-secondary-action:focus-visible,
+.admin-company-page .admin-company-controls .submit:hover,
+.admin-company-page .admin-company-controls .submit:focus-visible,
+.admin-company-page .admin-icon-action:hover,
+.admin-company-page .admin-icon-action:focus-visible {
+    color: #173f68 !important;
+    border-color: #b9c8d4 !important;
+    background: #f5f8fa !important;
+}
+.admin-company-page .admin-primary-action img {
+    filter: none !important;
+}
+.admin-company-page .admin-icon-action img {
+    display: block !important;
+    width: 17px !important;
+    height: 17px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+}
 .admin-company-page .admin-company-status {
     display: inline-flex;
     padding: 4px 8px;
