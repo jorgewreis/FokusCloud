@@ -137,6 +137,15 @@
     font-family: "Google Sans", sans-serif !important;
 }
 
+/* Keep the list controls on one consistent 38px rhythm. */
+.admin-company-page .admin-company-controls .admin-table-search,
+.admin-company-page .admin-company-controls .admin-table-search input,
+.admin-company-page .admin-company-controls select,
+.admin-company-page .admin-company-controls .submit {
+    height: 38px !important;
+    box-sizing: border-box;
+}
+
 .admin-company-page .admin-company-name-button,
 .admin-company-page .admin-company-table td[data-label="Administrador"] strong {
     font-family: "Google Sans", sans-serif !important;
