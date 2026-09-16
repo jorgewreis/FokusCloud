@@ -3583,7 +3583,6 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 .admin-company-page .admin-company-row-action:hover,
 .admin-company-page .admin-company-row-action:focus-visible {
     background-color: #f5f8fa !important;
-    background-image: inherit;
 }
 
 /* The native hidden attribute must win over the drawer layout declarations. */

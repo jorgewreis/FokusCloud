@@ -1,0 +1,47 @@
+/* Overrides isolated from the legacy admin stylesheet so the companies page gets a fresh asset. */
+.admin-company-page [hidden] {
+    display: none !important;
+}
+
+.admin-company-page,
+.admin-company-page button,
+.admin-company-page input,
+.admin-company-page select,
+.admin-company-page table {
+    font-family: "Outfit", sans-serif !important;
+}
+
+.admin-company-page h1,
+.admin-company-page h2,
+.admin-company-page h3,
+.admin-company-page .admin-kicker,
+.admin-company-page .admin-company-metric strong {
+    font-family: "Bebas Neue", sans-serif !important;
+}
+
+.admin-company-page .admin-company-row-action:hover,
+.admin-company-page .admin-company-row-action:focus-visible {
+    background-color: #f5f8fa !important;
+    border: 0 !important;
+}
+
+.admin-company-page .admin-company-row-action[data-company-action="details"]:hover,
+.admin-company-page .admin-company-row-action[data-company-action="details"]:focus-visible {
+    background-image: url("/backoffice/assets/icons/View-Circle--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="edit"]:hover,
+.admin-company-page .admin-company-row-action[data-company-action="edit"]:focus-visible {
+    background-image: url("/backoffice/assets/icons/Pencil-Circle--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="deactivate"]:hover,
+.admin-company-page .admin-company-row-action[data-company-action="deactivate"]:focus-visible {
+    background-image: url("/backoffice/assets/icons/Button-Pause-1--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="activate"]:hover,
+.admin-company-page .admin-company-row-action[data-company-action="activate"]:focus-visible {
+    background-image: url("/backoffice/assets/icons/Power-Button-1--Streamline-Ultimate.png") !important;
+}
+.admin-company-page .admin-company-row-action[data-company-action="remove"]:hover,
+.admin-company-page .admin-company-row-action[data-company-action="remove"]:focus-visible {
+    background-image: url("/backoffice/assets/icons/Remove-Circle-1--Streamline-Ultimate.png") !important;
+}
