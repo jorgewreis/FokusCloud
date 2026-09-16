@@ -843,6 +843,26 @@ html[data-role="admin"] .sidebar-institutional img {
     display: block;
     filter: invert(18%) sepia(34%) saturate(1077%) hue-rotate(174deg) brightness(86%) contrast(94%);
 }
+
+/* The generic admin button contract also matches header controls. */
+.admin-final-dashboard .admin-header-user .admin-notifications-button {
+    min-height: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    color: #102b51 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.admin-final-dashboard .admin-header-user .admin-notifications-button img {
+    flex: 0 0 23px;
+    width: 23px !important;
+    min-width: 23px;
+    max-width: 23px;
+    height: 23px !important;
+}
 html[data-role="admin"] .sidebar-brand {
     display: block !important;
     width: 190px;
