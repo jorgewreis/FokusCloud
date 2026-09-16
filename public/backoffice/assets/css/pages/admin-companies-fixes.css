@@ -121,3 +121,15 @@
     font-size: 20px !important;
     font-weight: 500 !important;
 }
+
+.admin-company-page .admin-company-name-button,
+.admin-company-page .admin-company-table td[data-label="Administrador"] strong {
+    font-family: "Google Sans", sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.admin-company-page .admin-company-table td.admin-company-document,
+.admin-company-page .admin-company-table td.admin-company-subscriptions {
+    font-family: "Syne Mono", monospace !important;
+    font-weight: 600 !important;
+}
