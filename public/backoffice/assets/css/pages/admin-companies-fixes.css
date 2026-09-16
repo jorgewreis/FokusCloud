@@ -75,13 +75,17 @@
 /* Keep the actual image above every button background and hover layer. */
 .admin-company-page .admin-company-row-action img {
     position: relative !important;
-    z-index: 2 !important;
+    z-index: 9999 !important;
     display: block !important;
     width: 18px !important;
     height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
     opacity: 1 !important;
     visibility: visible !important;
+    filter: none !important;
     object-fit: contain !important;
+    pointer-events: none !important;
 }
 
 /* Action icons have no filled hover state: never cover or tint the icon. */
@@ -89,6 +93,7 @@
 .admin-company-page .admin-company-row-action:focus,
 .admin-company-page .admin-company-row-action:focus-visible {
     background: transparent !important;
+    background-image: none !important;
     border: 0 !important;
     box-shadow: none !important;
     filter: none !important;
@@ -97,7 +102,11 @@
 .admin-company-page .admin-company-row-action:hover img,
 .admin-company-page .admin-company-row-action:focus img,
 .admin-company-page .admin-company-row-action:focus-visible img {
+    position: relative !important;
+    z-index: 9999 !important;
     display: block !important;
+    width: 18px !important;
+    height: 18px !important;
     filter: none !important;
     opacity: 1 !important;
     visibility: visible !important;
