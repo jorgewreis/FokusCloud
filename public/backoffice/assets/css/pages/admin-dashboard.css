@@ -3309,6 +3309,12 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
     min-height: 100%;
     margin: 0 auto;
     padding: 30px 28px 42px;
+    font-family: var(--font-body);
+}
+.admin-company-page h1,
+.admin-company-page h2,
+.admin-company-page h3 {
+    font-family: var(--font-display);
 }
 .admin-company-page .admin-dashboard-intro {
     align-items: center;
@@ -3506,11 +3512,29 @@ html[data-role="admin"] .admin-final-dashboard .admin-dashboard-content {
 }
 .admin-company-page .admin-icon-action img {
     display: block !important;
+    object-fit: contain !important;
     width: 17px !important;
     height: 17px !important;
     opacity: 1 !important;
     visibility: visible !important;
     filter: none !important;
+}
+.admin-company-page .admin-company-name-button,
+.admin-company-page .admin-icon-action {
+    border: 0 !important;
+}
+.admin-company-page .admin-icon-action:hover,
+.admin-company-page .admin-icon-action:focus-visible {
+    border: 0 !important;
+}
+.admin-company-page .table-panel.admin-table-scroll {
+    margin: 0 !important;
+}
+.admin-company-page .admin-table-footer {
+    margin-top: 20px;
+}
+.admin-company-page .data-table td {
+    border-bottom: 0 !important;
 }
 .admin-company-page .admin-company-status {
     display: inline-flex;
