@@ -814,9 +814,15 @@ html[data-role="admin"] .sidebar-institutional img {
     text-align: left;
     cursor: pointer;
 }
-.admin-final-dashboard .admin-user-details:focus-visible {
-    outline: none !important;
+.admin-final-dashboard .admin-user-details,
+.admin-final-dashboard .admin-user-details:focus,
+.admin-final-dashboard .admin-user-details:focus-visible,
+.admin-final-dashboard .admin-user-details:active {
+    outline: 0 !important;
+    border: 0 !important;
     box-shadow: none !important;
+    -webkit-appearance: none;
+    appearance: none;
 }
 .admin-final-dashboard .admin-user-menu {
     position: absolute;
