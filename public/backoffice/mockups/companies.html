@@ -29,20 +29,36 @@
 
         <section class="mockup-card filter-card" aria-labelledby="filter-title">
             <div class="card-heading">
-                <div><h2 id="filter-title">Filtrar empresas</h2><p>Encontre rapidamente um cadastro por nome, documento ou status.</p></div>
-                <span>Consulta administrativa</span>
+                <div>
+                    <span class="section-title" id="filter-title">Filtrar empresas</span>
+                    <span class="section-description">Encontre rapidamente um cadastro por nome, documento ou status.</span>
+                </div>
             </div>
             <form id="filter-form" class="filter-grid">
-                <label class="field field-search"><span>Buscar empresa</span><input id="company-search" type="search" placeholder="Nome, CPF ou CNPJ" /></label>
-                <label class="field"><span>Status</span><select id="company-status"><option value="">Todos os status</option><option value="ativa">Ativas</option><option value="suspensa">Suspensas</option><option value="pendente">Pendentes</option></select></label>
-                <button class="fs-btn fs-btn-primary filter-submit" type="submit">Aplicar filtros</button>
+                <label class="form-label">
+                    <span class="label">Buscar empresa</span>
+                    <input class="input-label" id="company-search" type="search" placeholder="Nome, CPF ou CNPJ" />
+                </label>
+                <label class="form-label">
+                    <span class="label">Status</span>
+                    <select class="form-select" id="company-status">
+                        <option value="">Todos os status</option>
+                        <option value="ativa">Ativas</option>
+                        <option value="suspensa">Suspensas</option>
+                        <option value="pendente">Pendentes</option>
+                    </select>
+                </label>
+                <button class="fs-btn fs-btn-primary" type="submit">Aplicar filtros</button>
             </form>
         </section>
 
         <section class="mockup-card table-card" aria-labelledby="list-title">
             <div class="card-heading">
-                <div><h2 id="list-title">Empresas cadastradas</h2><p>Consulte dados, responsáveis, assinaturas e ações disponíveis.</p></div>
-                <span id="result-count">Mostrando 1 a 4 de 24 empresas</span>
+                <div>
+                    <span class="section-title" id="list-title">Empresas cadastradas</span>
+                    <span class="section-description">Consulte dados, responsáveis, assinaturas e ações disponíveis.</span>
+                </div>
+                <span class="section-info" id="result-count">Mostrando 1 a 4 de 24 empresas</span>
             </div>
             <div class="table-scroll">
                 <table class="companies-table">

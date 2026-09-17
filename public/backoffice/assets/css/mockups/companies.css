@@ -43,12 +43,20 @@ h1, h2, h3, p { margin-top: 0; }
 .summary-card strong { color: var(--mockup-ink); font-size: 34px; line-height: 1; }
 .tone-success { color: #247f69 !important; }.tone-warning { color: #a46c1f !important; }.tone-info { color: #397493 !important; }
 .mockup-card { overflow: hidden; margin-bottom: 22px; }
-.card-heading { align-items: flex-start; padding: 22px 24px 18px; border-bottom: 1px solid var(--mockup-line); }
-.card-heading h2 { margin-bottom: 6px; font-size: 20px; letter-spacing: -.02em; }
-.card-heading p { margin-bottom: 0; color: var(--mockup-muted); font-size: 14px; }
+
+
 .filter-grid { display: grid; grid-template-columns: minmax(240px, 1.5fr) minmax(180px, .8fr) auto; align-items: end; gap: 16px; padding: 22px 24px 24px; }
 .field { display: flex; flex-direction: column; gap: 7px; color: var(--mockup-ink); font-size: 13px; font-weight: 700; }
-.field input, .field select { width: 100%; min-height: 42px; padding: 9px 12px; border: 1px solid #cbd9dc; border-radius: 7px; outline: none; background: #fff; color: var(--mockup-ink); }
+.field input, .field select {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #cbd9dc;
+    border-radius: 7px;
+    outline: none;
+    background: #fff;
+    color: var(--mockup-ink);
+}
 .field input:focus, .field select:focus { border-color: var(--mockup-primary); box-shadow: 0 0 0 3px rgba(22, 123, 120, .14); }
 .filter-submit { min-height: 42px; white-space: nowrap; }
 .table-scroll { overflow-x: auto; }
@@ -66,3 +74,82 @@ h1, h2, h3, p { margin-top: 0; }
 body.drawer-open { overflow: hidden; }
 @media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.filter-grid { grid-template-columns: 1fr 1fr; }.filter-submit { justify-self: start; }.field-search { grid-column: 1 / -1; } }
 @media (max-width: 620px) { .companies-mockup { width: min(100% - 24px, 1480px); padding-top: 12px; }.mockup-toolbar { align-items: flex-start; flex-wrap: wrap; }.mockup-header { align-items: flex-start; flex-direction: column; }.mockup-header .fs-btn { width: 100%; }.summary-grid { grid-template-columns: 1fr; }.card-heading { flex-direction: column; gap: 10px; padding: 18px 16px; }.filter-grid { grid-template-columns: 1fr; padding: 18px 16px; }.field-search { grid-column: auto; }.filter-submit { width: 100%; justify-self: stretch; }.table-footer { align-items: flex-start; flex-direction: column; padding: 14px 16px; }.create-drawer { padding: 20px; } }
+
+
+.card-heading {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid var(--mockup-line);
+}
+.section-title {
+    font-family: "Google Sans", sans-serif;
+    display: flex;
+    color: var(--mockup-ink);
+    font-size: 18px;
+    font-weight: 600;
+}
+.section-description {
+    font-family: "Google Sans", sans-serif;
+    display: flex;
+    color: var(--mockup-muted);
+    font-size: 14px;
+    font-weight: 400;
+}
+.section-info {
+    font-family: "Google Sans", sans-serif;
+    display: flex;
+    color: var(--mockup-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+.fs-btn {
+    border-radius: 6px;
+    height: 38px;
+}
+
+.form-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+.form-label .label {
+    margin-left: 13px;
+    margin-bottom: 2px;
+    font-family: "Syne Mono", monospace;
+    font-size: 12px;
+    font-weight: 500px;
+}
+.form-label .input-label {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #cbd9dc;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+    color: var(--mockup-ink);
+    padding: 0 13px;
+    font-family: "Syne Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+select,
+.form-select {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #cbd9dc;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+    color: var(--mockup-ink);
+    padding: 0 7px;
+    font-family: "Syne Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+}

@@ -1,5 +1,5 @@
-<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260917-fokus-styles-companies-v15" />
-<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260917-fokus-styles-companies-v15" />
+<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260917-fokus-styles-companies-v16" />
+<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260917-fokus-styles-companies-v16" />
 
 <main class="admin-company-page fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4" aria-labelledby="companies-page-title">
     <header class="page-header">
@@ -47,25 +47,25 @@
     <div id="company-message" class="fs-alert" role="status" aria-live="polite" hidden></div>
 
     <section class="fs-card" aria-labelledby="company-filter-title">
-        <div class="fs-card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-center fs-u-gap-2">
+        <div class="fs-card-header card-heading fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-center fs-u-gap-2">
             <div>
-                <h2 class="fs-card-title" id="company-filter-title">Filtrar empresas</h2>
-                <p class="fs-card-subtitle">Encontre rapidamente um cadastro por nome, documento ou status.</p>
+                <h2 class="fs-card-title section-title" id="company-filter-title">Filtrar empresas</h2>
+                <p class="fs-card-subtitle section-description">Encontre rapidamente um cadastro por nome, documento ou status.</p>
             </div>
-            <span class="fs-u-fs-sm fs-u-color-secondary">Consulta administrativa</span>
+            <span class="fs-u-fs-sm fs-u-color-secondary section-info">Consulta administrativa</span>
         </div>
         <div class="fs-card-body">
             <form id="company-filter-form" class="fs-form-row fs-u-align-items-end fs-u-gap-3">
-                <label class="fs-form-col fs-form-label fs-col-5" for="company-query">
-                    <span>Buscar empresa</span>
+                <label class="fs-form-col fs-form-label form-label fs-col-5" for="company-query">
+                    <span class="label">Buscar empresa</span>
                     <span class="fs-input-group">
                         <span class="fs-input-group-text" aria-hidden="true"><img src="/backoffice/assets/icons/Seo-Search--Streamline-Ultimate.png" alt="" /></span>
-                        <input class="fs-form-control" id="company-query" name="q" type="search" placeholder="Nome, CPF ou CNPJ" autocomplete="off" />
+                        <input class="fs-form-control input-label" id="company-query" name="q" type="search" placeholder="Nome, CPF ou CNPJ" autocomplete="off" />
                     </span>
                 </label>
-                <label class="fs-form-col fs-form-label fs-col-4" for="company-status">
-                    <span>Status</span>
-                    <select class="fs-form-select" id="company-status" name="status">
+                <label class="fs-form-col fs-form-label form-label fs-col-4" for="company-status">
+                    <span class="label">Status</span>
+                    <select class="fs-form-select form-select" id="company-status" name="status">
                         <option value="">Todos os status</option>
                         <option value="ativa">Ativas</option>
                         <option value="suspensa">Suspensas</option>
@@ -82,12 +82,12 @@
     </section>
 
     <section class="fs-card" aria-labelledby="company-list-title">
-        <div class="fs-card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-center fs-u-gap-3">
+        <div class="fs-card-header card-heading fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-center fs-u-gap-3">
             <div>
-                <h2 class="fs-card-title" id="company-list-title">Empresas cadastradas</h2>
-                <p class="fs-card-subtitle">Consulte dados, responsáveis, assinaturas e ações disponíveis.</p>
+                <h2 class="fs-card-title section-title" id="company-list-title">Empresas cadastradas</h2>
+                <p class="fs-card-subtitle section-description">Consulte dados, responsáveis, assinaturas e ações disponíveis.</p>
             </div>
-            <span class="fs-u-fs-sm fs-u-color-secondary" id="company-table-summary">Carregando empresas...</span>
+            <span class="fs-u-fs-sm fs-u-color-secondary section-info" id="company-table-summary">Carregando empresas...</span>
         </div>
         <div class="fs-card-body fs-u-p-0">
             <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
