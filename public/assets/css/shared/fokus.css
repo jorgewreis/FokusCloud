@@ -1443,6 +1443,12 @@
     font-weight: 400;
     font-family: "Syne Mono", monospace;
   }
+  .fs-form-label:has(> span) {
+    margin-left: 0;
+  }
+  .fs-form-label > span:first-child {
+    margin-left: 10px;
+  }
   .fs-form-text {
     width: auto;
     margin: 0;
