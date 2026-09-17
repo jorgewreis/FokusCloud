@@ -44,6 +44,27 @@ oficial equivalente. Botões, inputs, selects, textareas, badges, cards,
 alerts, tabelas, paginação, modais, offcanvas, dropdowns, tabs e demais
 componentes existentes devem vir do Fokus Styles.
 
+PROIBIÇÃO DE ARQUIVOS E CLASSES DESNECESSÁRIOS
+
+Antes de criar qualquer arquivo CSS, classe, token, atributo ou override,
+busque o componente, classe e contrato oficial equivalente. Quando a classe já
+existir, use-a; não crie uma segunda classe para reproduzir o mesmo componente.
+Quando um arquivo de estilos já for o ponto de entrada, edite esse arquivo ou o
+CSS-fonte do Fokus Styles conforme a decisão arquitetural; não crie arquivo
+auxiliar apenas para evitar a alteração correta.
+
+Para uma mudança global, identifique o arquivo-fonte do componente no Fokus
+Styles, altere o componente existente nesse ponto, atualize testes,
+documentação, build e versão quando autorizado, e só depois sincronize a cópia
+compilada no Cloud. É proibido resolver necessidade global criando CSS novo,
+classe paralela, seletor de página ou override específico de rota. Se o
+repositório fokus-styles não estiver disponível ou autorizado, pare no plano e
+informe o bloqueio; não simule a mudança global localmente.
+
+Overrides locais só são permitidos para necessidade comprovadamente exclusiva,
+com seletor escopado, justificativa registrada e demonstração de que a mudança
+não pertence ao componente oficial.
+
 HIERARQUIA DE DECISÃO
 
 Classifique a necessidade nesta ordem:
@@ -72,8 +93,9 @@ MODO DE TRABALHO
    explicando a recomendação com base no contexto do projeto.
 5. Apresente o plano, os arquivos, contratos, riscos, testes e critérios de
    aceite.
-6. Só execute alterações depois de autorização explícita do usuário.
-7. Preserve alterações locais, contratos aprovados e segredos. Nunca leia ou
+6. Liste arquivos novos considerados e justifique por que cada um é inevitável.
+7. Só execute alterações depois de autorização explícita do usuário.
+8. Preserve alterações locais, contratos aprovados e segredos. Nunca leia ou
    exponha valores sensíveis de arquivos .env.
 
 VALIDAÇÃO OBRIGATÓRIA

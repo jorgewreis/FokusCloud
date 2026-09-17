@@ -19,12 +19,18 @@ FLUXO OBRIGATÓRIO
    complemento exclusivo.
 4. Para componente existente, preserve anatomia, classes, atributos e estados
    oficiais; altere somente conteúdo, dados e hooks de domínio.
-5. Se a mudança afetar todos os consumidores, planeje-a no repositório
-   fokus-styles. Não faça override local para esconder uma necessidade global.
-6. Se for exclusivo, crie o menor complemento possível, sem duplicar tokens ou
+5. Se a mudança afetar todos os consumidores, altere o componente existente no
+   CSS-fonte do Fokus Styles. Não crie arquivo CSS novo, classe paralela,
+   seletor de página ou override local para esconder uma necessidade global.
+6. Antes de criar qualquer arquivo ou classe, prove no plano que a API existente
+   não pode ser reutilizada ou ajustada. Se não houver autorização para alterar
+   o Fokus Styles, pare e informe o bloqueio em vez de criar um substituto.
+7. Se for exclusivo, crie o menor complemento possível, sem duplicar tokens ou
    componentes oficiais, e registre por que não deve ser compartilhado.
-7. Documente API, anatomia, estados, acessibilidade, responsividade e exemplos.
-8. Só implemente após autorização explícita.
+8. Para ajustes de estilo, use primeiro a classe oficial já existente. Não
+   introduza uma nova classe quando a classe oficial já identifica o componente.
+9. Documente API, anatomia, estados, acessibilidade, responsividade e exemplos.
+10. Só implemente após autorização explícita.
 
 SAÍDA
 

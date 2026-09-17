@@ -99,9 +99,12 @@ quando disponível, temas claro e escuro.
 
 IMPLEMENTAÇÃO
 
-Após autorização: use as APIs oficiais identificadas; escopo CSS local à página;
-não sobrescreva globalmente componentes para resolver caso local; não crie
-botões, inputs, selects, cards, badges, alerts ou overlays paralelos; documente
+Após autorização: use as APIs oficiais identificadas; não crie arquivo CSS,
+classe visual, token ou componente paralelo quando já existir contrato oficial;
+para mudança global, altere o CSS-fonte do Fokus Styles e sincronize depois;
+escopo CSS local à página somente para exceção comprovadamente exclusiva; não
+sobrescreva globalmente componentes para resolver caso local; não crie botões,
+inputs, selects, cards, badges, alerts ou overlays paralelos; documente
 novo componente compartilhado; preserve contratos, alterações locais, segredos
 e dados reais.
 

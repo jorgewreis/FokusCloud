@@ -12,7 +12,9 @@ REGRAS
   justificar a necessidade.
 - Substitua componentes improvisados por APIs fs-* e fs-u-* oficiais.
 - Mantenha hooks JavaScript semânticos e separados das classes visuais.
-- Só crie CSS local para comportamento exclusivo e documente a razão.
+- Só crie CSS local para comportamento comprovadamente exclusivo e documente a
+  razão. Não crie arquivo, classe ou override para substituir uma API existente;
+  mudanças globais devem ocorrer no CSS-fonte do Fokus Styles.
 - Caso a mudança seja comum a outras páginas, converta-a em composição
   compartilhada ou proponha alteração no Fokus Styles.
 

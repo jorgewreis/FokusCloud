@@ -9,6 +9,8 @@ Um elemento que possa aparecer em mais de uma página deve ser tratado como
 compartilhado. Sua base deve ser formada por componentes fs-* e utilitários
 fs-u-* oficiais. Não transforme uma sequência repetida de markup em CSS local
 duplicado.
+Não crie arquivo CSS, classe visual ou token novo se a composição puder ser
+formada ajustando e reutilizando os contratos existentes.
 
 FLUXO
 
@@ -19,7 +21,8 @@ FLUXO
 4. Use tokens --fs-*, classes e data attributes oficiais; crie apenas hooks
    semânticos ou de comportamento quando necessário.
 5. Se a composição precisar de estilo ou comportamento novo compartilhado,
-   planeje a extensão no repositório fokus-styles.
+   altere o componente ou composição correspondente no CSS-fonte do repositório
+   fokus-styles. Não crie arquivo auxiliar no Cloud para uma necessidade global.
 6. Se for exclusiva de uma página, registre a razão e mantenha o complemento
    estritamente local.
 7. Valide loading, vazio, erro, sucesso, foco, teclado, temas e responsividade.
