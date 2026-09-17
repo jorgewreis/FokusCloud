@@ -56,3 +56,21 @@ registrando impactos nos consumidores.
 Qualquer novo controle compartilhado deve ser proposto no repositório
 `fokus-styles`, documentado e validado antes de ser consumido pelo Cloud. Não
 edite `node_modules` como solução permanente.
+
+## Contrato JavaScript compartilhado
+
+O comportamento de formulários permanece centralizado em
+`public/backoffice/assets/js/form-system.js`, por meio das APIs
+`FokusForm.validate`, `FokusForm.mapServerErrors`, `FokusForm.setFeedback`,
+`FokusForm.setLoading` e `FokusForm.clear`. A migração visual para os
+componentes `fs-*` não deve criar uma segunda implementação de validação.
+
+## Checklist de contrato
+
+- [ ] Todo controle possui label associado ou nome acessível justificado.
+- [ ] Erros usam `aria-invalid`, mensagem associada e anúncio adequado.
+- [ ] Formulários usam os componentes `fs-form-label`, `fs-form-control` e
+      `fs-form-select` quando aplicável.
+- [ ] Loading desabilita o comando e preserva um texto acessível.
+- [ ] Foco visível, teclado, tema e responsividade foram validados.
+- [ ] Nenhum CSS local duplica um componente oficial do Fokus Styles.
