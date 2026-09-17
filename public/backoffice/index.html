@@ -550,6 +550,7 @@
             };
 
             async function loadSidebarPage(pageName) {
+                document.querySelectorAll("link[data-page-style]").forEach((stylesheet) => stylesheet.remove());
                 pageContent.innerHTML =
                     '<div class="text-body fs-u-color-secondary">Carregando...</div>';
 
