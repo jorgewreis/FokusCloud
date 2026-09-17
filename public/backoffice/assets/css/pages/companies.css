@@ -128,14 +128,6 @@
     flex: 0 0 auto !important;
 }
 
-.admin-company-page .fs-form-label > span:first-child {
-    display: block;
-    margin-bottom: 7px;
-    color: var(--fs-color-text, #1e293b);
-    font-size: .78rem;
-    font-weight: 700;
-}
-
 .admin-company-page .fs-input-group {
     display: flex;
     align-items: stretch;
