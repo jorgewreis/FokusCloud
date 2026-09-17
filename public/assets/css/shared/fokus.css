@@ -17523,3 +17523,17 @@
     font-weight: 600;
 }
 .form-select { padding: 0 7px; }
+body { font-family: "Google Sans", sans-serif; }
+.status-badge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 6px;
+    font-family: "Syne Mono", monospace;
+    font-size: 12px;
+    font-weight: 600;
+}

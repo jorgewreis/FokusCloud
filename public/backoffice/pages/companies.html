@@ -1,5 +1,5 @@
-<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260917-fokus-styles-companies-v18" />
-<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260917-fokus-styles-companies-v18" />
+<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260917-fokus-styles-companies-v19" />
+<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260917-fokus-styles-companies-v19" />
 
 <main class="admin-company-page fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4" aria-labelledby="companies-page-title">
     <header class="page-header">
@@ -171,7 +171,7 @@
     const validCnpj = (value) => { const cnpj = digits(value); if (cnpj.length !== 14 || repeatedDigits(cnpj)) return false; const digit = (length) => { let factor = length === 12 ? 5 : 6; const sum = cnpj.slice(0, length).split("").reduce((total, number) => { const result = total + Number(number) * factor; factor = factor === 2 ? 9 : factor - 1; return result; }, 0); const remainder = sum % 11; return remainder < 2 ? 0 : 11 - remainder; }; return digit(12) === Number(cnpj[12]) && digit(13) === Number(cnpj[13]); };
     const formatDocument = (value, type) => { const documentNumber = digits(value); if (type === "cpf" && documentNumber.length === 11) return documentNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"); if (type === "cnpj" && documentNumber.length === 14) return documentNumber.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5"); return value || "-"; };
     const moneyStatus = { pendente: "Pendente", ativa: "Ativa", suspensa: "Suspensa", encerrando: "Em encerramento", encerrada: "Encerrada" };
-    const statusBadge = (value) => { const tone = { ativa: "success", suspensa: "warning", pendente: "info", encerrando: "warning", encerrada: "secondary" }[value] || "secondary"; return `<span class="fs-badge fs-badge-soft-${tone}">${escapeHtml(moneyStatus[value] || value || "Sem status")}</span>`; };
+    const statusBadge = (value) => { const tone = { ativa: "success", suspensa: "warning", pendente: "info", encerrando: "warning", encerrada: "secondary" }[value] || "secondary"; return `<span class="fs-badge status-badge fs-badge-soft-${tone}">${escapeHtml(moneyStatus[value] || value || "Sem status")}</span>`; };
     const action = (name, id, label) => `<button class="fs-btn fs-btn-icon" type="button" data-company-action="${name}" data-company-id="${escapeHtml(id)}" aria-label="${label}" title="${label}"><img src="${B}${icons[name]}" alt="" /></button>`;
     const showMessage = (value, tone = "danger") => { message.textContent = value || ""; message.dataset.tone = tone; message.hidden = !value; };
     const setSummary = (summary = {}) => { document.querySelector("#company-summary-total").textContent = Number(summary.total || 0).toLocaleString("pt-BR"); document.querySelector("#company-summary-active").textContent = Number(summary.active || 0).toLocaleString("pt-BR"); document.querySelector("#company-summary-suspended").textContent = Number(summary.suspended || 0).toLocaleString("pt-BR"); document.querySelector("#company-summary-pending").textContent = Number(summary.pending || 0).toLocaleString("pt-BR"); };
