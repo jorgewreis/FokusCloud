@@ -36,20 +36,6 @@
     line-height: 1.55;
 }
 
-.admin-company-page #company-create {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 44px;
-    padding: 10px 16px;
-    border: 1px solid var(--fs-color-primary, #0f4c5c);
-    border-radius: 8px;
-    background: var(--fs-color-primary, #0f4c5c);
-    color: #fff;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
 .admin-company-page #company-create img {
     width: 18px;
     height: 18px;
@@ -179,7 +165,6 @@
 }
 
 .admin-company-page #company-filter-form .fs-btn {
-    min-height: 42px;
     white-space: nowrap;
 }
 
