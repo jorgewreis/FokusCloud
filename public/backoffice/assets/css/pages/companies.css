@@ -58,15 +58,15 @@
 }
 
 .admin-company-page > .fs-row {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 16px;
     margin: 0 0 24px;
 }
 
 .admin-company-page > .fs-row > .fs-card {
     width: auto !important;
-    flex: none !important;
+    flex: 1 1 calc(25% - 12px) !important;
     min-width: 0;
     min-height: 132px;
     border: 1px solid var(--fs-color-border, #dbe5ea);
@@ -120,8 +120,8 @@
 }
 
 .admin-company-page #company-filter-form {
-    display: grid;
-    grid-template-columns: minmax(260px, 1.5fr) minmax(200px, 1fr) auto;
+    display: flex;
+    flex-wrap: wrap;
     align-items: end;
     gap: 16px;
     padding: 20px 24px 24px;
@@ -135,7 +135,11 @@
 .admin-company-page #company-filter-form > .fs-form-col,
 .admin-company-page #company-filter-form > div:last-child {
     width: auto !important;
-    flex: none !important;
+    flex: 1 1 240px !important;
+}
+
+.admin-company-page #company-filter-form > div:last-child {
+    flex: 0 0 auto !important;
 }
 
 .admin-company-page .fs-form-label > span:first-child {
@@ -246,8 +250,7 @@
 }
 
 @media (max-width: 1100px) {
-    .admin-company-page > .fs-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .admin-company-page #company-filter-form { grid-template-columns: 1fr 1fr; }
+    .admin-company-page > .fs-row > .fs-card { flex-basis: calc(50% - 8px) !important; }
     .admin-company-page #company-filter-form > div:last-child { justify-content: flex-start; }
 }
 
@@ -255,8 +258,9 @@
     .admin-company-page { padding: 24px 16px 36px; }
     .admin-company-page > header { align-items: flex-start; }
     .admin-company-page > header #company-create { width: 100%; justify-content: center; }
-    .admin-company-page > .fs-row { grid-template-columns: 1fr; gap: 12px; }
-    .admin-company-page #company-filter-form { grid-template-columns: 1fr; padding: 16px; }
+    .admin-company-page > .fs-row { gap: 12px; }
+    .admin-company-page > .fs-row > .fs-card { flex-basis: 100% !important; }
+    .admin-company-page #company-filter-form { padding: 16px; }
     .admin-company-page > section.fs-card .fs-card-header { padding: 16px; }
     .admin-company-page > section.fs-card .fs-card-footer { align-items: flex-start; padding: 14px 16px; }
 }

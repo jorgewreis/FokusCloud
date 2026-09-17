@@ -80,6 +80,15 @@ improvisado, margens negativas ou larguras fixas sem justificativa. Teste
 320px, 375px, 768px, 1024px e desktop amplo, evitando cards estreitos, colunas
 esticadas, desalinhamento e espaços vazios acidentais.
 
+PREFERÊNCIA DE LAYOUT
+
+Prefira `display: flex`, flex-wrap, gap, flex-basis e alinhamento flexível para
+estruturar páginas, regiões, cards, formulários e ações. Evite `display: block`
+como mecanismo de layout e evite `display: grid`, salvo quando uma matriz
+bidimensional for realmente necessária e a decisão estiver justificada no
+plano. Não use posicionamento absoluto para compensar uma estrutura flexível
+mal definida.
+
 TIPOGRAFIA, CORES E TEMAS
 
 Use a escala tipográfica, famílias, pesos, line-height, tracking, superfícies,
@@ -113,4 +122,3 @@ Use docs/prompts/perguntas-fokus-styles.txt: inspecione antes de perguntar,
 faça uma pergunta por vez, ofereça exatamente cinco alternativas, marque uma
 única recomendação e explique-a pelo contexto. Não implemente decisão pendente
 sem autorização explícita.
-
