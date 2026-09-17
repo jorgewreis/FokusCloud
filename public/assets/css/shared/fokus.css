@@ -2425,14 +2425,16 @@
     align-items: center;
     justify-content: center;
     gap: var(--fs-space-1);
-    min-height: var(--fs-control-height);
-    min-block-size: var(--fs-control-height);
+    height: 38px;
+    min-height: 0;
+    min-block-size: 0;
     padding-block: 0;
-    padding-inline: var(--fs-control-padding-x);
+    padding-inline: 10px;
     border: var(--fs-border-width) solid var(--fs-btn-border-color);
-    border-radius: var(--fs-radius-sm);
+    border-radius: 4px;
     color: var(--fs-btn-color);
     background-color: var(--fs-btn-bg);
+    font-family: "Google Sans", sans-serif;
     font-size: 0.8125rem;
     font-weight: 500;
     text-decoration: none;
@@ -2587,15 +2589,17 @@
     --fs-btn-bg: var(--fs-color-info);
   }
   .fs-btn-sm {
-    min-height: var(--fs-control-height-sm);
-    min-block-size: var(--fs-control-height-sm);
-    padding: 0 var(--fs-control-padding-x-sm);
+    height: 38px;
+    min-height: 0;
+    min-block-size: 0;
+    padding: 0 10px;
     font-size: 0.75rem;
   }
   .fs-btn-lg {
-    min-height: var(--fs-control-height-lg);
-    min-block-size: var(--fs-control-height-lg);
-    padding: 0 var(--fs-control-padding-x-lg);
+    height: 38px;
+    min-height: 0;
+    min-block-size: 0;
+    padding: 0 10px;
     font-size: 1rem;
   }
   .fs-btn-close {
