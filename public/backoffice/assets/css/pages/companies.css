@@ -17,19 +17,6 @@
     max-width: 760px;
 }
 
-.admin-company-page > header .fs-u-text-uppercase {
-    color: var(--fs-color-primary, #0f4c5c);
-    font-size: .72rem;
-    letter-spacing: .1em;
-}
-
-.admin-company-page > header h1 {
-    color: var(--fs-color-text, #1e293b);
-    font-size: clamp(2rem, 3vw, 2.75rem);
-    line-height: 1;
-    letter-spacing: -.035em;
-}
-
 .admin-company-page > header p {
     max-width: 680px;
     color: var(--fs-color-muted, #64748b);
