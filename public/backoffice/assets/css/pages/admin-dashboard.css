@@ -249,27 +249,8 @@ html[data-role="admin"] .sidebar-institutional img {
     align-items: end;
     margin: 0 6px 18px;
 }
-.admin-kicker {
-    margin: 0 0 4px;
-    color: #ce613e;
-    font-weight: 800;
-    font-size: 11px;
-    letter-spacing: 1.25px;
-}
-.admin-dashboard-intro h1,
 .admin-feature-banner h2 {
     font-family: var(--font-display);
-}
-.admin-dashboard-intro h1 {
-    margin: 0;
-    color: #102952;
-    font-size: 48px;
-    line-height: 0.98;
-}
-.admin-dashboard-subtitle {
-    margin: 7px 0 0;
-    color: #6c7e9a;
-    font-size: 15px;
 }
 .admin-editorial-message {
     max-width: 218px;
@@ -1757,11 +1738,6 @@ html[data-role="admin"] .fs-sidebar .sidebar-institutional img {
     font-family: "Bebas Neue";
     src: url("/assets/fonts/google/bebas-neue-original.woff2") format("woff2");
     font-display: swap;
-}
-.admin-final-dashboard .admin-dashboard-intro h1 {
-    font-family: "Bebas Neue", sans-serif !important;
-    font-weight: 400;
-    letter-spacing: 0.035em;
 }
 html[data-role="admin"] .fs-sidebar {
     box-sizing: border-box;
