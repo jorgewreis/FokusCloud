@@ -17468,6 +17468,7 @@
     border-bottom: 1px solid var(--mockup-line, var(--fs-color-border, #cbd9dc));
 }
 .section-title {
+    margin: 0;
     display: flex;
     color: var(--mockup-ink, var(--fs-color-text, #102a43));
     font-family: "Google Sans", sans-serif;
@@ -17475,6 +17476,7 @@
     font-weight: 600;
 }
 .section-description {
+    margin: 0;
     display: flex;
     color: var(--mockup-muted, var(--fs-color-text-secondary, #64748b));
     font-family: "Google Sans", sans-serif;
@@ -17502,6 +17504,10 @@
     font-size: 12px;
     font-weight: 500;
 }
+.fs-card-header.card-heading { padding: 20px; }
+.fs-card-title.section-title { font-size: 18px; line-height: normal; }
+.fs-card-subtitle.section-description { line-height: normal; }
+.fs-form-label.form-label .label { font-size: 12px; }
 .form-label .input-label,
 .form-select {
     width: 100%;
