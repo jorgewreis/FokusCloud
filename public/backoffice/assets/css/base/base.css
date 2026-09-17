@@ -1,7 +1,5 @@
 /* LOAD SHARED DESIGN TOKENS */
-/* Load the compiled Fokus Styles contract directly. Keeping this import
- * explicit avoids losing the nested shared/main.css import in production. */
-@import url("../../../../assets/css/shared/fokus.css?v=20260917-fokus-styles-companies-v2");
+@import url("../../../../assets/css/shared/main.css?v=20260916-fokus-styles-2.7.0");
 
 /* NORMALIZE BROWSER DEFAULTS */
 @import url("reset.css?v=20260917-fokus-styles-companies-v1");
