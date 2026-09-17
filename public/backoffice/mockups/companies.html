@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Empresas — Mockup manual</title>
+    <link rel="stylesheet" href="../../assets/css/shared/fokus.css?v=mockup-companies" />
+    <link rel="stylesheet" href="../assets/css/main.css?v=mockup-companies" />
+    <link rel="stylesheet" href="../assets/css/mockups/companies.css?v=mockup-companies" />
+</head>
+<body>
+    <main class="companies-mockup">
+        <header class="page-header">
+            <div class="header-title">
+                <span class="title-heading">BACKOFFICE</span>
+                <span class="title-page">Empresas</span>
+                <span class="title-description">Administre cadastros, responsáveis, status e acesso comercial em um só lugar.</span>
+            </div>
+            <button class="fs-btn fs-btn-primary" id="open-create" type="button">Nova empresa</button>
+        </header>
+
+        <section class="summary-grid" aria-label="Resumo das empresas">
+            <article class="summary-card"><span>Total de empresas</span><strong>24</strong><small>Cadastros na plataforma</small></article>
+            <article class="summary-card"><span>Empresas ativas</span><strong>20</strong><small class="tone-success">Operando normalmente</small></article>
+            <article class="summary-card"><span>Empresas suspensas</span><strong>2</strong><small class="tone-warning">Requer atenção</small></article>
+            <article class="summary-card"><span>Empresas pendentes</span><strong>2</strong><small class="tone-info">Em análise</small></article>
+        </section>
+
+        <section class="mockup-card filter-card" aria-labelledby="filter-title">
+            <div class="card-heading">
+                <div><h2 id="filter-title">Filtrar empresas</h2><p>Encontre rapidamente um cadastro por nome, documento ou status.</p></div>
+                <span>Consulta administrativa</span>
+            </div>
+            <form id="filter-form" class="filter-grid">
+                <label class="field field-search"><span>Buscar empresa</span><input id="company-search" type="search" placeholder="Nome, CPF ou CNPJ" /></label>
+                <label class="field"><span>Status</span><select id="company-status"><option value="">Todos os status</option><option value="ativa">Ativas</option><option value="suspensa">Suspensas</option><option value="pendente">Pendentes</option></select></label>
+                <button class="fs-btn fs-btn-primary filter-submit" type="submit">Aplicar filtros</button>
+            </form>
+        </section>
+
+        <section class="mockup-card table-card" aria-labelledby="list-title">
+            <div class="card-heading">
+                <div><h2 id="list-title">Empresas cadastradas</h2><p>Consulte dados, responsáveis, assinaturas e ações disponíveis.</p></div>
+                <span id="result-count">Mostrando 1 a 4 de 24 empresas</span>
+            </div>
+            <div class="table-scroll">
+                <table class="companies-table">
+                    <thead><tr><th>Empresa</th><th>Documento</th><th>Status</th><th>Assinaturas ativas</th><th>Administrador</th><th>Ações</th></tr></thead>
+                    <tbody id="company-list">
+                        <tr data-status="ativa" data-search="fokus cloud 00267375581 jorge wanderley"><td><strong>Fokus Cloud</strong><small>Cadastro principal</small></td><td>00.267.375/0001-81</td><td><span class="status-badge status-active">Ativa</span></td><td>3</td><td><strong>Jorge Wanderley</strong><small>jorgew.reis@outlook.com</small></td><td><button class="table-action" type="button" data-action="view">Ver</button><button class="table-action" type="button" data-action="edit">Editar</button></td></tr>
+                        <tr data-status="ativa" data-search="erica menezes sociedade individual advocacia 55385688000167 erica reis"><td><strong>Érica Menezes Sociedade Individual de Advocacia</strong><small>Cadastro comercial</small></td><td>55.385.688/0001-67</td><td><span class="status-badge status-active">Ativa</span></td><td>2</td><td><strong>Érica Reis de Menezes</strong><small>ericarmenezes@outlook.com</small></td><td><button class="table-action" type="button" data-action="view">Ver</button><button class="table-action" type="button" data-action="edit">Editar</button></td></tr>
+                        <tr data-status="suspensa" data-search="atlas tecnologia 12345678000190 marina costa"><td><strong>Atlas Tecnologia Ltda.</strong><small>Cadastro comercial</small></td><td>12.345.678/0001-90</td><td><span class="status-badge status-paused">Suspensa</span></td><td>0</td><td><strong>Marina Costa</strong><small>marina@atlas.example</small></td><td><button class="table-action" type="button" data-action="view">Ver</button><button class="table-action" type="button" data-action="edit">Editar</button></td></tr>
+                        <tr data-status="pendente" data-search="nova ponte consultoria 98765432000110 lucas almeida"><td><strong>Nova Ponte Consultoria</strong><small>Aguardando análise</small></td><td>98.765.432/0001-10</td><td><span class="status-badge status-pending">Pendente</span></td><td>0</td><td><strong>Lucas Almeida</strong><small>lucas@novaponte.example</small></td><td><button class="table-action" type="button" data-action="view">Ver</button><button class="table-action" type="button" data-action="edit">Editar</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-footer"><span>Use os botões de ação para consultar ou editar um cadastro.</span><nav aria-label="Paginação"><button class="page-button is-current" type="button">1</button><button class="page-button" type="button">2</button><button class="page-button" type="button">3</button></nav></div>
+        </section>
+    </main>
+
+    <div class="mockup-overlay" id="overlay" hidden></div>
+    <aside class="create-drawer" id="create-drawer" aria-labelledby="drawer-title" hidden>
+        <div class="drawer-header"><div><span class="mockup-eyebrow">Novo cadastro</span><h2 id="drawer-title">Nova empresa</h2><p>Cadastre a empresa e o administrador responsável.</p></div><button class="drawer-close" id="close-create" type="button" aria-label="Fechar">×</button></div>
+        <form class="drawer-form" id="create-form">
+            <div class="form-section"><h3>Dados da empresa</h3><p>Identificação legal do cadastro.</p></div>
+            <label class="field"><span>Tipo de documento</span><select><option>CNPJ</option><option>CPF</option></select></label>
+            <label class="field"><span>CPF ou CNPJ</span><input placeholder="00.000.000/0000-00" /></label>
+            <label class="field"><span>Razão social</span><input placeholder="Nome jurídico da empresa" /></label>
+            <div class="form-section"><h3>Administrador responsável</h3><p>Dados de acesso e contato principal.</p></div>
+            <label class="field"><span>Nome completo</span><input placeholder="Nome do administrador" /></label>
+            <label class="field"><span>E-mail profissional</span><input type="email" placeholder="nome@empresa.com" /></label>
+            <label class="field"><span>Senha inicial</span><input type="password" placeholder="Mínimo de 12 caracteres" /></label>
+            <label class="check-field"><input type="checkbox" /> <span>Li e aceito os Termos de Uso.</span></label>
+            <label class="check-field"><input type="checkbox" /> <span>Li e aceito a Política de Privacidade.</span></label>
+            <div class="drawer-actions"><button class="fs-btn fs-btn-outline-primary" id="cancel-create" type="button">Cancelar</button><button class="fs-btn fs-btn-primary" type="submit">Criar empresa</button></div>
+        </form>
+    </aside>
+
+    <script>
+        const drawer = document.querySelector('#create-drawer');
+        const overlay = document.querySelector('#overlay');
+        const setDrawer = (open) => { drawer.hidden = !open; overlay.hidden = !open; document.body.classList.toggle('drawer-open', open); };
+        document.querySelector('#open-create').addEventListener('click', () => setDrawer(true));
+        document.querySelector('#close-create').addEventListener('click', () => setDrawer(false));
+        document.querySelector('#cancel-create').addEventListener('click', () => setDrawer(false));
+        overlay.addEventListener('click', () => setDrawer(false));
+        document.querySelector('#create-form').addEventListener('submit', (event) => { event.preventDefault(); setDrawer(false); });
+        document.querySelector('#filter-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const query = document.querySelector('#company-search').value.trim().toLowerCase();
+            const status = document.querySelector('#company-status').value;
+            let visible = 0;
+            document.querySelectorAll('#company-list tr').forEach((row) => { const matches = (!query || row.dataset.search.includes(query)) && (!status || row.dataset.status === status); row.hidden = !matches; if (matches) visible += 1; });
+            document.querySelector('#result-count').textContent = `Mostrando ${visible} empresas no mockup`;
+        });
+    </script>
+</body>
+</html>

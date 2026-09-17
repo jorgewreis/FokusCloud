@@ -27,6 +27,18 @@ class BackofficeSecurityTest extends TestCase
         $this->getJson('/api/backoffice/dashboard')->assertUnauthorized();
     }
 
+    public function test_unauthenticated_browser_never_receives_backoffice_shell(): void
+    {
+        $this->get('/backoffice/')->assertRedirect('/?acesso=administrativo');
+    }
+
+    public function test_authenticated_platform_admin_can_receive_backoffice_shell(): void
+    {
+        $this->actingAs($this->admin(), 'platform')
+            ->get('/backoffice/')
+            ->assertOk();
+    }
+
     public function test_backoffice_login_requires_email_mfa_after_password(): void
     {
         $admin = $this->admin();

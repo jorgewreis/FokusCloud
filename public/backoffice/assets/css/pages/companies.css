@@ -7,19 +7,43 @@
     color: var(--fs-color-text, #1e293b);
 }
 
-.admin-company-page > header {
-    align-items: center;
-    margin-bottom: 28px;
+.admin-company-page > .page-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 0 20px 30px;
 }
 
-.admin-company-page > header > div:first-child {
-    gap: 8px;
-    max-width: 760px;
+.admin-company-page > .page-header .header-title {
+    display: flex;
+    flex-direction: column;
 }
 
-.admin-company-page > header p {
-    max-width: 680px;
-    line-height: 1.55;
+.admin-company-page > .page-header .title-heading {
+    margin-left: 2px;
+    color: #ff6000;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.admin-company-page > .page-header .title-page {
+    margin: -16px 0;
+    color: var(--fs-color-text, #1e293b);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.admin-company-page > .page-header .title-description {
+    margin-left: 2px;
+    color: var(--fs-color-text, #1e293b);
+    font-family: "Google Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: .5;
 }
 
 .admin-company-page #company-create img {
@@ -219,8 +243,8 @@
 
 @media (max-width: 680px) {
     .admin-company-page { padding: 24px 16px 36px; }
-    .admin-company-page > header { align-items: flex-start; }
-    .admin-company-page > header #company-create { width: 100%; justify-content: center; }
+    .admin-company-page > .page-header { align-items: flex-start; flex-direction: column; }
+    .admin-company-page > .page-header #company-create { width: 100%; justify-content: center; }
     .admin-company-page > .fs-row { gap: 12px; }
     .admin-company-page > .fs-row > .fs-card { flex-basis: 100% !important; }
     .admin-company-page #company-filter-form { padding: 16px; }

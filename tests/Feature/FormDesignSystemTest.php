@@ -144,10 +144,10 @@ class FormDesignSystemTest extends TestCase
         $this->assertFileDoesNotExist(base_path('public/backoffice/assets/css/pages/admin-products.css'));
     }
 
-    public function test_payments_deep_links_return_the_backoffice_shell(): void
+    public function test_payments_deep_links_require_backoffice_session(): void
     {
-        $this->get('/backoffice/pagamentos')->assertOk();
-        $this->get('/backoffice/billing')->assertOk();
+        $this->get('/backoffice/pagamentos')->assertRedirect('/?acesso=administrativo');
+        $this->get('/backoffice/billing')->assertRedirect('/?acesso=administrativo');
     }
 
     public function test_public_products_index_lists_the_portfolio(): void
