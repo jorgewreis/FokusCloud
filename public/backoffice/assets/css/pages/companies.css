@@ -1,4 +1,14 @@
 /* Empresas: composição específica da página sobre os componentes Fokus Styles. */
+.admin-company-page .fs-btn:not(.fs-btn-icon) {
+    box-sizing: border-box;
+    height: 38px;
+    min-height: 0;
+    min-block-size: 0;
+    padding: 0 10px;
+    border-radius: 4px;
+    font-family: "Google Sans", sans-serif;
+}
+
 .admin-company-page {
     box-sizing: border-box;
     width: min(100%, 1480px);
