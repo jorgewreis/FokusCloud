@@ -1,0 +1,254 @@
+/* Empresas: composição específica da página sobre os componentes Fokus Styles. */
+.admin-company-page {
+    box-sizing: border-box;
+    width: min(100%, 1480px);
+    margin: 0 auto;
+    padding: 32px 36px 48px;
+    color: var(--fs-color-text, #1e293b);
+}
+
+.admin-company-page > header {
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.admin-company-page > header > div:first-child {
+    gap: 8px;
+    max-width: 760px;
+}
+
+.admin-company-page > header .fs-u-text-uppercase {
+    color: var(--fs-color-primary, #0f4c5c);
+    font-size: .72rem;
+    letter-spacing: .1em;
+}
+
+.admin-company-page > header h1 {
+    color: var(--fs-color-text, #1e293b);
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    line-height: 1;
+    letter-spacing: -.035em;
+}
+
+.admin-company-page > header p {
+    max-width: 680px;
+    color: var(--fs-color-muted, #64748b);
+    line-height: 1.55;
+}
+
+.admin-company-page #company-create {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--fs-color-primary, #0f4c5c);
+    border-radius: 8px;
+    background: var(--fs-color-primary, #0f4c5c);
+    color: #fff;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.admin-company-page #company-create img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.admin-company-page > .fs-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0 0 24px;
+}
+
+.admin-company-page > .fs-row > .fs-card {
+    min-width: 0;
+    min-height: 132px;
+    border: 1px solid var(--fs-color-border, #dbe5ea);
+    border-radius: 12px;
+    background: var(--fs-color-surface, #fff);
+    box-shadow: 0 4px 16px rgba(15, 76, 92, .06);
+}
+
+.admin-company-page > .fs-row .fs-card-body {
+    justify-content: space-between;
+    min-height: 132px;
+    padding: 20px;
+}
+
+.admin-company-page > .fs-row strong {
+    color: var(--fs-color-text, #1e293b);
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.admin-company-page > .fs-row .fs-badge {
+    width: fit-content;
+    margin-top: 4px;
+}
+
+.admin-company-page > section.fs-card {
+    margin-bottom: 24px;
+    overflow: hidden;
+    border: 1px solid var(--fs-color-border, #dbe5ea);
+    border-radius: 12px;
+    background: var(--fs-color-surface, #fff);
+    box-shadow: 0 4px 16px rgba(15, 76, 92, .05);
+}
+
+.admin-company-page > section.fs-card .fs-card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--fs-color-border, #dbe5ea);
+}
+
+.admin-company-page > section.fs-card .fs-card-title {
+    margin: 0 0 5px;
+    color: var(--fs-color-text, #1e293b);
+    font-size: 1.25rem;
+    line-height: 1.2;
+}
+
+.admin-company-page > section.fs-card .fs-card-subtitle {
+    margin: 0;
+    color: var(--fs-color-muted, #64748b);
+    line-height: 1.45;
+}
+
+.admin-company-page #company-filter-form {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.5fr) minmax(200px, 1fr) auto;
+    align-items: end;
+    gap: 16px;
+    padding: 20px 24px 24px;
+}
+
+.admin-company-page #company-filter-form > * {
+    width: auto;
+    min-width: 0;
+}
+
+.admin-company-page .fs-form-label > span:first-child {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--fs-color-text, #1e293b);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.admin-company-page .fs-input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.admin-company-page .fs-input-group-text {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 12px;
+    border: 1px solid var(--fs-color-border, #dbe5ea);
+    border-right: 0;
+    border-radius: 7px 0 0 7px;
+    background: var(--fs-color-subtle, #f8fafc);
+}
+
+.admin-company-page .fs-input-group-text img {
+    width: 17px;
+    height: 17px;
+}
+
+.admin-company-page .fs-input-group .fs-form-control {
+    border-radius: 0 7px 7px 0;
+}
+
+.admin-company-page #company-filter-form > div:last-child {
+    justify-content: flex-end;
+}
+
+.admin-company-page #company-filter-form .fs-btn {
+    min-height: 42px;
+    white-space: nowrap;
+}
+
+.admin-company-page .fs-table-responsive {
+    overflow-x: auto;
+}
+
+.admin-company-page .fs-table {
+    width: 100%;
+    min-width: 880px;
+}
+
+.admin-company-page .fs-table th,
+.admin-company-page .fs-table td {
+    padding: 14px 18px;
+    vertical-align: middle;
+}
+
+.admin-company-page .fs-table th {
+    color: var(--fs-color-muted, #64748b);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-company-page .fs-table td {
+    color: var(--fs-color-text, #1e293b);
+    font-size: .86rem;
+}
+
+.admin-company-page .fs-table td:first-child {
+    min-width: 250px;
+}
+
+.admin-company-page .fs-table td:nth-child(5) {
+    min-width: 220px;
+}
+
+.admin-company-page .fs-table td small {
+    display: block;
+    margin-top: 3px;
+    color: var(--fs-color-muted, #64748b);
+}
+
+.admin-company-page .fs-table td:last-child .fs-u-d-flex {
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-company-page .fs-table td:last-child .fs-btn-icon {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+    border-radius: 50%;
+}
+
+.admin-company-page .fs-table td:last-child .fs-btn-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.admin-company-page > section.fs-card .fs-card-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--fs-color-border, #dbe5ea);
+}
+
+@media (max-width: 1100px) {
+    .admin-company-page > .fs-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .admin-company-page #company-filter-form { grid-template-columns: 1fr 1fr; }
+    .admin-company-page #company-filter-form > div:last-child { justify-content: flex-start; }
+}
+
+@media (max-width: 680px) {
+    .admin-company-page { padding: 24px 16px 36px; }
+    .admin-company-page > header { align-items: flex-start; }
+    .admin-company-page > header #company-create { width: 100%; justify-content: center; }
+    .admin-company-page > .fs-row { grid-template-columns: 1fr; gap: 12px; }
+    .admin-company-page #company-filter-form { grid-template-columns: 1fr; padding: 16px; }
+    .admin-company-page > section.fs-card .fs-card-header { padding: 16px; }
+    .admin-company-page > section.fs-card .fs-card-footer { align-items: flex-start; padding: 14px 16px; }
+}
