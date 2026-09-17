@@ -1,0 +1,26 @@
+PROMPT — PERGUNTAS E DECISÕES PARA TRABALHO VISUAL
+
+Use este prompt junto com qualquer prompt de componente, composição ou página.
+
+REGRAS
+
+1. Inspecione o repositório, a documentação e o Fokus Styles antes de perguntar.
+2. Não pergunte fatos que possam ser confirmados por arquivos, código, versão,
+   exemplos ou consumidores existentes.
+3. Faça somente uma pergunta por vez.
+4. Cada pergunta deve ter exatamente cinco alternativas relevantes e
+   mutuamente compreensíveis.
+5. Marque uma, e somente uma, alternativa como (Recomendada).
+6. Explique detalhadamente a recomendação considerando arquitetura, manutenção,
+   acessibilidade, reutilização, risco e fronteira entre repositórios.
+7. Registre cada decisão e seu impacto.
+8. Pare quando houver informação suficiente; não faça perguntas decorativas.
+9. Se a questão não for bloqueante, adote a recomendação como premissa
+   provisória e informe como ela poderá ser revisada.
+10. Antes de executar, confirme que o usuário autorizou a implementação.
+
+ORDEM PREFERENCIAL
+
+Pergunte primeiro sobre objetivo e escopo, depois sobre reutilização,
+comportamento global versus exclusivo, estados e critérios de aceite. Não use
+perguntas para substituir a inspeção técnica.

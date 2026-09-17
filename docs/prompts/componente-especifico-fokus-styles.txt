@@ -1,0 +1,33 @@
+PROMPT — COMPONENTE ESPECÍFICO COM FOKUS STYLES
+
+Use este prompt para criar, adaptar ou corrigir um componente visual isolado.
+Antes de agir, leia docs/prompts/governanca-visual-fokus-styles.txt e cumpra
+todas as regras nele definidas.
+
+ENTRADA
+
+Receba a descrição do componente, sua finalidade, consumidores conhecidos,
+estados, conteúdo, regras funcionais e restrições. Não exija do usuário dados
+que possam ser descobertos no repositório.
+
+FLUXO OBRIGATÓRIO
+
+1. Localize componentes, tokens, utilitários, atributos data-fs-* e APIs
+   JavaScript equivalentes no Fokus Styles instalado.
+2. Consulte os consumidores e exemplos existentes.
+3. Classifique a solução como reutilização, extensão global, composição ou
+   complemento exclusivo.
+4. Para componente existente, preserve anatomia, classes, atributos e estados
+   oficiais; altere somente conteúdo, dados e hooks de domínio.
+5. Se a mudança afetar todos os consumidores, planeje-a no repositório
+   fokus-styles. Não faça override local para esconder uma necessidade global.
+6. Se for exclusivo, crie o menor complemento possível, sem duplicar tokens ou
+   componentes oficiais, e registre por que não deve ser compartilhado.
+7. Documente API, anatomia, estados, acessibilidade, responsividade e exemplos.
+8. Só implemente após autorização explícita.
+
+SAÍDA
+
+Entregue auditoria, decisão arquitetural, plano, implementação autorizada,
+testes e evidências de navegador. Informe claramente se o componente pertence
+ao Cloud, ao Fokus Styles ou apenas a uma página.

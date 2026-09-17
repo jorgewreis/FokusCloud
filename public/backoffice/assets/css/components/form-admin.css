@@ -358,7 +358,6 @@ textarea,
     margin-top: 24px;
 }
 
-.fs-btn,
 .submit {
     /* LAYOUT */
     display: inline-flex;
@@ -386,22 +385,18 @@ textarea,
         box-shadow 200ms ease;
 }
 
-.fs-btn:hover,
 .submit:hover {
     background-color: var(--role-color-600);
 }
 
-.fs-btn:focus,
 .submit:focus {
     outline: none;
 }
 
-.fs-btn:focus-visible,
 .submit:focus-visible {
     box-shadow: 0 0 0 2px var(--role-color-200);
 }
 
-.fs-btn:disabled,
 .submit:disabled {
     cursor: not-allowed;
     opacity: 0.4;
@@ -418,13 +413,6 @@ textarea,
     background-color: var(--role-color-050);
     color: var(--role-color-700);
 }
-
-.fs-btn-danger {
-    background-color: var(--role-color-500);
-    color: var(--role-contrast);
-}
-
-.fs-btn-danger:hover { background-color: var(--role-color-600); }
 
 .button-ghost {
     background-color: transparent;

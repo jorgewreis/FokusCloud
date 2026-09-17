@@ -4,6 +4,10 @@ O Backoffice usa o Fokus Styles `2.7.0` como fonte de componentes visuais. O
 HTML de cada página deve reutilizar a anatomia abaixo e alterar apenas conteúdo,
 dados, permissões e regras de negócio.
 
+As regras gerais de decisão, fronteira entre repositórios e validação estão em
+[Governança visual com Fokus Styles](fokus-styles-ui-governance.md). Os prompts
+reutilizáveis ficam em [`docs/prompts`](../prompts/).
+
 ## Regra de composição
 
 - Componentes reutilizáveis usam classes `fs-*` e utilitários `fs-u-*`.
@@ -80,4 +84,5 @@ travar foco, fechar com Escape e devolver foco ao acionador.
 2. Escolher somente classes oficiais e utilitários existentes.
 3. Adicionar os hooks de dados necessários sem criar classes visuais.
 4. Validar desktop, mobile, teclado e estados de erro.
-5. Criar CSS local apenas se o caso for exclusivo do shell e registrar a razão.
+5. Criar CSS local apenas se o caso for exclusivo do shell e registrar a razão;
+   necessidades globais devem ser encaminhadas ao repositório `fokus-styles`.

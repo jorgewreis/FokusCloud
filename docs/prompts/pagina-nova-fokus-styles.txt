@@ -1,0 +1,28 @@
+PROMPT — PÁGINA NOVA SEM MODELO EXISTENTE
+
+Use este prompt quando não houver página-modelo adequada. Leia primeiro
+docs/prompts/governanca-visual-fokus-styles.txt.
+
+Utilize o docs/prompt/perguntas-fokus-style.txt para me fazer perguntas sobre a criação da página. 
+
+FLUXO OBRIGATÓRIO
+
+1. Confirme que modelos, componentes e composições existentes foram realmente
+   pesquisados.
+2. Levante objetivo, público, conteúdo, ações, dados, permissões, estados e
+   critérios de sucesso.
+3. Defina a arquitetura visual usando primeiro tokens, layout, componentes e
+   utilitários oficiais do Fokus Styles.
+4. Reutilize padrões de shell e navegação do produto, mesmo sem reutilizar uma
+   página completa.
+5. Trate qualquer padrão com potencial de repetição como elemento
+   compartilhado, não como CSS exclusivo da nova página.
+6. Encaminhe necessidades globais ao repositório fokus-styles e não edite
+   node_modules.
+7. Só implemente após plano e autorização explícita.
+
+VALIDAÇÃO
+
+Valide semântica, acessibilidade, temas, estados, teclado, responsividade,
+overflow, reduced motion e aparência renderizada em navegador. A conclusão
+deve distinguir evidência estática de evidência visual.

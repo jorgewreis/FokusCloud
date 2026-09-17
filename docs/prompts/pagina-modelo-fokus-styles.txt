@@ -1,0 +1,28 @@
+PROMPT — PÁGINA BASEADA EM MODELO EXISTENTE
+
+Use este prompt para criar ou ajustar uma página que já possui modelo visual
+ou funcional aprovado. Leia primeiro docs/prompts/governanca-visual-fokus-styles.txt.
+
+REGRAS
+
+- Localize o modelo mais próximo no repositório e no Fokus Styles.
+- Reutilize shell, container, navegação, cabeçalho, grid, cards, formulários,
+  tabelas, mensagens e overlays do modelo.
+- Altere conteúdo, dados, permissões e regras de negócio; não redesenhe sem
+  justificar a necessidade.
+- Substitua componentes improvisados por APIs fs-* e fs-u-* oficiais.
+- Mantenha hooks JavaScript semânticos e separados das classes visuais.
+- Só crie CSS local para comportamento exclusivo e documente a razão.
+- Caso a mudança seja comum a outras páginas, converta-a em composição
+  compartilhada ou proponha alteração no Fokus Styles.
+
+FLUXO
+
+Audite modelo e consumidores, apresente diferenças, faça perguntas
+necessárias, produza plano, aguarde autorização, implemente e valide estados,
+acessibilidade, temas, desktop, tablet, mobile e navegador.
+
+ENTREGA
+
+Informe o modelo reutilizado, diferenças intencionais, APIs do Fokus Styles,
+arquivos alterados, testes, evidências e pendências.

@@ -14,19 +14,15 @@
 .density-comfortable { --component-padding: var(--space-4); --component-gap: var(--space-3); }
 
 /* BUTTONS */
-.fs-btn-sm, .submit.fs-btn-sm { min-height: 30px; padding-inline: 12px; font-size: 11px; }
-.fs-btn-lg, .submit.fs-btn-lg { min-height: 44px; padding-inline: 20px; font-size: 14px; }
+.submit.fs-btn-sm { min-height: 30px; padding-inline: 12px; font-size: 11px; }
+.submit.fs-btn-lg { min-height: 44px; padding-inline: 20px; font-size: 14px; }
 .button-block { width: 100%; }
-.fs-btn-success { background: var(--color-green-600); color: #fff; }
-.fs-btn-success:hover { background: var(--color-green-700); }
 .button-warning { background: var(--color-yellow-500); color: var(--color-yellow-950); }
-.fs-btn-outline-primary { border-color: var(--role-color-500); background: transparent; color: var(--role-color-600); }
-.fs-btn-outline-primary:hover { background: var(--role-color-050); }
 .button-link { min-height: auto; padding: 0; border: 0; background: transparent; color: var(--role-color-600); text-decoration: none; }
-.fs-btn.is-active, .icon-button.is-active, .icon-button[aria-pressed="true"] { border-color: var(--role-color-300); background: var(--role-color-050); color: var(--role-color-700); }
-.fs-btn:active, .submit:active, .icon-button:active { transform: translateY(1px); }
-.fs-btn, .submit { border-radius: var(--radius-control); }
-.fs-btn:focus-visible, .submit:focus-visible, .icon-button:focus-visible, .tab:focus-visible, .fs-page-item:focus-visible, .fs-dropdown-item:focus-visible { outline: 2px solid var(--role-color-400); outline-offset: 2px; }
+.icon-button.is-active, .icon-button[aria-pressed="true"] { border-color: var(--role-color-300); background: var(--role-color-050); color: var(--role-color-700); }
+.submit:active, .icon-button:active { transform: translateY(1px); }
+.submit { border-radius: var(--radius-control); }
+.submit:focus-visible, .icon-button:focus-visible, .tab:focus-visible, .fs-page-item:focus-visible, .fs-dropdown-item:focus-visible { outline: 2px solid var(--role-color-400); outline-offset: 2px; }
 
 /* ICON BUTTONS */
 .icon-button-sm { width: 24px; height: 24px; padding: 3px; }
@@ -426,8 +422,8 @@ html[data-theme="dark"] .fs-modal { background: rgb(0 0 0 / .68); }
     opacity: .4;
 }
 
-.container-content :is(.fs-btn, .submit, button:not(.sidebar-button):not(.icon-button):not(.fs-page-item):not(.tab):not(.fs-dropdown-item):not(.dropdown-trigger)),
-.auth-panel :is(.fs-btn, .submit, button:not(.icon-button)) {
+.container-content :is(.submit, button:not([class*="fs-"]):not(.sidebar-button):not(.icon-button):not(.fs-page-item):not(.tab):not(.dropdown-trigger)),
+.auth-panel :is(.submit, button:not([class*="fs-"]):not(.icon-button)) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -447,8 +443,8 @@ html[data-theme="dark"] .fs-modal { background: rgb(0 0 0 / .68); }
     transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
 }
 
-.container-content :is(.fs-btn, .submit, button:not(.sidebar-button):not(.icon-button):not(.fs-page-item):not(.tab):not(.fs-dropdown-item):not(.dropdown-trigger)):hover,
-.auth-panel :is(.fs-btn, .submit, button:not(.icon-button)):hover {
+.container-content :is(.submit, button:not([class*="fs-"]):not(.sidebar-button):not(.icon-button):not(.fs-page-item):not(.tab):not(.dropdown-trigger)):hover,
+.auth-panel :is(.submit, button:not([class*="fs-"]):not(.icon-button)):hover {
     border-color: var(--role-color-600);
     background-color: var(--role-color-600);
     color: var(--role-contrast);
@@ -480,8 +476,8 @@ html[data-theme="dark"] .fs-modal { background: rgb(0 0 0 / .68); }
     color: var(--theme-text);
 }
 
-.container-content :is(.fs-btn, .submit, button:not(.sidebar-button):not(.icon-button)):disabled,
-.auth-panel :is(.fs-btn, .submit, button):disabled {
+.container-content :is(.submit, button:not([class*="fs-"]):not(.sidebar-button):not(.icon-button)):disabled,
+.auth-panel :is(.submit, button:not([class*="fs-"]):not(.icon-button)):disabled {
     cursor: not-allowed;
     opacity: .4;
     transform: none;

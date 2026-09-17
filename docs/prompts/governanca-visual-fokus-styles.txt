@@ -1,0 +1,102 @@
+PROMPT-BASE — GOVERNANÇA VISUAL DO FOKUS CLOUD COM FOKUS STYLES
+
+OBJETIVO
+
+Você está trabalhando no repositório Fokus Cloud. Toda criação ou alteração
+visual deve preservar a unidade visual, semântica, responsividade e
+acessibilidade do sistema. O Fokus Styles instalado no projeto é a primeira
+fonte técnica de verdade para tokens, componentes, utilitários, atributos e
+comportamentos visuais.
+
+FONTES OBRIGATÓRIAS
+
+Antes de propor ou implementar qualquer alteração, inspecione:
+
+- a documentação relevante em docs/;
+- docs/03-architecture/fokus-styles-ui-governance.md;
+- docs/03-architecture/backoffice-ui-patterns.md;
+- docs/03-architecture/form-design-system.md;
+- package.json e o lockfile;
+- node_modules/fokus-styles/package.json;
+- node_modules/fokus-styles/README.md;
+- a documentação, SCSS, CSS, JavaScript, tipos e exemplos disponíveis em
+  node_modules/fokus-styles;
+- exemplos, páginas-modelo e consumidores existentes no repositório.
+
+Confirme a versão realmente instalada. Não trate somente package.json ou o
+lockfile como prova da versão carregada. Se a documentação detalhada não
+estiver empacotada, use README, dist, SCSS, JavaScript, tipos e exemplos
+disponíveis, registrando essa limitação.
+
+CONTRATOS VISUAIS
+
+Procure e reutilize, conforme aplicável:
+
+- componentes com classes fs-*;
+- utilitários com classes fs-u-*;
+- atributos data-fs-* e APIs JavaScript oficiais;
+- tokens CSS --fs-*;
+- estados is-*, atributos ARIA e semântica HTML;
+- padrões de layout, tema, densidade, tipografia, foco e responsividade.
+
+Não invente classes, atributos, tokens ou comportamentos quando houver API
+oficial equivalente. Botões, inputs, selects, textareas, badges, cards,
+alerts, tabelas, paginação, modais, offcanvas, dropdowns, tabs e demais
+componentes existentes devem vir do Fokus Styles.
+
+HIERARQUIA DE DECISÃO
+
+Classifique a necessidade nesta ordem:
+
+1. componente oficial já existente: reutilize sua anatomia e API;
+2. composição de componentes oficiais: crie uma composição compartilhada se
+   ela puder ser usada em mais de uma página;
+3. extensão global do Fokus Styles: planeje a mudança no repositório separado
+   fokus-styles, com testes, documentação, versão e sincronização posterior;
+4. complemento exclusivo do Fokus Cloud: só crie código local quando a
+   necessidade for realmente única do shell, domínio ou página.
+
+Nunca edite node_modules/fokus-styles como solução permanente. Não copie o
+CSS de um componente oficial para uma classe local. Uma exceção local exige
+justificativa registrada, escopo explícito e demonstração de que não é uma
+necessidade compartilhada.
+
+MODO DE TRABALHO
+
+1. Audite o repositório, os estilos instalados e os consumidores relacionados.
+2. Separe fatos em CONFIRMADO POR INSPEÇÃO, VALIDADO ESTATICAMENTE,
+   VALIDADO EM NAVEGADOR, PROPOSTO, PENDENTE e BLOQUEADO.
+3. Faça somente perguntas que não possam ser respondidas pela inspeção.
+4. Faça uma pergunta por vez, com exatamente cinco alternativas mutuamente
+   compreensíveis, identificando uma única alternativa como (Recomendada) e
+   explicando a recomendação com base no contexto do projeto.
+5. Apresente o plano, os arquivos, contratos, riscos, testes e critérios de
+   aceite.
+6. Só execute alterações depois de autorização explícita do usuário.
+7. Preserve alterações locais, contratos aprovados e segredos. Nunca leia ou
+   exponha valores sensíveis de arquivos .env.
+
+VALIDAÇÃO OBRIGATÓRIA
+
+Quando houver alteração de interface, valide:
+
+- build e checks estáticos aplicáveis;
+- HTML semântico, labels, nomes acessíveis, ARIA e foco visível;
+- teclado, Escape e devolução de foco em overlays;
+- estados normal, hover, focus-visible, disabled, loading, erro, vazio,
+  sucesso e demais estados relevantes;
+- tema claro e escuro quando suportado;
+- desktop, tablet e mobile;
+- prefers-reduced-motion e ausência de overflow ou sobreposição;
+- comportamento funcional no navegador.
+
+Não declare conclusão visual com base apenas em grep, HTML ou build. Registre
+o que foi validado estaticamente e o que foi validado em navegador.
+
+ENTREGA
+
+Ao concluir, informe os arquivos alterados, a decisão entre reutilizar,
+compor, alterar o Fokus Styles ou criar complemento local, os comandos
+executados, os resultados, as limitações e qualquer trabalho pendente. Se a
+alteração global exigir o repositório fokus-styles, entregue primeiro o plano
+de mudança desse repositório e não simule a alteração dentro do Cloud.

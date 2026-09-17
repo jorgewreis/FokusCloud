@@ -40,6 +40,7 @@ Sobre essa base, produtos derivados podem evoluir por modulos independentes:
 - [Padrao de documentacao](02-governance/documentation-standards.md)
 - [Diretrizes de perguntas e decisoes](02-governance/question-guidelines.md)
 - [Arquitetura do sistema](03-architecture/system-architecture.md)
+- [Governanca visual com Fokus Styles](03-architecture/fokus-styles-ui-governance.md)
 - [Fluxo de identidade e acesso](03-architecture/identity-and-access-flow.md)
 - [Catalogo de modulos](04-products/module-catalog.md)
 - [Requisitos do modulo identidade e acesso](05-requirements/identity-and-access.md)

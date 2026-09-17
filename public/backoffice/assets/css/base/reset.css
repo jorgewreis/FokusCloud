@@ -39,7 +39,7 @@ input, button, textarea, select {
 }
 
 /* Remove built-in form typography styles in Safari */
-button { background: none; border: none; }
+button:not([class*="fs-"]) { background: none; border: none; }
 
 /* Remove list styles */
 ol, ul { list-style: none; }

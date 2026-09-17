@@ -1,0 +1,31 @@
+PROMPT — ELEMENTO COMPOSTO E COMPARTILHADO COM FOKUS STYLES
+
+Use este prompt para criar ou ajustar uma composição formada por componentes
+existentes. Leia primeiro docs/prompts/governanca-visual-fokus-styles.txt.
+
+REGRA CENTRAL
+
+Um elemento que possa aparecer em mais de uma página deve ser tratado como
+compartilhado. Sua base deve ser formada por componentes fs-* e utilitários
+fs-u-* oficiais. Não transforme uma sequência repetida de markup em CSS local
+duplicado.
+
+FLUXO
+
+1. Identifique os componentes oficiais que formarão a composição.
+2. Defina responsabilidade, anatomia, slots ou regiões, dados, eventos,
+   estados e limites de reutilização.
+3. Verifique modelos e consumidores existentes antes de criar uma nova API.
+4. Use tokens --fs-*, classes e data attributes oficiais; crie apenas hooks
+   semânticos ou de comportamento quando necessário.
+5. Se a composição precisar de estilo ou comportamento novo compartilhado,
+   planeje a extensão no repositório fokus-styles.
+6. Se for exclusiva de uma página, registre a razão e mantenha o complemento
+   estritamente local.
+7. Valide loading, vazio, erro, sucesso, foco, teclado, temas e responsividade.
+8. Só implemente após autorização explícita.
+
+SAÍDA
+
+Entregue mapa dos componentes usados, contrato da composição, consumidores,
+plano de evolução, código autorizado, documentação e evidências de validação.
