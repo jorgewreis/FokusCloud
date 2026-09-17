@@ -1,24 +1,136 @@
+@font-face {
+    font-family: "Google Sans";
+    src: url("../../../../assets/fonts/google/google-sans-400.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Google Sans";
+    src: url("../../../../assets/fonts/google/google-sans-600.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Google Sans";
+    src: url("../../../../assets/fonts/google/google-sans-700.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
 :root {
-    --mockup-ink: #173642;
-    --mockup-muted: #6f818a;
-    --mockup-line: #dbe5e8;
-    --mockup-surface: #ffffff;
-    --mockup-soft: #f5f8f8;
-    --mockup-primary: #167b78;
-    --mockup-primary-dark: #0c5d5c;
-    --mockup-shadow: 0 14px 38px rgba(24, 62, 70, .08);
+    --color-surface: #eeeeee;
+    --color-surface-light: #efefef;
+    --color-background: #fefefe;
+    --color-primary: #18478f;
+    --color-secondary: #ff6000;
+
+    --color-text: #252525;
+    --color-muted: #909090;
+
+    --color-border: #cbcbcb;
+    --color-shadow: #cbcbcb60;
 }
 
 * { box-sizing: border-box; }
-body { min-width: 320px; margin: 0; background: #edf3f3; color: var(--mockup-ink); font-family: var(--fs-font-family, Arial, sans-serif); }
-button, input, select { font: inherit; }
-button { cursor: pointer; }
+body {
+    width: 100vw;
+    min-height: 100vh;
 
-.companies-mockup {
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    background: var(--color-surface);
+
+    color: var(--color-text);
+    font-family: "Google Sans", sans-serif;
+}
+
+.container-page {
     width: min(100% - 40px, 1480px);
     margin: 0 auto;
     padding: 24px 0 60px;
 }
+
+.container-header {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    padding: 0 20px 20px 20px;
+}
+    .container-header .left {
+        max-width: 600px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+    }
+        .header-system {
+            font-size: 16px;
+            font-family: "Bebas Neue", sans-serif;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: var(--color-secondary);
+        }
+        .header-title {
+            font-size: 48px;
+            font-family: "Bebas Neue", sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin: -15px 0 0 -1px;
+        }
+        .header-description {
+            font-weight: 400;
+            font-size: 16px;
+            color: var(--color-muted);
+        }
+    .container-header .right {
+        max-width: 600px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+
+.card-page {
+    width: calc(100% - 20px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    margin: 20px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px 2px var(--color-shadow);
+
+    background-color: var(--color-background);
+}
+    .card-page .card-header {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+
+        background-color: var(--color-surface-light);
+
+    }
+
+
 
 .mockup-toolbar { display: flex; align-items: center; gap: 10px; min-height: 34px; margin-bottom: 28px; padding: 8px 12px; border: 1px solid #b9d7d5; border-radius: 8px; background: #e5f5f3; color: #176563; font-size: 12px; letter-spacing: .04em; }
 .mockup-toolbar span:last-child { color: #56777b; letter-spacing: 0; }
@@ -152,4 +264,24 @@ select,
     font-family: "Syne Mono", monospace;
     font-size: 13px;
     font-weight: 600;
+}
+
+
+
+.status-badge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 6px;
+    padding: 0 10px;
+    width: 80px;
+    height: 24px;
+    font-family: "Syne Mono", monospace;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+body {
+    font-family: "Google Sans", sans-serif;
 }

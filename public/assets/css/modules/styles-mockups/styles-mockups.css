@@ -1,18 +1,18 @@
 @font-face {
     font-family: "Google Sans";
-    src: url("../../../fonts/google/google-sans-400.woff2") format("woff2");
+    src: url("/assets/fonts/google/google-sans-400.woff2") format("woff2");
     font-weight: 400;
     font-display: swap;
 }
 @font-face {
     font-family: "Google Sans";
-    src: url("../../../fonts/google/google-sans-600.woff2") format("woff2");
+    src: url("/assets/fonts/google/google-sans-600.woff2") format("woff2");
     font-weight: 600;
     font-display: swap;
 }
 @font-face {
     font-family: "Bebas Neue";
-    src: url("../../../fonts/google/bebas-neue-original.woff2") format("woff2");
+    src: url("/assets/fonts/google/bebas-neue-original.woff2") format("woff2");
     font-weight: 400;
     font-display: swap;
 }
@@ -30,6 +30,13 @@
     background: var(--fs-color-surface);
     font-family: "Google Sans", sans-serif;
     font-size: var(--fs-font-size-lg, 1rem);
+}
+.styles-mockup,
+.styles-mockup button,
+.styles-mockup input,
+.styles-mockup select,
+.styles-mockup textarea {
+    font-family: "Google Sans", sans-serif;
 }
 .styles-mockup a {
     color: inherit;
