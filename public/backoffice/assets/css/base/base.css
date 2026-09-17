@@ -12,3 +12,15 @@
 
 /* DEFINE TYPOGRAPHY SYSTEM */
 @import url("typography.css?v=20260916-fokus-styles-migration-v3");
+
+/* Backoffice button contract: the same dimensions apply to every textual
+ * Fokus button. Icon buttons retain their touch-target contract. */
+html[data-role="admin"] .fs-btn:not(.fs-btn-icon) {
+    box-sizing: border-box;
+    height: 38px;
+    min-height: 0;
+    min-block-size: 0;
+    padding: 0 10px;
+    border-radius: 4px;
+    font-family: "Google Sans", sans-serif;
+}
