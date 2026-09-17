@@ -66,6 +66,7 @@
 
 .admin-company-page > .fs-row > .fs-card {
     width: auto !important;
+    flex: none !important;
     min-width: 0;
     min-height: 132px;
     border: 1px solid var(--fs-color-border, #dbe5ea);
@@ -134,6 +135,7 @@
 .admin-company-page #company-filter-form > .fs-form-col,
 .admin-company-page #company-filter-form > div:last-child {
     width: auto !important;
+    flex: none !important;
 }
 
 .admin-company-page .fs-form-label > span:first-child {
