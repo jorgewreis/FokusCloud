@@ -24,53 +24,6 @@ button { cursor: pointer; }
 .mockup-toolbar span:last-child { color: #56777b; letter-spacing: 0; }
 .mockup-toolbar-dot { width: 8px; height: 8px; border-radius: 50%; background: #1aa29a; }
 
-.page-header {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin: 0 20px 30px 20px;
-}
-.page-header .header-title {
-    display: flex;
-    flex-direction: column;
-}
-.page-header .header-title .title-heading {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-size: 22px;
-    color: #ff6000;
-    margin-left: 2px;
-}
-.page-header .header-title .title-page {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 500;
-    font-size: 64px;
-    margin: -16px 0;
-}
-.page-header .header-title .title-description {
-    font-family: "Google Sans", sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--mockup-ink);
-    margin-left: 2px;
-    opacity: 0.5;
-}
-
-.fs-btn {
-    font-family: "Google Sans", sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 0 15px;
-}
-.fs-btn-primary {
-    color: #fff;
-    background: var(--mockup-ink);
-    border: 1px solid var(--mockup-ink);
-    border-radius: 4px;
-    height: 38px;
-}
-
 .card-heading,
 .table-footer,
 .drawer-header,
