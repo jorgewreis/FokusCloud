@@ -1482,6 +1482,7 @@
   }
   .fs-page-header > p {
     margin: 0 0 0 7px;
+    color: var(--fs-color-muted);
     font-family: "Google Sans", sans-serif;
   }
   .fs-form-text {

@@ -19,7 +19,6 @@
 
 .admin-company-page > header p {
     max-width: 680px;
-    color: var(--fs-color-muted, #64748b);
     line-height: 1.55;
 }
 
