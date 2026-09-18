@@ -1,2 +1,7 @@
 /* Componentes repetíveis são fornecidos exclusivamente pelo Fokus Styles 2.7.0. */
-@import url("drawer-form.css?v=20260918-backoffice-drawer-v4");
+@import url("drawer-form.css?v=20260918-backoffice-drawer-v5");
+
+/* Full-width datatable wrapper: reused by every responsive backoffice table. */
+.fs-table-responsive.fs-datatable {
+    width: 100%;
+}
