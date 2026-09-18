@@ -1,16 +1,4 @@
 @charset "UTF-8";
-@font-face {
-  font-family: "Bebas Neue";
-  src: url("/assets/fonts/google/bebas-neue-original.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Google Sans";
-  src: url("/assets/fonts/google/google-sans-400.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
 @layer reset, tokens, base, layout, components, utilities, overrides;
 @layer tokens {
   :root {
@@ -21,7 +9,7 @@
     --fs-color-border: #e2e8f0;
     --fs-color-surface: #ffffff;
     --fs-color-subtle: #f8fafc;
-    --fs-font-sans: "Google Sans", sans-serif;
+    --fs-font-sans: Plus Jakarta Sans, sans-serif;
     --fs-font-mono: Source Code Pro, monospace;
     --fs-font-size-md: 0.8125rem;
     --fs-font-size-h1: 1.75rem;
@@ -1442,24 +1430,11 @@
     gap: 4px;
   }
   .fs-form-label {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
     width: auto;
     margin: 0;
-    margin-bottom: 0;
-    margin-left: 10px;
-    color: gray;
-    font-size: 11px;
+    color: var(--fs-color-muted);
+    font-size: 0.75rem;
     font-weight: 400;
-    font-family: "Syne Mono", monospace;
-  }
-  .fs-form-label:has(> span) {
-    margin-left: 0;
-  }
-  .fs-form-label > span:first-child {
-    margin-left: 10px;
   }
   .fs-form-text {
     width: auto;
@@ -2450,16 +2425,14 @@
     align-items: center;
     justify-content: center;
     gap: var(--fs-space-1);
-    height: 38px;
-    min-height: 0;
-    min-block-size: 0;
+    min-height: var(--fs-control-height);
+    min-block-size: var(--fs-control-height);
     padding-block: 0;
-    padding-inline: 10px;
+    padding-inline: var(--fs-control-padding-x);
     border: var(--fs-border-width) solid var(--fs-btn-border-color);
-    border-radius: 4px;
+    border-radius: var(--fs-radius-sm);
     color: var(--fs-btn-color);
     background-color: var(--fs-btn-bg);
-    font-family: "Google Sans", sans-serif;
     font-size: 0.8125rem;
     font-weight: 500;
     text-decoration: none;
@@ -2614,17 +2587,15 @@
     --fs-btn-bg: var(--fs-color-info);
   }
   .fs-btn-sm {
-    height: 38px;
-    min-height: 0;
-    min-block-size: 0;
-    padding: 0 10px;
+    min-height: var(--fs-control-height-sm);
+    min-block-size: var(--fs-control-height-sm);
+    padding: 0 var(--fs-control-padding-x-sm);
     font-size: 0.75rem;
   }
   .fs-btn-lg {
-    height: 38px;
-    min-height: 0;
-    min-block-size: 0;
-    padding: 0 10px;
+    min-height: var(--fs-control-height-lg);
+    min-block-size: var(--fs-control-height-lg);
+    padding: 0 var(--fs-control-padding-x-lg);
     font-size: 1rem;
   }
   .fs-btn-close {
@@ -17383,7 +17354,8 @@
     content: none !important;
 }
 
-/* Global internal-page header contract. Kept unlayered so it overrides legacy page CSS. */
+
+/* Compatibility contract for existing internal pages. */
 .fs-page-header {
     display: flex;
     flex-direction: column;
@@ -17403,7 +17375,7 @@
     font-family: "Bebas Neue", sans-serif;
     font-size: 48px;
     font-weight: 400;
-    line-height: 0.98;
+    line-height: .98;
 }
 .fs-page-header > p {
     margin: 0 0 0 7px;
@@ -17458,7 +17430,7 @@
     color: #fff;
 }
 
-/* Shared card and form contract used by the backoffice pages and mockups. */
+/* Compatibility aliases retained while older backoffice pages are migrated. */
 .card-heading {
     display: flex;
     flex-direction: row;
@@ -17468,16 +17440,16 @@
     border-bottom: 1px solid var(--mockup-line, var(--fs-color-border, #cbd9dc));
 }
 .section-title {
-    margin: 0;
     display: flex;
+    margin: 0;
     color: var(--mockup-ink, var(--fs-color-text, #102a43));
     font-family: "Google Sans", sans-serif;
     font-size: 18px;
     font-weight: 600;
 }
 .section-description {
-    margin: 0;
     display: flex;
+    margin: 0;
     color: var(--mockup-muted, var(--fs-color-text-secondary, #64748b));
     font-family: "Google Sans", sans-serif;
     font-size: 14px;
@@ -17498,8 +17470,8 @@
     justify-content: flex-end;
 }
 .form-label .label {
-    margin-left: 13px;
     margin-bottom: 2px;
+    margin-left: 13px;
     font-family: "Syne Mono", monospace;
     font-size: 12px;
     font-weight: 500;
@@ -17536,4 +17508,277 @@ body { font-family: "Google Sans", sans-serif; }
     font-family: "Syne Mono", monospace;
     font-size: 12px;
     font-weight: 600;
+}
+
+/* Shared Backoffice compositions. These are maintained in Fokus Cloud because
+   they combine the installed Fokus Styles primitives with product conventions. */
+@font-face {
+    font-family: "Google Sans";
+    src: url("/assets/fonts/google/google-sans-400.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Google Sans";
+    src: url("/assets/fonts/google/google-sans-600.woff2") format("woff2");
+    font-weight: 600;
+    font-display: swap;
+}
+.fs-page-layout {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--fs-space-3);
+}
+.fs-page-header-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+.fs-page-header-display > span {
+    margin-left: 2px;
+    color: #ff6000;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+.fs-page-header-display > h1 {
+    margin: -15px 0 0 -1px;
+    color: #252525;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 2px;
+}
+.fs-page-header-display > p {
+    margin: 0;
+    color: #909090;
+    font-family: "Google Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+}
+.fs-card-panel {
+    overflow: hidden;
+    border-color: #cbcbcb;
+    border-radius: 8px;
+    background: #fefefe;
+    box-shadow: 2px 2px 10px 2px #cbcbcb60;
+}
+.fs-card-panel > .fs-card-header {
+    align-items: flex-end;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    background: #efefef;
+}
+.fs-card-panel .fs-card-header-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.fs-card-panel .fs-card-title {
+    margin: 0;
+    font-family: "Google Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.fs-card-panel .fs-card-subtitle,
+.fs-card-panel .fs-card-header-info {
+    margin: 0;
+    color: #909090;
+    font-family: "Google Sans", sans-serif;
+    font-size: .8rem;
+    font-weight: 400;
+}
+.fs-card-panel > .fs-card-footer {
+    padding: 14px 24px;
+    border-top-color: #cbcbcb;
+    background: #fefefe;
+}
+.fs-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 20px;
+}
+.fs-filter-form > .fs-form-col { min-width: 0; }
+.fs-filter-form .fs-form-label > span:first-child {
+    margin: 0 0 0 10px;
+    padding: 2px 5px;
+    color: #909090;
+    background: #fefefe;
+    font-family: "Google Sans", sans-serif;
+    font-size: .725rem;
+    font-weight: 400;
+}
+.fs-filter-form .fs-form-control,
+.fs-filter-form .fs-form-select {
+    min-height: 38px;
+    border-color: #cbcbcb;
+    border-radius: 7px;
+    color: #252525;
+    background: #fefefe;
+    font-family: "Google Sans", sans-serif;
+    font-size: .85rem;
+    font-weight: 500;
+}
+.fs-filter-form .fs-form-control::placeholder {
+    font-family: "Google Sans", sans-serif;
+    font-weight: 400;
+    opacity: .4;
+}
+.fs-filter-form .fs-form-action { flex: 0 0 auto; }
+.fs-width-200 { width: 80px; }
+.fs-width-300 { width: 120px; }
+.fs-width-400 { width: 180px; }
+.fs-width-500 { width: 240px; }
+.fs-width-600 { width: 300px; }
+.fs-width-800 { width: 420px; }
+.fs-input-group-subtle {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+}
+.fs-input-group-subtle > .fs-input-group-text {
+    display: flex;
+    flex: 0 0 38px;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0;
+    border-color: #cbcbcb;
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+    background: #eeeeee;
+}
+.fs-input-group-subtle > .fs-form-control {
+    flex: 1 1 auto;
+    height: 38px;
+    min-height: 38px;
+    margin-left: 0 !important;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+}
+.fs-input-group-subtle .fs-input-group-icon { width: 22px; height: 22px; }
+.fs-table-records {
+    display: flex;
+    flex-direction: column;
+    min-width: 1220px;
+    font-family: "Google Sans", sans-serif;
+}
+.fs-table-records thead,
+.fs-table-records tbody,
+.fs-table-records tr { width: 100%; }
+.fs-table-records thead {
+    display: flex;
+    flex: 0 0 38px;
+    flex-direction: column;
+    height: 38px;
+    border-top: 1px solid #cbcbcb;
+    border-bottom: 1px solid #252525;
+    background: #dcdcdc;
+}
+.fs-table-records thead tr,
+.fs-table-records tbody tr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    padding: 5px 0;
+}
+.fs-table-records thead tr { min-height: 38px; height: 38px; }
+.fs-table-records th,
+.fs-table-records td {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 42px;
+    min-height: 42px;
+    padding: 0 10px;
+    border-bottom: 0;
+}
+.fs-table-records th:not(:first-child),
+.fs-table-records td:not(:first-child) { border-left: 1px dotted #cbcbcb; }
+.fs-table-records th:not(:first-child) { border-left-color: #252525; }
+.fs-table-records tbody {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+    border-bottom: 1px solid #cbcbcb;
+}
+.fs-table-records tbody tr:not(:first-child) { border-top: 1px solid #cbcbcb; }
+.fs-table-records .fs-width-200 { flex-basis: 80px; }
+.fs-table-records .fs-width-300 { flex-basis: 120px; }
+.fs-table-records .fs-width-400 { flex-basis: 180px; }
+.fs-table-records .fs-width-500 { flex-basis: 240px; }
+.fs-table-records .fs-width-600 { flex-basis: 300px; }
+.fs-table-records th {
+    color: #252525;
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: none;
+    white-space: nowrap;
+}
+.fs-table-records td { color: #252525; font-size: .8rem; font-weight: 600; }
+.fs-table-records td small {
+    display: block;
+    width: 240px;
+    overflow: hidden;
+    color: #909090;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fs-table-records td strong { width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fs-badge-width-80 { width: 80px; justify-content: flex-start; }
+.fs-badge-width-80.fs-badge-soft-success { --fs-badge-bg: #e5f5ee; --fs-badge-color: #247f69; --fs-badge-border: transparent; }
+.fs-badge-width-80.fs-badge-soft-warning { --fs-badge-bg: #fff1dc; --fs-badge-color: #9b671f; --fs-badge-border: transparent; }
+.fs-badge-width-80.fs-badge-soft-info { --fs-badge-bg: #e5f0f7; --fs-badge-color: #397493; --fs-badge-border: transparent; }
+.fs-btn-icon-plain,
+.fs-btn-icon-plain:hover,
+.fs-btn-icon-plain:active,
+.fs-btn-icon-plain:focus-visible {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    min-height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.fs-btn-icon-plain img { width: 20px; height: 20px; object-fit: contain; }
+.fs-pagination-compact { gap: 5px; justify-content: flex-end; }
+.fs-pagination-compact .fs-page-link {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    min-height: 30px;
+    padding: 0;
+    border-color: #cbcbcb;
+    border-radius: 6px;
+    color: #909090;
+    background: #fff;
+}
+.fs-pagination-compact .fs-page-item.is-active .fs-page-link {
+    border: 1px solid #1E293B;
+    color: #e9e9e9;
+    background: #1E293B;
+    font-weight: 600;
+    pointer-events: none;
+}
+@media (max-width: 680px) {
+    .fs-page-layout { flex-direction: column; align-items: flex-start; }
+    .fs-page-layout > .fs-btn { width: 100%; justify-content: center; }
+    .fs-filter-form { padding: 16px; }
+    .fs-card-panel > .fs-card-footer { align-items: flex-start; padding: 14px 16px; }
 }

@@ -35,7 +35,8 @@
 }
 
 .container-page {
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
     padding-block: var(--space-page-padding-responsive, var(--space-page-padding));
 }
 

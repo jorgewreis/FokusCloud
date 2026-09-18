@@ -15,6 +15,10 @@ reutilizáveis ficam em [`docs/prompts`](../prompts/).
   a identificadores semânticos que não definem aparência.
 - CSS local não deve redefinir botões, campos, tabelas, cards, badges, alerts,
   paginação ou overlays existentes no Fokus Styles.
+- Quando um refinamento combinar primitivas Fokus Styles com uma convenção do
+  produto, ele deve ser criado no contrato compartilhado do Fokus Cloud
+  (`tools/sync-fokus-styles.mjs`), com nome `fs-*`; não é necessário alterar o
+  repositório externo `fokus-styles` para essa composição.
 - A referência visual executável está em `/backoffice/componentes`.
 
 ## Anatomia de uma página
@@ -59,6 +63,22 @@ ficam em cards; listagens ficam em `fs-datatable`; mensagens usam alert ou toast
 | Paginação | `fs-pagination`, `fs-page-item`, `fs-page-link` | Preservar nome acessível e página atual. |
 | Painel lateral | `fs-offcanvas` | Usar foco contido, Escape e botão de fechamento. |
 | Confirmação | `fs-modal` | Ações destrutivas exigem confirmação clara. |
+
+## Composições compartilhadas do Fokus Cloud
+
+Estas classes complementam as primitivas instaladas e ficam no CSS gerado por
+`npm run styles:sync`. Páginas devem usá-las antes de criar CSS visual local.
+
+| Necessidade | Composição | Uso |
+| --- | --- | --- |
+| Cabeçalho de página | `fs-page-layout`, `fs-page-header-display` | Contexto, `h1`, descrição e ação principal. |
+| Painel operacional | `fs-card fs-card-panel` | Card com cabeçalho, corpo e rodapé alinhados. |
+| Filtros | `fs-filter-form`, `fs-input-group-subtle` | Campos rotulados, grupo de busca e ação. |
+| Larguras de conteúdo | `fs-width-200` a `fs-width-800` | Larguras semânticas em filtros e colunas. |
+| Listagem de registros | `fs-table fs-table-records` | Cabeçalho, linhas, separadores e larguras consistentes. |
+| Estado fixo | `fs-badge-width-80` | Badge de status com largura de 80px. |
+| Ações por ícone | `fs-btn-icon-plain` | Ícones com fundo transparente. |
+| Paginação compacta | `fs-pagination fs-pagination-compact` | Botão quadrado e página atual identificada por `is-active`. |
 
 ## Listagens e estados
 
