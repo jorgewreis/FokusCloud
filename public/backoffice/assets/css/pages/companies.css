@@ -189,17 +189,24 @@
 
 .admin-company-page .fs-input-group {
     display: flex;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
 }
 
 .admin-company-page .fs-input-group-text {
-    display: inline-flex;
+    min-width: 38px;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    padding: 0 12px;
-    border: 1px solid var(--fs-color-border, #dbe5ea);
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #cbcbcb;
     border-right: 0;
-    border-radius: 7px 0 0 7px;
-    background: var(--fs-color-subtle, #f8fafc);
+    border-radius: 8px 0 0 8px;
+    background: #eeeeee;
+    flex: 0 0 38px;
 }
 
 .admin-company-page .fs-input-group-text img {
@@ -208,7 +215,12 @@
 }
 
 .admin-company-page .fs-input-group .fs-form-control {
-    border-radius: 0 7px 7px 0;
+    height: 38px;
+    min-height: 38px;
+    margin-left: 0 !important;
+    border-radius: 0 8px 8px 0;
+    border-left: 0;
+    flex: 1 1 auto;
 }
 
 .admin-company-page #company-filter-form > div:last-child {
