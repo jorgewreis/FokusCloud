@@ -369,6 +369,8 @@
 }
 
 .admin-company-page .fs-table-responsive {
+    width: 100%;
+    flex: 1 1 100%;
     overflow-x: auto;
 }
 
