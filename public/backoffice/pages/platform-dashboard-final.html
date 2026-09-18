@@ -297,8 +297,8 @@
                 .map((x) => x[0])
                 .join("")
                 .toUpperCase();
-            document.querySelector("#dashboard-greeting-name").textContent =
-                f.toUpperCase();
+            const greeting = document.querySelector("#dashboard-greeting-name");
+            if (greeting) greeting.textContent = f.toUpperCase();
         };
         const searchResults = (groups) => {
             const panel = document.querySelector("#admin-global-search-results");
