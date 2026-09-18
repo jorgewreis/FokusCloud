@@ -1,15 +1,15 @@
-<main class="admin-dashboard admin-final-dashboard">
+<main class="admin-dashboard admin-final-dashboard" aria-labelledby="dashboard-page-title">
     <section class="admin-final-content">
-        <div class="admin-dashboard-intro page-header">
-            <div class="header-title">
-                <span class="title-heading">BACKOFFICE</span>
-                <span class="title-page">Dashboard</span>
-                <span class="title-description">
+        <header class="admin-dashboard-intro fs-page-layout">
+            <div class="fs-page-header-display">
+                <span>BACKOFFICE</span>
+                <h1 id="dashboard-page-title">Dashboard</h1>
+                <p>
                     Acompanhe o desempenho da sua operação e gerencie empresas,
                     pessoas e assinaturas em um só lugar.
-                </span>
+                </p>
             </div>
-        </div>
+        </header>
         <section class="admin-metrics-grid fs-row fs-row-cols-4 fs-u-gap-3" aria-label="Métricas da plataforma">
             <article class="fs-card fs-card-sm admin-metric-card admin-metric-companies">
                 <div class="admin-metric-icon">
@@ -114,31 +114,31 @@
             </aside>
         </section>
         <section class="admin-dashboard-subscriptions-row">
-            <article class="fs-card admin-panel-card admin-subscriptions-card">
-                <div class="fs-card-header admin-card-heading admin-subscriptions-heading">
-                    <div>
-                        <h2>Assinaturas</h2>
-                        <p>Acompanhe as assinaturas mais recentes da plataforma.</p>
+            <article class="fs-card fs-card-panel admin-subscriptions-card">
+                <div class="fs-card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-3">
+                    <div class="fs-card-header-title">
+                        <h2 class="fs-card-title">Assinaturas</h2>
+                        <p class="fs-card-subtitle">Acompanhe as assinaturas mais recentes da plataforma.</p>
                     </div>
                     <a class="admin-card-link" href="/backoffice/assinaturas">Ver todas</a>
                 </div>
                 <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
-                    <table class="fs-table admin-subscriptions-table">
+                    <table class="fs-table fs-table-records fs-table-hover" aria-label="Assinaturas recentes">
                         <thead>
                             <tr>
-                                <th>Empresa</th>
-                                <th>Produto</th>
-                                <th>Plano</th>
-                                <th>Status</th>
-                                <th>Vigência</th>
-                                <th>Valor</th>
-                                <th>Ações</th>
+                                <th class="fs-width-600" scope="col">Empresa</th>
+                                <th class="fs-width-500" scope="col">Produto</th>
+                                <th class="fs-width-400" scope="col">Plano</th>
+                                <th class="fs-width-300" scope="col">Status</th>
+                                <th class="fs-width-400" scope="col">Vigência</th>
+                                <th class="fs-width-400" scope="col">Valor</th>
+                                <th class="fs-width-300" scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="subscriptions-table-body"></tbody>
                     </table>
                 </div>
-                <div class="fs-card-footer admin-table-footer">
+                <div class="fs-card-footer fs-u-d-flex fs-u-flex-wrap fs-u-align-items-center fs-u-justify-content-between fs-u-gap-3">
                     <span id="subscriptions-table-summary">Carregando assinaturas...</span>
                     <nav id="subscriptions-pagination" aria-label="Paginação de assinaturas"></nav>
                 </div>
@@ -400,7 +400,7 @@
                 ? a
                       .map(
                           (x) =>
-                              `<tr><td>${e(x.company_name || "Empresa não informada")}</td><td>${e(x.product_name || "Produto não informado")}</td><td>${e(x.plan_name || "Plano não informado")}</td><td><span class="fs-badge fs-badge-soft-info">${subscriptionStatus(x.status)}</span></td><td>${x.current_period_ends_at ? new Date(x.current_period_ends_at).toLocaleDateString("pt-BR") : "-"}</td><td>${C.format(+x.amount || 0)}</td><td><a href="/backoffice/assinaturas" class="fs-btn fs-btn-icon" aria-label="Abrir assinatura">${img("actions")}</a></td></tr>`,
+                              `<tr><td class="fs-width-600">${e(x.company_name || "Empresa não informada")}</td><td class="fs-width-500">${e(x.product_name || "Produto não informado")}</td><td class="fs-width-400">${e(x.plan_name || "Plano não informado")}</td><td class="fs-width-300"><span class="fs-badge fs-badge-soft-info">${subscriptionStatus(x.status)}</span></td><td class="fs-width-400">${x.current_period_ends_at ? new Date(x.current_period_ends_at).toLocaleDateString("pt-BR") : "-"}</td><td class="fs-width-400">${C.format(+x.amount || 0)}</td><td class="fs-width-300"><a href="/backoffice/assinaturas" class="fs-btn fs-btn-icon fs-btn-icon-plain" aria-label="Abrir assinatura">${img("actions")}</a></td></tr>`,
                       )
                       .join("")
                 : '<tr><td colspan="7">Nenhuma assinatura encontrada.</td></tr>';
@@ -413,11 +413,11 @@
                     ? `Mostrando ${from} a ${to} de ${p.total} assinaturas`
                     : "Nenhuma assinatura encontrada";
             document.querySelector("#subscriptions-pagination").innerHTML =
-                Array.from(
+                `<ul class="fs-pagination fs-pagination-compact">${Array.from(
                     { length: p.last_page || 1 },
                     (_, i) =>
-                        `<button type="button" class="${i + 1 === p.current_page ?"is-active" : ""}" data-subscription-page="${i + 1}">${i + 1}</button>`,
-                ).join("");
+                        `<li class="fs-page-item${i + 1 === p.current_page ? " is-active" : ""}"><button type="button" class="fs-page-link" data-subscription-page="${i + 1}" aria-label="Página ${i + 1}"${i + 1 === p.current_page ? ' aria-current="page"' : ""}>${i + 1}</button></li>`,
+                ).join("")}</ul>`;
             window.refreshFokusDataTables?.(document.querySelector(".admin-final-dashboard"));
         };
         const loadSubscriptions = async () => {

@@ -3425,6 +3425,38 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
     cursor: pointer;
 }
 
+/* Shared Fokus Cloud compositions adopted by the dashboard. */
+.admin-final-dashboard {
+    font-family: "Google Sans", sans-serif;
+}
+.admin-final-dashboard .admin-dashboard-intro.fs-page-layout {
+    margin: 0 6px 18px;
+}
+.admin-final-dashboard .admin-dashboard-intro.fs-page-layout .fs-page-header-display > h1 {
+    margin: -15px 0 0 -1px;
+    color: #252525;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 2px;
+}
+.admin-final-dashboard .admin-dashboard-intro.fs-page-layout .fs-page-header-display > span {
+    font-family: "Bebas Neue", sans-serif;
+}
+.admin-final-dashboard .admin-dashboard-intro.fs-page-layout .fs-page-header-display > p,
+.admin-final-dashboard .admin-subscriptions-card {
+    font-family: "Google Sans", sans-serif;
+}
+
+@media (max-width: 700px) {
+    .admin-final-dashboard .admin-dashboard-intro.fs-page-layout {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 /* Final content offset contract: 80px on desktop, edge to edge on mobile. */
 @media (min-width: 701px) {
     html[data-role="admin"] .container-page .container-content,
