@@ -419,8 +419,10 @@
 
 .admin-company-page .fs-table .status-badge {
     display: flex;
-    width: auto;
-    min-height: 0;
+    width: fit-content;
+    height: 22px;
+    min-height: 22px;
+    box-sizing: border-box;
     padding: 2px 6px;
     border: 0;
     border-radius: 4px;
