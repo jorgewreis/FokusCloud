@@ -111,9 +111,9 @@
 }
 
 .admin-company-page .pagination .page-button.is-current {
-    border: 2px solid #18478f;
-    background: #d3e5ff;
-    color: #18478f;
+    border: 1px solid #1E293B;
+    background: #1E293B;
+    color: #e9e9e9;
     font-weight: 600;
     pointer-events: none;
 }
