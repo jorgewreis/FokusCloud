@@ -52,10 +52,15 @@
 }
 
 .admin-company-page > section.fs-card .fs-card-header {
-    min-height: 78px;
     padding: 20px;
+    align-items: flex-end;
     border-radius: 8px 8px 0 0;
     background: #efefef;
+}
+
+.admin-company-page > section.fs-card .card-header-title {
+    align-items: flex-start;
+    justify-content: flex-end;
 }
 
 .admin-company-page > section.fs-card .section-title,
@@ -73,6 +78,14 @@
     margin: 0;
     font-size: .8rem;
     font-weight: 400;
+}
+
+.admin-company-page > section.fs-card .card-header-info {
+    align-items: flex-start;
+    justify-content: flex-end;
+    color: #909090;
+    font-family: "Google Sans", sans-serif;
+    font-size: .8rem;
 }
 
 .admin-company-page .title-heading {
