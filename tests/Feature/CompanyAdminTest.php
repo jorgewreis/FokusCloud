@@ -84,6 +84,8 @@ class CompanyAdminTest extends TestCase
 
         $this->actingAs($admin, 'platform')->getJson('/api/backoffice/dashboard')
             ->assertOk()
+            ->assertJsonPath('metrics.active_companies', 1)
+            ->assertJsonPath('metrics.active_people', 1)
             ->assertJsonPath('recent_activity.0.kind', 'backoffice.company_created')
             ->assertJsonPath('recent_activity.0.title', 'Empresa cadastrada no backoffice')
             ->assertJsonPath('recent_activity.0.description', 'Empresa Exibida na Atividade cadastrada com acesso administrativo.');

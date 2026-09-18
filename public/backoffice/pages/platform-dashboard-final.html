@@ -20,8 +20,8 @@
                 </div>
                 <div>
                     <span>Empresas ativas</span
-                    ><strong id="metric-active-companies">0</strong
-                    ><small>Sem histórico comparável</small>
+                    ><strong id="metric-active-companies">—</strong
+                    ><small>Carregando dados</small>
                 </div>
             </article>
             <article class="fs-card fs-card-sm admin-metric-card admin-metric-people">
@@ -33,8 +33,8 @@
                 </div>
                 <div>
                     <span>Pessoas ativas</span
-                    ><strong id="metric-active-people">0</strong
-                    ><small>Sem histórico comparável</small>
+                    ><strong id="metric-active-people">—</strong
+                    ><small>Carregando dados</small>
                 </div>
             </article>
             <article class="fs-card fs-card-sm admin-metric-card admin-metric-subscriptions">
@@ -46,8 +46,8 @@
                 </div>
                 <div>
                     <span>Assinaturas ativas</span
-                    ><strong id="metric-active-subscriptions">0</strong
-                    ><small>Sem histórico comparável</small>
+                    ><strong id="metric-active-subscriptions">—</strong
+                    ><small>Carregando dados</small>
                 </div>
             </article>
             <article class="fs-card fs-card-sm admin-metric-card admin-metric-mrr">
@@ -59,11 +59,12 @@
                 </div>
                 <div>
                     <span>Receita recorrente (MRR)</span
-                    ><strong id="metric-mrr">R$ 0,00</strong
-                    ><small>Sem histórico comparável</small>
+                    ><strong id="metric-mrr">—</strong
+                    ><small>Carregando dados</small>
                 </div>
             </article>
         </section>
+        <div class="fs-alert fs-alert-danger" id="dashboard-load-error" role="alert" hidden></div>
         <section class="admin-dashboard-overview-grid">
             <article class="fs-card admin-panel-card admin-subscription-chart-card">
                 <div class="fs-card-header admin-card-heading">
@@ -460,6 +461,18 @@
                 loadSubscriptions().catch(() => {});
             }
         });
-        Promise.all([load(), loadSubscriptions()]).catch(() => {});
+        const showLoadError = () => {
+            const error = document.querySelector("#dashboard-load-error");
+            error.textContent = "Não foi possível carregar os dados do Dashboard. Atualize a página ou entre novamente.";
+            error.hidden = false;
+        };
+        const bootDashboard = () => {
+            Promise.all([load(), loadSubscriptions()]).catch(showLoadError);
+        };
+        if (window.__backofficeAuthorized) {
+            bootDashboard();
+        } else {
+            window.addEventListener("fokus:backoffice-authorized", bootDashboard, { once: true });
+        }
     })();
 </script>

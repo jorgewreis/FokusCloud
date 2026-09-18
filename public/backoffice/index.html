@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" data-theme="light" data-role="admin">
+<html lang="pt-BR" data-theme="light" data-role="admin" data-backoffice-auth="pending">
     <head>
         <meta name="robots" content="noindex, nofollow" />
         <meta charset="utf-8" />
@@ -10,6 +10,11 @@
             content="Backoffice administrativo do Fokus Cloud."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            html[data-backoffice-auth="pending"] body {
+                visibility: hidden;
+            }
+        </style>
 
         <!-- IMPORT CSS -->
         <link
@@ -22,7 +27,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260918-dashboard-shared-compositions-v5"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260918-dashboard-auth-gate-v6"
         />
         <link
             rel="stylesheet"
@@ -244,7 +249,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260918-dashboard-shared-compositions-v3";
+            const pageVersion = "20260918-dashboard-auth-gate-v4";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -643,7 +648,12 @@
             document.addEventListener("click", (event) => { if (!event.target.closest(".admin-global-search") && !event.target.closest(".admin-global-search-results")) document.querySelector("#admin-global-search-results").hidden = true; if (!event.target.closest(".admin-header-user")) { adminHeaderUserMenu.hidden = true; adminHeaderUserDetails.setAttribute("aria-expanded", "false"); } });
             document.querySelector("[data-dashboard-logout]").addEventListener("click", async () => { await fetch("/backoffice/auth/logout", { method: "POST", credentials: "same-origin" }); location.assign("/backoffice/login"); });
             window.__adminHeaderReady = true;
-            FokusApi.request("/backoffice/dashboard").then((response) => { adminHeaderSetUser(response.user); window.__adminHeaderNotifications = response.alerts || []; document.querySelector(".admin-notifications-button").classList.toggle("has-notifications", window.__adminHeaderNotifications.length > 0); }).catch(() => {});
+            const loadAdminHeaderData = async () => {
+                const response = await FokusApi.request("/backoffice/dashboard");
+                adminHeaderSetUser(response.user);
+                window.__adminHeaderNotifications = response.alerts || [];
+                document.querySelector(".admin-notifications-button").classList.toggle("has-notifications", window.__adminHeaderNotifications.length > 0);
+            };
 
             sidebarButtons.forEach((button) => {
                 button.addEventListener("click", (event) => {
@@ -680,17 +690,26 @@
                                 response?.admin?.permissions || []
                             ).includes(element.dataset.platformPermission);
                         });
+                    return response.admin;
                 } catch (error) {
                     location.replace("/?acesso=administrativo");
+                    return null;
                 }
             }
 
-            hydrateAdmin();
-            loadSidebarPage(
-                routePageMap[
-                    location.pathname.split("/").filter(Boolean).pop()
-                ] || "platform-dashboard-final",
-            );
+            (async () => {
+                const admin = await hydrateAdmin();
+                if (!admin) return;
+
+                window.__backofficeAuthorized = true;
+                document.documentElement.dataset.backofficeAuth = "authorized";
+                loadAdminHeaderData().catch(() => {});
+                loadSidebarPage(
+                    routePageMap[
+                        location.pathname.split("/").filter(Boolean).pop()
+                    ] || "platform-dashboard-final",
+                );
+            })();
         </script>
     </body>
 </html>

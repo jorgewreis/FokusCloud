@@ -30,6 +30,7 @@ class BackofficeSecurityTest extends TestCase
     public function test_unauthenticated_browser_never_receives_backoffice_shell(): void
     {
         $this->get('/backoffice/')->assertRedirect('/?acesso=administrativo');
+        $this->get('/backoffice/index.html')->assertRedirect('/?acesso=administrativo');
     }
 
     public function test_authenticated_platform_admin_can_receive_backoffice_shell(): void
