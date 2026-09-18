@@ -57,6 +57,12 @@
     filter: brightness(0) invert(1);
 }
 
+.admin-company-page #company-create {
+    border-color: #18478f;
+    background: #18478f;
+    color: #eeeeee;
+}
+
 /* The shell's fixed .container-content creates a stacking context below the
    body-level offcanvas backdrop. The page keeps the official component API and
    only defines its approved 480px size here. */
