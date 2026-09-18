@@ -177,3 +177,169 @@
     .create-drawer .painel-form .drawer-actions .fs-width-400 { width: 100% !important; }
     .create-drawer .painel-form .drawer-actions { flex-wrap: wrap; }
 }
+
+/* Shared card/filter/table anatomy used by the companies mockup and page. */
+.admin-company-page .card-page {
+    width: calc(100% - 20px);
+    margin: 20px 10px;
+    border: 1px solid #cbcbcb;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px 2px #cbcbcb60;
+    background: #fefefe;
+}
+
+.admin-company-page .card-page .card-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    background: #efefef;
+}
+
+.admin-company-page .card-page .card-header-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.admin-company-page .card-header-title .header-title-name {
+    margin: 0 0 4px;
+    font: 600 1rem/1.25 "Google Sans", sans-serif;
+    color: #252525;
+}
+
+.admin-company-page .card-header-title .header-title-description,
+.admin-company-page .card-header-info {
+    margin: 0;
+    color: #909090;
+    font: 400 .8rem/1.35 "Google Sans", sans-serif;
+}
+
+.admin-company-page .card-page .card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 20px;
+    border-radius: 0 0 8px 8px;
+    background: #fefefe;
+}
+
+.admin-company-page .card-content.content-filter {
+    padding: 20px;
+    justify-content: flex-end;
+}
+
+.admin-company-page .card-content .form-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: auto;
+    margin: 0;
+}
+
+.admin-company-page .card-content .form-label > .label {
+    margin: 0 0 0 10px;
+    padding: 2px 5px;
+    color: #909090;
+    background: #fefefe;
+    font: 400 .725rem/1 "Google Sans", sans-serif;
+}
+
+.admin-company-page .card-content .input-label,
+.admin-company-page .card-content .form-select {
+    box-sizing: border-box;
+    height: 38px;
+    min-height: 38px;
+    margin: 0;
+    border: 1px solid #cbcbcb;
+    border-radius: 7px;
+    color: #252525;
+    background: #fefefe;
+    font: 500 .85rem/1 "Google Sans", sans-serif;
+}
+
+.admin-company-page .card-content .input-label { padding: 0 15px; }
+.admin-company-page .card-content .form-select { padding: 0 10px; }
+.admin-company-page .card-content .input-label::placeholder { font-weight: 400; opacity: .4; }
+
+.admin-company-page .card-content .input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.admin-company-page .card-content .input-group .fs-input-group-text {
+    min-width: 38px;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbcbcb;
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+    background: #eeeeee;
+}
+
+.admin-company-page .card-content .input-group .fs-input-group-text img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.admin-company-page .card-content .input-group .input-label {
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.admin-company-page .card-content .fs-width-800 { width: 420px !important; }
+.admin-company-page .card-content .fs-width-500 { width: 240px !important; }
+.admin-company-page .card-content .fs-width-300 { width: 120px !important; }
+
+.admin-company-page .card-content .fs-btn-primary-secondary {
+    width: 120px !important;
+    min-height: 38px;
+    border: 1px solid #18478f;
+    border-radius: 6px;
+    color: #18478f;
+    background: #d3e5ff;
+    font-weight: 500;
+}
+
+.admin-company-page .card-content .fs-btn-primary-secondary:hover,
+.admin-company-page .card-content .fs-btn-primary-secondary:focus-visible {
+    border-color: #18478f;
+    color: #fff;
+    background: #18478f;
+}
+
+.admin-company-page .fs-table-records.card-table { width: 100%; }
+.admin-company-page .fs-table-records .fs-badge-width-80 {
+    box-sizing: border-box;
+    width: 80px;
+    min-height: 22px;
+    padding: 2px 6px;
+    border: 0;
+    border-radius: 4px;
+    font: 600 .7rem/1 "Google Sans", sans-serif;
+}
+
+.create-drawer .painel-form .form-label > .label { margin-bottom: 0; }
+.create-drawer .painel-form .check-field .fs-check-input {
+    position: static;
+    width: 13px;
+    height: 13px;
+    margin: 0;
+    padding: 0;
+    visibility: visible;
+    opacity: 1;
+    appearance: auto;
+}
