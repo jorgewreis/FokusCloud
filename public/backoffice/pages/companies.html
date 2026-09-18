@@ -1,5 +1,5 @@
-<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v47" />
-<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260918-fokus-styles-companies-v47" />
+<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v48" />
+<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260918-fokus-styles-companies-v48" />
 
 <main class="admin-company-page container-page fs-container-fluid fs-u-d-flex fs-u-flex-column" aria-labelledby="companies-page-title">
     <header class="fs-page-layout">
@@ -157,7 +157,14 @@
     const message = document.querySelector("#company-message");
     const drawer = document.querySelector("#company-drawer");
     const form = document.querySelector("#company-form");
-    const offcanvas = window.FokusStyles?.Offcanvas?.getOrCreateInstance(document.querySelector("#company-create"));
+    const createTrigger = document.querySelector("#company-create");
+    const drawerParent = drawer.parentNode;
+    const drawerAnchor = drawer.nextSibling;
+    const portalDrawer = () => { if (drawer.parentNode !== document.body) document.body.appendChild(drawer); };
+    const restoreDrawer = () => { if (drawer.parentNode !== document.body) return; if (drawerParent.isConnected) drawerParent.insertBefore(drawer, drawerAnchor); else drawer.remove(); };
+    createTrigger.addEventListener("fs:show", portalDrawer);
+    createTrigger.addEventListener("fs:hidden", restoreDrawer);
+    const offcanvas = window.FokusStyles?.Offcanvas?.getOrCreateInstance(createTrigger);
     let currentCompany = null;
     const B = "/backoffice/assets/icons/";
     const icons = { edit: "Common-File-Edit--Streamline-Ultimate.png", deactivate: "Common-File-Subtract--Streamline-Ultimate.png", activate: "Common-File-Quill--Streamline-Ultimate.png", remove: "Common-File-Remove--Streamline-Ultimate.png", details: "Folder-File--Streamline-Ultimate.png" };
