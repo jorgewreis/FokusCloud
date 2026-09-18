@@ -97,9 +97,13 @@
 }
 
 .admin-company-page .pagination .page-button {
+    width: 30px;
     min-width: 30px;
     height: 30px;
-    padding: 0 6px;
+    min-height: 30px;
+    box-sizing: border-box;
+    flex: 0 0 30px;
+    padding: 0;
     border: 1px solid #cbcbcb;
     border-radius: 6px;
     background: #fff;
@@ -249,10 +253,14 @@
     min-width: 0;
 }
 
-.admin-company-page #company-filter-form > .fs-form-col,
-.admin-company-page #company-filter-form > div:last-child {
-    width: auto !important;
-    flex: 1 1 240px !important;
+.admin-company-page #company-filter-form > .fs-form-col.fs-width-800 {
+    width: 420px !important;
+    flex: 0 0 420px !important;
+}
+
+.admin-company-page #company-filter-form > .fs-form-col.fs-width-500 {
+    width: 240px !important;
+    flex: 0 0 240px !important;
 }
 
 .admin-company-page #company-filter-form > div:last-child {
@@ -340,6 +348,17 @@
     padding: 0 15px;
 }
 
+/* Mantém a junção do input-group acima das regras genéricas de campos. */
+.admin-company-page #company-filter-form .fs-input-group .fs-form-control.input-label {
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.admin-company-page #company-filter-form .fs-input-group .fs-input-group-text {
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+}
+
 .admin-company-page #company-filter-form .fs-form-select {
     padding: 0 10px;
 }
@@ -356,7 +375,7 @@
 
 .admin-company-page .fs-table {
     width: 100%;
-    min-width: 1100px;
+    min-width: 1040px;
     display: flex;
     flex-direction: column;
 }
@@ -387,6 +406,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     padding: 5px 0;
 }
 
@@ -397,6 +417,7 @@
     align-items: flex-start;
     justify-content: center;
     flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .admin-company-page .fs-table thead th:not(:first-child),
