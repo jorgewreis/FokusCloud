@@ -163,7 +163,7 @@
     font-size: .8rem;
 }
 
-.admin-company-page .title-heading {
+.admin-company-page .page-header .header-title .title-heading {
     color: #ff6000;
     font-family: "Bebas Neue", sans-serif;
     font-size: 1.2rem;
@@ -171,7 +171,7 @@
     letter-spacing: 2px;
 }
 
-.admin-company-page .title-page {
+.admin-company-page .page-header .header-title .title-page {
     color: #252525;
     font-family: "Bebas Neue", sans-serif;
     font-size: 3.5rem;
