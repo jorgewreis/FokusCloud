@@ -1,0 +1,179 @@
+/* Reusable compact drawer anatomy shared by backoffice create/edit panels. */
+.create-drawer {
+    box-sizing: border-box;
+    padding: 26px;
+    background: var(--color-background, #f5ffff);
+}
+
+.create-drawer .painel-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 0;
+    border: 0;
+}
+
+.create-drawer .painel-header-title,
+.create-drawer .painel-form .form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.create-drawer .painel-header-section {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--color-secondary, #ff6000);
+}
+
+.create-drawer .painel-header-text {
+    margin: -5px 0 0 -1px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 1.05;
+    color: var(--color-text, #252525);
+}
+
+.create-drawer .painel-header-description,
+.create-drawer .section-description,
+.create-drawer .form-text {
+    font-family: "Google Sans", sans-serif;
+    font-size: .8rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--color-muted, #58758a);
+}
+
+.create-drawer .painel-header-button {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.create-drawer .drawer-close {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 2px solid var(--color-border, #bed0d3);
+    border-radius: 6px;
+    background: var(--color-background, #f5ffff);
+    color: var(--color-secondary, #ff6000);
+    font: 400 1rem/1 "Google Sans", sans-serif;
+    cursor: pointer;
+}
+
+.create-drawer .drawer-close:hover,
+.create-drawer .drawer-close:focus-visible {
+    border-color: var(--color-secondary, #ff6000);
+    background: var(--color-secondary, #ff6000);
+    color: var(--color-background, #f5ffff);
+}
+
+.create-drawer .painel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+.create-drawer .painel-form .form-section {
+    justify-content: center;
+    margin: 20px 0 10px;
+}
+
+.create-drawer .painel-form .section-title {
+    margin: 0;
+    font: 600 1rem/1.25 "Google Sans", sans-serif;
+    color: var(--color-text, #252525);
+}
+
+.create-drawer .painel-form .form-line-duo {
+    margin-top: 20px;
+}
+
+.create-drawer .painel-form .form-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+}
+
+.create-drawer .painel-form .form-label > .label {
+    z-index: 1;
+    margin: 0 0 -1px 10px;
+    padding: 2px 5px;
+    font: 400 .725rem/1 "Google Sans", sans-serif;
+    color: var(--color-muted, #58758a);
+    background: var(--color-background, #f5ffff);
+}
+
+.create-drawer .painel-form .input-label,
+.create-drawer .painel-form .form-select {
+    box-sizing: border-box;
+    height: 38px;
+    min-height: 38px;
+    margin: 0;
+    padding: 0 15px;
+    border: 1px solid var(--color-border, #bed0d3);
+    border-radius: 6px;
+    background: var(--color-background, #f5ffff);
+    color: var(--color-text, #252525);
+    font: 500 .85rem/1 "Google Sans", sans-serif;
+}
+
+.create-drawer .painel-form .form-select { padding: 0 10px; }
+.create-drawer .painel-form .input-label::placeholder { color: var(--color-muted, #58758a); opacity: .4; }
+.create-drawer .painel-form .input-label:disabled,
+.create-drawer .painel-form .form-select:disabled { background: var(--color-surface-light, #edf7f7); color: var(--color-muted, #58758a); }
+
+.create-drawer .painel-form .form-line { margin-bottom: 10px; }
+.create-drawer .painel-form .fs-width-400 { width: 180px !important; }
+.create-drawer .painel-form .fs-width-600 { width: 300px !important; }
+
+.create-drawer .painel-form .check-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin: 0 0 4px;
+    font: 400 .8rem/1.35 "Google Sans", sans-serif;
+    color: var(--color-text, #252525);
+}
+
+.create-drawer .painel-form .check-field .fs-check-input { margin: 0; }
+.create-drawer .painel-form .form-text { margin: 3px 0 0 3px; }
+
+.create-drawer .painel-form .drawer-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 0;
+    border: 0;
+}
+
+.create-drawer .painel-form .drawer-actions .fs-width-300 { width: 120px !important; }
+.create-drawer .painel-form .drawer-actions .fs-width-400 { width: 180px !important; }
+
+@media (max-width: 520px) {
+    .create-drawer { padding: 20px; }
+    .create-drawer .painel-form .fs-width-400,
+    .create-drawer .painel-form .fs-width-600,
+    .create-drawer .painel-form .drawer-actions .fs-width-300,
+    .create-drawer .painel-form .drawer-actions .fs-width-400 { width: 100% !important; }
+    .create-drawer .painel-form .drawer-actions { flex-wrap: wrap; }
+}
