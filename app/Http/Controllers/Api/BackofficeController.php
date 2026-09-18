@@ -337,6 +337,7 @@ class BackofficeController extends Controller
         $current = DB::table('companies')->where('id', $company)->whereNull('deleted_at')->first();
         abort_unless($current, 404, 'Empresa não encontrada.');
         abort_if($current->status === 'encerrada', 422, 'Empresa encerrada não pode ser reativada ou desativada.');
+        abort_if($status === 'suspensa' && DB::table('subscriptions')->where('company_id', $company)->exists(), 422, 'Não é possível suspender uma empresa que possui assinaturas.');
         if ($current->status === $status) {
             return response()->json(['message' => 'A empresa já está neste status.']);
         }

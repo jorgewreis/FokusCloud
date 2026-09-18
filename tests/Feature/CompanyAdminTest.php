@@ -110,7 +110,7 @@ class CompanyAdminTest extends TestCase
         $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.company_deleted', 'entity_id' => $companyId]);
     }
 
-    public function test_company_with_subscription_cannot_be_removed(): void
+    public function test_company_with_subscription_cannot_be_suspended_or_removed(): void
     {
         $admin = $this->platformAdmin();
         $companyId = $this->companyFixture('Empresa Com Assinatura', '11222333000181', 'assinatura@example.test');
@@ -120,7 +120,13 @@ class CompanyAdminTest extends TestCase
             'version' => 1, 'billing_cycle' => 'monthly', 'created_by' => $admin->id, 'updated_by' => $admin->id, 'created_at' => now(), 'updated_at' => now(),
         ]);
 
-        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/companies/{$companyId}")->assertUnprocessable();
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/companies/{$companyId}/deactivate")
+            ->assertUnprocessable()
+            ->assertJsonPath('message', 'Não é possível suspender uma empresa que possui assinaturas.');
+        DB::table('companies')->where('id', $companyId)->update(['status' => 'suspensa']);
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/companies/{$companyId}")
+            ->assertUnprocessable()
+            ->assertJsonPath('message', 'Não é possível remover uma empresa que possui assinaturas.');
         $this->assertDatabaseHas('companies', ['id' => $companyId, 'deleted_at' => null]);
     }
 
