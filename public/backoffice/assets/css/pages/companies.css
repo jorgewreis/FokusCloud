@@ -377,6 +377,8 @@
     font-family: "Google Sans", sans-serif;
     font-size: .7rem;
     font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
     white-space: nowrap;
 }
 
