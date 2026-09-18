@@ -312,6 +312,47 @@
     border-top: 1px solid #cbcbcb;
 }
 
+/* A tabela segue a anatomia do mockup: somente a linha do thead,
+   separadores entre registros e a linha inferior do tbody. */
+.admin-company-page .fs-table,
+.admin-company-page .fs-table thead,
+.admin-company-page .fs-table tbody,
+.admin-company-page .fs-table tr,
+.admin-company-page .fs-table th,
+.admin-company-page .fs-table td {
+    border-collapse: separate;
+    border-bottom: 0;
+}
+
+.admin-company-page .fs-table thead {
+    flex: 0 0 38px;
+}
+
+.admin-company-page .fs-table thead tr {
+    height: 38px;
+    min-height: 38px;
+    padding: 5px 0;
+}
+
+.admin-company-page .fs-table tbody tr {
+    height: 52px;
+    min-height: 52px;
+    padding: 5px 0;
+}
+
+.admin-company-page .fs-table tbody td {
+    height: 42px;
+    min-height: 42px;
+}
+
+.admin-company-page .fs-table tbody tr:not(:first-child) {
+    border-top: 1px solid #cbcbcb;
+}
+
+.admin-company-page .fs-table tbody {
+    border-bottom: 1px solid #cbcbcb;
+}
+
 .admin-company-page .fs-table th:nth-child(1), .admin-company-page .fs-table td:nth-child(1) { flex: 0 0 300px; }
 .admin-company-page .fs-table th:nth-child(2), .admin-company-page .fs-table td:nth-child(2) { flex: 0 0 180px; }
 .admin-company-page .fs-table th:nth-child(3), .admin-company-page .fs-table td:nth-child(3) { flex: 0 0 120px; }
