@@ -350,6 +350,7 @@ class BackofficeController extends Controller
         DB::transaction(function () use ($request, $company, $audit) {
             $current = DB::table('companies')->where('id', $company)->whereNull('deleted_at')->lockForUpdate()->first();
             abort_unless($current, 404, 'Empresa não encontrada.');
+            abort_unless($current->status === 'suspensa', 422, 'Somente empresas suspensas podem ser removidas.');
             abort_if(DB::table('subscriptions')->where('company_id', $company)->exists(), 422, 'Não é possível remover uma empresa que possui assinaturas.');
             DB::table('companies')->where('id', $company)->update(['deleted_at' => now(), 'deleted_by' => $request->user()->id, 'updated_by' => $request->user()->id, 'version' => DB::raw('version + 1'), 'updated_at' => now()]);
             $audit->record($request->user()->id, 'backoffice.company_deleted', 'company', $company, $company, before: ['legal_name' => $current->legal_name, 'status' => $current->status], after: ['deleted' => true], request: $request);

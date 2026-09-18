@@ -101,6 +101,10 @@ class CompanyAdminTest extends TestCase
         $this->actingAs($admin, 'platform')->postJson("/api/backoffice/companies/{$companyId}/deactivate")->assertOk();
         $this->assertDatabaseHas('companies', ['id' => $companyId, 'legal_name' => 'Empresa Editada', 'status' => 'suspensa']);
         $this->actingAs($admin, 'platform')->postJson("/api/backoffice/companies/{$companyId}/activate")->assertOk();
+        $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/companies/{$companyId}")
+            ->assertUnprocessable()
+            ->assertJsonPath('message', 'Somente empresas suspensas podem ser removidas.');
+        $this->actingAs($admin, 'platform')->postJson("/api/backoffice/companies/{$companyId}/deactivate")->assertOk();
         $this->actingAs($admin, 'platform')->deleteJson("/api/backoffice/companies/{$companyId}")->assertOk();
         $this->assertSoftDeleted('companies', ['id' => $companyId]);
         $this->assertDatabaseHas('platform_audit_events', ['action' => 'backoffice.company_deleted', 'entity_id' => $companyId]);
