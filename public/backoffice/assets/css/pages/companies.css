@@ -173,7 +173,8 @@
     font-size: 3.5rem;
     font-weight: 600;
     letter-spacing: 2px;
-    line-height: 1;
+    line-height: normal;
+    margin: -15px 0 0 -1px;
 }
 
 .admin-company-page .title-description {
@@ -292,6 +293,16 @@
     border-radius: 0 8px 8px 0;
     border-left: 0;
     flex: 1 1 auto;
+}
+
+.admin-company-page .fs-input-group .fs-form-control.input-label {
+    border-radius: 0 8px 8px 0;
+    border-left: none;
+}
+
+.admin-company-page .fs-input-group .fs-input-group-text {
+    border-radius: 8px 0 0 8px;
+    border-right: none;
 }
 
 .admin-company-page #company-filter-form > div:last-child {
@@ -502,7 +513,7 @@
 
 .admin-company-page .fs-table .status-badge {
     display: flex;
-    width: fit-content;
+    width: 80px;
     height: 22px;
     min-height: 22px;
     box-sizing: border-box;
