@@ -507,7 +507,7 @@ body {
             font-family: "Bebas Neue", sans-serif;
             font-weight: 600;
             letter-spacing: 2px;
-            margin: -5px 0 0 -1px;
+            margin: 5px 0 0 -1px;
         }
         .painel-header .painel-header-description {
             font-weight: 400;
