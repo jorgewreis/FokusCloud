@@ -431,6 +431,19 @@
     padding: 0;
     border: 0;
     border-radius: 0;
+    background-color: transparent !important;
+    box-shadow: none;
+}
+
+.admin-company-page .fs-table td:last-child .fs-btn-icon:hover,
+.admin-company-page .fs-table td:last-child .fs-btn-icon:active {
+    background-color: transparent !important;
+    box-shadow: none;
+}
+
+.admin-company-page .fs-table td:last-child .fs-btn-icon:focus-visible {
+    background-color: transparent !important;
+    box-shadow: none;
 }
 
 .admin-company-page .fs-table td:last-child .fs-btn-icon img {
