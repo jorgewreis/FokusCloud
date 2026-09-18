@@ -35,6 +35,11 @@
         />
     </head>
     <body>
+        <script src="/assets/js/api-client.js?v=20260828-19"></script>
+        <script src="/assets/js/fokus.min.js?v=20260916-fokus-styles-2.7.0"></script>
+        <script src="/backoffice/assets/js/form-system.js?v=20260916-fokus-styles-migration-v1"></script>
+        <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
+        <template id="backoffice-app-template">
         <div class="container-page expanded">
             <div class="fs-sidebar expanded" id="sidebar">
                 <div class="top">
@@ -239,10 +244,6 @@
             </div>
         </div>
 
-        <script src="/assets/js/api-client.js?v=20260828-19"></script>
-        <script src="/assets/js/fokus.min.js?v=20260916-fokus-styles-2.7.0"></script>
-        <script src="/backoffice/assets/js/form-system.js?v=20260916-fokus-styles-migration-v1"></script>
-        <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
         <script>
             const pageContent = document.querySelector("#page-content");
             const sidebarButtons = document.querySelectorAll(
@@ -709,6 +710,27 @@
                         location.pathname.split("/").filter(Boolean).pop()
                     ] || "platform-dashboard-final",
                 );
+            })();
+        </script>
+        </template>
+        <script>
+            (async () => {
+                try {
+                    const response = await FokusApi.request("/backoffice/auth/me");
+                    if (!response?.admin) throw new Error("Não autorizado.");
+                    document.documentElement.dataset.backofficeAuth = "authorized";
+                    const template = document.querySelector("#backoffice-app-template");
+                    const fragment = template.content.cloneNode(true);
+                    const scripts = [...fragment.querySelectorAll("script")];
+                    document.body.replaceChildren(fragment);
+                    scripts.forEach((source) => {
+                        const script = document.createElement("script");
+                        script.textContent = source.textContent;
+                        document.body.appendChild(script);
+                    });
+                } catch (_) {
+                    location.replace("/?acesso=administrativo");
+                }
             })();
         </script>
     </body>

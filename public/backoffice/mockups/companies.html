@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Empresas — Mockup manual</title>
-    <link rel="stylesheet" href="../../assets/css/shared/fokus.css?v=mockup-companies-v2" />
-    <link rel="stylesheet" href="../assets/css/main.css?v=mockup-companies-v2" />
-    <link rel="stylesheet" href="../assets/css/mockups/companies.css?v=mockup-companies-v2" />
+    <link rel="stylesheet" href="../../assets/css/shared/fokus.css?v=mockup-companies-v3" />
+    <link rel="stylesheet" href="../assets/css/main.css?v=mockup-companies-v3" />
+    <link rel="stylesheet" href="../assets/css/mockups/companies.css?v=mockup-companies-v3" />
 </head>
 <body>
     <main class="container-page">
@@ -41,7 +41,7 @@
                             <img src="./../assets/icons/Search-Bar--Streamline-Ultimate.png">
                         </span>
                         <input class="input-label fs-width-800" id="company-search" type="search" placeholder="Nome, CPF ou CNPJ" />
-                    </div>                    
+                    </div>
                 </label>
                 <label class="form-label">
                     <span class="label">Status</span>
@@ -64,18 +64,18 @@
                     <span class="header-title-name" id="list-title">Empresas cadastradas</span>
                     <span class="header-title-description">Consulte dados, responsáveis, assinaturas e ações disponíveis.</span>
                 </div>
-                <span class="card-headedr-info" id="result-count">24 cadastros encontrados</span>
+                <span class="card-header-info" id="result-count">24 cadastros encontrados</span>
             </div>
             <div class="card-content">
                 <table class="card-table">
                     <thead>
                         <tr>
-                            <th class="fs-width-600">Empresa</th>
-                            <th class="fs-width-400">Documento</th>
-                            <th class="fs-width-300">Status</th>
-                            <th class="fs-width-200">Qtd</th>
-                            <th class="fs-width-500">Administrador</th>
-                            <th class="fs-width-300">Ações</th>
+                            <th class="fs-width-600" scope="col">Empresa</th>
+                            <th class="fs-width-400" scope="col">Documento</th>
+                            <th class="fs-width-300" scope="col">Status</th>
+                            <th class="fs-width-200" scope="col">Qtd</th>
+                            <th class="fs-width-500" scope="col">Administrador</th>
+                            <th class="fs-width-300" scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody id="company-list">
@@ -158,23 +158,75 @@
                 </nav>
             </div>
         </section>
+        <!-- FIM CARD TABLE -->
     </main>
 
     <div class="mockup-overlay" id="overlay" hidden></div>
     <aside class="create-drawer" id="create-drawer" aria-labelledby="drawer-title" hidden>
-        <div class="drawer-header"><div><span class="mockup-eyebrow">Novo cadastro</span><h2 id="drawer-title">Nova empresa</h2><p>Cadastre a empresa e o administrador responsável.</p></div><button class="drawer-close" id="close-create" type="button" aria-label="Fechar">×</button></div>
-        <form class="drawer-form" id="create-form">
-            <div class="form-section"><h3>Dados da empresa</h3><p>Identificação legal do cadastro.</p></div>
-            <label class="field"><span>Tipo de documento</span><select><option>CNPJ</option><option>CPF</option></select></label>
-            <label class="field"><span>CPF ou CNPJ</span><input placeholder="00.000.000/0000-00" /></label>
-            <label class="field"><span>Razão social</span><input placeholder="Nome jurídico da empresa" /></label>
-            <div class="form-section"><h3>Administrador responsável</h3><p>Dados de acesso e contato principal.</p></div>
-            <label class="field"><span>Nome completo</span><input placeholder="Nome do administrador" /></label>
-            <label class="field"><span>E-mail profissional</span><input type="email" placeholder="nome@empresa.com" /></label>
-            <label class="field"><span>Senha inicial</span><input type="password" placeholder="Mínimo de 12 caracteres" /></label>
-            <label class="check-field"><input type="checkbox" /> <span>Li e aceito os Termos de Uso.</span></label>
-            <label class="check-field"><input type="checkbox" /> <span>Li e aceito a Política de Privacidade.</span></label>
-            <div class="drawer-actions"><button class="fs-btn fs-btn-outline-primary" id="cancel-create" type="button">Cancelar</button><button class="fs-btn fs-btn-primary" type="submit">Criar empresa</button></div>
+
+        <!-- INICIO PAINEL HEADER -->
+        <div class="painel-header">
+            <div class="painel-header-title">
+                <span class="painel-header-section">Empresas</span>
+                <span class="painel-header-text" id="drawer-title">Nova empresa</span>
+                <span class="painel-header-description">Cadastre os dados da empresa e do administrador responsável.</span>
+            </div>
+
+            <div class="painel-header-button">
+                <button class="drawer-close" id="close-create" type="button" aria-label="Fechar">×</button>
+            </div>
+        </div>
+        <!-- FIM PAINEL HEADER -->
+
+        <!-- INICIO PAINEL FORM -->
+        <form class="painel-form" id="create-form">
+            <div class="form-section">
+                <span class="section-title">Dados da empresa</span>
+                <span class="section-description">Identificação legal do cadastro.</span>
+            </div>
+            <label class="form-label form-line">
+                <span class="label">Tipo de documento</span>
+                <select class="form-select fs-width-400">
+                    <option>CNPJ</option>
+                    <option>CPF</option>
+                </select>
+            </label>
+            <label class="form-label form-line">
+                <span class="label">CPF ou CNPJ</span>
+                <input class="input-label fs-width-400" placeholder="00.000.000/0000-00" />
+            </label>
+            <label class="form-label form-line">
+                <span class="label">Razão social</span>
+                <input class="input-label" placeholder="Nome jurídico da empresa" />
+            </label>
+            <div class="form-section">
+                <span class="section-title">Administrador responsável</span>
+                <span class="section-description">Dados de acesso e contato principal.</span>
+            </div>
+            <label class="form-label form-line">
+                <span class="label">Nome completo</span>
+                <input class="input-label" placeholder="Nome do administrador" />
+            </label>
+            <label class="form-label form-line">
+                <span class="label">E-mail profissional</span>
+                <input class="input-label fs-width-600" type="email" placeholder="nome@empresa.com" />
+            </label>
+            <label class="form-label form-line">
+                <span class="label">Senha inicial</span>
+                <input class="input-label fs-width-400" type="password" placeholder="Mínimo de 12 caracteres" />
+            </label>
+            <label class="check-field form-line-duo">
+                <input type="checkbox" />
+                <span>Li e aceito os Termos de Uso.</span>
+            </label>
+            <label class="check-field">
+                <input type="checkbox" />
+                <span>Li e aceito a Política de Privacidade.</span>
+            </label>
+            <div class="drawer-actions form-line-duo">
+                <button class="fs-btn fs-btn-outline-primary fs-width-300" id="cancel-create" type="button">Cancelar</button>
+                <button class="fs-btn fs-btn-primary fs-width-400" type="submit">Cadastrar empresa</button>
+            </div>
         </form>
     </aside>
 
