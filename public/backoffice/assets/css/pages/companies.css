@@ -43,6 +43,77 @@
     margin: -15px 0 0 -1px;
 }
 
+.admin-company-page .card-page {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.admin-company-page .card-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    background: #efefef;
+}
+
+.admin-company-page .card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 20px;
+    background: #fefefe;
+}
+
+.admin-company-page .content-filter {
+    padding: 20px;
+    justify-content: flex-end;
+}
+
+.admin-company-page .card-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 0 0 8px 8px;
+    gap: 20px;
+    background: #fefefe;
+}
+
+.admin-company-page .pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.admin-company-page .pagination .page-button {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    border: 1px solid #cbcbcb;
+    border-radius: 6px;
+    background: #fff;
+    color: #909090;
+}
+
+.admin-company-page .pagination .page-button.is-current {
+    border: 2px solid #18478f;
+    background: #d3e5ff;
+    color: #18478f;
+    font-weight: 600;
+    pointer-events: none;
+}
+
 .admin-company-page > section.fs-card {
     width: calc(100% - 20px);
     margin: 20px 10px;

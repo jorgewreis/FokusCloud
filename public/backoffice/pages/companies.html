@@ -1,16 +1,18 @@
-<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v31" />
-<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260918-fokus-styles-companies-v31" />
+<link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v32" />
+<link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260918-fokus-styles-companies-v32" />
 
-<main class="admin-company-page fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4" aria-labelledby="companies-page-title">
-    <header class="page-header">
-        <div class="header-title">
+<main class="container-page admin-company-page fs-container-fluid fs-u-d-flex fs-u-flex-column fs-u-gap-4" aria-labelledby="companies-page-title">
+    <header class="container-header page-header">
+        <div class="left header-title">
             <span class="title-heading">Admin</span>
             <span class="title-page" id="companies-page-title">Empresas</span>
             <span class="title-description">Gestão e cadastro de Pessoas Físicas e Jurídicas</span>
         </div>
-        <button class="fs-btn fs-btn-primary" id="company-create" type="button" data-fs-target="#company-drawer">
+        <div class="right">
+        <button class="fs-btn fs-btn-primary fs-width-300" id="company-create" type="button" data-fs-target="#company-drawer">
             Nova empresa
         </button>
+        </div>
     </header>
 
     <section class="fs-row" aria-label="Resumo das empresas" hidden>
@@ -46,15 +48,15 @@
 
     <div id="company-message" class="fs-alert" role="status" aria-live="polite" hidden></div>
 
-    <section class="fs-card" aria-labelledby="company-filter-title">
-        <div class="fs-card-header card-heading fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-2">
+    <section class="card-page fs-card" aria-labelledby="company-filter-title">
+        <div class="card-header fs-card-header card-heading fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-2">
             <div class="card-header-title">
                 <h2 class="fs-card-title section-title header-title-name" id="company-filter-title">Pesquisa e filtros</h2>
                 <p class="fs-card-subtitle section-description header-title-description">Encontre rapidamente um cadastro por nome, documento ou status.</p>
             </div>
         </div>
-        <div class="fs-card-body">
-            <form id="company-filter-form" class="fs-form-row fs-u-align-items-end fs-u-gap-3">
+        <div class="card-content fs-card-body">
+            <form id="company-filter-form" class="content-filter fs-form-row fs-u-align-items-end fs-u-gap-3">
                 <label class="fs-form-col fs-form-label form-label fs-col-5" for="company-query">
                     <span class="label">Buscar empresa</span>
                     <span class="fs-input-group">
@@ -80,17 +82,17 @@
         </div>
     </section>
 
-    <section class="fs-card" aria-labelledby="company-list-title">
-        <div class="fs-card-header card-heading fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-3">
+    <section class="card-page fs-card" aria-labelledby="company-list-title">
+        <div class="card-header fs-card-header card-heading fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-3">
             <div class="card-header-title">
                 <h2 class="fs-card-title section-title header-title-name" id="company-list-title">Empresas cadastradas</h2>
                 <p class="fs-card-subtitle section-description header-title-description">Consulte dados, responsáveis, assinaturas e ações disponíveis.</p>
             </div>
             <span class="fs-u-fs-sm fs-u-color-secondary section-info card-header-info" id="company-table-summary">Mostrando 0 a 0 de 0 empresas</span>
         </div>
-        <div class="fs-card-body fs-u-p-0">
-            <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
-                <table class="fs-table fs-table-hover" aria-label="Empresas cadastradas">
+        <div class="card-content fs-card-body fs-u-p-0">
+            <div class="table-scroll fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
+                <table class="card-table fs-table fs-table-hover" aria-label="Empresas cadastradas">
                     <thead>
                         <tr><th class="fs-width-600" scope="col">Empresa</th><th class="fs-width-400" scope="col">Documento</th><th class="fs-width-300" scope="col">Status</th><th class="fs-width-200" scope="col">Qtd</th><th class="fs-width-500" scope="col">Administrador</th><th class="fs-width-300" scope="col">Ações</th></tr>
                     </thead>
@@ -101,9 +103,9 @@
                 <div data-fs-datatable-error class="fs-alert fs-alert-danger" hidden><span data-fs-datatable-error-message></span></div>
             </div>
         </div>
-        <div class="fs-card-footer fs-u-d-flex fs-u-flex-wrap fs-u-align-items-center fs-u-justify-content-between fs-u-gap-3">
+        <div class="card-footer fs-card-footer fs-u-d-flex fs-u-flex-wrap fs-u-align-items-center fs-u-justify-content-between fs-u-gap-3">
             <span class="fs-u-fs-sm fs-u-color-secondary" id="company-table-footer-summary">Exibindo cadastros de 0 a 0, na página 1, de um total de 0 encontrados.</span>
-            <nav class="fs-pagination" id="company-pagination" aria-label="Paginação de empresas"></nav>
+            <nav class="pagination fs-pagination" id="company-pagination" aria-label="Paginação de empresas"></nav>
         </div>
     </section>
 
@@ -174,7 +176,7 @@
     const action = (name, id, label) => `<button class="fs-btn fs-btn-icon" type="button" data-company-action="${name}" data-company-id="${escapeHtml(id)}" aria-label="${label}" title="${label}"><img src="${B}${icons[name]}" alt="" /></button>`;
     const showMessage = (value, tone = "danger") => { message.textContent = value || ""; message.dataset.tone = tone; message.hidden = !value; };
     const setSummary = (summary = {}) => { document.querySelector("#company-summary-total").textContent = Number(summary.total || 0).toLocaleString("pt-BR"); document.querySelector("#company-summary-active").textContent = Number(summary.active || 0).toLocaleString("pt-BR"); document.querySelector("#company-summary-suspended").textContent = Number(summary.suspended || 0).toLocaleString("pt-BR"); document.querySelector("#company-summary-pending").textContent = Number(summary.pending || 0).toLocaleString("pt-BR"); };
-    const renderPagination = (meta = {}) => { const lastPage = Math.max(1, Number(meta.last_page || 1)); const currentPage = Math.min(lastPage, Math.max(1, Number(meta.current_page || 1))); pagination.innerHTML = `${Array.from({ length: lastPage }, (_, i) => `<li class="fs-page-item${i + 1 === currentPage ? " is-active" : ""}"><button class="fs-page-link" type="button" data-company-page="${i + 1}" aria-label="Página ${i + 1}"${i + 1 === currentPage ? " aria-current=\"page\"" : ""}>${i + 1}</button></li>`).join("")}`; };
+    const renderPagination = (meta = {}) => { const lastPage = Math.max(1, Number(meta.last_page || 1)); const currentPage = Math.min(lastPage, Math.max(1, Number(meta.current_page || 1))); pagination.innerHTML = Array.from({ length: lastPage }, (_, i) => `<button class="page-button fs-page-link${i + 1 === currentPage ? " is-current is-active" : ""}" type="button" data-company-page="${i + 1}" aria-label="Página ${i + 1}"${i + 1 === currentPage ? " aria-current=\"page\"" : ""}>${i + 1}</button>`).join(""); };
     const render = (response) => { const rows = response.data || []; list.innerHTML = rows.length ? rows.map((company) => { const actions = `${action("details", company.id, "Ver detalhes")}${action("edit", company.id, "Editar empresa")}${company.status === "suspensa" ? action("activate", company.id, "Reativar empresa") : ["ativa", "pendente"].includes(company.status) ? action("deactivate", company.id, "Suspender empresa") : ""}${company.active_subscriptions === 0 ? action("remove", company.id, "Excluir empresa") : ""}`; const type = company.document_type === "cpf" ? "CPF" : "CNPJ"; return `<tr><td class="fs-width-600" data-label="Empresa"><strong>${escapeHtml(company.legal_name || "-")}</strong><small class="fs-u-d-block fs-u-fs-sm">${escapeHtml(company.name || "Cadastro comercial")}</small></td><td class="fs-width-400" data-label="Documento"><strong>${escapeHtml(formatDocument(company.document_number, company.document_type))}</strong><small class="fs-u-d-block fs-u-fs-sm">${type}</small></td><td class="fs-width-300" data-label="Status">${statusBadge(company.status)}</td><td class="fs-width-200" data-label="Assinaturas ativas">${Number(company.active_subscriptions || 0).toLocaleString("pt-BR")}</td><td class="fs-width-500" data-label="Administrador"><strong class="fs-u-fw-semibold">${escapeHtml(company.admin_name || "-")}</strong><small class="fs-u-d-block fs-u-fs-sm">${escapeHtml(company.admin_email || "-")}</small></td><td class="fs-width-300" data-label="Ações"><div class="fs-u-d-flex fs-u-gap-2">${actions}</div></td></tr>`; }).join("") : '<tr><td colspan="6">Nenhuma empresa encontrada.</td></tr>'; const meta = response.meta || {}; const total = Number(meta.total || 0); const currentPage = Math.max(1, Number(meta.current_page || 1)); const perPage = Number(meta.per_page || rows.length || 1); const from = total ? (currentPage - 1) * perPage + 1 : 0; const to = total ? Math.min(currentPage * perPage, total) : 0; tableSummary.textContent = total ? `Mostrando ${from} a ${to} de ${total} empresas` : "Nenhuma empresa encontrada"; document.querySelector("#company-table-footer-summary").textContent = `Exibindo cadastros de ${from} a ${to}, na página ${currentPage}, de um total de ${total} encontrados.`; renderPagination(meta); setSummary(response.summary); window.refreshFokusDataTables?.(); };
     const load = async () => { try { const params = new URLSearchParams({ page: String(state.page), per_page: "25" }); if (state.query) params.set("q", state.query); if (state.status) params.set("status", state.status); render(await api.request(`/backoffice/companies?${params}`)); showMessage(""); } catch (error) { showMessage(error.message || "Não foi possível carregar as empresas."); } };
     const resetForm = () => { form.reset(); form.hidden = false; document.querySelector("#company-view-panel").hidden = true; form.querySelectorAll("input, select").forEach((field) => { field.disabled = false; }); document.querySelector("#company-document-type").value = "cnpj"; document.querySelector("#company-version").value = ""; document.querySelector("#company-document-number").readOnly = false; document.querySelector("#company-password-field").hidden = false; document.querySelector("#company-admin-password").required = true; document.querySelector("#company-legal-section").hidden = false; document.querySelector("#company-form-submit").hidden = false; document.querySelector("#company-form-cancel").textContent = "Cancelar"; document.querySelector("#company-form-submit").textContent = "Criar empresa"; document.querySelector("#company-drawer-kicker").textContent = "NOVO CADASTRO"; document.querySelector("#company-drawer-title").textContent = "Nova empresa"; document.querySelector("#company-drawer-description").textContent = "Cadastre a empresa e o administrador responsável."; document.querySelector("#company-name-label").textContent = "Razão social"; currentCompany = null; };
