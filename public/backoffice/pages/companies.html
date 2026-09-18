@@ -1,14 +1,14 @@
 <link data-page-css="companies" rel="stylesheet" href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v46" />
 <link data-page-css="companies" rel="stylesheet" href="/backoffice/assets/css/pages/companies.css?v=20260918-fokus-styles-companies-v46" />
 
-<main class="admin-company-page companies-mockup container-page fs-container-fluid fs-u-d-flex fs-u-flex-column" aria-labelledby="companies-page-title">
-    <header class="fs-page-layout container-header">
-        <div class="fs-page-header-display left">
-            <span class="header-system">Admin</span>
-            <h1 class="header-title" id="companies-page-title">Empresas</h1>
-            <p class="header-description">Gestão e cadastro de Pessoas Físicas e Jurídicas</p>
+<main class="admin-company-page container-page fs-container-fluid fs-u-d-flex fs-u-flex-column" aria-labelledby="companies-page-title">
+    <header class="fs-page-layout">
+        <div class="fs-page-header-display">
+            <span>Admin</span>
+            <h1 id="companies-page-title">Empresas</h1>
+            <p>Gestão e cadastro de Pessoas Físicas e Jurídicas</p>
         </div>
-        <div class="right"><button class="fs-btn fs-btn-primary fs-width-300" id="company-create" type="button" data-fs-target="#company-drawer">Nova empresa</button></div>
+        <button class="fs-btn fs-btn-primary fs-width-300" id="company-create" type="button" data-fs-target="#company-drawer">Nova empresa</button>
     </header>
 
     <section class="fs-row" aria-label="Resumo das empresas" hidden>
@@ -44,25 +44,25 @@
 
     <div id="company-message" class="fs-alert" role="status" aria-live="polite" hidden></div>
 
-    <section class="fs-card fs-card-panel card-page" aria-labelledby="company-filter-title">
-        <div class="fs-card-header card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-2">
-            <div class="fs-card-header-title card-header-title">
-                <h2 class="fs-card-title header-title-name" id="company-filter-title">Pesquisa e filtros</h2>
-                <p class="fs-card-subtitle header-title-description">Encontre rapidamente um cadastro por nome, documento ou status.</p>
+    <section class="fs-card fs-card-panel" aria-labelledby="company-filter-title">
+        <div class="fs-card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-2">
+            <div class="fs-card-header-title">
+                <h2 class="fs-card-title" id="company-filter-title">Filtros</h2>
+                <p class="fs-card-subtitle">Encontre rapidamente um cadastro filtrando por nome, documento ou status.</p>
             </div>
         </div>
         <div class="fs-card-body">
-            <form id="company-filter-form" class="fs-filter-form card-content content-filter">
-                <label class="fs-form-col fs-form-label form-label fs-width-800" for="company-query">
-                    <span class="label">Buscar empresa</span>
+            <form id="company-filter-form" class="fs-filter-form">
+                <label class="fs-form-col fs-form-label fs-width-800" for="company-query">
+                    <span>Nome ou termo para filtrar</span>
                     <span class="fs-input-group fs-input-group-subtle">
                         <span class="fs-input-group-text" aria-hidden="true"><img class="fs-input-group-icon" src="/backoffice/assets/icons/Search-Bar--Streamline-Ultimate.png" alt="" /></span>
-                        <input class="fs-form-control input-label" id="company-query" name="q" type="search" placeholder="Nome, CPF ou CNPJ" autocomplete="off" />
+                        <input class="fs-form-control" id="company-query" name="q" type="search" placeholder="Nome, CPF ou CNPJ" autocomplete="off" />
                     </span>
                 </label>
-                <label class="fs-form-col fs-form-label form-label fs-width-500" for="company-status">
-                    <span class="label">Status</span>
-                    <select class="fs-form-select form-select" id="company-status" name="status">
+                <label class="fs-form-col fs-form-label fs-width-500" for="company-status">
+                    <span>Status</span>
+                    <select class="fs-form-select" id="company-status" name="status">
                         <option value="">Todos os status</option>
                         <option value="ativa">Ativas</option>
                         <option value="suspensa">Suspensas</option>
@@ -78,17 +78,17 @@
         </div>
     </section>
 
-    <section class="fs-card fs-card-panel card-page" aria-labelledby="company-list-title">
-        <div class="fs-card-header card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-3">
-            <div class="fs-card-header-title card-header-title">
-                <h2 class="fs-card-title header-title-name" id="company-list-title">Empresas cadastradas</h2>
-                <p class="fs-card-subtitle header-title-description">Consulte dados, responsáveis, assinaturas e ações disponíveis.</p>
+    <section class="fs-card fs-card-panel" aria-labelledby="company-list-title">
+        <div class="fs-card-header fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-between fs-u-align-items-end fs-u-gap-3">
+            <div class="fs-card-header-title">
+                <h2 class="fs-card-title" id="company-list-title">Empresas cadastradas</h2>
+                <p class="fs-card-subtitle">Consulte dados, responsáveis, assinaturas e ações disponíveis.</p>
             </div>
             <span class="fs-card-header-info" id="company-table-summary">Mostrando 0 a 0 de 0 empresas</span>
         </div>
         <div class="fs-card-body fs-u-p-0">
             <div class="fs-table-responsive fs-datatable" data-fs="datatable" data-fs-page-size="1000">
-                <table class="fs-table fs-table-records fs-table-hover card-table" aria-label="Empresas cadastradas">
+                <table class="fs-table fs-table-records fs-table-hover" aria-label="Empresas cadastradas">
                     <thead>
                         <tr><th class="fs-width-600" scope="col">Empresa</th><th class="fs-width-400" scope="col">Documento</th><th class="fs-width-300" scope="col">Status</th><th class="fs-width-200" scope="col">Qtd</th><th class="fs-width-600" scope="col">Administrador</th><th class="fs-width-500" scope="col">Ações</th></tr>
                     </thead>
@@ -99,46 +99,46 @@
                 <div data-fs-datatable-error class="fs-alert fs-alert-danger" hidden><span data-fs-datatable-error-message></span></div>
             </div>
         </div>
-        <div class="fs-card-footer card-footer fs-u-d-flex fs-u-flex-wrap fs-u-align-items-center fs-u-justify-content-between fs-u-gap-3">
+        <div class="fs-card-footer fs-u-d-flex fs-u-flex-wrap fs-u-align-items-center fs-u-justify-content-between fs-u-gap-3">
             <span class="fs-u-fs-sm fs-u-color-secondary" id="company-table-footer-summary">Exibindo cadastros de 0 a 0, na página 1, de um total de 0 encontrados.</span>
             <nav id="company-pagination" aria-label="Paginação de empresas"></nav>
         </div>
     </section>
 
-    <aside class="fs-offcanvas fs-offcanvas-end create-drawer" id="company-drawer" aria-labelledby="company-drawer-title" tabindex="-1">
-        <div class="fs-offcanvas-header painel-header">
-            <div class="fs-col fs-u-gap-1 painel-header-title">
-                <span class="fs-u-text-uppercase fs-u-fw-semibold fs-u-fs-sm fs-u-color-secondary painel-header-section" id="company-drawer-kicker">Novo cadastro</span>
-                <h2 class="fs-offcanvas-title painel-header-text" id="company-drawer-title">Nova empresa</h2>
-                <p class="fs-u-fs-md fs-u-color-secondary fs-u-m-0 painel-header-description" id="company-drawer-description">Cadastre a empresa e o administrador responsável.</p>
+    <aside class="fs-offcanvas fs-offcanvas-end" id="company-drawer" aria-labelledby="company-drawer-title" tabindex="-1">
+        <div class="fs-offcanvas-header">
+            <div class="fs-col fs-u-gap-1">
+                <span class="fs-u-text-uppercase fs-u-fw-semibold fs-u-fs-sm fs-u-color-secondary" id="company-drawer-kicker">Novo cadastro</span>
+                <h2 class="fs-offcanvas-title" id="company-drawer-title">Nova empresa</h2>
+                <p class="fs-u-fs-md fs-u-color-secondary fs-u-m-0" id="company-drawer-description">Cadastre a empresa e o administrador responsável.</p>
             </div>
-            <div class="painel-header-button"><button class="fs-btn-close drawer-close" id="company-drawer-close" type="button" data-fs-dismiss="offcanvas" aria-label="Fechar painel"></button></div>
+            <button class="fs-btn-close" id="company-drawer-close" type="button" data-fs-dismiss="offcanvas" aria-label="Fechar painel"></button>
         </div>
-        <form id="company-form" class="fs-offcanvas-body fs-u-d-flex fs-u-flex-column fs-u-gap-4 painel-form" novalidate>
+        <form id="company-form" class="fs-offcanvas-body fs-u-d-flex fs-u-flex-column fs-u-gap-4" novalidate>
             <input type="hidden" id="company-version" name="version" />
-            <section class="fs-u-d-flex fs-u-flex-column fs-u-gap-3 form-section" aria-labelledby="company-legal-title">
-                <div><h3 class="fs-u-fs-h5 fs-u-m-0 section-title" id="company-legal-title">Dados da empresa</h3><p class="fs-u-fs-sm fs-u-color-secondary section-description">Identificação legal do cadastro.</p></div>
+            <section class="fs-u-d-flex fs-u-flex-column fs-u-gap-3" aria-labelledby="company-legal-title">
+                <div><h3 class="fs-u-fs-h5 fs-u-m-0" id="company-legal-title">Dados da empresa</h3><p class="fs-u-fs-sm fs-u-color-secondary">Identificação legal do cadastro.</p></div>
                 <div class="fs-form-row">
-                    <label class="fs-form-col fs-form-label form-label" for="company-document-type"><span class="label">Tipo de documento</span><select class="fs-form-select form-select" id="company-document-type" name="document_type"><option value="cnpj">CNPJ</option><option value="cpf">CPF</option></select></label>
-                    <label class="fs-form-col fs-form-label form-label" for="company-document-number"><span class="label">CPF ou CNPJ</span><input class="fs-form-control input-label" id="company-document-number" name="document_number" inputmode="numeric" required /><small id="company-document-error" class="fs-invalid-feedback" role="alert" aria-live="polite"></small></label>
+                    <label class="fs-form-col fs-form-label" for="company-document-type"><span>Tipo de documento</span><select class="fs-form-select" id="company-document-type" name="document_type"><option value="cnpj">CNPJ</option><option value="cpf">CPF</option></select></label>
+                    <label class="fs-form-col fs-form-label" for="company-document-number"><span>CPF ou CNPJ</span><input class="fs-form-control" id="company-document-number" name="document_number" inputmode="numeric" required /><small id="company-document-error" class="fs-invalid-feedback" role="alert" aria-live="polite"></small></label>
                 </div>
-                <label class="fs-form-label form-label" for="company-legal-name"><span class="label" id="company-name-label">Razão social</span><input class="fs-form-control input-label" id="company-legal-name" name="legal_name" required maxlength="255" /></label>
+                <label class="fs-form-label" for="company-legal-name"><span id="company-name-label">Razão social</span><input class="fs-form-control" id="company-legal-name" name="legal_name" required maxlength="255" /></label>
             </section>
-            <section class="fs-u-d-flex fs-u-flex-column fs-u-gap-3 form-section" aria-labelledby="company-admin-title">
-                <div><h3 class="fs-u-fs-h5 fs-u-m-0 section-title" id="company-admin-title">Administrador responsável</h3><p class="fs-u-fs-sm fs-u-color-secondary section-description">Dados de acesso e contato principal.</p></div>
-                <label class="fs-form-label form-label" for="company-admin-name"><span class="label">Nome completo</span><input class="fs-form-control input-label" id="company-admin-name" name="name" required maxlength="255" /></label>
+            <section class="fs-u-d-flex fs-u-flex-column fs-u-gap-3" aria-labelledby="company-admin-title">
+                <div><h3 class="fs-u-fs-h5 fs-u-m-0" id="company-admin-title">Administrador responsável</h3><p class="fs-u-fs-sm fs-u-color-secondary">Dados de acesso e contato principal.</p></div>
+                <label class="fs-form-label" for="company-admin-name"><span>Nome completo</span><input class="fs-form-control" id="company-admin-name" name="name" required maxlength="255" /></label>
                 <div class="fs-form-row">
-                    <label class="fs-form-col fs-form-label form-label" for="company-admin-cpf"><span class="label">CPF</span><input class="fs-form-control input-label" id="company-admin-cpf" name="cpf" inputmode="numeric" required /><small id="company-admin-cpf-error" class="fs-invalid-feedback" role="alert" aria-live="polite"></small></label>
-                    <label class="fs-form-col fs-form-label form-label" for="company-admin-email"><span class="label">E-mail profissional</span><input class="fs-form-control input-label" id="company-admin-email" name="email" type="email" required maxlength="255" /></label>
+                    <label class="fs-form-col fs-form-label" for="company-admin-cpf"><span>CPF</span><input class="fs-form-control" id="company-admin-cpf" name="cpf" inputmode="numeric" required /><small id="company-admin-cpf-error" class="fs-invalid-feedback" role="alert" aria-live="polite"></small></label>
+                    <label class="fs-form-col fs-form-label" for="company-admin-email"><span>E-mail profissional</span><input class="fs-form-control" id="company-admin-email" name="email" type="email" required maxlength="255" /></label>
                 </div>
-                <label class="fs-form-label form-label" id="company-password-field" for="company-admin-password"><span class="label">Senha inicial</span><input class="fs-form-control input-label" id="company-admin-password" name="password" type="password" minlength="12" autocomplete="new-password" /><small class="fs-form-text">Use ao menos 12 caracteres. O acesso será imediato.</small></label>
+                <label class="fs-form-label" id="company-password-field" for="company-admin-password"><span>Senha inicial</span><input class="fs-form-control" id="company-admin-password" name="password" type="password" minlength="12" autocomplete="new-password" /><small class="fs-form-text">Use ao menos 12 caracteres. O acesso será imediato.</small></label>
             </section>
             <section class="fs-u-d-flex fs-u-flex-column fs-u-gap-2" id="company-legal-section" aria-labelledby="company-consent-title">
                 <div><h3 class="fs-u-fs-h5 fs-u-m-0" id="company-consent-title">Consentimentos</h3><p class="fs-u-fs-sm fs-u-color-secondary">Confirme os termos para concluir o cadastro.</p></div>
-                <label class="fs-check check-field"><input id="company-terms" class="fs-check-input" name="terms" type="checkbox" value="1" required /><span class="fs-check-label">Li e aceito os Termos de Uso.</span></label>
-                <label class="fs-check check-field"><input id="company-privacy" class="fs-check-input" name="privacy" type="checkbox" value="1" required /><span class="fs-check-label">Li e aceito a Política de Privacidade.</span></label>
+                <label class="fs-check"><input id="company-terms" class="fs-check-input" name="terms" type="checkbox" value="1" required /><span class="fs-check-label">Li e aceito os Termos de Uso.</span></label>
+                <label class="fs-check"><input id="company-privacy" class="fs-check-input" name="privacy" type="checkbox" value="1" required /><span class="fs-check-label">Li e aceito a Política de Privacidade.</span></label>
             </section>
-            <div class="fs-offcanvas-footer drawer-actions fs-u-d-flex fs-u-justify-content-end fs-u-gap-2"><button class="fs-btn fs-btn-outline-primary fs-width-300" id="company-form-cancel" type="button">Cancelar</button><button class="fs-btn fs-btn-primary fs-width-400" type="submit" id="company-form-submit">Criar empresa</button></div>
+            <div class="fs-offcanvas-footer fs-u-d-flex fs-u-justify-content-end fs-u-gap-2"><button class="fs-btn fs-btn-outline-primary" id="company-form-cancel" type="button">Cancelar</button><button class="fs-btn fs-btn-primary" type="submit" id="company-form-submit">Criar empresa</button></div>
         </form>
         <section class="fs-offcanvas-body fs-u-d-flex fs-u-flex-column fs-u-gap-4" id="company-view-panel" aria-label="Dados da empresa" hidden>
             <div class="fs-card"><div class="fs-card-header"><h3 class="fs-card-title">Dados da empresa</h3></div><div class="fs-card-body"><dl><div><dt class="fs-form-label">Empresa</dt><dd id="company-view-name">-</dd></div><div><dt class="fs-form-label">Documento</dt><dd id="company-view-document">-</dd></div><div><dt class="fs-form-label">Status</dt><dd id="company-view-status">-</dd></div></dl></div></div>
