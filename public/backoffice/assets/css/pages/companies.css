@@ -353,12 +353,11 @@
     border-bottom: 1px solid #cbcbcb;
 }
 
-.admin-company-page .fs-table th:nth-child(1), .admin-company-page .fs-table td:nth-child(1) { flex: 0 0 300px; }
-.admin-company-page .fs-table th:nth-child(2), .admin-company-page .fs-table td:nth-child(2) { flex: 0 0 180px; }
-.admin-company-page .fs-table th:nth-child(3), .admin-company-page .fs-table td:nth-child(3) { flex: 0 0 120px; }
-.admin-company-page .fs-table th:nth-child(4), .admin-company-page .fs-table td:nth-child(4) { flex: 0 0 80px; }
-.admin-company-page .fs-table th:nth-child(5), .admin-company-page .fs-table td:nth-child(5) { flex: 0 0 240px; }
-.admin-company-page .fs-table th:nth-child(6), .admin-company-page .fs-table td:nth-child(6) { flex: 0 0 120px; }
+.admin-company-page .fs-table .fs-width-200 { width: 80px; flex: 0 0 80px; }
+.admin-company-page .fs-table .fs-width-300 { width: 120px; flex: 0 0 120px; }
+.admin-company-page .fs-table .fs-width-400 { width: 180px; flex: 0 0 180px; }
+.admin-company-page .fs-table .fs-width-500 { width: 240px; flex: 0 0 240px; }
+.admin-company-page .fs-table .fs-width-600 { width: 300px; flex: 0 0 300px; }
 
 .admin-company-page .fs-table th {
     color: #252525;
