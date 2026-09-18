@@ -335,11 +335,22 @@
 .create-drawer .painel-form .form-label > .label { margin-bottom: 0; }
 .create-drawer .painel-form .check-field .fs-check-input {
     position: static;
+    display: block;
+    flex: 0 0 13px;
     width: 13px;
     height: 13px;
     margin: 0;
     padding: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+    border: 1px solid #58758a;
     visibility: visible;
     opacity: 1;
     appearance: auto;
+    accent-color: #18478f;
+}
+
+.create-drawer .painel-form > .form-section:not(#company-legal-section) > .section-description {
+    margin-bottom: 20px;
 }
