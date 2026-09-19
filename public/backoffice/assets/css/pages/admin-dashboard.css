@@ -3680,3 +3680,18 @@ html[data-role="admin"] .fs-sidebar > .sidebar-nav::-webkit-scrollbar-thumb {
     border-radius: 999px;
     background: rgba(255, 255, 255, .42);
 }
+
+/* Catalog sublinks need a compact row and must keep their full label inside
+   the available sidebar width. This override is intentionally scoped to the
+   sublink buttons only. */
+html[data-role="admin"] .fs-sidebar .sidebar-subnav-button {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+}
+html[data-role="admin"] .fs-sidebar .sidebar-subnav-button .sidebar-button-label {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    overflow: visible;
+    white-space: nowrap;
+}
