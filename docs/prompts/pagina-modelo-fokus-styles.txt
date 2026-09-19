@@ -62,6 +62,10 @@ ESTRUTURA DA PÁGINA E COMPONENTES
 - Componentes, classes, atributos, textos, ícones e comportamentos novos
   devem ser reutilizáveis por outras páginas. Não copie seletores exclusivos
   de uma página nem crie uma solução que só funcione para o consumidor atual.
+- Todo comportamento corrigido em uma página deve ser promovido para a
+  composição compartilhada correspondente e aplicado automaticamente a todas
+  as páginas que usam essa composição. Correção local é exceção documentada,
+  nunca o padrão de implementação.
 - Dê preferência às APIs oficiais `fs-*`, `fs-u-*`, `data-fs-*` e às
   composições compartilhadas do Fokus Styles.
 - Não use formulários desabilitados como substituto de detalhes. Para

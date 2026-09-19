@@ -5,10 +5,6 @@
     width: min(100% - 40px, 1480px);
     margin: 0 auto;
     padding: 24px 0 60px;
-    height: auto;
-    min-height: calc(100vh - 80px);
-    overflow: visible;
-    flex: 0 0 auto;
     color: #252525;
     font-family: "Google Sans", sans-serif;
 }
@@ -16,13 +12,11 @@
 .admin-company-page > .fs-page-layout {
     width: 100%;
     padding: 0 30px 20px;
-    flex-shrink: 0;
 }
 
 .admin-company-page > section.fs-card-panel {
     width: calc(100% - 20px);
     margin: 10px;
-    flex-shrink: 0;
 }
 
 .admin-company-page > .fs-row {
@@ -30,7 +24,6 @@
     flex-wrap: wrap;
     gap: 16px;
     margin: 0 0 24px;
-    flex-shrink: 0;
 }
 
 .admin-company-page > .fs-row > .fs-card {
