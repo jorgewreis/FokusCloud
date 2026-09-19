@@ -40,7 +40,7 @@ body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: ca
 .admin-products-page .fs-table-records thead tr,
 .admin-products-page .fs-table-records tbody tr { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1.5fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1.5fr); justify-content: initial; }
 .admin-modules-page .fs-table-records thead tr,
-.admin-modules-page .fs-table-records tbody tr { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 2fr) minmax(0, 1.5fr) minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, .9fr) minmax(0, 1.5fr); justify-content: initial; }
+.admin-modules-page .fs-table-records tbody tr { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 2.7fr) minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1.6fr); justify-content: initial; }
 .admin-products-page .fs-table-records thead th,
 .admin-products-page .fs-table-records tbody td,
 .admin-modules-page .fs-table-records thead th,
