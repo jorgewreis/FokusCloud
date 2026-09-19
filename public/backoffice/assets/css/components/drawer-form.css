@@ -325,23 +325,6 @@
 .admin-company-page .card-content .fs-width-500 { width: 240px !important; }
 .admin-company-page .card-content .fs-width-300 { width: 120px !important; }
 
-.admin-company-page .card-content .fs-btn-primary-secondary {
-    width: 120px !important;
-    min-height: 38px;
-    border: 1px solid #18478f;
-    border-radius: 6px;
-    color: #18478f;
-    background: #d3e5ff;
-    font-weight: 500;
-}
-
-.admin-company-page .card-content .fs-btn-primary-secondary:hover,
-.admin-company-page .card-content .fs-btn-primary-secondary:focus-visible {
-    border-color: #18478f;
-    color: #fff;
-    background: #18478f;
-}
-
 .admin-company-page .fs-table-records.card-table { width: 100%; }
 .admin-company-page .fs-table-records .fs-badge-width-80 {
     box-sizing: border-box;

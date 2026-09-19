@@ -57,10 +57,28 @@
     filter: brightness(0) invert(1);
 }
 
-.admin-company-page #company-create {
-    border-color: #18478f;
-    background: #18478f;
-    color: #eeeeee;
+.admin-company-page #company-create.fs-btn-primary {
+    color: var(--fs-color-on-primary);
+    border-color: var(--fs-color-primary);
+    background-color: var(--fs-color-primary);
+}
+
+.admin-company-page #company-create.fs-btn-primary:hover,
+.admin-company-page #company-create.fs-btn-primary:active {
+    color: var(--fs-color-on-primary);
+    background-color: var(--fs-color-primary);
+}
+
+.admin-company-page .content-filter .fs-btn-outline-primary {
+    color: var(--fs-alert-primary-text);
+    border: var(--fs-border-width, 1px) solid var(--fs-color-primary);
+    background-color: transparent;
+}
+
+.admin-company-page .content-filter .fs-btn-outline-primary:hover,
+.admin-company-page .content-filter .fs-btn-outline-primary:active {
+    color: var(--fs-color-on-primary);
+    background-color: var(--fs-color-primary);
 }
 
 /* The shell's fixed .container-content creates a stacking context below the
