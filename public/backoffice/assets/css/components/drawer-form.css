@@ -171,6 +171,25 @@
 .create-drawer .painel-form .drawer-actions .fs-width-300 { width: 120px !important; }
 .create-drawer .painel-form .drawer-actions .fs-width-400 { width: 180px !important; }
 
+/* Restore the Fokus Styles button tokens inside reusable drawer actions. */
+.create-drawer .painel-form .drawer-actions .fs-btn-primary {
+    color: var(--fs-color-on-primary);
+    border-color: var(--fs-color-primary);
+    background-color: var(--fs-color-primary);
+}
+
+.create-drawer .painel-form .drawer-actions .fs-btn-outline-primary {
+    color: var(--fs-alert-primary-text);
+    border-color: var(--fs-color-primary);
+    background-color: transparent;
+}
+
+.create-drawer .painel-form .drawer-actions .fs-btn-outline-primary:hover,
+.create-drawer .painel-form .drawer-actions .fs-btn-outline-primary:active {
+    color: var(--fs-color-on-primary);
+    background-color: var(--fs-color-primary);
+}
+
 @media (max-width: 520px) {
     .create-drawer { padding: 20px; }
     .create-drawer .painel-form .fs-width-400,
