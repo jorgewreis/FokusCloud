@@ -27,7 +27,7 @@
         />
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260918-dashboard-auth-gate-v6"
+            href="/backoffice/assets/css/pages/admin-dashboard.css?v=20260919-sidebar-catalog-v7"
         />
         <link
             rel="stylesheet"
@@ -371,6 +371,17 @@
             function collapseSidebar() {
                 if (!isSidebarResponsive()) {
                     return;
+                }
+
+                const compactCatalogToggle = document.querySelector(
+                    '[data-sidebar-group="catalog"] .sidebar-group-toggle',
+                );
+                const compactCatalogSubnav = document.querySelector(
+                    '[data-sidebar-group="catalog"] .sidebar-subnav',
+                );
+                compactCatalogToggle?.setAttribute("aria-expanded", "false");
+                if (compactCatalogSubnav) {
+                    compactCatalogSubnav.hidden = true;
                 }
 
                 window.clearTimeout(sidebarFooterRevealTimer);
