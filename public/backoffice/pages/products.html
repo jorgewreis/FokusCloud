@@ -45,21 +45,21 @@
             const products = (await window.FokusApi.request('/backoffice/catalog')).products || [];
             const product = products.find((item) => String(item.id) === action.dataset.id);
             if (!product) return;
-            const form = page.querySelector('#product-form');
-            const view = page.querySelector('#product-view-panel');
-            const drawerTitle = page.querySelector('#product-drawer-title');
+            const form = drawer.querySelector('#product-form');
+            const view = drawer.querySelector('#product-view-panel');
+            const drawerTitle = drawer.querySelector('#product-drawer-title');
             const offcanvas = window.FokusStyles?.Offcanvas?.getOrCreateInstance(page.querySelector('#product-new'));
             form.hidden = action.dataset.action === 'view';
             view.hidden = action.dataset.action !== 'view';
             drawerTitle.textContent = action.dataset.action === 'view' ? 'DETALHES DO PRODUTO' : 'EDITAR PRODUTO';
             if (action.dataset.action === 'view') {
                 ['name', 'code', 'status', 'publication'].forEach((key) => {
-                    page.querySelector(`#product-view-${key}`).textContent = key === 'publication' ? product.publication_state : product[key];
+                    drawer.querySelector(`#product-view-${key}`).textContent = key === 'publication' ? product.publication_state : product[key];
                 });
-                page.querySelector('#product-view-modules').textContent = (product.modules || []).length;
-                page.querySelector('#product-view-plans').textContent = (product.plans || []).length;
-                page.querySelector('#product-view-version').textContent = product.published_version || 0;
-                page.querySelector('#product-view-featured').textContent = product.featured ? 'Sim' : 'Não';
+                drawer.querySelector('#product-view-modules').textContent = (product.modules || []).length;
+                drawer.querySelector('#product-view-plans').textContent = (product.plans || []).length;
+                drawer.querySelector('#product-view-version').textContent = product.published_version || 0;
+                drawer.querySelector('#product-view-featured').textContent = product.featured ? 'Sim' : 'Não';
             } else {
                 ['code', 'name', 'status', 'display_order', 'technical_description', 'commercial_content'].forEach((key) => {
                     if (form.elements[key]) form.elements[key].value = product[key] ?? (key === 'display_order' ? 0 : '');
