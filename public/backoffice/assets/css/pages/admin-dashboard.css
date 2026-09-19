@@ -26,6 +26,7 @@ html[data-role="admin"] {
 html[data-role="admin"] .fs-sidebar {
     width: 248px;
     padding: 26px 15px 20px;
+    border-radius: 0;
     background: linear-gradient(160deg, #113b60 0%, #082a45 100%);
 }
 html[data-role="admin"] .container-page.expanded .container-content {
@@ -61,7 +62,7 @@ html[data-role="admin"] .fs-sidebar .sidebar-button {
     min-height: 47px;
     padding: 0 15px;
     gap: 17px;
-    border-radius: 8px;
+    border-radius: 0;
     color: #f7fbff;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-button img {
