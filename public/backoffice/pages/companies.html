@@ -197,3 +197,18 @@
     load();
 })();
 </script>
+<script>
+(() => {
+    const summary = document.querySelector('#company-table-summary');
+    const footer = document.querySelector('#company-table-footer-summary');
+    const normalize = () => {
+        const match = summary?.textContent.match(/^Mostrando \d+ a \d+ de (\d+) empresas$/);
+        if (!match) return;
+        const value = `${match[1]} registros encontrados`;
+        if (summary.textContent !== value) summary.textContent = value;
+        if (footer && footer.textContent !== value) footer.textContent = value;
+    };
+    new MutationObserver(normalize).observe(document.querySelector('.admin-company-page'), { childList: true, subtree: true, characterData: true });
+    normalize();
+})();
+</script>

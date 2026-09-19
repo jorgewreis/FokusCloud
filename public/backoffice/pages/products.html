@@ -27,8 +27,10 @@
         const pagination = page.querySelector('#product-pagination');
         if (!headerSummary || !footerSummary || !pagination) return;
 
+        const summaryMatch = headerSummary.textContent.match(/^Mostrando \d+ a \d+ de (\d+) produtos$/);
+        if (summaryMatch) headerSummary.textContent = `${summaryMatch[1]} registros encontrados`;
         if (footerSummary.textContent !== headerSummary.textContent) footerSummary.textContent = headerSummary.textContent;
-        if (!pagination.children.length && headerSummary.textContent.startsWith('Mostrando')) {
+        if (!pagination.children.length && (summaryMatch || headerSummary.textContent.endsWith('registros encontrados'))) {
             pagination.innerHTML = '<ul class="fs-pagination fs-pagination-compact"><li class="fs-page-item"><button class="fs-page-link" type="button" data-page="0" aria-label="Página anterior" disabled>‹</button></li><li class="fs-page-item is-active" aria-current="page"><button class="fs-page-link" type="button" data-page="1" aria-label="Página 1" aria-current="page">1</button></li><li class="fs-page-item"><button class="fs-page-link" type="button" data-page="2" aria-label="Próxima página" disabled>›</button></li></ul>';
         }
     };
