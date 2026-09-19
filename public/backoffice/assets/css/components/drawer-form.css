@@ -35,23 +35,29 @@ body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: ca
 .backoffice-records-page .fs-page-layout > .fs-btn-primary { color: var(--fs-color-on-primary); border-color: var(--fs-color-primary); background-color: var(--fs-color-primary); }
 .backoffice-records-page .content-filter .fs-btn-outline-primary { color: var(--fs-alert-primary-text); border: var(--fs-border-width, 1px) solid var(--fs-color-primary); background-color: transparent; }
 .backoffice-records-page .content-filter .fs-btn-outline-primary:hover, .backoffice-records-page .content-filter .fs-btn-outline-primary:active { color: var(--fs-color-on-primary); background-color: var(--fs-color-primary); }
-.admin-products-page .fs-table-responsive.fs-datatable { overflow-x: hidden; overflow-y: hidden; }
+.admin-products-page .fs-table-responsive.fs-datatable,
+.admin-modules-page .fs-table-responsive.fs-datatable { overflow-x: hidden; overflow-y: hidden; }
 .admin-products-page .fs-table-records thead tr,
 .admin-products-page .fs-table-records tbody tr { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1.5fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1.5fr); justify-content: initial; }
+.admin-modules-page .fs-table-records thead tr,
+.admin-modules-page .fs-table-records tbody tr { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 2fr) minmax(0, 1.5fr) minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, .9fr) minmax(0, 1.5fr); justify-content: initial; }
 .admin-products-page .fs-table-records thead th,
-.admin-products-page .fs-table-records tbody td { width: auto; min-width: 0; flex: none; }
-.admin-products-page .fs-table-records tbody td[colspan] { grid-column: 1 / -1; }
+.admin-products-page .fs-table-records tbody td,
+.admin-modules-page .fs-table-records thead th,
+.admin-modules-page .fs-table-records tbody td { width: auto; min-width: 0; flex: none; }
+.admin-products-page .fs-table-records tbody td[colspan],
+.admin-modules-page .fs-table-records tbody td[colspan] { grid-column: 1 / -1; }
 .admin-products-page .fs-card-footer { align-items: center; padding: 12px 20px; }
 .admin-products-page #product-table-footer-summary { color: #58758a; font: 400 .8rem/1.35 "Google Sans", sans-serif; }
 .admin-products-page #product-pagination { margin-left: auto; }
 .admin-products-page #product-pagination .fs-pagination { margin: 0; }
-.admin-products-page [data-action] img { visibility: hidden; }
-.admin-products-page [data-action]::before { width: 22px; height: 22px; display: block; background: center / contain no-repeat; content: ""; }
-.admin-products-page [data-action="view"]::before { background-image: url("/backoffice/assets/icons/Folder-File--Streamline-Ultimate.png"); }
-.admin-products-page [data-action="edit"]::before { background-image: url("/backoffice/assets/icons/Common-File-Edit--Streamline-Ultimate.png"); }
-.admin-products-page [data-action="pause"]::before { background-image: url("/backoffice/assets/icons/Common-File-Subtract--Streamline-Ultimate.png"); }
-.admin-products-page [data-action="activate"]::before { background-image: url("/backoffice/assets/icons/Common-File-Quill--Streamline-Ultimate.png"); }
-.admin-products-page [data-action="archive"]::before, .admin-products-page [data-action="delete"]::before { background-image: url("/backoffice/assets/icons/Common-File-Remove--Streamline-Ultimate.png"); }
+:is(.admin-products-page, .admin-modules-page) [data-action] img { visibility: hidden; }
+:is(.admin-products-page, .admin-modules-page) [data-action]::before { width: 22px; height: 22px; display: block; background: center / contain no-repeat; content: ""; }
+:is(.admin-products-page, .admin-modules-page) [data-action="view"]::before { background-image: url("/backoffice/assets/icons/Folder-File--Streamline-Ultimate.png"); }
+:is(.admin-products-page, .admin-modules-page) [data-action="edit"]::before { background-image: url("/backoffice/assets/icons/Common-File-Edit--Streamline-Ultimate.png"); }
+:is(.admin-products-page, .admin-modules-page) [data-action="pause"]::before { background-image: url("/backoffice/assets/icons/Common-File-Subtract--Streamline-Ultimate.png"); }
+:is(.admin-products-page, .admin-modules-page) [data-action="activate"]::before { background-image: url("/backoffice/assets/icons/Common-File-Quill--Streamline-Ultimate.png"); }
+:is(.admin-products-page, .admin-modules-page) [data-action="archive"]::before, :is(.admin-products-page, .admin-modules-page) [data-action="delete"]::before { background-image: url("/backoffice/assets/icons/Common-File-Remove--Streamline-Ultimate.png"); }
 .backoffice-records-page .fs-card-body dl { display: flex; flex-direction: column; gap: 10px; margin: 0; }
 .backoffice-records-page .fs-card-body dl > div { display: flex; flex-direction: column; gap: 2px; }
 @media (max-width: 680px) { .backoffice-records-page { padding: 24px 16px 36px; } .backoffice-records-page > .fs-page-layout { padding: 0 0 20px; } }
@@ -155,7 +161,7 @@ body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: ca
     margin-top: 20px;
 }
 
-.create-drawer .painel-form .form-label {
+.create-drawer .painel-form :is(.form-label, .fs-form-label) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -163,7 +169,7 @@ body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: ca
     margin: 0;
 }
 
-.create-drawer .painel-form .form-label > .label {
+.create-drawer .painel-form :is(.form-label, .fs-form-label) > .label {
     z-index: 1;
     margin: 0 0 -1px 10px;
     padding: 2px 5px;
@@ -172,8 +178,8 @@ body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: ca
     background: var(--color-background, #f5ffff);
 }
 
-.create-drawer .painel-form .input-label,
-.create-drawer .painel-form .form-select {
+.create-drawer .painel-form :is(.input-label, .fs-form-control),
+.create-drawer .painel-form :is(.form-select, .fs-form-select) {
     box-sizing: border-box;
     height: 38px;
     min-height: 38px;
@@ -186,10 +192,10 @@ body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: ca
     font: 500 .85rem/1 "Google Sans", sans-serif;
 }
 
-.create-drawer .painel-form .form-select { padding: 0 10px; }
-.create-drawer .painel-form .input-label::placeholder { color: var(--color-muted, #58758a); opacity: .4; }
-.create-drawer .painel-form .input-label:disabled,
-.create-drawer .painel-form .form-select:disabled { background: var(--color-surface-light, #edf7f7); color: var(--color-muted, #58758a); }
+.create-drawer .painel-form :is(.form-select, .fs-form-select) { padding: 0 10px; }
+.create-drawer .painel-form :is(.input-label, .fs-form-control)::placeholder { color: var(--color-muted, #58758a); opacity: .4; }
+.create-drawer .painel-form :is(.input-label, .fs-form-control):disabled,
+.create-drawer .painel-form :is(.form-select, .fs-form-select):disabled { background: var(--color-surface-light, #edf7f7); color: var(--color-muted, #58758a); }
 
 .create-drawer .painel-form .form-line { margin-bottom: 10px; }
 .create-drawer .painel-form .fs-width-400 { width: 180px !important; }
