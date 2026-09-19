@@ -33,6 +33,46 @@
         }
     };
 
+    // Product API ids can be numeric while dataset values are always strings.
+    // Handle view/edit before the legacy delegated handler so both actions use
+    // the same drawer instance and resolve the selected record reliably.
+    page.addEventListener('click', async (event) => {
+        const action = event.target.closest('[data-action="view"], [data-action="edit"]');
+        if (!action) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        try {
+            const products = (await window.FokusApi.request('/backoffice/catalog')).products || [];
+            const product = products.find((item) => String(item.id) === action.dataset.id);
+            if (!product) return;
+            const form = page.querySelector('#product-form');
+            const view = page.querySelector('#product-view-panel');
+            const drawerTitle = page.querySelector('#product-drawer-title');
+            const offcanvas = window.FokusStyles?.Offcanvas?.getOrCreateInstance(page.querySelector('#product-new'));
+            form.hidden = action.dataset.action === 'view';
+            view.hidden = action.dataset.action !== 'view';
+            drawerTitle.textContent = action.dataset.action === 'view' ? 'DETALHES DO PRODUTO' : 'EDITAR PRODUTO';
+            if (action.dataset.action === 'view') {
+                ['name', 'code', 'status', 'publication'].forEach((key) => {
+                    page.querySelector(`#product-view-${key}`).textContent = key === 'publication' ? product.publication_state : product[key];
+                });
+                page.querySelector('#product-view-modules').textContent = (product.modules || []).length;
+                page.querySelector('#product-view-plans').textContent = (product.plans || []).length;
+                page.querySelector('#product-view-version').textContent = product.published_version || 0;
+                page.querySelector('#product-view-featured').textContent = product.featured ? 'Sim' : 'Não';
+            } else {
+                ['code', 'name', 'status', 'display_order', 'technical_description', 'commercial_content'].forEach((key) => {
+                    if (form.elements[key]) form.elements[key].value = product[key] ?? (key === 'display_order' ? 0 : '');
+                });
+                form.elements.featured.value = product.featured ? '1' : '0';
+            }
+            offcanvas?.show();
+        } catch (error) {
+            page.querySelector('#products-message').textContent = error.message || 'Não foi possível carregar os dados do produto.';
+            page.querySelector('#products-message').hidden = false;
+        }
+    }, true);
+
     new MutationObserver(syncProductCardFooter).observe(page, { childList: true, subtree: true, characterData: true });
     syncProductCardFooter();
 })();
