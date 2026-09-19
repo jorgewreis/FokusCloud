@@ -3703,3 +3703,10 @@ html[data-role="admin"] .fs-sidebar .sidebar-subnav-button .sidebar-button-label
     text-overflow: ellipsis !important;
     white-space: nowrap;
 }
+
+/* Disabled menu entries must remain visibly unavailable and non-interactive. */
+html[data-role="admin"] .fs-sidebar .sidebar-button:disabled,
+html[data-role="admin"] .fs-sidebar .sidebar-button[aria-disabled="true"] {
+    opacity: 0.4 !important;
+    pointer-events: none;
+}
