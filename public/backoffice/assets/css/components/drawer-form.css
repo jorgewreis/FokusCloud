@@ -380,3 +380,7 @@
     gap: 10px;
     margin: 0;
 }
+
+.create-drawer #company-view-panel .fs-badge {
+    padding: 2px 8px !important;
+}
