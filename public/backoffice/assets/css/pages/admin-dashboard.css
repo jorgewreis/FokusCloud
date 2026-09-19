@@ -3640,3 +3640,33 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[title="Configurações"] {
         width: 100% !important;
     }
 }
+/* Sidebar layout contract: header and footer remain fixed while only the
+   navigation links consume the available scrollable height. */
+html[data-role="admin"] .fs-sidebar {
+    overflow: hidden;
+}
+html[data-role="admin"] .fs-sidebar > .top,
+html[data-role="admin"] .fs-sidebar > .bottom {
+    flex: 0 0 auto;
+}
+html[data-role="admin"] .fs-sidebar > .sidebar-nav {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, .42) transparent;
+}
+html[data-role="admin"] .fs-sidebar > .sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+html[data-role="admin"] .fs-sidebar > .sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+html[data-role="admin"] .fs-sidebar > .sidebar-nav::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .42);
+}
