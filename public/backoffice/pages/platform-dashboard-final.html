@@ -133,7 +133,6 @@
                                 <th class="fs-width-300" scope="col">Status</th>
                                 <th class="fs-width-400" scope="col">Vigência</th>
                                 <th class="fs-width-400" scope="col">Valor</th>
-                                <th class="fs-width-300" scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="subscriptions-table-body"></tbody>
@@ -401,10 +400,10 @@
                 ? a
                       .map(
                           (x) =>
-                              `<tr><td class="fs-width-600">${e(x.company_name || "Empresa não informada")}</td><td class="fs-width-500">${e(x.product_name || "Produto não informado")}</td><td class="fs-width-400">${e(x.plan_name || "Plano não informado")}</td><td class="fs-width-300"><span class="fs-badge fs-badge-soft-info">${subscriptionStatus(x.status)}</span></td><td class="fs-width-400">${x.current_period_ends_at ? new Date(x.current_period_ends_at).toLocaleDateString("pt-BR") : "-"}</td><td class="fs-width-400">${C.format(+x.amount || 0)}</td><td class="fs-width-300"><a href="/backoffice/assinaturas" class="fs-btn fs-btn-icon fs-btn-icon-plain" aria-label="Abrir assinatura">${img("actions")}</a></td></tr>`,
+                              `<tr><td class="fs-width-600">${e(x.company_name || "Empresa não informada")}</td><td class="fs-width-500">${e(x.product_name || "Produto não informado")}</td><td class="fs-width-400">${e(x.plan_name || "Plano não informado")}</td><td class="fs-width-300"><span class="fs-badge fs-badge-soft-info">${subscriptionStatus(x.status)}</span></td><td class="fs-width-400">${x.current_period_ends_at ? new Date(x.current_period_ends_at).toLocaleDateString("pt-BR") : "-"}</td><td class="fs-width-400">${C.format(+x.amount || 0)}</td></tr>`,
                       )
                       .join("")
-                : '<tr><td colspan="7">Nenhuma assinatura encontrada.</td></tr>';
+                : '<tr><td colspan="6">Nenhuma assinatura encontrada.</td></tr>';
             let from = p.total ? (p.current_page - 1) * p.per_page + 1 : 0,
                 to = p.total
                     ? Math.min(p.current_page * p.per_page, p.total)
