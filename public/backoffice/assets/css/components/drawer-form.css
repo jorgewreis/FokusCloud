@@ -180,7 +180,7 @@
 
 .create-drawer .painel-form .drawer-actions .fs-btn-outline-primary {
     color: var(--fs-alert-primary-text);
-    border-color: var(--fs-color-primary);
+    border: var(--fs-border-width, 1px) solid var(--fs-color-primary);
     background-color: transparent;
 }
 
