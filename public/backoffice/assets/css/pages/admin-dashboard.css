@@ -3694,11 +3694,12 @@ html[data-role="admin"] .fs-sidebar .sidebar-subnav-button {
 }
 html[data-role="admin"] .fs-sidebar .sidebar-subnav-button .sidebar-button-label {
     display: block;
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
     min-width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis !important;
     white-space: nowrap;
 }
