@@ -19,7 +19,7 @@
         <!-- IMPORT CSS -->
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/main.css?v=20260919-company-detail-panel-v23"
+            href="/backoffice/assets/css/main.css?v=20260919-products-model-v24"
         />
         <link
             rel="stylesheet"
@@ -250,7 +250,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260919-companies-default-v1";
+            const pageVersion = "20260919-products-model-v1";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -691,6 +691,7 @@
                                 response?.admin?.permissions || []
                             ).includes(element.dataset.platformPermission);
                         });
+                    window.__backofficePermissions = new Set(response?.admin?.permissions || []);
                     return response.admin;
                 } catch (error) {
                     location.replace("/?acesso=administrativo");

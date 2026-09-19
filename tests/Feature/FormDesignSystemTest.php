@@ -50,7 +50,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260919-companies-default-v1', $panel);
+        $this->assertStringContainsString('20260919-products-model-v1', $panel);
         $this->assertStringContainsString('] || "companies",', $panel);
         $this->assertStringContainsString('data-sidebar-item="companies"', $panel);
         $this->assertStringContainsString('data-platform-access-card', $home);
@@ -134,11 +134,15 @@ class FormDesignSystemTest extends TestCase
         }
 
         $companies = file_get_contents(base_path('public/backoffice/pages/companies.html'));
+        $products = file_get_contents(base_path('public/backoffice/pages/products.html'));
         $subscriptions = file_get_contents(base_path('public/backoffice/pages/subscriptions.html'));
         $this->assertStringContainsString('fs-card-title">Dados da empresa', $companies);
         $this->assertStringContainsString('fs-card-title">Administrador responsável', $companies);
         $this->assertStringContainsString('fs-badge', $companies);
         $this->assertStringContainsString('fs-offcanvas', $companies);
+        $this->assertStringContainsString('backoffice-records-page', $products);
+        $this->assertStringContainsString('product-destructive-dialog', $products);
+        $this->assertStringNotContainsString('window.confirm', $products);
         $this->assertStringContainsString('card-body', $subscriptions);
         $this->assertStringContainsString('cancelamento_imediato', $subscriptions);
 

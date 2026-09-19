@@ -5,6 +5,23 @@
     background: var(--color-background, #f5ffff);
 }
 
+/* Reusable records-page anatomy shared by Backoffice management pages. */
+.backoffice-records-page {
+    box-sizing: border-box;
+    width: min(100% - 40px, 1480px);
+    margin: 0 auto;
+    padding: 24px 0 60px;
+    color: #252525;
+    font-family: "Google Sans", sans-serif;
+}
+
+.backoffice-records-page > .fs-page-layout { width: 100%; padding: 0 30px 20px; }
+.backoffice-records-page > .backoffice-page-card { width: calc(100% - 20px); margin: 10px; }
+.backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: calc(100vw - 16px); z-index: calc(var(--fs-z-offcanvas, 1060) + 1); }
+.backoffice-records-page .fs-card-body dl { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+.backoffice-records-page .fs-card-body dl > div { display: flex; flex-direction: column; gap: 2px; }
+@media (max-width: 680px) { .backoffice-records-page { padding: 24px 16px 36px; } .backoffice-records-page > .fs-page-layout { padding: 0 0 20px; } }
+
 .create-drawer .painel-header {
     display: flex;
     flex-direction: row;

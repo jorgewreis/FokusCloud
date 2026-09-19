@@ -22,7 +22,7 @@
 
     <div class="fs-card fs-u-p-3">
         <div class="fs-u-d-flex fs-u-flex-wrap fs-u-justify-content-end fs-u-gap-2">
-            <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="products">Produtos</button>
+            <a class="fs-btn fs-btn-outline-primary" href="/backoffice/produtos">Produtos</a>
             <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="modules">Funcionalidades</button>
             <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="plans">Planos</button>
             <button class="fs-btn fs-btn-outline-primary" type="button" data-catalog-tab="publish">Publicação</button>
@@ -30,7 +30,7 @@
         <div class="fs-alert" id="catalog-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
     </div>
 
-    <section class="catalog-section" data-catalog-panel="products">
+    <section class="catalog-section" data-catalog-panel="products" hidden>
         <form class="fs-form fs-card fs-u-p-3" id="product-form">
             <div class="fs-form-row">
                 <div class="fs-form-col fs-col-3"><label class="fs-form-label" for="product-code">Código</label><input class="fs-form-control" id="product-code" name="code" type="text" required></div>
