@@ -13,6 +13,7 @@ class FormDesignSystemTest extends TestCase
             'public/backoffice/pages/security.html',
             'public/backoffice/pages/subscription-plans.html',
             'public/backoffice/pages/companies.html',
+            'public/backoffice/pages/modules.html',
             'public/backoffice/pages/subscriptions.html',
             'public/backoffice/pages/vouchers.html',
         ];
@@ -50,7 +51,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260919-record-validation-v1', $panel);
+        $this->assertStringContainsString('20260919-modules-page-v1', $panel);
         $this->assertStringContainsString('] || "companies",', $panel);
         $this->assertStringContainsString('data-sidebar-item="companies"', $panel);
         $this->assertStringContainsString('data-platform-access-card', $home);
@@ -111,6 +112,21 @@ class FormDesignSystemTest extends TestCase
         foreach (['product-pagination', 'module-pagination', 'plan-pagination', 'publication-pagination', 'data-catalog-page', 'pageSize = 20'] as $fragment) {
             $this->assertStringContainsString($fragment, $catalog, $fragment);
         }
+    }
+
+    public function test_modules_page_uses_catalog_components_and_accessible_drawers(): void
+    {
+        $modules = file_get_contents(base_path('public/backoffice/pages/modules.html'));
+        $panel = file_get_contents(base_path('public/backoffice/index.html'));
+
+        foreach (['fs-container-fluid', 'fs-card-panel', 'fs-table-responsive', 'fs-table-records', 'fs-pagination', 'fs-offcanvas', 'fs-modal', 'fs-form-control', 'aria-describedby'] as $fragment) {
+            $this->assertStringContainsString($fragment, $modules, $fragment);
+        }
+
+        $this->assertStringContainsString('data-sidebar-item="modules"', $panel);
+        $this->assertStringContainsString('modulos: "modules"', $panel);
+        $this->assertStringContainsString('modules: "modules"', $panel);
+        $this->assertStringNotContainsString('disabled title="Em breve">\n                                <span class="sidebar-button-label text-subtitle-sm">Módulos e funcionalidades', $panel);
     }
 
     public function test_company_and_subscription_pages_follow_live_backoffice_components(): void

@@ -318,6 +318,41 @@ class CatalogAdminTest extends TestCase
         $this->assertSame(299.90, (float) DB::table('plans')->where('id', $planId)->value('monthly_amount'));
     }
 
+    public function test_module_capabilities_rules_and_capacity_are_persisted_for_management_page(): void
+    {
+        $admin = $this->admin();
+        $productId = DB::table('products')->where('code', 'law')->value('id');
+
+        $moduleId = $this->actingAs($admin, 'platform')->postJson('/api/backoffice/catalog/modules', [
+            'product_id' => $productId,
+            'code' => 'modulo-capacidades',
+            'module_code' => 'processos',
+            'name' => 'Processos com capacidades',
+            'monthly_price' => 'R$ 99,90',
+            'capabilities' => ['Controle de prazos', 'Gestão de audiências'],
+            'dependencies' => ['contatos'],
+            'incompatibilities' => ['processos-legado'],
+            'capacity_unit' => 'processos',
+            'default_capacity' => 100,
+            'capacity_options' => [100, 500, 1000],
+            'available_standalone' => true,
+            'price_is_estimate' => true,
+        ])->assertCreated()->json('id');
+
+        $module = collect($this->actingAs($admin, 'platform')->getJson('/api/backoffice/catalog')->json('products'))
+            ->flatMap(fn (array $product) => $product['modules'])
+            ->firstWhere('id', $moduleId);
+
+        $this->assertSame(['Controle de prazos', 'Gestão de audiências'], $module['capabilities']);
+        $this->assertSame(['contatos'], $module['dependencies']);
+        $this->assertSame(['processos-legado'], $module['incompatibilities']);
+        $this->assertSame('processos', $module['capacity_unit']);
+        $this->assertSame(100, $module['default_capacity']);
+        $this->assertSame([100, 500, 1000], $module['capacity_options']);
+        $this->assertTrue($module['available_standalone']);
+        $this->assertTrue($module['price_is_estimate']);
+    }
+
     public function test_physical_deletion_is_allowed_without_dependencies_and_blocked_with_dependencies(): void
     {
         $admin = $this->admin();

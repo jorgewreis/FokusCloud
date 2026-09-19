@@ -113,7 +113,7 @@
                             <button class="sidebar-button sidebar-subnav-button" type="button" data-sidebar-item="subscription-plans">
                                 <span class="sidebar-button-label text-subtitle-sm">Planos de assinatura</span>
                             </button>
-                            <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
+                            <button class="sidebar-button sidebar-subnav-button" type="button" data-sidebar-item="modules">
                                 <span class="sidebar-button-label text-subtitle-sm">Módulos e funcionalidades</span>
                             </button>
                             <button class="sidebar-button sidebar-subnav-button" type="button" disabled title="Em breve">
@@ -251,13 +251,15 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260919-record-validation-v1";
+            const pageVersion = "20260919-modules-page-v1";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
                 planos: "subscription-plans",
                 catalogo: "products",
                 produtos: "products",
+                modulos: "modules",
+                modules: "modules",
                 assinaturas: "subscriptions",
                 pagamentos: "pagamentos",
                 billing: "pagamentos",

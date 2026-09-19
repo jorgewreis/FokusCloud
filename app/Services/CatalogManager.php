@@ -580,6 +580,11 @@ class CatalogManager
             'publication_state' => $module->publication_state ?? 'rascunho',
             'display_order' => (int) ($module->display_order ?? 0),
             'featured' => (bool) ($module->featured ?? false),
+            'capacity_unit' => $module->capacity_unit ?? null,
+            'default_capacity' => isset($module->default_capacity) ? (int) $module->default_capacity : null,
+            'capacity_options' => $this->jsonArray($module->capacity_options ?? null),
+            'available_standalone' => (bool) ($module->available_standalone ?? false),
+            'price_is_estimate' => (bool) ($module->price_is_estimate ?? false),
         ];
     }
 
