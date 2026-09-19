@@ -14,6 +14,32 @@
 <script>
 (() => {
     const page = document.querySelector('.admin-products-page');
+    const drawer = document.querySelector('#product-drawer');
+    if (!page || !drawer) return;
+
+    // Keep the drawer outside the shell stacking context for every action,
+    // including view and edit buttons.
+    if (drawer.parentElement !== document.body) document.body.appendChild(drawer);
+
+    const syncProductCardFooter = () => {
+        const headerSummary = page.querySelector('#product-table-summary');
+        const footerSummary = page.querySelector('#product-table-footer-summary');
+        const pagination = page.querySelector('#product-pagination');
+        if (!headerSummary || !footerSummary || !pagination) return;
+
+        if (footerSummary.textContent !== headerSummary.textContent) footerSummary.textContent = headerSummary.textContent;
+        if (!pagination.children.length && headerSummary.textContent.startsWith('Mostrando')) {
+            pagination.innerHTML = '<ul class="fs-pagination fs-pagination-compact"><li class="fs-page-item"><button class="fs-page-link" type="button" data-page="0" aria-label="Página anterior" disabled>‹</button></li><li class="fs-page-item is-active" aria-current="page"><button class="fs-page-link" type="button" data-page="1" aria-label="Página 1" aria-current="page">1</button></li><li class="fs-page-item"><button class="fs-page-link" type="button" data-page="2" aria-label="Próxima página" disabled>›</button></li></ul>';
+        }
+    };
+
+    new MutationObserver(syncProductCardFooter).observe(page, { childList: true, subtree: true, characterData: true });
+    syncProductCardFooter();
+})();
+</script>
+<script>
+(() => {
+    const page = document.querySelector('.admin-products-page');
     const badgeTones = {
         ativo: 'success',
         inativo: 'secondary',

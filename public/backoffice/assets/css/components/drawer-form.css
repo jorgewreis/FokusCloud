@@ -28,8 +28,9 @@
 
 .backoffice-records-page > .fs-page-layout { width: 100%; padding: 0 30px 20px; }
 .backoffice-records-page > .backoffice-page-card { width: calc(100% - 20px); margin: 10px; }
-.backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: calc(100vw - 16px); z-index: calc(var(--fs-z-offcanvas, 1060) + 1); }
-.fs-offcanvas-backdrop { z-index: var(--fs-z-offcanvas, 1060); }
+.backoffice-records-drawer.fs-offcanvas-end,
+body > .backoffice-records-drawer.fs-offcanvas-end { width: 480px; max-width: calc(100vw - 16px); z-index: 2001 !important; }
+.fs-offcanvas-backdrop { z-index: 2000 !important; }
 .backoffice-records-page .fs-page-layout > .fs-btn-primary { color: var(--fs-color-on-primary); border-color: var(--fs-color-primary); background-color: var(--fs-color-primary); }
 .backoffice-records-page .content-filter .fs-btn-outline-primary { color: var(--fs-alert-primary-text); border: var(--fs-border-width, 1px) solid var(--fs-color-primary); background-color: transparent; }
 .backoffice-records-page .content-filter .fs-btn-outline-primary:hover, .backoffice-records-page .content-filter .fs-btn-outline-primary:active { color: var(--fs-color-on-primary); background-color: var(--fs-color-primary); }
@@ -39,6 +40,10 @@
 .admin-products-page .fs-table-records thead th,
 .admin-products-page .fs-table-records tbody td { width: auto; min-width: 0; flex: none; }
 .admin-products-page .fs-table-records tbody td[colspan] { grid-column: 1 / -1; }
+.admin-products-page .fs-card-footer { align-items: center; padding: 12px 20px; }
+.admin-products-page #product-table-footer-summary { color: #58758a; font: 400 .8rem/1.35 "Google Sans", sans-serif; }
+.admin-products-page #product-pagination { margin-left: auto; }
+.admin-products-page #product-pagination .fs-pagination { margin: 0; }
 .admin-products-page [data-action] img { visibility: hidden; }
 .admin-products-page [data-action]::before { width: 22px; height: 22px; display: block; background: center / contain no-repeat; content: ""; }
 .admin-products-page [data-action="view"]::before { background-image: url("/backoffice/assets/icons/Folder-File--Streamline-Ultimate.png"); }
