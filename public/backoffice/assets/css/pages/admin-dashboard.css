@@ -3685,13 +3685,20 @@ html[data-role="admin"] .fs-sidebar > .sidebar-nav::-webkit-scrollbar-thumb {
    the available sidebar width. This override is intentionally scoped to the
    sublink buttons only. */
 html[data-role="admin"] .fs-sidebar .sidebar-subnav-button {
+    box-sizing: border-box;
+    width: calc(100% - 70px) !important;
     height: 36px !important;
     min-height: 36px !important;
-    padding: 0 !important;
+    padding: 0 15px !important;
+    overflow: hidden;
 }
 html[data-role="admin"] .fs-sidebar .sidebar-subnav-button .sidebar-button-label {
+    display: block;
+    flex: 1 1 auto;
     max-width: 100% !important;
     margin-left: 0 !important;
-    overflow: visible;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
