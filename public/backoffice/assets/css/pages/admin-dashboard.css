@@ -3711,3 +3711,11 @@ html[data-role="admin"] .fs-sidebar .sidebar-button[aria-disabled="true"] {
     opacity: 0.4 !important;
     pointer-events: none;
 }
+
+/* The sidebar and every navigation item must remain square in every state. */
+html[data-role="admin"] .fs-sidebar,
+html[data-role="admin"] .fs-sidebar.expanded,
+html[data-role="admin"] .fs-sidebar.single,
+html[data-role="admin"] .fs-sidebar .sidebar-button {
+    border-radius: 0 !important;
+}
