@@ -28,3 +28,141 @@ ENTREGA
 
 Informe o modelo reutilizado, diferenças intencionais, APIs do Fokus Styles,
 arquivos alterados, testes, evidências e pendências.
+
+CHECKLIST OBRIGATÓRIO DE CONFERÊNCIA VISUAL E FUNCIONAL
+
+Use Empresas como referência canônica de gestão de registros do Backoffice.
+Antes de considerar uma página baseada no modelo concluída, compare a página
+renderizada com o modelo em desktop, tablet e mobile. Não valide somente o
+HTML, as classes, o CSS ou o deploy: confira também os estilos calculados, a
+posição real dos elementos, os estados interativos e a aparência no navegador.
+
+Não altere mockups aprovados sem autorização explícita. O mockup é referência
+visual e textual; a implementação deve respeitar os textos, proporções,
+hierarquia, espaçamentos, cores, ícones e comportamento definidos nele.
+
+SHELL, SEGURANÇA E CARREGAMENTO
+
+- A página deve reutilizar o shell, o cabeçalho, a navegação, o container e o
+  offset do modelo Empresas.
+- Nenhum conteúdo do Backoffice pode ser exibido antes da verificação de
+  autenticação, usuário, perfil e permissões. A página deve permanecer vazia
+  ou em estado de carregamento seguro até a autorização; em caso de falha,
+  redirecione sem expor dados, tabelas, drawers ou métricas.
+- A verificação no cliente não substitui a autorização da API. A API continua
+  sendo a autoridade final para leitura e mutações.
+- Rotas, páginas carregadas dinamicamente e assets devem usar cache-busting
+  atualizado sempre que o conteúdo, CSS ou JavaScript for alterado.
+
+ESTRUTURA DA PÁGINA E COMPONENTES
+
+- Use a composição padrão: cabeçalho da página, card de filtros separado,
+  card de listagem, tabela responsiva, resumo, paginação, mensagens de
+  loading/vazio/erro/sucesso, drawer de criação/edição e painel de detalhes.
+- Componentes, classes, atributos, textos, ícones e comportamentos novos
+  devem ser reutilizáveis por outras páginas. Não copie seletores exclusivos
+  de uma página nem crie uma solução que só funcione para o consumidor atual.
+- Dê preferência às APIs oficiais `fs-*`, `fs-u-*`, `data-fs-*` e às
+  composições compartilhadas do Fokus Styles.
+- Não use formulários desabilitados como substituto de detalhes. Para
+  consulta, use cards semânticos, `dl`, `dt` e `dd`, com conteúdo legível,
+  estados claros e hierarquia equivalente ao modelo.
+
+ESPAÇAMENTOS, TAMANHOS E DIMENSÕES
+
+- Compare e preserve margens externas, gaps do grid, padding dos cards,
+  padding de cabeçalhos e corpos, espaçamento entre seções, labels, campos,
+  botões e mensagens. Pequenas diferenças acumuladas descaracterizam o
+  modelo.
+- O drawer padrão de registros deve ter 480px de largura, com `max-width`
+  adequado para viewport estreita, rolagem vertical e footer acessível.
+- O drawer deve permitir visualizar e clicar nos botões de ação em qualquer
+  tamanho de tela. O body do painel precisa rolar; o footer não pode ficar
+  escondido fora da viewport.
+- Use `width: 100%` em `.fs-table-responsive.fs-datatable`.
+- Em tabelas flexíveis, defina as mesmas bases para cada coluna no `thead` e
+  no `tbody`; nunca aceite alinhamento apenas visual por acaso. Preserve as
+  larguras aprovadas pelo modelo, inclusive `fs-width-400` e `fs-width-600`
+  quando forem parte do contrato da tabela.
+- Confira box sizing, min-width, overflow, quebra de texto e comportamento
+  responsivo da tabela antes de aceitar a implementação.
+
+TIPOGRAFIA E TEXTOS
+
+- Reutilize família, pesos, tamanhos, alturas de linha, transformação,
+  letter-spacing e contraste do Fokus Styles e do modelo Empresas.
+- Preserve exatamente os textos aprovados, incluindo capitalização, acentos,
+  labels, placeholders, mensagens, títulos, descrições, estados e nomes de
+  botões. Não substitua um texto de mockup por texto genérico.
+- Confira a hierarquia completa: kicker, h1, h2, h3, subtítulo, descrição de
+  seção, label, placeholder, valor, ajuda, erro e feedback de sucesso.
+- Labels devem estar associados aos controles e não podem depender apenas de
+  placeholder para explicar o campo.
+
+CORES, BADGES E BORDAS
+
+- Use tokens e variantes oficiais do Fokus Styles. Não reproduza cores com
+  valores locais quando existir uma variante semântica oficial.
+- Badges devem usar os tons `fs-badge-soft-*` adequados ao significado do
+  estado: sucesso para ativo/publicado, secundário para rascunho/inativo,
+  aviso para pausado/atenção e perigo para arquivado ou estados destrutivos.
+- Confira background, texto, borda, radius, padding, altura mínima, peso e
+  largura dos badges no estado renderizado; classe presente sem cor correta
+  não é implementação concluída.
+- Botão primary deve usar a cor primary do Fokus Styles; botão
+  `fs-btn-outline-primary` deve ter borda de 1px solid na mesma cor primary,
+  fundo transparente e texto compatível. Os dois precisam ter hover e active:
+  `filter: brightness(1.2)` no hover e `filter: brightness(1.4)` no active,
+  além de foco visível e contraste adequado.
+- Confira os botões tanto no cabeçalho da página quanto nos filtros, drawers,
+  modais e footer. Não deixe uma área usando uma variante antiga ou diferente.
+
+FORMULÁRIOS, DRAWERS E CONSENTIMENTO
+
+- Inputs, selects, textareas, labels, grupos de input, ícones internos,
+  placeholders, estados de foco, erro, disabled e required devem reproduzir
+  o padrão do modelo.
+- Cada descrição de seção deve respeitar a margem inferior definida pelo
+  modelo; não deixe título, descrição e primeiro campo colados.
+- O drawer deve ser portaled para `body` antes de abrir quando necessário,
+  evitando contextos de empilhamento criados pelo conteúdo principal.
+- O backdrop deve ficar abaixo do painel e acima do conteúdo; o painel deve
+  receber foco, aceitar clique, fechar com Escape e devolver o foco ao gatilho.
+- O drawer deve possuir rolagem vertical, largura de 480px, header, body e
+  footer coerentes, e nunca esconder Cancelar, Salvar, Cadastrar ou ações de
+  status.
+- Consentimento obrigatório pertence ao cadastro externo. Cadastros internos
+  realizados por superadmin não devem exibir os checkboxes de Termos e
+  Política quando essa regra já estiver definida pelo produto.
+- Quando checkboxes forem aplicáveis, o input deve estar visível, possuir gap
+  real entre caixa e texto, label acessível e área de clique adequada.
+
+TABELAS E AÇÕES
+
+- Observe todos os elementos do `thead`, `tbody`, `tfoot`, resumo, paginação,
+  células, `data-label`, ordenação, loading, vazio e erro.
+- Preserve o número e a ordem de colunas aprovados. Se uma coluna for
+  removida, valide também `colspan`, resumo, responsividade e ações.
+- A coluna Ações deve usar os mesmos ícones oficiais e proporções visuais do
+  modelo Empresas. Não misture ícones textuais, emojis, SVGs improvisados ou
+  assets de famílias diferentes.
+- Confira `src`, tamanho, alinhamento, gap, tooltip, `aria-label`, `title`,
+  foco, hover e active de cada ação. Os ícones devem continuar compreensíveis
+  sem depender apenas de cor.
+- Ações destrutivas devem usar diálogo acessível, justificativa quando
+  exigida, confirmação explícita e estados de erro claros; não use
+  `window.confirm`.
+
+VALIDAÇÃO FINAL E ENTREGA
+
+- Teste filtros, paginação, criação, edição, detalhes, status, publicação,
+  arquivamento, exclusão, permissões, loading, vazio, erro e sucesso.
+- Verifique foco, Escape, retorno de foco, teclado, leitores de tela,
+  contraste e responsividade em desktop, tablet e mobile.
+- Faça inspeção visual direta da página renderizada e registre dimensões,
+  cores, fontes, z-index, largura do drawer, alinhamento das colunas e assets
+  efetivamente servidos pelo navegador.
+- Execute testes automatizados e validações estáticas, atualize cache-busting,
+  faça commit e push, acompanhe o workflow até o sucesso e só então informe
+  a conclusão. Diferencie claramente evidência estática, teste local,
+  workflow, deploy e validação visual pública.
