@@ -14,6 +14,27 @@
 <script>
 (() => {
     const page = document.querySelector('.admin-products-page');
+    const badgeTones = {
+        ativo: 'success',
+        inativo: 'secondary',
+        publicado: 'success',
+        rascunho: 'secondary',
+        pausado: 'warning',
+        arquivado: 'danger',
+    };
+    const applyBadgeTones = () => {
+        page?.querySelectorAll('.fs-table-records .fs-badge').forEach((badge) => {
+            const tone = badgeTones[badge.textContent.trim().toLowerCase()] || 'secondary';
+            badge.classList.add(`fs-badge-soft-${tone}`);
+        });
+    };
+    new MutationObserver(applyBadgeTones).observe(page, { childList: true, subtree: true });
+    applyBadgeTones();
+})();
+</script>
+<script>
+(() => {
+    const page = document.querySelector('.admin-products-page');
     const portalDrawer = () => {
         const drawer = document.querySelector('#product-drawer');
         if (drawer && drawer.parentElement !== document.body) {

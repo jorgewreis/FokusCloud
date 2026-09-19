@@ -50,7 +50,7 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260919-products-model-v1', $panel);
+        $this->assertStringContainsString('20260919-products-badges-v2', $panel);
         $this->assertStringContainsString('] || "companies",', $panel);
         $this->assertStringContainsString('data-sidebar-item="companies"', $panel);
         $this->assertStringContainsString('data-platform-access-card', $home);
