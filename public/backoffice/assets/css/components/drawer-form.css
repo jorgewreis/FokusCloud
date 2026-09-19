@@ -330,7 +330,7 @@
     box-sizing: border-box;
     width: 80px;
     min-height: 22px;
-    padding: 2px 6px;
+    padding: 2px 8px;
     border: 0;
     border-radius: 4px;
     font: 600 .7rem/1 "Google Sans", sans-serif;
@@ -357,4 +357,26 @@
 
 .create-drawer .painel-form > .form-section:not(#company-legal-section) > .section-description {
     margin-bottom: 20px;
+}
+
+.create-drawer #company-view-panel .fs-card-header {
+    padding: 0;
+}
+
+.create-drawer #company-view-panel .fs-card-header .fs-card-title {
+    padding: 10px;
+    font-family: "Google Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.create-drawer #company-view-panel .fs-card-body {
+    padding: 10px;
+}
+
+.create-drawer #company-view-panel .fs-card-body dl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
 }
