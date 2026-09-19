@@ -3653,12 +3653,19 @@ html[data-role="admin"] .fs-sidebar > .sidebar-nav {
     flex: 1 1 auto;
     min-height: 0;
     height: auto;
+    box-sizing: border-box;
+    padding-bottom: 16px;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, .42) transparent;
+}
+html[data-role="admin"] .fs-sidebar > .bottom {
+    position: relative;
+    z-index: 1;
+    background: var(--theme-sidebar);
 }
 html[data-role="admin"] .fs-sidebar > .sidebar-nav::-webkit-scrollbar {
     width: 6px;
