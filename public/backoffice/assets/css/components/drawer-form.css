@@ -217,7 +217,8 @@
 }
 
 /* Shared card/filter/table anatomy used by the companies mockup and page. */
-.admin-company-page .card-page {
+:is(.admin-company-page, .backoffice-records-page) .card-page,
+.backoffice-records-page .backoffice-page-card {
     width: calc(100% - 20px);
     margin: 20px 10px;
     border: 1px solid #cbcbcb;
@@ -226,7 +227,8 @@
     background: #fefefe;
 }
 
-.admin-company-page .card-page .card-header {
+:is(.admin-company-page, .backoffice-records-page) .card-page .card-header,
+.backoffice-records-page .backoffice-page-card .card-header {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -237,27 +239,29 @@
     background: #efefef;
 }
 
-.admin-company-page .card-page .card-header-title {
+:is(.admin-company-page, .backoffice-records-page) .card-page .card-header-title,
+.backoffice-records-page .backoffice-page-card .card-header-title {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
 }
 
-.admin-company-page .card-header-title .header-title-name {
+:is(.admin-company-page, .backoffice-records-page) .card-header-title .header-title-name {
     margin: 0 0 4px;
     font: 600 1rem/1.25 "Google Sans", sans-serif;
     color: #252525;
 }
 
-.admin-company-page .card-header-title .header-title-description,
-.admin-company-page .card-header-info {
+:is(.admin-company-page, .backoffice-records-page) .card-header-title .header-title-description,
+:is(.admin-company-page, .backoffice-records-page) .card-header-info {
     margin: 0;
     color: #909090;
     font: 400 .8rem/1.35 "Google Sans", sans-serif;
 }
 
-.admin-company-page .card-page .card-content {
+:is(.admin-company-page, .backoffice-records-page) .card-page .card-content,
+.backoffice-records-page .backoffice-page-card .card-content {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -268,12 +272,12 @@
     background: #fefefe;
 }
 
-.admin-company-page .card-content.content-filter {
+:is(.admin-company-page, .backoffice-records-page) .card-content.content-filter {
     padding: 20px;
     justify-content: flex-end;
 }
 
-.admin-company-page .card-content .form-label {
+:is(.admin-company-page, .backoffice-records-page) .card-content .form-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -282,7 +286,7 @@
     margin: 0;
 }
 
-.admin-company-page .card-content .form-label > .label {
+:is(.admin-company-page, .backoffice-records-page) .card-content .form-label > .label {
     margin: 0 0 0 10px;
     padding: 2px 5px;
     color: #909090;
@@ -290,8 +294,8 @@
     font: 400 .725rem/1 "Google Sans", sans-serif;
 }
 
-.admin-company-page .card-content .input-label,
-.admin-company-page .card-content .form-select {
+:is(.admin-company-page, .backoffice-records-page) .card-content .input-label,
+:is(.admin-company-page, .backoffice-records-page) .card-content .form-select {
     box-sizing: border-box;
     height: 38px;
     min-height: 38px;
@@ -303,18 +307,18 @@
     font: 500 .85rem/1 "Google Sans", sans-serif;
 }
 
-.admin-company-page .card-content .input-label { padding: 0 15px; }
-.admin-company-page .card-content .form-select { padding: 0 10px; }
-.admin-company-page .card-content .input-label::placeholder { font-weight: 400; opacity: .4; }
+.backoffice-records-page .card-content .input-label, .admin-company-page .card-content .input-label { padding: 0 15px; }
+.backoffice-records-page .card-content .form-select, .admin-company-page .card-content .form-select { padding: 0 10px; }
+.backoffice-records-page .card-content .input-label::placeholder, .admin-company-page .card-content .input-label::placeholder { font-weight: 400; opacity: .4; }
 
-.admin-company-page .card-content .input-group {
+:is(.admin-company-page, .backoffice-records-page) .card-content .input-group {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     justify-content: flex-start;
 }
 
-.admin-company-page .card-content .input-group .fs-input-group-text {
+:is(.admin-company-page, .backoffice-records-page) .card-content .input-group .fs-input-group-text {
     min-width: 38px;
     height: 38px;
     display: flex;
@@ -327,23 +331,23 @@
     background: #eeeeee;
 }
 
-.admin-company-page .card-content .input-group .fs-input-group-text img {
+:is(.admin-company-page, .backoffice-records-page) .card-content .input-group .fs-input-group-text img {
     width: 22px;
     height: 22px;
     object-fit: contain;
 }
 
-.admin-company-page .card-content .input-group .input-label {
+:is(.admin-company-page, .backoffice-records-page) .card-content .input-group .input-label {
     border-left: 0;
     border-radius: 0 8px 8px 0;
 }
 
-.admin-company-page .card-content .fs-width-800 { width: 420px !important; }
-.admin-company-page .card-content .fs-width-500 { width: 240px !important; }
-.admin-company-page .card-content .fs-width-300 { width: 120px !important; }
+.backoffice-records-page .card-content .fs-width-800, .admin-company-page .card-content .fs-width-800 { width: 420px !important; }
+.backoffice-records-page .card-content .fs-width-500, .admin-company-page .card-content .fs-width-500 { width: 240px !important; }
+.backoffice-records-page .card-content .fs-width-300, .admin-company-page .card-content .fs-width-300 { width: 120px !important; }
 
-.admin-company-page .fs-table-records.card-table { width: 100%; }
-.admin-company-page .fs-table-records .fs-badge-width-80 {
+:is(.admin-company-page, .backoffice-records-page) .fs-table-records.card-table { width: 100%; }
+:is(.admin-company-page, .backoffice-records-page) .fs-table-records .fs-badge-width-80 {
     box-sizing: border-box;
     width: 80px;
     min-height: 22px;
@@ -392,6 +396,28 @@
 }
 
 .create-drawer #company-view-panel .fs-card-body dl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+}
+
+.create-drawer #product-view-panel .fs-card-header {
+    padding: 0;
+}
+
+.create-drawer #product-view-panel .fs-card-header .fs-card-title {
+    padding: 10px;
+    font-family: "Google Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.create-drawer #product-view-panel .fs-card-body {
+    padding: 10px;
+}
+
+.create-drawer #product-view-panel .fs-card-body dl {
     display: flex;
     flex-direction: column;
     gap: 10px;
