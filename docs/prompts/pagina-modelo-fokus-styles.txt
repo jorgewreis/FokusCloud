@@ -17,6 +17,9 @@ REGRAS
   mudanças globais devem ocorrer no CSS-fonte do Fokus Styles.
 - Caso a mudança seja comum a outras páginas, converta-a em composição
   compartilhada ou proponha alteração no Fokus Styles.
+- Para páginas administrativas de registros, use a composição compartilhada
+  `records-page.js` e a classe `backoffice-records-drawer`. Não implemente
+  portaling, z-index, backdrop ou foco somente dentro da nova página.
 
 FLUXO
 
@@ -128,8 +131,13 @@ FORMULÁRIOS, DRAWERS E CONSENTIMENTO
   o padrão do modelo.
 - Cada descrição de seção deve respeitar a margem inferior definida pelo
   modelo; não deixe título, descrição e primeiro campo colados.
-- O drawer deve ser portaled para `body` antes de abrir quando necessário,
-  evitando contextos de empilhamento criados pelo conteúdo principal.
+- O drawer de registros deve ser portaled para `body` antes de abrir pelo
+  inicializador compartilhado `records-page.js`, evitando contextos de
+  empilhamento criados pelo conteúdo principal. A página nova deve chamar
+  `window.initBackofficeRecordsPage?.(root)` depois de inserir sua marcação.
+- O evento `fs:show` deve ser observado no nível compartilhado antes de o
+  Fokus Styles criar o backdrop; isso é obrigatório para View, Editar, Criar
+  e qualquer ação aberta por teclado.
 - O backdrop deve ficar abaixo do painel e acima do conteúdo; o painel deve
   receber foco, aceitar clique, fechar com Escape e devolver o foco ao gatilho.
 - O drawer deve possuir rolagem vertical, largura de 480px, header, body e
@@ -166,6 +174,9 @@ VALIDAÇÃO FINAL E ENTREGA
 - Faça inspeção visual direta da página renderizada e registre dimensões,
   cores, fontes, z-index, largura do drawer, alinhamento das colunas e assets
   efetivamente servidos pelo navegador.
+- Abra cada drawer pela ação Ver detalhes, Editar e Novo registro e confirme
+  no DOM renderizado que o drawer é filho direto de `body`, que o backdrop e
+  o painel estão em camadas distintas e que o painel permanece clicável.
 - Execute testes automatizados e validações estáticas, atualize cache-busting,
   faça commit e push, acompanhe o workflow até o sucesso e só então informe
   a conclusão. Diferencie claramente evidência estática, teste local,

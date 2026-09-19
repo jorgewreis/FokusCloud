@@ -1,0 +1,22 @@
+/* Shared Backoffice records composition. Portals drawers before the overlay opens. */
+(() => {
+    const portalDrawerFromTrigger = (trigger) => {
+        const selector = trigger?.getAttribute('data-fs-target');
+        const drawer = selector ? document.querySelector(selector) : null;
+        if (drawer?.classList.contains('backoffice-records-drawer') && drawer.parentElement !== document.body) {
+            document.body.appendChild(drawer);
+        }
+    };
+
+    document.addEventListener('fs:show', (event) => {
+        portalDrawerFromTrigger(event.target.closest?.('[data-fs-target]'));
+    }, true);
+
+    window.initBackofficeRecordsPage = (container = document) => {
+        container.querySelectorAll?.('.backoffice-records-drawer').forEach((drawer) => {
+            if (drawer.parentElement === document.body) return;
+            const trigger = container.querySelector?.(`[data-fs-target="#${drawer.id}"]`);
+            if (trigger) portalDrawerFromTrigger(trigger);
+        });
+    };
+})();

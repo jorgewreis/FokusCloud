@@ -102,6 +102,7 @@
 (() => {
     const root = document.querySelector('.admin-modules-page');
     if (!root) return;
+    window.initBackofficeRecordsPage?.(root);
     const api = window.FokusApi;
     const form = root.querySelector('#module-form');
     const drawer = root.querySelector('#module-drawer');
