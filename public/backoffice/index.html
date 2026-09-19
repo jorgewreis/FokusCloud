@@ -19,7 +19,7 @@
         <!-- IMPORT CSS -->
         <link
             rel="stylesheet"
-            href="/backoffice/assets/css/main.css?v=20260919-records-drawers-v1"
+            href="/backoffice/assets/css/main.css?v=20260919-records-drawers-v2"
         />
         <link
             rel="stylesheet"
@@ -31,13 +31,14 @@
         />
         <link
             rel="stylesheet"
-            href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v46"
+            href="/assets/css/shared/fokus.css?v=20260918-fokus-styles-companies-v47"
         />
     </head>
     <body>
         <script src="/assets/js/api-client.js?v=20260828-19"></script>
         <script src="/assets/js/fokus.min.js?v=20260916-fokus-styles-2.7.0"></script>
-        <script src="/backoffice/assets/js/form-system.js?v=20260916-fokus-styles-migration-v1"></script>
+        <script src="/backoffice/assets/js/form-system.js?v=20260919-record-validation-v1"></script>
+        <script src="/backoffice/assets/js/brazilian-documents.js?v=20260919-cnpj-alphanumeric-v2"></script>
         <script src="/backoffice/assets/js/currency-input.js?v=20260902-currency-prefix-fix"></script>
         <template id="backoffice-app-template">
         <div class="container-page expanded">
@@ -250,7 +251,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260919-companies-mobile-cards-v3";
+            const pageVersion = "20260919-record-validation-v1";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",

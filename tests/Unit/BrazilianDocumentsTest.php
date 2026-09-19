@@ -11,11 +11,13 @@ class BrazilianDocumentsTest extends TestCase
     {
         $this->assertTrue(BrazilianDocuments::cpf('111.444.777-35'));
         $this->assertTrue(BrazilianDocuments::cnpj('11.222.333/0001-81'));
+        $this->assertTrue(BrazilianDocuments::cnpj('12.ABC.345/01DE-35'));
     }
 
     public function test_rejects_repeated_and_invalid_documents(): void
     {
         $this->assertFalse(BrazilianDocuments::cpf('111.111.111-11'));
         $this->assertFalse(BrazilianDocuments::cnpj('11.222.333/0001-80'));
+        $this->assertFalse(BrazilianDocuments::cnpj('12.ABC.345/01DE-36'));
     }
 }

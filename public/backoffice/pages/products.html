@@ -13,6 +13,24 @@
 </script>
 <script>
 (() => {
+    const form = document.querySelector('#product-form');
+    if (!form) return;
+    const status = form.elements.status;
+    const displayOrder = form.elements.display_order;
+    const applyDefaults = () => {
+        status.value = 'ativo';
+        displayOrder.min = '1';
+        if (!displayOrder.value || Number(displayOrder.value) < 1) displayOrder.value = '1';
+    };
+    applyDefaults();
+    form.addEventListener('reset', () => window.setTimeout(applyDefaults, 0));
+    document.querySelector('.admin-products-page')?.addEventListener('click', (event) => {
+        if (event.target.closest('#product-new, [data-action="edit"]')) window.setTimeout(applyDefaults, 0);
+    }, true);
+})();
+</script>
+<script>
+(() => {
     const page = document.querySelector('.admin-products-page');
     const drawer = document.querySelector('#product-drawer');
     if (!page || !drawer) return;

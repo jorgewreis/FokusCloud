@@ -6,7 +6,7 @@ final class BrazilianDocuments
 {
     public static function digits(string $value): string
     {
-        return preg_replace('/\D/', '', $value) ?? '';
+        return strtoupper(preg_replace('/[^0-9A-Z]/i', '', $value) ?? '');
     }
 
     public static function cpf(string $value): bool
@@ -34,14 +34,14 @@ final class BrazilianDocuments
     public static function cnpj(string $value): bool
     {
         $cnpj = self::digits($value);
-        if (strlen($cnpj) !== 14 || preg_match('/^(\d)\1+$/', $cnpj)) {
+        if (! preg_match('/^[0-9A-Z]{12}[0-9]{2}$/', $cnpj) || preg_match('/^(.)\1+$/', $cnpj)) {
             return false;
         }
 
         foreach ([12 => 5, 13 => 6] as $length => $factor) {
             $sum = 0;
             for ($index = 0; $index < $length; $index++) {
-                $sum += (int) $cnpj[$index] * $factor;
+                $sum += (ord($cnpj[$index]) - 48) * $factor;
                 $factor = $factor === 2 ? 9 : $factor - 1;
             }
             $remainder = $sum % 11;

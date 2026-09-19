@@ -564,7 +564,7 @@ class BackofficeController extends Controller
             'technical_description' => ['nullable', 'string', 'max:2000'],
             'commercial_content' => ['nullable', 'string', 'max:20000'],
             'status' => ['nullable', Rule::in(['ativo', 'inativo'])],
-            'display_order' => ['nullable', 'integer', 'min:0'],
+            'display_order' => ['nullable', 'integer', 'min:1'],
             'featured' => ['nullable', 'boolean'],
         ]);
         abort_if(DB::table('products')->where('code', Str::slug($data['code']))->exists(), 422, 'Já existe um sistema com este código.');
@@ -583,7 +583,7 @@ class BackofficeController extends Controller
             'technical_description' => ['nullable', 'string', 'max:2000'],
             'commercial_content' => ['nullable', 'string', 'max:20000'],
             'status' => ['nullable', Rule::in(['ativo', 'inativo'])],
-            'display_order' => ['nullable', 'integer', 'min:0'],
+            'display_order' => ['nullable', 'integer', 'min:1'],
             'featured' => ['nullable', 'boolean'],
         ]);
         $current = DB::table('products')->where('id', $product)->first();

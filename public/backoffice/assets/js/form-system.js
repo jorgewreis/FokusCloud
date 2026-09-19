@@ -35,6 +35,31 @@
         field.closest(".fs-form-col")?.classList.add(type === "error" ? "is-invalid" : "is-valid");
     }
 
+    function validationMessage(field) {
+        if (field.validity.valueMissing) return "Este campo é obrigatório.";
+        if (field.validity.typeMismatch && field.type === "email") return "Informe um e-mail válido.";
+        if (field.validity.tooShort) return `Informe ao menos ${field.minLength} caracteres.`;
+        if (field.validity.tooLong) return `Use no máximo ${field.maxLength} caracteres.`;
+        if (field.validity.rangeUnderflow) return `Informe um valor maior ou igual a ${field.min}.`;
+        if (field.validity.rangeOverflow) return `Informe um valor menor ou igual a ${field.max}.`;
+        if (field.validity.patternMismatch) return "Informe um valor válido.";
+        return field.validationMessage;
+    }
+
+    function validateField(field) {
+        if (!field || field.disabled || field.readOnly) return true;
+        if (!field.value && !field.required) {
+            clearField(field);
+            return true;
+        }
+        if (!field.checkValidity()) {
+            setFeedback(field, validationMessage(field));
+            return false;
+        }
+        clearField(field);
+        return true;
+    }
+
     function clearSummary(form) { form.querySelector("[data-fs-form-error-summary]")?.remove(); }
 
     function renderSummary(form, errors) {
@@ -66,8 +91,8 @@
         form.querySelectorAll(controls).forEach((field) => {
             clearField(field);
             if (!field.checkValidity()) {
-                errors[field.name || field.id] = field.validationMessage;
-                setFeedback(field, field.validationMessage);
+                errors[field.name || field.id] = validationMessage(field);
+                setFeedback(field, validationMessage(field));
             }
         });
         renderSummary(form, errors);
@@ -129,6 +154,11 @@
 
     function enhance(root = document) {
         markRequiredFields(root);
+        root.querySelectorAll?.(controls).forEach((field) => {
+            if (field.dataset.fsValidationBound === "true") return;
+            field.dataset.fsValidationBound = "true";
+            field.addEventListener("blur", () => validateField(field));
+        });
     }
 
     const observer = new MutationObserver((mutations) => {
@@ -158,5 +188,5 @@
 
     observer.observe(document.documentElement, { childList: true, subtree: true });
 
-    window.FokusForm = { clear, clearField, enhance, mapServerErrors, markRequiredFields, setFeedback, setLoading, validate };
+    window.FokusForm = { clear, clearField, enhance, mapServerErrors, markRequiredFields, setFeedback, setLoading, validate, validateField };
 })(window, document);
