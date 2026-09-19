@@ -43,7 +43,7 @@
     };
 
     page?.addEventListener('click', (event) => {
-        if (event.target.closest('#product-new, [data-action]')) {
+        if (event.target.closest('#product-new')) {
             portalDrawer();
         }
     }, true);
