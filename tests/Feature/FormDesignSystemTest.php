@@ -50,7 +50,9 @@ class FormDesignSystemTest extends TestCase
         $css = file_get_contents(base_path('public/backoffice/assets/css/components/form-admin.css'));
         $script = file_get_contents(base_path('public/backoffice/assets/js/form-system.js'));
 
-        $this->assertStringContainsString('20260919-dashboard-subscriptions-v1', $panel);
+        $this->assertStringContainsString('20260919-companies-default-v1', $panel);
+        $this->assertStringContainsString('] || "companies",', $panel);
+        $this->assertStringContainsString('data-sidebar-item="companies"', $panel);
         $this->assertStringContainsString('data-platform-access-card', $home);
         $this->assertStringContainsString('platform-access.js?v=20260914-platform-access1', $home);
         $this->assertStringContainsString('20260916-fokus-styles-auth-shell', $activate);

@@ -7,6 +7,17 @@ Leia primeiro:
 - docs/03-architecture/fokus-styles-ui-governance.md
 - a documentação e o código do módulo relacionado
 
+MODELO PADRÃO DO BACKOFFICE
+
+Para páginas do Backoffice, a página Empresas (`public/backoffice/pages/companies.html`)
+é a referência funcional e visual obrigatória. Reutilize a composição de cabeçalho,
+filtros, card de tabela responsiva, paginação, estados de carregamento/erro/vazio,
+ações acessíveis e offcanvas de detalhes/formulário, adaptando somente os dados e
+as permissões do módulo. Não copie estilos, IDs ou lógica específicos de Empresas:
+extraia e use contratos compartilhados em `fs-*`, `fs-u-*`, `data-fs-*` e nos
+componentes reutilizáveis do shell. A página só pode divergir desse modelo quando
+houver requisito funcional ou de acessibilidade documentado.
+
 OBJETIVO
 
 Criar uma página funcional, acessível, consistente e visualmente refinada,

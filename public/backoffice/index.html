@@ -65,7 +65,7 @@
                     aria-label="Navegação administrativa"
                 >
                     <button
-                        class="sidebar-button active"
+                        class="sidebar-button"
                         type="button"
                         data-sidebar-item="platform-dashboard-final"
                     >
@@ -77,7 +77,7 @@
                         >
                     </button>
                     <button
-                        class="sidebar-button"
+                        class="sidebar-button active"
                         type="button"
                         data-sidebar-item="companies"
                     >
@@ -250,7 +250,7 @@
                 "[data-sidebar-item]",
             );
             const pagePath = "./pages";
-            const pageVersion = "20260919-dashboard-subscriptions-v1";
+            const pageVersion = "20260919-companies-default-v1";
             const routePageMap = {
                 painel: "platform-dashboard-final",
                 empresas: "companies",
@@ -708,7 +708,7 @@
                 loadSidebarPage(
                     routePageMap[
                         location.pathname.split("/").filter(Boolean).pop()
-                    ] || "platform-dashboard-final",
+                    ] || "companies",
                 );
             })();
         </script>
